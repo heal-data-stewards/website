@@ -10,9 +10,9 @@ const Footer = ({ footer }) => {
         <div>
           {footer.logo && (
             <img
-              src={`http://localhost:1337${footer.logo.url}`}
-              style={{ margin: "7px", width: "90px" }}
-              alt={`http://localhost:1337${footer.logo.alternativeText || ""}`}
+              src={`${footer.logo.url}`}
+              style={{ margin: "7px", width: "16rem" }}
+              alt={`${footer.logo.alternativeText || ""}`}
             />
           )}
         </div>

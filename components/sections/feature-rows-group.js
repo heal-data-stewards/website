@@ -1,11 +1,14 @@
-import classNames from "classnames"
-import NextImage from "../elements/image"
-import Video from "../elements/video"
-import CustomLink from "../elements/custom-link"
+import classNames from "classnames";
+import NextImage from "../elements/image";
+import Video from "../elements/video";
+import CustomLink from "../elements/custom-link";
 
 const FeatureRowsGroup = ({ data }) => {
   return (
-    <div className="container flex flex-col gap-12 py-12">
+    <div
+      className="container flex flex-col gap-12"
+      style={{ marginTop: "3rem" }}
+    >
       {data.features.map((feature, index) => (
         <div
           className={classNames(
@@ -22,11 +25,14 @@ const FeatureRowsGroup = ({ data }) => {
           <div className="w-full lg:w-6/12 lg:pr-6 text-lg">
             <h3 className="title">{feature.title}</h3>
             <p className="my-6">{feature.description}</p>
-            <CustomLink link={feature.link}>
-              <div className="text-blue-600 with-arrow hover:underline">
-                {feature.link.text}
-              </div>
-            </CustomLink>
+
+            {!feature.link == null && (
+              <CustomLink link={feature.link}>
+                <div className="text-blue-600 with-arrow hover:underline">
+                  {feature.link.text}
+                </div>
+              </CustomLink>
+            )}
           </div>
           {/* Media section */}
           <div className="w-full sm:9/12 lg:w-4/12 max-h-full">
@@ -49,7 +55,7 @@ const FeatureRowsGroup = ({ data }) => {
         </div>
       ))}
     </div>
-  )
-}
+  );
+};
 
-export default FeatureRowsGroup
+export default FeatureRowsGroup;

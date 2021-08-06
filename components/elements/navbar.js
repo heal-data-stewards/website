@@ -44,7 +44,7 @@ const Navbar = ({ navbar, pageContext }) => {
           {/* Content aligned to the left */}
           <div className="flex flex-row items-center">
             <Link href="/">
-              <a className="h-8 w-32" style={{ height: "90%" }}>
+              <a className="h-8" style={{ height: "100%", width: "16rem" }}>
                 <NextImage media={navbar.logo} />
               </a>
             </Link>
@@ -54,8 +54,8 @@ const Navbar = ({ navbar, pageContext }) => {
                 <li key={navLink.id}>
                   <CustomLink link={navLink} locale={router.locale}>
                     <div
-                      style={{ fontSize: "17px" }}
-                      className="hover:text-magenta text-purple px-2 py-1"
+                      style={{ fontSize: "15px", fontWeight: "bold" }}
+                      className="hover:text-purple text-magenta px-2 py-1"
                     >
                       {navLink.text}
                     </div>
