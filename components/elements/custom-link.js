@@ -8,8 +8,8 @@ const theme = createTheme({
   palette: {
     primary: {
       light: "#c0b3c5",
-      main: "#982568",
-      dark: "#532565",
+      dark: "#982568",
+      main: "#532565",
       contrastText: "#fff",
     },
   },
@@ -33,7 +33,7 @@ const CustomLink = ({ link, children }) => {
       <ThemeProvider theme={theme}>
         <Button
           variant="contained"
-          color="primary"
+          color={"primary"}
           href={link.url}
           target="_blank"
           rel="noopener noreferrer"

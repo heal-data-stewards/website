@@ -55,7 +55,7 @@ const Navbar = ({ navbar, pageContext }) => {
                   <CustomLink link={navLink} locale={router.locale}>
                     <div
                       style={{ fontSize: "15px", fontWeight: "bold" }}
-                      className="hover:text-purple text-magenta px-2 py-1"
+                      className="hover:text-magenta text-purple px-2 py-1"
                     >
                       {navLink.text}
                     </div>
@@ -70,7 +70,7 @@ const Navbar = ({ navbar, pageContext }) => {
               <div className="hidden lg:block">
                 <ButtonLink
                   button={navbar.button}
-                  appearance={getButtonAppearance(navbar.button.type, "light")}
+                  appearance={getButtonAppearance(navbar.button.type, "dark")}
                   compact
                 />
               </div>
@@ -104,11 +104,9 @@ const Navbar = ({ navbar, pageContext }) => {
               <Link href="/">
                 <a>
                   <img
-                    src={`http://localhost:1337${navbar.logo.url}`}
-                    style={{ margin: "7px", width: "90px" }}
-                    alt={`http://localhost:1337${
-                      navbar.logo.alternativeText || ""
-                    }`}
+                    src={`${navbar.logo.url}`}
+                    style={{ margin: "7px", width: "12rem" }}
+                    alt={`${navbar.logo.alternativeText || ""}`}
                   />
                 </a>
               </Link>
