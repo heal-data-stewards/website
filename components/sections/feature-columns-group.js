@@ -2,7 +2,10 @@ import NextImage from "../elements/image";
 
 const FeatureColumnsGroup = ({ data }) => {
   return (
-    <div className="container flex flex-col lg:flex-row lg:flex-wrap gap-12 align-top py-12">
+    <div
+      className="container flex flex-col lg:flex-row lg:flex-wrap gap-12 align-top py-12 text-white"
+      style={{ background: "#441d4f" }}
+    >
       {data.features.map((feature) => (
         <div className="flex-1 text-lg" key={feature.id}>
           {/* <div className="w-10 h-10">

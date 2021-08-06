@@ -39,7 +39,7 @@ const Footer = ({ footer }) => {
           ))}
         </nav>
       </div>
-      <div className="text-sm bg-gray-200 py-6 text-gray-700">
+      <div className="text-sm bg-purple py-6 text-white">
         <div className="container">{footer.smallText}</div>
       </div>
     </footer>

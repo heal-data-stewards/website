@@ -6,7 +6,7 @@ import CustomLink from "../elements/custom-link";
 const FeatureRowsGroup = ({ data }) => {
   return (
     <div
-      className="container flex flex-col gap-12"
+      className="container flex flex-col gap-12 text-gray-dark"
       style={{ marginTop: "3rem" }}
     >
       {data.features.map((feature, index) => (
