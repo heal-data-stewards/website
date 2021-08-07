@@ -1,7 +1,8 @@
-import PropTypes from "prop-types"
-import { linkPropTypes, mediaPropTypes } from "utils/types"
-import Image from ".next/image"
-import CustomLink from "./custom-link"
+import PropTypes from "prop-types";
+import { linkPropTypes, mediaPropTypes } from "utils/types";
+import NextImage from "./image";
+import Image from "next/image";
+import CustomLink from "./custom-link";
 
 const Footer = ({ footer }) => {
   return (
@@ -11,7 +12,10 @@ const Footer = ({ footer }) => {
           {footer.logo && (
             <Image
               src={`${footer.logo.url}`}
-              style={{ margin: "7px", width: "16rem" }}
+              style={{ margin: "7px" }}
+              width="255"
+              height="77"
+              layout="intrinsic"
               alt={`${footer.logo.alternativeText || ""}`}
             />
           )}
@@ -43,8 +47,8 @@ const Footer = ({ footer }) => {
         <div className="container">{footer.smallText}</div>
       </div>
     </footer>
-  )
-}
+  );
+};
 
 Footer.propTypes = {
   footer: PropTypes.shape({
@@ -59,6 +63,6 @@ Footer.propTypes = {
     ),
     smallText: PropTypes.string.isRequired,
   }),
-}
+};
 
-export default Footer
+export default Footer;

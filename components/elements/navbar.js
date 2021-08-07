@@ -1,27 +1,31 @@
-import { useState } from "react"
-import PropTypes from "prop-types"
-import Link from "next/link"
-import { useRouter } from "next/router"
-import Image from "next/image"
-import { getButtonAppearance } from "utils/button"
-import { mediaPropTypes, linkPropTypes, buttonLinkPropTypes } from "utils/types"
-import { MdMenu } from "react-icons/md"
-import MobileNavMenu from "./mobile-nav-menu"
-import ButtonLink from "./button-link"
-import NextImage from "./image"
-import CustomLink from "./custom-link"
-import LocaleSwitch from "../locale-switch"
-import AppBar from "@material-ui/core/AppBar"
-import Toolbar from "@material-ui/core/Toolbar"
-import Drawer from "@material-ui/core/Drawer"
-import List from "@material-ui/core/List"
-import ListItem from "@material-ui/core/ListItem"
-import ListItemText from "@material-ui/core/ListItemText"
-import Divider from "@material-ui/core/Divider"
+import { useState } from "react";
+import PropTypes from "prop-types";
+import Link from "next/link";
+import { useRouter } from "next/router";
+
+import { getButtonAppearance } from "utils/button";
+import {
+  mediaPropTypes,
+  linkPropTypes,
+  buttonLinkPropTypes,
+} from "utils/types";
+import { MdMenu } from "react-icons/md";
+import MobileNavMenu from "./mobile-nav-menu";
+import ButtonLink from "./button-link";
+import NextImage from "./image";
+import CustomLink from "./custom-link";
+import LocaleSwitch from "../locale-switch";
+import AppBar from "@material-ui/core/AppBar";
+import Toolbar from "@material-ui/core/Toolbar";
+import Drawer from "@material-ui/core/Drawer";
+import List from "@material-ui/core/List";
+import ListItem from "@material-ui/core/ListItem";
+import ListItemText from "@material-ui/core/ListItemText";
+import Divider from "@material-ui/core/Divider";
 
 const Navbar = ({ navbar, pageContext }) => {
-  const router = useRouter()
-  const [mobileMenuIsShown, setMobileMenuIsShown] = useState(false)
+  const router = useRouter();
+  const [mobileMenuIsShown, setMobileMenuIsShown] = useState(false);
 
   return (
     <>
@@ -99,7 +103,7 @@ const Navbar = ({ navbar, pageContext }) => {
             <List style={{ width: "230px" }}>
               <Link href="/">
                 <a>
-                  <Image
+                  <img
                     src={`${navbar.logo.url}`}
                     style={{ margin: "7px", width: "12rem" }}
                     alt={`${navbar.logo.alternativeText || ""}`}
@@ -133,8 +137,8 @@ const Navbar = ({ navbar, pageContext }) => {
         </>
       )}
     </>
-  )
-}
+  );
+};
 
 Navbar.propTypes = {
   navbar: PropTypes.shape({
@@ -146,6 +150,6 @@ Navbar.propTypes = {
     button: buttonLinkPropTypes,
   }),
   initialLocale: PropTypes.string,
-}
+};
 
-export default Navbar
+export default Navbar;
