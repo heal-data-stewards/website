@@ -2,7 +2,7 @@ import { useState } from "react"
 import PropTypes from "prop-types"
 import Link from "next/link"
 import { useRouter } from "next/router"
-
+import Image from "next/image"
 import { getButtonAppearance } from "utils/button"
 import { mediaPropTypes, linkPropTypes, buttonLinkPropTypes } from "utils/types"
 import { MdMenu } from "react-icons/md"
@@ -99,7 +99,7 @@ const Navbar = ({ navbar, pageContext }) => {
             <List style={{ width: "230px" }}>
               <Link href="/">
                 <a>
-                  <img
+                  <Image
                     src={`${navbar.logo.url}`}
                     style={{ margin: "7px", width: "12rem" }}
                     alt={`${navbar.logo.alternativeText || ""}`}

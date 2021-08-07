@@ -1,6 +1,6 @@
 import PropTypes from "prop-types"
 import { linkPropTypes, mediaPropTypes } from "utils/types"
-import NextImage from "./image"
+import Image from ".next/image"
 import CustomLink from "./custom-link"
 
 const Footer = ({ footer }) => {
@@ -9,7 +9,7 @@ const Footer = ({ footer }) => {
       <div className="container flex flex-col lg:flex-row lg:justify-between">
         <div>
           {footer.logo && (
-            <img
+            <Image
               src={`${footer.logo.url}`}
               style={{ margin: "7px", width: "16rem" }}
               alt={`${footer.logo.alternativeText || ""}`}
