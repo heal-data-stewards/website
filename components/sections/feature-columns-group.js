@@ -1,4 +1,4 @@
-import NextImage from "../elements/image";
+import NextImage from "../elements/image"
 
 const FeatureColumnsGroup = ({ data }) => {
   return (
@@ -16,7 +16,7 @@ const FeatureColumnsGroup = ({ data }) => {
         </div>
       ))}
     </div>
-  );
-};
+  )
+}
 
-export default FeatureColumnsGroup;
+export default FeatureColumnsGroup

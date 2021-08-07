@@ -1,8 +1,8 @@
-import classNames from "classnames";
-import PropTypes from "prop-types";
-import { buttonLinkPropTypes } from "utils/types";
-import CustomLink from "./custom-link";
-import { createTheme, ThemeProvider } from "@material-ui/core/styles";
+import classNames from "classnames"
+import PropTypes from "prop-types"
+import { buttonLinkPropTypes } from "utils/types"
+import CustomLink from "./custom-link"
+import { createTheme, ThemeProvider } from "@material-ui/core/styles"
 
 const theme = createTheme({
   palette: {
@@ -13,11 +13,11 @@ const theme = createTheme({
       contrastText: "#fff",
     },
   },
-});
+})
 
 const ButtonContent = ({ button, appearance, compact }) => {
-  return <div>{button.text}</div>;
-};
+  return <div>{button.text}</div>
+}
 
 const ButtonLink = ({ button, appearance, compact = false }) => {
   return (
@@ -30,8 +30,8 @@ const ButtonLink = ({ button, appearance, compact = false }) => {
         />
       </CustomLink>
     </ThemeProvider>
-  );
-};
+  )
+}
 
 ButtonLink.propTypes = {
   button: buttonLinkPropTypes,
@@ -42,6 +42,6 @@ ButtonLink.propTypes = {
     "dark-outline",
   ]),
   compact: PropTypes.bool,
-};
+}
 
-export default ButtonLink;
+export default ButtonLink
