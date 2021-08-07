@@ -1,12 +1,12 @@
-import PropTypes from "prop-types"
-import { linkPropTypes, mediaPropTypes } from "utils/types"
-import NextImage from "./image"
-import Image from "next/image"
-import CustomLink from "./custom-link"
+import PropTypes from "prop-types";
+import { linkPropTypes, mediaPropTypes } from "utils/types";
+import NextImage from "./image";
+import Image from "next/image";
+import CustomLink from "./custom-link";
 
 const Footer = ({ footer }) => {
   return (
-    <footer className="pt-12 bg-gray-100">
+    <footer className="pt-12 bg-gray-100" style={{ background: "#c0b3c569" }}>
       <div className="container flex flex-col lg:flex-row lg:justify-between">
         <div>
           {footer.logo && (
@@ -47,8 +47,8 @@ const Footer = ({ footer }) => {
         <div className="container">{footer.smallText}</div>
       </div>
     </footer>
-  )
-}
+  );
+};
 
 Footer.propTypes = {
   footer: PropTypes.shape({
@@ -63,6 +63,6 @@ Footer.propTypes = {
     ),
     smallText: PropTypes.string.isRequired,
   }),
-}
+};
 
-export default Footer
+export default Footer;
