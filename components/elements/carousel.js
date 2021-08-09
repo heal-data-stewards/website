@@ -54,7 +54,7 @@ export const EmblaCarousel = () => {
     <div className="embla" ref={viewportRef} style={{ color: "#373a3c" }}>
       <div className="embla__container">
         <div className="embla__slide">
-          <section className="container flex flex-col md:flex-row items-center justify-between py-12">
+          <section className="container flex flex-col md:flex-row items-center justify-between pt-12">
             {/* Left column for content */}
             <div className="flex-1 sm:pr-8">
               {/* label */}
@@ -91,17 +91,11 @@ export const EmblaCarousel = () => {
             {/* Right column for the image */}
             <div className="flex-shrink-0 w-full md:w-6/12 mt-6 md:mt-0">
               <Image src={slide1} />
-              <br></br>
-              <br></br>
-              <div className="flex justify-around">
-                <PrevButton onClick={scrollPrev} enabled={prevBtnEnabled} />
-                <NextButton onClick={scrollNext} enabled={nextBtnEnabled} />
-              </div>
             </div>
           </section>
         </div>
         <div className="embla__slide">
-          <section className="container flex flex-col md:flex-row items-center justify-between py-12">
+          <section className="container flex flex-col md:flex-row items-center justify-between pt-12">
             {/* Left column for content */}
             <div className="flex-1 sm:pr-8">
               <br></br>
@@ -149,15 +143,13 @@ export const EmblaCarousel = () => {
             {/* Right column for the image */}
             <div className="flex-shrink-0 w-full md:w-6/12 mt-6 md:mt-0">
               <Image src={slide2} />
-              <br></br>
-              <br></br>
-              <div className="flex justify-around">
-                <PrevButton onClick={scrollPrev} enabled={prevBtnEnabled} />
-                <NextButton onClick={scrollNext} enabled={nextBtnEnabled} />
-              </div>
             </div>
           </section>
         </div>
+      </div>
+      <div className="container flex justify-between pb-12">
+        <PrevButton onClick={scrollPrev} enabled={prevBtnEnabled} />
+        <NextButton onClick={scrollNext} enabled={nextBtnEnabled} />
       </div>
     </div>
   )
