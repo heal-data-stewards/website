@@ -23,7 +23,7 @@ const NextButton = ({ enabled, onClick }) => (
     className="embla__button embla__button--next"
     onClick={onClick}
     disabled={!enabled}
-    style={{ width: "20px" }}
+    style={{ width: "35px" }}
   >
     <svg className="embla__button__svg" viewBox="0 0 238.003 238.003">
       <path d="M181.776 107.719L78.705 4.648c-6.198-6.198-16.273-6.198-22.47 0s-6.198 16.273 0 22.47l91.883 91.883-91.883 91.883c-6.198 6.198-6.198 16.273 0 22.47s16.273 6.198 22.47 0l103.071-103.039a15.741 15.741 0 0 0 4.64-11.283c0-4.13-1.526-8.199-4.64-11.313z" />
@@ -91,6 +91,12 @@ export const EmblaCarousel = () => {
             {/* Right column for the image */}
             <div className="flex-shrink-0 w-full md:w-6/12 mt-6 md:mt-0">
               <Image src={slide1} />
+              <br></br>
+              <br></br>
+              <div className="flex justify-around">
+                <PrevButton onClick={scrollPrev} enabled={prevBtnEnabled} />
+                <NextButton onClick={scrollNext} enabled={nextBtnEnabled} />
+              </div>
             </div>
           </section>
         </div>
@@ -142,13 +148,15 @@ export const EmblaCarousel = () => {
             {/* Right column for the image */}
             <div className="flex-shrink-0 w-full md:w-6/12 mt-6 md:mt-0">
               <Image src={slide2} />
+              <br></br>
+              <br></br>
+              <div className="flex justify-around">
+                <PrevButton onClick={scrollPrev} enabled={prevBtnEnabled} />
+                <NextButton onClick={scrollNext} enabled={nextBtnEnabled} />
+              </div>
             </div>
           </section>
         </div>
-      </div>
-      <div className="container flex justify-between">
-        <PrevButton onClick={scrollPrev} enabled={prevBtnEnabled} />
-        <NextButton onClick={scrollNext} enabled={nextBtnEnabled} />
       </div>
     </div>
   );
