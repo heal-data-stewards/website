@@ -10,14 +10,28 @@ const Footer = ({ footer }) => {
       <div className="container flex flex-col lg:flex-row lg:justify-between">
         <div>
           {footer.logo && (
-            <Image
-              src={`${footer.logo.url}`}
-              style={{ margin: "7px" }}
-              width="255"
-              height="77"
-              layout="intrinsic"
-              alt={`${footer.logo.alternativeText || ""}`}
-            />
+            <>
+              <Image
+                src={`${footer.logo.url}`}
+                style={{ margin: "7px" }}
+                width="255"
+                height="77"
+                layout="intrinsic"
+                alt={`${footer.logo.alternativeText || ""}`}
+              />
+              <p
+                style={{
+                  marginTop: "20px",
+                  maxWidth: "420px",
+                  marginBottom: "20px",
+                }}
+              >
+                The HEAL Data Stewardship Group is funded by the The NIH HEAL
+                Initiative. NIH HEAL Initiative and Helping to End Addiction
+                Long-term are service marks of the U.S. Department of Health and
+                Human Services.
+              </p>
+            </>
           )}
         </div>
         <nav className="flex flex-wrap flex-row lg:gap-20 items-start lg:justify-end mb-10">
