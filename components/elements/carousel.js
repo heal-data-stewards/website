@@ -51,21 +51,34 @@ export const EmblaCarousel = () => {
   }, [embla, onSelect]);
 
   return (
-    <>
-      <div className="embla" ref={viewportRef}>
-        <div className="embla__container">
-          <div className="embla__slide">
-            <section className="container flex flex-col md:flex-row items-center justify-between py-12">
-              {/* Left column for content */}
-              <div className="flex-1 sm:pr-8">
-                {/* Hero section label */}
-                <p className="uppercase tracking-wide font-semibold">label1</p>
-                {/* Big title */}
-                <h1 className="title mt-2 sm:mt-0 mb-4 sm:mb-2">title1</h1>
-                {/* Description paragraph */}
-                <p className="text-xl mb-6">description11</p>
-                {/* Buttons row */}
-                {/* <div className="flex flex-row flex-wrap gap-4">
+    <div className="embla" ref={viewportRef} style={{ color: "#373a3c" }}>
+      <div className="embla__container">
+        <div className="embla__slide">
+          <section className="container flex flex-col md:flex-row items-center justify-between py-12">
+            {/* Left column for content */}
+            <div className="flex-1 sm:pr-8">
+              {/* label */}
+              <p className="uppercase tracking-wide font-semibold text-magenta">
+                Wondering where to put your data?
+              </p>
+              <br></br>
+              {/* Big title */}
+              <h1 className="title mt-2 sm:mt-0 mb-4 sm:mb-2">
+                Review the HEAL Stewards Repository Recommendations{" "}
+              </h1>
+              <br></br>
+              {/* Description paragraph */}
+              <p className="text-xl mb-6">
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+                eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
+                enim ad minim veniam, quis nostrud exercitation ullamco laboris
+                nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor
+                in reprehenderit in voluptate velit esse cillum dolore eu fugiat
+                nulla pariatur. Excepteur sint occaecat cupidatat non proident,
+                sunt in culpa qui officia deserunt mollit anim id est laborum.
+              </p>
+              {/* Buttons row */}
+              {/* <div className="flex flex-row flex-wrap gap-4">
     {data.buttons.map((button) => (
       <ButtonLink
         button={button}
@@ -74,30 +87,49 @@ export const EmblaCarousel = () => {
       />
     ))}
   </div> */}
-                {/* Small rich text */}
-                <div className="text-base md:text-sm mt-4 sm:mt-3 rich-text-hero">
-                  <Markdown>small text1111</Markdown>
-                </div>
-              </div>
-              {/* Right column for the image */}
-              <div className="flex-shrink-0 w-full md:w-6/12 mt-6 md:mt-0">
-                <Image src={slide1} />
-              </div>
-            </section>
-          </div>
-          <div className="embla__slide">
-            {" "}
-            <section className="container flex flex-col md:flex-row items-center justify-between py-12">
-              {/* Left column for content */}
-              <div className="flex-1 sm:pr-8">
-                {/* Hero section label */}
-                <p className="uppercase tracking-wide font-semibold">label2</p>
-                {/* Big title */}
-                <h1 className="title mt-2 sm:mt-0 mb-4 sm:mb-2">title2</h1>
-                {/* Description paragraph */}
-                <p className="text-xl mb-6">description11</p>
-                {/* Buttons row */}
-                {/* <div className="flex flex-row flex-wrap gap-4">
+            </div>
+            {/* Right column for the image */}
+            <div className="flex-shrink-0 w-full md:w-6/12 mt-6 md:mt-0">
+              <Image src={slide1} />
+            </div>
+          </section>
+        </div>
+        <div className="embla__slide">
+          <section className="container flex flex-col md:flex-row items-center justify-between py-12">
+            {/* Left column for content */}
+            <div className="flex-1 sm:pr-8">
+              <br></br>
+              {/* Big title */}
+              <h1 className="title mt-2 sm:mt-0 mb-4 sm:mb-2">
+                Visit the HEAL Data Platform
+              </h1>
+              <br></br>
+              {/* Description paragraph */}
+              <p className="text-xl mb-6">
+                The{" "}
+                <a
+                  href="https://healdata.org/"
+                  target="_blank"
+                  style={{ color: "#0044b3" }}
+                >
+                  HEAL Data Platform
+                </a>{" "}
+                is a secure data access and computing environment that provides
+                a web interface to search for and analyze HEAL results and data.
+                The HEAL Platform aggregates and hosts data from multiple
+                resources to make data discovery and access easy for users. The
+                platform provides a way to search and query over study metadata
+                and diverse data types, generated by different projects and
+                organizations and stored across multiple secure repositories.
+                The HEAL platform also offers a secure and cost-effective
+                cloud-computing environment for data analysis, empowering
+                collaborative research and development of new analytical tools.
+                New workflows and results of analyses can be shared with the
+                HEAL community to enable collaborative, high-impact publications
+                that address the opioid crisis.
+              </p>
+              {/* Buttons row */}
+              {/* <div className="flex flex-row flex-wrap gap-4">
     {data.buttons.map((button) => (
       <ButtonLink
         button={button}
@@ -106,23 +138,18 @@ export const EmblaCarousel = () => {
       />
     ))}
   </div> */}
-                {/* Small rich text */}
-                <div className="text-base md:text-sm mt-4 sm:mt-3 rich-text-hero">
-                  <Markdown>small text1111</Markdown>
-                </div>
-              </div>
-              {/* Right column for the image */}
-              <div className="flex-shrink-0 w-full md:w-6/12 mt-6 md:mt-0">
-                <Image src={slide2} />
-              </div>
-            </section>
-          </div>
+            </div>
+            {/* Right column for the image */}
+            <div className="flex-shrink-0 w-full md:w-6/12 mt-6 md:mt-0">
+              <Image src={slide2} />
+            </div>
+          </section>
         </div>
       </div>
-      <div>
+      <div className="container flex justify-between">
         <PrevButton onClick={scrollPrev} enabled={prevBtnEnabled} />
         <NextButton onClick={scrollNext} enabled={nextBtnEnabled} />
       </div>
-    </>
+    </div>
   );
 };
