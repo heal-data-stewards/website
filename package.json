@@ -16,6 +16,7 @@
     "classnames": "^2.2.6",
     "cookie": "^0.4.1",
     "date-fns": "2.14.0",
+    "embla-carousel": "^4.5.3",
     "formik": "^2.2.6",
     "js-cookie": "3.0.0-rc.4",
     "next": "^11.0.0",
