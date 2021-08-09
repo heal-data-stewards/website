@@ -1,5 +1,5 @@
-import NextImage from "../elements/image";
-import { EmblaCarousel } from "../elements/carousel";
+import NextImage from "../elements/image"
+import { EmblaCarousel } from "../elements/carousel"
 
 const FeatureColumnsGroup = ({ data }) => {
   return (
@@ -20,7 +20,7 @@ const FeatureColumnsGroup = ({ data }) => {
       </div>
       <EmblaCarousel />
     </>
-  );
-};
+  )
+}
 
-export default FeatureColumnsGroup;
+export default FeatureColumnsGroup
