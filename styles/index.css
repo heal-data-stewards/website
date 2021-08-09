@@ -66,3 +66,14 @@ html {
   display: inline-block;
   margin-left: 0.5em;
 }
+
+.embla {
+  overflow: hidden;
+}
+.embla__container {
+  display: flex;
+}
+.embla__slide {
+  position: relative;
+  flex: 0 0 100%;
+}
