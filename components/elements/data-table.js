@@ -32,9 +32,9 @@ export default function DataTable() {
   useEffect(() => {
     getAllUsers()
       .then(function (result) {
-        return result.map((user, index) => {
+        return result.map((user) => {
           return createData(
-            index,
+            user.id,
             user.firstname,
             user.lastname,
             user.username,
