@@ -1,8 +1,8 @@
-import PropTypes from "prop-types"
-import { linkPropTypes, mediaPropTypes } from "utils/types"
-import NextImage from "./image"
-import Image from "next/image"
-import CustomLink from "./custom-link"
+import PropTypes from "prop-types";
+import { linkPropTypes, mediaPropTypes } from "utils/types";
+import NextImage from "./image";
+import Image from "next/image";
+import CustomLink from "./custom-link";
 
 const Footer = ({ footer }) => {
   return (
@@ -10,7 +10,7 @@ const Footer = ({ footer }) => {
       <div className="container flex flex-col lg:flex-row lg:justify-between">
         <div>
           {footer.logo && (
-            <>
+            <div>
               <Image
                 src={`${footer.logo.url}`}
                 style={{ margin: "7px" }}
@@ -32,7 +32,7 @@ const Footer = ({ footer }) => {
                 Long-term are service marks of the U.S. Department of Health and
                 Human Services.
               </p>
-            </>
+            </div>
           )}
         </div>
         <nav className="flex flex-wrap flex-row lg:gap-20 items-start lg:justify-end mb-10">
@@ -62,8 +62,8 @@ const Footer = ({ footer }) => {
         <div className="container">{footer.smallText}</div>
       </div>
     </footer>
-  )
-}
+  );
+};
 
 Footer.propTypes = {
   footer: PropTypes.shape({
@@ -78,6 +78,6 @@ Footer.propTypes = {
     ),
     smallText: PropTypes.string.isRequired,
   }),
-}
+};
 
-export default Footer
+export default Footer;
