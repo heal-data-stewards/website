@@ -1,5 +1,5 @@
-import NextImage from "../elements/image"
-import { EmblaCarousel } from "../elements/carousel"
+import NextImage from "../elements/image";
+import { EmblaCarousel } from "../elements/carousel";
 
 const FeatureColumnsGroup = ({ data }) => {
   return (
@@ -8,7 +8,7 @@ const FeatureColumnsGroup = ({ data }) => {
         className="container flex flex-col lg:flex-row lg:flex-wrap gap-12 align-top py-12 text-white"
         style={{
           background: "#441d4f",
-          "box-shadow":
+          boxShadow:
             "0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23)",
         }}
       >
@@ -24,7 +24,7 @@ const FeatureColumnsGroup = ({ data }) => {
       </div>
       <EmblaCarousel />
     </>
-  )
-}
+  );
+};
 
-export default FeatureColumnsGroup
+export default FeatureColumnsGroup;
