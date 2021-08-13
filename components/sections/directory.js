@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
 import Table from "@material-ui/core/Table";
@@ -97,31 +97,21 @@ function createData(name, calories, fat) {
   return { name, calories, fat };
 }
 
-// put this in its proper hook
-let rows2;
-const users = getAllUsers();
-users.then(function (result) {
-  rows2 = result.map((user) => {
-    return createData(user.username, 12, 12);
-  });
-  console.log(rows2);
-});
-
-const rows = [
-  createData("Cupcake", 305, 3.7),
-  createData("Donut", 452, 25.0),
-  createData("Eclair", 262, 16.0),
-  createData("Frozen yoghurt", 159, 6.0),
-  createData("Gingerbread", 356, 16.0),
-  createData("Honeycomb", 408, 3.2),
-  createData("Ice cream sandwich", 237, 9.0),
-  createData("Jelly Bean", 375, 0.0),
-  createData("KitKat", 518, 26.0),
-  createData("Lollipop", 392, 0.2),
-  createData("Marshmallow", 318, 0),
-  createData("Nougat", 360, 19.0),
-  createData("Oreo", 437, 18.0),
-].sort((a, b) => (a.calories < b.calories ? -1 : 1));
+// const rows = [
+//   createData("Cupcake", 305, 3.7),
+//   createData("Donut", 452, 25.0),
+//   createData("Eclair", 262, 16.0),
+//   createData("Frozen yoghurt", 159, 6.0),
+//   createData("Gingerbread", 356, 16.0),
+//   createData("Honeycomb", 408, 3.2),
+//   createData("Ice cream sandwich", 237, 9.0),
+//   createData("Jelly Bean", 375, 0.0),
+//   createData("KitKat", 518, 26.0),
+//   createData("Lollipop", 392, 0.2),
+//   createData("Marshmallow", 318, 0),
+//   createData("Nougat", 360, 19.0),
+//   createData("Oreo", 437, 18.0),
+// ].sort((a, b) => (a.calories < b.calories ? -1 : 1));
 
 const useStyles2 = makeStyles({
   table: {
@@ -133,10 +123,11 @@ const useStyles2 = makeStyles({
 export default function CustomPaginationActionsTable() {
   const classes = useStyles2();
   const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(5);
+  const [rowsPerPage, setRowsPerPage] = useState(5);
+  const [users, setUsers] = useState([]);
 
   const emptyRows =
-    rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
+    rowsPerPage - Math.min(rowsPerPage, users.length - page * rowsPerPage);
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -147,6 +138,20 @@ export default function CustomPaginationActionsTable() {
     setPage(0);
   };
 
+  // Call the strapi API to GET all users
+  useEffect(() => {
+    getAllUsers()
+      .then(function (result) {
+        return result.map((user) => {
+          return createData(user.username, 12, 12);
+        });
+      })
+      .then((result) => {
+        setUsers(result);
+      });
+  }, []);
+  console.log(users);
+
   return (
     <TableContainer
       component={Paper}
@@ -155,8 +160,8 @@ export default function CustomPaginationActionsTable() {
       <Table className={classes.table} aria-label="custom pagination table">
         <TableBody>
           {(rowsPerPage > 0
-            ? rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-            : rows
+            ? users.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+            : users
           ).map((row) => (
             <TableRow key={row.name}>
               <TableCell component="th" scope="row">
@@ -182,7 +187,7 @@ export default function CustomPaginationActionsTable() {
             <TablePagination
               rowsPerPageOptions={[5, 10, 25, { label: "All", value: -1 }]}
               colSpan={3}
-              count={rows.length}
+              count={users.length}
               rowsPerPage={rowsPerPage}
               page={page}
               SelectProps={{
