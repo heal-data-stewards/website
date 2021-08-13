@@ -96,8 +96,16 @@ TablePaginationActions.propTypes = {
 function createData(name, calories, fat) {
   return { name, calories, fat };
 }
+
+// put this in its proper hook
+let rows2;
 const users = getAllUsers();
-console.log(users);
+users.then(function (result) {
+  rows2 = result.map((user) => {
+    return createData(user.username, 12, 12);
+  });
+  console.log(rows2);
+});
 
 const rows = [
   createData("Cupcake", 305, 3.7),
