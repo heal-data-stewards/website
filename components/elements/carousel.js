@@ -94,7 +94,7 @@ export const EmblaCarousel = () => {
             </div>
             {/* Right column for the image */}
             <div className="flex-shrink-0 w-full md:w-6/12 mt-6 md:mt-0 img-fix">
-              <Image src={slide1} className="card-2" />
+              <Image src={slide1} className="card-2" alt="img" />
             </div>
           </section>
         </div>
@@ -152,7 +152,7 @@ export const EmblaCarousel = () => {
                 rel="noreferrer"
                 className="img-fix"
               >
-                <Image src={slide2} />
+                <Image src={slide2} alt="img" />
               </a>
             </div>
           </section>
