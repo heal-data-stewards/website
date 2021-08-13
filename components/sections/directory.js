@@ -116,6 +116,7 @@ const useStyles2 = makeStyles({
   table: {
     minWidth: 500,
   },
+  tableContainer2: { backgroundColor: "#dddddd !important" },
 });
 
 export default function CustomPaginationActionsTable() {
@@ -136,7 +137,10 @@ export default function CustomPaginationActionsTable() {
   };
 
   return (
-    <TableContainer component={Paper}>
+    <TableContainer
+      component={Paper}
+      className={classes.tableContainer2 + " " + "container mt-10 mb-8"}
+    >
       <Table className={classes.table} aria-label="custom pagination table">
         <TableBody>
           {(rowsPerPage > 0
