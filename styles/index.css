@@ -81,3 +81,16 @@ html {
 .img-fix > div {
   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
 }
+
+/* Fixes issue with button changing to default material blue on directory page  */
+.MuiButton-containedPrimary {
+  background-color: #532565 !important;
+}
+
+.MuiButton-containedPrimary:hover {
+  background-color: #982568 !important;
+}
+
+.MuiButton-textPrimary {
+  color: #532565 !important;
+}
