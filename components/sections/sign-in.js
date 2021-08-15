@@ -1,9 +1,36 @@
 import { signIn, signOut, useSession, getSession } from "next-auth/client";
 import axios from "axios";
 
+import { makeStyles } from "@material-ui/core/styles";
+import Card from "@material-ui/core/Card";
+import CardActions from "@material-ui/core/CardActions";
+import CardContent from "@material-ui/core/CardContent";
+import Button from "@material-ui/core/Button";
+import Typography from "@material-ui/core/Typography";
+import Divider from "@material-ui/core/Divider";
+
+const useStyles = makeStyles({
+  root: {
+    minWidth: 275,
+    backgroundColor: "#e5e0e645",
+  },
+  bullet: {
+    display: "inline-block",
+    margin: "0 2px",
+    transform: "scale(0.8)",
+  },
+  title: {
+    fontSize: 14,
+  },
+  pos: {
+    marginBottom: 12,
+  },
+});
+
 export default function SignIn(initialData) {
   const [session, loading] = useSession();
-
+  const classes = useStyles();
+  const bull = <span className={classes.bullet}>•</span>;
   return (
     <div className="container">
       <div>
@@ -15,13 +42,80 @@ export default function SignIn(initialData) {
         )}
         {session && (
           <>
-            Signed in as {session.user.email} <br />
-            <button onClick={() => signOut()}>Sign out</button>
+            <div class="flex">
+              <Card
+                className={classes.root + " " + "flex-initial"}
+                style={{ marginRight: "20px" }}
+              >
+                <CardContent>
+                  <Typography
+                    className={classes.title}
+                    color="textSecondary"
+                    gutterBottom
+                  >
+                    {session.user.name}
+                  </Typography>
+                  <Typography variant="h5" component="h2">
+                    {session.firstname + " " + session.lastname}
+                  </Typography>
+                  <Typography className={classes.pos} color="textSecondary">
+                    {session.organization}
+                  </Typography>
+                </CardContent>
+              </Card>
+              <Card className={classes.root + " " + "flex-1"}>
+                <CardContent>
+                  <br></br>
+                  <div>
+                    <span className="text-xl font-bold">Full Name </span>
+                    <span className="text-lg text-gray-dark">
+                      {session.firstname + " " + session.lastname}
+                    </span>
+                  </div>
+                  <br></br>
+                  <Divider />
+                  <br></br>
+                  <p>
+                    <span className="text-xl font-bold">User Name </span>
+                    <span className="text-lg text-gray-dark">
+                      {session.user.name}
+                    </span>
+                  </p>
+                  <br></br>
+                  <Divider /> <br></br>
+                  <p>
+                    <span className="text-xl font-bold">Email </span>
+                    <span className="text-lg text-gray-dark">
+                      {session.user.email}
+                    </span>
+                  </p>
+                  <br></br>
+                  <Divider /> <br></br>
+                  <div>
+                    <span className="text-xl font-bold">Organization </span>
+                    <span className="text-lg text-gray-dark">
+                      {session.organization}
+                    </span>
+                    <br></br> <br></br>
+                    <Divider />
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+            <Button
+              onClick={() => signOut()}
+              variant="contained"
+              color={"primary"}
+              style={{ margin: "20px 0 20px 0" }}
+              //   target="_blank"
+              //   rel="noopener noreferrer"
+            >
+              Sign out
+            </Button>
           </>
         )}
       </div>
       <div>
-        {console.log(initialData)}
         {initialData.journals &&
           initialData.journals.map((each, index) => {
             return (
@@ -47,7 +141,6 @@ export async function getServerSideProps({ req }) {
     let { data } = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/users`, {
       headers: headers,
     });
-    console.log(data);
     journals = data;
   } catch (e) {
     console.log("caught error");
