@@ -1,6 +1,6 @@
 import { signIn, signOut, useSession, getSession } from "next-auth/client";
 import axios from "axios";
-
+import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
 import CardActions from "@material-ui/core/CardActions";
@@ -8,6 +8,7 @@ import CardContent from "@material-ui/core/CardContent";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 import Divider from "@material-ui/core/Divider";
+import TransitionsModal from "../elements/modal";
 
 const useStyles = makeStyles({
   root: {
@@ -30,7 +31,15 @@ const useStyles = makeStyles({
 export default function SignIn(initialData) {
   const [session, loading] = useSession();
   const classes = useStyles();
-  const bull = <span className={classes.bullet}>•</span>;
+  const [open, setOpen] = React.useState(false);
+
+  const handleOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
   return (
     <div className="container mt-8">
       <div>
@@ -42,7 +51,7 @@ export default function SignIn(initialData) {
         )}
         {session && (
           <>
-            <div class="flex flex-wrap">
+            <div className="flex flex-wrap">
               <Card
                 className={classes.root + " " + "flex-initial"}
                 style={{ marginRight: "20px", textAlign: "center" }}
@@ -119,7 +128,21 @@ export default function SignIn(initialData) {
                     <br></br> <br></br>
                     <Divider />
                   </div>
+                  <Button
+                    onClick={() => handleOpen()}
+                    variant="contained"
+                    color={"primary"}
+                    style={{ margin: "20px 0 20px 0" }}
+                    //   target="_blank"
+                    //   rel="noopener noreferrer"
+                  >
+                    Edit
+                  </Button>
                 </CardContent>
+                <TransitionsModal
+                  open={open}
+                  handleClose={() => handleClose()}
+                />
               </Card>
             </div>
             <Button
