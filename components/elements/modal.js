@@ -36,7 +36,7 @@ export default function TransitionsModal(props) {
         }}
       >
         <Fade in={props.open}>
-          <div className={classes.paper}>Edit form goes here</div>
+          <div className={classes.paper}> {props.children}</div>
         </Fade>
       </Modal>
     </div>

@@ -9,6 +9,7 @@ import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 import Divider from "@material-ui/core/Divider";
 import TransitionsModal from "../elements/modal";
+import EditForm from "../elements/form/account-edit";
 
 const useStyles = makeStyles({
   root: {
@@ -139,12 +140,11 @@ export default function SignIn(initialData) {
                     Edit
                   </Button>
                 </CardContent>
-                <TransitionsModal
-                  open={open}
-                  handleClose={() => handleClose()}
-                />
               </Card>
             </div>
+            <TransitionsModal open={open} handleClose={() => handleClose()}>
+              <EditForm />
+            </TransitionsModal>
             <Button
               onClick={() => signOut()}
               variant="contained"
