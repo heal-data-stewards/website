@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react"
-import { DataGrid } from "@material-ui/data-grid"
+import { DataGrid, GridToolbar } from "@material-ui/data-grid"
 import { getAllUsers } from "utils/api"
 
 const columns = [
@@ -58,6 +58,9 @@ export default function DataTable() {
         pageSize={5}
         style={{ backgroundColor: "#f3f4f6" }}
         checkboxSelection
+        components={{
+          Toolbar: GridToolbar,
+        }}
       />
     </div>
   )
