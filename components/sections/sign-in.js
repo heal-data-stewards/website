@@ -32,7 +32,7 @@ export default function SignIn(initialData) {
   const classes = useStyles();
   const bull = <span className={classes.bullet}>•</span>;
   return (
-    <div className="container">
+    <div className="container mt-8">
       <div>
         {!session && (
           <>
@@ -42,10 +42,10 @@ export default function SignIn(initialData) {
         )}
         {session && (
           <>
-            <div class="flex">
+            <div class="flex flex-wrap">
               <Card
                 className={classes.root + " " + "flex-initial"}
-                style={{ marginRight: "20px" }}
+                style={{ marginRight: "20px", textAlign: "center" }}
               >
                 <CardContent>
                   <Typography
@@ -67,7 +67,12 @@ export default function SignIn(initialData) {
                 <CardContent>
                   <br></br>
                   <div>
-                    <span className="text-xl font-bold">Full Name </span>
+                    <span
+                      className="text-xl font-bold"
+                      style={{ minWidth: "150px", display: "inline-block" }}
+                    >
+                      Full Name{" "}
+                    </span>
                     <span className="text-lg text-gray-dark">
                       {session.firstname + " " + session.lastname}
                     </span>
@@ -76,7 +81,12 @@ export default function SignIn(initialData) {
                   <Divider />
                   <br></br>
                   <p>
-                    <span className="text-xl font-bold">User Name </span>
+                    <span
+                      className="text-xl font-bold"
+                      style={{ minWidth: "150px", display: "inline-block" }}
+                    >
+                      User Name{" "}
+                    </span>
                     <span className="text-lg text-gray-dark">
                       {session.user.name}
                     </span>
@@ -84,7 +94,12 @@ export default function SignIn(initialData) {
                   <br></br>
                   <Divider /> <br></br>
                   <p>
-                    <span className="text-xl font-bold">Email </span>
+                    <span
+                      className="text-xl font-bold"
+                      style={{ minWidth: "150px", display: "inline-block" }}
+                    >
+                      Email{" "}
+                    </span>
                     <span className="text-lg text-gray-dark">
                       {session.user.email}
                     </span>
@@ -92,7 +107,12 @@ export default function SignIn(initialData) {
                   <br></br>
                   <Divider /> <br></br>
                   <div>
-                    <span className="text-xl font-bold">Organization </span>
+                    <span
+                      className="text-xl font-bold"
+                      style={{ minWidth: "150px", display: "inline-block" }}
+                    >
+                      Organization{" "}
+                    </span>
                     <span className="text-lg text-gray-dark">
                       {session.organization}
                     </span>
