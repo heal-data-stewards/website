@@ -9,10 +9,12 @@ import { TextField } from "formik-material-ui";
 const CreateAccountForm = ({ data }) => {
   const [loading, setLoading] = useState(false);
 
-  const LeadSchema = yup.object().shape({
+  const RegistrationSchema = yup.object().shape({
     email: yup.string().email().required(),
-    name: yup.string().required(),
-    inquiry: yup.string().required(),
+    firstname: yup.string().required(),
+    password: yup.string().required(),
+    lastname: yup.string().required(),
+    organization: yup.string().required(),
   });
 
   return (
@@ -25,14 +27,20 @@ const CreateAccountForm = ({ data }) => {
     >
       <div className="flex flex-col items-center">
         <Formik
-          initialValues={{ email: "", name: "", inquiry: "" }}
-          validationSchema={LeadSchema}
+          initialValues={{
+            email: "",
+            firstname: "",
+            lastname: "",
+            password: "",
+            organization: "",
+          }}
+          validationSchema={RegistrationSchema}
           onSubmit={async (values, { setSubmitting, setErrors }) => {
             setLoading(true);
 
             try {
               setErrors({ api: null });
-              await fetchAPI("/lead-form-submissions", {
+              const create = await fetchAPI("/auth/local/register", {
                 method: "POST",
                 body: JSON.stringify({
                   email: values.email,
@@ -40,9 +48,11 @@ const CreateAccountForm = ({ data }) => {
                   organization: values.organization,
                   lastname: values.lastname,
                   password: values.password,
-                  location: data.location,
+                  username: values.email,
+                  // location: data.location,
                 }),
               });
+              console.log(create);
             } catch (err) {
               setErrors({ api: err.message });
             }
