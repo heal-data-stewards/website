@@ -20,6 +20,7 @@
     "date-fns": "2.14.0",
     "embla-carousel": "^4.5.3",
     "formik": "^2.2.6",
+    "formik-material-ui": "^3.0.1",
     "js-cookie": "3.0.0-rc.4",
     "next": "^11.0.0",
     "next-auth": "^3.28.0",

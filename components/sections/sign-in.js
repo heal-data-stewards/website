@@ -10,6 +10,7 @@ import Typography from "@material-ui/core/Typography";
 import Divider from "@material-ui/core/Divider";
 import TransitionsModal from "../elements/modal";
 import EditForm from "../elements/form/account-edit";
+import Avatar from "@material-ui/core/Avatar";
 
 const useStyles = makeStyles({
   root: {
@@ -26,6 +27,11 @@ const useStyles = makeStyles({
   },
   pos: {
     marginBottom: 12,
+  },
+  large: {
+    width: "100px",
+    height: "100px",
+    margin: "0 auto",
   },
 });
 
@@ -52,12 +58,21 @@ export default function SignIn(initialData) {
         )}
         {session && (
           <>
-            <div className="flex flex-wrap">
+            {console.log(session)}
+            <div
+              className="flex flex-wrap"
+              style={{ justifyContent: "center" }}
+            >
               <Card
-                className={classes.root + " " + "flex-initial"}
-                style={{ marginRight: "20px", textAlign: "center" }}
+                className={classes.root + " " + "flex-2"}
+                style={{ textAlign: "center" }}
               >
                 <CardContent>
+                  <Avatar
+                    alt="Remy Sharp"
+                    src={session.user.image.url}
+                    className={classes.large}
+                  />
                   <Typography
                     className={classes.title}
                     color="textSecondary"
@@ -140,11 +155,11 @@ export default function SignIn(initialData) {
                     Edit
                   </Button>
                 </CardContent>
+                <TransitionsModal open={open} handleClose={() => handleClose()}>
+                  <EditForm />
+                </TransitionsModal>
               </Card>
             </div>
-            <TransitionsModal open={open} handleClose={() => handleClose()}>
-              <EditForm />
-            </TransitionsModal>
             <Button
               onClick={() => signOut()}
               variant="contained"

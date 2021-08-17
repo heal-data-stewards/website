@@ -4,12 +4,13 @@ import * as yup from "yup";
 import { Formik, Form, Field } from "formik";
 import Button from "../button";
 import React from "react";
+import { TextField } from "formik-material-ui";
 
 const EditForm = ({ data }) => {
   const [loading, setLoading] = useState(false);
 
   const LeadSchema = yup.object().shape({
-    email: yup.string().email().required(),
+    email: yup.string().email(),
     name: yup.string().required(),
     inquiry: yup.string().required(),
   });
@@ -51,24 +52,28 @@ const EditForm = ({ data }) => {
                   type="firstname"
                   name="firstname"
                   placeholder={"First Name"}
+                  component={TextField}
                 />{" "}
                 <Field
                   className="text-base focus:outline-none py-4 md:py-0 px-4 border-2 rounded-md"
                   type="lastname"
                   name="lastname"
                   placeholder={"Last Name"}
+                  component={TextField}
                 />
                 <Field
                   className="text-base focus:outline-none py-4 md:py-0 px-4 border-2 rounded-md"
-                  type="email"
+                  // type="email"
                   name="email"
                   placeholder={"Email"}
+                  component={TextField}
                 />
                 <Field
                   className="text-base focus:outline-none py-4 md:py-0 px-4 border-2 rounded-md"
                   type="organization"
                   name="organization"
                   placeholder={"Organization"}
+                  component={TextField}
                 />
                 <Button
                   type="submit"
