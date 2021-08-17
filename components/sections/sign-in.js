@@ -11,6 +11,7 @@ import Divider from "@material-ui/core/Divider";
 import TransitionsModal from "../elements/modal";
 import EditForm from "../elements/form/account-edit";
 import Avatar from "@material-ui/core/Avatar";
+import SignUp from "./sign-up";
 
 const useStyles = makeStyles({
   root: {
@@ -29,8 +30,8 @@ const useStyles = makeStyles({
     marginBottom: 12,
   },
   large: {
-    width: "100px",
-    height: "100px",
+    width: "200px",
+    height: "200px",
     margin: "0 auto",
   },
 });
@@ -48,17 +49,19 @@ export default function SignIn(initialData) {
     setOpen(false);
   };
   return (
-    <div className="container mt-8">
+    <div>
       <div>
         {!session && (
           <>
-            Not signed in <br />
-            <button onClick={() => signIn()}>Sign in</button>
+            <SignUp>
+              <button style={{ color: "#0044b3" }} onClick={() => signIn()}>
+                Log in
+              </button>
+            </SignUp>
           </>
         )}
         {session && (
-          <>
-            {console.log(session)}
+          <div className="container mt-8">
             <div
               className="flex flex-wrap"
               style={{ justifyContent: "center" }}
@@ -70,7 +73,10 @@ export default function SignIn(initialData) {
                 <CardContent>
                   <Avatar
                     alt="Remy Sharp"
-                    src={session.user.image.url}
+                    src={
+                      session.user.picture ||
+                      "https://heal-community-portal-api.s3.amazonaws.com/blank_profile_picture_973460_1280_a29a12e75d.png"
+                    }
                     className={classes.large}
                   />
                   <Typography
@@ -170,19 +176,8 @@ export default function SignIn(initialData) {
             >
               Sign out
             </Button>
-          </>
+          </div>
         )}
-      </div>
-      <div>
-        {initialData.journals &&
-          initialData.journals.map((each, index) => {
-            return (
-              <div key={index}>
-                <h3>{each.username}</h3>
-                <p>{each.email}</p>
-              </div>
-            );
-          })}
       </div>
     </div>
   );

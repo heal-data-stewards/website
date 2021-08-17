@@ -46,7 +46,9 @@ const options = {
     // Getting the JWT token from API response
     jwt: async (token, user, account) => {
       const isSignIn = user ? true : false;
-      console.log(user);
+      // console.log("user.user");
+      // console.log(user.user);
+      // console.log("user.user");
       if (isSignIn) {
         token.jwt = user.jwt;
         token.id = user.user.id;
@@ -55,6 +57,7 @@ const options = {
         token.firstname = user.user.firstname;
         token.lastname = user.user.lastname;
         token.organization = user.user.organization;
+        token.picture = user.user.picture.url;
       }
       return Promise.resolve(token);
     },
@@ -65,6 +68,7 @@ const options = {
       session.firstname = user.firstname;
       session.lastname = user.lastname;
       session.organization = user.organization;
+      session.picture = user.picture;
       return Promise.resolve(session);
     },
   },
