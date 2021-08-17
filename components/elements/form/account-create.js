@@ -5,6 +5,7 @@ import { Formik, Form, Field } from "formik";
 import Button from "../button";
 import React from "react";
 import { TextField } from "formik-material-ui";
+import { signIn, signOut, useSession, getSession } from "next-auth/client";
 
 const CreateAccountForm = ({ data }) => {
   const [loading, setLoading] = useState(false);
@@ -52,7 +53,8 @@ const CreateAccountForm = ({ data }) => {
                   // location: data.location,
                 }),
               });
-              console.log(create);
+
+              signIn();
             } catch (err) {
               setErrors({ api: err.message });
             }

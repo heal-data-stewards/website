@@ -35,7 +35,8 @@ export default function SignUp(props) {
             <Paper className={classes.paper} elevation={0} square>
               <div style={{ textAlign: "right", margin: "20px 0 20px 0" }}>
                 <span>Already have an account? </span> {props.children}
-              </div><br></br>
+              </div>
+              <br></br>
               <div
                 style={{
                   textAlign: "left",
