@@ -10,11 +10,9 @@ import {
   buttonLinkPropTypes,
 } from "utils/types";
 import { MdMenu } from "react-icons/md";
-import MobileNavMenu from "./mobile-nav-menu";
 import ButtonLink from "./button-link";
 import NextImage from "./image";
 import CustomLink from "./custom-link";
-import LocaleSwitch from "../locale-switch";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import Drawer from "@material-ui/core/Drawer";
@@ -22,7 +20,10 @@ import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
 import Divider from "@material-ui/core/Divider";
-import { useSession, getSession } from "next-auth/client";
+import { signIn, signOut, useSession, getSession } from "next-auth/client";
+import Button from "@material-ui/core/Button";
+
+import Btn from "../elements/button";
 
 const Navbar = ({ navbar, pageContext }) => {
   const [session, loading] = useSession();
@@ -85,20 +86,38 @@ const Navbar = ({ navbar, pageContext }) => {
           <div className="flex">
             {/* CTA button on desktop */}
             {navbar.button && (
+              // <div className="hidden lg:block">
+              //   <ButtonLink
+              //     button={navbar.button}
+              //     appearance={getButtonAppearance(navbar.button.type, "dark")}
+              //     compact
+              //   />
+              // </div>
               <div className="hidden lg:block">
-                <ButtonLink
-                  button={navbar.button}
-                  appearance={getButtonAppearance(navbar.button.type, "dark")}
-                  compact
-                />
+                {/* <ButtonLink
+                button={navbar.button}
+                appearance={getButtonAppearance(navbar.button.type, "dark")}
+                compact
+              /> */}
+
+                {!session && (
+                  <>
+                    <Btn handleClick={signIn} button={{ text: "Log In" }} />
+                  </>
+                )}
+                {session && (
+                  <>
+                    <Btn handleClick={signOut} button={{ text: "Log Out" }} />
+                  </>
+                )}
               </div>
             )}
             {/* Locale Switch Mobile */}
-            {pageContext.localizedPaths && (
+            {/* {pageContext.localizedPaths && (
               <div>
                 <LocaleSwitch pageContext={pageContext} />
               </div>
-            )}
+            )} */}
             {/* Hamburger menu on mobile */}
             <button
               onClick={() => setMobileMenuIsShown(true)}
@@ -136,7 +155,7 @@ const Navbar = ({ navbar, pageContext }) => {
                   />
                 </a>
               </Link>
-              {navbar.links.map((navLink) => (
+              {navigationItems.map((navLink) => (
                 <li key={navLink.id}>
                   <CustomLink link={navLink} locale={router.locale}>
                     <ListItem className="hover:text-magenta text-purple px-2 py-1">
