@@ -74,7 +74,6 @@ export default function SignIn(initialData) {
                   <Avatar
                     alt="Remy Sharp"
                     src={
-                      session.user.picture ||
                       "https://heal-community-portal-api.s3.amazonaws.com/blank_profile_picture_973460_1280_a29a12e75d.png"
                     }
                     className={classes.large}

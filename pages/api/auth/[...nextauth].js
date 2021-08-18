@@ -57,7 +57,7 @@ const options = {
         token.firstname = user.user.firstname;
         token.lastname = user.user.lastname;
         token.organization = user.user.organization;
-        token.picture = user.user.picture.url;
+        // token.picture = user.user.picture.url;
       }
       return Promise.resolve(token);
     },
@@ -68,7 +68,7 @@ const options = {
       session.firstname = user.firstname;
       session.lastname = user.lastname;
       session.organization = user.organization;
-      session.picture = user.picture;
+      // session.picture = user.picture;
       return Promise.resolve(session);
     },
   },
