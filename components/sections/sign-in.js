@@ -54,9 +54,9 @@ export default function SignIn(initialData) {
         {!session && (
           <>
             <LoginSection>
-              {/* <button style={{ color: "#0044b3" }} onClick={() => signIn()}>
-                Log in
-              </button> */}
+              <a style={{ color: "#0044b3" }} href="/sign-up">
+                Sign Up
+              </a>
             </LoginSection>
             {/* <div className="container mt-8 mb-8">
               <p>Access Denied</p>

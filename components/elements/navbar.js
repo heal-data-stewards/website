@@ -23,7 +23,7 @@ import Divider from "@material-ui/core/Divider";
 import { signIn, signOut, useSession, getSession } from "next-auth/client";
 import Button from "@material-ui/core/Button";
 
-import { Btn } from "../elements/button";
+import { Btn, Btn2 } from "../elements/button";
 
 const Navbar = ({ navbar, pageContext }) => {
   const [session, loading] = useSession();
@@ -102,7 +102,7 @@ const Navbar = ({ navbar, pageContext }) => {
 
                 {!session && (
                   <>
-                    <Btn handleClick={signIn} button={{ text: "Log In" }} />
+                    <Btn2 href={"/account"} button={{ text: "Log In" }} />
                   </>
                 )}
                 {session && (

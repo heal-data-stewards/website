@@ -1,14 +1,14 @@
-import { useState } from "react";
 import { fetchAPI } from "utils/api";
 import * as yup from "yup";
 import { Formik, Form, Field } from "formik";
-import Button from "../button";
-import React from "react";
+import { Btn2 } from "../button";
+import React, { useState } from "react";
 import { TextField } from "formik-material-ui";
 import { signIn, signOut, useSession, getSession } from "next-auth/client";
 
-const CreateAccountForm = ({ data }) => {
-  const [loading, setLoading] = useState(false);
+const CreateAccountForm = () => {
+  const [session, loading] = useSession();
+  const [loadingWheel, setLoadingWheel] = useState(false);
 
   const RegistrationSchema = yup.object().shape({
     email: yup.string().email().required(),
@@ -37,10 +37,10 @@ const CreateAccountForm = ({ data }) => {
           }}
           validationSchema={RegistrationSchema}
           onSubmit={async (values, { setSubmitting, setErrors }) => {
-            setLoading(true);
+            setLoadingWheel(true);
 
             try {
-              setErrors({ api: null });
+              // setErrors({ api: null });
               const create = await fetchAPI("/auth/local/register", {
                 method: "POST",
                 body: JSON.stringify({
@@ -53,8 +53,6 @@ const CreateAccountForm = ({ data }) => {
                   // location: data.location,
                 }),
               });
-
-              signIn();
             } catch (err) {
               setErrors({ api: err.message });
             }
@@ -111,16 +109,13 @@ const CreateAccountForm = ({ data }) => {
                   variant="outlined"
                   fullWidth
                 />
-                <Button
+                <Btn2
                   type="submit"
                   button={{ text: "Sign Up" }}
                   disabled={isSubmitting}
-                  loading={loading}
+                  loading={loadingWheel}
                 />
               </Form>
-              {/* <p className="text-red-500 h-12 text-sm mt-1 ml-2 text-left">
-                {(errors.email && touched.email && errors.email) || errors.api}
-              </p> */}
             </div>
           )}
         </Formik>

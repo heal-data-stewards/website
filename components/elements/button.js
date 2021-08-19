@@ -89,10 +89,17 @@ export const Btn2 = ({
   compact = false,
   loading = false,
   type,
+  href,
 }) => {
   return (
     <ThemeProvider theme={theme}>
-      <Button link={button} type={type} variant="contained" color="primary">
+      <Button
+        href={href}
+        link={button}
+        type={type}
+        variant="contained"
+        color="primary"
+      >
         {/* <div
         className={classNames(
           // Common classes
