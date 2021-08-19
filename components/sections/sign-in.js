@@ -11,7 +11,7 @@ import Divider from "@material-ui/core/Divider";
 import TransitionsModal from "../elements/modal";
 import EditForm from "../elements/form/account-edit";
 import Avatar from "@material-ui/core/Avatar";
-import SignUp from "./sign-up";
+import LoginSection from "./login";
 
 const useStyles = makeStyles({
   root: {
@@ -53,15 +53,20 @@ export default function SignIn(initialData) {
       <div>
         {!session && (
           <>
-            <SignUp>
-              <button style={{ color: "#0044b3" }} onClick={() => signIn()}>
+            <LoginSection>
+              {/* <button style={{ color: "#0044b3" }} onClick={() => signIn()}>
                 Log in
-              </button>
-            </SignUp>
+              </button> */}
+            </LoginSection>
+            {/* <div className="container mt-8 mb-8">
+              <p>Access Denied</p>
+              <p>Please Log In</p>
+            </div> */}
           </>
         )}
+        {/* If Logged in show user profile */}
         {session && (
-          <div className="container mt-8">
+          <div className="container mt-8 mb-8">
             <div
               className="flex flex-wrap"
               style={{ justifyContent: "center" }}
@@ -72,7 +77,7 @@ export default function SignIn(initialData) {
               >
                 <CardContent>
                   <Avatar
-                    alt="Remy Sharp"
+                    alt="alt"
                     src={
                       "https://heal-community-portal-api.s3.amazonaws.com/blank_profile_picture_973460_1280_a29a12e75d.png"
                     }
@@ -165,16 +170,6 @@ export default function SignIn(initialData) {
                 </TransitionsModal>
               </Card>
             </div>
-            <Button
-              onClick={() => signOut()}
-              variant="contained"
-              color={"primary"}
-              style={{ margin: "20px 0 20px 0" }}
-              //   target="_blank"
-              //   rel="noopener noreferrer"
-            >
-              Sign out
-            </Button>
           </div>
         )}
       </div>

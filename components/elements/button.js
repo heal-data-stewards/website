@@ -17,7 +17,7 @@ const theme = createTheme({
   },
 });
 
-const Btn = ({
+export const Btn = ({
   button,
   appearance,
   compact = false,
@@ -83,4 +83,50 @@ Btn.propTypes = {
   compact: PropTypes.bool,
 };
 
-export default Btn;
+export const Btn2 = ({
+  button,
+  appearance,
+  compact = false,
+  loading = false,
+  type,
+}) => {
+  return (
+    <ThemeProvider theme={theme}>
+      <Button link={button} type={type} variant="contained" color="primary">
+        {/* <div
+        className={classNames(
+          // Common classes
+          "flex w-full justify-center lg:w-auto text-center uppercase tracking-wide font-semibold text-base md:text-sm border-2 rounded-md",
+          // Full-size button
+          {
+            "px-8 py-4": compact === false,
+          },
+          // Compact button
+          {
+            "px-6 py-2": compact === true,
+          },
+          // Specific to when the button is fully dark
+          {
+            "bg-primary text-white border-primary": appearance === "dark",
+          },
+          // Specific to when the button is dark outlines
+          {
+            "text-primary border-primary": appearance === "dark-outline",
+          },
+          // Specific to when the button is fully white
+          {
+            "bg-white text-primary border-white": appearance === "white",
+          },
+          // Specific to when the button is white outlines
+          {
+            "text-white border-white": appearance === "white-outline",
+          }
+        )}
+      > */}
+        {loading && <Loader />}
+        {button.text}
+        {/* </div> */}
+      </Button>
+    </ThemeProvider>
+  );
+};

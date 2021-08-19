@@ -1,7 +1,6 @@
 import NextAuth from "next-auth";
 import Providers from "next-auth/providers";
 import axios from "axios";
-import { gridColumnsTotalWidthSelector } from "@material-ui/data-grid";
 
 const options = {
   providers: [
@@ -21,10 +20,8 @@ const options = {
             }
           );
           if (data) {
-            console.log(data);
             return data;
           } else {
-            console.log("data");
             return null;
           }
         } catch (e) {
@@ -46,9 +43,6 @@ const options = {
     // Getting the JWT token from API response
     jwt: async (token, user, account) => {
       const isSignIn = user ? true : false;
-      // console.log("user.user");
-      // console.log(user.user);
-      // console.log("user.user");
       if (isSignIn) {
         token.jwt = user.jwt;
         token.id = user.user.id;
