@@ -5,7 +5,7 @@ import Image from "next/image"
 import slide1 from "../../public/carousel1.jpeg"
 import slide2 from "../../public/carousel2.jpeg"
 import Paper from "@material-ui/core/Paper"
-import slide3 from "../../public/slide3.jpeg"
+import slide3 from "../../public/slider3.jpeg"
 
 const PrevButton = ({ enabled, onClick }) => (
   <button
