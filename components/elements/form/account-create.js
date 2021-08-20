@@ -4,11 +4,10 @@ import { Formik, Form, Field } from "formik";
 import { Btn2 } from "../button";
 import React, { useState } from "react";
 import { TextField } from "formik-material-ui";
-import { signIn, signOut, useSession, getSession } from "next-auth/client";
 
 const CreateAccountForm = () => {
-  const [session, loading] = useSession();
   const [loadingWheel, setLoadingWheel] = useState(false);
+  const [successMessage, setSuccessMessage] = useState(false);
 
   const RegistrationSchema = yup.object().shape({
     email: yup.string().email().required(),
@@ -28,6 +27,7 @@ const CreateAccountForm = () => {
     >
       <div className="flex flex-col items-center">
         <Formik
+          // enableReinitialize={true}
           initialValues={{
             email: "",
             firstname: "",
@@ -36,12 +36,15 @@ const CreateAccountForm = () => {
             organization: "",
           }}
           validationSchema={RegistrationSchema}
-          onSubmit={async (values, { setSubmitting, setErrors }) => {
-            setLoadingWheel(true);
-
+          onSubmit={async (values, actions) => {
+            actions.setStatus({
+              success: "Your account is now awaiting approval",
+            });
             try {
-              // setErrors({ api: null });
-              const create = await fetchAPI("/auth/local/register", {
+              actions.setErrors({ api: null });
+              setSuccessMessage(true);
+
+              const response = await fetchAPI("/auth/local/register", {
                 method: "POST",
                 body: JSON.stringify({
                   email: values.email,
@@ -54,19 +57,21 @@ const CreateAccountForm = () => {
                 }),
               });
             } catch (err) {
-              setErrors({ api: err.message });
+              if (err.message === "Failed to fetch") {
+                console.log("failed to fetch");
+              } else {
+                setSuccessMessage(false);
+                actions.setErrors({ api: err.message });
+              }
             }
-
-            setLoading(false);
-            setSubmitting(false);
           }}
         >
-          {({ errors, touched, isSubmitting }) => (
+          {({ errors, touched, isSubmitting, status }) => (
             <div>
               <Form className="flex flex-wrap flex-col md:flex-row gap-4">
                 <Field
                   className="text-base focus:outline-none py-4 md:py-0 px-4 border-2 rounded-md"
-                  type="firstname"
+                  type="text"
                   name="firstname"
                   placeholder={"First Name"}
                   component={TextField}
@@ -75,7 +80,7 @@ const CreateAccountForm = () => {
                 />{" "}
                 <Field
                   className="text-base focus:outline-none py-4 md:py-0 px-4 border-2 rounded-md"
-                  type="lastname"
+                  type="text"
                   name="lastname"
                   placeholder={"Last Name"}
                   component={TextField}
@@ -90,7 +95,12 @@ const CreateAccountForm = () => {
                   component={TextField}
                   variant="outlined"
                   fullWidth
-                />
+                />{" "}
+                {errors.api && (
+                  <>
+                    <p style={{ color: "red" }}>Email already exists</p>
+                  </>
+                )}
                 <Field
                   className="text-base focus:outline-none py-4 md:py-0 px-4 border-2 rounded-md"
                   type="passsword"
@@ -114,7 +124,19 @@ const CreateAccountForm = () => {
                   button={{ text: "Sign Up" }}
                   disabled={isSubmitting}
                   loading={loadingWheel}
-                />
+                />{" "}
+                {errors.api && (
+                  <>
+                    <span style={{ color: "red", margin: "10px" }}>
+                      {errors.api}
+                    </span>
+                  </>
+                )}
+                {successMessage && (
+                  <span style={{ color: "green", margin: "10px" }}>
+                    {status.success}
+                  </span>
+                )}
               </Form>
             </div>
           )}
