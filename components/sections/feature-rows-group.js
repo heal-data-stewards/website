@@ -24,7 +24,17 @@ const FeatureRowsGroup = ({ data }) => {
           {/* Text section */}
           <div className="w-full lg:w-6/12 lg:pr-6 text-lg">
             {/* <h3 className="title">{feature.title}</h3> */}
-            <p className="my-6">{feature.description}</p>
+            <p
+              className="my-6"
+              style={{
+                color: "#441d4f",
+                fontWeight: "600",
+                lineHeight: "30.2px",
+                letterspacing: "1px",
+              }}
+            >
+              {feature.description}
+            </p>
 
             {!feature.link == null && (
               <CustomLink link={feature.link}>
