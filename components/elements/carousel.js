@@ -186,6 +186,7 @@ export const EmblaCarousel = () => {
             </div>
             {/* Right column for the image */}
             <div className="flex-shrink-0 w-full md:w-6/12 mt-6 md:mt-0 img-fix">
+              {/* {test} */}
               <Image src={slide3} alt="img" />
             </div>
           </section>
