@@ -1,11 +1,9 @@
 import React, { useState, useEffect, useCallback } from "react"
 import { useEmblaCarousel } from "embla-carousel/react"
-import Markdown from "react-markdown"
 import Image from "next/image"
 import slide1 from "../../public/carousel1.jpeg"
 import slide2 from "../../public/carousel2.jpeg"
-import Paper from "@material-ui/core/Paper"
-import slideIMG3 from "../../public/chris-montgomery-smgTvepind4-unsplash.JPEG"
+import slideIMG3 from "../../public/3slide.jpg"
 
 const PrevButton = ({ enabled, onClick }) => (
   <button
@@ -111,15 +109,6 @@ export const EmblaCarousel = () => {
               <br></br>
               {/* Description paragraph */}
               <p className="text-xl mb-6">
-                {/* The{" "}
-                <a
-                  href="https://healdata.org/"
-                  target="_blank"
-                  style={{ color: "#0044b3" }}
-                  rel="noreferrer"
-                >
-                  HEAL Data Platform
-                </a>{" "} */}
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
                 eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
                 enim ad minim veniam, quis nostrud exercitation ullamco laboris
@@ -128,16 +117,6 @@ export const EmblaCarousel = () => {
                 nulla pariatur. Excepteur sint occaecat cupidatat non proident,
                 sunt in culpa qui officia deserunt mollit anim id est laborum.
               </p>
-              {/* Buttons row */}
-              {/* <div className="flex flex-row flex-wrap gap-4">
-    {data.buttons.map((button) => (
-      <ButtonLink
-        button={button}
-        appearance={getButtonAppearance(button.type, "light")}
-        key={button.id}
-      />
-    ))}
-  </div> */}
             </div>
             {/* Right column for the image */}
             <div className="flex-shrink-0 w-full md:w-6/12 mt-6 md:mt-0 ">
