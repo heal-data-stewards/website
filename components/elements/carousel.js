@@ -5,7 +5,7 @@ import Image from "next/image"
 import slide1 from "../../public/carousel1.jpeg"
 import slide2 from "../../public/carousel2.jpeg"
 import Paper from "@material-ui/core/Paper"
-import slide3 from "../../public/slider3.jpeg"
+import slideIMG3 from "../../public/chris-montgomery-smgTvepind4-unsplash.JPEG"
 
 const PrevButton = ({ enabled, onClick }) => (
   <button
@@ -187,7 +187,7 @@ export const EmblaCarousel = () => {
             {/* Right column for the image */}
             <div className="flex-shrink-0 w-full md:w-6/12 mt-6 md:mt-0 img-fix">
               {/* {test} */}
-              <Image src={slide3} alt="img" />
+              <Image src={slideIMG3} alt="img" />
             </div>
           </section>
         </div>
