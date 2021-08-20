@@ -96,6 +96,6 @@ html {
 }
 
 .tag-wrap {
-  /* filter: drop-shadow(0 3px 6px rgb(0 0 0 / 16%), 0 3px 6px rgb(0 0 0 / 23%)); */
-  filter: drop-shadow(-1px 6px 3px rgba(50, 50, 0, 0.5));
+  /* filter: drop-shadow(-1px 6px 3px rgba(50, 50, 0, 0.5)); */
+  filter: drop-shadow(-1px 6px 3px #441d4f);
 }
