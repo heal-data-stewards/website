@@ -1,11 +1,11 @@
-import NextImage from "../elements/image";
-import { EmblaCarousel } from "../elements/carousel";
+import NextImage from "../elements/image"
+import { EmblaCarousel } from "../elements/carousel"
 
 const FeatureColumnsGroup = ({ data }) => {
   return (
     <>
       <div
-        className="container flex flex-col lg:flex-row lg:flex-wrap gap-12 align-top py-12 text-white"
+        className="container flex flex-col lg:flex-row lg:flex-wrap gap-12 align-top py-7 text-white"
         style={{
           background: "#441d4f",
           boxShadow:
@@ -17,14 +17,21 @@ const FeatureColumnsGroup = ({ data }) => {
             {/* <div className="w-10 h-10">
             <NextImage media={feature.icon} />
           </div> */}
-            <h3 className="font-bold mt-4 mb-4">{feature.title}</h3>
-            <p>{feature.description}</p>
+            <h3 className="font-bold mb-2">{feature.title}</h3>
+            <p
+              style={{
+                fontSize: "16px",
+                lineHeight: "24px",
+              }}
+            >
+              {feature.description}
+            </p>
           </div>
         ))}
       </div>
       <EmblaCarousel />
     </>
-  );
-};
+  )
+}
 
-export default FeatureColumnsGroup;
+export default FeatureColumnsGroup
