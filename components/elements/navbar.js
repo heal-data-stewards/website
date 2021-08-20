@@ -72,11 +72,11 @@ const Navbar = ({ navbar, pageContext }) => {
               </div>
             )}
             {/* Locale Switch Mobile */}
-            {pageContext.localizedPaths && (
+            {/* {pageContext.localizedPaths && (
               <div>
                 <LocaleSwitch pageContext={pageContext} />
               </div>
-            )}
+            )} */}
             {/* Hamburger menu on mobile */}
             <button
               onClick={() => setMobileMenuIsShown(true)}
