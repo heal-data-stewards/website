@@ -38,6 +38,9 @@ const options = {
   session: {
     jwt: true,
   },
+  pages: {
+    error: "/sign-up", // Error code passed in query string as ?error=
+  },
 
   callbacks: {
     // Getting the JWT token from API response
