@@ -20,6 +20,7 @@ const FeatureRowsGroup = ({ data }) => {
             }
           )}
           key={feature.id}
+          style={{ marginBottom: "10px" }}
         >
           {/* Text section */}
           <div className="w-full lg:w-6/12 lg:pr-6 text-lg">
