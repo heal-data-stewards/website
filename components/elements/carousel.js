@@ -51,7 +51,15 @@ export const EmblaCarousel = () => {
   }, [embla, onSelect])
 
   return (
-    <div className="embla" ref={viewportRef} style={{ color: "#373a3c" }}>
+    <div
+      className="embla"
+      ref={viewportRef}
+      style={{
+        color: "#373a3c",
+        marginTop: "44px",
+        background: "rgb(229 224 230 / 28%)",
+      }}
+    >
       <div className="embla__container">
         <div className="embla__slide">
           <section className="container flex flex-col md:flex-row items-center justify-between pt-12">
