@@ -7,7 +7,7 @@ const FeatureRowsGroup = ({ data }) => {
   return (
     <div
       className="container flex flex-col gap-12 text-gray-dark"
-      style={{ marginTop: "3rem" }}
+      style={{ marginTop: "1.5rem" }}
     >
       {data.features.map((feature, index) => (
         <div
@@ -30,7 +30,8 @@ const FeatureRowsGroup = ({ data }) => {
                 color: "#441d4f",
                 fontWeight: "600",
                 lineHeight: "30.2px",
-                letterspacing: "1px",
+                letterSpacing: "1px",
+                fontSize: "19px",
               }}
             >
               {feature.description}
