@@ -42,10 +42,8 @@ const CreateAccountForm = () => {
             });
             try {
               actions.setErrors({ api: null });
-              setSuccessMessage(true);
-
               const response = await fetchAPI("/auth/local/register", {
-                method: "POST",
+                method: "post",
                 body: JSON.stringify({
                   email: values.email,
                   firstname: values.firstname,
@@ -56,6 +54,8 @@ const CreateAccountForm = () => {
                   // location: data.location,
                 }),
               });
+              console.log(response);
+              setSuccessMessage(true);
             } catch (err) {
               if (err.message === "Failed to fetch") {
                 console.log("failed to fetch");
