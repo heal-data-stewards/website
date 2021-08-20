@@ -52,33 +52,35 @@ const FeatureColumnsGroup = ({ data }) => {
         }
       >
         {data.features.map((feature) => (
-          <div
-            className="flex-1 text-lg"
-            key={feature.id}
-            style={{
-              background: feature.color,
-              clipPath:
-                "polygon(94% 0%, 100% 50%, 94% 100%, 0% 100%, 5% 50%, 0% 0%)",
-            }}
-          >
-            {/* <div className="w-10 h-10">
-            <NextImage media={feature.icon} />
-          </div> */}
-            <h3
-              className="font-bold mb-2"
-              style={{ marginLeft: "50px", paddingTop: "15px" }}
-            >
-              {feature.title}
-            </h3>
-            <p
+          <div className="tag-wrap flex-1" key={feature.id}>
+            <div
+              className="text-lg"
               style={{
-                fontSize: "16px",
-                lineHeight: "24px",
-                padding: "0 32px 19px 50px",
+                background: feature.color,
+                minHeight: "100%",
+                clipPath:
+                  "polygon(94% 0%, 100% 50%, 94% 100%, 0% 100%, 5% 50%, 0% 0%)",
               }}
             >
-              {feature.description}
-            </p>
+              {/* <div className="w-10 h-10">
+            <NextImage media={feature.icon} />
+          </div> */}
+              <h3
+                className="font-bold mb-2"
+                style={{ marginLeft: "50px", paddingTop: "15px" }}
+              >
+                {feature.title}
+              </h3>
+              <p
+                style={{
+                  fontSize: "16px",
+                  lineHeight: "24px",
+                  padding: "0 32px 19px 50px",
+                }}
+              >
+                {feature.description}
+              </p>
+            </div>
           </div>
         ))}
       </div>
