@@ -30,7 +30,6 @@ const FeatureRowsGroup = ({ data }) => {
                 color: "#441d4f",
                 fontWeight: "600",
                 lineHeight: "30.2px",
-                letterSpacing: "1px",
                 fontSize: "19px",
               }}
             >
