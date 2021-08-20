@@ -1,7 +1,7 @@
-import classNames from "classnames"
-import NextImage from "../elements/image"
-import Video from "../elements/video"
-import CustomLink from "../elements/custom-link"
+import classNames from "classnames";
+import NextImage from "../elements/image";
+import Video from "../elements/video";
+import CustomLink from "../elements/custom-link";
 
 const FeatureRowsGroup = ({ data }) => {
   return (
@@ -23,7 +23,7 @@ const FeatureRowsGroup = ({ data }) => {
         >
           {/* Text section */}
           <div className="w-full lg:w-6/12 lg:pr-6 text-lg">
-            <h3 className="title">{feature.title}</h3>
+            {/* <h3 className="title">{feature.title}</h3> */}
             <p className="my-6">{feature.description}</p>
 
             {!feature.link == null && (
@@ -38,8 +38,15 @@ const FeatureRowsGroup = ({ data }) => {
           <div className="w-full sm:9/12 lg:w-4/12 max-h-full">
             {/* Images */}
             {feature.media.mime.startsWith("image") && (
-              <div className="w-full h-auto">
-                <NextImage media={feature.media} />
+              <div
+                className="w-full h-auto"
+                style={{ height: "230px", position: "relative" }}
+              >
+                <NextImage
+                  media={feature.media}
+                  fill={true}
+                  style={{ height: "200px" }}
+                />
               </div>
             )}
             {/* Videos */}
@@ -55,7 +62,7 @@ const FeatureRowsGroup = ({ data }) => {
         </div>
       ))}
     </div>
-  )
-}
+  );
+};
 
-export default FeatureRowsGroup
+export default FeatureRowsGroup;
