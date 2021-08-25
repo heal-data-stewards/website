@@ -1,5 +1,5 @@
 module.exports = {
-  target: "serverless",
+  target: "experimental-serverless-trace",
   images: {
     domains: ["heal-community-portal-api.s3.amazonaws.com"],
   },
