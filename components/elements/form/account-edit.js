@@ -1,21 +1,18 @@
-import { useState } from "react";
-import { fetchAPI } from "utils/api";
-import * as yup from "yup";
-import { Formik, Form, Field } from "formik";
-import Button from "../button";
-import React from "react";
-import { TextField } from "formik-material-ui";
-const axios = require("axios");
-import { signIn, useSession } from "next-auth/client";
+import * as yup from "yup"
+import { Formik, Form, Field } from "formik"
+import React from "react"
+import { TextField } from "formik-material-ui"
+const axios = require("axios")
+import { signIn, useSession } from "next-auth/client"
 
 const EditForm = ({ data }) => {
   // const [loading, setLoading] = useState(false);
-  const [session, loading] = useSession();
+  const [session, loading] = useSession()
 
   const LeadSchema = yup.object().shape({
     firstname: yup.string(),
     lastname: yup.string(),
-  });
+  })
 
   return (
     <div className="py-10 text-center">
@@ -26,10 +23,10 @@ const EditForm = ({ data }) => {
           validationSchema={LeadSchema}
           onSubmit={async (values, { setSubmitting, setErrors }) => {
             // setLoading(true);
-            console.log(session);
+            console.log(session)
             try {
-              const path = `${process.env.NEXT_PUBLIC_STRAPI_API_URL}/users/${session.id}`;
-              setErrors({ api: null });
+              const path = `${process.env.NEXT_PUBLIC_STRAPI_API_URL}/users/${session.id}`
+              setErrors({ api: null })
               const res = await axios.put(
                 path,
                 {
@@ -41,11 +38,11 @@ const EditForm = ({ data }) => {
                     Authorization: `Bearer ${session.jwt}`,
                   },
                 }
-              );
+              )
             } catch (err) {
-              setErrors({ api: err.message });
+              setErrors({ api: err.message })
             }
-            signIn("email", session.user.email);
+            signIn("email", session.user.email)
             // setLoading(false)
             // setSubmitting(false)
           }}
@@ -81,7 +78,7 @@ const EditForm = ({ data }) => {
         </Formik>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default EditForm;
+export default EditForm

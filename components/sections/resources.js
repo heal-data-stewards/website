@@ -16,6 +16,7 @@ const Resource = ({ data }) => {
           href={data.link}
           target="_blank"
           className="hover:text-magenta text-purple "
+          rel="noreferrer"
         >
           <h1 className="title mt-2 sm:mt-0 mb-4 sm:mb-2">{data.title}</h1>
         </a>
@@ -24,7 +25,7 @@ const Resource = ({ data }) => {
       </div>
       <hr></hr>
     </main>
-  );
-};
+  )
+}
 
-export default Resource;
+export default Resource

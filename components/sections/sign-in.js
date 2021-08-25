@@ -1,17 +1,18 @@
-import { signIn, signOut, useSession, getSession } from "next-auth/client"
-import axios from "axios"
-import React from "react"
-import { makeStyles } from "@material-ui/core/styles"
-import Card from "@material-ui/core/Card"
-import CardActions from "@material-ui/core/CardActions"
-import CardContent from "@material-ui/core/CardContent"
-import Button from "@material-ui/core/Button"
-import Typography from "@material-ui/core/Typography"
-import Divider from "@material-ui/core/Divider"
-import TransitionsModal from "../elements/modal"
-import EditForm from "../elements/form/account-edit"
-import Avatar from "@material-ui/core/Avatar"
-import LoginSection from "./login"
+import { signIn, signOut, useSession, getSession } from "next-auth/client";
+import axios from "axios";
+import React from "react";
+import { makeStyles } from "@material-ui/core/styles";
+import Card from "@material-ui/core/Card";
+import CardActions from "@material-ui/core/CardActions";
+import CardContent from "@material-ui/core/CardContent";
+import Button from "@material-ui/core/Button";
+import Typography from "@material-ui/core/Typography";
+import Divider from "@material-ui/core/Divider";
+import TransitionsModal from "../elements/modal";
+import EditForm from "../elements/form/account-edit";
+import Avatar from "@material-ui/core/Avatar";
+import LoginSection from "./login";
+import Link from "next/link";
 
 const useStyles = makeStyles({
   root: {
@@ -34,29 +35,29 @@ const useStyles = makeStyles({
     height: "200px",
     margin: "0 auto",
   },
-})
+});
 
 export default function SignIn(initialData) {
-  const [session, loading] = useSession()
-  const classes = useStyles()
-  const [open, setOpen] = React.useState(false)
+  const [session, loading] = useSession();
+  const classes = useStyles();
+  const [open, setOpen] = React.useState(false);
 
   const handleOpen = () => {
-    setOpen(true)
-  }
+    setOpen(true);
+  };
 
   const handleClose = () => {
-    setOpen(false)
-  }
+    setOpen(false);
+  };
   return (
     <div>
       <div>
         {!session && (
           <>
             <LoginSection>
-              <a style={{ color: "#0044b3" }} href="/sign-up">
+              <Link style={{ color: "#0044b3" }} href="/sign-up">
                 Sign Up
-              </a>
+              </Link>
             </LoginSection>
             {/* <div className="container mt-8 mb-8">
               <p>Access Denied</p>
@@ -174,25 +175,25 @@ export default function SignIn(initialData) {
         )}
       </div>
     </div>
-  )
+  );
 }
 
 export async function getServerSideProps({ req }) {
-  let headers = {}
-  const session = await getSession({ req })
+  let headers = {};
+  const session = await getSession({ req });
   if (session) {
-    headers = { Authorization: `Bearer ${session.jwt}` }
+    headers = { Authorization: `Bearer ${session.jwt}` };
   }
-  let journals = []
+  let journals = [];
   try {
     let { data } = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/users`, {
       headers: headers,
-    })
-    journals = data
+    });
+    journals = data;
   } catch (e) {
-    console.log("caught error")
-    journals = []
+    console.log("caught error");
+    journals = [];
   }
 
-  return { props: { journals: "journals" } }
+  return { props: { journals: "journals" } };
 }

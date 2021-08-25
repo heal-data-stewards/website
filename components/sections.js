@@ -1,17 +1,17 @@
-import { useRouter } from "next/router";
-import Hero from "@/components/sections/hero";
-import LargeVideo from "@/components/sections/large-video";
-import FeatureColumnsGroup from "@/components/sections/feature-columns-group";
-import FeatureRowsGroup from "@/components/sections/feature-rows-group";
-import BottomActions from "@/components/sections/bottom-actions";
-import TestimonialsGroup from "@/components/sections/testimonials-group";
-import RichText from "./sections/rich-text";
-import Pricing from "./sections/pricing";
-import LeadForm from "./sections/lead-form";
-import Directory from "./sections/directory";
-import SignIn from "./sections/sign-in";
-import SignUp from "./sections/sign-up";
-import Resources from "./sections/resources";
+import { useRouter } from "next/router"
+import Hero from "@/components/sections/hero"
+import LargeVideo from "@/components/sections/large-video"
+import FeatureColumnsGroup from "@/components/sections/feature-columns-group"
+import FeatureRowsGroup from "@/components/sections/feature-rows-group"
+import BottomActions from "@/components/sections/bottom-actions"
+import TestimonialsGroup from "@/components/sections/testimonials-group"
+import RichText from "./sections/rich-text"
+import Pricing from "./sections/pricing"
+import LeadForm from "./sections/lead-form"
+import Directory from "./sections/directory"
+import SignIn from "./sections/sign-in"
+import SignUp from "./sections/sign-up"
+import Resources from "./sections/resources"
 
 // Map Strapi sections to section components
 const sectionComponents = {
@@ -28,26 +28,26 @@ const sectionComponents = {
   "sections.sign-in": SignIn,
   "sections.signup": SignUp,
   "sections.resources": Resources,
-};
+}
 
 // Display a section individually
 const Section = ({ sectionData }) => {
   // Prepare the component
-  const SectionComponent = sectionComponents[sectionData.__component];
+  const SectionComponent = sectionComponents[sectionData.__component]
 
   if (!SectionComponent) {
-    return null;
+    return null
   }
 
   // Display the section
-  return <SectionComponent data={sectionData} />;
-};
+  return <SectionComponent data={sectionData} />
+}
 
 const PreviewModeBanner = () => {
-  const router = useRouter();
+  const router = useRouter()
   const exitURL = `/api/exit-preview?redirect=${encodeURIComponent(
     router.asPath
-  )}`;
+  )}`
 
   return (
     <div className="py-4 bg-red-600 text-red-100 font-semibold uppercase tracking-wide">
@@ -61,8 +61,8 @@ const PreviewModeBanner = () => {
         </a>
       </div>
     </div>
-  );
-};
+  )
+}
 
 // Display the list of sections
 const Sections = ({ sections, preview }) => {
@@ -78,7 +78,7 @@ const Sections = ({ sections, preview }) => {
         />
       ))}
     </div>
-  );
-};
+  )
+}
 
-export default Sections;
+export default Sections
