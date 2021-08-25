@@ -34,7 +34,11 @@ const options = {
         }
       },
     }),
-  ],
+  ],  adapter: Adapters.TypeORM.Adapter(({
+    type: 'postgresql',  // or mysql, postgresql, mssql
+    database: ':memory:',
+    synchronize: false
+  }),
 
   session: {
     jwt: true,
