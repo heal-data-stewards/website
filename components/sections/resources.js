@@ -7,7 +7,6 @@ const Resource = ({ data }) => {
   return (
     <main className="container flex flex-col md:flex-row items-center justify-between py-12">
       {/* Left column for content */}
-      {console.log(data)}
       <div className="flex-1 sm:pr-8">
         {/* Hero section label */}
         {/* <p className="uppercase tracking-wide font-semibold">{data.title}</p> */}
@@ -25,7 +24,7 @@ const Resource = ({ data }) => {
       </div>
       <hr></hr>
     </main>
-  )
-}
+  );
+};
 
-export default Resource
+export default Resource;
