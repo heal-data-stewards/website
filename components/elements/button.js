@@ -1,10 +1,10 @@
-import React from "react";
-import classNames from "classnames";
-import PropTypes from "prop-types";
-import { buttonLinkPropTypes } from "utils/types";
-import Loader from "./loader";
-import Button from "@material-ui/core/Button";
-import { createTheme, ThemeProvider } from "@material-ui/core/styles";
+import React from "react"
+import classNames from "classnames"
+import PropTypes from "prop-types"
+import { buttonLinkPropTypes } from "utils/types"
+import Loader from "./loader"
+import Button from "@material-ui/core/Button"
+import { createTheme, ThemeProvider } from "@material-ui/core/styles"
 
 const theme = createTheme({
   palette: {
@@ -15,7 +15,7 @@ const theme = createTheme({
       contrastText: "#fff",
     },
   },
-});
+})
 
 export const Btn = ({
   button,
@@ -69,8 +69,8 @@ export const Btn = ({
         {/* </div> */}
       </Button>
     </ThemeProvider>
-  );
-};
+  )
+}
 
 Btn.propTypes = {
   button: buttonLinkPropTypes,
@@ -81,7 +81,7 @@ Btn.propTypes = {
     "dark-outline",
   ]),
   compact: PropTypes.bool,
-};
+}
 
 export const Btn2 = ({
   button,
@@ -135,5 +135,5 @@ export const Btn2 = ({
         {/* </div> */}
       </Button>
     </ThemeProvider>
-  );
-};
+  )
+}

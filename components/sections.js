@@ -11,6 +11,7 @@ import LeadForm from "./sections/lead-form";
 import Directory from "./sections/directory";
 import SignIn from "./sections/sign-in";
 import SignUp from "./sections/sign-up";
+import Resources from "./sections/resources";
 
 // Map Strapi sections to section components
 const sectionComponents = {
@@ -26,6 +27,7 @@ const sectionComponents = {
   "sections.directory": Directory,
   "sections.sign-in": SignIn,
   "sections.signup": SignUp,
+  "sections.resources": Resources,
 };
 
 // Display a section individually

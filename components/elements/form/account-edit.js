@@ -1,19 +1,19 @@
-import { useState } from "react";
-import { fetchAPI } from "utils/api";
-import * as yup from "yup";
-import { Formik, Form, Field } from "formik";
-import Button from "../button";
-import React from "react";
-import { TextField } from "formik-material-ui";
+import { useState } from "react"
+import { fetchAPI } from "utils/api"
+import * as yup from "yup"
+import { Formik, Form, Field } from "formik"
+import Button from "../button"
+import React from "react"
+import { TextField } from "formik-material-ui"
 
 const EditForm = ({ data }) => {
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(false)
 
   const LeadSchema = yup.object().shape({
     email: yup.string().email(),
     name: yup.string().required(),
     inquiry: yup.string().required(),
-  });
+  })
 
   return (
     <div className="py-10 text-center">
@@ -23,10 +23,10 @@ const EditForm = ({ data }) => {
           initialValues={{ email: "", name: "", inquiry: "" }}
           validationSchema={LeadSchema}
           onSubmit={async (values, { setSubmitting, setErrors }) => {
-            setLoading(true);
+            setLoading(true)
 
             try {
-              setErrors({ api: null });
+              setErrors({ api: null })
               await fetchAPI("/lead-form-submissions", {
                 method: "POST",
                 body: JSON.stringify({
@@ -35,13 +35,13 @@ const EditForm = ({ data }) => {
                   inquiry: values.inquiry,
                   location: data.location,
                 }),
-              });
+              })
             } catch (err) {
-              setErrors({ api: err.message });
+              setErrors({ api: err.message })
             }
 
-            setLoading(false);
-            setSubmitting(false);
+            setLoading(false)
+            setSubmitting(false)
           }}
         >
           {({ errors, touched, isSubmitting }) => (
@@ -90,7 +90,7 @@ const EditForm = ({ data }) => {
         </Formik>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default EditForm;
+export default EditForm

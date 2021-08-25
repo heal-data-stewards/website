@@ -1,8 +1,8 @@
-import React from "react";
-import { makeStyles } from "@material-ui/core/styles";
-import Paper from "@material-ui/core/Paper";
-import Grid from "@material-ui/core/Grid";
-import LoginForm from "../elements/form/login";
+import React from "react"
+import { makeStyles } from "@material-ui/core/styles"
+import Paper from "@material-ui/core/Paper"
+import Grid from "@material-ui/core/Grid"
+import LoginForm from "../elements/form/login"
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -13,10 +13,10 @@ const useStyles = makeStyles((theme) => ({
     textAlign: "center",
     color: theme.palette.text.secondary,
   },
-}));
+}))
 
 export default function LoginSection(props) {
-  const classes = useStyles();
+  const classes = useStyles()
 
   return (
     <div className={classes.root}>
@@ -54,5 +54,5 @@ export default function LoginSection(props) {
         </Grid>
       </div>
     </div>
-  );
+  )
 }

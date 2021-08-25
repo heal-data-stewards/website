@@ -1,8 +1,8 @@
-import React from "react";
-import { makeStyles } from "@material-ui/core/styles";
-import Paper from "@material-ui/core/Paper";
-import Grid from "@material-ui/core/Grid";
-import CreateAccountForm from "../elements/form/account-create";
+import React from "react"
+import { makeStyles } from "@material-ui/core/styles"
+import Paper from "@material-ui/core/Paper"
+import Grid from "@material-ui/core/Grid"
+import CreateAccountForm from "../elements/form/account-create"
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -13,10 +13,10 @@ const useStyles = makeStyles((theme) => ({
     textAlign: "center",
     color: theme.palette.text.secondary,
   },
-}));
+}))
 
 export default function SignUp({ data }) {
-  const classes = useStyles();
+  const classes = useStyles()
 
   return (
     <div className={classes.root}>
@@ -54,25 +54,25 @@ export default function SignUp({ data }) {
         </Grid>
       </div>
     </div>
-  );
+  )
 }
 
 export async function getServerSideProps({ req }) {
-  let headers = {};
-  const session = await getSession({ req });
+  let headers = {}
+  const session = await getSession({ req })
   if (session) {
-    headers = { Authorization: `Bearer ${session.jwt}` };
+    headers = { Authorization: `Bearer ${session.jwt}` }
   }
-  let journals = [];
+  let journals = []
   try {
     let { data } = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/users`, {
       headers: headers,
-    });
-    journals = data;
+    })
+    journals = data
   } catch (e) {
-    console.log("caught error");
-    journals = [];
+    console.log("caught error")
+    journals = []
   }
 
-  return { props: { journals: "journals" } };
+  return { props: { journals: "journals" } }
 }

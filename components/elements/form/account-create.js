@@ -1,13 +1,13 @@
-import { fetchAPI } from "utils/api";
-import * as yup from "yup";
-import { Formik, Form, Field } from "formik";
-import { Btn2 } from "../button";
-import React, { useState } from "react";
-import { TextField } from "formik-material-ui";
+import { fetchAPI } from "utils/api"
+import * as yup from "yup"
+import { Formik, Form, Field } from "formik"
+import { Btn2 } from "../button"
+import React, { useState } from "react"
+import { TextField } from "formik-material-ui"
 
 const CreateAccountForm = () => {
-  const [loadingWheel, setLoadingWheel] = useState(false);
-  const [successMessage, setSuccessMessage] = useState(false);
+  const [loadingWheel, setLoadingWheel] = useState(false)
+  const [successMessage, setSuccessMessage] = useState(false)
 
   const RegistrationSchema = yup.object().shape({
     email: yup.string().email().required(),
@@ -15,7 +15,7 @@ const CreateAccountForm = () => {
     password: yup.string().required(),
     lastname: yup.string().required(),
     organization: yup.string().required(),
-  });
+  })
 
   return (
     <div
@@ -39,9 +39,9 @@ const CreateAccountForm = () => {
           onSubmit={async (values, actions) => {
             actions.setStatus({
               success: "Your account is now awaiting approval",
-            });
+            })
             try {
-              actions.setErrors({ api: null });
+              actions.setErrors({ api: null })
               const response = await fetchAPI("/auth/local/register", {
                 method: "post",
                 body: JSON.stringify({
@@ -53,15 +53,15 @@ const CreateAccountForm = () => {
                   username: values.email,
                   // location: data.location,
                 }),
-              });
-              console.log(response);
-              setSuccessMessage(true);
+              })
+              console.log(response)
+              setSuccessMessage(true)
             } catch (err) {
               if (err.message === "Failed to fetch") {
-                console.log("failed to fetch");
+                console.log("failed to fetch")
               } else {
-                setSuccessMessage(false);
-                actions.setErrors({ api: err.message });
+                setSuccessMessage(false)
+                actions.setErrors({ api: err.message })
               }
             }
           }}
@@ -143,7 +143,7 @@ const CreateAccountForm = () => {
         </Formik>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default CreateAccountForm;
+export default CreateAccountForm
