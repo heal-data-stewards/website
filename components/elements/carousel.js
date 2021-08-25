@@ -1,11 +1,9 @@
 import React, { useState, useEffect, useCallback } from "react"
 import { useEmblaCarousel } from "embla-carousel/react"
-import Markdown from "react-markdown"
 import Image from "next/image"
 import slide1 from "../../public/carousel1.jpeg"
 import slide2 from "../../public/carousel2.jpeg"
-import Paper from "@material-ui/core/Paper"
-import slide3 from "../../public/slider3.jpeg"
+import slideIMG3 from "../../public/3slide.jpg"
 
 const PrevButton = ({ enabled, onClick }) => (
   <button
@@ -53,7 +51,15 @@ export const EmblaCarousel = () => {
   }, [embla, onSelect])
 
   return (
-    <div className="embla" ref={viewportRef} style={{ color: "#373a3c" }}>
+    <div
+      className="embla"
+      ref={viewportRef}
+      style={{
+        color: "#373a3c",
+        marginTop: "44px",
+        background: "rgb(229 224 230 / 28%)",
+      }}
+    >
       <div className="embla__container">
         <div className="embla__slide">
           <section className="container flex flex-col md:flex-row items-center justify-between pt-12">
@@ -74,13 +80,20 @@ export const EmblaCarousel = () => {
               <br></br>
               {/* Description paragraph */}
               <p className="text-xl mb-6">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-                enim ad minim veniam, quis nostrud exercitation ullamco laboris
-                nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor
-                in reprehenderit in voluptate velit esse cillum dolore eu fugiat
-                nulla pariatur. Excepteur sint occaecat cupidatat non proident,
-                sunt in culpa qui officia deserunt mollit anim id est laborum.
+                Repository selection is a critical decision for each study PI
+                and program. Our{" "}
+                <a
+                  target="_blank"
+                  href="https://docs.google.com/document/d/17gkJ-L1Kt4aNVa-VYIppoWopiZlSrJn-KJWAD6tlowA/edit#heading=h.o9m8bb15b8ll"
+                  style={{ color: "blue" }}
+                  rel="noreferrer"
+                >
+                  HEAL Repository Recommendations
+                </a>{" "}
+                provide considerations that the HEAL Stewards believe to be a
+                useful framework in making a repository selection. This
+                framework will evolve over time as we work with HEAL program
+                members.
               </p>
               {/* Buttons row */}
               {/* <div className="flex flex-row flex-wrap gap-4">
@@ -106,38 +119,25 @@ export const EmblaCarousel = () => {
               <br></br>
               {/* Big title */}
               <h1 className="title mt-2 sm:mt-0 mb-4 sm:mb-2">
-                Lorem ipsum dolor sit amet,
+                Dip your toes into data curation according to common standards
               </h1>
               <br></br>
               {/* Description paragraph */}
               <p className="text-xl mb-6">
-                {/* The{" "}
+                To learn more about machine readable formats and data modeling
+                standards you can use to make your data easy to find for
+                researchers,{" "}
                 <a
-                  href="https://healdata.org/"
+                  style={{ color: "blue" }}
                   target="_blank"
-                  style={{ color: "#0044b3" }}
+                  href="https://docs.google.com/document/d/1MapiBwyilfY7QtKCZ2IcqWxbmfYaupzMhgP0jHCCvwE/edit"
                   rel="noreferrer"
                 >
-                  HEAL Data Platform
-                </a>{" "} */}
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-                enim ad minim veniam, quis nostrud exercitation ullamco laboris
-                nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor
-                in reprehenderit in voluptate velit esse cillum dolore eu fugiat
-                nulla pariatur. Excepteur sint occaecat cupidatat non proident,
-                sunt in culpa qui officia deserunt mollit anim id est laborum.
+                  see the HEAL Data Standards guide.
+                </a>{" "}
+                It outlines controlled vocabularies, ontologies, and other tools
+                for FAIR curation as it applies to your data.
               </p>
-              {/* Buttons row */}
-              {/* <div className="flex flex-row flex-wrap gap-4">
-    {data.buttons.map((button) => (
-      <ButtonLink
-        button={button}
-        appearance={getButtonAppearance(button.type, "light")}
-        key={button.id}
-      />
-    ))}
-  </div> */}
             </div>
             {/* Right column for the image */}
             <div className="flex-shrink-0 w-full md:w-6/12 mt-6 md:mt-0 ">
@@ -186,7 +186,8 @@ export const EmblaCarousel = () => {
             </div>
             {/* Right column for the image */}
             <div className="flex-shrink-0 w-full md:w-6/12 mt-6 md:mt-0 img-fix">
-              <Image src={slide3} alt="img" />
+              {/* {test} */}
+              <Image src={slideIMG3} alt="img" />
             </div>
           </section>
         </div>
