@@ -24,6 +24,7 @@
     "hdb-pool": "^0.1.6",
     "js-cookie": "3.0.0-rc.4",
     "mongodb": "^4.1.1",
+    "mysql": "^2.18.1",
     "next": "^11.0.0",
     "next-auth": "^3.28.0",
     "next-seo": "^4.7.1",
