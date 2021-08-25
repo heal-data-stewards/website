@@ -38,7 +38,7 @@ const LoginForm = () => {
               password,
               // The page where you want to redirect to after a
               // successful login
-              callbackUrl: `https://staging.healdatafair.org`,
+              callbackUrl: `https://staging.healdatafair.org/`,
             })
           }}
         >

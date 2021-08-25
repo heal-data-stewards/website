@@ -40,6 +40,8 @@ const options = {
     jwt: true,
   },
   pages: {
+    signIn: "/account",
+    signOut: "/resources",
     error: "/sign-up", // Error code passed in query string as ?error=
   },
 
@@ -58,6 +60,8 @@ const options = {
         // token.picture = user.user.picture.url;
       }
       redirect: async (url, baseUrl) => {
+        console.log(url)
+        console.log(baseUrl)
         return url.startsWith(baseUrl)
           ? Promise.resolve(url)
           : Promise.resolve(baseUrl)
