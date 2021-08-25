@@ -1,8 +1,6 @@
 import React, { useState, useEffect, useCallback } from "react"
 import { useEmblaCarousel } from "embla-carousel/react"
 import Image from "next/image"
-import slide1 from "../../public/carousel1.jpeg"
-import slide2 from "../../public/carousel2.jpeg"
 
 const PrevButton = ({ enabled, onClick }) => (
   <button
