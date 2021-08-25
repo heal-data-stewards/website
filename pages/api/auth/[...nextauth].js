@@ -39,7 +39,7 @@ const options = {
   adapter: Adapters.TypeORM.Adapter({
     type: "sqlite", // or mysql, postgresql, mssql
     database: ":memory:",
-    synchronize: true,
+    synchronize: false,
   }),
 
   session: {
