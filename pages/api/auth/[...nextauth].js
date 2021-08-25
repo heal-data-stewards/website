@@ -35,7 +35,7 @@ const options = {
       },
     }),
   ],
-
+  database: process.env.NEXT_PUBLIC_DATABASE_URL,
   session: {
     jwt: true,
   },
