@@ -54,7 +54,6 @@ const CreateAccountForm = () => {
                   // location: data.location,
                 }),
               })
-              console.log(response)
               setSuccessMessage(true)
             } catch (err) {
               if (err.message === "Failed to fetch") {
