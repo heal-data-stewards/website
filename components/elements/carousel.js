@@ -3,7 +3,7 @@ import { useEmblaCarousel } from "embla-carousel/react"
 import Image from "next/image"
 import slide1 from "../../public/carousel1.jpeg"
 import slide2 from "../../public/carousel2.jpeg"
-import slideIMG3 from "../../public/3slide.jpg"
+import slideIMG3 from "../../public/3slide.jpeg"
 
 const PrevButton = ({ enabled, onClick }) => (
   <button
