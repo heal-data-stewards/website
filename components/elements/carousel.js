@@ -107,7 +107,12 @@ export const EmblaCarousel = () => {
             </div>
             {/* Right column for the image */}
             <div className="flex-shrink-0 w-full md:w-6/12 mt-6 md:mt-0 img-fix">
-              <Image src={slide1} alt="img" />
+              <Image
+                src={
+                  "https://heal-community-portal-api.s3.amazonaws.com/small_carousel1_7f57b370b8.jpeg"
+                }
+                alt="img"
+              />
             </div>
           </section>
         </div>
@@ -146,7 +151,12 @@ export const EmblaCarousel = () => {
                 rel="noreferrer"
                 className="img-fix"
               >
-                <Image src={slide2} alt="img" />
+                <Image
+                  src={
+                    "https://heal-community-portal-api.s3.amazonaws.com/small_carousel2_c0d502c422.jpeg"
+                  }
+                  alt="img"
+                />
               </a>
             </div>
           </section>
