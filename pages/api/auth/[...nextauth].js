@@ -57,6 +57,11 @@ const options = {
         token.organization = user.user.organization
         // token.picture = user.user.picture.url;
       }
+      redirect: async (url, baseUrl) => {
+        return url.startsWith(baseUrl)
+          ? Promise.resolve(url)
+          : Promise.resolve(baseUrl)
+      }
       return Promise.resolve(token)
     },
 
