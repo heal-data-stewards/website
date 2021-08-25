@@ -1,18 +1,18 @@
-import * as yup from "yup";
-import { Formik, Form, Field } from "formik";
-import { Btn2 } from "../button";
-import React from "react";
-import { TextField } from "formik-material-ui";
-import { signIn, useSession } from "next-auth/client";
+import * as yup from "yup"
+import { Formik, Form, Field } from "formik"
+import { Btn2 } from "../button"
+import React from "react"
+import { TextField } from "formik-material-ui"
+import { signIn, useSession } from "next-auth/client"
 
 const LoginForm = () => {
-  const [session, loading] = useSession();
+  const [session, loading] = useSession()
 
   const RegistrationSchema = yup.object().shape({
     username: yup.string().required(),
     password: yup.string().required(),
     csrfToken: yup.string(),
-  });
+  })
 
   return (
     <div
@@ -31,8 +31,8 @@ const LoginForm = () => {
           }}
           validationSchema={RegistrationSchema}
           onSubmit={(values) => {
-            const email = values.username;
-            const password = values.password;
+            const email = values.username
+            const password = values.password
             signIn("credentials", {
               redirect: false,
               email,
@@ -40,7 +40,7 @@ const LoginForm = () => {
               // The page where you want to redirect to after a
               // successful login
               // callbackUrl: `https://staging.healdatafair.org/`,
-            });
+            })
           }}
         >
           {({ errors, touched, isSubmitting }) => (
@@ -76,6 +76,6 @@ const LoginForm = () => {
         </Formik>
       </div>
     </div>
-  );
-};
-export default LoginForm;
+  )
+}
+export default LoginForm
