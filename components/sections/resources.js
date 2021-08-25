@@ -24,7 +24,7 @@ const Resource = ({ data }) => {
       </div>
       <hr></hr>
     </main>
-  );
-};
+  )
+}
 
-export default Resource;
+export default Resource
