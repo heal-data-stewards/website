@@ -4,6 +4,7 @@ import React from "react"
 import { TextField } from "formik-material-ui"
 const axios = require("axios")
 import { signIn, useSession } from "next-auth/client"
+import { Btn2 } from "../button"
 
 const EditForm = ({ data }) => {
   // const [loading, setLoading] = useState(false);
@@ -20,7 +21,7 @@ const EditForm = ({ data }) => {
   })
 
   return (
-    <div className="py-10 text-center">
+    <div className="py-10 text-center" style={{ maxWidth: "300px" }}>
       <h1 className="text-3xl mb-10 font-bold mb-2">Edit Form</h1>
       <div className="flex flex-col items-center">
         <Formik
@@ -95,11 +96,7 @@ const EditForm = ({ data }) => {
                   placeholder={"Email address"}
                   component={TextField}
                 />
-                <Field
-                  as="select"
-                  name="userrole"
-                  style={{ maxWidth: "250px" }}
-                >
+                <Field as="select" name="userrole" style={{ width: "100%" }}>
                   <option value="Working on a HEAL-funded program">
                     Working on a HEAL-funded program
                   </option>
@@ -115,11 +112,7 @@ const EditForm = ({ data }) => {
                   <option value="Partner">Partner</option>
                   <option value="Other">Other</option>
                 </Field>
-                <Field
-                  as="select"
-                  name="programarea"
-                  style={{ maxWidth: "250px" }}
-                >
+                <Field as="select" name="programarea" style={{ width: "100%" }}>
                   <option value="Discovery and Validation of Novel Targets for Safe and Effective Treatment of Pain">
                     Discovery and Validation of Novel Targets for Safe and
                     Effective Treatment of Pain
@@ -205,7 +198,7 @@ const EditForm = ({ data }) => {
                 <Field
                   as="select"
                   name="roleInProgramArea"
-                  style={{ maxWidth: "250px" }}
+                  style={{ width: "100%" }}
                 >
                   <option value="NIH Program Officer">
                     NIH Program Officer
@@ -227,14 +220,13 @@ const EditForm = ({ data }) => {
                   </option>
                   <option value="Other">Other</option>
                 </Field>
-                <button
+                <Btn2
                   type="submit"
+                  button={{ text: "Submit" }}
 
                   // disabled={isSubmitting}
                   // loading={loading}
-                >
-                  submit
-                </button>
+                />
               </Form>
             </div>
           )}
