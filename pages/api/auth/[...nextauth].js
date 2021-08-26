@@ -57,14 +57,15 @@ const options = {
         token.firstname = user.user.firstname
         token.lastname = user.user.lastname
         token.organization = user.user.organization
+        token.userrole = user.user.userrole
+        token.programarea = user.user.programarea
+        token.roleInProgramArea = user.user.roleInProgramArea
         // token.picture = user.user.picture.url;
       }
 
       return Promise.resolve(token)
     },
     redirect: async (url, baseUrl) => {
-      console.log(url)
-      console.log(baseUrl)
       return url.startsWith(baseUrl)
         ? Promise.resolve(url)
         : Promise.resolve(baseUrl)
@@ -75,6 +76,9 @@ const options = {
       session.firstname = user.firstname
       session.lastname = user.lastname
       session.organization = user.organization
+      session.userrole = user.userrole
+      session.programarea = user.programarea
+      session.roleInProgramArea = user.roleInProgramArea
       // session.picture = user.picture;
       return Promise.resolve(session)
     },
