@@ -24,6 +24,7 @@ import { Btn, Btn2 } from "../elements/button"
 const Navbar = ({ navbar, pageContext }) => {
   const [session, loading] = useSession()
   const [mobileMenuIsShown, setMobileMenuIsShown] = useState(false)
+  const [loggedIn, setLoggedIn] = useState(false)
   const [navigationItems, setNavigationItems] = useState([
     {
       id: 27,
@@ -34,10 +35,19 @@ const Navbar = ({ navbar, pageContext }) => {
   ])
 
   useEffect(() => {
-    if (session) {
+    if (session || loggedIn) {
       setNavigationItems(navbar.links)
+    } else {
+      setNavigationItems([
+        {
+          id: 27,
+          url: "/resources",
+          newTab: false,
+          text: "RESOURCES",
+        },
+      ])
     }
-  }, [session, navbar.links])
+  }, [session, navbar.links, loggedIn])
   const router = useRouter()
   const handleLogOut = () => {
     signOut({ redirect: false })
@@ -109,6 +119,7 @@ const Navbar = ({ navbar, pageContext }) => {
                     <Btn
                       handleClick={handleLogOut}
                       button={{ text: "Log Out" }}
+                      setLoggedIn={setLoggedIn}
                     />
                   </>
                 )}

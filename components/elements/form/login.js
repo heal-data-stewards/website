@@ -5,7 +5,7 @@ import React from "react"
 import { TextField } from "formik-material-ui"
 import { signIn, useSession } from "next-auth/client"
 
-const LoginForm = () => {
+const LoginForm = ({ setLoggedIn }) => {
   const [session, loading] = useSession()
 
   const RegistrationSchema = yup.object().shape({
@@ -41,6 +41,7 @@ const LoginForm = () => {
               // successful login
               // callbackUrl: "https://staging.healdatafair.org/",
             })
+            setLoggedIn(true)
           }}
         >
           {({ errors, touched, isSubmitting }) => (
