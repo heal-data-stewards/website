@@ -39,6 +39,9 @@ const Navbar = ({ navbar, pageContext }) => {
     }
   }, [session, navbar.links])
   const router = useRouter()
+  const handleLogOut = () => {
+    signOut({ redirect: false })
+  }
 
   if (loading) return null
 
@@ -103,7 +106,10 @@ const Navbar = ({ navbar, pageContext }) => {
                 )}
                 {session && (
                   <>
-                    <Btn handleClick={signOut} button={{ text: "Log Out" }} />
+                    <Btn
+                      handleClick={handleLogOut}
+                      button={{ text: "Log Out" }}
+                    />
                   </>
                 )}
               </div>
