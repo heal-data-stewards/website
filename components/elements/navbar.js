@@ -103,7 +103,10 @@ const Navbar = ({ navbar, pageContext }) => {
                 )}
                 {session && (
                   <>
-                    <Btn handleClick={signOut} button={{ text: "Log Out" }} />
+                    <Btn
+                      handleClick={signOut({ redirect: false })}
+                      button={{ text: "Log Out" }}
+                    />
                   </>
                 )}
               </div>

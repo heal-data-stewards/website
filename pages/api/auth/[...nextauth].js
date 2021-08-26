@@ -41,7 +41,7 @@ const options = {
   },
   pages: {
     signIn: "/account",
-    signOut: "/resources",
+    signOut: "/account",
     error: "/sign-up", // Error code passed in query string as ?error=
   },
 
