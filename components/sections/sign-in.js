@@ -153,7 +153,59 @@ export default function SignIn(initialData) {
                       {session.organization}
                     </span>
                     <br></br> <br></br>
-                    <Divider />
+                  </div>
+                  <Divider /> <br></br>
+                  <div>
+                    <span
+                      className="text-xl font-bold"
+                      style={{
+                        minWidth: "150px",
+                        paddingRight: "50px",
+                        display: "inline-block",
+                      }}
+                    >
+                      What is your role in the HEAL Initiative?
+                    </span>
+                    <span className="text-lg text-gray-dark">
+                      {session.userrole}
+                    </span>
+                    <br></br> <br></br>
+                  </div>
+                  <Divider /> <br></br>
+                  <div>
+                    <span
+                      className="text-xl font-bold"
+                      style={{
+                        minWidth: "150px",
+                        paddingRight: "50px",
+                        display: "inline-block",
+                      }}
+                    >
+                      If you are working on a HEAL-funded initiative, please
+                      choose your program area.
+                    </span>
+                    <span className="text-lg text-gray-dark">
+                      {session.programarea}
+                    </span>
+                    <br></br> <br></br>
+                  </div>
+                  <Divider /> <br></br>
+                  <div>
+                    <span
+                      className="text-xl font-bold"
+                      style={{
+                        minWidth: "150px",
+                        paddingRight: "50px",
+                        display: "inline-block",
+                      }}
+                    >
+                      If you are working on a HEAL-funed initiative, please
+                      share your role.
+                    </span>
+                    <span className="text-lg text-gray-dark">
+                      {session.roleInProgramArea}
+                    </span>
+                    <br></br> <br></br>
                   </div>
                   <Button
                     onClick={() => handleOpen()}

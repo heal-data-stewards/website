@@ -95,7 +95,11 @@ const EditForm = ({ data }) => {
                   placeholder={"Email address"}
                   component={TextField}
                 />
-                <Field as="select" name="userrole">
+                <Field
+                  as="select"
+                  name="userrole"
+                  style={{ maxWidth: "250px" }}
+                >
                   <option value="Working on a HEAL-funded program">
                     Working on a HEAL-funded program
                   </option>
@@ -111,7 +115,11 @@ const EditForm = ({ data }) => {
                   <option value="Partner">Partner</option>
                   <option value="Other">Other</option>
                 </Field>
-                <Field as="select" name="programarea">
+                <Field
+                  as="select"
+                  name="programarea"
+                  style={{ maxWidth: "250px" }}
+                >
                   <option value="Discovery and Validation of Novel Targets for Safe and Effective Treatment of Pain">
                     Discovery and Validation of Novel Targets for Safe and
                     Effective Treatment of Pain
@@ -194,7 +202,11 @@ const EditForm = ({ data }) => {
                   </option>
                   <option value="Not Applicable">Not Applicable</option>
                 </Field>
-                <Field as="select" name="roleInProgramArea">
+                <Field
+                  as="select"
+                  name="roleInProgramArea"
+                  style={{ maxWidth: "250px" }}
+                >
                   <option value="NIH Program Officer">
                     NIH Program Officer
                   </option>
