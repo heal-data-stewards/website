@@ -34,7 +34,7 @@ const LoginForm = () => {
             const email = values.username
             const password = values.password
             signIn("credentials", {
-              // redirect: false,
+              redirect: false,
               email,
               password,
               // The page where you want to redirect to after a
