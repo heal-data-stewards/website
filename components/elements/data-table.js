@@ -37,7 +37,8 @@ export default function DataTable() {
   useEffect(() => {
     getAllUsers()
       .then(function (result) {
-        return result.map((user) => {
+        const users = result.filter((user) => user.confirmed === true)
+        return users.map((user) => {
           return createData(
             user.id,
             user.firstname,

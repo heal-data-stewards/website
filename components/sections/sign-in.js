@@ -1,6 +1,6 @@
 import { signIn, signOut, useSession, getSession } from "next-auth/client"
 import axios from "axios"
-import React from "react"
+import React, { useState } from "react"
 import { makeStyles } from "@material-ui/core/styles"
 import Card from "@material-ui/core/Card"
 import CardActions from "@material-ui/core/CardActions"
@@ -39,6 +39,7 @@ const useStyles = makeStyles({
 
 export default function SignIn(initialData) {
   const [session, loading] = useSession()
+  const [data, setData] = useState({ ...session })
   const classes = useStyles()
   const [open, setOpen] = React.useState(false)
 
@@ -92,10 +93,12 @@ export default function SignIn(initialData) {
                     {session.user.name}
                   </Typography>
                   <Typography variant="h5" component="h2">
-                    {session.firstname + " " + session.lastname}
+                    {(data.firstname || session.firstname) +
+                      " " +
+                      (data.lastname || session.lastname)}
                   </Typography>
                   <Typography className={classes.pos} color="textSecondary">
-                    {session.organization}
+                    {data.organization}
                   </Typography>
                 </CardContent>
               </Card>
@@ -110,7 +113,9 @@ export default function SignIn(initialData) {
                       Full Name{" "}
                     </span>
                     <span className="text-lg text-gray-dark">
-                      {session.firstname + " " + session.lastname}
+                      {(data.firstname || session.firstname) +
+                        " " +
+                        (data.lastname || session.lastname)}
                     </span>
                   </div>
                   <br></br>
@@ -137,7 +142,7 @@ export default function SignIn(initialData) {
                       Email{" "}
                     </span>
                     <span className="text-lg text-gray-dark">
-                      {session.user.email}
+                      {session.email}
                     </span>
                   </p>
                   <br></br>
@@ -150,7 +155,7 @@ export default function SignIn(initialData) {
                       Organization{" "}
                     </span>
                     <span className="text-lg text-gray-dark">
-                      {session.organization}
+                      {data.organization || session.organization}
                     </span>
                     <br></br> <br></br>
                   </div>
@@ -167,7 +172,7 @@ export default function SignIn(initialData) {
                       What is your role in the HEAL Initiative?
                     </span>
                     <span className="text-lg text-gray-dark">
-                      {session.userrole}
+                      {data.userrole || session.userrole}
                     </span>
                     <br></br> <br></br>
                   </div>
@@ -185,7 +190,7 @@ export default function SignIn(initialData) {
                       choose your program area.
                     </span>
                     <span className="text-lg text-gray-dark">
-                      {session.programarea}
+                      {data.programarea || session.programarea}
                     </span>
                     <br></br> <br></br>
                   </div>
@@ -203,7 +208,8 @@ export default function SignIn(initialData) {
                       share your role.
                     </span>
                     <span className="text-lg text-gray-dark">
-                      {session.roleInProgramArea}
+                      {/* {console.log(data)} */}
+                      {data.roleInProgramArea || session.roleInProgramArea}
                     </span>
                     <br></br> <br></br>
                   </div>
@@ -219,7 +225,12 @@ export default function SignIn(initialData) {
                   </Button>
                 </CardContent>
                 <TransitionsModal open={open} handleClose={() => handleClose()}>
-                  <EditForm />
+                  <EditForm
+                    setData={setData}
+                    data={data}
+                    handleClose={handleClose}
+                    session2={session}
+                  />
                 </TransitionsModal>
               </Card>
             </div>

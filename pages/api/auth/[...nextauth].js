@@ -75,6 +75,7 @@ const options = {
       session.id = user.id
       session.firstname = user.firstname
       session.lastname = user.lastname
+      session.email = user.email
       session.organization = user.organization
       session.userrole = user.userrole
       session.programarea = user.programarea

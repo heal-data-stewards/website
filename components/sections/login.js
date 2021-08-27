@@ -20,15 +20,7 @@ export default function LoginSection(props) {
 
   return (
     <div className={classes.root}>
-      <div
-      // style={{
-      //   backgroundImage: "url(" + "/dna.png" + ")",
-      //   backgroundRepeat: "no-repeat",
-      //   backgroundSize: "contain",
-      //   backgroundPosition: "left",
-      //   minHeight: "500px",
-      // }}
-      >
+      <div>
         <Grid container spacing={0} className="container">
           <Grid item xs={12} md={3}></Grid>
           <Grid item xs={12} md={9}>

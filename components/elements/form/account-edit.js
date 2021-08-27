@@ -6,7 +6,7 @@ const axios = require("axios")
 import { signIn, useSession } from "next-auth/client"
 import { Btn2 } from "../button"
 
-const EditForm = ({ data }) => {
+const EditForm = ({ setData, data, handleClose, session2 }) => {
   // const [loading, setLoading] = useState(false);
   const [session, loading] = useSession()
 
@@ -26,13 +26,14 @@ const EditForm = ({ data }) => {
       <div className="flex flex-col items-center">
         <Formik
           initialValues={{
-            firstname: session.firstname || "",
-            lastname: session.lastname || "",
-            organization: session.organization || "",
-            email: session.user.email || "",
-            userrole: session.userrole || "",
-            programarea: session.programarea || "",
-            roleInProgramArea: session.roleInProgramArea || "",
+            firstname: session.firstname || data.firstname,
+            lastname: session.lastname || data.lastname,
+            organization: session.organization || data.organization,
+            email: session.user.email || session2.user.email,
+            userrole: session.userrole || data.userrole,
+            programarea: session.programarea || data.programarea,
+            roleInProgramArea:
+              session.roleInProgramArea || data.roleInProgramArea,
           }}
           validationSchema={LeadSchema}
           onSubmit={async (values, { setSubmitting, setErrors }) => {
@@ -40,27 +41,34 @@ const EditForm = ({ data }) => {
             try {
               const path = `${process.env.NEXT_PUBLIC_STRAPI_API_URL}/users/${session.id}`
               setErrors({ api: null })
-              const res = await axios.put(
-                path,
-                {
-                  firstname: values.firstname,
-                  lastname: values.lastname,
-                  organization: values.organization,
-                  email: values.email,
-                  userrole: values.userrole,
-                  programarea: values.programarea,
-                  roleInProgramArea: values.roleInProgramArea,
-                },
-                {
-                  headers: {
-                    Authorization: `Bearer ${session.jwt}`,
+              const res = await axios
+                .put(
+                  path,
+                  {
+                    firstname: values.firstname,
+                    lastname: values.lastname,
+                    organization: values.organization,
+                    email: values.email,
+                    userrole: values.userrole,
+                    programarea: values.programarea,
+                    roleInProgramArea: values.roleInProgramArea,
                   },
-                }
-              )
+                  {
+                    headers: {
+                      Authorization: `Bearer ${session.jwt}`,
+                    },
+                  }
+                )
+                .then((res) => {
+                  const data = res.data
+                  setData({ ...data })
+                  handleClose()
+                  // return;
+                })
             } catch (err) {
               setErrors({ api: err.message })
             }
-            signIn()
+            // signIn();
             // setLoading(false)
             // setSubmitting(false)
           }}
