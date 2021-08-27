@@ -1,12 +1,13 @@
 import * as yup from "yup"
 import { Formik, Form, Field } from "formik"
 import { Btn2 } from "../button"
-import React from "react"
+import React, { useState } from "react"
 import { TextField } from "formik-material-ui"
 import { signIn, useSession } from "next-auth/client"
 
 const LoginForm = ({ setLoggedIn }) => {
   const [session, loading] = useSession()
+  const [errorNotice, setError] = useState(false)
 
   const RegistrationSchema = yup.object().shape({
     username: yup.string().required(),
@@ -30,7 +31,7 @@ const LoginForm = ({ setLoggedIn }) => {
             csrfToken: "",
           }}
           validationSchema={RegistrationSchema}
-          onSubmit={(values) => {
+          onSubmit={(values, { resetForm }) => {
             const email = values.username
             const password = values.password
             signIn("credentials", {
@@ -40,8 +41,16 @@ const LoginForm = ({ setLoggedIn }) => {
               // The page where you want to redirect to after a
               // successful login
               // callbackUrl: "https://staging.healdatafair.org/",
+            }).then((res) => {
+              // console.log(res);
+              if (res.status === 401) {
+                resetForm()
+                setError(true)
+              } else {
+                setError(false)
+              }
             })
-            setLoggedIn(true)
+            // setLoggedIn(true)
           }}
         >
           {({ errors, touched, isSubmitting }) => (
@@ -70,7 +79,12 @@ const LoginForm = ({ setLoggedIn }) => {
                   button={{ text: "Log In" }}
                   disabled={isSubmitting}
                   loading={loading}
-                />
+                />{" "}
+                {errorNotice && (
+                  <span style={{ color: "red", margin: "7px 0 0 0" }}>
+                    This account has not been approved and/or created
+                  </span>
+                )}
               </Form>
             </div>
           )}
