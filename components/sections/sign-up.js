@@ -45,7 +45,7 @@ export default function SignUp({ data }) {
                 }}
               >
                 <h1 className="text-3xl mb-10 font-bold mb-2">
-                  {data.heading || "Sign Up"}
+                  SIGN UP
                 </h1>
               </div>
               <CreateAccountForm />

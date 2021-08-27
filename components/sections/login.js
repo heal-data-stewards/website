@@ -37,7 +37,7 @@ export default function LoginSection(props) {
                 }}
               >
                 <h1 className="text-3xl mb-10 font-bold mb-2">
-                  Lorem Ipsum login text etc dsk jgfhs no dolphins allowed
+                  LOGIN
                 </h1>
               </div>
               <LoginForm />
