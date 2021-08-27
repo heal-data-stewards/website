@@ -34,6 +34,7 @@ const CreateAccountForm = () => {
             lastname: "",
             password: "",
             organization: "",
+            userrole: "",
           }}
           validationSchema={RegistrationSchema}
           onSubmit={async (values, actions) => {
@@ -51,6 +52,7 @@ const CreateAccountForm = () => {
                   lastname: values.lastname,
                   password: values.password,
                   username: values.email,
+                  userrole: values.userrole,
                   // location: data.location,
                 }),
               })
@@ -88,7 +90,7 @@ const CreateAccountForm = () => {
                 />
                 <Field
                   className="text-base focus:outline-none py-4 md:py-0 px-4 border-2 rounded-md"
-                  type="email"
+                  type="text"
                   name="email"
                   placeholder={"Email"}
                   component={TextField}
@@ -111,9 +113,18 @@ const CreateAccountForm = () => {
                 />
                 <Field
                   className="text-base focus:outline-none py-4 md:py-0 px-4 border-2 rounded-md"
-                  type="organization"
+                  type="text"
                   name="organization"
                   placeholder={"Organization"}
+                  component={TextField}
+                  variant="outlined"
+                  fullWidth
+                />
+                <Field
+                  className="text-base focus:outline-none py-4 md:py-0 px-4 border-2 rounded-md"
+                  type="text"
+                  name="userrole"
+                  placeholder={"What is your role in the HEAL Initiative?"}
                   component={TextField}
                   variant="outlined"
                   fullWidth
