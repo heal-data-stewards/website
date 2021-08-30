@@ -15,6 +15,7 @@ const CreateAccountForm = () => {
     password: yup.string().required(),
     lastname: yup.string().required(),
     organization: yup.string().required(),
+    userrole: yup.string().required(),
   })
 
   return (
@@ -70,37 +71,37 @@ const CreateAccountForm = () => {
           {({ errors, touched, isSubmitting, status, values }) => (
             <div>
               <Form className="flex flex-wrap flex-col md:flex-row gap-4">
-                <label htmlFor="firstname">First Name</label>
-                <br></br>
                 <Field
                   className="text-base focus:outline-none py-4 md:py-0 px-4 border-2 rounded-md"
                   type="text"
                   name="firstname"
+                  label={"First Name"}
                   placeholder={"First Name"}
                   component={TextField}
                   variant="outlined"
+                  required
                   fullWidth
                 />
-                <label htmlFor="lastname">Last Name</label>
-                <br></br>
                 <Field
                   className="text-base focus:outline-none py-4 md:py-0 px-4 border-2 rounded-md"
                   type="text"
                   name="lastname"
+                  label={"Last Name"}
                   placeholder={"Last Name"}
                   component={TextField}
                   variant="outlined"
+                  required
                   fullWidth
                 />
-                <label htmlFor="email">Email</label>
-                <br></br>
                 <Field
                   className="text-base focus:outline-none py-4 md:py-0 px-4 border-2 rounded-md"
                   type="text"
                   name="email"
+                  label={"Email"}
                   placeholder={"Email"}
                   component={TextField}
                   variant="outlined"
+                  required
                   fullWidth
                 />{" "}
                 {errors.api && (
@@ -108,41 +109,38 @@ const CreateAccountForm = () => {
                     <p style={{ color: "red" }}>Email already exists</p>
                   </>
                 )}
-                <label htmlFor="password">Password</label>
-                <br></br>
                 <Field
                   className="text-base focus:outline-none py-4 md:py-0 px-4 border-2 rounded-md"
-                  type="passsword"
                   id="password"
                   name="password"
+                  label="Password"
+                  type="password"
                   placeholder={"Password"}
                   required
                   component={TextField}
                   variant="outlined"
                   fullWidth
                 />
-                <label htmlFor="organization">Organization</label>
-                <br></br>
                 <Field
                   className="text-base focus:outline-none py-4 md:py-0 px-4 border-2 rounded-md"
                   type="text"
                   name="organization"
+                  label="Organization"
                   placeholder={"Organization"}
                   component={TextField}
                   variant="outlined"
+                  required
                   fullWidth
                 />
-                <label htmlFor="userrole">
-                  What is your role in the HEAL Initiative?
-                </label>
-                <br></br>
                 <Field
                   className="text-base focus:outline-none py-4 md:py-0 px-4 border-2 rounded-md"
                   type="text"
                   name="userrole"
+                  label={"What is your role in the HEAL Initiative?"}
                   placeholder={"What is your role in the HEAL Initiative?"}
                   component={TextField}
                   variant="outlined"
+                  required
                   fullWidth
                 />
                 <Btn2
