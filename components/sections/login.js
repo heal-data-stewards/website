@@ -36,9 +36,7 @@ export default function LoginSection(props) {
                   margin: "0 auto",
                 }}
               >
-                <h1 className="text-3xl mb-10 font-bold mb-2">
-                  LOGIN
-                </h1>
+                <h1 className="text-3xl mb-10 font-bold mb-2">LOGIN</h1>
               </div>
               <LoginForm />
             </Paper>
