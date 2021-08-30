@@ -44,9 +44,7 @@ export default function SignUp({ data }) {
                   margin: "0 auto",
                 }}
               >
-                <h1 className="text-3xl mb-10 font-bold mb-2">
-                  SIGN UP
-                </h1>
+                <h1 className="text-3xl mb-10 font-bold mb-2">SIGN UP</h1>
               </div>
               <CreateAccountForm />
             </Paper>

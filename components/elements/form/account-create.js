@@ -67,9 +67,11 @@ const CreateAccountForm = () => {
             }
           }}
         >
-          {({ errors, touched, isSubmitting, status }) => (
+          {({ errors, touched, isSubmitting, status, values }) => (
             <div>
               <Form className="flex flex-wrap flex-col md:flex-row gap-4">
+                <label htmlFor="firstname">First Name</label>
+                <br></br>
                 <Field
                   className="text-base focus:outline-none py-4 md:py-0 px-4 border-2 rounded-md"
                   type="text"
@@ -78,7 +80,9 @@ const CreateAccountForm = () => {
                   component={TextField}
                   variant="outlined"
                   fullWidth
-                />{" "}
+                />
+                <label htmlFor="lastname">Last Name</label>
+                <br></br>
                 <Field
                   className="text-base focus:outline-none py-4 md:py-0 px-4 border-2 rounded-md"
                   type="text"
@@ -88,6 +92,8 @@ const CreateAccountForm = () => {
                   variant="outlined"
                   fullWidth
                 />
+                <label htmlFor="email">Email</label>
+                <br></br>
                 <Field
                   className="text-base focus:outline-none py-4 md:py-0 px-4 border-2 rounded-md"
                   type="text"
@@ -102,15 +108,21 @@ const CreateAccountForm = () => {
                     <p style={{ color: "red" }}>Email already exists</p>
                   </>
                 )}
+                <label htmlFor="password">Password</label>
+                <br></br>
                 <Field
                   className="text-base focus:outline-none py-4 md:py-0 px-4 border-2 rounded-md"
                   type="passsword"
+                  id="password"
                   name="password"
                   placeholder={"Password"}
+                  required
                   component={TextField}
                   variant="outlined"
                   fullWidth
                 />
+                <label htmlFor="organization">Organization</label>
+                <br></br>
                 <Field
                   className="text-base focus:outline-none py-4 md:py-0 px-4 border-2 rounded-md"
                   type="text"
@@ -120,6 +132,10 @@ const CreateAccountForm = () => {
                   variant="outlined"
                   fullWidth
                 />
+                <label htmlFor="userrole">
+                  What is your role in the HEAL Initiative?
+                </label>
+                <br></br>
                 <Field
                   className="text-base focus:outline-none py-4 md:py-0 px-4 border-2 rounded-md"
                   type="text"
