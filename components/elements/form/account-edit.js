@@ -6,7 +6,7 @@ const axios = require("axios")
 import { signIn, useSession } from "next-auth/client"
 import { Btn2 } from "../button"
 
-const EditForm = ({ setData, data, handleClose, session2 }) => {
+const EditForm = ({ setData, data, handleClose }) => {
   // const [loading, setLoading] = useState(false);
   const [session, loading] = useSession()
 
@@ -26,14 +26,13 @@ const EditForm = ({ setData, data, handleClose, session2 }) => {
       <div className="flex flex-col items-center">
         <Formik
           initialValues={{
-            firstname: session.firstname || data.firstname,
-            lastname: session.lastname || data.lastname,
-            organization: session.organization || data.organization,
-            email: session.user.email || session2.user.email,
-            userrole: session.userrole || data.userrole,
-            programarea: session.programarea || data.programarea,
-            roleInProgramArea:
-              session.roleInProgramArea || data.roleInProgramArea,
+            firstname: data.firstname,
+            lastname: data.lastname,
+            organization: data.organization,
+            email: data.email,
+            userrole: data.userrole,
+            programarea: data.programarea,
+            roleInProgramArea: data.roleInProgramArea,
           }}
           validationSchema={LeadSchema}
           onSubmit={async (values, { setSubmitting, setErrors }) => {

@@ -1,6 +1,6 @@
 import { signIn, signOut, useSession, getSession } from "next-auth/client"
 import axios from "axios"
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
 import { makeStyles } from "@material-ui/core/styles"
 import Card from "@material-ui/core/Card"
 import CardActions from "@material-ui/core/CardActions"
@@ -37,17 +37,37 @@ const useStyles = makeStyles({
   },
 })
 
+const callApi = async function asyncCall(session, setData) {
+  const response = await axios
+    .get("https://api.healdatafair.org/users/me", {
+      headers: {
+        Authorization: `Bearer ${session.jwt}`,
+      },
+    })
+    .then(function (response) {
+      setData(response.data)
+      return response
+    })
+}
+
 export default function SignIn(initialData) {
   const [session, loading] = useSession()
-  const [data, setData] = useState({ ...session })
   const classes = useStyles()
   const [open, setOpen] = React.useState(false)
+  const [data, setData] = useState({ ...session })
+
+  useEffect(() => {
+    if (session) {
+      callApi(session, setData)
+    }
+  }, [session])
 
   const handleOpen = () => {
     setOpen(true)
   }
 
   const handleClose = () => {
+    callApi(session, setData)
     setOpen(false)
   }
   return (
@@ -93,9 +113,7 @@ export default function SignIn(initialData) {
                     {session.user.name}
                   </Typography>
                   <Typography variant="h5" component="h2">
-                    {(data.firstname || session.firstname) +
-                      " " +
-                      (data.lastname || session.lastname)}
+                    {data.firstname + " " + data.lastname}
                   </Typography>
                   <Typography className={classes.pos} color="textSecondary">
                     {data.organization}
@@ -113,9 +131,7 @@ export default function SignIn(initialData) {
                       Full Name{" "}
                     </span>
                     <span className="text-lg text-gray-dark">
-                      {(data.firstname || session.firstname) +
-                        " " +
-                        (data.lastname || session.lastname)}
+                      {data.firstname + " " + data.lastname}
                     </span>
                   </div>
                   <br></br>
@@ -155,7 +171,7 @@ export default function SignIn(initialData) {
                       Organization{" "}
                     </span>
                     <span className="text-lg text-gray-dark">
-                      {data.organization || session.organization}
+                      {data.organization}
                     </span>
                     <br></br> <br></br>
                   </div>
@@ -172,7 +188,7 @@ export default function SignIn(initialData) {
                       What is your role in the HEAL Initiative?
                     </span>
                     <span className="text-lg text-gray-dark">
-                      {data.userrole || session.userrole}
+                      {data.userrole}
                     </span>
                     <br></br> <br></br>
                   </div>
@@ -190,7 +206,7 @@ export default function SignIn(initialData) {
                       choose your program area.
                     </span>
                     <span className="text-lg text-gray-dark">
-                      {data.programarea || session.programarea}
+                      {data.programarea}
                     </span>
                     <br></br> <br></br>
                   </div>
@@ -209,7 +225,7 @@ export default function SignIn(initialData) {
                     </span>
                     <span className="text-lg text-gray-dark">
                       {/* {console.log(data)} */}
-                      {data.roleInProgramArea || session.roleInProgramArea}
+                      {data.roleInProgramArea}
                     </span>
                     <br></br> <br></br>
                   </div>
@@ -229,7 +245,6 @@ export default function SignIn(initialData) {
                     setData={setData}
                     data={data}
                     handleClose={handleClose}
-                    session2={session}
                   />
                 </TransitionsModal>
               </Card>
