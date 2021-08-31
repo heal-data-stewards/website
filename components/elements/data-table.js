@@ -54,10 +54,7 @@ export default function DataTable() {
       })
   }, [])
   return (
-    <div
-      style={{ height: 400, width: "100%" }}
-      className={"container mt-10 mb-8"}
-    >
+    <div style={{ height: 600, width: "100%" }} className={"container"}>
       <DataGrid
         rows={users}
         columns={columns}
