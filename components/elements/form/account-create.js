@@ -3,7 +3,8 @@ import * as yup from "yup"
 import { Formik, Form, Field } from "formik"
 import { Btn2 } from "../button"
 import React, { useState } from "react"
-import { TextField } from "formik-material-ui"
+import { TextField, Select } from "formik-material-ui"
+import InputLabel from "@material-ui/core/InputLabel"
 
 const CreateAccountForm = () => {
   const [loadingWheel, setLoadingWheel] = useState(false)
@@ -132,17 +133,78 @@ const CreateAccountForm = () => {
                   required
                   fullWidth
                 />
+                <InputLabel htmlFor="userrole">
+                  What is your role in the HEAL Initiative?
+                </InputLabel>
                 <Field
-                  className="text-base focus:outline-none py-4 md:py-0 px-4 border-2 rounded-md"
-                  type="text"
+                  as="select"
                   name="userrole"
-                  label={"What is your role in the HEAL Initiative?"}
-                  placeholder={"What is your role in the HEAL Initiative?"}
-                  component={TextField}
-                  variant="outlined"
+                  inputProps={{
+                    id: "userrole",
+                  }}
+                  component={Select}
+                  // placeholder={"What is your role in the HEAL Initiative?"}
                   required
                   fullWidth
-                />
+                  style={{ width: "100%" }}
+                >
+                  <option
+                    value="Working on a HEAL-funded program"
+                    style={{ cursor: "pointer" }}
+                    className="text-base hover:text-magenta focus:outline-none py-4 md:py-0 px-4 border-2 rounded-md"
+                  >
+                    Working on a HEAL-funded program
+                  </option>
+                  <option
+                    style={{ cursor: "pointer" }}
+                    value="Community Member"
+                    className="text-base hover:text-magenta focus:outline-none py-4 md:py-0 px-4 border-2 rounded-md"
+                  >
+                    Community Member
+                  </option>
+                  <option
+                    className="text-base hover:text-magenta focus:outline-none py-4 md:py-0 px-4 border-2 rounded-md"
+                    style={{ cursor: "pointer" }}
+                    value="Representative of a Community Organization"
+                  >
+                    Representative of a Community Organization
+                  </option>
+                  <option
+                    style={{ cursor: "pointer" }}
+                    value="Clinician"
+                    className="text-base hover:text-magenta focus:outline-none py-4 md:py-0 px-4 border-2 rounded-md"
+                  >
+                    Clinician
+                  </option>
+                  <option
+                    className="text-base hover:text-magenta focus:outline-none py-4 md:py-0 px-4 border-2 rounded-md"
+                    style={{ cursor: "pointer" }}
+                    value="Non-HEAL Researcher"
+                  >
+                    Non-HEAL Researcher
+                  </option>
+                  <option
+                    className="text-base hover:text-magenta focus:outline-none py-4 md:py-0 px-4 border-2 rounded-md"
+                    style={{ cursor: "pointer" }}
+                    value="Agency"
+                  >
+                    Agency
+                  </option>
+                  <option
+                    className="text-base hover:text-magenta focus:outline-none py-4 md:py-0 px-4 border-2 rounded-md"
+                    style={{ cursor: "pointer" }}
+                    value="Partner"
+                  >
+                    Partner
+                  </option>
+                  <option
+                    className="text-base hover:text-magenta focus:outline-none py-4 md:py-0 px-4 border-2 rounded-md"
+                    style={{ cursor: "pointer" }}
+                    value="Other"
+                  >
+                    Other
+                  </option>
+                </Field>
                 <Btn2
                   type="submit"
                   button={{ text: "Sign Up" }}
