@@ -204,7 +204,7 @@ export default function SignIn(initialData) {
                         display: "inline-block",
                       }}
                     >
-                      If you are working on a HEAL-funed initiative, please
+                      If you are working on a HEAL-funded initiative, please
                       share your role.
                     </span>
                     <span className="text-lg text-gray-dark">
