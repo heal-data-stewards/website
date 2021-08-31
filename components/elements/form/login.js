@@ -67,7 +67,7 @@ const LoginForm = ({ setLoggedIn }) => {
                 />
                 <Field
                   className="text-base focus:outline-none py-4 md:py-0 px-4 border-2 rounded-md"
-                  type="passsword"
+                  type="password"
                   name="password"
                   placeholder={"Password"}
                   component={TextField}
