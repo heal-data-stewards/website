@@ -173,7 +173,7 @@ const Navbar = ({ navbar, pageContext }) => {
               {navigationItems.map((navLink) => (
                 <li key={navLink.id}>
                   <CustomLink link={navLink} locale={router.locale}>
-                    <ListItem className="hover:text-magenta text-purple px-2 py-1">
+                    <ListItem className="hover:text-white hover:bg-magenta text-purple px-2 py-1">
                       <ListItemText>{navLink.text}</ListItemText>
                     </ListItem>
                   </CustomLink>
