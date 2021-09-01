@@ -1,6 +1,9 @@
-import React, { useState, useEffect, useCallback } from "react"
-import { useEmblaCarousel } from "embla-carousel/react"
-import Image from "next/image"
+import React, { useState, useEffect, useCallback } from "react";
+import { useEmblaCarousel } from "embla-carousel/react";
+import { useRecursiveTimeout } from "./carousel/useRecursiveTimeout";
+import Image from "next/image";
+
+const AUTOPLAY_INTERVAL = 6000;
 
 const PrevButton = ({ enabled, onClick }) => (
   <button
@@ -13,7 +16,7 @@ const PrevButton = ({ enabled, onClick }) => (
       <path d="M428.36 12.5c16.67-16.67 43.76-16.67 60.42 0 16.67 16.67 16.67 43.76 0 60.42L241.7 320c148.25 148.24 230.61 230.6 247.08 247.08 16.67 16.66 16.67 43.75 0 60.42-16.67 16.66-43.76 16.67-60.42 0-27.72-27.71-249.45-249.37-277.16-277.08a42.308 42.308 0 0 1-12.48-30.34c0-11.1 4.1-22.05 12.48-30.42C206.63 234.23 400.64 40.21 428.36 12.5z" />
     </svg>
   </button>
-)
+);
 
 const NextButton = ({ enabled, onClick }) => (
   <button
@@ -26,26 +29,42 @@ const NextButton = ({ enabled, onClick }) => (
       <path d="M181.776 107.719L78.705 4.648c-6.198-6.198-16.273-6.198-22.47 0s-6.198 16.273 0 22.47l91.883 91.883-91.883 91.883c-6.198 6.198-6.198 16.273 0 22.47s16.273 6.198 22.47 0l103.071-103.039a15.741 15.741 0 0 0 4.64-11.283c0-4.13-1.526-8.199-4.64-11.313z" />
     </svg>
   </button>
-)
+);
 
 export const EmblaCarousel = () => {
-  const [viewportRef, embla] = useEmblaCarousel({ skipSnaps: false })
-  const [prevBtnEnabled, setPrevBtnEnabled] = useState(false)
-  const [nextBtnEnabled, setNextBtnEnabled] = useState(false)
+  const [viewportRef, embla] = useEmblaCarousel({ skipSnaps: false });
+  const [prevBtnEnabled, setPrevBtnEnabled] = useState(false);
+  const [nextBtnEnabled, setNextBtnEnabled] = useState(false);
 
-  const scrollPrev = useCallback(() => embla && embla.scrollPrev(), [embla])
-  const scrollNext = useCallback(() => embla && embla.scrollNext(), [embla])
+  const scrollPrev = useCallback(() => embla && embla.scrollPrev(), [embla]);
+  const scrollNext = useCallback(() => embla && embla.scrollNext(), [embla]);
+
+  const autoplay = useCallback(() => {
+    if (!embla) return;
+    if (embla.canScrollNext()) {
+      embla.scrollNext();
+    } else {
+      embla.scrollTo(0);
+    }
+  }, [embla]);
+
   const onSelect = useCallback(() => {
-    if (!embla) return
-    setPrevBtnEnabled(embla.canScrollPrev())
-    setNextBtnEnabled(embla.canScrollNext())
-  }, [embla])
+    if (!embla) return;
+    setPrevBtnEnabled(embla.canScrollPrev());
+    setNextBtnEnabled(embla.canScrollNext());
+  }, [embla]);
+
+  const { play, stop } = useRecursiveTimeout(autoplay, AUTOPLAY_INTERVAL);
 
   useEffect(() => {
-    if (!embla) return
-    embla.on("select", onSelect)
-    onSelect()
-  }, [embla, onSelect])
+    if (!embla) return;
+    embla.on("select", onSelect);
+    onSelect();
+  }, [embla, onSelect]);
+
+  useEffect(() => {
+    play();
+  }, [play]);
 
   return (
     <div
@@ -76,8 +95,7 @@ export const EmblaCarousel = () => {
                 be publishing a{" "}
                 <a
                   style={{ color: "blue" }}
-                  target="_blank"
-                  href="https://healdatafair.org/resources"
+                  href="https://staging.healdatafair.org/resources"
                   rel="noreferrer"
                 >
                   series of general recommendations
@@ -125,19 +143,31 @@ export const EmblaCarousel = () => {
               </h1>
               <br></br>
               {/* Description paragraph */}
-              <p className="text-xl mb-6">
-                Making data FAIR (findable, accessible, interoperable, and
-                reusable) is an important step in advancing science, but there’s
-                no one-size-fits-all path to getting there. Join the HEAL
-                Stewards in monthly explorations into best practices, tips and
-                tricks, and step-by-step guides for making the most of your data
-                by making it FAIR. The first webinar in the series,{" "}
-                <i>Why FAIR? Experiences from the Trenches</i>, will be held on
-                Thursday, Sept. 16 from 1:00-2:00 p.m. Eastern Time.{" "}
-                <a target="_blank" href="" style={{ color: "blue" }}>
-                  REGISTER HERE.
-                </a>
-              </p>
+              <div className="text-xl mb-6">
+                <p>
+                  Making data FAIR (findable, accessible, interoperable, and
+                  reusable) is an important step in advancing science, but
+                  there’s no one-size-fits-all path to getting there. Join the
+                  HEAL Stewards in monthly explorations into best practices,
+                  tips and tricks, and step-by-step guides for making the most
+                  of your data by making it FAIR.
+                </p>
+                <br></br>
+                <p>
+                  The first webinar in the series,{" "}
+                  <i>SPARCing a conversation about FAIR data sharing,</i>, will
+                  be held on Thursday, Sept. 16 from 1:00-2:00 p.m. Eastern
+                  Time.{" "}
+                  <a
+                    target="_blank"
+                    href="https://renci.zoom.us/webinar/register/WN_ffYZ4HgmR2Koz6kq9Ov8Hg"
+                    style={{ color: "blue" }}
+                    rel="noreferrer"
+                  >
+                    REGISTER HERE.
+                  </a>
+                </p>
+              </div>
             </div>
             {/* Right column for the image */}
             <div className="flex-shrink-0 w-full md:w-6/12 mt-6 md:mt-0 img-fix">
@@ -160,5 +190,5 @@ export const EmblaCarousel = () => {
         <NextButton onClick={scrollNext} enabled={nextBtnEnabled} />
       </div>
     </div>
-  )
-}
+  );
+};
