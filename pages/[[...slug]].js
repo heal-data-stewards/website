@@ -23,7 +23,11 @@ const DynamicPage = ({ sections, metadata, preview, global, pageContext }) => {
     return <div className="container">Loading...</div>
   }
 
-  if (pageContext.slug === "resources") {
+  if (
+    pageContext.slug === "resources" ||
+    pageContext.slug === "account" ||
+    pageContext.slug === "directory"
+  ) {
     return (
       <Layout
         global={global}

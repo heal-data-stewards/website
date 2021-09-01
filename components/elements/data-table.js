@@ -2,7 +2,12 @@ import React, { useEffect, useState } from "react"
 import { DataGrid, GridToolbar } from "@material-ui/data-grid"
 import { getAllUsers } from "utils/api"
 import { styled } from "@material-ui/core/styles"
-
+import { makeStyles } from "@material-ui/core/styles"
+const useStyles = makeStyles({
+  table: {
+    background: "#fff",
+  },
+})
 const TestComponent = styled(GridToolbar)({
   background: "#c0b3c569",
 })
@@ -33,6 +38,7 @@ function createData(id, firstname, lastname, username, email, org) {
 
 export default function DataTable() {
   const [users, setUsers] = useState([])
+  const classes = useStyles()
   // Call the strapi API to GET all users
   useEffect(() => {
     getAllUsers()
@@ -54,8 +60,12 @@ export default function DataTable() {
       })
   }, [])
   return (
-    <div style={{ height: 600, width: "100%" }} className={"container"}>
+    <div
+      style={{ height: 600, width: "100%" }}
+      className={"container mb-8 mt-8"}
+    >
       <DataGrid
+        className={classes.table}
         rows={users}
         columns={columns}
         pageSize={25}
