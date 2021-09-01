@@ -17,6 +17,7 @@ import Link from "next/link"
 const useStyles = makeStyles({
   root: {
     minWidth: 275,
+    backgroundColor: "#fff",
   },
   bullet: {
     display: "inline-block",

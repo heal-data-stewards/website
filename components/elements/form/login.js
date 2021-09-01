@@ -10,7 +10,7 @@ const LoginForm = ({ setLoggedIn }) => {
   const [errorNotice, setError] = useState(false)
 
   const RegistrationSchema = yup.object().shape({
-    username: yup.string().required(),
+    email: yup.string().required(),
     password: yup.string().required(),
     csrfToken: yup.string(),
   })
@@ -26,13 +26,13 @@ const LoginForm = ({ setLoggedIn }) => {
       <div className="flex flex-col items-center">
         <Formik
           initialValues={{
-            username: "",
+            email: "",
             password: "",
             csrfToken: "",
           }}
           validationSchema={RegistrationSchema}
           onSubmit={(values, { resetForm }) => {
-            const email = values.username
+            const email = values.email
             const password = values.password
             signIn("credentials", {
               redirect: false,
@@ -58,12 +58,14 @@ const LoginForm = ({ setLoggedIn }) => {
               <Form className="flex flex-wrap flex-col md:flex-row gap-4">
                 <Field
                   className="text-base focus:outline-none py-4 md:py-0 px-4 border-2 rounded-md"
-                  type="username"
-                  name="username"
-                  placeholder={"User Name"}
+                  type="email"
+                  name="email"
+                  placeholder={"Email"}
                   component={TextField}
+                  label="Email"
                   variant="outlined"
                   fullWidth
+                  style={{ background: "white" }}
                 />
                 <Field
                   className="text-base focus:outline-none py-4 md:py-0 px-4 border-2 rounded-md"
@@ -71,7 +73,9 @@ const LoginForm = ({ setLoggedIn }) => {
                   name="password"
                   placeholder={"Password"}
                   component={TextField}
+                  label="Password"
                   variant="outlined"
+                  style={{ background: "white" }}
                   fullWidth
                 />
                 <Btn2
