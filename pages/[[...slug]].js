@@ -23,8 +23,22 @@ const DynamicPage = ({ sections, metadata, preview, global, pageContext }) => {
     return <div className="container">Loading...</div>
   }
 
+  if (pageContext.slug === "resources") {
+    return (
+      <Layout
+        global={global}
+        pageContext={pageContext}
+        style={{ background: "#9c2a6e08" }}
+      >
+        {/* Add meta tags for SEO*/}
+        <Seo metadata={metadata} />
+        {/* Display content sections */}
+        <Sections sections={sections} preview={preview} />
+      </Layout>
+    )
+  }
   return (
-    <Layout global={global} pageContext={pageContext}>
+    <Layout global={global} pageContext={pageContext} style={{}}>
       {/* Add meta tags for SEO*/}
       <Seo metadata={metadata} />
       {/* Display content sections */}
