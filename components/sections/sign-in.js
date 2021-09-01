@@ -49,9 +49,7 @@ const callApi = async function asyncCall(session, setData) {
       return response
     })
 }
-function capitalizeFirstLetter(string) {
-  return string.charAt(0).toUpperCase() + string.slice(1)
-}
+
 export default function SignIn(initialData) {
   const [session, loading] = useSession()
   const classes = useStyles()
@@ -115,9 +113,7 @@ export default function SignIn(initialData) {
                     {session.user.name}
                   </Typography>
                   <Typography variant="h5" component="h2">
-                    {capitalizeFirstLetter(data.firstname) +
-                      " " +
-                      capitalizeFirstLetter(data.lastname)}
+                    {data.firstname + " " + data.lastname}
                   </Typography>
                   <Typography className={classes.pos} color="textSecondary">
                     {data.organization}
@@ -135,9 +131,7 @@ export default function SignIn(initialData) {
                       Full Name{" "}
                     </span>
                     <span className="text-lg text-gray-dark">
-                      {capitalizeFirstLetter(data.firstname) +
-                        " " +
-                        capitalizeFirstLetter(data.lastname)}
+                      {data.firstname + " " + data.lastname}
                     </span>
                   </div>
                   <br></br>

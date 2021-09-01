@@ -151,23 +151,25 @@ const Navbar = ({ navbar, pageContext }) => {
             onClose={() => setMobileMenuIsShown(false)}
           >
             <List style={{ width: "230px" }}>
-              <Link href="/">
-                <a>
-                  {/* <img
+              <div style={{ margin: "10px" }}>
+                <Link href="/">
+                  <a>
+                    {/* <img
                     src={`${navbar.logo.url}`}
                     style={{ margin: "7px", width: "12rem" }}
                     alt={`${navbar.logo.alternativeText || ""}`}
                   /> */}
-                  <Image
-                    src={`${navbar.logo.url}`}
-                    style={{ margin: "7px" }}
-                    width="180"
-                    height="54"
-                    layout="intrinsic"
-                    alt={`${navbar.logo.alternativeText || ""}`}
-                  />
-                </a>
-              </Link>
+                    <Image
+                      src={`${navbar.logo.url}`}
+                      style={{ margin: "7px" }}
+                      width="180"
+                      height="54"
+                      layout="intrinsic"
+                      alt={`${navbar.logo.alternativeText || ""}`}
+                    />
+                  </a>
+                </Link>
+              </div>
               {navigationItems.map((navLink) => (
                 <li key={navLink.id}>
                   <CustomLink link={navLink} locale={router.locale}>
