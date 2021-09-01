@@ -62,86 +62,28 @@ export const EmblaCarousel = () => {
           <section className="container flex flex-col md:flex-row items-center justify-between pt-12">
             {/* Left column for content */}
             <div className="flex-1 sm:pr-8">
-              {/* label */}
-              <p className="uppercase tracking-wide font-semibold text-magenta">
-                Wondering where to put your data?
-              </p>
-              <br></br>
-              {/* Big title */}
-              <h1
-                className="title mt-2 sm:mt-0 mb-4 sm:mb-2"
-                // style={{ maxWidth: "200px" }}
-              >
-                Review the HEAL Stewards Repository Recommendations
-              </h1>
-              <br></br>
-              {/* Description paragraph */}
-              <p className="text-xl mb-6">
-                Repository selection is a critical decision for each study PI
-                and program. Our{" "}
-                <a
-                  target="_blank"
-                  href="https://docs.google.com/document/d/17gkJ-L1Kt4aNVa-VYIppoWopiZlSrJn-KJWAD6tlowA/edit#heading=h.o9m8bb15b8ll"
-                  style={{ color: "blue" }}
-                  rel="noreferrer"
-                >
-                  HEAL Repository Recommendations
-                </a>{" "}
-                provide considerations that the HEAL Stewards believe to be a
-                useful framework in making a repository selection. This
-                framework will evolve over time as we work with HEAL program
-                members.
-              </p>
-              {/* Buttons row */}
-              {/* <div className="flex flex-row flex-wrap gap-4">
-    {data.buttons.map((button) => (
-      <ButtonLink
-        button={button}
-        appearance={getButtonAppearance(button.type, "light")}
-        key={button.id}
-      />
-    ))}
-  </div> */}
-            </div>
-            {/* Right column for the image */}
-            <div className="flex-shrink-0 w-full md:w-6/12 mt-6 md:mt-0 img-fix">
-              <Image
-                width="800px"
-                height="500px"
-                layout="intrinsic"
-                src={
-                  "https://heal-community-portal-api.s3.amazonaws.com/small_carousel1_7f57b370b8.jpeg"
-                }
-                alt="img"
-              />
-            </div>
-          </section>
-        </div>
-        <div className="embla__slide">
-          <section className="container flex flex-col md:flex-row items-center justify-between pt-12">
-            {/* Left column for content */}
-            <div className="flex-1 sm:pr-8">
               <br></br>
               {/* Big title */}
               <h1 className="title mt-2 sm:mt-0 mb-4 sm:mb-2">
-                Dip your toes into data curation according to common standards
+                Resources coming soon!
               </h1>
               <br></br>
               {/* Description paragraph */}
               <p className="text-xl mb-6">
-                To learn more about machine readable formats and data modeling
-                standards you can use to make your data easy to find for
-                researchers,{" "}
+                The Data Stewards are here to help with data management and
+                making data FAIR. We understand that each study has unique needs
+                and is at different stages of conducting investigation. We will
+                be publishing a{" "}
                 <a
                   style={{ color: "blue" }}
                   target="_blank"
-                  href="https://docs.google.com/document/d/1MapiBwyilfY7QtKCZ2IcqWxbmfYaupzMhgP0jHCCvwE/edit"
+                  href="https://healdatafair.org/resources"
                   rel="noreferrer"
                 >
-                  see the HEAL Data Standards guide.
+                  series of general recommendations
                 </a>{" "}
-                It outlines controlled vocabularies, ontologies, and other tools
-                for FAIR curation as it applies to your data.
+                this Fall that are intended to provide support to HEAL studies
+                as they move through their own data lifecycle.
               </p>
             </div>
             {/* Right column for the image */}

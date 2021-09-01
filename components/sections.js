@@ -12,6 +12,7 @@ import Directory from "./sections/directory"
 import SignIn from "./sections/sign-in"
 import SignUp from "./sections/sign-up"
 import Resources from "./sections/resources"
+import BasicTable from "./sections/basic-table"
 
 // Map Strapi sections to section components
 const sectionComponents = {
@@ -28,6 +29,7 @@ const sectionComponents = {
   "sections.sign-in": SignIn,
   "sections.signup": SignUp,
   "sections.resources": Resources,
+  "sections.table": BasicTable,
 }
 
 // Display a section individually
