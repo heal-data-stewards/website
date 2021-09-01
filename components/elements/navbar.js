@@ -180,18 +180,27 @@ const Navbar = ({ navbar, pageContext }) => {
                 </li>
               ))}
               <Divider />
-              {/* {navbar.button && (
-                <div style={{ marginTop: "15px" }}>
-                  <ButtonLink
-                    button={navbar.button}
-                    appearance={getButtonAppearance(
-                      navbar.button.type,
-                      "light"
+              <div className="flex">
+                {/* CTA button on desktop */}
+                {navbar.button && (
+                  <div className="lg:block mt-4 ml-4">
+                    {!session && (
+                      <>
+                        <Btn2 href={"/account"} button={{ text: "Log In" }} />
+                      </>
                     )}
-                    compact
-                  />
-                </div>
-              )} */}
+                    {session && (
+                      <>
+                        <Btn
+                          handleClick={handleLogOut}
+                          button={{ text: "Log Out" }}
+                          setLoggedIn={setLoggedIn}
+                        />
+                      </>
+                    )}
+                  </div>
+                )}
+              </div>
             </List>
           </Drawer>
         </>
