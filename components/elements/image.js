@@ -16,6 +16,17 @@ const NextImage = ({ media, ...props }) => {
       <Image loader={loader} src={url} alt={alternativeText || ""} {...props} />
     )
   }
+  if (props.fill) {
+    return (
+      <Image
+        loader={loader}
+        layout="fill"
+        objectFit="contain"
+        src={url}
+        alt={alternativeText || ""}
+      />
+    )
+  }
 
   // The image is responsive
   return (

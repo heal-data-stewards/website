@@ -1,10 +1,9 @@
 import React, { useState, useEffect, useCallback } from "react"
 import { useEmblaCarousel } from "embla-carousel/react"
-import Markdown from "react-markdown"
+import { useRecursiveTimeout } from "./carousel/useRecursiveTimeout"
 import Image from "next/image"
-import slide1 from "../../public/carousel1.jpeg"
-import slide2 from "../../public/carousel2.jpeg"
-import Paper from "@material-ui/core/Paper"
+
+const AUTOPLAY_INTERVAL = 6000
 
 const PrevButton = ({ enabled, onClick }) => (
   <button
@@ -39,11 +38,23 @@ export const EmblaCarousel = () => {
 
   const scrollPrev = useCallback(() => embla && embla.scrollPrev(), [embla])
   const scrollNext = useCallback(() => embla && embla.scrollNext(), [embla])
+
+  const autoplay = useCallback(() => {
+    if (!embla) return
+    if (embla.canScrollNext()) {
+      embla.scrollNext()
+    } else {
+      embla.scrollTo(0)
+    }
+  }, [embla])
+
   const onSelect = useCallback(() => {
     if (!embla) return
     setPrevBtnEnabled(embla.canScrollPrev())
     setNextBtnEnabled(embla.canScrollNext())
   }, [embla])
+
+  const { play, stop } = useRecursiveTimeout(autoplay, AUTOPLAY_INTERVAL)
 
   useEffect(() => {
     if (!embla) return
@@ -51,53 +62,21 @@ export const EmblaCarousel = () => {
     onSelect()
   }, [embla, onSelect])
 
+  useEffect(() => {
+    play()
+  }, [play])
+
   return (
-    <div className="embla" ref={viewportRef} style={{ color: "#373a3c" }}>
+    <div
+      className="embla"
+      ref={viewportRef}
+      style={{
+        color: "#373a3c",
+        marginTop: "44px",
+        background: "rgb(229 224 230 / 28%)",
+      }}
+    >
       <div className="embla__container">
-        <div className="embla__slide">
-          <section className="container flex flex-col md:flex-row items-center justify-between pt-12">
-            {/* Left column for content */}
-            <div className="flex-1 sm:pr-8">
-              {/* label */}
-              <p className="uppercase tracking-wide font-semibold text-magenta">
-                Wondering where to put your data?
-              </p>
-              <br></br>
-              {/* Big title */}
-              <h1
-                className="title mt-2 sm:mt-0 mb-4 sm:mb-2"
-                // style={{ maxWidth: "200px" }}
-              >
-                Review the HEAL Stewards Repository Recommendations
-              </h1>
-              <br></br>
-              {/* Description paragraph */}
-              <p className="text-xl mb-6">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-                enim ad minim veniam, quis nostrud exercitation ullamco laboris
-                nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor
-                in reprehenderit in voluptate velit esse cillum dolore eu fugiat
-                nulla pariatur. Excepteur sint occaecat cupidatat non proident,
-                sunt in culpa qui officia deserunt mollit anim id est laborum.
-              </p>
-              {/* Buttons row */}
-              {/* <div className="flex flex-row flex-wrap gap-4">
-    {data.buttons.map((button) => (
-      <ButtonLink
-        button={button}
-        appearance={getButtonAppearance(button.type, "light")}
-        key={button.id}
-      />
-    ))}
-  </div> */}
-            </div>
-            {/* Right column for the image */}
-            <div className="flex-shrink-0 w-full md:w-6/12 mt-6 md:mt-0 img-fix">
-              <Image src={slide1} className="card-2" alt="img" />
-            </div>
-          </section>
-        </div>
         <div className="embla__slide">
           <section className="container flex flex-col md:flex-row items-center justify-between pt-12">
             {/* Left column for content */}
@@ -105,44 +84,25 @@ export const EmblaCarousel = () => {
               <br></br>
               {/* Big title */}
               <h1 className="title mt-2 sm:mt-0 mb-4 sm:mb-2">
-                Visit the HEAL Data Platform
+                Resources coming soon!
               </h1>
               <br></br>
               {/* Description paragraph */}
               <p className="text-xl mb-6">
-                The{" "}
+                The Data Stewards are here to help with data management and
+                making data FAIR. We understand that each study has unique needs
+                and is at different stages of conducting investigation. We will
+                be publishing a{" "}
                 <a
-                  href="https://healdata.org/"
-                  target="_blank"
-                  style={{ color: "#0044b3" }}
+                  style={{ color: "blue" }}
+                  href="https://staging.healdatafair.org/resources"
                   rel="noreferrer"
                 >
-                  HEAL Data Platform
+                  series of general recommendations
                 </a>{" "}
-                is a secure data access and computing environment that provides
-                a web interface to search for and analyze HEAL results and data.
-                The HEAL Platform aggregates and hosts data from multiple
-                resources to make data discovery and access easy for users. The
-                platform provides a way to search and query over study metadata
-                and diverse data types, generated by different projects and
-                organizations and stored across multiple secure repositories.
-                The HEAL platform also offers a secure and cost-effective
-                cloud-computing environment for data analysis, empowering
-                collaborative research and development of new analytical tools.
-                New workflows and results of analyses can be shared with the
-                HEAL community to enable collaborative, high-impact publications
-                that address the opioid crisis.
+                this Fall that are intended to provide support to HEAL studies
+                as they move through their own data lifecycle.
               </p>
-              {/* Buttons row */}
-              {/* <div className="flex flex-row flex-wrap gap-4">
-    {data.buttons.map((button) => (
-      <ButtonLink
-        button={button}
-        appearance={getButtonAppearance(button.type, "light")}
-        key={button.id}
-      />
-    ))}
-  </div> */}
             </div>
             {/* Right column for the image */}
             <div className="flex-shrink-0 w-full md:w-6/12 mt-6 md:mt-0 ">
@@ -152,8 +112,75 @@ export const EmblaCarousel = () => {
                 rel="noreferrer"
                 className="img-fix"
               >
-                <Image src={slide2} alt="img" />
+                <Image
+                  width="800px"
+                  height="500px"
+                  layout="intrinsic"
+                  src={
+                    "https://heal-community-portal-api.s3.amazonaws.com/small_carousel2_c0d502c422.jpeg"
+                  }
+                  alt="img"
+                />
               </a>
+            </div>
+          </section>
+        </div>
+        <div className="embla__slide">
+          <section className="container flex flex-col md:flex-row items-center justify-between pt-12">
+            {/* Left column for content */}
+            <div className="flex-1 sm:pr-8">
+              {/* label */}
+              <p className="uppercase tracking-wide font-semibold text-magenta">
+                Webinar Series launches on Sept. 16
+              </p>
+              <br></br>
+              {/* Big title */}
+              <h1
+                className="title mt-2 sm:mt-0 mb-4 sm:mb-2"
+                // style={{ maxWidth: "200px" }}
+              >
+                Webinar Series
+              </h1>
+              <br></br>
+              {/* Description paragraph */}
+              <div className="text-xl mb-6">
+                <p>
+                  Making data FAIR (findable, accessible, interoperable, and
+                  reusable) is an important step in advancing science, but
+                  there’s no one-size-fits-all path to getting there. Join the
+                  HEAL Stewards in monthly explorations into best practices,
+                  tips and tricks, and step-by-step guides for making the most
+                  of your data by making it FAIR.
+                </p>
+                <br></br>
+                <p>
+                  The first webinar in the series,{" "}
+                  <i>SPARCing a conversation about FAIR data sharing,</i>, will
+                  be held on Thursday, Sept. 16 from 1:00-2:00 p.m. Eastern
+                  Time.{" "}
+                  <a
+                    target="_blank"
+                    href="https://renci.zoom.us/webinar/register/WN_ffYZ4HgmR2Koz6kq9Ov8Hg"
+                    style={{ color: "blue" }}
+                    rel="noreferrer"
+                  >
+                    REGISTER HERE.
+                  </a>
+                </p>
+              </div>
+            </div>
+            {/* Right column for the image */}
+            <div className="flex-shrink-0 w-full md:w-6/12 mt-6 md:mt-0 img-fix">
+              {/* {test} */}
+              <Image
+                width="800px"
+                height="500px"
+                layout="intrinsic"
+                src={
+                  "https://heal-community-portal-api.s3.amazonaws.com/small_3slide_d5a412f975.jpeg"
+                }
+                alt="img"
+              />
             </div>
           </section>
         </div>

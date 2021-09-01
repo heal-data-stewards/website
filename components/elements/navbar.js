@@ -1,4 +1,4 @@
-import { useState } from "react"
+import React, { useState, useEffect } from "react"
 import PropTypes from "prop-types"
 import Link from "next/link"
 import { useRouter } from "next/router"
@@ -6,11 +6,9 @@ import Image from "next/image"
 import { getButtonAppearance } from "utils/button"
 import { mediaPropTypes, linkPropTypes, buttonLinkPropTypes } from "utils/types"
 import { MdMenu } from "react-icons/md"
-import MobileNavMenu from "./mobile-nav-menu"
 import ButtonLink from "./button-link"
 import NextImage from "./image"
 import CustomLink from "./custom-link"
-import LocaleSwitch from "../locale-switch"
 import AppBar from "@material-ui/core/AppBar"
 import Toolbar from "@material-ui/core/Toolbar"
 import Drawer from "@material-ui/core/Drawer"
@@ -18,10 +16,44 @@ import List from "@material-ui/core/List"
 import ListItem from "@material-ui/core/ListItem"
 import ListItemText from "@material-ui/core/ListItemText"
 import Divider from "@material-ui/core/Divider"
+import { signIn, signOut, useSession, getSession } from "next-auth/client"
+import Button from "@material-ui/core/Button"
+
+import { Btn, Btn2 } from "../elements/button"
 
 const Navbar = ({ navbar, pageContext }) => {
-  const router = useRouter()
+  const [session, loading] = useSession()
   const [mobileMenuIsShown, setMobileMenuIsShown] = useState(false)
+  const [loggedIn, setLoggedIn] = useState(false)
+  const [navigationItems, setNavigationItems] = useState([
+    {
+      id: 27,
+      url: "/resources",
+      newTab: false,
+      text: "RESOURCES",
+    },
+  ])
+
+  useEffect(() => {
+    if (session || loggedIn) {
+      setNavigationItems(navbar.links)
+    } else {
+      setNavigationItems([
+        {
+          id: 27,
+          url: "/resources",
+          newTab: false,
+          text: "RESOURCES",
+        },
+      ])
+    }
+  }, [session, navbar.links, loggedIn])
+  const router = useRouter()
+  const handleLogOut = () => {
+    signOut({ redirect: false })
+  }
+
+  if (loading) return null
 
   return (
     <>
@@ -46,7 +78,7 @@ const Navbar = ({ navbar, pageContext }) => {
             </Link>
             {/* List of links on desktop */}
             <ul className="hidden list-none lg:flex flex-row gap-4 items-baseline ml-10 mr-10">
-              {navbar.links.map((navLink) => (
+              {navigationItems.map((navLink) => (
                 <li key={navLink.id}>
                   <CustomLink link={navLink} locale={router.locale}>
                     <div
@@ -63,20 +95,42 @@ const Navbar = ({ navbar, pageContext }) => {
           <div className="flex">
             {/* CTA button on desktop */}
             {navbar.button && (
+              // <div className="hidden lg:block">
+              //   <ButtonLink
+              //     button={navbar.button}
+              //     appearance={getButtonAppearance(navbar.button.type, "dark")}
+              //     compact
+              //   />
+              // </div>
               <div className="hidden lg:block">
-                <ButtonLink
-                  button={navbar.button}
-                  appearance={getButtonAppearance(navbar.button.type, "dark")}
-                  compact
-                />
+                {/* <ButtonLink
+                button={navbar.button}
+                appearance={getButtonAppearance(navbar.button.type, "dark")}
+                compact
+              /> */}
+
+                {!session && (
+                  <>
+                    <Btn2 href={"/account"} button={{ text: "Log In" }} />
+                  </>
+                )}
+                {session && (
+                  <>
+                    <Btn
+                      handleClick={handleLogOut}
+                      button={{ text: "Log Out" }}
+                      setLoggedIn={setLoggedIn}
+                    />
+                  </>
+                )}
               </div>
             )}
             {/* Locale Switch Mobile */}
-            {pageContext.localizedPaths && (
+            {/* {pageContext.localizedPaths && (
               <div>
                 <LocaleSwitch pageContext={pageContext} />
               </div>
-            )}
+            )} */}
             {/* Hamburger menu on mobile */}
             <button
               onClick={() => setMobileMenuIsShown(true)}
@@ -97,45 +151,56 @@ const Navbar = ({ navbar, pageContext }) => {
             onClose={() => setMobileMenuIsShown(false)}
           >
             <List style={{ width: "230px" }}>
-              <Link href="/">
-                <a>
-                  {/* <img
+              <div style={{ margin: "10px" }}>
+                <Link href="/">
+                  <a>
+                    {/* <img
                     src={`${navbar.logo.url}`}
                     style={{ margin: "7px", width: "12rem" }}
                     alt={`${navbar.logo.alternativeText || ""}`}
                   /> */}
-                  <Image
-                    src={`${navbar.logo.url}`}
-                    style={{ margin: "7px" }}
-                    width="180"
-                    height="54"
-                    layout="intrinsic"
-                    alt={`${navbar.logo.alternativeText || ""}`}
-                  />
-                </a>
-              </Link>
-              {navbar.links.map((navLink) => (
+                    <Image
+                      src={`${navbar.logo.url}`}
+                      style={{ margin: "7px" }}
+                      width="180"
+                      height="54"
+                      layout="intrinsic"
+                      alt={`${navbar.logo.alternativeText || ""}`}
+                    />
+                  </a>
+                </Link>
+              </div>
+              {navigationItems.map((navLink) => (
                 <li key={navLink.id}>
                   <CustomLink link={navLink} locale={router.locale}>
-                    <ListItem className="hover:text-magenta text-purple px-2 py-1">
+                    <ListItem className="hover:text-white hover:bg-magenta text-purple px-2 py-1">
                       <ListItemText>{navLink.text}</ListItemText>
                     </ListItem>
                   </CustomLink>
                 </li>
               ))}
               <Divider />
-              {/* {navbar.button && (
-                <div style={{ marginTop: "15px" }}>
-                  <ButtonLink
-                    button={navbar.button}
-                    appearance={getButtonAppearance(
-                      navbar.button.type,
-                      "light"
+              <div className="flex">
+                {/* CTA button on desktop */}
+                {navbar.button && (
+                  <div className="lg:block mt-4 ml-4">
+                    {!session && (
+                      <>
+                        <Btn2 href={"/account"} button={{ text: "Log In" }} />
+                      </>
                     )}
-                    compact
-                  />
-                </div>
-              )} */}
+                    {session && (
+                      <>
+                        <Btn
+                          handleClick={handleLogOut}
+                          button={{ text: "Log Out" }}
+                          setLoggedIn={setLoggedIn}
+                        />
+                      </>
+                    )}
+                  </div>
+                )}
+              </div>
             </List>
           </Drawer>
         </>

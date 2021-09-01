@@ -1,6 +1,16 @@
 import React, { useEffect, useState } from "react"
-import { DataGrid } from "@material-ui/data-grid"
+import { DataGrid, GridToolbar } from "@material-ui/data-grid"
 import { getAllUsers } from "utils/api"
+import { styled } from "@material-ui/core/styles"
+import { makeStyles } from "@material-ui/core/styles"
+const useStyles = makeStyles({
+  table: {
+    background: "#fff",
+  },
+})
+const TestComponent = styled(GridToolbar)({
+  background: "#c0b3c569",
+})
 
 const columns = [
   { field: "id", headerName: "ID", width: 70 },
@@ -28,13 +38,15 @@ function createData(id, firstname, lastname, username, email, org) {
 
 export default function DataTable() {
   const [users, setUsers] = useState([])
+  const classes = useStyles()
   // Call the strapi API to GET all users
   useEffect(() => {
     getAllUsers()
       .then(function (result) {
-        return result.map((user, x) => {
+        const users = result.filter((user) => user.confirmed === true)
+        return users.map((user) => {
           return createData(
-            x,
+            user.id,
             user.firstname,
             user.lastname,
             user.username,
@@ -49,15 +61,18 @@ export default function DataTable() {
   }, [])
   return (
     <div
-      style={{ height: 400, width: "100%" }}
-      className={"container mt-10 mb-8"}
+      style={{ height: 600, width: "100%" }}
+      className={"container mb-8 mt-8"}
     >
       <DataGrid
+        className={classes.table}
         rows={users}
         columns={columns}
-        pageSize={5}
-        style={{ backgroundColor: "#f3f4f6" }}
+        pageSize={25}
         checkboxSelection
+        components={{
+          Toolbar: TestComponent,
+        }}
       />
     </div>
   )
