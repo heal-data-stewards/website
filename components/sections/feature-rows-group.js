@@ -7,7 +7,7 @@ const FeatureRowsGroup = ({ data }) => {
   return (
     <div
       className="container flex flex-col gap-12 text-gray-dark"
-      style={{ marginTop: "3rem" }}
+      style={{ marginTop: "1.5rem" }}
     >
       {data.features.map((feature, index) => (
         <div
@@ -20,11 +20,22 @@ const FeatureRowsGroup = ({ data }) => {
             }
           )}
           key={feature.id}
+          style={{ marginBottom: "10px" }}
         >
           {/* Text section */}
           <div className="w-full lg:w-6/12 lg:pr-6 text-lg">
-            <h3 className="title">{feature.title}</h3>
-            <p className="my-6">{feature.description}</p>
+            {/* <h3 className="title">{feature.title}</h3> */}
+            <p
+              className="my-6"
+              style={{
+                color: "#441d4f",
+                fontWeight: "600",
+                lineHeight: "30.2px",
+                fontSize: "19px",
+              }}
+            >
+              {feature.description}
+            </p>
 
             {!feature.link == null && (
               <CustomLink link={feature.link}>
@@ -38,8 +49,15 @@ const FeatureRowsGroup = ({ data }) => {
           <div className="w-full sm:9/12 lg:w-4/12 max-h-full">
             {/* Images */}
             {feature.media.mime.startsWith("image") && (
-              <div className="w-full h-auto">
-                <NextImage media={feature.media} />
+              <div
+                className="w-full h-auto"
+                style={{ height: "230px", position: "relative" }}
+              >
+                <NextImage
+                  media={feature.media}
+                  fill={true}
+                  style={{ height: "200px" }}
+                />
               </div>
             )}
             {/* Videos */}

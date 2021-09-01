@@ -10,7 +10,7 @@ const Footer = ({ footer }) => {
       <div className="container flex flex-col lg:flex-row lg:justify-between">
         <div>
           {footer.logo && (
-            <>
+            <div>
               <Image
                 src={`${footer.logo.url}`}
                 style={{ margin: "7px" }}
@@ -32,7 +32,7 @@ const Footer = ({ footer }) => {
                 Long-term are service marks of the U.S. Department of Health and
                 Human Services.
               </p>
-            </>
+            </div>
           )}
         </div>
         <nav className="flex flex-wrap flex-row lg:gap-20 items-start lg:justify-end mb-10">
