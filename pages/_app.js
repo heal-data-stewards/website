@@ -6,9 +6,22 @@ import { DefaultSeo } from "next-seo"
 import { getStrapiMedia } from "utils/media"
 import { getGlobalData } from "utils/api"
 import { Provider } from "next-auth/client"
+import { useEffect } from "react"
 import "@/styles/index.css"
 
 const MyApp = ({ Component, pageProps }) => {
+  const router = useRouter()
+  useEffect(() => {
+    const handleRouteChange = (url) => {
+      window.gtag("config", process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS, {
+        page_path: url,
+      })
+    }
+    router.events.on("routeChangeComplete", handleRouteChange)
+    return () => {
+      router.events.off("routeChangeComplete", handleRouteChange)
+    }
+  }, [router.events])
   // Extract the data we need
   const { global } = pageProps
   if (global == null) {
