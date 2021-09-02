@@ -18,7 +18,7 @@ import ListItemText from "@material-ui/core/ListItemText"
 import Divider from "@material-ui/core/Divider"
 import { signIn, signOut, useSession, getSession } from "next-auth/client"
 import Button from "@material-ui/core/Button"
-
+import Fade from "@material-ui/core/Fade"
 import { Btn, Btn2 } from "../elements/button"
 
 const Navbar = ({ navbar, pageContext }) => {
@@ -154,11 +154,6 @@ const Navbar = ({ navbar, pageContext }) => {
               <div style={{ margin: "10px" }}>
                 <Link href="/">
                   <a>
-                    {/* <img
-                    src={`${navbar.logo.url}`}
-                    style={{ margin: "7px", width: "12rem" }}
-                    alt={`${navbar.logo.alternativeText || ""}`}
-                  /> */}
                     <Image
                       src={`${navbar.logo.url}`}
                       style={{ margin: "7px" }}
@@ -174,14 +169,17 @@ const Navbar = ({ navbar, pageContext }) => {
                 <li key={navLink.id}>
                   <CustomLink link={navLink} locale={router.locale}>
                     <ListItem className="hover:text-white hover:bg-magenta text-purple px-2 py-1">
-                      <ListItemText>{navLink.text}</ListItemText>
+                      <ListItemText>
+                        <span style={{ fontWeight: "bold" }}>
+                          {navLink.text}
+                        </span>
+                      </ListItemText>
                     </ListItem>
                   </CustomLink>
                 </li>
               ))}
               <Divider />
               <div className="flex">
-                {/* CTA button on desktop */}
                 {navbar.button && (
                   <div className="lg:block mt-4 ml-4">
                     {!session && (

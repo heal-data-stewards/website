@@ -2,8 +2,28 @@ import React, { useState, useEffect, useCallback } from "react"
 import { useEmblaCarousel } from "embla-carousel/react"
 import { useRecursiveTimeout } from "./carousel/useRecursiveTimeout"
 import Image from "next/image"
+import Card from "@material-ui/core/Card"
+import CardMedia from "@material-ui/core/CardMedia"
+import CardActionArea from "@material-ui/core/CardActionArea"
+import { makeStyles } from "@material-ui/core/styles"
+import CardContent from "@material-ui/core/CardContent"
+import { DotButton } from "./carousel/buttons"
+import Link from "next/link"
+import styled from "styled-components"
 
 const AUTOPLAY_INTERVAL = 6000
+
+const useStyles = makeStyles({
+  root: {
+    maxWidth: 345,
+  },
+  media: {
+    height: 400,
+  },
+})
+const BlueLink = styled.a`
+  color: blue;
+`
 
 const PrevButton = ({ enabled, onClick }) => (
   <button
@@ -35,10 +55,11 @@ export const EmblaCarousel = () => {
   const [viewportRef, embla] = useEmblaCarousel({ skipSnaps: false })
   const [prevBtnEnabled, setPrevBtnEnabled] = useState(false)
   const [nextBtnEnabled, setNextBtnEnabled] = useState(false)
-
+  const [scrollSnaps, setScrollSnaps] = useState([])
   const scrollPrev = useCallback(() => embla && embla.scrollPrev(), [embla])
   const scrollNext = useCallback(() => embla && embla.scrollNext(), [embla])
-
+  const [selectedIndex, setSelectedIndex] = useState(0)
+  const classes = useStyles()
   const autoplay = useCallback(() => {
     if (!embla) return
     if (embla.canScrollNext()) {
@@ -50,9 +71,14 @@ export const EmblaCarousel = () => {
 
   const onSelect = useCallback(() => {
     if (!embla) return
+    setSelectedIndex(embla.selectedScrollSnap())
     setPrevBtnEnabled(embla.canScrollPrev())
     setNextBtnEnabled(embla.canScrollNext())
-  }, [embla])
+  }, [embla, setSelectedIndex])
+  const scrollTo = useCallback(
+    (index) => embla && embla.scrollTo(index),
+    [embla]
+  )
 
   const { play, stop } = useRecursiveTimeout(autoplay, AUTOPLAY_INTERVAL)
 
@@ -60,7 +86,8 @@ export const EmblaCarousel = () => {
     if (!embla) return
     embla.on("select", onSelect)
     onSelect()
-  }, [embla, onSelect])
+    setScrollSnaps(embla.scrollSnapList())
+  }, [embla, onSelect, setScrollSnaps])
 
   useEffect(() => {
     play()
@@ -73,121 +100,146 @@ export const EmblaCarousel = () => {
       style={{
         color: "#373a3c",
         marginTop: "44px",
-        background: "rgb(229 224 230 / 28%)",
       }}
     >
       <div className="embla__container">
-        <div className="embla__slide">
-          <section className="container flex flex-col md:flex-row items-center justify-between pt-12">
-            {/* Left column for content */}
-            <div className="flex-1 sm:pr-8">
-              <br></br>
-              {/* Big title */}
-              <h1 className="title mt-2 sm:mt-0 mb-4 sm:mb-2">
-                Resources coming soon!
-              </h1>
-              <br></br>
-              {/* Description paragraph */}
-              <p className="text-xl mb-6">
-                The Data Stewards are here to help with data management and
-                making data FAIR. We understand that each study has unique needs
-                and is at different stages of conducting investigation. We will
-                be publishing a{" "}
+        <div className="embla__slide container">
+          <Card
+            className="flex flex-col md:flex-row items-center justify-between"
+            style={{ minHeight: "500px", background: "#0000000a" }}
+          >
+            <div className="flex flex-wrap lg:flex-nowrap lg:p-14">
+              <div className="flex-shrink-0 w-full lg:w-6/12 lg:p-14">
                 <a
-                  style={{ color: "blue" }}
-                  href="https://staging.healdatafair.org/resources"
+                  href="https://healdata.org/"
+                  target="_blank"
                   rel="noreferrer"
+                  className="img-fix"
                 >
-                  series of general recommendations
-                </a>{" "}
-                this Fall that are intended to provide support to HEAL studies
-                as they move through their own data lifecycle.
-              </p>
-            </div>
-            {/* Right column for the image */}
-            <div className="flex-shrink-0 w-full md:w-6/12 mt-6 md:mt-0 ">
-              <a
-                href="https://healdata.org/"
-                target="_blank"
-                rel="noreferrer"
-                className="img-fix"
-              >
-                <Image
-                  width="800px"
-                  height="500px"
-                  layout="intrinsic"
-                  src={
-                    "https://heal-community-portal-api.s3.amazonaws.com/small_carousel2_c0d502c422.jpeg"
-                  }
-                  alt="img"
-                />
-              </a>
-            </div>
-          </section>
-        </div>
-        <div className="embla__slide">
-          <section className="container flex flex-col md:flex-row items-center justify-between pt-12">
-            {/* Left column for content */}
-            <div className="flex-1 sm:pr-8">
-              {/* label */}
-              <p className="uppercase tracking-wide font-semibold text-magenta">
-                Webinar Series launches on Sept. 16
-              </p>
-              <br></br>
-              {/* Big title */}
-              <h1
-                className="title mt-2 sm:mt-0 mb-4 sm:mb-2"
-                // style={{ maxWidth: "200px" }}
-              >
-                Webinar Series
-              </h1>
-              <br></br>
-              {/* Description paragraph */}
-              <div className="text-xl mb-6">
-                <p>
-                  Making data FAIR (findable, accessible, interoperable, and
-                  reusable) is an important step in advancing science, but
-                  there’s no one-size-fits-all path to getting there. Join the
-                  HEAL Stewards in monthly explorations into best practices,
-                  tips and tricks, and step-by-step guides for making the most
-                  of your data by making it FAIR.
-                </p>
-                <br></br>
-                <p>
-                  The first webinar in the series,{" "}
-                  <i>SPARCing a conversation about FAIR data sharing,</i>, will
-                  be held on Thursday, Sept. 16 from 1:00-2:00 p.m. Eastern
-                  Time.{" "}
-                  <a
-                    target="_blank"
-                    href="https://renci.zoom.us/webinar/register/WN_ffYZ4HgmR2Koz6kq9Ov8Hg"
-                    style={{ color: "blue" }}
-                    rel="noreferrer"
-                  >
-                    REGISTER HERE.
-                  </a>
-                </p>
+                  <Image
+                    width="800px"
+                    height="500px"
+                    layout="intrinsic"
+                    src={
+                      "https://heal-community-portal-api.s3.amazonaws.com/small_carousel2_c0d502c422.jpeg"
+                    }
+                    alt="img"
+                  />
+                </a>
               </div>
+              {/* Left column for content */}
+              <CardContent>
+                {/* label */}
+                <p className="uppercase mb-4 tracking-wide font-semibold text-white text-center lg:text-left">
+                  {"Coming Soon!"}
+                </p>
+                {/* Big title */}
+                <h1
+                  className="title mb-4 text-center lg:text-left"
+                  // style={{ maxWidth: "200px" }}
+                >
+                  Resources coming soon!
+                </h1>
+                {/* Description paragraph */}
+                <div className="text-xl mb-4 text-grey text-center pl-10 pr-10 lg:text-left lg:pl-0 lg:pr-0">
+                  <p>
+                    The Data Stewards are here to help with data management and
+                    making data FAIR. We understand that each study has unique
+                    needs and is at different stages of conducting
+                    investigation. We will be publishing a{" "}
+                    <Link href={"/resources"} passHref>
+                      <BlueLink>series of general recommendations</BlueLink>
+                    </Link>{" "}
+                    this Fall that are intended to provide support to HEAL
+                    studies as they move through their own data lifecycle.
+                  </p>
+                </div>
+              </CardContent>
             </div>
-            {/* Right column for the image */}
-            <div className="flex-shrink-0 w-full md:w-6/12 mt-6 md:mt-0 img-fix">
-              {/* {test} */}
-              <Image
-                width="800px"
-                height="500px"
-                layout="intrinsic"
-                src={
-                  "https://heal-community-portal-api.s3.amazonaws.com/small_3slide_d5a412f975.jpeg"
-                }
-                alt="img"
-              />
+          </Card>
+        </div>
+        <div className="embla__slide container">
+          <Card
+            className="flex flex-col md:flex-row items-center justify-between"
+            style={{ minHeight: "500px", background: "#0000000a" }}
+          >
+            <div className="flex flex-wrap lg:flex-nowrap lg:p-14">
+              <div className="flex-shrink-0 w-full lg:w-6/12 lg:p-14">
+                <a
+                  href="https://healdata.org/"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="img-fix"
+                >
+                  <Image
+                    width="800px"
+                    height="500px"
+                    layout="intrinsic"
+                    src={
+                      // "https://heal-community-portal-api.s3.amazonaws.com/small_carousel2_c0d502c422.jpeg"
+                      "https://heal-community-portal-api.s3.amazonaws.com/small_carousel1_7f57b370b8.jpeg"
+                    }
+                    alt="img"
+                  />
+                </a>
+              </div>
+              {/* Left column for content */}
+              <CardContent>
+                {/* label */}
+                <p className="uppercase mb-4 tracking-wide font-semibold text-magenta text-center lg:text-left">
+                  Webinar Series launches on Sept. 16
+                </p>
+                {/* Big title */}
+                <h1
+                  className="title mb-4 text-center lg:text-left"
+                  // style={{ maxWidth: "200px" }}
+                >
+                  Webinar Series
+                </h1>
+                {/* Description paragraph */}
+                <div className="text-xl mb-4 text-grey text-center pl-10 pr-10 lg:text-left lg:pl-0 lg:pr-0">
+                  <p>
+                    Making data FAIR (findable, accessible, interoperable, and
+                    reusable) is an important step in advancing science, but
+                    there’s no one-size-fits-all path to getting there. Join the
+                    HEAL Stewards in monthly explorations into best practices,
+                    tips and tricks, and step-by-step guides for making the most
+                    of your data by making it FAIR.
+                  </p>
+                  <br></br>
+                  <p>
+                    The first webinar in the series,{" "}
+                    <i>SPARCing a conversation about FAIR data sharing,</i>,
+                    will be held on Thursday, Sept. 16 from 1:00-2:00 p.m.
+                    Eastern Time.{" "}
+                    <a
+                      target="_blank"
+                      href="https://renci.zoom.us/webinar/register/WN_ffYZ4HgmR2Koz6kq9Ov8Hg"
+                      style={{ color: "blue" }}
+                      rel="noreferrer"
+                    >
+                      REGISTER HERE.
+                    </a>
+                  </p>
+                </div>
+              </CardContent>
             </div>
-          </section>
+          </Card>
         </div>
       </div>
-      <div className="container flex justify-between pb-12">
+      {/* <div className="container flex pb-6 pt-6">
         <PrevButton onClick={scrollPrev} enabled={prevBtnEnabled} />
         <NextButton onClick={scrollNext} enabled={nextBtnEnabled} />
+        https://codesandbox.io/s/embla-carousel-arrows-dots-react-forked-l5mc2?file=/src/js/EmblaCarousel.js:773-863
+      </div> */}
+      <div className="embla__dots pb-4 pt-2">
+        {scrollSnaps.map((_, index) => (
+          <DotButton
+            key={index}
+            selected={index === selectedIndex}
+            onClick={() => scrollTo(index)}
+          />
+        ))}
       </div>
     </div>
   )
