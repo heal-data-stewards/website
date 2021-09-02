@@ -1,30 +1,39 @@
-import React, { useState, useEffect } from "react"
-import PropTypes from "prop-types"
-import Link from "next/link"
-import { useRouter } from "next/router"
-import Image from "next/image"
-import { getButtonAppearance } from "utils/button"
-import { mediaPropTypes, linkPropTypes, buttonLinkPropTypes } from "utils/types"
-import { MdMenu } from "react-icons/md"
-import ButtonLink from "./button-link"
-import NextImage from "./image"
-import CustomLink from "./custom-link"
-import AppBar from "@material-ui/core/AppBar"
-import Toolbar from "@material-ui/core/Toolbar"
-import Drawer from "@material-ui/core/Drawer"
-import List from "@material-ui/core/List"
-import ListItem from "@material-ui/core/ListItem"
-import ListItemText from "@material-ui/core/ListItemText"
-import Divider from "@material-ui/core/Divider"
-import { signIn, signOut, useSession, getSession } from "next-auth/client"
-import Button from "@material-ui/core/Button"
-
-import { Btn, Btn2 } from "../elements/button"
-
+import React, { useState, useEffect } from "react";
+import PropTypes from "prop-types";
+import Link from "next/link";
+import { useRouter } from "next/router";
+import Image from "next/image";
+import { getButtonAppearance } from "utils/button";
+import {
+  mediaPropTypes,
+  linkPropTypes,
+  buttonLinkPropTypes,
+} from "utils/types";
+import { MdMenu } from "react-icons/md";
+import ButtonLink from "./button-link";
+import NextImage from "./image";
+import CustomLink from "./custom-link";
+import AppBar from "@material-ui/core/AppBar";
+import Toolbar from "@material-ui/core/Toolbar";
+import Drawer from "@material-ui/core/Drawer";
+import List from "@material-ui/core/List";
+import ListItem from "@material-ui/core/ListItem";
+import ListItemText from "@material-ui/core/ListItemText";
+import Divider from "@material-ui/core/Divider";
+import { signIn, signOut, useSession, getSession } from "next-auth/client";
+import Button from "@material-ui/core/Button";
+import Fade from "@material-ui/core/Fade";
+import { makeStyles } from "@material-ui/core/styles";
+import { Btn, Btn2 } from "../elements/button";
+const useStyles = makeStyles({
+  root: {
+    fontWeight: "bold",
+  },
+});
 const Navbar = ({ navbar, pageContext }) => {
-  const [session, loading] = useSession()
-  const [mobileMenuIsShown, setMobileMenuIsShown] = useState(false)
-  const [loggedIn, setLoggedIn] = useState(false)
+  const [session, loading] = useSession();
+  const [mobileMenuIsShown, setMobileMenuIsShown] = useState(false);
+  const [loggedIn, setLoggedIn] = useState(false);
   const [navigationItems, setNavigationItems] = useState([
     {
       id: 27,
@@ -32,11 +41,12 @@ const Navbar = ({ navbar, pageContext }) => {
       newTab: false,
       text: "RESOURCES",
     },
-  ])
+  ]);
+  const classes = useStyles();
 
   useEffect(() => {
     if (session || loggedIn) {
-      setNavigationItems(navbar.links)
+      setNavigationItems(navbar.links);
     } else {
       setNavigationItems([
         {
@@ -45,15 +55,15 @@ const Navbar = ({ navbar, pageContext }) => {
           newTab: false,
           text: "RESOURCES",
         },
-      ])
+      ]);
     }
-  }, [session, navbar.links, loggedIn])
-  const router = useRouter()
+  }, [session, navbar.links, loggedIn]);
+  const router = useRouter();
   const handleLogOut = () => {
-    signOut({ redirect: false })
-  }
+    signOut({ redirect: false });
+  };
 
-  if (loading) return null
+  if (loading) return null;
 
   return (
     <>
@@ -154,11 +164,6 @@ const Navbar = ({ navbar, pageContext }) => {
               <div style={{ margin: "10px" }}>
                 <Link href="/">
                   <a>
-                    {/* <img
-                    src={`${navbar.logo.url}`}
-                    style={{ margin: "7px", width: "12rem" }}
-                    alt={`${navbar.logo.alternativeText || ""}`}
-                  /> */}
                     <Image
                       src={`${navbar.logo.url}`}
                       style={{ margin: "7px" }}
@@ -174,14 +179,17 @@ const Navbar = ({ navbar, pageContext }) => {
                 <li key={navLink.id}>
                   <CustomLink link={navLink} locale={router.locale}>
                     <ListItem className="hover:text-white hover:bg-magenta text-purple px-2 py-1">
-                      <ListItemText>{navLink.text}</ListItemText>
+                      <ListItemText>
+                        <span style={{ fontWeight: "bold" }}>
+                          {navLink.text}
+                        </span>
+                      </ListItemText>
                     </ListItem>
                   </CustomLink>
                 </li>
               ))}
               <Divider />
               <div className="flex">
-                {/* CTA button on desktop */}
                 {navbar.button && (
                   <div className="lg:block mt-4 ml-4">
                     {!session && (
@@ -206,8 +214,8 @@ const Navbar = ({ navbar, pageContext }) => {
         </>
       )}
     </>
-  )
-}
+  );
+};
 
 Navbar.propTypes = {
   navbar: PropTypes.shape({
@@ -219,6 +227,6 @@ Navbar.propTypes = {
     button: buttonLinkPropTypes,
   }),
   initialLocale: PropTypes.string,
-}
+};
 
-export default Navbar
+export default Navbar;
