@@ -8,9 +8,9 @@ This frontend relies on Next's [Static Generation](https://nextjs.org/docs/basic
 
 This file generates all the app's route. First, it fetches all the pages entries in Strapi. Then, it creates one route per page found. These routes can look like this:
 
-* yoursite.com
-* yoursite.com/page
-* yoursite.com/page/nested/route
+- yoursite.com
+- yoursite.com/page
+- yoursite.com/page/nested/route
 
 Notice that the path of the page can be several layers deep, or it can be the root of the site. This is possible thanks to Next's [optional catch-all routes](https://nextjs.org/docs/routing/dynamic-routes#optional-catch-all-routes).
 
@@ -40,3 +40,7 @@ The application should be compiled with \`next build\` first.
 
 See the section in Next docs about [deployment](https://nextjs.org/docs/deployment) for more
 information.
+
+## Database (postgres used by strapi)
+
+Hosted on AWS with 4 days of backup
