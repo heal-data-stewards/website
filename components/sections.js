@@ -13,6 +13,7 @@ import SignIn from "./sections/sign-in"
 import SignUp from "./sections/sign-up"
 import Resources from "./sections/resources"
 import BasicTable from "./sections/basic-table"
+import EmblaCarousel from "./sections/carousel"
 
 // Map Strapi sections to section components
 const sectionComponents = {
@@ -30,6 +31,7 @@ const sectionComponents = {
   "sections.signup": SignUp,
   "sections.resources": Resources,
   "sections.table": BasicTable,
+  "sections.carousel": EmblaCarousel,
 }
 
 // Display a section individually

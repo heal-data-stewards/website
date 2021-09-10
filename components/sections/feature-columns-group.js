@@ -37,7 +37,6 @@
 // export default FeatureColumnsGroup
 
 import NextImage from "../elements/image"
-import { EmblaCarousel } from "../elements/carousel"
 
 const FeatureColumnsGroup = ({ data }) => {
   return (
@@ -84,7 +83,6 @@ const FeatureColumnsGroup = ({ data }) => {
           </div>
         ))}
       </div>
-      <EmblaCarousel />
     </>
   )
 }
