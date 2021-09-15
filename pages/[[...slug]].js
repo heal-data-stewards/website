@@ -26,7 +26,7 @@ const DynamicPage = ({ sections, metadata, preview, global, pageContext }) => {
   if (
     pageContext.slug === "resources" ||
     pageContext.slug === "account" ||
-    pageContext.slug === "directory" || 
+    pageContext.slug === "directory" ||
     pageContext.slug === "glossary"
   ) {
     return (
