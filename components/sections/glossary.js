@@ -106,7 +106,6 @@ export default function Glossary({ data }) {
       )
     })
   }
-  console.log(data.term)
   return (
     <main className="container py-12">
       <section className="pb-8">
