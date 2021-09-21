@@ -18,7 +18,7 @@ const styles = (theme) => ({
     overflow: "hidden",
   },
   searchBar: {
-    borderBottom: "1px solid rgba(0, 0, 0, 0.12)",
+    borderBottom: "1px solid rgba(0, 0, 0, 0.12)"
   },
   searchInput: {
     fontSize: theme.typography.fontSize,
@@ -45,7 +45,8 @@ function SearchBar(props) {
   return (
     <>
       <AppBar className={classes.searchBar} position="unset" elevation={0}>
-        <Toolbar position="unset" style={{ backgroundColor: "#e3dce4" }}>
+        <Toolbar position="unset" style={{ backgroundColor: "#e3dce4",
+    zIndex: "1" }}>
           <Grid container spacing={2} alignItems="center">
             <Grid item></Grid>
             <Grid item>
