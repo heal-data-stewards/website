@@ -81,6 +81,7 @@ export async function getStaticProps(context) {
 
   const globalLocale = await getGlobalData(locale)
   // Fetch pages. Include drafts if preview mode is on
+  console.log(params.slug)
   const pageData = await getPageData(
     { slug: !params.slug ? [""] : params.slug },
     locale,
