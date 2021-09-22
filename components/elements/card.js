@@ -17,7 +17,7 @@ const bull = (
 
 export default function BasicCard() {
   return (
-    <Card sx={{ minWidth: 275,margin: "0 0 20px 0", bgcolor: 'primary.dark' }}>
+    <Card sx={{ minWidth: 275,margin: "0 0 20px 0"}}>
       <CardContent>
         <Typography sx={{fontWeight: "bold", color: "#532565", fontSize: 14 }} color="text.secondary" gutterBottom>
         Wed, 22 - Thu, 23 Sep 2021 • 03:00 AM
