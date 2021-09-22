@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react"
 import { useSession, getSession } from "next-auth/client"
 import DataTable from "../elements/data-table"
 import { hastToReact } from "react-markdown/src/ast-to-react"
+import BasicCard from "../elements/card"
 
 export default function Calendar({ data }) {
   // const [session, loading] = useSession()
@@ -26,12 +27,14 @@ export default function Calendar({ data }) {
         <div className="container pt-10 pb-10">
           {/* Page header section */}
           <section>
-            <h1 className="title mt-2 sm:mt-0 mb-4 sm:mb-2">{data.heading}</h1>
-            <p className="text-gray font-thin text-xl mt-2 sm:mt-0 mb-4 sm:mb-2">{data.subheading}</p>
+            <h1 className="text-5xl font-black pb-8 text-gray-dark">{data.heading}</h1>
+            <p className="text-xl text-gray">{data.subheading}</p>
           </section>
           {/* Events List */}
           <section>
-
+            <BasicCard/>
+            <BasicCard/>
+            <BasicCard/>
           </section>
     </div>
     </>
