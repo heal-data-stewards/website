@@ -17,25 +17,25 @@ const bull = (
 
 export default function BasicCard() {
   return (
-    <Card sx={{ minWidth: 275 }}>
+    <Card sx={{ minWidth: 275,margin: "0 0 20px 0", bgcolor: 'primary.dark' }}>
       <CardContent>
-        <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
-          Word of the Day
+        <Typography sx={{fontWeight: "bold", color: "#532565", fontSize: 14 }} color="text.secondary" gutterBottom>
+        Wed, 22 - Thu, 23 Sep 2021 • 03:00 AM
         </Typography>
-        <Typography variant="h5" component="div">
-          be{bull}nev{bull}o{bull}lent
+        <Typography variant="h4" component="div" sx={{fontWeight: "bold",color: "#532565",textTransform: "capitalize", cursor: "pointer",'&:hover': {
+      color: '#982568',
+    }}}>
+          Event example title
         </Typography>
-        <Typography sx={{ mb: 1.5 }} color="text.secondary">
-          adjective
+        <Typography sx={{ mb: 1.5 }} color="">
+          Online
         </Typography>
-        <Typography variant="body2">
-          well meaning and kindly.
-          <br />
-          {'"a benevolent smile"'}
+        <Typography variant="body1">
+          Well meaning and kindly.
         </Typography>
       </CardContent>
-      <CardActions>
-        <Button size="small">Learn More</Button>
+      <CardActions sx={{ background: "#fcf8fa" }}>
+        <Button size="small">Read More</Button>
       </CardActions>
     </Card>
   );
