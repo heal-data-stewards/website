@@ -112,7 +112,7 @@ export default function Glossary({ data }) {
         <h1 className="text-5xl font-black pb-8 text-gray-dark">
           {data.title}
         </h1>
-        <p className="text-xl text-gray-dark">{data.pagetext}</p>
+        <p className="text-xl text-gray">{data.pagetext}</p>
       </section>
       <Paper elevation={2}>
         <SearchBar setFilter={setFilter} filter={filter} />
