@@ -139,3 +139,17 @@ html {
   color: #fff;
   background-color: #e3dce4 !important;
 } */
+
+.resource-block::before {
+  background-color: #532565;
+  opacity: 80%;
+  content: '';
+  display: block;
+  height: 100%;
+  position: absolute;
+  width: 100%;
+}
+
+.resource-block:hover::before {
+  background-color: #250033;
+}
