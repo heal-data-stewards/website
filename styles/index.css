@@ -140,6 +140,10 @@ html {
   background-color: #e3dce4 !important;
 } */
 
+.resource-block {
+  width: 380px
+}
+
 .resource-block::before {
   background-color: #532565;
   opacity: 80%;
@@ -153,3 +157,32 @@ html {
 .resource-block:hover::before {
   background-color: #250033;
 }
+
+@media (max-width: 1280px){
+  .resource-block {
+    width: 47%
+  }
+}
+
+@media (max-width: 900px){
+  .resource-block {
+    height: 300px !important
+  }
+}
+
+@media (max-width: 600px){
+  .resource-block {
+    height: 400px !important;
+    width: 100%;
+  }
+}
+
+/* @media (max-width: 1009px) and (min-width: 1486px){
+  .resource-block {
+    width: 550px
+  }
+} */
+
+
+
+
