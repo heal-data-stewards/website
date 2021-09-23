@@ -5,6 +5,7 @@ import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
+import Link from 'next/link'
 
 const bull = (
   <Box
@@ -25,7 +26,7 @@ export default function BasicCard() {
         <Typography variant="h4" component="div" sx={{fontWeight: "bold",color: "#532565",textTransform: "capitalize", cursor: "pointer",'&:hover': {
       color: '#982568',
     }}}>
-          Event example title
+          <Link href="/about">Event example title</Link>
         </Typography>
         <Typography sx={{ mb: 1.5 }} color="">
           Online

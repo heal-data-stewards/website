@@ -34,7 +34,7 @@ export default function Calendar({ data }) {
           </section>
           {/* Events List */}
           <section className="pt-10">
-            <BasicCard/>
+            <BasicCard />
             <BasicCard/>
             <BasicCard/>
           </section>
