@@ -1,11 +1,6 @@
 {
-  "extends": [
-    "next",
-    "prettier"
-  ],
-  "plugins": [
-    "prettier"
-  ],
+  "extends": ["next", "prettier"],
+  "plugins": ["prettier"],
   "rules": {
     "prettier/prettier": [
       "error",
@@ -14,7 +9,8 @@
         "singleQuote": false,
         "trailingComma": "es5",
         "semi": false,
-        "tabWidth": 2
+        "tabWidth": 2,
+        "endOfLine": "auto"
       }
     ]
   }

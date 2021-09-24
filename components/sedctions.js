@@ -1,5 +1,4 @@
 import { useRouter } from "next/router"
-import PageTitle from "@/components/sections/page-title"
 import Hero from "@/components/sections/hero"
 import LargeVideo from "@/components/sections/large-video"
 import FeatureColumnsGroup from "@/components/sections/feature-columns-group"
@@ -8,22 +7,10 @@ import BottomActions from "@/components/sections/bottom-actions"
 import TestimonialsGroup from "@/components/sections/testimonials-group"
 import RichText from "./sections/rich-text"
 import Pricing from "./sections/pricing"
-// import LeadForm from "./sections/lead-form"
-import Directory from "./sections/directory"
-import SignIn from "./sections/sign-in"
-import SignUp from "./sections/sign-up"
-import BasicTable from "./sections/basic-table"
-import EmblaCarousel from "./sections/carousel"
-import Glossary from "./sections/glossary"
-import Calendar from "./sections/calendar"
-import Resources from "./sections/resources"
-import ResourceBlocks from "./sections/resource-blocks"
-
-
+import LeadForm from "./sections/lead-form"
 
 // Map Strapi sections to section components
 const sectionComponents = {
-  "sections.pageheading": PageTitle,
   "sections.hero": Hero,
   "sections.large-video": LargeVideo,
   "sections.feature-columns-group": FeatureColumnsGroup,
@@ -32,16 +19,7 @@ const sectionComponents = {
   "sections.testimonials-group": TestimonialsGroup,
   "sections.rich-text": RichText,
   "sections.pricing": Pricing,
-  // "sections.lead-form": LeadForm,
-  "sections.directory": Directory,
-  "sections.sign-in": SignIn,
-  "sections.signup": SignUp,
-  "sections.resources": Resources,
-  "sections.table": BasicTable,
-  "sections.carousel": EmblaCarousel,
-  "sections.glossary": Glossary,
-  "sections.calendarbody": Calendar,
-  "sections.resourceblocksection": ResourceBlocks,
+  "sections.lead-form": LeadForm,
 }
 
 // Display a section individually

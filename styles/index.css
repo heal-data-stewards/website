@@ -54,7 +54,7 @@ html {
 
 @media (min-width: 768px) {
   .title {
-    @apply text-5xl;
+    @apply text-4xl;
   }
 }
 
@@ -66,3 +66,123 @@ html {
   display: inline-block;
   margin-left: 0.5em;
 }
+
+.embla {
+  overflow: hidden;
+}
+.embla__container {
+  display: flex;
+}
+.embla__slide {
+  position: relative;
+  flex: 0 0 100%;
+}
+
+/* .img-fix > div {
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+} */
+
+/* Fixes issue with button changing to default material blue on directory page  */
+.MuiButton-containedPrimary {
+  background-color: #532565 !important;
+}
+
+.MuiButton-containedPrimary:hover {
+  background-color: #982568 !important;
+}
+
+.MuiButton-textPrimary {
+  color: #532565 !important;
+}
+
+.tag-wrap {
+  /* filter: drop-shadow(-1px 6px 3px rgba(50, 50, 0, 0.5)); */
+  filter: drop-shadow(-1px 6px 3px #441d4f);
+}
+
+.embla__dots {
+  display: flex;
+  list-style: none;
+  justify-content: center;
+  padding-top: 10px;
+}
+
+.embla__dot {
+  background-color: transparent;
+  cursor: pointer;
+  position: relative;
+  padding: 0;
+  outline: 0;
+  border: 0;
+  width: 30px;
+  height: 30px;
+  margin-right: 7.5px;
+  margin-left: 7.5px;
+  display: flex;
+  align-items: center;
+}
+
+.embla__dot:after {
+  background-color: #53256554;
+  width: 100%;
+  height: 4px;
+  border-radius: 2px;
+  content: "";
+}
+
+.embla__dot.is-selected:after {
+  background-color: #532565;
+  opacity: 1;
+}
+
+/* .MuiAppBar-colorPrimary {
+  color: #fff;
+  background-color: #e3dce4 !important;
+} */
+
+.resource-block {
+  width: 380px
+}
+
+.resource-block::before {
+  background-color: #532565;
+  opacity: 80%;
+  content: '';
+  display: block;
+  height: 100%;
+  position: absolute;
+  width: 100%;
+}
+
+.resource-block:hover::before {
+  background-color: #250033;
+}
+
+@media (max-width: 1280px){
+  .resource-block {
+    width: 47%
+  }
+}
+
+@media (max-width: 900px){
+  .resource-block {
+    height: 300px !important
+  }
+}
+
+@media (max-width: 600px){
+  .resource-block {
+    height: 400px !important;
+    width: 100%;
+  }
+}
+
+/* @media (max-width: 1009px) and (min-width: 1486px){
+  .resource-block {
+    width: 550px
+  }
+} */
+
+
+
+
