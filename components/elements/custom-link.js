@@ -1,8 +1,8 @@
-import Link from "next/link";
-import PropTypes from "prop-types";
-import { linkPropTypes } from "utils/types";
-import Button from "@material-ui/core/Button";
-import { createTheme, ThemeProvider } from "@material-ui/core/styles";
+import Link from "next/link"
+import PropTypes from "prop-types"
+import { linkPropTypes } from "utils/types"
+import Button from "@material-ui/core/Button"
+import { createTheme, ThemeProvider } from "@material-ui/core/styles"
 
 const theme = createTheme({
   palette: {
@@ -13,10 +13,10 @@ const theme = createTheme({
       contrastText: "#fff",
     },
   },
-});
+})
 
 const CustomLink = ({ link, children }) => {
-  const isInternalLink = link.url.startsWith("/");
+  const isInternalLink = link.url.startsWith("/")
 
   // For internal links, use the Next.js Link component
   if (isInternalLink) {
@@ -24,7 +24,7 @@ const CustomLink = ({ link, children }) => {
       <Link href="/[[...slug]]" as={link.url}>
         <a>{children}</a>
       </Link>
-    );
+    )
   }
 
   // Plain <a> tags for external links
@@ -41,15 +41,15 @@ const CustomLink = ({ link, children }) => {
           {children}
         </Button>
       </ThemeProvider>
-    );
+    )
   }
 
   return (
     <a href={link.url} target="_self">
       {children}
     </a>
-  );
-};
+  )
+}
 
 CustomLink.propTypes = {
   link: linkPropTypes,
@@ -57,6 +57,6 @@ CustomLink.propTypes = {
     PropTypes.arrayOf(PropTypes.node),
     PropTypes.node,
   ]).isRequired,
-};
+}
 
-export default CustomLink;
+export default CustomLink

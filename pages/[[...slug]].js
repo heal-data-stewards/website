@@ -23,8 +23,27 @@ const DynamicPage = ({ sections, metadata, preview, global, pageContext }) => {
     return <div className="container">Loading...</div>
   }
 
+  if (
+    pageContext.slug === "resources" ||
+    pageContext.slug === "account" ||
+    pageContext.slug === "directory" ||
+    pageContext.slug === "glossary" 
+  ) {
+    return (
+      <Layout
+        global={global}
+        pageContext={pageContext}
+        style={{ background: "#9c2a6e08" }}
+      >
+        {/* Add meta tags for SEO*/}
+        <Seo metadata={metadata} />
+        {/* Display content sections */}
+        <Sections sections={sections} preview={preview} />
+      </Layout>
+    )
+  }
   return (
-    <Layout global={global} pageContext={pageContext}>
+    <Layout global={global} pageContext={pageContext} style={{}}>
       {/* Add meta tags for SEO*/}
       <Seo metadata={metadata} />
       {/* Display content sections */}
@@ -61,6 +80,7 @@ export async function getStaticProps(context) {
 
   const globalLocale = await getGlobalData(locale)
   // Fetch pages. Include drafts if preview mode is on
+  console.log(params.slug)
   const pageData = await getPageData(
     { slug: !params.slug ? [""] : params.slug },
     locale,
@@ -74,7 +94,7 @@ export async function getStaticProps(context) {
 
   // We have the required page data, pass it to the page component
   const { contentSections, metadata, localizations, slug } = pageData
-
+  
   const pageContext = {
     locale: pageData.locale,
     locales,

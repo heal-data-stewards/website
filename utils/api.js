@@ -1,6 +1,8 @@
+import { gridColumnsTotalWidthSelector } from "@material-ui/data-grid";
+
 export function getStrapiURL(path) {
   return `${
-    process.env.NEXT_PUBLIC_STRAPI_API_URL || "http://3.216.235.213:1337"
+    process.env.NEXT_PUBLIC_STRAPI_API_URL || "https://api.healdatafair.org"
   }${path}`;
 }
 
