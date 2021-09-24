@@ -20,8 +20,6 @@ import Resources from "./sections/resources"
 import ResourceBlocks from "./sections/resource-blocks"
 import FAIRiswheel from "./sections/resources/FAIRiswheel"
 
-
-
 // Map Strapi sections to section components
 const sectionComponents = {
   "sections.pageheading": PageTitle,

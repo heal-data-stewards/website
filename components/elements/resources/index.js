@@ -1,3 +1,3 @@
-import Block from "./blocks";
+import Block from "./blocks"
 
-export {Block}
+export { Block }
