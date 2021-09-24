@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import PageTitle from "../page-title";
 
-const FairisWheelSVG = () => {
+const FairIsWheelSVG = ({ setcontentTitle }) => {
   const [healPlatformColor, setHealPlatformColor] = useState("#8a5a91");
   const [healPlatformClick, setHealPlatformClicked] = useState(false);
   const [dataCreationColor, setDataCreationColor] = useState("#592f5f");
@@ -19,6 +19,7 @@ const FairisWheelSVG = () => {
     setDataRepositoriesAndArchivesClicked,
   ] = useState(false);
 
+  // Turns on the section that the user is hovering over
   function onHover(e) {
     switch (e.target.id) {
       case "heal-platform":
@@ -37,7 +38,7 @@ const FairisWheelSVG = () => {
         console.log(`error`);
     }
   }
-
+  // Turns off the hovered section if it has not been clicked
   function onHoverOut(e) {
     switch (e.target.id) {
       case "heal-platform":
@@ -57,11 +58,14 @@ const FairisWheelSVG = () => {
         console.log(`error`);
     }
   }
-
+  // Lights up the clicked section on the fairiswheel, checks if any other section is clicked and turns it off, and sets the appropriate content
   function onClick(e) {
     switch (e.target.id) {
       case "heal-platform":
         setHealPlatformClicked(true);
+        setcontentTitle({
+          title: "HEAL Platform"
+        });
         dataRepositoriesAndArchivesClick &&
           (setDataRepositoriesAndArchivesClicked(false),
           setDataRepositoriesAndArchivesColor("#a783ac"));
@@ -73,6 +77,9 @@ const FairisWheelSVG = () => {
         break;
       case "data-creation-and-deposition":
         setDataCreationClicked(true);
+        setcontentTitle({
+          title: "Data Creation and Deposition"
+        });
         dataRepositoriesAndArchivesClick &&
           (setDataRepositoriesAndArchivesClicked(false),
           setDataRepositoriesAndArchivesColor("#a783ac"));
@@ -84,6 +91,9 @@ const FairisWheelSVG = () => {
         break;
       case "managing-active-data":
         setManagingActiveDataClicked(true);
+        setcontentTitle({
+          title: "Managing Active Data"
+        });
         dataRepositoriesAndArchivesClick &&
           (setDataRepositoriesAndArchivesClicked(false),
           setDataRepositoriesAndArchivesColor("#a783ac"));
@@ -94,6 +104,9 @@ const FairisWheelSVG = () => {
         break;
       case "data-repositories-and-archives":
         setDataRepositoriesAndArchivesClicked(true);
+        setcontentTitle({
+          title: "Data Repositories and Archives"
+        });
         managingActivedataClick &&
           (setManagingActiveDataClicked(false),
           setManagingActiveDataColor("#441d4f"));
@@ -662,17 +675,17 @@ const FairisWheelSVG = () => {
 };
 
 export default function FAIRiswheel(data) {
-  const contentTitle = {
-    title: "testing",
-    optionaldescription: "fdsdf",
-  };
+  const [contentTitle, setcontentTitle] = useState({
+    title: "Welcome",
+    optionaldescription: "Click on the FAIRiswheel to begin",
+  });
   return (
     <div className="container flex">
       <section className="">
-        <FairisWheelSVG />
+        <FairIsWheelSVG setcontentTitle={setcontentTitle} />
       </section>
       <section>
-        <PageTitle data={contentTitle} />
+        <PageTitle data={contentTitle} noPaddingBottom={true} />
         <p className="container">
           Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
           eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
