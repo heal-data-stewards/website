@@ -18,8 +18,7 @@ import Glossary from "./sections/glossary"
 import Calendar from "./sections/calendar"
 import Resources from "./sections/resources"
 import ResourceBlocks from "./sections/resource-blocks"
-
-
+import FAIRiswheel from "./sections/resources/FAIRiswheel"
 
 // Map Strapi sections to section components
 const sectionComponents = {
@@ -42,6 +41,7 @@ const sectionComponents = {
   "sections.glossary": Glossary,
   "sections.calendarbody": Calendar,
   "sections.resourceblocksection": ResourceBlocks,
+  "sections.fairiswheel": FAIRiswheel,
 }
 
 // Display a section individually

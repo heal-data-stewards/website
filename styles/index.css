@@ -177,12 +177,12 @@ html {
   }
 }
 
-/* @media (max-width: 1009px) and (min-width: 1486px){
-  .resource-block {
-    width: 550px
-  }
-} */
+.FAIRiswheel {
+height: 300px;
+min-width: 500px;
+content: ""
+}
 
-
-
-
+.wheel{
+  top: 105px;
+}
