@@ -23,7 +23,7 @@ import ResourceBlocks from "./sections/resource-blocks"
 
 // Map Strapi sections to section components
 const sectionComponents = {
-  "sections.page-title": PageTitle,
+  "sections.pageheading": PageTitle,
   "sections.hero": Hero,
   "sections.large-video": LargeVideo,
   "sections.feature-columns-group": FeatureColumnsGroup,
