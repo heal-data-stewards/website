@@ -44,3 +44,31 @@ information.
 ## Database (postgres used by strapi)
 
 Hosted on AWS with 4 days of backup
+
+
+# Administration Manual (Super Admins)
+* Super Admins must be signed in and approved as Super Admins
+* Once approved you can sign in here https://api.healdatafair.org/admin
+
+## Creating a page
+
+1. Under COLLECTION TYPES on the left hand navigation panel choose "Pages"
+2. On the top right hand corner click the Add New Pages button
+
+Fill in the required fields for 
+* ShortName (Page Name)
+* MetaTitle (The text that is displayed on search engine result pages and browser tabs to indicate the topic of a webpage.)
+* MetaDescription (An HTML element that describes and summarizes the contents of your page for the benefit of users and search engines)
+* ShareImage (Select an existing image or upload your own)
+* Status (Set to draft by default, in order to make the page live set this to published)
+* Slug (Here enter the slug that you would like to point to the new webpage you are creating. Example: If you enter the word "about", your new page will be found at https://healdatafair.org/about. Make sure the same slug is not used across multiple pages. You can also extend the slug by prefixing the chosen slug with a directory name and a forward slash. Example: If you enter "resources/about" the new page will be found at https://healdatafair.org/resources/about. )
+
+Though your page is now correctly configuered. It will not be avaliable until content sections have been added.
+
+3. Click the + button that will say ADD TO CONTENTSECTIONS when you hover above it.
+A box will open up that instructs you to Pick one component.
+Under Sections click on the desired component and once you have filled out the neccessary information for the chosen component or components if you are adding more than one, click the green save button on the top right hand corner of the page. Your page will not go live if you do not click save.
+More about individual components can be found below.
+
+## Sections/Components
+
