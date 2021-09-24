@@ -71,4 +71,21 @@ Under Sections click on the desired component and once you have filled out the n
 More about individual components can be found below.
 
 ## Sections/Components
+Fill in the desired options for the chosen component
+
+1. Page Heading 
+* Title (Title of page)
+* Optionaldescription (Descriptive text to say a little more about the page)
+
+Example of this component can be seen at the top of the resources page https://www.healdatafair.org/resources
+
+## Editing a page
+
+To edit a page 
+
+1. Under COLLECTION TYPES on the left hand navigation panel choose "Pages"
+2. Click any of the existing pages
+3. Make edits to existing sections/components. You can also delete existing sections/components or add new ones. 
+4. Once you have made your required changes click the green save button on the top right hand corner. 
+
 
