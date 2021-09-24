@@ -62,7 +62,7 @@ export default function DataTable() {
   return (
     <div
       style={{ height: 600, width: "100%" }}
-      className={"container mb-8 mt-8"}
+      className={"container mb-8"}
     >
       <DataGrid
         className={classes.table}
