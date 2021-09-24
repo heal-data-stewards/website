@@ -4,6 +4,9 @@ module.exports = {
   mode: "jit", // see https://tailwindcss.com/docs/just-in-time-mode
   purge: ["./components/**/*.js", "./pages/**/*.js"],
   darkMode: false, // or "media" or "class"
+  variants: {
+    fill: ['hover', 'focus'], // this line does the trick
+  },
   theme: {
     extend: {
       colors: {
