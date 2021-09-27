@@ -688,8 +688,8 @@ export default function FAIRiswheel(data) {
       </section>
       <section className="w-full ml-10">
         <PageTitle data={contentTitle} noPaddingBottom={true} />
-        <div style={{ background: "#e5e0e738", padding: "34px 0 34px 0" }}>
-          <div className="container">
+        <div style={{ background: "#e5e0e738", padding: "34px 0 34px 0",boxShadow: "0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22)" }}>
+          <div className="container" >
           <h1 className="text-purple text-2xl mb-5">Frequently Asked Questions (FAQs)</h1>
             <SimpleExpansionPanel data={faqs} />
           </div>
