@@ -40,7 +40,7 @@ const sectionComponents = {
   "sections.glossary": Glossary,
   "sections.calendarbody": Calendar,
   "sections.resourceblocksection": ResourceBlocks,
-  "sections.fairiswheel": FAIRiswheel
+  "sections.fairiswheel": FAIRiswheel,
 }
 
 // Display a section individually
