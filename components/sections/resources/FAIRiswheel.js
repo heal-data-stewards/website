@@ -1,23 +1,24 @@
-import React, { useState } from "react"
-import SimpleExpansionPanel from "../../elements/expansion-panel"
+import React, { useState } from "react";
+import SimpleExpansionPanel from "../../elements/expansion-panel";
+import FileDownloadIcon from "@mui/icons-material/FileDownload";
 
 const FairIsWheelSVG = ({ setcontentTitle, setFaqs, setDocuments, data }) => {
-  const [healPlatformColor, setHealPlatformColor] = useState("#8a5a91")
-  const [healPlatformClick, setHealPlatformClicked] = useState(false)
-  const [dataCreationColor, setDataCreationColor] = useState("#592f5f")
-  const [dataCreationClick, setDataCreationClicked] = useState(false)
+  const [healPlatformColor, setHealPlatformColor] = useState("#8a5a91");
+  const [healPlatformClick, setHealPlatformClicked] = useState(false);
+  const [dataCreationColor, setDataCreationColor] = useState("#592f5f");
+  const [dataCreationClick, setDataCreationClicked] = useState(false);
   const [managingActivedataColor, setManagingActiveDataColor] =
-    useState("#441d4f")
+    useState("#441d4f");
   const [managingActivedataClick, setManagingActiveDataClicked] =
-    useState(false)
+    useState(false);
   const [
     dataRepositoriesAndArchivesColor,
     setDataRepositoriesAndArchivesColor,
-  ] = useState("#a783ac")
+  ] = useState("#a783ac");
   const [
     dataRepositoriesAndArchivesClick,
     setDataRepositoriesAndArchivesClicked,
-  ] = useState(false)
+  ] = useState(false);
 
   const {
     faqs_data_creation_and_depositions,
@@ -28,114 +29,114 @@ const FairIsWheelSVG = ({ setcontentTitle, setFaqs, setDocuments, data }) => {
     documents_data_repos_and_archives,
     documents_heal_platform,
     documents_managing_active_data,
-  } = data
+  } = data;
 
   // Turns on the section that the user is hovering over
   function onHover(e) {
     switch (e.target.id) {
       case "heal-platform":
-        setHealPlatformColor("#982568")
-        break
+        setHealPlatformColor("#982568");
+        break;
       case "data-creation-and-deposition":
-        setDataCreationColor("#982568")
-        break
+        setDataCreationColor("#982568");
+        break;
       case "managing-active-data":
-        setManagingActiveDataColor("#982568")
-        break
+        setManagingActiveDataColor("#982568");
+        break;
       case "data-repositories-and-archives":
-        setDataRepositoriesAndArchivesColor("#982568")
-        break
+        setDataRepositoriesAndArchivesColor("#982568");
+        break;
       default:
-        console.log(`error`)
+        console.log(`error`);
     }
   }
   // Turns off the hovered section if it has not been clicked
   function onHoverOut(e) {
     switch (e.target.id) {
       case "heal-platform":
-        !healPlatformClick && setHealPlatformColor("#8a5a91")
-        break
+        !healPlatformClick && setHealPlatformColor("#8a5a91");
+        break;
       case "data-creation-and-deposition":
-        !dataCreationClick && setDataCreationColor("#592f5f")
-        break
+        !dataCreationClick && setDataCreationColor("#592f5f");
+        break;
       case "managing-active-data":
-        !managingActivedataClick && setManagingActiveDataColor("#441d4f")
-        break
+        !managingActivedataClick && setManagingActiveDataColor("#441d4f");
+        break;
       case "data-repositories-and-archives":
         !dataRepositoriesAndArchivesClick &&
-          setDataRepositoriesAndArchivesColor("#a783ac")
-        break
+          setDataRepositoriesAndArchivesColor("#a783ac");
+        break;
       default:
-        console.log(`error`)
+        console.log(`error`);
     }
   }
   // Lights up the clicked section on the fairiswheel, checks if any other section is clicked and turns it off, and sets the appropriate content
   function onClick(e) {
     switch (e.target.id) {
       case "heal-platform":
-        setHealPlatformClicked(true)
-        setFaqs(faqs_heal_platform)
-        setDocuments(documents_heal_platform)
+        setHealPlatformClicked(true);
+        setFaqs(faqs_heal_platform);
+        setDocuments(documents_heal_platform);
         setcontentTitle({
           title: "HEAL Platform",
-        })
+        });
         dataRepositoriesAndArchivesClick &&
           (setDataRepositoriesAndArchivesClicked(false),
-          setDataRepositoriesAndArchivesColor("#a783ac"))
+          setDataRepositoriesAndArchivesColor("#a783ac"));
         dataCreationClick &&
-          (setDataCreationClicked(false), setDataCreationColor("#592f5f"))
+          (setDataCreationClicked(false), setDataCreationColor("#592f5f"));
         managingActivedataClick &&
           (setManagingActiveDataClicked(false),
-          setManagingActiveDataColor("#441d4f"))
-        break
+          setManagingActiveDataColor("#441d4f"));
+        break;
       case "data-creation-and-deposition":
-        setDataCreationClicked(true)
-        setFaqs(faqs_data_creation_and_depositions)
-        setDocuments(documents_data_creation_and_depositions)
+        setDataCreationClicked(true);
+        setFaqs(faqs_data_creation_and_depositions);
+        setDocuments(documents_data_creation_and_depositions);
         setcontentTitle({
           title: "Data Creation and Deposition",
-        })
+        });
         dataRepositoriesAndArchivesClick &&
           (setDataRepositoriesAndArchivesClicked(false),
-          setDataRepositoriesAndArchivesColor("#a783ac"))
+          setDataRepositoriesAndArchivesColor("#a783ac"));
         healPlatformClick &&
-          (setHealPlatformClicked(false), setHealPlatformColor("#8a5a91"))
+          (setHealPlatformClicked(false), setHealPlatformColor("#8a5a91"));
         managingActivedataClick &&
           (setManagingActiveDataClicked(false),
-          setManagingActiveDataColor("#441d4f"))
-        break
+          setManagingActiveDataColor("#441d4f"));
+        break;
       case "managing-active-data":
-        setManagingActiveDataClicked(true)
-        setFaqs(faqs_managing_active_data)
-        setDocuments(documents_managing_active_data)
+        setManagingActiveDataClicked(true);
+        setFaqs(faqs_managing_active_data);
+        setDocuments(documents_managing_active_data);
         setcontentTitle({
           title: "Managing Active Data",
-        })
+        });
         dataRepositoriesAndArchivesClick &&
           (setDataRepositoriesAndArchivesClicked(false),
-          setDataRepositoriesAndArchivesColor("#a783ac"))
+          setDataRepositoriesAndArchivesColor("#a783ac"));
         healPlatformClick &&
-          (setHealPlatformClicked(false), setHealPlatformColor("#8a5a91"))
+          (setHealPlatformClicked(false), setHealPlatformColor("#8a5a91"));
         dataCreationClick &&
-          (setDataCreationClicked(false), setDataCreationColor("#592f5f"))
-        break
+          (setDataCreationClicked(false), setDataCreationColor("#592f5f"));
+        break;
       case "data-repositories-and-archives":
-        setDataRepositoriesAndArchivesClicked(true)
-        setFaqs(faqs_data_repos_and_archives)
-        setDocuments(documents_data_repos_and_archives)
+        setDataRepositoriesAndArchivesClicked(true);
+        setFaqs(faqs_data_repos_and_archives);
+        setDocuments(documents_data_repos_and_archives);
         setcontentTitle({
           title: "Data Repositories and Archives",
-        })
+        });
         managingActivedataClick &&
           (setManagingActiveDataClicked(false),
-          setManagingActiveDataColor("#441d4f"))
+          setManagingActiveDataColor("#441d4f"));
         healPlatformClick &&
-          (setHealPlatformClicked(false), setHealPlatformColor("#8a5a91"))
+          (setHealPlatformClicked(false), setHealPlatformColor("#8a5a91"));
         dataCreationClick &&
-          (setDataCreationClicked(false), setDataCreationColor("#592f5f"))
-        break
+          (setDataCreationClicked(false), setDataCreationColor("#592f5f"));
+        break;
       default:
-        console.log(`error`)
+        console.log(`error`);
     }
   }
   return (
@@ -689,15 +690,15 @@ const FairIsWheelSVG = ({ setcontentTitle, setFaqs, setDocuments, data }) => {
         />
       </g>
     </svg>
-  )
-}
+  );
+};
 
 export default function FAIRiswheel(data) {
   const [contentTitle, setcontentTitle] = useState({
     title: "Heal Platform",
-  })
-  const [faqs, setFaqs] = useState(data.data.faqs_heal_platform)
-  const [documents, setDocuments] = useState(data.data.documents_heal_platform)
+  });
+  const [faqs, setFaqs] = useState(data.data.faqs_heal_platform);
+  const [documents, setDocuments] = useState(data.data.documents_heal_platform);
   return (
     <div className="container flex mdmax:flex-wrap">
       <section className="">
@@ -733,12 +734,13 @@ export default function FAIRiswheel(data) {
               <>
                 <h1 className="text-purple text-2xl mb-5 mt-5">Documents</h1>
                 {documents.map((doc, i) => {
-                  console.log(doc)
+                  console.log(doc);
                   return (
                     <a key={doc.url + i} href={doc.url} download>
+                      <FileDownloadIcon/>
                       {doc.name}
                     </a>
-                  )
+                  );
                 })}
               </>
             )}
@@ -746,5 +748,5 @@ export default function FAIRiswheel(data) {
         </div>
       </section>
     </div>
-  )
+  );
 }
