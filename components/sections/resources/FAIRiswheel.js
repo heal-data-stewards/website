@@ -1,122 +1,123 @@
-import React, { useState } from "react"
-import PageTitle from "../page-title"
+import React, { useState } from "react";
+import PageTitle from "../page-title";
+import SimpleExpansionPanel from "../../elements/expansion-panel";
 
 const FairIsWheelSVG = ({ setcontentTitle }) => {
-  const [healPlatformColor, setHealPlatformColor] = useState("#8a5a91")
-  const [healPlatformClick, setHealPlatformClicked] = useState(false)
-  const [dataCreationColor, setDataCreationColor] = useState("#592f5f")
-  const [dataCreationClick, setDataCreationClicked] = useState(false)
+  const [healPlatformColor, setHealPlatformColor] = useState("#8a5a91");
+  const [healPlatformClick, setHealPlatformClicked] = useState(false);
+  const [dataCreationColor, setDataCreationColor] = useState("#592f5f");
+  const [dataCreationClick, setDataCreationClicked] = useState(false);
   const [managingActivedataColor, setManagingActiveDataColor] =
-    useState("#441d4f")
+    useState("#441d4f");
   const [managingActivedataClick, setManagingActiveDataClicked] =
-    useState(false)
+    useState(false);
   const [
     dataRepositoriesAndArchivesColor,
     setDataRepositoriesAndArchivesColor,
-  ] = useState("#a783ac")
+  ] = useState("#a783ac");
   const [
     dataRepositoriesAndArchivesClick,
     setDataRepositoriesAndArchivesClicked,
-  ] = useState(false)
+  ] = useState(false);
 
   // Turns on the section that the user is hovering over
   function onHover(e) {
     switch (e.target.id) {
       case "heal-platform":
-        setHealPlatformColor("#982568")
-        break
+        setHealPlatformColor("#982568");
+        break;
       case "data-creation-and-deposition":
-        setDataCreationColor("#982568")
-        break
+        setDataCreationColor("#982568");
+        break;
       case "managing-active-data":
-        setManagingActiveDataColor("#982568")
-        break
+        setManagingActiveDataColor("#982568");
+        break;
       case "data-repositories-and-archives":
-        setDataRepositoriesAndArchivesColor("#982568")
-        break
+        setDataRepositoriesAndArchivesColor("#982568");
+        break;
       default:
-        console.log(`error`)
+        console.log(`error`);
     }
   }
   // Turns off the hovered section if it has not been clicked
   function onHoverOut(e) {
     switch (e.target.id) {
       case "heal-platform":
-        !healPlatformClick && setHealPlatformColor("#8a5a91")
-        break
+        !healPlatformClick && setHealPlatformColor("#8a5a91");
+        break;
       case "data-creation-and-deposition":
-        !dataCreationClick && setDataCreationColor("#592f5f")
-        break
+        !dataCreationClick && setDataCreationColor("#592f5f");
+        break;
       case "managing-active-data":
-        !managingActivedataClick && setManagingActiveDataColor("#441d4f")
-        break
+        !managingActivedataClick && setManagingActiveDataColor("#441d4f");
+        break;
       case "data-repositories-and-archives":
         !dataRepositoriesAndArchivesClick &&
-          setDataRepositoriesAndArchivesColor("#a783ac")
-        break
+          setDataRepositoriesAndArchivesColor("#a783ac");
+        break;
       default:
-        console.log(`error`)
+        console.log(`error`);
     }
   }
   // Lights up the clicked section on the fairiswheel, checks if any other section is clicked and turns it off, and sets the appropriate content
   function onClick(e) {
     switch (e.target.id) {
       case "heal-platform":
-        setHealPlatformClicked(true)
+        setHealPlatformClicked(true);
         setcontentTitle({
           title: "HEAL Platform",
-        })
+        });
         dataRepositoriesAndArchivesClick &&
           (setDataRepositoriesAndArchivesClicked(false),
-          setDataRepositoriesAndArchivesColor("#a783ac"))
+          setDataRepositoriesAndArchivesColor("#a783ac"));
         dataCreationClick &&
-          (setDataCreationClicked(false), setDataCreationColor("#592f5f"))
+          (setDataCreationClicked(false), setDataCreationColor("#592f5f"));
         managingActivedataClick &&
           (setManagingActiveDataClicked(false),
-          setManagingActiveDataColor("#441d4f"))
-        break
+          setManagingActiveDataColor("#441d4f"));
+        break;
       case "data-creation-and-deposition":
-        setDataCreationClicked(true)
+        setDataCreationClicked(true);
         setcontentTitle({
           title: "Data Creation and Deposition",
-        })
+        });
         dataRepositoriesAndArchivesClick &&
           (setDataRepositoriesAndArchivesClicked(false),
-          setDataRepositoriesAndArchivesColor("#a783ac"))
+          setDataRepositoriesAndArchivesColor("#a783ac"));
         healPlatformClick &&
-          (setHealPlatformClicked(false), setHealPlatformColor("#8a5a91"))
+          (setHealPlatformClicked(false), setHealPlatformColor("#8a5a91"));
         managingActivedataClick &&
           (setManagingActiveDataClicked(false),
-          setManagingActiveDataColor("#441d4f"))
-        break
+          setManagingActiveDataColor("#441d4f"));
+        break;
       case "managing-active-data":
-        setManagingActiveDataClicked(true)
+        setManagingActiveDataClicked(true);
         setcontentTitle({
           title: "Managing Active Data",
-        })
+        });
         dataRepositoriesAndArchivesClick &&
           (setDataRepositoriesAndArchivesClicked(false),
-          setDataRepositoriesAndArchivesColor("#a783ac"))
+          setDataRepositoriesAndArchivesColor("#a783ac"));
         healPlatformClick &&
-          (setHealPlatformClicked(false), setHealPlatformColor("#8a5a91"))
+          (setHealPlatformClicked(false), setHealPlatformColor("#8a5a91"));
         dataCreationClick &&
-          (setDataCreationClicked(false), setDataCreationColor("#592f5f"))
-        break
+          (setDataCreationClicked(false), setDataCreationColor("#592f5f"));
+        break;
       case "data-repositories-and-archives":
-        setDataRepositoriesAndArchivesClicked(true)
+        setDataRepositoriesAndArchivesClicked(true);
         setcontentTitle({
           title: "Data Repositories and Archives",
-        })
+        });
         managingActivedataClick &&
           (setManagingActiveDataClicked(false),
-          setManagingActiveDataColor("#441d4f"))
+          setManagingActiveDataColor("#441d4f"));
         healPlatformClick &&
-          (setHealPlatformClicked(false), setHealPlatformColor("#8a5a91"))
+          (setHealPlatformClicked(false), setHealPlatformColor("#8a5a91"));
         dataCreationClick &&
-          (setDataCreationClicked(false), setDataCreationColor("#592f5f"))
-        break
+          (setDataCreationClicked(false), setDataCreationColor("#592f5f"));
+        break;
       default:
-        console.log(`error`)
+        console.log(`error`);
     }
   }
 
@@ -671,103 +672,29 @@ const FairIsWheelSVG = ({ setcontentTitle }) => {
         />
       </g>
     </svg>
-  )
-}
+  );
+};
 
 export default function FAIRiswheel(data) {
+  const { faqs } = data.data;
+
   const [contentTitle, setcontentTitle] = useState({
     title: "Welcome",
-  })
+  });
   return (
     <div className="container flex">
       <section className="">
         <FairIsWheelSVG setcontentTitle={setcontentTitle} />
       </section>
-      <section>
+      <section className="w-full ml-10">
         <PageTitle data={contentTitle} noPaddingBottom={true} />
-        <p className="container">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-          eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
-          minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-          aliquip ex ea commodo consequat. Duis aute irure dolor in
-          reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-          pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
-          culpa qui officia deserunt mollit anim id est laborum.Lorem ipsum
-          dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-          incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-          quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-          commodo consequat. Duis aute irure dolor in reprehenderit in voluptate
-          velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint
-          occaecat cupidatat non proident, sunt in culpa qui officia deserunt
-          mollit anim id est laborum.Lorem ipsum dolor sit amet, consectetur
-          adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
-          magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation
-          ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute
-          irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
-          fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident,
-          sunt in culpa qui officia deserunt mollit anim id est laborum.Lorem
-          ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-          tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
-          veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex
-          ea commodo consequat. Duis aute irure dolor in reprehenderit in
-          voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur
-          sint occaecat cupidatat non proident, sunt in culpa qui officia
-          deserunt mollit anim id est laborum. Lorem ipsum dolor sit amet,
-          consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
-          labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
-          exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-          Duis aute irure dolor in reprehenderit in voluptate velit esse cillum
-          dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-          proident, sunt in culpa qui officia deserunt mollit anim id est
-          laborum.Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
-          do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
-          ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-          aliquip ex ea commodo consequat. Duis aute irure dolor in
-          reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-          pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
-          culpa qui officia deserunt mollit anim id est laborum.Lorem ipsum
-          dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-          incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-          quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-          commodo consequat. Duis aute irure dolor in reprehenderit in voluptate
-          velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint
-          occaecat cupidatat non proident, sunt in culpa qui officia deserunt
-          mollit anim id est laborum.Lorem ipsum dolor sit amet, consectetur
-          adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
-          magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation
-          ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute
-          irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
-          fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident,
-          sunt in culpa qui officia deserunt mollit anim id est laborum. Lorem
-          ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-          tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
-          veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex
-          ea commodo consequat. Duis aute irure dolor in reprehenderit in
-          voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur
-          sint occaecat cupidatat non proident, sunt in culpa qui officia
-          deserunt mollit anim id est laborum.Lorem ipsum dolor sit amet,
-          consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
-          labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
-          exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-          Duis aute irure dolor in reprehenderit in voluptate velit esse cillum
-          dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-          proident, sunt in culpa qui officia deserunt mollit anim id est
-          laborum.Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
-          do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
-          ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-          aliquip ex ea commodo consequat. Duis aute irure dolor in
-          reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-          pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
-          culpa qui officia deserunt mollit anim id est laborum.Lorem ipsum
-          dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-          incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-          quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-          commodo consequat. Duis aute irure dolor in reprehenderit in voluptate
-          velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint
-          occaecat cupidatat non proident, sunt in culpa qui officia deserunt
-          mollit anim id est laborum.
-        </p>
+        <div style={{ background: "#e5e0e738", padding: "34px 0 34px 0" }}>
+          <div className="container">
+          <h1 className="text-purple text-2xl mb-5">Frequently Asked Questions (FAQs)</h1>
+            <SimpleExpansionPanel data={faqs} />
+          </div>
+        </div>
       </section>
     </div>
-  )
+  );
 }
