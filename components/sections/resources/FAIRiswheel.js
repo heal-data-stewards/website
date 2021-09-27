@@ -708,7 +708,7 @@ export default function FAIRiswheel(data) {
           data={data.data}
         />
       </section>
-      <section className="w-full ml-10 mb-10">
+      <section className="w-full large:ml-10 mb-10">
         <h1 className="text-4xl font-black pb-4 text-purple">
           {contentTitle.title}
         </h1>
