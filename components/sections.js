@@ -31,7 +31,6 @@ const sectionComponents = {
   "sections.testimonials-group": TestimonialsGroup,
   "sections.rich-text": RichText,
   "sections.pricing": Pricing,
-  // "sections.lead-form": LeadForm,
   "sections.directory": Directory,
   "sections.sign-in": SignIn,
   "sections.signup": SignUp,
@@ -41,7 +40,7 @@ const sectionComponents = {
   "sections.glossary": Glossary,
   "sections.calendarbody": Calendar,
   "sections.resourceblocksection": ResourceBlocks,
-  "sections.fairiswheel": FAIRiswheel,
+  "sections.fairiswheel": FAIRiswheel
 }
 
 // Display a section individually
