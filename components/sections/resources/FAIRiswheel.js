@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import PageTitle from "../page-title";
 import SimpleExpansionPanel from "../../elements/expansion-panel";
 
 const FairIsWheelSVG = ({ setcontentTitle }) => {
@@ -687,10 +686,19 @@ export default function FAIRiswheel(data) {
         <FairIsWheelSVG setcontentTitle={setcontentTitle} />
       </section>
       <section className="w-full ml-10">
-        <PageTitle data={contentTitle} noPaddingBottom={true} />
-        <div style={{ background: "#e5e0e738", padding: "34px 0 34px 0",boxShadow: "0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22)" }}>
-          <div className="container" >
-          <h1 className="text-purple text-2xl mb-5">Frequently Asked Questions (FAQs)</h1>
+      <h1 className="text-5xl font-black pb-4 text-purple"> {contentTitle.title} </h1>
+        <div
+          style={{
+            background: "#e5e0e738",
+            padding: "34px 0 34px 0",
+            boxShadow:
+              "0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22)",
+          }}
+        >
+          <div className="container">
+            <h1 className="text-purple text-2xl mb-5">
+              Frequently Asked Questions (FAQs)
+            </h1>
             <SimpleExpansionPanel data={faqs} />
           </div>
         </div>
