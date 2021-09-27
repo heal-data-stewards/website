@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import SimpleExpansionPanel from "../../elements/expansion-panel";
 
-const FairIsWheelSVG = ({ setcontentTitle, setFaqs, data }) => {
+const FairIsWheelSVG = ({ setcontentTitle, setFaqs, setDocuments, data }) => {
   const [healPlatformColor, setHealPlatformColor] = useState("#8a5a91");
   const [healPlatformClick, setHealPlatformClicked] = useState(false);
   const [dataCreationColor, setDataCreationColor] = useState("#592f5f");
@@ -24,6 +24,10 @@ const FairIsWheelSVG = ({ setcontentTitle, setFaqs, data }) => {
     faqs_data_repos_and_archives,
     faqs_heal_platform,
     faqs_managing_active_data,
+    documents_data_creation_and_depositions,
+    documents_data_repos_and_archives,
+    documents_heal_platform,
+    documents_managing_active_data,
   } = data;
 
   // Turns on the section that the user is hovering over
@@ -71,6 +75,7 @@ const FairIsWheelSVG = ({ setcontentTitle, setFaqs, data }) => {
       case "heal-platform":
         setHealPlatformClicked(true);
         setFaqs(faqs_heal_platform);
+        setDocuments(documents_heal_platform);
         setcontentTitle({
           title: "HEAL Platform",
         });
@@ -86,6 +91,7 @@ const FairIsWheelSVG = ({ setcontentTitle, setFaqs, data }) => {
       case "data-creation-and-deposition":
         setDataCreationClicked(true);
         setFaqs(faqs_data_creation_and_depositions);
+        setDocuments(documents_data_creation_and_depositions);
         setcontentTitle({
           title: "Data Creation and Deposition",
         });
@@ -101,6 +107,7 @@ const FairIsWheelSVG = ({ setcontentTitle, setFaqs, data }) => {
       case "managing-active-data":
         setManagingActiveDataClicked(true);
         setFaqs(faqs_managing_active_data);
+        setDocuments(documents_managing_active_data);
         setcontentTitle({
           title: "Managing Active Data",
         });
@@ -115,6 +122,7 @@ const FairIsWheelSVG = ({ setcontentTitle, setFaqs, data }) => {
       case "data-repositories-and-archives":
         setDataRepositoriesAndArchivesClicked(true);
         setFaqs(faqs_data_repos_and_archives);
+        setDocuments(documents_data_repos_and_archives);
         setcontentTitle({
           title: "Data Repositories and Archives",
         });
@@ -685,15 +693,20 @@ const FairIsWheelSVG = ({ setcontentTitle, setFaqs, data }) => {
 };
 
 export default function FAIRiswheel(data) {
-
   const [contentTitle, setcontentTitle] = useState({
-    title: "Explore the FAIRisWheel",
+    title: "Heal Platform",
   });
-  const [faqs, setFaqs] = useState([]);
+  const [faqs, setFaqs] = useState(data.data.faqs_heal_platform);
+  const [documents, setDocuments] = useState(data.data.documents_heal_platform);
   return (
     <div className="container flex">
       <section className="">
-        <FairIsWheelSVG setcontentTitle={setcontentTitle} setFaqs={setFaqs} data={data.data} />
+        <FairIsWheelSVG
+          setcontentTitle={setcontentTitle}
+          setFaqs={setFaqs}
+          setDocuments={setDocuments}
+          data={data.data}
+        />
       </section>
       <section className="w-full ml-10">
         <h1 className="text-4xl font-black pb-4 text-purple">
@@ -708,10 +721,20 @@ export default function FAIRiswheel(data) {
           }}
         >
           <div className="container">
-            <h1 className="text-purple text-2xl mb-5">
-              Frequently Asked Questions (FAQs)
-            </h1>
-            <SimpleExpansionPanel data={faqs} />
+            {faqs.length > 0 && (
+              <>
+                <h1 className="text-purple text-2xl mb-5">
+                  Frequently Asked Questions (FAQs)
+                </h1>
+                <SimpleExpansionPanel data={faqs} />
+              </>
+            )}
+            {documents.length > 0 && (
+              <>
+                <h1 className="text-purple text-2xl mb-5 mt-5">Documents</h1>
+                {/* <SimpleExpansionPanel data={faqs} /> */}
+              </>
+            )}
           </div>
         </div>
       </section>
