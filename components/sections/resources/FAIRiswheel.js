@@ -699,7 +699,7 @@ export default function FAIRiswheel(data) {
   const [faqs, setFaqs] = useState(data.data.faqs_heal_platform);
   const [documents, setDocuments] = useState(data.data.documents_heal_platform);
   return (
-    <div className="container flex">
+    <div className="container flex mdmax:flex-wrap">
       <section className="">
         <FairIsWheelSVG
           setcontentTitle={setcontentTitle}
@@ -708,7 +708,7 @@ export default function FAIRiswheel(data) {
           data={data.data}
         />
       </section>
-      <section className="w-full ml-10">
+      <section className="w-full ml-10 mb-10">
         <h1 className="text-4xl font-black pb-4 text-purple">
           {contentTitle.title}
         </h1>
@@ -732,7 +732,10 @@ export default function FAIRiswheel(data) {
             {documents.length > 0 && (
               <>
                 <h1 className="text-purple text-2xl mb-5 mt-5">Documents</h1>
-                {/* <SimpleExpansionPanel data={faqs} /> */}
+                {documents.map((doc, i)=>{
+                  console.log(doc)
+                    return <a href={doc.url} download>{doc.name}</a>
+                })}
               </>
             )}
           </div>
