@@ -1,7 +1,7 @@
 import React, { useState } from "react"
-import PageTitle from "../page-title"
+import SimpleExpansionPanel from "../../elements/expansion-panel"
 
-const FairIsWheelSVG = ({ setcontentTitle }) => {
+const FairIsWheelSVG = ({ setcontentTitle, setFaqs, setDocuments, data }) => {
   const [healPlatformColor, setHealPlatformColor] = useState("#8a5a91")
   const [healPlatformClick, setHealPlatformClicked] = useState(false)
   const [dataCreationColor, setDataCreationColor] = useState("#592f5f")
@@ -18,6 +18,17 @@ const FairIsWheelSVG = ({ setcontentTitle }) => {
     dataRepositoriesAndArchivesClick,
     setDataRepositoriesAndArchivesClicked,
   ] = useState(false)
+
+  const {
+    faqs_data_creation_and_depositions,
+    faqs_data_repos_and_archives,
+    faqs_heal_platform,
+    faqs_managing_active_data,
+    documents_data_creation_and_depositions,
+    documents_data_repos_and_archives,
+    documents_heal_platform,
+    documents_managing_active_data,
+  } = data
 
   // Turns on the section that the user is hovering over
   function onHover(e) {
@@ -63,6 +74,8 @@ const FairIsWheelSVG = ({ setcontentTitle }) => {
     switch (e.target.id) {
       case "heal-platform":
         setHealPlatformClicked(true)
+        setFaqs(faqs_heal_platform)
+        setDocuments(documents_heal_platform)
         setcontentTitle({
           title: "HEAL Platform",
         })
@@ -77,6 +90,8 @@ const FairIsWheelSVG = ({ setcontentTitle }) => {
         break
       case "data-creation-and-deposition":
         setDataCreationClicked(true)
+        setFaqs(faqs_data_creation_and_depositions)
+        setDocuments(documents_data_creation_and_depositions)
         setcontentTitle({
           title: "Data Creation and Deposition",
         })
@@ -91,6 +106,8 @@ const FairIsWheelSVG = ({ setcontentTitle }) => {
         break
       case "managing-active-data":
         setManagingActiveDataClicked(true)
+        setFaqs(faqs_managing_active_data)
+        setDocuments(documents_managing_active_data)
         setcontentTitle({
           title: "Managing Active Data",
         })
@@ -104,6 +121,8 @@ const FairIsWheelSVG = ({ setcontentTitle }) => {
         break
       case "data-repositories-and-archives":
         setDataRepositoriesAndArchivesClicked(true)
+        setFaqs(faqs_data_repos_and_archives)
+        setDocuments(documents_data_repos_and_archives)
         setcontentTitle({
           title: "Data Repositories and Archives",
         })
@@ -119,7 +138,6 @@ const FairIsWheelSVG = ({ setcontentTitle }) => {
         console.log(`error`)
     }
   }
-
   return (
     <svg
       width="500"
@@ -676,97 +694,56 @@ const FairIsWheelSVG = ({ setcontentTitle }) => {
 
 export default function FAIRiswheel(data) {
   const [contentTitle, setcontentTitle] = useState({
-    title: "Welcome",
+    title: "Heal Platform",
   })
+  const [faqs, setFaqs] = useState(data.data.faqs_heal_platform)
+  const [documents, setDocuments] = useState(data.data.documents_heal_platform)
   return (
-    <div className="container flex">
+    <div className="container flex mdmax:flex-wrap">
       <section className="">
-        <FairIsWheelSVG setcontentTitle={setcontentTitle} />
+        <FairIsWheelSVG
+          setcontentTitle={setcontentTitle}
+          setFaqs={setFaqs}
+          setDocuments={setDocuments}
+          data={data.data}
+        />
       </section>
-      <section>
-        <PageTitle data={contentTitle} noPaddingBottom={true} />
-        <p className="container">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-          eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
-          minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-          aliquip ex ea commodo consequat. Duis aute irure dolor in
-          reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-          pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
-          culpa qui officia deserunt mollit anim id est laborum.Lorem ipsum
-          dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-          incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-          quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-          commodo consequat. Duis aute irure dolor in reprehenderit in voluptate
-          velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint
-          occaecat cupidatat non proident, sunt in culpa qui officia deserunt
-          mollit anim id est laborum.Lorem ipsum dolor sit amet, consectetur
-          adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
-          magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation
-          ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute
-          irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
-          fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident,
-          sunt in culpa qui officia deserunt mollit anim id est laborum.Lorem
-          ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-          tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
-          veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex
-          ea commodo consequat. Duis aute irure dolor in reprehenderit in
-          voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur
-          sint occaecat cupidatat non proident, sunt in culpa qui officia
-          deserunt mollit anim id est laborum. Lorem ipsum dolor sit amet,
-          consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
-          labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
-          exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-          Duis aute irure dolor in reprehenderit in voluptate velit esse cillum
-          dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-          proident, sunt in culpa qui officia deserunt mollit anim id est
-          laborum.Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
-          do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
-          ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-          aliquip ex ea commodo consequat. Duis aute irure dolor in
-          reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-          pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
-          culpa qui officia deserunt mollit anim id est laborum.Lorem ipsum
-          dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-          incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-          quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-          commodo consequat. Duis aute irure dolor in reprehenderit in voluptate
-          velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint
-          occaecat cupidatat non proident, sunt in culpa qui officia deserunt
-          mollit anim id est laborum.Lorem ipsum dolor sit amet, consectetur
-          adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
-          magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation
-          ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute
-          irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
-          fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident,
-          sunt in culpa qui officia deserunt mollit anim id est laborum. Lorem
-          ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-          tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
-          veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex
-          ea commodo consequat. Duis aute irure dolor in reprehenderit in
-          voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur
-          sint occaecat cupidatat non proident, sunt in culpa qui officia
-          deserunt mollit anim id est laborum.Lorem ipsum dolor sit amet,
-          consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
-          labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
-          exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-          Duis aute irure dolor in reprehenderit in voluptate velit esse cillum
-          dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-          proident, sunt in culpa qui officia deserunt mollit anim id est
-          laborum.Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
-          do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
-          ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-          aliquip ex ea commodo consequat. Duis aute irure dolor in
-          reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-          pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
-          culpa qui officia deserunt mollit anim id est laborum.Lorem ipsum
-          dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-          incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-          quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-          commodo consequat. Duis aute irure dolor in reprehenderit in voluptate
-          velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint
-          occaecat cupidatat non proident, sunt in culpa qui officia deserunt
-          mollit anim id est laborum.
-        </p>
+      <section className="w-full large:ml-10 mb-10">
+        <h1 className="text-4xl font-black pb-4 text-purple">
+          {contentTitle.title}
+        </h1>
+        <div
+          style={{
+            background: "#e5e0e738",
+            padding: "34px 0 34px 0",
+            boxShadow:
+              "0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22)",
+          }}
+        >
+          <div className="container">
+            {faqs.length > 0 && (
+              <>
+                <h1 className="text-purple text-2xl mb-5">
+                  Frequently Asked Questions (FAQs)
+                </h1>
+                <SimpleExpansionPanel data={faqs} />
+              </>
+            )}
+            {documents.length > 0 && (
+              <>
+                <h1 className="text-purple text-2xl mb-5 mt-5">Documents</h1>
+                {documents.map((doc, i) => {
+                  console.log(doc)
+                  return (
+                    <a key={doc.url + i} href={doc.url} download>
+                      {doc.name}
+                    </a>
+                  )
+                })}
+              </>
+            )}
+          </div>
+        </div>
       </section>
     </div>
   )

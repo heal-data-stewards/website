@@ -31,7 +31,6 @@ const sectionComponents = {
   "sections.testimonials-group": TestimonialsGroup,
   "sections.rich-text": RichText,
   "sections.pricing": Pricing,
-  // "sections.lead-form": LeadForm,
   "sections.directory": Directory,
   "sections.sign-in": SignIn,
   "sections.signup": SignUp,

@@ -62,7 +62,9 @@ module.exports = {
       sm: "640px",
       md: "768px",
       lg: "1024px",
+      "large": {"min": "1051px"},
       xl: "1280px",
+      'mdmax': {'max': '1050px'},
     },
   },
   variants: {
