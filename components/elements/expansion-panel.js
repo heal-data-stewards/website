@@ -18,7 +18,6 @@ const styles = (theme) => ({
 });
 
 function SimpleExpansionPanel({ classes, data }) {
-  console.log(data);
   return (
     <div className={classes.root}>
       {data.map((faq, i) => {

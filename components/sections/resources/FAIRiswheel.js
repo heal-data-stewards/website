@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import SimpleExpansionPanel from "../../elements/expansion-panel";
 
-const FairIsWheelSVG = ({ setcontentTitle }) => {
+const FairIsWheelSVG = ({ setcontentTitle, setFaqs, data }) => {
   const [healPlatformColor, setHealPlatformColor] = useState("#8a5a91");
   const [healPlatformClick, setHealPlatformClicked] = useState(false);
   const [dataCreationColor, setDataCreationColor] = useState("#592f5f");
@@ -18,6 +18,13 @@ const FairIsWheelSVG = ({ setcontentTitle }) => {
     dataRepositoriesAndArchivesClick,
     setDataRepositoriesAndArchivesClicked,
   ] = useState(false);
+
+  const {
+    faqs_data_creation_and_depositions,
+    faqs_data_repos_and_archives,
+    faqs_heal_platform,
+    faqs_managing_active_data,
+  } = data;
 
   // Turns on the section that the user is hovering over
   function onHover(e) {
@@ -63,6 +70,7 @@ const FairIsWheelSVG = ({ setcontentTitle }) => {
     switch (e.target.id) {
       case "heal-platform":
         setHealPlatformClicked(true);
+        setFaqs(faqs_heal_platform);
         setcontentTitle({
           title: "HEAL Platform",
         });
@@ -77,6 +85,7 @@ const FairIsWheelSVG = ({ setcontentTitle }) => {
         break;
       case "data-creation-and-deposition":
         setDataCreationClicked(true);
+        setFaqs(faqs_data_creation_and_depositions);
         setcontentTitle({
           title: "Data Creation and Deposition",
         });
@@ -91,6 +100,7 @@ const FairIsWheelSVG = ({ setcontentTitle }) => {
         break;
       case "managing-active-data":
         setManagingActiveDataClicked(true);
+        setFaqs(faqs_managing_active_data);
         setcontentTitle({
           title: "Managing Active Data",
         });
@@ -104,6 +114,7 @@ const FairIsWheelSVG = ({ setcontentTitle }) => {
         break;
       case "data-repositories-and-archives":
         setDataRepositoriesAndArchivesClicked(true);
+        setFaqs(faqs_data_repos_and_archives);
         setcontentTitle({
           title: "Data Repositories and Archives",
         });
@@ -119,7 +130,6 @@ const FairIsWheelSVG = ({ setcontentTitle }) => {
         console.log(`error`);
     }
   }
-
   return (
     <svg
       width="500"
@@ -675,18 +685,20 @@ const FairIsWheelSVG = ({ setcontentTitle }) => {
 };
 
 export default function FAIRiswheel(data) {
-  const { faqs } = data.data;
 
   const [contentTitle, setcontentTitle] = useState({
-    title: "Welcome",
+    title: "Explore the FAIRisWheel",
   });
+  const [faqs, setFaqs] = useState([]);
   return (
     <div className="container flex">
       <section className="">
-        <FairIsWheelSVG setcontentTitle={setcontentTitle} />
+        <FairIsWheelSVG setcontentTitle={setcontentTitle} setFaqs={setFaqs} data={data.data} />
       </section>
       <section className="w-full ml-10">
-      <h1 className="text-5xl font-black pb-4 text-purple"> {contentTitle.title} </h1>
+        <h1 className="text-4xl font-black pb-4 text-purple">
+          {contentTitle.title}
+        </h1>
         <div
           style={{
             background: "#e5e0e738",
