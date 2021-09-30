@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-const FairIsWheelSVG = ({ setcontentTitle, setFaqs, setDocuments, data, setQna }) => {
+const FairIsWheelSVG = ({ setcontentTitle, setFaqs, setDocuments, data, setQna, setVideos }) => {
   const [healPlatformColor, setHealPlatformColor] = useState("#8a5a91");
   const [healPlatformClick, setHealPlatformClicked] = useState(false);
   const [dataCreationColor, setDataCreationColor] = useState("#592f5f");
@@ -30,7 +30,11 @@ const FairIsWheelSVG = ({ setcontentTitle, setFaqs, setDocuments, data, setQna }
     qanda_heal_platform,
     qanda_data_creation_and_deposition,
     qanda_data_repositories_and_archives,
-    qanda_managing_active_data
+    qanda_managing_active_data,
+    video_data_creation_and_depositions,
+    video_data_repos_and_archives,
+    video_heal_platform,
+    video_managing_active_data
   } = data;
 
   // Turns on the section that the user is hovering over
@@ -78,6 +82,7 @@ const FairIsWheelSVG = ({ setcontentTitle, setFaqs, setDocuments, data, setQna }
       case "heal-platform":
         setHealPlatformClicked(true);
         setFaqs(faqs_heal_platform);
+        setVideos(video_heal_platform);
         setQna(qanda_heal_platform);
         setDocuments(documents_heal_platform);
         setcontentTitle({
@@ -95,6 +100,7 @@ const FairIsWheelSVG = ({ setcontentTitle, setFaqs, setDocuments, data, setQna }
       case "data-creation-and-deposition":
         setDataCreationClicked(true);
         setFaqs(faqs_data_creation_and_depositions);
+        setVideos(video_data_creation_and_depositions);
         setQna(qanda_data_creation_and_deposition);
         setDocuments(documents_data_creation_and_depositions);
         setcontentTitle({
@@ -112,6 +118,7 @@ const FairIsWheelSVG = ({ setcontentTitle, setFaqs, setDocuments, data, setQna }
       case "managing-active-data":
         setManagingActiveDataClicked(true);
         setFaqs(faqs_managing_active_data);
+        setVideos(video_managing_active_data);
         setQna(qanda_managing_active_data);
         setDocuments(documents_managing_active_data);
         setcontentTitle({
@@ -128,6 +135,7 @@ const FairIsWheelSVG = ({ setcontentTitle, setFaqs, setDocuments, data, setQna }
       case "data-repositories-and-archives":
         setDataRepositoriesAndArchivesClicked(true);
         setFaqs(faqs_data_repos_and_archives);
+        setVideos(video_data_repos_and_archives);
         setQna(qanda_data_repositories_and_archives);
         setDocuments(documents_data_repos_and_archives);
         setcontentTitle({
