@@ -10,6 +10,7 @@ export default function FAIRiswheel(data) {
   });
   const [faqs, setFaqs] = useState(data.data.faqs_heal_platform);
   const [qna, setQna] = useState(data.data.qanda_heal_platform);
+  const [videos, setVideos] = useState(data.data.video_heal_platform);
   const [documents, setDocuments] = useState(data.data.documents_heal_platform);
   return (
     <div className="container flex mdmax:flex-wrap">
@@ -18,6 +19,7 @@ export default function FAIRiswheel(data) {
           setcontentTitle={setcontentTitle}
           setFaqs={setFaqs}
           setQna={setQna}
+          setVideos={setVideos}
           setDocuments={setDocuments}
           data={data.data}
         />
