@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import SimpleExpansionPanel from "../../elements/expansion-panel";
 import FileDownloadIcon from "@mui/icons-material/FileDownload";
 
-const FairIsWheelSVG = ({ setcontentTitle, setFaqs, setDocuments, data }) => {
+const FairIsWheelSVG = ({ setcontentTitle, setFaqs, setDocuments, data, setQna }) => {
   const [healPlatformColor, setHealPlatformColor] = useState("#8a5a91");
   const [healPlatformClick, setHealPlatformClicked] = useState(false);
   const [dataCreationColor, setDataCreationColor] = useState("#592f5f");
@@ -29,6 +29,10 @@ const FairIsWheelSVG = ({ setcontentTitle, setFaqs, setDocuments, data }) => {
     documents_data_repos_and_archives,
     documents_heal_platform,
     documents_managing_active_data,
+    qanda_heal_platform,
+    qanda_data_creation_and_deposition,
+    qanda_data_repositories_and_archives,
+    qanda_managing_active_data
   } = data;
 
   // Turns on the section that the user is hovering over
@@ -76,6 +80,7 @@ const FairIsWheelSVG = ({ setcontentTitle, setFaqs, setDocuments, data }) => {
       case "heal-platform":
         setHealPlatformClicked(true);
         setFaqs(faqs_heal_platform);
+        setQna(qanda_heal_platform);
         setDocuments(documents_heal_platform);
         setcontentTitle({
           title: "HEAL Platform",
@@ -92,6 +97,7 @@ const FairIsWheelSVG = ({ setcontentTitle, setFaqs, setDocuments, data }) => {
       case "data-creation-and-deposition":
         setDataCreationClicked(true);
         setFaqs(faqs_data_creation_and_depositions);
+        setQna(qanda_data_creation_and_deposition);
         setDocuments(documents_data_creation_and_depositions);
         setcontentTitle({
           title: "Data Creation and Deposition",
@@ -108,6 +114,7 @@ const FairIsWheelSVG = ({ setcontentTitle, setFaqs, setDocuments, data }) => {
       case "managing-active-data":
         setManagingActiveDataClicked(true);
         setFaqs(faqs_managing_active_data);
+        setQna(qanda_managing_active_data);
         setDocuments(documents_managing_active_data);
         setcontentTitle({
           title: "Managing Active Data",
@@ -123,6 +130,7 @@ const FairIsWheelSVG = ({ setcontentTitle, setFaqs, setDocuments, data }) => {
       case "data-repositories-and-archives":
         setDataRepositoriesAndArchivesClicked(true);
         setFaqs(faqs_data_repos_and_archives);
+        setQna(qanda_data_repositories_and_archives);
         setDocuments(documents_data_repos_and_archives);
         setcontentTitle({
           title: "Data Repositories and Archives",
@@ -694,10 +702,12 @@ const FairIsWheelSVG = ({ setcontentTitle, setFaqs, setDocuments, data }) => {
 };
 
 export default function FAIRiswheel(data) {
+  console.log(data)
   const [contentTitle, setcontentTitle] = useState({
     title: "Heal Platform",
   });
   const [faqs, setFaqs] = useState(data.data.faqs_heal_platform);
+  const [qna, setQna] = useState(data.data.qanda_heal_platform);
   const [documents, setDocuments] = useState(data.data.documents_heal_platform);
   return (
     <div className="container flex mdmax:flex-wrap">
@@ -705,6 +715,7 @@ export default function FAIRiswheel(data) {
         <FairIsWheelSVG
           setcontentTitle={setcontentTitle}
           setFaqs={setFaqs}
+          setQna={setQna}
           setDocuments={setDocuments}
           data={data.data}
         />
@@ -730,14 +741,27 @@ export default function FAIRiswheel(data) {
                 <SimpleExpansionPanel data={faqs} />
               </>
             )}
+            {qna.length > 0 && (
+              <>
+                <h1 className="text-purple text-2xl mb-5 mt-5">
+                  {`Questions and Answers (Q&A)`}
+                </h1>
+                <SimpleExpansionPanel data={qna} />
+              </>
+            )}
             {documents.length > 0 && (
               <>
                 <h1 className="text-purple text-2xl mb-5 mt-5">Documents</h1>
                 {documents.map((doc, i) => {
                   console.log(doc);
                   return (
-                    <a key={doc.url + i} href={doc.url} download>
-                      <FileDownloadIcon/>
+                    <a
+                      key={doc.url + i}
+                      href={doc.url}
+                      download
+                      style={{ color: "#532565", margin: "0 20px 0 0" }}
+                    >
+                      <FileDownloadIcon />
                       {doc.name}
                     </a>
                   );
