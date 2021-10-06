@@ -19,6 +19,7 @@ import Calendar from "./sections/calendar"
 import Resources from "./sections/resources"
 import ResourceBlocks from "./sections/resource-blocks"
 import FAIRiswheel from "./sections/resources/FAIRiswheel"
+import ConsortiumBlocks from "./sections/consortium-block"
 
 // Map Strapi sections to section components
 const sectionComponents = {
@@ -41,10 +42,12 @@ const sectionComponents = {
   "sections.calendarbody": Calendar,
   "sections.resourceblocksection": ResourceBlocks,
   "sections.fairiswheel": FAIRiswheel,
+  "sections.consortium": ConsortiumBlocks,
 }
 
 // Display a section individually
 const Section = ({ sectionData }) => {
+  console.log(sectionData)
   // Prepare the component
   const SectionComponent = sectionComponents[sectionData.__component]
 
