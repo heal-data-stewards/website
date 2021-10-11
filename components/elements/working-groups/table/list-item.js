@@ -4,14 +4,14 @@ import ListItemText from "@mui/material/ListItemText";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 
-export default function WorkingGroupListItem(props) {
+export default function WorkingGroupListItem({name}) {
   return (
-    <ListItem disablePadding>
+    <ListItem>
       <ListItemButton>
         {/* <ListItemIcon>
           map different working group tags here
         </ListItemIcon> */}
-        <ListItemText primary={props.name} />
+        <ListItemText primary={name} />
       </ListItemButton>
     </ListItem>
   );
