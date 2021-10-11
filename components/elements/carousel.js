@@ -1,17 +1,17 @@
-import React, { useState, useEffect, useCallback } from "react";
-import { useEmblaCarousel } from "embla-carousel/react";
-import { useRecursiveTimeout } from "./carousel/useRecursiveTimeout";
-import Image from "next/image";
-import Card from "@material-ui/core/Card";
-import CardMedia from "@material-ui/core/CardMedia";
-import CardActionArea from "@material-ui/core/CardActionArea";
-import { makeStyles } from "@material-ui/core/styles";
-import CardContent from "@material-ui/core/CardContent";
-import { DotButton } from "./carousel/buttons";
-import Link from "next/link";
-import styled from "styled-components";
+import React, { useState, useEffect, useCallback } from "react"
+import { useEmblaCarousel } from "embla-carousel/react"
+import { useRecursiveTimeout } from "./carousel/useRecursiveTimeout"
+import Image from "next/image"
+import Card from "@material-ui/core/Card"
+import CardMedia from "@material-ui/core/CardMedia"
+import CardActionArea from "@material-ui/core/CardActionArea"
+import { makeStyles } from "@material-ui/core/styles"
+import CardContent from "@material-ui/core/CardContent"
+import { DotButton } from "./carousel/buttons"
+import Link from "next/link"
+import styled from "styled-components"
 
-const AUTOPLAY_INTERVAL = 6000;
+const AUTOPLAY_INTERVAL = 6000
 
 const useStyles = makeStyles({
   root: {
@@ -20,10 +20,10 @@ const useStyles = makeStyles({
   media: {
     height: 400,
   },
-});
+})
 const BlueLink = styled.a`
   color: blue;
-`;
+`
 
 const PrevButton = ({ enabled, onClick }) => (
   <button
@@ -36,7 +36,7 @@ const PrevButton = ({ enabled, onClick }) => (
       <path d="M428.36 12.5c16.67-16.67 43.76-16.67 60.42 0 16.67 16.67 16.67 43.76 0 60.42L241.7 320c148.25 148.24 230.61 230.6 247.08 247.08 16.67 16.66 16.67 43.75 0 60.42-16.67 16.66-43.76 16.67-60.42 0-27.72-27.71-249.45-249.37-277.16-277.08a42.308 42.308 0 0 1-12.48-30.34c0-11.1 4.1-22.05 12.48-30.42C206.63 234.23 400.64 40.21 428.36 12.5z" />
     </svg>
   </button>
-);
+)
 
 const NextButton = ({ enabled, onClick }) => (
   <button
@@ -49,49 +49,49 @@ const NextButton = ({ enabled, onClick }) => (
       <path d="M181.776 107.719L78.705 4.648c-6.198-6.198-16.273-6.198-22.47 0s-6.198 16.273 0 22.47l91.883 91.883-91.883 91.883c-6.198 6.198-6.198 16.273 0 22.47s16.273 6.198 22.47 0l103.071-103.039a15.741 15.741 0 0 0 4.64-11.283c0-4.13-1.526-8.199-4.64-11.313z" />
     </svg>
   </button>
-);
+)
 
 export const EmblaCarousel = ({ data }) => {
-  const [viewportRef, embla] = useEmblaCarousel({ skipSnaps: false });
-  const [prevBtnEnabled, setPrevBtnEnabled] = useState(false);
-  const [nextBtnEnabled, setNextBtnEnabled] = useState(false);
-  const [scrollSnaps, setScrollSnaps] = useState([]);
-  const scrollPrev = useCallback(() => embla && embla.scrollPrev(), [embla]);
-  const scrollNext = useCallback(() => embla && embla.scrollNext(), [embla]);
-  const [selectedIndex, setSelectedIndex] = useState(0);
-  const classes = useStyles();
+  const [viewportRef, embla] = useEmblaCarousel({ skipSnaps: false })
+  const [prevBtnEnabled, setPrevBtnEnabled] = useState(false)
+  const [nextBtnEnabled, setNextBtnEnabled] = useState(false)
+  const [scrollSnaps, setScrollSnaps] = useState([])
+  const scrollPrev = useCallback(() => embla && embla.scrollPrev(), [embla])
+  const scrollNext = useCallback(() => embla && embla.scrollNext(), [embla])
+  const [selectedIndex, setSelectedIndex] = useState(0)
+  const classes = useStyles()
   const autoplay = useCallback(() => {
-    if (!embla) return;
+    if (!embla) return
     if (embla.canScrollNext()) {
-      embla.scrollNext();
+      embla.scrollNext()
     } else {
-      embla.scrollTo(0);
+      embla.scrollTo(0)
     }
-  }, [embla]);
+  }, [embla])
 
   const onSelect = useCallback(() => {
-    if (!embla) return;
-    setSelectedIndex(embla.selectedScrollSnap());
-    setPrevBtnEnabled(embla.canScrollPrev());
-    setNextBtnEnabled(embla.canScrollNext());
-  }, [embla, setSelectedIndex]);
+    if (!embla) return
+    setSelectedIndex(embla.selectedScrollSnap())
+    setPrevBtnEnabled(embla.canScrollPrev())
+    setNextBtnEnabled(embla.canScrollNext())
+  }, [embla, setSelectedIndex])
   const scrollTo = useCallback(
     (index) => embla && embla.scrollTo(index),
     [embla]
-  );
+  )
 
-  const { play, stop } = useRecursiveTimeout(autoplay, AUTOPLAY_INTERVAL);
-
-  useEffect(() => {
-    if (!embla) return;
-    embla.on("select", onSelect);
-    onSelect();
-    setScrollSnaps(embla.scrollSnapList());
-  }, [embla, onSelect, setScrollSnaps]);
+  const { play, stop } = useRecursiveTimeout(autoplay, AUTOPLAY_INTERVAL)
 
   useEffect(() => {
-    play();
-  }, [play]);
+    if (!embla) return
+    embla.on("select", onSelect)
+    onSelect()
+    setScrollSnaps(embla.scrollSnapList())
+  }, [embla, onSelect, setScrollSnaps])
+
+  useEffect(() => {
+    play()
+  }, [play])
 
   return (
     <div
@@ -242,5 +242,5 @@ export const EmblaCarousel = ({ data }) => {
         ))}
       </div>
     </div>
-  );
-};
+  )
+}
