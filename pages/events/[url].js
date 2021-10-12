@@ -1,6 +1,9 @@
-import Layout from "@/components/layout"
-import { getPageData, getGlobalData } from "utils/api"
-import Seo from "@/components/elements/seo"
+import Layout from "@/components/layout";
+import { getPageData, getGlobalData } from "utils/api";
+import Seo from "@/components/elements/seo";
+import axios from "axios";
+
+const params = new URLSearchParams();
 
 function Eventpage({ global, event, pageContext, metadata }) {
   // Render event page...
@@ -21,29 +24,57 @@ function Eventpage({ global, event, pageContext, metadata }) {
         </section>
       </div>
     </Layout>
-  )
+  );
+}
+
+
+params.append("client_id", "635c9179-35ed-4c06-8703-40f5adfa346e");
+params.append("scope", "https://graph.microsoft.com/.default");
+params.append("client_secret", "healdatafair");
+params.append("grant_type", "client_credentials");
+
+const headers = {
+  "Content-Type": "application/x-www-form-urlencoded",
+};
+
+function getEvents() {
+  axios
+    .post(
+      `https://login.microsoftonline.com/{ad.unc.edu}/oauth2/v2.0/token`,
+      params,
+      headers
+    )
+    .then((res) => {
+      console.log(res);
+      console.log("res.data");
+    })
+    .catch((error) => {
+      console.log("error");
+      console.log(error);
+    });
 }
 
 // This function gets called at build time
 export async function getStaticPaths() {
   // Call an external API endpoint to get posts, the outlook endpoint here
+  getEvents();
   // const res = await fetch('')
   // const posts = await res.json()
-  const dummyEndpoints = [{ url: "event1" }, { url: "event2" }]
+  const dummyEndpoints = [{ url: "event1" }, { url: "event2" }];
 
   // Get the paths we want to pre-render based on posts
   const paths = dummyEndpoints.map((event) => ({
     params: { url: event.url },
-  }))
+  }));
 
   // We'll pre-render only these paths at build time.
   // { fallback: false } means other routes should 404.
-  return { paths, fallback: false }
+  return { paths, fallback: false };
 }
 
 // This also gets called at build time
 export async function getStaticProps(context) {
-  const { locale, locales, defaultLocale, preview = null } = context
+  const { locale, locales, defaultLocale, preview = null } = context;
   // console.log(context)
   // params contains the event `url`.
   // If the route is like /event/1, then params.event is 1
@@ -51,15 +82,15 @@ export async function getStaticProps(context) {
   // const event = await res.json()
 
   // Get the navbar and footer from strapi
-  const globalLocale = await getGlobalData(locale)
-  const params = { slug: ["calendar"] }
-  const pageData = await getPageData({ slug: params.slug }, locale, preview)
+  const globalLocale = await getGlobalData(locale);
+  const params = { slug: ["calendar"] };
+  const pageData = await getPageData({ slug: params.slug }, locale, preview);
   //   console.log("pageData")
   //   console.log(pageData)
   //   console.log("pageData")
 
   // We have the required page data, pass it to the page component
-  const { metadata, localizations, slug } = pageData
+  const { metadata, localizations, slug } = pageData;
 
   const pageContext = {
     locale: pageData.locale,
@@ -67,9 +98,9 @@ export async function getStaticProps(context) {
     defaultLocale,
     slug,
     localizations,
-  }
+  };
 
-  const event = { url: context.params.url, title: "event title example" }
+  const event = { url: context.params.url, title: "event title example" };
 
   // Pass post data to the page via props
   return {
@@ -81,7 +112,7 @@ export async function getStaticProps(context) {
         ...pageContext,
       },
     },
-  }
+  };
 }
 
-export default Eventpage
+export default Eventpage;
