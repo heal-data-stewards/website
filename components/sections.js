@@ -48,7 +48,7 @@ const sectionComponents = {
 
 // Display a section individually
 const Section = ({ sectionData }) => {
-  console.log(sectionData)
+  // console.log(sectionData)
   // Prepare the component
   const SectionComponent = sectionComponents[sectionData.__component]
 
