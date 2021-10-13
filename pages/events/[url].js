@@ -27,11 +27,10 @@ function Eventpage({ global, event, pageContext, metadata }) {
   );
 }
 
-
-params.append("client_id", "635c9179-35ed-4c06-8703-40f5adfa346e");
-params.append("scope", "https://graph.microsoft.com/.default");
-params.append("client_secret", "healdatafair");
-params.append("grant_type", "client_credentials");
+params.append("client_id", process.env.CLIENT_ID);
+params.append("scope", process.env.SCOPE);
+params.append("client_secret", process.env.CLIENT_SECRET);
+params.append("grant_type", process.env.GRANT_TYPE);
 
 const headers = {
   "Content-Type": "application/x-www-form-urlencoded",
@@ -40,16 +39,14 @@ const headers = {
 function getEvents() {
   axios
     .post(
-      `https://login.microsoftonline.com/{ad.unc.edu}/oauth2/v2.0/token`,
+      `https://login.microsoftonline.com/${process.env.MSFT_TENANT}/oauth2/v2.0/token`,
       params,
       headers
     )
     .then((res) => {
-      console.log(res);
-      console.log("res.data");
+      console.log(res.data);
     })
     .catch((error) => {
-      console.log("error");
       console.log(error);
     });
 }
