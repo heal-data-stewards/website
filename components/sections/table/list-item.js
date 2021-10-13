@@ -2,7 +2,7 @@ import * as React from "react"
 import ListItem from "@mui/material/ListItem"
 import ListItemText from "@mui/material/ListItemText"
 import ListItemButton from "@mui/material/ListItemButton"
-import Chip from '@mui/material/Chip';
+import Chip from "@mui/material/Chip"
 
 export default function WorkingGroupListItem({ name, organization }) {
   return (
