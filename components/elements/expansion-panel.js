@@ -1,9 +1,13 @@
-import React from "react";
-import PropTypes from "prop-types";
-import { withStyles } from "@material-ui/core/styles";
-import Typography from "@material-ui/core/Typography";
-import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
-import { Accordion, AccordionSummary, AccordionDetails } from "@material-ui/core";
+import React from "react"
+import PropTypes from "prop-types"
+import { withStyles } from "@material-ui/core/styles"
+import Typography from "@material-ui/core/Typography"
+import ExpandMoreIcon from "@material-ui/icons/ExpandMore"
+import {
+  Accordion,
+  AccordionSummary,
+  AccordionDetails,
+} from "@material-ui/core"
 
 const styles = (theme) => ({
   root: {
@@ -13,7 +17,7 @@ const styles = (theme) => ({
     fontSize: theme.typography.pxToRem(15),
     fontWeight: theme.typography.fontWeightRegular,
   },
-});
+})
 
 function SimpleExpansionPanel({ classes, data }) {
   return (
@@ -30,14 +34,14 @@ function SimpleExpansionPanel({ classes, data }) {
               <Typography>{faq.answer}</Typography>
             </AccordionDetails>
           </Accordion>
-        );
+        )
       })}
     </div>
-  );
+  )
 }
 
 SimpleExpansionPanel.propTypes = {
   classes: PropTypes.object.isRequired,
-};
+}
 
-export default withStyles(styles)(SimpleExpansionPanel);
+export default withStyles(styles)(SimpleExpansionPanel)
