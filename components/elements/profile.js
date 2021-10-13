@@ -78,7 +78,7 @@ export default function AccountMenu({ handleLogOut, setLoggedIn }) {
           <ListItemIcon>
             <Logout fontSize="small" />
           </ListItemIcon>
-          <Link onClick={handleLogOut}>Log Out</Link>
+          <a onClick={handleLogOut}>Log Out</a>
         </MenuItem>
       </Menu>
     </React.Fragment>
