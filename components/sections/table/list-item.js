@@ -2,16 +2,13 @@ import * as React from "react";
 import ListItem from "@mui/material/ListItem";
 import ListItemText from "@mui/material/ListItemText";
 import ListItemButton from "@mui/material/ListItemButton";
-import ListItemIcon from "@mui/material/ListItemIcon";
 
-export default function WorkingGroupListItem({name}) {
+export default function WorkingGroupListItem({name, organization}) {
   return (
-    <ListItem>
+    <ListItem sx={{ width: "33.3%", padding: "8px 0"}} >
       <ListItemButton>
-        {/* <ListItemIcon>
-          map different working group tags here
-        </ListItemIcon> */}
-        <ListItemText primary={name} />
+        <ListItemText primary={name} sx={{ color: "#532565"}} />
+        <ListItemText secondary={organization} sx={{ color: "#532565"}} />
       </ListItemButton>
     </ListItem>
   );
