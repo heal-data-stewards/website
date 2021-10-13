@@ -8,7 +8,6 @@ import BottomActions from "@/components/sections/bottom-actions"
 import TestimonialsGroup from "@/components/sections/testimonials-group"
 import RichText from "./sections/rich-text"
 import Pricing from "./sections/pricing"
-// import LeadForm from "./sections/lead-form"
 import Directory from "./sections/directory"
 import SignIn from "./sections/sign-in"
 import SignUp from "./sections/sign-up"
@@ -19,6 +18,8 @@ import Calendar from "./sections/calendar"
 import Resources from "./sections/resources"
 import ResourceBlocks from "./sections/resource-blocks"
 import FAIRiswheel from "./sections/resources/FAIRiswheel"
+import ConsortiumBlocks from "./sections/consortium-block"
+import WorkingGroupTable from "./sections/table"
 
 // Map Strapi sections to section components
 const sectionComponents = {
@@ -41,10 +42,13 @@ const sectionComponents = {
   "sections.calendarbody": Calendar,
   "sections.resourceblocksection": ResourceBlocks,
   "sections.fairiswheel": FAIRiswheel,
+  "sections.consortium": ConsortiumBlocks,
+  "sections.members": WorkingGroupTable,
 }
 
 // Display a section individually
 const Section = ({ sectionData }) => {
+  console.log(sectionData)
   // Prepare the component
   const SectionComponent = sectionComponents[sectionData.__component]
 
