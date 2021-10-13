@@ -107,13 +107,7 @@ export default function Glossary({ data }) {
     })
   }
   return (
-    <main className="container py-12">
-      <section className="pb-8">
-        <h1 className="text-5xl font-black pb-8 text-gray-dark">
-          {data.title}
-        </h1>
-        <p className="text-xl text-gray">{data.pagetext}</p>
-      </section>
+    <main className="container pb-12 ">
       <Paper elevation={2}>
         <SearchBar setFilter={setFilter} filter={filter} />
         {items}

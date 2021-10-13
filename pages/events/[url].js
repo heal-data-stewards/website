@@ -1,6 +1,7 @@
 import Layout from "@/components/layout"
 import { getPageData, getGlobalData } from "utils/api"
 import Seo from "@/components/elements/seo"
+import axios from "axios"
 
 function Eventpage({ global, event, pageContext, metadata }) {
   // Render event page...
@@ -24,11 +25,53 @@ function Eventpage({ global, event, pageContext, metadata }) {
   )
 }
 
+function getEvents(token) {
+  axios
+    .get(
+      `https://graph.microsoft.com/v1.0/users/${process.env.USER_ID}/calendar/events`,
+      params,
+      {
+        Authorization: token,
+      }
+    )
+    .then((res) => {
+      console.log(res.data)
+    })
+    .catch((error) => {
+      console.log(error)
+    })
+}
+
+function getAuthorizationToken() {
+  const params = new URLSearchParams()
+  const headers = {
+    "Content-Type": "application/x-www-form-urlencoded",
+  }
+
+  params.append("client_id", process.env.CLIENT_ID)
+  params.append("scope", process.env.SCOPE)
+  params.append("client_secret", process.env.CLIENT_SECRET)
+  params.append("grant_type", process.env.GRANT_TYPE)
+
+  axios
+    .post(
+      `https://login.microsoftonline.com/${process.env.MSFT_TENANT}/oauth2/v2.0/token`,
+      params,
+      headers
+    )
+    .then((res) => {
+      console.log(res.data)
+      // getEvents()
+    })
+    .catch((error) => {
+      console.log(error)
+    })
+}
+
 // This function gets called at build time
 export async function getStaticPaths() {
   // Call an external API endpoint to get posts, the outlook endpoint here
-  // const res = await fetch('')
-  // const posts = await res.json()
+  getAuthorizationToken()
   const dummyEndpoints = [{ url: "event1" }, { url: "event2" }]
 
   // Get the paths we want to pre-render based on posts
@@ -44,7 +87,6 @@ export async function getStaticPaths() {
 // This also gets called at build time
 export async function getStaticProps(context) {
   const { locale, locales, defaultLocale, preview = null } = context
-  // console.log(context)
   // params contains the event `url`.
   // If the route is like /event/1, then params.event is 1
   // const res = await fetch(`https://.../events/${params.url}`)
@@ -54,9 +96,6 @@ export async function getStaticProps(context) {
   const globalLocale = await getGlobalData(locale)
   const params = { slug: ["calendar"] }
   const pageData = await getPageData({ slug: params.slug }, locale, preview)
-  //   console.log("pageData")
-  //   console.log(pageData)
-  //   console.log("pageData")
 
   // We have the required page data, pass it to the page component
   const { metadata, localizations, slug } = pageData

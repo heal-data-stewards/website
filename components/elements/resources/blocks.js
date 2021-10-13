@@ -4,7 +4,7 @@ import Link from "next/link"
 export default function Block({ data }) {
   // console.log(data)
   return (
-    <Link href={`/resources/${data.url || "coming-soon"}`} passHref>
+    <Link href={`/${data.url || "coming-soon"}`} passHref>
       <div
         className="resource-block"
         style={{
