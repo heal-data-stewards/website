@@ -107,20 +107,7 @@ const Navbar = ({ navbar, pageContext }) => {
           <div className="flex">
             {/* CTA button on desktop */}
             {navbar.button && (
-              // <div className="hidden lg:block">
-              //   <ButtonLink
-              //     button={navbar.button}
-              //     appearance={getButtonAppearance(navbar.button.type, "dark")}
-              //     compact
-              //   />
-              // </div>
               <div className="hidden lg:block">
-                {/* <ButtonLink
-                button={navbar.button}
-                appearance={getButtonAppearance(navbar.button.type, "dark")}
-                compact
-              /> */}
-
                 {!session && (
                   <>
                     <Btn2 href={"/account"} button={{ text: "Log In" }} />
@@ -137,12 +124,6 @@ const Navbar = ({ navbar, pageContext }) => {
                 )}
               </div>
             )}
-            {/* Locale Switch Mobile */}
-            {/* {pageContext.localizedPaths && (
-              <div>
-                <LocaleSwitch pageContext={pageContext} />
-              </div>
-            )} */}
             {/* Hamburger menu on mobile */}
             <button
               onClick={() => setMobileMenuIsShown(true)}
