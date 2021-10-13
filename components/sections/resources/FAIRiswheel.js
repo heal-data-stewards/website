@@ -1,17 +1,17 @@
-import React, { useState } from "react";
-import SimpleExpansionPanel from "../../elements/expansion-panel";
-import FileDownloadIcon from "@mui/icons-material/FileDownload";
+import React, { useState } from "react"
+import SimpleExpansionPanel from "../../elements/expansion-panel"
+import FileDownloadIcon from "@mui/icons-material/FileDownload"
 import FairIsWheelSVG from "./clickable-wheel"
 
 export default function FAIRiswheel(data) {
   console.log(data)
   const [contentTitle, setcontentTitle] = useState({
     title: "Heal Platform",
-  });
-  const [faqs, setFaqs] = useState(data.data.faqs_heal_platform);
-  const [qna, setQna] = useState(data.data.qanda_heal_platform);
-  const [videos, setVideos] = useState(data.data.video_heal_platform);
-  const [documents, setDocuments] = useState(data.data.documents_heal_platform);
+  })
+  const [faqs, setFaqs] = useState(data.data.faqs_heal_platform)
+  const [qna, setQna] = useState(data.data.qanda_heal_platform)
+  const [videos, setVideos] = useState(data.data.video_heal_platform)
+  const [documents, setDocuments] = useState(data.data.documents_heal_platform)
   return (
     <div className="container flex mdmax:flex-wrap">
       <section className="">
@@ -57,7 +57,7 @@ export default function FAIRiswheel(data) {
               <>
                 <h1 className="text-purple text-2xl mb-5 mt-5">Documents</h1>
                 {documents.map((doc, i) => {
-                  console.log(doc);
+                  console.log(doc)
                   return (
                     <a
                       key={doc.url + i}
@@ -68,7 +68,7 @@ export default function FAIRiswheel(data) {
                       <FileDownloadIcon />
                       {doc.name}
                     </a>
-                  );
+                  )
                 })}
               </>
             )}
@@ -76,5 +76,5 @@ export default function FAIRiswheel(data) {
         </div>
       </section>
     </div>
-  );
+  )
 }
