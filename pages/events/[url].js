@@ -36,12 +36,14 @@ const headers = {
   "Content-Type": "application/x-www-form-urlencoded",
 };
 
-function getEvents() {
+function getEvents(token) {
   axios
-    .post(
-      `https://login.microsoftonline.com/${process.env.MSFT_TENANT}/oauth2/v2.0/token`,
+    .get(
+      `https://graph.microsoft.com/v1.0/users/${process.env.USER_ID}/calendar/events`,
       params,
-      headers
+      {
+        "Authorization": token,
+      }
     )
     .then((res) => {
       console.log(res.data);
@@ -51,10 +53,26 @@ function getEvents() {
     });
 }
 
+function getAuthorizationToken() {
+  axios
+    .post(
+      `https://login.microsoftonline.com/${process.env.MSFT_TENANT}/oauth2/v2.0/token`,
+      params,
+      headers
+    )
+    .then((res) => {
+      console.log(res.data);
+      // getEvents()
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+}
+
 // This function gets called at build time
 export async function getStaticPaths() {
   // Call an external API endpoint to get posts, the outlook endpoint here
-  getEvents();
+  getAuthorizationToken();
   // const res = await fetch('')
   // const posts = await res.json()
   const dummyEndpoints = [{ url: "event1" }, { url: "event2" }];
