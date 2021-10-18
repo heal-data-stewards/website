@@ -198,9 +198,9 @@ export const EmblaCarousel = ({ data }) => {
               {/* Left column for content */}
               <CardContent>
                 {/* label */}
-                <p className="uppercase mb-4 tracking-wide font-semibold text-white text-center lg:text-left">
+                {/* <p className="uppercase mb-4 tracking-wide font-semibold text-white text-center lg:text-left">
                   {"Coming Soon!"}
-                </p>
+                </p> */}
                 {/* Big title */}
                 <h1
                   className="title mb-4 text-center lg:text-left"
