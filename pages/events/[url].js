@@ -28,17 +28,16 @@ function Eventpage({ global, event, pageContext, metadata }) {
 function getEvents(token) {
   axios
     .get(
-      `https://graph.microsoft.com/v1.0/users/${process.env.USER_ID}/calendar/events`,
-      params,
-      {
-        Authorization: token,
+      `https://graph.microsoft.com/v1.0/users/${process.env.USER_ID}`,{
+      headers: {
+        "Authorization": "Bearer "+ token,
       }
-    )
+      })
     .then((res) => {
       console.log(res.data)
     })
     .catch((error) => {
-      console.log(error)
+      console.log(error.response.data)
     })
 }
 
@@ -60,8 +59,8 @@ function getAuthorizationToken() {
       headers
     )
     .then((res) => {
-      console.log(res.data)
-      // getEvents()
+      // console.log(res.data.access_token)
+      getEvents(res.data.access_token)
     })
     .catch((error) => {
       console.log(error)
