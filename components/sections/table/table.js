@@ -5,16 +5,15 @@ import { getAllUsers } from "utils/api"
 
 export default function WorkingGroupTable({ data }) {
   const [users, setUsers] = useState([])
-  // console.log(data);
   // Call the strapi API to GET all users
   useEffect(() => {
     getAllUsers().then(function (result) {
       const users = result.filter(
-        (user) => user.organization === data.title.workinggrouptype
+        (user) => user.workgroup === data.title.workinggroup
       )
       setUsers(users)
     })
-  }, [data.title.workinggrouptype])
+  }, [data.title.workinggroup])
 
   return (
     <div className="container">
