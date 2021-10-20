@@ -1,7 +1,7 @@
 import axios from "axios";
 
 function getEvents(token) {
-  console.log(token);
+  console.log(token)
   axios
     .get(`https://graph.microsoft.com/v1.0/users`, {
       headers: {
@@ -9,7 +9,7 @@ function getEvents(token) {
       },
     })
     .then((res) => {
-      console.log(res.data);
+      console.log(res.data.value);
     })
     .catch((error) => {
       console.log(error.response.data);

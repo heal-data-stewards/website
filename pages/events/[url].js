@@ -1,7 +1,6 @@
 import Layout from "@/components/layout"
 import { getPageData, getGlobalData } from "utils/api"
 import Seo from "@/components/elements/seo"
-import axios from "axios"
 import { getAuthorizationToken } from "utils/msft-graph-api"
 
 function Eventpage({ global, event, pageContext, metadata }) {
@@ -24,23 +23,6 @@ function Eventpage({ global, event, pageContext, metadata }) {
       </div>
     </Layout>
   )
-}
-
-function getEvents(token) {
-   console.log(token)
-  axios
-    .get(
-      `https://graph.microsoft.com/v1.0/users`,{
-      headers: {
-        "Authorization": "Bearer "+ token,
-      }
-      })
-    .then((res) => {
-      console.log(res.data)
-    })
-    .catch((error) => {
-      console.log(error.response.data)
-    })
 }
 
 // This function gets called at build time
