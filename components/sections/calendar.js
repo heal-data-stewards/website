@@ -25,17 +25,9 @@ export default function Calendar({ data }) {
           <p>Please Log In</p>
         </div>
       )}       */}
-      <div className="container pt-10 pb-10">
-        {/* Page header section */}
-        <section>
-          <h1 className="text-5xl font-black pb-4 text-gray-dark">
-            {data.heading}
-          </h1>
-          <Divider />
-          <p className="text-xl text-gray pt-4">{data.subheading}</p>
-        </section>
+      <div className="container pt-10">
         {/* Events List */}
-        <section className="pt-10">
+        <section >
           <BasicCard />
           <BasicCard />
           <BasicCard />
