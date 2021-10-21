@@ -1,19 +1,16 @@
-import React, { useState, useEffect } from "react"
-import { useSession, getSession } from "next-auth/client"
-import DataTable from "../elements/data-table"
-import { hastToReact } from "react-markdown/src/ast-to-react"
-import BasicCard from "../elements/card"
-import Divider from "@mui/material/Divider"
+import React, { useState, useEffect } from "react";
+import { useSession, getSession } from "next-auth/client";
+import DataTable from "../elements/data-table";
+import { hastToReact } from "react-markdown/src/ast-to-react";
+import BasicCard from "../elements/card";
 
-export default function Calendar({ data }) {
+export default function Calendar({ data, eventData }) {
+  // const [events, setEvents] = useState([{}]);
   // const [session, loading] = useSession()
   // const [loggedIn, setLoggedIn] = useState(false)
 
-  // useEffect(() => {
-  //   if (session) {
-  //     setLoggedIn(true)
-  //   }
-  // }, [session])
+
+
   return (
     <>
       {/* {loggedIn && <DataTable />} */}
@@ -27,12 +24,12 @@ export default function Calendar({ data }) {
       )}       */}
       <div className="container pt-10">
         {/* Events List */}
-        <section >
-          <BasicCard />
-          <BasicCard />
-          <BasicCard />
+        <section>
+          {eventData.map((event,i) => {
+            return <BasicCard key={event.subject+i} event={event} />;
+          })}
         </section>
       </div>
     </>
-  )
+  );
 }

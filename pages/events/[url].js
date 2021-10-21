@@ -3,6 +3,9 @@ import { getPageData, getGlobalData } from "utils/api";
 import Seo from "@/components/elements/seo";
 import { getAuthorizationToken } from "utils/msft-graph-api";
 
+
+// Creates an Event page from the outlook calendar
+
 function Eventpage({ global, event, pageContext, metadata }) {
   // Render event page...
   return (
@@ -59,6 +62,7 @@ export async function getStaticProps(context) {
 
   // We have the required page data, pass it to the page component
   const { metadata, localizations, slug } = pageData;
+
 
   const pageContext = {
     locale: pageData.locale,
