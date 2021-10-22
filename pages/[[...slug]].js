@@ -5,13 +5,20 @@ import Seo from "@/components/elements/seo"
 import { useRouter } from "next/router"
 import Layout from "@/components/layout"
 import { getLocalizedPaths } from "utils/localize"
-import { getAuthorizationToken } from "utils/msft-graph-api";
+import { getAuthorizationToken } from "utils/msft-graph-api"
 
 // The file is called [[...slug]].js because we're using Next's
 // optional catch all routes feature. See the related docs:
 // https://nextjs.org/docs/routing/dynamic-routes#optional-catch-all-routes
 
-const DynamicPage = ({ sections, metadata, preview, global, pageContext, eventData }) => {
+const DynamicPage = ({
+  sections,
+  metadata,
+  preview,
+  global,
+  pageContext,
+  eventData,
+}) => {
   const router = useRouter()
   // Check if the required data was provided
   if (!router.isFallback && !sections?.length) {
@@ -38,12 +45,12 @@ const DynamicPage = ({ sections, metadata, preview, global, pageContext, eventDa
         {/* Add meta tags for SEO*/}
         <Seo metadata={metadata} />
         {/* Display content sections */}
-        <Sections sections={sections} preview={preview} eventData={eventData}  />
+        <Sections sections={sections} preview={preview} eventData={eventData} />
       </Layout>
     )
   }
   return (
-    <Layout global={global} pageContext={pageContext} >
+    <Layout global={global} pageContext={pageContext}>
       {/* Add meta tags for SEO*/}
       <Seo metadata={metadata} />
       {/* Display content sections */}
@@ -79,13 +86,13 @@ export async function getStaticProps(context) {
   const { params, locale, locales, defaultLocale, preview = null } = context
 
   const globalLocale = await getGlobalData(locale)
-  let eventData = [];
+  let eventData = []
   // Fetch pages. Include drafts if preview mode is on
   if (params.slug !== undefined && params.slug[0] === "calendar") {
-    let events = await getAuthorizationToken();
-    eventData = events 
+    let events = await getAuthorizationToken()
+    eventData = events
   }
-  
+
   const pageData = await getPageData(
     { slug: !params.slug ? [""] : params.slug },
     locale,

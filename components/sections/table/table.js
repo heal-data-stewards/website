@@ -1,26 +1,26 @@
-import React, { useEffect, useState } from "react";
-import List from "@mui/material/List";
-import WorkingGroupListItem from "./list-item";
-import { getAllUsers } from "utils/api";
-import Button from "@mui/material/Button";
+import React, { useEffect, useState } from "react"
+import List from "@mui/material/List"
+import WorkingGroupListItem from "./list-item"
+import { getAllUsers } from "utils/api"
+import Button from "@mui/material/Button"
 
 export default function WorkingGroupTable({ data }) {
-  const [users, setUsers] = useState([]);
+  const [users, setUsers] = useState([])
   // Call the strapi API to GET all users
   useEffect(() => {
     getAllUsers().then(function (result) {
       const users = result.filter(
         (user) => user.workgroup === data.title.workinggroup
-      );
-      setUsers(users);
-    });
-  }, [data.title.workinggroup]);
+      )
+      setUsers(users)
+    })
+  }, [data.title.workinggroup])
 
   const mailTo = users
     .map((user) => {
-      return user.username + ";";
+      return user.username + ";"
     })
-    .join();
+    .join()
 
   return (
     <div className="container">
@@ -59,15 +59,15 @@ export default function WorkingGroupTable({ data }) {
                 name={member.firstname + " " + member.lastname}
                 organization={member.organization}
               />
-            );
+            )
           })}
         </List>
       </nav>
       <section className="mb-8 mt-8">
         <p className="pr-3 pb-3">
           To copy a list of email addresses for all collaboration group members,
-          right click the 'EMAILS' button and select 'Copy Email Address' from
-          the menu.
+          right click the &apos;EMAILS&apos; button and select &apos;Copy Email
+          Address&apos; from the menu.
         </p>
         <Button variant="contained" href={`mailto:${mailTo}`}>
           Emails
@@ -87,5 +87,5 @@ export default function WorkingGroupTable({ data }) {
         </h1>
       </section>
     </div>
-  );
+  )
 }

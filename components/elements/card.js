@@ -1,14 +1,14 @@
-import * as React from "react";
-import Box from "@mui/material/Box";
-import Card from "@mui/material/Card";
-import CardActions from "@mui/material/CardActions";
-import CardContent from "@mui/material/CardContent";
-import Button from "@mui/material/Button";
-import Typography from "@mui/material/Typography";
-import Link from "next/link";
+import * as React from "react"
+import Box from "@mui/material/Box"
+import Card from "@mui/material/Card"
+import CardActions from "@mui/material/CardActions"
+import CardContent from "@mui/material/CardContent"
+import Button from "@mui/material/Button"
+import Typography from "@mui/material/Typography"
+import Link from "next/link"
 
 export default function BasicCard({ event }) {
-  const date = new Date(Date.parse(event.start.dateTime));
+  const date = new Date(Date.parse(event.start.dateTime))
   return (
     <Card sx={{ minWidth: 275, margin: "0 0 20px 0" }}>
       <CardContent>
@@ -45,5 +45,5 @@ export default function BasicCard({ event }) {
         </Button>
       </CardActions>
     </Card>
-  );
+  )
 }
