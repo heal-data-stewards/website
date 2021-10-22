@@ -15,36 +15,22 @@ export default function Calendar({ data, eventData }) {
     } else {
       // Events created in the HEAL Calendar created with out a category label are collected in filteredEvents
       // These are the events avaiable to the public
-      const filteredEvents = eventData.filter((event, i) => {
-        return event.categories.length === 0;
-      });
+      const filteredEvents = eventData.filter(
+        (event) => event.categories.length === 0
+      );
       setEvents(filteredEvents);
     }
   }, [session]);
 
   return (
-    <>
-      {loggedIn && (
-        <div className="container">
-          {/* Logged In Events List */}
-          <section>
-            {events.map((event, i) => {
-              return <BasicCard key={event.subject + i} event={event} />;
-            })}
-          </section>
-        </div>
-      )}
-      {!loggedIn && (
-        <div className="container">
-          {/* Public Events List */}
-          <section>
-            {events.length !== 0 &&
-              events.map((event, i) => {
-                return <BasicCard key={event.subject + i} event={event} />;
-              })}
-          </section>
-        </div>
-      )}
-    </>
+    <div className="container">
+      {/* List of Events */}
+      <section>
+        {events.length !== 0 &&
+          events.map((event, i) => {
+            return <BasicCard key={event.subject + i} event={event} />;
+          })}
+      </section>
+    </div>
   );
 }
