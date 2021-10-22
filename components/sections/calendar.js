@@ -1,46 +1,36 @@
 import React, { useState, useEffect } from "react"
-import { useSession, getSession } from "next-auth/client"
-import DataTable from "../elements/data-table"
-import { hastToReact } from "react-markdown/src/ast-to-react"
+import { useSession } from "next-auth/client"
 import BasicCard from "../elements/card"
-import Divider from "@mui/material/Divider"
 
-export default function Calendar({ data }) {
-  // const [session, loading] = useSession()
-  // const [loggedIn, setLoggedIn] = useState(false)
+export default function Calendar({ data, eventData }) {
+  const [events, setEvents] = useState([])
+  const [session, loading] = useSession()
+  const [loggedIn, setLoggedIn] = useState(false)
 
-  // useEffect(() => {
-  //   if (session) {
-  //     setLoggedIn(true)
-  //   }
-  // }, [session])
+  useEffect(() => {
+    if (session) {
+      setLoggedIn(true)
+      // eventData contains every event in the HEAL calendar, logged in users see every event
+      setEvents(eventData)
+    } else {
+      // Events created in the HEAL Calendar created with out a category label are collected in filteredEvents
+      // These are the events avaiable to the public
+      const filteredEvents = eventData.filter(
+        (event) => event.categories.length === 0
+      )
+      setEvents(filteredEvents)
+    }
+  }, [session, eventData])
+
   return (
-    <>
-      {/* {loggedIn && <DataTable />} */}
-      {/* {!loggedIn && (
-        <div className="container">
-          <br></br>
-          <br></br>
-          <p>Access Denied</p>
-          <p>Please Log In</p>
-        </div>
-      )}       */}
-      <div className="container pt-10 pb-10">
-        {/* Page header section */}
-        <section>
-          <h1 className="text-5xl font-black pb-4 text-gray-dark">
-            {data.heading}
-          </h1>
-          <Divider />
-          <p className="text-xl text-gray pt-4">{data.subheading}</p>
-        </section>
-        {/* Events List */}
-        <section className="pt-10">
-          <BasicCard />
-          <BasicCard />
-          <BasicCard />
-        </section>
-      </div>
-    </>
+    <div className="container">
+      {/* List of Events */}
+      <section>
+        {events.length !== 0 &&
+          events.map((event, i) => {
+            return <BasicCard key={event.subject + i} event={event} />
+          })}
+      </section>
+    </div>
   )
 }

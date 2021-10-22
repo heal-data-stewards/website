@@ -1,10 +1,18 @@
 import Layout from "@/components/layout"
 import { getPageData, getGlobalData } from "utils/api"
 import Seo from "@/components/elements/seo"
-import axios from "axios"
+import { getAuthorizationToken } from "utils/msft-graph-api"
+
+import Divider from "@mui/material/Divider"
+
+// Creates an Event page from the outlook calendar
 
 function Eventpage({ global, event, pageContext, metadata }) {
   // Render event page...
+
+  // TO DO: Remove everything other than the body
+  // console.log(event.event.body.content);
+  const date = new Date(Date.parse(event.event.start.dateTime))
   return (
     <Layout
       global={global}
@@ -14,68 +22,40 @@ function Eventpage({ global, event, pageContext, metadata }) {
       <Seo metadata={metadata} />
       <div className="container pt-10 pb-10">
         {/* Page header section */}
-        <section>
-          <h1 className="text-5xl font-black pb-8 text-gray-dark">
-            {event.url}
+        <section className="mb-8">
+          <h1 className="text-5xl pb-4 font-black text-purple">
+            {event.event.subject}
           </h1>
-          <p className="text-xl text-gray-dark">{event.url}</p>
+          <Divider />
+        </section>
+        <section>
+          <h3 className="text-2xl font-black pb-2 text-gray-dark">
+            About this event
+          </h3>
+          <p>{event.event.bodyPreview}</p>
+          <h3 className="text-2xl font-black mt-8 pb-2 text-gray-dark">When</h3>
+          <p>{date.toString().replace(/ *\([^)]*\) */g, "")}</p>
+          <h3 className="text-2xl font-black mt-8 pb-2 text-gray-dark">
+            Location
+          </h3>
+          <p>{event.event.locations[0].displayName}</p>
         </section>
       </div>
     </Layout>
   )
 }
 
-function getEvents(token) {
-  axios
-    .get(
-      `https://graph.microsoft.com/v1.0/users/${process.env.USER_ID}/calendar/events`,
-      params,
-      {
-        Authorization: token,
-      }
-    )
-    .then((res) => {
-      console.log(res.data)
-    })
-    .catch((error) => {
-      console.log(error)
-    })
-}
-
-function getAuthorizationToken() {
-  const params = new URLSearchParams()
-  const headers = {
-    "Content-Type": "application/x-www-form-urlencoded",
-  }
-
-  params.append("client_id", process.env.CLIENT_ID)
-  params.append("scope", process.env.SCOPE)
-  params.append("client_secret", process.env.CLIENT_SECRET)
-  params.append("grant_type", process.env.GRANT_TYPE)
-
-  axios
-    .post(
-      `https://login.microsoftonline.com/${process.env.MSFT_TENANT}/oauth2/v2.0/token`,
-      params,
-      headers
-    )
-    .then((res) => {
-      console.log(res.data)
-      // getEvents()
-    })
-    .catch((error) => {
-      console.log(error)
-    })
-}
-
 // This function gets called at build time
 export async function getStaticPaths() {
-  // Call an external API endpoint to get posts, the outlook endpoint here
-  getAuthorizationToken()
-  const dummyEndpoints = [{ url: "event1" }, { url: "event2" }]
+  // Call an external API endpoint to get posts
+  const events = await getAuthorizationToken()
+
+  const eventPaths = events.map((event) => {
+    return { url: event.id }
+  })
 
   // Get the paths we want to pre-render based on posts
-  const paths = dummyEndpoints.map((event) => ({
+  const paths = eventPaths.map((event) => ({
     params: { url: event.url },
   }))
 
@@ -90,7 +70,7 @@ export async function getStaticProps(context) {
   // params contains the event `url`.
   // If the route is like /event/1, then params.event is 1
   // const res = await fetch(`https://.../events/${params.url}`)
-  // const event = await res.json()
+  const eventData = await getAuthorizationToken(context.params.url)
 
   // Get the navbar and footer from strapi
   const globalLocale = await getGlobalData(locale)
@@ -108,7 +88,7 @@ export async function getStaticProps(context) {
     localizations,
   }
 
-  const event = { url: context.params.url, title: "event title example" }
+  const event = { url: context.params.url, event: eventData }
 
   // Pass post data to the page via props
   return {

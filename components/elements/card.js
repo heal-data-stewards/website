@@ -7,16 +7,8 @@ import Button from "@mui/material/Button"
 import Typography from "@mui/material/Typography"
 import Link from "next/link"
 
-const bull = (
-  <Box
-    component="span"
-    sx={{ display: "inline-block", mx: "2px", transform: "scale(0.8)" }}
-  >
-    •
-  </Box>
-)
-
-export default function BasicCard() {
+export default function BasicCard({ event }) {
+  const date = new Date(Date.parse(event.start.dateTime))
   return (
     <Card sx={{ minWidth: 275, margin: "0 0 20px 0" }}>
       <CardContent>
@@ -25,7 +17,7 @@ export default function BasicCard() {
           color="text.secondary"
           gutterBottom
         >
-          Wed, 22 - Thu, 23 Sep 2021 • 03:00 AM
+          {date.toString().replace(/ *\([^)]*\) */g, "")}
         </Typography>
         <Typography
           variant="h4"
@@ -40,15 +32,17 @@ export default function BasicCard() {
             },
           }}
         >
-          <Link href="/about">Event example title</Link>
+          <Link href={`/events/${event.id}`}>{event.subject}</Link>
         </Typography>
         <Typography sx={{ mb: 1.5 }} color="">
-          Online
+          {event.location.displayName}
         </Typography>
-        <Typography variant="body1">Well meaning and kindly.</Typography>
+        <Typography variant="body1">{event.bodyPreview + " ..."}</Typography>
       </CardContent>
       <CardActions sx={{ background: "#fcf8fa" }}>
-        <Button size="small">Read More</Button>
+        <Button size="small">
+          <Link href={`/events/${event.id}`}>Read More</Link>
+        </Button>
       </CardActions>
     </Card>
   )
