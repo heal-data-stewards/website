@@ -37,7 +37,7 @@ export default function BasicCard({ event }) {
         <Typography sx={{ mb: 1.5 }} color="">
           {event.location.displayName}
         </Typography>
-        <Typography variant="body1">{event.bodyPreview}</Typography>
+        <Typography variant="body1">{event.bodyPreview + " ..."}</Typography>
       </CardContent>
       <CardActions sx={{ background: "#fcf8fa" }}>
         <Button size="small">
