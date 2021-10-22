@@ -7,17 +7,7 @@ import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import Link from "next/link";
 
-const bull = (
-  <Box
-    component="span"
-    sx={{ display: "inline-block", mx: "2px", transform: "scale(0.8)" }}
-  >
-    •
-  </Box>
-);
-
 export default function BasicCard({ event }) {
-  // console.log(event);
   const date = new Date(Date.parse(event.start.dateTime));
   return (
     <Card sx={{ minWidth: 275, margin: "0 0 20px 0" }}>
@@ -27,7 +17,7 @@ export default function BasicCard({ event }) {
           color="text.secondary"
           gutterBottom
         >
-          {date.toString()}
+          {date.toString().replace(/ *\([^)]*\) */g, "")}
         </Typography>
         <Typography
           variant="h4"
