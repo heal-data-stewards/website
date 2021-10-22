@@ -3,11 +3,16 @@ import { getPageData, getGlobalData } from "utils/api";
 import Seo from "@/components/elements/seo";
 import { getAuthorizationToken } from "utils/msft-graph-api";
 
+import Divider from "@mui/material/Divider";
 
 // Creates an Event page from the outlook calendar
 
 function Eventpage({ global, event, pageContext, metadata }) {
   // Render event page...
+
+  // TO DO: Remove everything other than the body
+  // console.log(event.event.body.content);
+  const date = new Date(Date.parse(event.event.start.dateTime));
   return (
     <Layout
       global={global}
@@ -17,11 +22,23 @@ function Eventpage({ global, event, pageContext, metadata }) {
       <Seo metadata={metadata} />
       <div className="container pt-10 pb-10">
         {/* Page header section */}
-        <section>
-          <h1 className="text-5xl font-black pb-8 text-gray-dark">
+        <section className="mb-8">
+          <h1 className="text-5xl pb-4 font-black text-purple">
             {event.event.subject}
           </h1>
-          <p className="text-xl text-gray-dark">{event.url}</p>
+          <Divider />
+        </section>
+        <section>
+          <h3 className="text-2xl font-black pb-2 text-gray-dark">
+            About this event
+          </h3>
+          <p>{event.event.bodyPreview}</p>
+          <h3 className="text-2xl font-black mt-8 pb-2 text-gray-dark">When</h3>
+          <p>{date.toString().replace(/ *\([^)]*\) */g, "")}</p>
+          <h3 className="text-2xl font-black mt-8 pb-2 text-gray-dark">
+            Location
+          </h3>
+          <p>{event.event.locations[0].displayName}</p>
         </section>
       </div>
     </Layout>
@@ -33,13 +50,13 @@ export async function getStaticPaths() {
   // Call an external API endpoint to get posts
   const events = await getAuthorizationToken();
 
-  const eventPaths = events.map((event)=>{
-    return {url: event.id}
-  })
+  const eventPaths = events.map((event) => {
+    return { url: event.id };
+  });
 
   // Get the paths we want to pre-render based on posts
   const paths = eventPaths.map((event) => ({
-    params: { url: event.url},
+    params: { url: event.url },
   }));
 
   // We'll pre-render only these paths at build time.
@@ -62,7 +79,6 @@ export async function getStaticProps(context) {
 
   // We have the required page data, pass it to the page component
   const { metadata, localizations, slug } = pageData;
-
 
   const pageContext = {
     locale: pageData.locale,
