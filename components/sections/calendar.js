@@ -22,7 +22,7 @@ export default function Calendar({ data, eventData }) {
           <p>Please Log In</p>
         </div>
       )}       */}
-      <div className="container pt-10">
+      <div className="container">
         {/* Events List */}
         <section>
           {eventData.map((event,i) => {
