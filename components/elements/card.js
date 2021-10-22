@@ -17,7 +17,7 @@ const bull = (
 );
 
 export default function BasicCard({ event }) {
-  console.log(event);
+  // console.log(event);
   const date = new Date(Date.parse(event.start.dateTime));
   return (
     <Card sx={{ minWidth: 275, margin: "0 0 20px 0" }}>
