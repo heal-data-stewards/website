@@ -132,39 +132,41 @@ export const EmblaCarousel = ({ data }) => {
               <CardContent>
                 {/* label */}
                 <p className="uppercase mb-4 tracking-wide font-semibold text-magenta text-center lg:text-left">
-                  Join us for our next webinar on Oct. 21
+                  Join us for our next webinar on Nov. 18!
                 </p>
                 {/* Big title */}
                 <h1
                   className="title mb-4 text-center lg:text-left"
                   // style={{ maxWidth: "200px" }}
                 >
-                  Find a home for your HEAL data
+                  Metadata 101: Adding Value to HEAL Data
                 </h1>
                 {/* Description paragraph */}
                 <div className="text-xl mb-4 text-grey text-center pl-10 pr-10 lg:text-left lg:pl-0 lg:pr-0">
                   <p>
-                    The first step in successfully gaining access to the HEAL
-                    Data Ecosystem is to choose a repository - or home - for
-                    your research data that will ensure their persistence,
-                    enforce data management best practices for your research
-                    domain or data type, and ultimately allow your data to
-                    become findable and accessible through the HEAL Data
-                    Platform.
+                    Properly preparing study data for use and re-use is the key
+                    to maximizing its potential value and impacts for diverse
+                    audiences. This third webinar in our Fresh FAIR series
+                    introduces the topic of metadata, a core focus for ensuring
+                    data is accessible for computation and further research.
+                    Metadata - or put simply “data about data” - increases the
+                    value of HEAL data for the research community by ensuring
+                    that data is findable and accessible for reuse.    Platform.
                     <br></br>
                     <br></br>
                     <a
                       target="_blank"
-                      href="http://bit.ly/HEAL_FreshFairOct21"
+                      href="https://renci.zoom.us/webinar/register/WN_5MzNx9ZARPKDkCW9aSJ5bA"
                       style={{ color: "blue" }}
                       rel="noreferrer"
                     >
                       REGISTER NOW
                     </a>{" "}
-                    to learn key principles for finding the best home for your
-                    data and discover answers to your questions about how to
-                    make this first important decision on the path to joining
-                    the HEAL Data Ecosystem.
+                    to join John Cheadle of the HEAL Data Stewardship Group as
+                    he leads a brief introductory session about metadata and its
+                    use, which will be followed by a conversation with two HEAL
+                    Investigators currently utilizing metadata in their daily
+                    work.
                   </p>
                 </div>
               </CardContent>
