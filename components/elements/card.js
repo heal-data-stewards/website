@@ -12,7 +12,7 @@ import Image from "next/image";
 export default function BasicCard({ event }) {
   const date = new Date(Date.parse(event.start.dateTime));
   return (
-    <div style={{ marginBottom: "75px" }}>
+    <div className="basic-card-container">
       <div
         style={{
           minWidth: 275,
@@ -20,8 +20,9 @@ export default function BasicCard({ event }) {
           padding: "35px",
           borderRadius: "16px",
         }}
+        className="basic-card-content"
       >
-        <div style={{ position: "absolute", marginTop: "-56.5px" }}>
+        <div className="event-img" style={{ position: "absolute"}}>
           <Image
             alt="alt"
             width={275}
