@@ -22,7 +22,7 @@ export default function BasicCard({ event }) {
         }}
         className="basic-card-content"
       >
-        <div className="event-img" style={{ position: "absolute"}}>
+        <div className="event-img" >
           <Image
             alt="alt"
             width={275}
@@ -32,7 +32,7 @@ export default function BasicCard({ event }) {
             }
           />
         </div>
-        <div style={{ padding: "0 0 0 300px" }}>
+        <div className="card-blurb">
           <Typography
             sx={{ fontWeight: "bold", color: "#532565", fontSize: 14 }}
             color="text.secondary"

@@ -200,6 +200,21 @@ content: ""
 
 .event-img {
   margin: -56.5px 0 0 0;
+  position: absolute
+}
+
+.card-blurb {
+  padding: 0 0 0 300px
+}
+
+@media screen and (max-width: 755px){
+  .event-img {
+    position:relative;
+    text-align: center
+  }
+ .card-blurb  {
+   padding: 20px 0 0 0
+ }
 }
 
 @media screen and (max-width: 1025px){
@@ -210,3 +225,4 @@ content: ""
    min-height: 340px
  }
 }
+
