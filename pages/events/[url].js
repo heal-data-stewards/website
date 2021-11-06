@@ -27,18 +27,17 @@ function Eventpage({ global, event, pageContext, metadata }) {
             {event.event.subject}
           </h1>
           <Divider />
+          <h2 className="pt-4 font-black text-magenta">
+            {event.event.location.displayName}
+          </h2>
+          <p className="bg-magenta text-white mt-4" style={{padding: "5px 16px", clipPath: "polygon(0% 0%, 95% 0, 100% 50%, 95% 100%, 0% 100%)"}}>{date.toString().replace(/ *\([^)]*\) */g, "")}</p>
         </section>
         <section>
-          <h3 className="text-2xl font-black pb-2 text-gray-dark">
+          <h3 className="text-2xl font-black pb-2 pt-8 text-magenta">
             About this event
           </h3>
-          <p>{event.event.bodyPreview}</p>
-          <h3 className="text-2xl font-black mt-8 pb-2 text-gray-dark">When</h3>
-          <p>{date.toString().replace(/ *\([^)]*\) */g, "")}</p>
-          <h3 className="text-2xl font-black mt-8 pb-2 text-gray-dark">
-            Location
-          </h3>
-          <p>{event.event.locations[0].displayName}</p>
+          <Divider />
+          <p className="pt-8" >{event.event.bodyPreview}</p>
         </section>
       </div>
     </Layout>
