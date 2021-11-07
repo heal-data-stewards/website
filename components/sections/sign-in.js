@@ -1,18 +1,18 @@
-import { signIn, signOut, useSession, getSession } from "next-auth/client";
-import axios from "axios";
-import React, { useState, useEffect } from "react";
-import { makeStyles } from "@material-ui/core/styles";
-import Card from "@material-ui/core/Card";
-import CardActions from "@material-ui/core/CardActions";
-import CardContent from "@material-ui/core/CardContent";
-import Button from "@material-ui/core/Button";
-import Typography from "@material-ui/core/Typography";
-import Divider from "@material-ui/core/Divider";
-import TransitionsModal from "../elements/modal";
-import EditForm from "../elements/form/account-edit";
-import Avatar from "@material-ui/core/Avatar";
-import LoginSection from "./login";
-import Link from "next/link";
+import { signIn, signOut, useSession, getSession } from "next-auth/client"
+import axios from "axios"
+import React, { useState, useEffect } from "react"
+import { makeStyles } from "@material-ui/core/styles"
+import Card from "@material-ui/core/Card"
+import CardActions from "@material-ui/core/CardActions"
+import CardContent from "@material-ui/core/CardContent"
+import Button from "@material-ui/core/Button"
+import Typography from "@material-ui/core/Typography"
+import Divider from "@material-ui/core/Divider"
+import TransitionsModal from "../elements/modal"
+import EditForm from "../elements/form/account-edit"
+import Avatar from "@material-ui/core/Avatar"
+import LoginSection from "./login"
+import Link from "next/link"
 
 const useStyles = makeStyles({
   root: {
@@ -35,7 +35,7 @@ const useStyles = makeStyles({
     height: "200px",
     margin: "0 auto",
   },
-});
+})
 
 const callApi = async function asyncCall(session, setData) {
   const response = await axios
@@ -45,31 +45,31 @@ const callApi = async function asyncCall(session, setData) {
       },
     })
     .then(function (response) {
-      setData(response.data);
-      return response;
-    });
-};
+      setData(response.data)
+      return response
+    })
+}
 
 export default function SignIn(initialData) {
-  const [session, loading] = useSession();
-  const classes = useStyles();
-  const [open, setOpen] = React.useState(false);
-  const [data, setData] = useState({ ...session });
+  const [session, loading] = useSession()
+  const classes = useStyles()
+  const [open, setOpen] = React.useState(false)
+  const [data, setData] = useState({ ...session })
 
   useEffect(() => {
     if (session) {
-      callApi(session, setData);
+      callApi(session, setData)
     }
-  }, [session]);
+  }, [session])
 
   const handleOpen = () => {
-    setOpen(true);
-  };
+    setOpen(true)
+  }
 
   const handleClose = () => {
-    callApi(session, setData);
-    setOpen(false);
-  };
+    callApi(session, setData)
+    setOpen(false)
+  }
   return (
     <div>
       <div>
@@ -242,27 +242,27 @@ export default function SignIn(initialData) {
         )}
       </div>
     </div>
-  );
+  )
 }
 
 export async function getServerSideProps({ req }) {
-  let headers = {};
-  const session = await getSession({ req });
+  let headers = {}
+  const session = await getSession({ req })
   if (session) {
-    headers = { Authorization: `Bearer ${session.jwt}` };
+    headers = { Authorization: `Bearer ${session.jwt}` }
   }
-  let journals = [];
+  let journals = []
   try {
     let { data } = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/users`, {
       headers: headers,
-    });
-    journals = data;
+    })
+    journals = data
   } catch (e) {
-    console.log("caught error");
-    journals = [];
+    console.log("caught error")
+    journals = []
   }
 
-  return { props: { journals: "journals" } };
+  return { props: { journals: "journals" } }
 }
 
 // import { signIn, signOut, useSession, getSession } from "next-auth/client";

@@ -34,7 +34,6 @@ const filterByValue = (array, string) => {
   )
 }
 
-
 export default function Glossary({ data }) {
   const [filter, setFilter] = React.useState("")
   const classes = useStyles()
@@ -44,16 +43,16 @@ export default function Glossary({ data }) {
       return (
         <>
           <div className={classes.root + " mt-10"} key={word + i}>
-              <h2
-                className="text-magenta capitalize pb-2"
-                style={{ fontWeight: "600", fontSize: "1.2rem" }}
-              >
-                {word.title}
-              </h2>
-              <Divider />
-              <h3 className="pt-4" style={{fontWeight: "100"}}>
-                {word.body}
-              </h3>
+            <h2
+              className="text-magenta capitalize pb-2"
+              style={{ fontWeight: "600", fontSize: "1.2rem" }}
+            >
+              {word.title}
+            </h2>
+            <Divider />
+            <h3 className="pt-4" style={{ fontWeight: "100" }}>
+              {word.body}
+            </h3>
           </div>
         </>
       )
@@ -63,23 +62,23 @@ export default function Glossary({ data }) {
       return (
         <>
           <div className={classes.root} key={word + i}>
-              <Typography
-                variant="h5"
-                component="h2"
-                className="text-magenta capitalize"
-                style={{ fontWeight: "600" }}
-              >
-                {word.title}
-              </Typography>
-              <Typography
-                className={classes.pos}
-                color="textSecondary"
-              ></Typography>
-              <Typography variant="body2" component="p">
-                {word.body}
-                {/* <br />
+            <Typography
+              variant="h5"
+              component="h2"
+              className="text-magenta capitalize"
+              style={{ fontWeight: "600" }}
+            >
+              {word.title}
+            </Typography>
+            <Typography
+              className={classes.pos}
+              color="textSecondary"
+            ></Typography>
+            <Typography variant="body2" component="p">
+              {word.body}
+              {/* <br />
                         {'"a benevolent smile"'} */}
-              </Typography>
+            </Typography>
           </div>
         </>
       )
