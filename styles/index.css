@@ -192,6 +192,12 @@ content: ""
   font-size: 1.3rem;
 }
 
+.working-group-list-item{
+  cursor: pointer;
+  width: 50%;
+   padding: 10px 
+}
+
 /* Event List Cards */
 
 .basic-card-container {
@@ -215,6 +221,10 @@ content: ""
  .card-blurb  {
    padding: 20px 0 0 0
  }
+
+ .working-group-list-item{
+  width: 100%;
+}
 }
 
 @media screen and (max-width: 1025px){
@@ -225,4 +235,3 @@ content: ""
    min-height: 340px
  }
 }
-

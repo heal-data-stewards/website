@@ -25,18 +25,12 @@ export default function WorkingGroupTable({ data }) {
   return (
     <div className="container">
       <section>
-        <h1
-          className="text-2xl text-purple p-2"
-          style={{ fontWeight: "600" }}
-        >
+        <h1 className="text-2xl text-purple p-2" style={{ fontWeight: "600" }}>
           Co-PIs
         </h1>
       </section>
       <section>
-        <h1
-          className="text-2xl text-purple p-2"
-          style={{ fontWeight: "600" }}
-        >
+        <h1 className="text-2xl text-purple p-2" style={{ fontWeight: "600" }}>
           Team Members
         </h1>
       </section>
