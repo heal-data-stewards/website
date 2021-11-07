@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react"
 import { useSession } from "next-auth/client"
-import BasicCard from "../elements/card"
+import BasicCard from "../elements/event-list-item"
 
 export default function Calendar({ data, eventData }) {
   const [events, setEvents] = useState([])

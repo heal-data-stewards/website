@@ -26,12 +26,11 @@ export default function WorkingGroupTable({ data }) {
     <div className="container">
       <section
         style={{
-          boxShadow: "0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23)",
           margin: "0 0 55px 0",
         }}
       >
         <h1
-          className="text-3xl text-purple text-center p-3"
+          className="text-3xl text-purple p-3"
           style={{ background: "#e5e0e7" }}
         >
           Chair
@@ -39,12 +38,11 @@ export default function WorkingGroupTable({ data }) {
       </section>
       <section
         style={{
-          boxShadow: "0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23)",
           margin: "0 0 15px 0",
         }}
       >
         <h1
-          className="text-3xl text-purple text-center p-3"
+          className="text-3xl text-purple p-3"
           style={{ background: "#e5e0e7" }}
         >
           {data.title.title}
@@ -75,12 +73,11 @@ export default function WorkingGroupTable({ data }) {
       </section>
       <section
         style={{
-          boxShadow: "0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23)",
           margin: "0 0 55px 0",
         }}
       >
         <h1
-          className="text-3xl text-purple text-center p-3"
+          className="text-3xl text-purple p-3"
           style={{ background: "#e5e0e7" }}
         >
           Resources
