@@ -30,14 +30,23 @@ function Eventpage({ global, event, pageContext, metadata }) {
           <h2 className="pt-4 font-black text-magenta">
             {event.event.location.displayName}
           </h2>
-          <p className="bg-magenta text-white mt-4" style={{padding: "5px 16px", clipPath: "polygon(0% 0%, 95% 0, 100% 50%, 95% 100%, 0% 100%)"}}>{date.toString().replace(/ *\([^)]*\) */g, "")}</p>
+          <p
+            className="bg-magenta text-white mt-4"
+            style={{
+              display: "inline-block",
+              padding: "5px 16px",
+              clipPath: "polygon(0% 0%, 95% 0, 100% 50%, 95% 100%, 0% 100%)",
+            }}
+          >
+            {date.toString().replace(/ *\([^)]*\) */g, "")}
+          </p>
         </section>
         <section>
           <h3 className="text-2xl font-black pb-2 pt-8 text-magenta">
             About this event
           </h3>
           <Divider />
-          <p className="pt-8" >{event.event.bodyPreview}</p>
+          <p className="pt-8">{event.event.bodyPreview}</p>
         </section>
       </div>
     </Layout>
