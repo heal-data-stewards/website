@@ -24,28 +24,20 @@ export default function WorkingGroupTable({ data }) {
 
   return (
     <div className="container">
-      <section
-        style={{
-          margin: "0 0 55px 0",
-        }}
-      >
+      <section>
         <h1
-          className="text-3xl text-purple p-3"
-          style={{ background: "#e5e0e7" }}
+          className="text-2xl text-purple p-2"
+          style={{ fontWeight: "600" }}
         >
-          Chair
+          Co-PIs
         </h1>
       </section>
-      <section
-        style={{
-          margin: "0 0 15px 0",
-        }}
-      >
+      <section>
         <h1
-          className="text-3xl text-purple p-3"
-          style={{ background: "#e5e0e7" }}
+          className="text-2xl text-purple p-2"
+          style={{ fontWeight: "600" }}
         >
-          {data.title.title}
+          Team Members
         </h1>
       </section>
       <nav aria-label="working group list">
@@ -78,7 +70,7 @@ export default function WorkingGroupTable({ data }) {
       >
         <h1
           className="text-3xl text-purple p-3"
-          style={{ background: "#e5e0e7" }}
+          style={{ background: "#e5e0e7", fontWeight: "600" }}
         >
           Resources
         </h1>
