@@ -7,6 +7,7 @@ import CardContent from "@material-ui/core/CardContent"
 import Button from "@material-ui/core/Button"
 import Typography from "@material-ui/core/Typography"
 import SearchBar from "../elements/search-bar"
+import Divider from "@mui/material/Divider"
 
 const useStyles = makeStyles({
   root: {
@@ -33,6 +34,7 @@ const filterByValue = (array, string) => {
   )
 }
 
+
 export default function Glossary({ data }) {
   const [filter, setFilter] = React.useState("")
   const classes = useStyles()
@@ -41,33 +43,18 @@ export default function Glossary({ data }) {
     items = data.term.map((word, i) => {
       return (
         <>
-          <Card className={classes.root} key={word + i}>
-            <CardContent>
-              {/* <Typography className={classes.title} color="textSecondary" gutterBottom>
-                    Related Categories?
-                </Typography> */}
-              <Typography
-                variant="h5"
-                component="h2"
-                className="text-magenta capitalize"
-                style={{ fontWeight: "600" }}
+          <div className={classes.root + " mt-10"} key={word + i}>
+              <h2
+                className="text-magenta capitalize pb-2"
+                style={{ fontWeight: "600", fontSize: "1.2rem" }}
               >
                 {word.title}
-              </Typography>
-              <Typography
-                className={classes.pos}
-                color="textSecondary"
-              ></Typography>
-              <Typography variant="body2" component="p">
+              </h2>
+              <Divider />
+              <h3 className="pt-4" style={{fontWeight: "100"}}>
                 {word.body}
-                {/* <br />
-                    {'"a benevolent smile"'} */}
-              </Typography>
-            </CardContent>
-            {/* <CardActions>
-                <Button size="small">Learn More</Button>
-            </CardActions> */}
-          </Card>
+              </h3>
+          </div>
         </>
       )
     })
@@ -75,11 +62,7 @@ export default function Glossary({ data }) {
     items = filterByValue(data.term, filter).map((word, i) => {
       return (
         <>
-          <Card className={classes.root} key={word + i}>
-            <CardContent>
-              {/* <Typography className={classes.title} color="textSecondary" gutterBottom>
-                        Related Categories?
-                    </Typography> */}
+          <div className={classes.root} key={word + i}>
               <Typography
                 variant="h5"
                 component="h2"
@@ -97,21 +80,17 @@ export default function Glossary({ data }) {
                 {/* <br />
                         {'"a benevolent smile"'} */}
               </Typography>
-            </CardContent>
-            {/* <CardActions>
-                    <Button size="small">Learn More</Button>
-                </CardActions> */}
-          </Card>
+          </div>
         </>
       )
     })
   }
   return (
     <main className="container pb-12 ">
-      <Paper elevation={2}>
+      <div>
         <SearchBar setFilter={setFilter} filter={filter} />
         {items}
-      </Paper>
+      </div>
     </main>
   )
 }

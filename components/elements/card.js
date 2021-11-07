@@ -1,16 +1,16 @@
-import * as React from "react";
-import Box from "@mui/material/Box";
-import Card from "@mui/material/Card";
-import CardActions from "@mui/material/CardActions";
-import CardContent from "@mui/material/CardContent";
-import Button from "@mui/material/Button";
-import Typography from "@mui/material/Typography";
-import Link from "next/link";
-import Avatar from "@material-ui/core/Avatar";
-import Image from "next/image";
+import * as React from "react"
+import Box from "@mui/material/Box"
+import Card from "@mui/material/Card"
+import CardActions from "@mui/material/CardActions"
+import CardContent from "@mui/material/CardContent"
+import Button from "@mui/material/Button"
+import Typography from "@mui/material/Typography"
+import Link from "next/link"
+import Avatar from "@material-ui/core/Avatar"
+import Image from "next/image"
 
 export default function BasicCard({ event }) {
-  const date = new Date(Date.parse(event.start.dateTime));
+  const date = new Date(Date.parse(event.start.dateTime))
   return (
     <div className="basic-card-container">
       <div
@@ -22,7 +22,7 @@ export default function BasicCard({ event }) {
         }}
         className="basic-card-content"
       >
-        <div className="event-img" >
+        <div className="event-img">
           <Image
             alt="alt"
             width={275}
@@ -74,5 +74,5 @@ export default function BasicCard({ event }) {
         </Button>
       </div>
     </div>
-  );
+  )
 }
