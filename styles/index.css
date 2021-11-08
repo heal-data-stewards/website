@@ -213,6 +213,10 @@ content: ""
   padding: 0 0 0 300px
 }
 
+.working-group-list-item{
+  width: 50%;
+}
+
 @media screen and (max-width: 755px){
   .event-img {
     position:relative;
