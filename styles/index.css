@@ -230,16 +230,17 @@ content: ""
     position:relative;
     text-align: center
   }
- .card-blurb  {
-   padding: 20px 0 0 0
- }
+  .card-blurb  {
+    padding: 20px 0 0 0
+  }
 
- .working-group-list-item{
-  width: 100% !important;
-}
-.working-group-list-item:nth-of-type(2n){
-  margin-left: 0;
-}
+  .working-group-list-item{
+    width: 100% !important;
+  }
+  .working-group-list-item:nth-of-type(2n){
+    margin-left: 0;
+  }
+
 }
 
 @media screen and (max-width: 1025px){
