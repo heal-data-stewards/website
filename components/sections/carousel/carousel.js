@@ -6,6 +6,8 @@ import Card from "@material-ui/core/Card"
 import { makeStyles } from "@material-ui/core/styles"
 import CardContent from "@material-ui/core/CardContent"
 import { DotButton } from "./buttons"
+import PauseIcon from "@mui/icons-material/Pause"
+import PlayArrowIcon from "@mui/icons-material/PlayArrow"
 
 const AUTOPLAY_INTERVAL = 8000
 
@@ -22,6 +24,7 @@ const EmblaCarousel = ({ data }) => {
   const [viewportRef, embla] = useEmblaCarousel({ skipSnaps: false })
   const [scrollSnaps, setScrollSnaps] = useState([])
   const [selectedIndex, setSelectedIndex] = useState(0)
+  const [paused, setPaused] = useState(false)
   const classes = useStyles()
   const autoplay = useCallback(() => {
     if (!embla) return
@@ -53,6 +56,16 @@ const EmblaCarousel = ({ data }) => {
   useEffect(() => {
     play()
   }, [play])
+
+  const onPause = () => {
+    setPaused(true)
+    stop()
+  }
+
+  const onPlay = () => {
+    setPaused(false)
+    play()
+  }
 
   function createMarkup(data) {
     return { __html: data }
@@ -116,6 +129,16 @@ const EmblaCarousel = ({ data }) => {
         })}
       </div>
       <div className="embla__dots pb-4 pt-2">
+        {!paused && (
+          <button onClick={onPause}>
+            <PauseIcon />
+          </button>
+        )}
+        {paused && (
+          <button onClick={onPlay}>
+            <PlayArrowIcon />
+          </button>
+        )}
         {scrollSnaps.map((_, index) => (
           <DotButton
             key={index}

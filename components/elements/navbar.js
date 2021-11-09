@@ -3,10 +3,8 @@ import PropTypes from "prop-types"
 import Link from "next/link"
 import { useRouter } from "next/router"
 import Image from "next/image"
-import { getButtonAppearance } from "utils/button"
 import { mediaPropTypes, linkPropTypes, buttonLinkPropTypes } from "utils/types"
 import { MdMenu } from "react-icons/md"
-import ButtonLink from "./button-link"
 import NextImage from "./image"
 import CustomLink from "./custom-link"
 import AppBar from "@material-ui/core/AppBar"
@@ -17,9 +15,8 @@ import ListItem from "@material-ui/core/ListItem"
 import ListItemText from "@material-ui/core/ListItemText"
 import Divider from "@material-ui/core/Divider"
 import { signIn, signOut, useSession, getSession } from "next-auth/client"
-import Button from "@material-ui/core/Button"
-import Fade from "@material-ui/core/Fade"
-import { Btn, Btn2 } from "../elements/button"
+import { Btn2 } from "../elements/button"
+import AccountMenu from "./profile"
 
 const Navbar = ({ navbar, pageContext }) => {
   const [session, loading] = useSession()
@@ -31,6 +28,12 @@ const Navbar = ({ navbar, pageContext }) => {
       url: "/resources",
       newTab: false,
       text: "RESOURCES",
+    },
+    {
+      id: 30,
+      url: "/calendar",
+      newTab: false,
+      text: "CALENDAR",
     },
   ])
 
@@ -44,6 +47,12 @@ const Navbar = ({ navbar, pageContext }) => {
           url: "/resources",
           newTab: false,
           text: "RESOURCES",
+        },
+        {
+          id: 30,
+          url: "/calendar",
+          newTab: false,
+          text: "CALENDAR",
         },
       ])
     }
@@ -95,42 +104,22 @@ const Navbar = ({ navbar, pageContext }) => {
           <div className="flex">
             {/* CTA button on desktop */}
             {navbar.button && (
-              // <div className="hidden lg:block">
-              //   <ButtonLink
-              //     button={navbar.button}
-              //     appearance={getButtonAppearance(navbar.button.type, "dark")}
-              //     compact
-              //   />
-              // </div>
               <div className="hidden lg:block">
-                {/* <ButtonLink
-                button={navbar.button}
-                appearance={getButtonAppearance(navbar.button.type, "dark")}
-                compact
-              /> */}
-
                 {!session && (
                   <>
                     <Btn2 href={"/account"} button={{ text: "Log In" }} />
                   </>
                 )}
                 {session && (
-                  <>
-                    <Btn
-                      handleClick={handleLogOut}
-                      button={{ text: "Log Out" }}
+                  <div>
+                    <AccountMenu
+                      handleLogOut={handleLogOut}
                       setLoggedIn={setLoggedIn}
                     />
-                  </>
+                  </div>
                 )}
               </div>
             )}
-            {/* Locale Switch Mobile */}
-            {/* {pageContext.localizedPaths && (
-              <div>
-                <LocaleSwitch pageContext={pageContext} />
-              </div>
-            )} */}
             {/* Hamburger menu on mobile */}
             <button
               onClick={() => setMobileMenuIsShown(true)}
@@ -189,9 +178,8 @@ const Navbar = ({ navbar, pageContext }) => {
                     )}
                     {session && (
                       <>
-                        <Btn
-                          handleClick={handleLogOut}
-                          button={{ text: "Log Out" }}
+                        <AccountMenu
+                          handleLogOut={handleLogOut}
                           setLoggedIn={setLoggedIn}
                         />
                       </>
