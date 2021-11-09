@@ -21,7 +21,10 @@ const useStyles = makeStyles({
 })
 
 const EmblaCarousel = ({ data }) => {
-  const [viewportRef, embla] = useEmblaCarousel({ skipSnaps: true, dragFree: true })
+  const [viewportRef, embla] = useEmblaCarousel({
+    skipSnaps: true,
+    dragFree: true,
+  })
   const [scrollSnaps, setScrollSnaps] = useState([])
   const [selectedIndex, setSelectedIndex] = useState(0)
   const [paused, setPaused] = useState(false)
