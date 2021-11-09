@@ -1,13 +1,15 @@
-import React, { useState, useEffect, useCallback } from "react"
-import { useEmblaCarousel } from "embla-carousel/react"
-import { useRecursiveTimeout } from "./useRecursiveTimeout"
-import Image from "next/image"
-import Card from "@material-ui/core/Card"
-import { makeStyles } from "@material-ui/core/styles"
-import CardContent from "@material-ui/core/CardContent"
-import { DotButton } from "./buttons"
+import React, { useState, useEffect, useCallback } from "react";
+import { useEmblaCarousel } from "embla-carousel/react";
+import { useRecursiveTimeout } from "./useRecursiveTimeout";
+import Image from "next/image";
+import Card from "@material-ui/core/Card";
+import { makeStyles } from "@material-ui/core/styles";
+import CardContent from "@material-ui/core/CardContent";
+import { DotButton } from "./buttons";
+import PauseIcon from "@mui/icons-material/Pause";
+import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 
-const AUTOPLAY_INTERVAL = 8000
+const AUTOPLAY_INTERVAL = 8000;
 
 const useStyles = makeStyles({
   root: {
@@ -16,46 +18,57 @@ const useStyles = makeStyles({
   media: {
     height: 400,
   },
-})
+});
 
 const EmblaCarousel = ({ data }) => {
-  const [viewportRef, embla] = useEmblaCarousel({ skipSnaps: false })
-  const [scrollSnaps, setScrollSnaps] = useState([])
-  const [selectedIndex, setSelectedIndex] = useState(0)
-  const classes = useStyles()
+  const [viewportRef, embla] = useEmblaCarousel({ skipSnaps: false });
+  const [scrollSnaps, setScrollSnaps] = useState([]);
+  const [selectedIndex, setSelectedIndex] = useState(0);
+  const [paused, setPaused] = useState(false);
+  const classes = useStyles();
   const autoplay = useCallback(() => {
-    if (!embla) return
+    if (!embla) return;
     if (embla.canScrollNext()) {
-      embla.scrollNext()
+      embla.scrollNext();
     } else {
-      embla.scrollTo(0)
+      embla.scrollTo(0);
     }
-  }, [embla])
+  }, [embla]);
 
   const onSelect = useCallback(() => {
-    if (!embla) return
-    setSelectedIndex(embla.selectedScrollSnap())
-  }, [embla, setSelectedIndex])
+    if (!embla) return;
+    setSelectedIndex(embla.selectedScrollSnap());
+  }, [embla, setSelectedIndex]);
   const scrollTo = useCallback(
     (index) => embla && embla.scrollTo(index),
     [embla]
-  )
+  );
 
-  const { play, stop } = useRecursiveTimeout(autoplay, AUTOPLAY_INTERVAL)
-
-  useEffect(() => {
-    if (!embla) return
-    embla.on("select", onSelect)
-    onSelect()
-    setScrollSnaps(embla.scrollSnapList())
-  }, [embla, onSelect, setScrollSnaps])
+  const { play, stop } = useRecursiveTimeout(autoplay, AUTOPLAY_INTERVAL);
 
   useEffect(() => {
-    play()
-  }, [play])
+    if (!embla) return;
+    embla.on("select", onSelect);
+    onSelect();
+    setScrollSnaps(embla.scrollSnapList());
+  }, [embla, onSelect, setScrollSnaps]);
+
+  useEffect(() => {
+    play();
+  }, [play]);
+
+  const onPause = () => {
+    setPaused(true);
+    stop();
+  };
+
+  const onPlay = () => {
+    setPaused(false);
+    play();
+  };
 
   function createMarkup(data) {
-    return { __html: data }
+    return { __html: data };
   }
 
   return (
@@ -112,10 +125,20 @@ const EmblaCarousel = ({ data }) => {
                 </div>
               </Card>
             </div>
-          )
+          );
         })}
       </div>
       <div className="embla__dots pb-4 pt-2">
+        {!paused && (
+          <button onClick={onPause}>
+            <PauseIcon />
+          </button>
+        )}
+        {paused && (
+          <button onClick={onPlay}>
+            <PlayArrowIcon />
+          </button>
+        )}
         {scrollSnaps.map((_, index) => (
           <DotButton
             key={index}
@@ -125,7 +148,7 @@ const EmblaCarousel = ({ data }) => {
         ))}
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default EmblaCarousel
+export default EmblaCarousel;
