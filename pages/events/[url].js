@@ -13,6 +13,7 @@ function Eventpage({ global, event, pageContext, metadata }) {
   // TO DO: Remove everything other than the body
   // console.log(event.event.body.content);
   const date = new Date(Date.parse(event.event.start.dateTime))
+  console.log(event)
   return (
     <Layout
       global={global}
@@ -46,7 +47,10 @@ function Eventpage({ global, event, pageContext, metadata }) {
             About this event
           </h3>
           <Divider />
-          <p className="pt-8">{event.event.bodyPreview}</p>
+          <div
+            className="pt-8"
+            dangerouslySetInnerHTML={{ __html: event.event.body.content }}
+          ></div>
         </section>
       </div>
     </Layout>
