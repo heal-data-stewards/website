@@ -151,7 +151,7 @@ export const EmblaCarousel = ({ data }) => {
                     data is accessible for computation and further research.
                     Metadata - or put simply “data about data” - increases the
                     value of HEAL data for the research community by ensuring
-                    that data is findable and accessible for reuse.    Platform.
+                    that data is findable and accessible for reuse.
                     <br></br>
                     <br></br>
                     <a
@@ -201,7 +201,7 @@ export const EmblaCarousel = ({ data }) => {
               <CardContent>
                 {/* label */}
                 {/* <p className="uppercase mb-4 tracking-wide font-semibold text-white text-center lg:text-left">
-                  {"Coming Soon!"}
+                  
                 </p> */}
                 {/* Big title */}
                 <h1
