@@ -1,19 +1,23 @@
-import * as React from "react"
-import Box from "@mui/material/Box"
-import Card from "@mui/material/Card"
-import CardActions from "@mui/material/CardActions"
-import CardContent from "@mui/material/CardContent"
-import Button from "@mui/material/Button"
-import Typography from "@mui/material/Typography"
-import Link from "next/link"
-import Avatar from "@material-ui/core/Avatar"
-import Image from "next/image"
+import * as React from "react";
+import Box from "@mui/material/Box";
+import Card from "@mui/material/Card";
+import CardActions from "@mui/material/CardActions";
+import CardContent from "@mui/material/CardContent";
+import Button from "@mui/material/Button";
+import Typography from "@mui/material/Typography";
+import Link from "next/link";
+import Avatar from "@material-ui/core/Avatar";
+import Image from "next/image";
+import Markdown from "react-markdown";
 
 export default function WebinarItem({ data }) {
-//   const date = new Date(Date.parse(event.start.dateTime))
-console.log(data)
+  const dateTime = new Date(Date.parse(data.time));
+  console.log(data);
+
+  const result = data.abstract.substring(0,320);
+
   return (
-    <div className="basic-card-container">
+    <div className="basic-card-container container">
       <div
         style={{
           minWidth: 275,
@@ -39,7 +43,7 @@ console.log(data)
             color="text.secondary"
             gutterBottom
           >
-            
+            {dateTime.toString().replace(/ *\([^)]*\) */g, "")}
           </Typography>
           <Typography
             variant="h4"
@@ -54,12 +58,14 @@ console.log(data)
               },
             }}
           >
-            {/* <Link href={`/events/${event.id}`}>{event.subject}</Link> */}
+            <Link href={data.RegistrationLink}>{data.title}</Link>
           </Typography>
           <Typography sx={{ mb: 1.5 }} color="">
-            {/* {event.location.displayName} */}
+            Webinar, Online
           </Typography>
-          {/* <Typography variant="body1">{event.bodyPreview + " ..."}</Typography> */}
+          <div>
+            <Markdown>{result + " ..."}</Markdown>
+          </div>
         </div>
       </div>
       <div
@@ -72,8 +78,9 @@ console.log(data)
       >
         <Button variant="contained" size="small">
           {/* <Link href={`/events/${event.id}`}>Read More</Link> */}
+          <Link href={data.RegistrationLink}>Register Here</Link>
         </Button>
       </div>
     </div>
-  )
+  );
 }
