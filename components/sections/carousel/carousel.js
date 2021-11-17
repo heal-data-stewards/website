@@ -21,7 +21,10 @@ const useStyles = makeStyles({
 })
 
 const EmblaCarousel = ({ data }) => {
-  const [viewportRef, embla] = useEmblaCarousel({ skipSnaps: false })
+  const [viewportRef, embla] = useEmblaCarousel({
+    skipSnaps: true,
+    dragFree: true,
+  })
   const [scrollSnaps, setScrollSnaps] = useState([])
   const [selectedIndex, setSelectedIndex] = useState(0)
   const [paused, setPaused] = useState(false)
@@ -86,7 +89,7 @@ const EmblaCarousel = ({ data }) => {
             <div className="embla__slide container" key={slide.header + i}>
               <Card
                 className="flex flex-col md:flex-row items-center justify-between"
-                style={{ minHeight: "500px", background: "#0000000a" }}
+                style={{ minHeight: "500px", background: "#9825680a" }}
               >
                 <div className="flex flex-wrap lg:flex-nowrap lg:p-14">
                   <div className="flex-shrink-0 w-full lg:w-6/12 lg:p-14">
