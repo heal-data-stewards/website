@@ -1,20 +1,15 @@
-import * as React from "react";
-import Box from "@mui/material/Box";
-import Card from "@mui/material/Card";
-import CardActions from "@mui/material/CardActions";
-import CardContent from "@mui/material/CardContent";
-import Button from "@mui/material/Button";
-import Typography from "@mui/material/Typography";
-import Link from "next/link";
-import Avatar from "@material-ui/core/Avatar";
-import Image from "next/image";
-import Markdown from "react-markdown";
+import * as React from "react"
+import Button from "@mui/material/Button"
+import Typography from "@mui/material/Typography"
+import Link from "next/link"
+import Image from "next/image"
+import Markdown from "react-markdown"
 
 export default function WebinarItem({ data }) {
-  const dateTime = new Date(Date.parse(data.time));
-  console.log(data);
+  const dateTime = new Date(Date.parse(data.time))
+  console.log(data)
 
-  const result = data.abstract.substring(0,320);
+  const result = data.abstract.substring(0, 320)
 
   return (
     <div className="basic-card-container container">
@@ -82,5 +77,5 @@ export default function WebinarItem({ data }) {
         </Button>
       </div>
     </div>
-  );
+  )
 }
