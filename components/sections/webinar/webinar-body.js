@@ -6,7 +6,7 @@ export default function WebinarBody({ data, eventData }) {
   const [events, setEvents] = useState([])
   const [session, loading] = useSession()
   const [loggedIn, setLoggedIn] = useState(false)
- 
+
   useEffect(() => {
     if (session) {
       setLoggedIn(true)
