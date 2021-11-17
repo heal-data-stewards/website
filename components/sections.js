@@ -21,6 +21,7 @@ import FAIRiswheel from "./sections/resources/FAIRiswheel"
 import ConsortiumBlocks from "./sections/consortium-block"
 import WorkingGroupTable from "./sections/table"
 import WebinarItem from "./sections/webinar/webinar-item"
+import WebinarBody from "./sections/webinar/webinar-body"
 
 // Map Strapi sections to section components
 const sectionComponents = {
@@ -45,7 +46,8 @@ const sectionComponents = {
   "sections.fairiswheel": FAIRiswheel,
   "sections.consortium": ConsortiumBlocks,
   "sections.members": WorkingGroupTable,
-  "sections.webinar-item": WebinarItem ,
+  "sections.webinar-item": WebinarItem,
+  "sections.webinarbody": WebinarBody,
 }
 
 // Display a section individually
