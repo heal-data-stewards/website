@@ -15,9 +15,19 @@ export default function WebinarBody({ data, eventData }) {
     } else {
       // Events created in the HEAL Calendar created with out a category label are collected in filteredEvents
       // These are the events avaiable to the public
-      const filteredEvents = eventData.filter(
-        (event) => event.categories.length === 0
-      )
+      const filteredEvents = eventData.filter((event) => {
+        if (event.categories.length === 0) {
+          return event
+        } else {
+          let check = ""
+          event.categories.forEach((element) => {
+            if (element === "Purple category") {
+              check = true
+            }
+          })
+          return check
+        }
+      })
       setEvents(filteredEvents)
     }
   }, [session, eventData])
