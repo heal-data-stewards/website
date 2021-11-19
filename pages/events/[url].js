@@ -18,7 +18,6 @@ function Eventpage({ global, event, pageContext, metadata }) {
     <Layout
       global={global}
       pageContext={pageContext}
-      style={{ background: "#9c2a6e08" }}
     >
       <Seo metadata={metadata} />
       <div className="container pt-10 pb-10">

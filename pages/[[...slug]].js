@@ -34,7 +34,7 @@ const DynamicPage = ({
     pageContext.slug === "resources" ||
     pageContext.slug === "account" ||
     pageContext.slug === "directory" ||
-    pageContext.slug === "glossary"
+    pageContext.slug === "glossary" 
   ) {
     return (
       <Layout
@@ -94,7 +94,6 @@ export async function getStaticProps(context) {
   }
   if (params.slug !== undefined && params.slug[0] === "webinar") {
     let events = await getAuthorizationToken()
-    console.log(events)
     const result = events.filter(
       (event) => event.categories[0] === "Purple category"
     )
