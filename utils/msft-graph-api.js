@@ -20,11 +20,11 @@ function getEvents(token) {
   });
 }
 
-function getEvent(token,id) {
+export function getEvent(token,id) {
   return new Promise((resolve, reject) => {
     axios
       .get(
-        `https://graph.microsoft.com/v1.0/users/${process.env.USER_ID}/calendar/events/${id}`,
+        `https://graph.microsoft.com/v1.0/users/RENCI_healdataca.rmb@ad.unc.edu/calendar/events/${id}`,
         {
           headers: {
             Authorization: "Bearer " + token,
@@ -68,8 +68,7 @@ export async function getAuthorizationToken(id) {
       event = await getEvents(token);
     } else {
       event = await getEvent(token, id);
-      console.log(event)
     }
-
+    event.token = token
   return event;
 }

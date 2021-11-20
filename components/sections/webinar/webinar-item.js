@@ -7,7 +7,6 @@ import Markdown from "react-markdown"
 
 export default function WebinarItem({ data }) {
   const dateTime = new Date(Date.parse(data.time))
-  console.log(data)
 
   const result = data.abstract.substring(0, 320)
 
