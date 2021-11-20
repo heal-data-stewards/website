@@ -2,19 +2,27 @@ import Layout from "@/components/layout"
 import { getPageData, getGlobalData } from "utils/api"
 import Seo from "@/components/elements/seo"
 import { getAuthorizationToken } from "utils/msft-graph-api"
-import { getPageData2 } from "utils/msft-graph-api"
-
+import React, { useState, useEffect } from "react"
 import Divider from "@mui/material/Divider"
 
 // Creates an Event page from the outlook calendar
 
 function Eventpage({ global, event, pageContext, metadata }) {
   // Render event page...
+  const [data, dataSet] = useState(event)
+  useEffect(() => {
+    async function fetchMyAPI() {
+      const eventData = await getAuthorizationToken(event.event.id)
+
+      dataSet(eventData)
+    }
+    fetchMyAPI()
+  }, [])
 
   // TO DO: Remove everything other than the body
   // console.log(event.event.body.content);
-  const date = new Date(Date.parse(event.event.start.dateTime))
-  // console.log(event.event.body.content)
+  const date = new Date(Date.parse(data.event.start.dateTime))
+
   return (
     <Layout global={global} pageContext={pageContext}>
       <Seo metadata={metadata} />
@@ -22,11 +30,11 @@ function Eventpage({ global, event, pageContext, metadata }) {
         {/* Page header section */}
         <section className="mb-8">
           <h1 className="text-5xl pb-4 font-black text-purple">
-            {event.event.subject}
+            {data.event.subject}
           </h1>
           <Divider />
           <h2 className="pt-4 font-black text-magenta">
-            {event.event.location.displayName}
+            {data.event.location.displayName}
           </h2>
           <p
             className="bg-magenta text-white mt-4"
@@ -45,8 +53,8 @@ function Eventpage({ global, event, pageContext, metadata }) {
           </h3>
           <Divider />
           <div
-            className="event-html"
-            dangerouslySetInnerHTML={{ __html: event.event.body.content }}
+            className="pt-8"
+            dangerouslySetInnerHTML={{ __html: data.event.body.content }}
           ></div>
         </section>
       </div>
@@ -74,13 +82,12 @@ export async function getStaticPaths() {
 }
 
 // This also gets called at build time
-export async function getStaticProps(context, preview2) {
+export async function getStaticProps(context) {
   const { locale, locales, defaultLocale, preview = null } = context
   // params contains the event `url`.
   // If the route is like /event/1, then params.event is 1
   // const res = await fetch(`https://.../events/${params.url}`)
-  // const eventData = await getAuthorizationToken(context.params.url)
-  const eventData = await getPageData2(context.params.url, preview2)
+  const eventData = await getAuthorizationToken(context.params.url)
 
   // Get the navbar and footer from strapi
   const globalLocale = await getGlobalData(locale)
@@ -104,7 +111,6 @@ export async function getStaticProps(context, preview2) {
   return {
     props: {
       event,
-      preview,
       global: globalLocale,
       metadata,
       pageContext: {
@@ -113,43 +119,5 @@ export async function getStaticProps(context, preview2) {
     },
   }
 }
-
-// export async function getServerSideProps(context) {
-//   const { locale, locales, defaultLocale, preview = null } = context
-//   // params contains the event `url`.
-//   // If the route is like /event/1, then params.event is 1
-//   // const res = await fetch(`https://.../events/${params.url}`)
-//   const eventData = await getAuthorizationToken(context.params.url)
-
-//   // Get the navbar and footer from strapi
-//   const globalLocale = await getGlobalData(locale)
-//   const params = { slug: ["calendar"] }
-//   const pageData = await getPageData({ slug: params.slug }, locale, preview)
-
-//   // We have the required page data, pass it to the page component
-//   const { metadata, localizations, slug } = pageData
-
-//   const pageContext = {
-//     locale: pageData.locale,
-//     locales,
-//     defaultLocale,
-//     slug,
-//     localizations,
-//   }
-
-//   const event = { url: context.params.url, event: eventData }
-
-//   // Pass post data to the page via props
-//   return {
-//     props: {
-//       event,
-//       global: globalLocale,
-//       metadata,
-//       pageContext: {
-//         ...pageContext,
-//       },
-//     },
-//   }
-// }
 
 export default Eventpage

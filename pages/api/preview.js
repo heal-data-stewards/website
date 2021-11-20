@@ -1,11 +1,7 @@
 import { getPageData } from "utils/api"
 import { parseCookies } from "utils/parse-cookies"
 
-import { getPageData2 } from "utils/msft-graph-api"
-
 const preview = async (req, res) => {
-  console.log(req.query.slug)
-  console.log(req.query.secret)
   // Check the secret and next parameters
   // This secret should only be known to this API route and the CMS
   if (req.query.secret !== (process.env.PREVIEW_SECRET || "secret-token")) {
@@ -13,15 +9,13 @@ const preview = async (req, res) => {
   }
 
   const cookies = parseCookies(req)
-  // const slugArray = req.query.slug.split("/")
+  const slugArray = req.query.slug.split("/")
   // Fetch the headless CMS to check if the provided `slug` exists
-  // const pageData = await getPageData(
-  //   { slug: slugArray },
-  //   cookies.NEXT_LOCALE,
-  //   true
-  // )
-
-  const pageData = await getPageData2(req.query.slug, true)
+  const pageData = await getPageData(
+    { slug: slugArray },
+    cookies.NEXT_LOCALE,
+    true
+  )
 
   // If the slug doesn't exist prevent preview mode from being enabled
   if (!pageData) {
@@ -35,7 +29,7 @@ const preview = async (req, res) => {
   // We don't redirect to req.query.slug as that might lead to open redirect vulnerabilities
   // Prefix with locale so previews are available in all languages
   res.writeHead(307, {
-    Location: `/events/${pageData.id}`,
+    Location: `/${pageData.locale}/${pageData.slug}`,
   })
   res.end()
 }

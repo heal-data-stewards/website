@@ -35,7 +35,6 @@ function getEvent(token,id) {
         resolve(res.data);
       })
       .catch((error) => {
-        console.log("twhat")
         reject(error.response.data);
       });
   });
@@ -69,26 +68,8 @@ export async function getAuthorizationToken(id) {
       event = await getEvents(token);
     } else {
       event = await getEvent(token, id);
-      // console.log(event)
+      console.log(event)
     }
 
   return event;
 }
-
-
-export async function getPageData2(id, preview = false) {
-  // Find the pages that match this slug
-  // const pagesData = await fetchAPI(
-  //   `/articles?slug=${slug}&status=published${preview ? "&status=draft" : ''}`
-  // );
-
-  const eventData = await getAuthorizationToken(id)
- 
-  // Make sure we found something, otherwise return null
-  if (eventData == null) {
-    return null;
-  }
- 
-  // Return the first item since there should only be one result per slug
-  return eventData;
- }
