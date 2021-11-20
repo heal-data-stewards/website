@@ -111,7 +111,6 @@ export async function getStaticProps(context, preview2) {
         ...pageContext,
       },
     },
-    revalidate: 1,
   }
 }
 

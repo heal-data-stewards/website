@@ -5,6 +5,7 @@ import { getPageData2 } from "utils/msft-graph-api"
 
 const preview = async (req, res) => {
   console.log(req.query.slug)
+  console.log(req.query.secret)
   // Check the secret and next parameters
   // This secret should only be known to this API route and the CMS
   if (req.query.secret !== (process.env.PREVIEW_SECRET || "secret-token")) {
