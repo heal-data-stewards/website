@@ -2,6 +2,7 @@ import Layout from "@/components/layout"
 import { getPageData, getGlobalData } from "utils/api"
 import Seo from "@/components/elements/seo"
 import { getAuthorizationToken } from "utils/msft-graph-api"
+import { getPageData2 } from "utils/msft-graph-api"
 
 import Divider from "@mui/material/Divider"
 
@@ -73,12 +74,13 @@ export async function getStaticPaths() {
 }
 
 // This also gets called at build time
-export async function getStaticProps(context) {
+export async function getStaticProps(context, preview2) {
   const { locale, locales, defaultLocale, preview = null } = context
   // params contains the event `url`.
   // If the route is like /event/1, then params.event is 1
   // const res = await fetch(`https://.../events/${params.url}`)
-  const eventData = await getAuthorizationToken(context.params.url)
+  // const eventData = await getAuthorizationToken(context.params.url)
+  const eventData = await getPageData2(context.params.url, preview2)
 
   // Get the navbar and footer from strapi
   const globalLocale = await getGlobalData(locale)
@@ -102,13 +104,14 @@ export async function getStaticProps(context) {
   return {
     props: {
       event,
+      preview,
       global: globalLocale,
       metadata,
       pageContext: {
         ...pageContext,
       },
     },
-    revalidate: 10,
+    revalidate: 1,
   }
 }
 
