@@ -3,6 +3,7 @@ import Seo from "@/components/elements/seo"
 import { getEvent } from "utils/msft-graph-api"
 import React, { useState, useEffect } from "react"
 import Divider from "@mui/material/Divider"
+import { makeEasternTime } from "utils/helper-functions"
 
 // Creates an Event page from the outlook calendar
 
@@ -18,14 +19,19 @@ function EventPage({ global, event, pageContext, metadata }) {
     fetchMyAPI()
   }, [pageContext.token, pageContext.url])
 
-  const date = new Date(Date.parse(data.start.dateTime))
-  //   console.log(eventData)
+  let date = new Date(Date.parse(data.start.dateTime))
+  let endDate = new Date(Date.parse(data.end.dateTime))
+  let sTime = date.toLocaleTimeString()
+  let eTime = endDate.toLocaleTimeString()
+  let startTime = makeEasternTime(sTime)
+  let endTime = makeEasternTime(eTime)
+
   return (
     <Layout global={global} pageContext={pageContext}>
       <Seo metadata={metadata} />
       <div className="container pt-10 pb-10">
         {/* Page header section */}
-        <section className="mb-8">
+        <section className="">
           <h1 className="text-5xl pb-4 font-black text-purple">
             {data.subject}
           </h1>
@@ -41,7 +47,9 @@ function EventPage({ global, event, pageContext, metadata }) {
               clipPath: "polygon(0% 0%, 95% 0, 100% 50%, 95% 100%, 0% 100%)",
             }}
           >
-            {date.toString().replace(/ *\([^)]*\) */g, "")}
+            {`${date.toDateString()} ${startTime} - ${endTime} ${
+              data.originalEndTimeZone
+            }`}
           </p>
         </section>
         <section>
@@ -50,7 +58,7 @@ function EventPage({ global, event, pageContext, metadata }) {
           </h3>
           <Divider />
           <div
-            className="pt-8"
+            className="event-html"
             dangerouslySetInnerHTML={{ __html: data.body.content }}
           ></div>
         </section>
