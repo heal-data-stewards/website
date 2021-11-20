@@ -252,3 +252,7 @@ content: ""
    min-height: 340px
  }
 }
+
+.event-html li {
+  margin-left: 50px
+}
