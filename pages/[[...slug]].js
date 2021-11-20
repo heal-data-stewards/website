@@ -34,7 +34,7 @@ const DynamicPage = ({
     pageContext.slug === "resources" ||
     pageContext.slug === "account" ||
     pageContext.slug === "directory" ||
-    pageContext.slug === "glossary" 
+    pageContext.slug === "glossary"
   ) {
     return (
       <Layout

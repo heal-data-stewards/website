@@ -254,5 +254,10 @@ content: ""
 }
 
 .event-html li {
+  list-style-type: square;
   margin-left: 50px
+}
+
+.event-html a {
+  color: #0044B3
 }
