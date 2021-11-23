@@ -1,12 +1,12 @@
-import React, { useState, useEffect } from "react";
-import { styled } from "@mui/material/styles";
-import ArrowForwardIosSharpIcon from "@mui/icons-material/ArrowForwardIosSharp";
-import MuiAccordion from "@mui/material/Accordion";
-import MuiAccordionSummary from "@mui/material/AccordionSummary";
-import MuiAccordionDetails from "@mui/material/AccordionDetails";
-import Typography from "@mui/material/Typography";
-import Markdown from "react-markdown";
-import { getStrapiApiPageData } from "utils/api";
+import React, { useState, useEffect } from "react"
+import { styled } from "@mui/material/styles"
+import ArrowForwardIosSharpIcon from "@mui/icons-material/ArrowForwardIosSharp"
+import MuiAccordion from "@mui/material/Accordion"
+import MuiAccordionSummary from "@mui/material/AccordionSummary"
+import MuiAccordionDetails from "@mui/material/AccordionDetails"
+import Typography from "@mui/material/Typography"
+import Markdown from "react-markdown"
+import { getStrapiApiPageData } from "utils/api"
 
 const Accordion = styled((props) => (
   <MuiAccordion disableGutters elevation={0} square {...props} />
@@ -18,7 +18,7 @@ const Accordion = styled((props) => (
   "&:before": {
     display: "none",
   },
-}));
+}))
 
 const AccordionSummary = styled((props) => (
   <MuiAccordionSummary
@@ -37,54 +37,54 @@ const AccordionSummary = styled((props) => (
   "& .MuiAccordionSummary-content": {
     marginLeft: theme.spacing(1),
   },
-}));
+}))
 
 const AccordionDetails = styled(MuiAccordionDetails)(({ theme }) => ({
   padding: "3rem 2.6rem",
   borderTop: "1px solid rgba(0, 0, 0, .125)",
-}));
+}))
 
 export default function Faqs({ data }) {
-  const [faqs, setFaqs] = useState([]);
-  const [expanded, setExpanded] = useState();
+  const [faqs, setFaqs] = useState([])
+  const [expanded, setExpanded] = useState()
 
   useEffect(() => {
     // Split the array into separate objects by the tag property
     function groupByTag(arr, property) {
       return arr.reduce(function (memo, x) {
         if (!memo[x[property]]) {
-          memo[x[property]] = [];
+          memo[x[property]] = []
         }
-        memo[x[property]].push(x);
-        return memo;
-      }, {});
+        memo[x[property]].push(x)
+        return memo
+      }, {})
     }
 
     const separateObject = (obj) => {
-      const res = [];
-      const keys = Object.keys(obj);
+      const res = []
+      const keys = Object.keys(obj)
       keys.forEach((key) => {
         res.push({
           key: key,
           data: obj[key],
-        });
-      });
-      return res;
-    };
+        })
+      })
+      return res
+    }
 
     getStrapiApiPageData("faqs")
       .then((res) => {
-        return groupByTag(res.contentSections[1].question, "tag");
+        return groupByTag(res.contentSections[1].question, "tag")
       })
       .then((res) => {
-        const newState = separateObject(res);
-        setFaqs(newState);
-      });
-  }, []);
+        const newState = separateObject(res)
+        setFaqs(newState)
+      })
+  }, [])
 
   const handleChange = (panel) => (event, newExpanded) => {
-    setExpanded(newExpanded ? panel : false);
-  };
+    setExpanded(newExpanded ? panel : false)
+  }
 
   return (
     <div className="container">
@@ -132,11 +132,11 @@ export default function Faqs({ data }) {
                     </Typography>
                   </AccordionDetails>
                 </Accordion>
-              );
+              )
             })}
           </div>
-        );
+        )
       })}
     </div>
-  );
+  )
 }
