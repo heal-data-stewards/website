@@ -22,6 +22,7 @@ import ConsortiumBlocks from "./sections/consortium-block"
 import WorkingGroupTable from "./sections/table"
 import WebinarItem from "./sections/webinar/webinar-item"
 import WebinarBody from "./sections/webinar/webinar-body"
+import Faqs from "@/components/sections/faqs"
 
 // Map Strapi sections to section components
 const sectionComponents = {
@@ -48,6 +49,7 @@ const sectionComponents = {
   "sections.members": WorkingGroupTable,
   "sections.webinar-item": WebinarItem,
   "sections.webinarbody": WebinarBody,
+  "sections.faqs": Faqs,
 }
 
 // Display a section individually
