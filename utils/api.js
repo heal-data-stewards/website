@@ -63,3 +63,13 @@ export async function getAllUsers(locale) {
   const users = await fetchAPI(`/users`);
   return users;
 }
+
+export async function getStrapiApiPageData(slug) {
+  const pageData = await getPageData(
+      { slug: [slug] },
+      "en",
+      false
+    )
+  return pageData;
+}
+
