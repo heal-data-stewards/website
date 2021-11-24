@@ -19,13 +19,15 @@ const styles = (theme) => ({
   },
   searchBar: {
     borderBottom: "1px solid rgba(0, 0, 0, 0.12)",
+    backgroundColor: "transparent",
   },
   searchInput: {
     fontSize: theme.typography.fontSize,
+    color: "#fff",
   },
   block: {
     display: "block",
-    color: "#686569",
+    color: "#fff",
   },
   addUser: {
     marginRight: theme.spacing(1),
@@ -47,7 +49,7 @@ function SearchBar(props) {
       <AppBar className={classes.searchBar} position="unset" elevation={0}>
         <Toolbar
           position="unset"
-          style={{ backgroundColor: "#e3dce4", zIndex: "1" }}
+          style={{ backgroundColor: "rgb(152 37 104)", zIndex: "1" }}
         >
           <Grid container spacing={2} alignItems="center">
             <Grid item></Grid>
@@ -64,6 +66,7 @@ function SearchBar(props) {
                   disableUnderline: true,
                   className: classes.searchInput,
                 }}
+                style={{ color: "#fff" }}
               />
             </Grid>
             <Grid item>
