@@ -70,13 +70,6 @@ function SearchBar(props) {
               />
             </Grid>
             <Grid item>
-              {/* <Button
-                variant="contained"
-                color="primary"
-                className={classes.addUser}
-              >
-                Search
-              </Button> */}
               <Tooltip title="Reload">
                 <IconButton>
                   <RefreshIcon
