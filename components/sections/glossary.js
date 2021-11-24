@@ -1,9 +1,9 @@
-import React, { useState } from "react";
-import { makeStyles } from "@material-ui/core/styles";
-import SearchBar from "../elements/search-bar";
-import Divider from "@mui/material/Divider";
-import PageTitle from "./page-title";
-import Markdown from "react-markdown";
+import React, { useState } from "react"
+import { makeStyles } from "@material-ui/core/styles"
+import SearchBar from "../elements/search-bar"
+import Divider from "@mui/material/Divider"
+import PageTitle from "./page-title"
+import Markdown from "react-markdown"
 
 const useStyles = makeStyles({
   root: {
@@ -20,20 +20,20 @@ const useStyles = makeStyles({
   pos: {
     marginBottom: 12,
   },
-});
+})
 
 const filterByValue = (array, string) => {
   return array.filter((o) =>
     Object.keys(o).some((k) =>
       String(o[k]).toLowerCase().includes(string.toLowerCase())
     )
-  );
-};
+  )
+}
 
 export default function Glossary({ data }) {
-  const [filter, setFilter] = React.useState("");
-  const classes = useStyles();
-  let items;
+  const [filter, setFilter] = React.useState("")
+  const classes = useStyles()
+  let items
   if (filter === "") {
     items = data.term.map((word, i) => {
       return (
@@ -53,8 +53,8 @@ export default function Glossary({ data }) {
             <Markdown>{word.body}</Markdown>
           </h3>
         </div>
-      );
-    });
+      )
+    })
   } else {
     items = filterByValue(data.term, filter).map((word, i) => {
       return (
@@ -74,8 +74,8 @@ export default function Glossary({ data }) {
             <Markdown>{word.body}</Markdown>
           </h3>
         </div>
-      );
-    });
+      )
+    })
   }
   return (
     <>
@@ -87,5 +87,5 @@ export default function Glossary({ data }) {
         </div>
       </main>
     </>
-  );
+  )
 }
