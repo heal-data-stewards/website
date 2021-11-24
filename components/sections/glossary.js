@@ -36,39 +36,43 @@ export default function Glossary({ data }) {
   if (filter === "") {
     items = data.term.map((word, i) => {
       return (
-        <>
-          <div className={classes.root + " mt-10"} key={word + i}>
-            <h2
-              className="text-magenta capitalize pb-2"
-              style={{ fontWeight: "600", fontSize: "1.2rem" }}
-            >
-              {word.title}
-            </h2>
-            <Divider />
-            <h3 className="pt-4" style={{ fontWeight: "100" }}>
-              {word.body}
-            </h3>
-          </div>
-        </>
+        <div
+          className={classes.root + " mt-10"}
+          key={word + i}
+          id={word.anchor}
+        >
+          <h2
+            className="text-magenta capitalize pb-2"
+            style={{ fontWeight: "600", fontSize: "1.2rem" }}
+          >
+            {word.title}
+          </h2>
+          <Divider />
+          <h3 className="pt-4" style={{ fontWeight: "100" }}>
+            {word.body}
+          </h3>
+        </div>
       )
     })
   } else {
     items = filterByValue(data.term, filter).map((word, i) => {
       return (
-        <>
-          <div className={classes.root + " mt-10"} key={word + i}>
-            <h2
-              className="text-magenta capitalize pb-2"
-              style={{ fontWeight: "600", fontSize: "1.2rem" }}
-            >
-              {word.title}
-            </h2>
-            <Divider />
-            <h3 className="pt-4" style={{ fontWeight: "100" }}>
-              {word.body}
-            </h3>
-          </div>
-        </>
+        <div
+          className={classes.root + " mt-10"}
+          key={word + i}
+          id={word.anchor}
+        >
+          <h2
+            className="text-magenta capitalize pb-2"
+            style={{ fontWeight: "600", fontSize: "1.2rem" }}
+          >
+            {word.title}
+          </h2>
+          <Divider />
+          <h3 className="pt-4" style={{ fontWeight: "100" }}>
+            {word.body}
+          </h3>
+        </div>
       )
     })
   }
