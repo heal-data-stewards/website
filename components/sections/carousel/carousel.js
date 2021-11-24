@@ -89,7 +89,11 @@ const EmblaCarousel = ({ data }) => {
             <div className="embla__slide container" key={slide.header + i}>
               <Card
                 className="flex flex-col md:flex-row items-center justify-between"
-                style={{ minHeight: "500px", background: "#9825680a" }}
+                style={{
+                  minHeight: "500px",
+                  background: "#9825680a",
+                  borderRadius: "unset !important",
+                }}
               >
                 <div className="flex flex-wrap lg:flex-nowrap lg:p-14">
                   <div className="flex-shrink-0 w-full lg:w-6/12 lg:p-14">

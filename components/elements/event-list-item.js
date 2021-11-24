@@ -3,6 +3,7 @@ import Button from "@mui/material/Button"
 import Typography from "@mui/material/Typography"
 import Link from "next/link"
 import Image from "next/image"
+import Markdown from "react-markdown"
 
 export default function BasicCard({ event }) {
   const date = new Date(Date.parse(event.start.dateTime))
@@ -13,7 +14,6 @@ export default function BasicCard({ event }) {
           minWidth: 275,
           background: "rgb(192 179 197 / 10%)",
           padding: "35px",
-          borderRadius: "16px",
         }}
         className="basic-card-content"
       >
@@ -53,7 +53,9 @@ export default function BasicCard({ event }) {
           <Typography sx={{ mb: 1.5 }} color="">
             {event.location.displayName}
           </Typography>
-          <Typography variant="body1">{event.bodyPreview + " ..."}</Typography>
+          <Typography variant="body1">
+            <Markdown>{event.bodyPreview + " ..."}</Markdown>
+          </Typography>
         </div>
       </div>
       <div
