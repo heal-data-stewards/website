@@ -1,9 +1,9 @@
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
 import { makeStyles } from "@material-ui/core/styles"
-import SearchBar from "../elements/search-bar"
-import Divider from "@mui/material/Divider"
+import SearchBar from "../elements/glossary/search-bar"
 import PageTitle from "./page-title"
-import Markdown from "react-markdown"
+import GlossaryItem from "../elements/glossary/item"
+import { getStrapiApiPageData } from "utils/api"
 
 const useStyles = makeStyles({
   root: {
@@ -31,55 +31,46 @@ const filterByValue = (array, string) => {
 }
 
 export default function Glossary({ data }) {
-  const [filter, setFilter] = React.useState("")
+  const [filter, setFilter] = useState("")
+  const [terms, setTerms] = useState(data.gtd_item)
+  const [pageTitle, setPageTitle] = useState("Glossary")
   const classes = useStyles()
   let items
+
+  useEffect(() => {
+    // Take the fetched page data and search for the glossary terms
+    const findTermsSection = (arr, section) => {
+      const newArr = arr.filter((element) => {
+        return element.__component === section
+      })
+      return newArr
+    }
+
+    getStrapiApiPageData("glossary")
+      .then((res) => {
+        setPageTitle(res.shortName)
+        return findTermsSection(
+          res.contentSections,
+          "sections.glossary-term-and-definition"
+        )
+      })
+      .then((res) => {
+        const newState = res[0].gtd_item
+        setTerms(newState)
+      })
+  }, [])
   if (filter === "") {
-    items = data.term.map((word, i) => {
-      return (
-        <div
-          className={classes.root + " mt-10"}
-          key={word + i}
-          id={word.anchor}
-        >
-          <h2
-            className="text-magenta capitalize pb-2"
-            style={{ fontWeight: "600", fontSize: "1.2rem" }}
-          >
-            {word.title}
-          </h2>
-          <Divider />
-          <h3 className="pt-4 faq-markdown" style={{ fontWeight: "100" }}>
-            <Markdown>{word.body}</Markdown>
-          </h3>
-        </div>
-      )
+    items = terms.map((word, i) => {
+      return <GlossaryItem classes={classes} word={word} i={i} key={word + i} />
     })
   } else {
-    items = filterByValue(data.term, filter).map((word, i) => {
-      return (
-        <div
-          className={classes.root + " mt-10"}
-          key={word + i}
-          id={word.anchor}
-        >
-          <h2
-            className="text-magenta capitalize pb-2"
-            style={{ fontWeight: "600", fontSize: "1.2rem" }}
-          >
-            {word.title}
-          </h2>
-          <Divider />
-          <h3 className="pt-4 faq-markdown" style={{ fontWeight: "100" }}>
-            <Markdown>{word.body}</Markdown>
-          </h3>
-        </div>
-      )
+    items = filterByValue(terms, filter).map((word, i) => {
+      return <GlossaryItem classes={classes} word={word} key={word + i} />
     })
   }
   return (
     <>
-      <PageTitle data={{ title: data.title }} noPaddingBottom="true" />
+      <PageTitle data={{ title: pageTitle }} noPaddingBottom="true" />
       <main className="container pb-12 ">
         <div>
           <SearchBar setFilter={setFilter} filter={filter} />

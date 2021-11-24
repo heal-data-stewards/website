@@ -41,7 +41,7 @@ const sectionComponents = {
   "sections.resources": Resources,
   "sections.table": BasicTable,
   "sections.carousel": EmblaCarousel,
-  "sections.glossary": Glossary,
+  "sections.glossary-term-and-definition": Glossary,
   "sections.calendarbody": Calendar,
   "sections.resourceblocksection": ResourceBlocks,
   "sections.fairiswheel": FAIRiswheel,
