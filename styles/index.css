@@ -83,6 +83,10 @@ html {
 } */
 
 /* Fixes issue with button changing to default material blue on directory page  */
+
+.MuiButton-root{
+  border-radius: 0% !important;
+}
 .MuiButton-containedPrimary {
   background-color: #532565 !important;
 }
