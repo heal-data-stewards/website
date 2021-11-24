@@ -20,6 +20,7 @@ const styles = (theme) => ({
   searchBar: {
     borderBottom: "1px solid rgba(0, 0, 0, 0.12)",
     backgroundColor: "transparent",
+    zIndex: "1",
   },
   searchInput: {
     fontSize: theme.typography.fontSize,
@@ -45,45 +46,43 @@ function SearchBar(props) {
   //   const lowercasedFilter = filter.toLowerCase();
 
   return (
-    <>
-      <AppBar className={classes.searchBar} position="unset" elevation={0}>
-        <Toolbar
-          position="unset"
-          style={{ backgroundColor: "rgb(152 37 104)", zIndex: "1" }}
-        >
-          <Grid container spacing={2} alignItems="center">
-            <Grid item></Grid>
-            <Grid item>
-              <SearchIcon className={classes.block} color="inherit" />
-            </Grid>
-            <Grid item xs>
-              <TextField
-                fullWidth
-                onChange={(e) => setFilter(e.currentTarget.value)}
-                placeholder="Search"
-                value={filter}
-                InputProps={{
-                  disableUnderline: true,
-                  className: classes.searchInput,
-                }}
-                style={{ color: "#fff" }}
-              />
-            </Grid>
-            <Grid item>
-              <Tooltip title="Reload">
-                <IconButton>
-                  <RefreshIcon
-                    className={classes.block}
-                    color="inherit"
-                    onClick={() => setFilter("")}
-                  />
-                </IconButton>
-              </Tooltip>
-            </Grid>
+    <AppBar className={classes.searchBar} position="relative" elevation={0}>
+      <Toolbar
+        position="relative"
+        style={{ backgroundColor: "rgb(152 37 104)" }}
+      >
+        <Grid container spacing={2} alignItems="center">
+          <Grid item></Grid>
+          <Grid item>
+            <SearchIcon className={classes.block} color="inherit" />
           </Grid>
-        </Toolbar>
-      </AppBar>
-    </>
+          <Grid item xs>
+            <TextField
+              fullWidth
+              onChange={(e) => setFilter(e.currentTarget.value)}
+              placeholder="Search"
+              value={filter}
+              InputProps={{
+                disableUnderline: true,
+                className: classes.searchInput,
+              }}
+              style={{ color: "#fff" }}
+            />
+          </Grid>
+          <Grid item>
+            <Tooltip title="Reload">
+              <IconButton>
+                <RefreshIcon
+                  className={classes.block}
+                  color="inherit"
+                  onClick={() => setFilter("")}
+                />
+              </IconButton>
+            </Tooltip>
+          </Grid>
+        </Grid>
+      </Toolbar>
+    </AppBar>
   )
 }
 
