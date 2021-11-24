@@ -252,3 +252,15 @@ content: ""
    min-height: 340px
  }
 }
+
+.event-html li {
+  list-style-type: square;
+  margin-left: 50px
+}
+
+.event-html a {
+  color: #0044B3
+}
+.faq-markdown a {
+  color: #0044B3
+}

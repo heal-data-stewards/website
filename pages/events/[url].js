@@ -1,59 +1,17 @@
-import Layout from "@/components/layout"
 import { getPageData, getGlobalData } from "utils/api"
-import Seo from "@/components/elements/seo"
-import { getAuthorizationToken } from "utils/msft-graph-api"
-
-import Divider from "@mui/material/Divider"
+import { getAuthorizationToken, getEvent } from "utils/msft-graph-api"
+import EventPage from "pages/events/_EventPage"
 
 // Creates an Event page from the outlook calendar
-
-function Eventpage({ global, event, pageContext, metadata }) {
+function Eventpagebuild({ global, event, pageContext, metadata }) {
   // Render event page...
-
-  // TO DO: Remove everything other than the body
-  // console.log(event.event.body.content);
-  const date = new Date(Date.parse(event.event.start.dateTime))
-  console.log(event)
   return (
-    <Layout
+    <EventPage
       global={global}
+      event={event}
       pageContext={pageContext}
-      style={{ background: "#9c2a6e08" }}
-    >
-      <Seo metadata={metadata} />
-      <div className="container pt-10 pb-10">
-        {/* Page header section */}
-        <section className="mb-8">
-          <h1 className="text-5xl pb-4 font-black text-purple">
-            {event.event.subject}
-          </h1>
-          <Divider />
-          <h2 className="pt-4 font-black text-magenta">
-            {event.event.location.displayName}
-          </h2>
-          <p
-            className="bg-magenta text-white mt-4"
-            style={{
-              display: "inline-block",
-              padding: "5px 16px",
-              clipPath: "polygon(0% 0%, 95% 0, 100% 50%, 95% 100%, 0% 100%)",
-            }}
-          >
-            {date.toString().replace(/ *\([^)]*\) */g, "")}
-          </p>
-        </section>
-        <section>
-          <h3 className="text-2xl font-black pb-2 pt-8 text-magenta">
-            About this event
-          </h3>
-          <Divider />
-          <div
-            className="pt-8"
-            dangerouslySetInnerHTML={{ __html: event.event.body.content }}
-          ></div>
-        </section>
-      </div>
-    </Layout>
+      metadata={metadata}
+    />
   )
 }
 
@@ -98,6 +56,8 @@ export async function getStaticProps(context) {
     defaultLocale,
     slug,
     localizations,
+    url: context.params.url,
+    token: eventData.token,
   }
 
   const event = { url: context.params.url, event: eventData }
@@ -115,4 +75,4 @@ export async function getStaticProps(context) {
   }
 }
 
-export default Eventpage
+export default Eventpagebuild
