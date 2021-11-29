@@ -268,3 +268,22 @@ content: ""
 .faq-markdown a {
   color: #0044B3
 }
+
+.faq-markdown p {
+  margin: 0 0 12px 0
+}
+
+.glossary-markdown a {
+  color: #0044B3;
+}
+
+.glossary-markdown p {
+  margin: 0 0 12px 0
+}
+
+.anchor {
+  display: block;
+  position: relative;
+  top: -90px;
+  visibility: hidden;
+}
