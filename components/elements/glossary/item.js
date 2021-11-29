@@ -12,9 +12,9 @@ export default function GlossaryItem({ classes, word }) {
         {word.term_name}
       </h2>
       <Divider />
-      <h3 className="pt-4 faq-markdown" style={{ fontWeight: "100" }}>
+      <div className="pt-4 faq-markdown">
         <Markdown>{word.term_body}</Markdown>
-      </h3>
+      </div>
       {word.gtd_sources.length !== 0 &&
         (word.gtd_sources.length > 1 ? (
           <div>
