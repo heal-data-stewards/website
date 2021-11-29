@@ -3,13 +3,15 @@ import Divider from "@mui/material/Divider"
 import Markdown from "react-markdown"
 
 export default function GlossaryItem({ classes, word }) {
+  console.log(word)
   return (
     <div className={classes.root + " mt-10"} id={word.anchor}>
       <h2
         className="text-magenta capitalize pb-2"
-        style={{ fontWeight: "600", fontSize: "1.2rem" }}
+        style={{ fontWeight: "600", fontSize: "1.3rem" }}
       >
         {word.term_name}
+        {/* <a href={}>{word.term_name}</a> */}
       </h2>
       <Divider />
       <div className="pt-4 faq-markdown">
