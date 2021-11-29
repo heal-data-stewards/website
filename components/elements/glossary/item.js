@@ -5,7 +5,9 @@ import Markdown from "react-markdown"
 export default function GlossaryItem({ classes, word }) {
   console.log(word)
   return (
-    <div className={classes.root + " mt-10"} id={word.anchor}>
+    <>
+    <div className={"anchor"} id={word.anchor}/>
+    <div className={classes.root + " mt-10"} >
       <h2
         className="text-magenta capitalize pb-2"
         style={{ fontWeight: "600", fontSize: "1.3rem" }}
@@ -14,7 +16,7 @@ export default function GlossaryItem({ classes, word }) {
         {/* <a href={}>{word.term_name}</a> */}
       </h2>
       <Divider />
-      <div className="pt-4 faq-markdown">
+      <div className="pt-4 glossary-markdown">
         <Markdown>{word.term_body}</Markdown>
       </div>
       {word.gtd_sources.length !== 0 &&
@@ -44,6 +46,6 @@ export default function GlossaryItem({ classes, word }) {
             </span>
           </div>
         ))}
-    </div>
+    </div></>
   )
 }
