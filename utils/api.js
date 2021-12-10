@@ -21,9 +21,9 @@ export async function fetchAPI(path, options = {}) {
   const response = await fetch(requestUrl, mergedOptions);
 
   if (!response.ok) {
-    console.error(response.statusText);
     throw new Error(`An error occured please try again`);
   }
+
   const data = await response.json();
   return data;
 }
@@ -65,11 +65,6 @@ export async function getAllUsers(locale) {
 }
 
 export async function getStrapiApiPageData(slug) {
-  const pageData = await getPageData(
-      { slug: [slug] },
-      "en",
-      false
-    )
+  const pageData = await getPageData({ slug: [slug] }, "en", false);
   return pageData;
 }
-
