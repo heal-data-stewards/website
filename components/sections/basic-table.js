@@ -71,6 +71,11 @@ export default function BasicTable({ data }) {
                 </TableCell>
                 <TableCell align="right" className={classes.tableDescription}>
                   <a href={row.link}>{row.description}</a>
+                  <br></br>
+                  <br></br>
+                  <a href={row.link} style={{ color: "#0044B3" }}>
+                    Read More...
+                  </a>
                 </TableCell>
                 {/* <TableCell align="right" className={classes.tableTitle}>
                   <a href={row.link}> {row.date}</a>
