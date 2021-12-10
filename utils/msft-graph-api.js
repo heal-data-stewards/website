@@ -12,7 +12,7 @@ function getEvents(token) {
         }
       )
       .then((res) => {
-        console.log(res)
+        // console.log(res)
         resolve(res.data.value);
       })
       .catch((error) => {
@@ -33,7 +33,7 @@ export function getEvent(token,id) {
         }
       )
       .then((res) => {
-        console.log(res)
+        // console.log(res)
         resolve(res.data);
       })
       .catch((error) => {
@@ -60,7 +60,7 @@ export async function getAuthorizationToken(id) {
       headers
     )
     .then((res) => {
-      console.log(res)
+      // console.log(res)
       return res.data.access_token;
     })
     .catch((error) => {
