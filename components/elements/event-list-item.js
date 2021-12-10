@@ -23,7 +23,7 @@ export default function BasicCard({ event }) {
             width={275}
             height={275}
             src={
-              "https://heal-community-portal-api.s3.amazonaws.com/HEAL_Website_Page_Design_07_fe1327527c.png"
+              "https://heal-community-portal-api.s3.amazonaws.com/HEAL_Website_Page_Design_V2_19_2c8b626d66.png"
             }
           />
         </div>
