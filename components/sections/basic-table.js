@@ -1,12 +1,12 @@
-import React from "react"
-import { makeStyles } from "@material-ui/core/styles"
-import Table from "@material-ui/core/Table"
-import TableBody from "@material-ui/core/TableBody"
-import TableCell from "@material-ui/core/TableCell"
-import TableContainer from "@material-ui/core/TableContainer"
-import TableHead from "@material-ui/core/TableHead"
-import TableRow from "@material-ui/core/TableRow"
-import Paper from "@material-ui/core/Paper"
+import React from "react";
+import { makeStyles } from "@material-ui/core/styles";
+import Table from "@material-ui/core/Table";
+import TableBody from "@material-ui/core/TableBody";
+import TableCell from "@material-ui/core/TableCell";
+import TableContainer from "@material-ui/core/TableContainer";
+import TableHead from "@material-ui/core/TableHead";
+import TableRow from "@material-ui/core/TableRow";
+import Paper from "@material-ui/core/Paper";
 
 const useStyles = makeStyles({
   table: {
@@ -25,18 +25,19 @@ const useStyles = makeStyles({
   tableDescription: {
     fontSize: "16px",
   },
-})
+});
 
-function createData(title, description, date) {
-  return { title, description, date }
+function createData(title, description, date, link) {
+  return { title, description, date, link };
 }
 
 export default function BasicTable({ data }) {
-  const classes = useStyles()
+  const classes = useStyles();
 
   const rows = data.table.rows.map((row, i) => {
-    return createData(row.title, row.description, row.date)
-  })
+    console.log(row);
+    return createData(row.title, row.description, row.date, row.optionalLink);
+  });
 
   return (
     <div
@@ -67,13 +68,13 @@ export default function BasicTable({ data }) {
                   scope="row"
                   className={classes.tableTitle}
                 >
-                  {row.title}
+                  <a href={row.link}>{row.title}</a>
                 </TableCell>
                 <TableCell align="right" className={classes.tableDescription}>
-                  {row.description}
+                  <a href={row.link}>{row.description}</a>
                 </TableCell>
                 <TableCell align="right" className={classes.tableTitle}>
-                  {row.date}
+                  <a href={row.link}> {row.date}</a>
                 </TableCell>
               </TableRow>
             ))}
@@ -81,5 +82,5 @@ export default function BasicTable({ data }) {
         </Table>
       </TableContainer>
     </div>
-  )
+  );
 }
