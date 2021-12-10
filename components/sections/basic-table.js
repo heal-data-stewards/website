@@ -35,7 +35,6 @@ export default function BasicTable({ data }) {
   const classes = useStyles()
 
   const rows = data.table.rows.map((row, i) => {
-    console.log(row)
     return createData(row.title, row.description, row.date, row.optionalLink)
   })
 
@@ -73,9 +72,9 @@ export default function BasicTable({ data }) {
                 <TableCell align="right" className={classes.tableDescription}>
                   <a href={row.link}>{row.description}</a>
                 </TableCell>
-                <TableCell align="right" className={classes.tableTitle}>
+                {/* <TableCell align="right" className={classes.tableTitle}>
                   <a href={row.link}> {row.date}</a>
-                </TableCell>
+                </TableCell> */}
               </TableRow>
             ))}
           </TableBody>
