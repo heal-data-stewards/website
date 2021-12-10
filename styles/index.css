@@ -83,6 +83,10 @@ html {
 } */
 
 /* Fixes issue with button changing to default material blue on directory page  */
+
+.MuiButton-root{
+  border-radius: 0% !important;
+}
 .MuiButton-containedPrimary {
   background-color: #532565 !important;
 }
@@ -133,4 +137,153 @@ html {
 .embla__dot.is-selected:after {
   background-color: #532565;
   opacity: 1;
+}
+
+/* .MuiAppBar-colorPrimary {
+  color: #fff;
+  background-color: #e3dce4 !important;
+} */
+
+.resource-block {
+  width: 380px
+}
+
+.resource-block::before {
+  background-color: #532565;
+  opacity: 80%;
+  content: '';
+  display: block;
+  height: 100%;
+  position: absolute;
+  width: 100%;
+}
+
+.resource-block:hover::before {
+  background-color: #250033;
+}
+
+@media (max-width: 1280px){
+  .resource-block {
+    width: 47%
+  }
+}
+
+@media (max-width: 900px){
+  .resource-block {
+    height: 300px !important
+  }
+}
+
+@media (max-width: 600px){
+  .resource-block {
+    height: 400px !important;
+    width: 100%;
+  }
+}
+
+.FAIRiswheel {
+height: 300px;
+min-width: 500px;
+content: ""
+}
+
+.wheel{
+  top: 105px;
+}
+
+.css-10hburv-MuiTypography-root {
+
+  font-size: 1.3rem;
+}
+
+.working-group-list-item{
+  cursor: pointer;
+  width: 50%;
+   padding: 10px 
+}
+
+/* Event List Cards */
+
+.basic-card-container {
+  margin-bottom: 75px
+}
+
+.event-img {
+  margin: -56.5px 0 0 0;
+  position: absolute
+}
+
+.card-blurb {
+  padding: 0 0 0 300px
+}
+
+.working-group-list-item{
+  box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+  background-color: #c4c4c40f;
+  margin-bottom: 10px;
+  width: 50% !important;
+}
+
+.working-group-list-item:nth-of-type(2n){
+  margin-left: 10px;
+  width: calc(50% - 10px) !important;
+}
+
+@media screen and (max-width: 755px){
+  .event-img {
+    position:relative;
+    text-align: center
+  }
+  .card-blurb  {
+    padding: 20px 0 0 0
+  }
+
+  .working-group-list-item{
+    width: 100% !important;
+  }
+  .working-group-list-item:nth-of-type(2n){
+    margin-left: 0;
+    width: 100% !important;
+  }
+
+}
+
+@media screen and (max-width: 1025px){
+  .event-img {
+    margin: 0;
+  }
+ .basic-card-content {
+   min-height: 340px
+ }
+}
+
+.event-html li {
+  list-style-type: square;
+  margin-left: 50px
+}
+
+.event-html a {
+  color: #0044B3
+}
+.faq-markdown a {
+  color: #0044B3
+}
+
+.faq-markdown p {
+  margin: 0 0 12px 0
+}
+
+.glossary-markdown a {
+  color: #0044B3;
+}
+
+.glossary-markdown p {
+  margin: 0 0 12px 0
+}
+
+.anchor {
+  display: block;
+  position: relative;
+  top: -90px;
+  visibility: hidden;
 }

@@ -13,14 +13,9 @@ const TestComponent = styled(GridToolbar)({
 })
 
 const columns = [
-  { field: "id", headerName: "ID", width: 70 },
+  { field: "id", hide: true, headerName: "ID", width: 70 },
   { field: "firstname", headerName: "First Name", width: 150 },
   { field: "lastname", headerName: "Last Name", width: 150 },
-  {
-    field: "username",
-    headerName: "User Name",
-    width: 150,
-  },
   {
     field: "email",
     headerName: "Email",
@@ -31,9 +26,42 @@ const columns = [
     headerName: "Organization",
     width: 150,
   },
+  {
+    field: "userrole",
+    headerName: "Role",
+    width: 150,
+  },
+  {
+    field: "programarea",
+    headerName: "Program Area",
+    width: 150,
+  },
+  {
+    field: "roleInProgramArea",
+    headerName: "Role in Program Area",
+    width: 150,
+  },
 ]
-function createData(id, firstname, lastname, username, email, org) {
-  return { id, firstname, lastname, username, email, org }
+function createData(
+  id,
+  firstname,
+  lastname,
+  email,
+  org,
+  userrole,
+  programarea,
+  roleInProgramArea
+) {
+  return {
+    id,
+    firstname,
+    lastname,
+    email,
+    org,
+    userrole,
+    programarea,
+    roleInProgramArea,
+  }
 }
 
 export default function DataTable() {
@@ -49,9 +77,11 @@ export default function DataTable() {
             user.id,
             user.firstname,
             user.lastname,
-            user.username,
             user.email,
-            user.organization
+            user.organization,
+            user.userrole,
+            user.programarea,
+            user.roleInProgramArea
           )
         })
       })
@@ -60,10 +90,7 @@ export default function DataTable() {
       })
   }, [])
   return (
-    <div
-      style={{ height: 600, width: "100%" }}
-      className={"container mb-8 mt-8"}
-    >
+    <div style={{ height: 600, width: "100%" }} className={"container mb-8"}>
       <DataGrid
         className={classes.table}
         rows={users}
