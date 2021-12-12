@@ -27,15 +27,15 @@ const useStyles = makeStyles({
   },
 })
 
-function createData(title, description, date) {
-  return { title, description, date }
+function createData(title, description, date, link) {
+  return { title, description, date, link }
 }
 
 export default function BasicTable({ data }) {
   const classes = useStyles()
 
   const rows = data.table.rows.map((row, i) => {
-    return createData(row.title, row.description, row.date)
+    return createData(row.title, row.description, row.date, row.optionalLink)
   })
 
   return (
@@ -67,14 +67,19 @@ export default function BasicTable({ data }) {
                   scope="row"
                   className={classes.tableTitle}
                 >
-                  {row.title}
+                  <a href={row.link}>{row.title}</a>
                 </TableCell>
                 <TableCell align="right" className={classes.tableDescription}>
-                  {row.description}
+                  <a href={row.link}>{row.description}</a>
+                  <br></br>
+                  <br></br>
+                  <a href={row.link} style={{ color: "#0044B3" }}>
+                    Read More...
+                  </a>
                 </TableCell>
-                <TableCell align="right" className={classes.tableTitle}>
-                  {row.date}
-                </TableCell>
+                {/* <TableCell align="right" className={classes.tableTitle}>
+                  <a href={row.link}> {row.date}</a>
+                </TableCell> */}
               </TableRow>
             ))}
           </TableBody>

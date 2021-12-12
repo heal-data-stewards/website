@@ -1,4 +1,5 @@
 import { useRouter } from "next/router"
+import PageTitle from "@/components/sections/page-title"
 import Hero from "@/components/sections/hero"
 import LargeVideo from "@/components/sections/large-video"
 import FeatureColumnsGroup from "@/components/sections/feature-columns-group"
@@ -13,9 +14,12 @@ import SignIn from "./sections/sign-in"
 import SignUp from "./sections/sign-up"
 import Resources from "./sections/resources"
 import BasicTable from "./sections/basic-table"
+import ResourceBlocks from "./sections/resource-blocks"
+import ConsortiumBlocks from "./sections/consortium-block"
 
 // Map Strapi sections to section components
 const sectionComponents = {
+  "sections.pageheading": PageTitle,
   "sections.hero": Hero,
   "sections.large-video": LargeVideo,
   "sections.feature-columns-group": FeatureColumnsGroup,
@@ -30,10 +34,13 @@ const sectionComponents = {
   "sections.signup": SignUp,
   "sections.resources": Resources,
   "sections.table": BasicTable,
+  "sections.resourceblocksection": ResourceBlocks,
+  "sections.resources": Resources,
+  "sections.consortium": ConsortiumBlocks,
 }
 
 // Display a section individually
-const Section = ({ sectionData }) => {
+const Section = ({ sectionData, eventData }) => {
   // Prepare the component
   const SectionComponent = sectionComponents[sectionData.__component]
 
@@ -42,7 +49,7 @@ const Section = ({ sectionData }) => {
   }
 
   // Display the section
-  return <SectionComponent data={sectionData} />
+  return <SectionComponent data={sectionData} eventData={eventData} />
 }
 
 const PreviewModeBanner = () => {
@@ -67,7 +74,7 @@ const PreviewModeBanner = () => {
 }
 
 // Display the list of sections
-const Sections = ({ sections, preview }) => {
+const Sections = ({ sections, preview, eventData }) => {
   return (
     <div className="flex flex-col">
       {/* Show a banner if preview mode is on */}
@@ -76,6 +83,7 @@ const Sections = ({ sections, preview }) => {
       {sections.map((section) => (
         <Section
           sectionData={section}
+          eventData={eventData}
           key={`${section.__component}${section.id}`}
         />
       ))}
