@@ -40,7 +40,7 @@ export default function BasicCard({ event }) {
             gutterBottom
           >
             {`${date.toDateString()} ${startTime} - ${endTime} ${
-              data.originalEndTimeZone
+              event.originalEndTimeZone
             }`}
           </Typography>
           <Typography
