@@ -6,7 +6,12 @@ import Image from "next/image"
 import Markdown from "react-markdown"
 
 export default function BasicCard({ event }) {
-  const date = new Date(Date.parse(event.start.dateTime))
+  let date = new Date(Date.parse(event.start.dateTime))
+  let endDate = new Date(Date.parse(event.end.dateTime))
+  let sTime = date.toLocaleTimeString()
+  let eTime = endDate.toLocaleTimeString()
+  let startTime = makeEasternTime(sTime)
+  let endTime = makeEasternTime(eTime)
   return (
     <div className="basic-card-container">
       <div
@@ -33,7 +38,9 @@ export default function BasicCard({ event }) {
             color="text.secondary"
             gutterBottom
           >
-            {date.toString().replace(/ *\([^)]*\) */g, "")}
+            {`${date.toDateString()} ${startTime} - ${endTime} ${
+              data.originalEndTimeZone
+            }`}
           </Typography>
           <Typography
             variant="h4"
