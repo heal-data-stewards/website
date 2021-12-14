@@ -4,6 +4,7 @@ import Typography from "@mui/material/Typography"
 import Link from "next/link"
 import Image from "next/image"
 import Markdown from "react-markdown"
+import { makeEasternTime } from "utils/helper-functions"
 
 export default function BasicCard({ event }) {
   let date = new Date(Date.parse(event.start.dateTime))

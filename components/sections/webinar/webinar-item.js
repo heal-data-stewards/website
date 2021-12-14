@@ -4,9 +4,16 @@ import Typography from "@mui/material/Typography"
 import Link from "next/link"
 import Image from "next/image"
 import Markdown from "react-markdown"
+import { makeEasternTime } from "utils/helper-functions"
 
 export default function WebinarItem({ data }) {
-  const dateTime = new Date(Date.parse(data.time))
+  // const dateTime = new Date(Date.parse(data.time))
+  let date = new Date(Date.parse(data.start.dateTime))
+  let endDate = new Date(Date.parse(data.end.dateTime))
+  let sTime = date.toLocaleTimeString()
+  let eTime = endDate.toLocaleTimeString()
+  let startTime = makeEasternTime(sTime)
+  let endTime = makeEasternTime(eTime)
 
   const result = data.abstract.substring(0, 320)
 
@@ -37,7 +44,9 @@ export default function WebinarItem({ data }) {
             color="text.secondary"
             gutterBottom
           >
-            {dateTime.toString().replace(/ *\([^)]*\) */g, "")}
+            {`${date.toDateString()} ${startTime} - ${endTime} ${
+              data.originalEndTimeZone
+            }`}
           </Typography>
           <Typography
             variant="h4"
