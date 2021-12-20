@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react"
 import { useSession } from "next-auth/client"
 import BasicCard from "../elements/event-list-item"
+import { filterByDate } from "utils/helper-functions"
 
 export default function Calendar({ data, eventData }) {
   const [events, setEvents] = useState([])
@@ -11,7 +12,8 @@ export default function Calendar({ data, eventData }) {
     if (session) {
       setLoggedIn(true)
       // eventData contains every event in the HEAL calendar, logged in users see every event
-      setEvents(eventData)
+      let sortedEvents = filterByDate(eventData)
+      setEvents(sortedEvents)
     } else {
       // Events created in the HEAL Calendar created with out a category label are collected in filteredEvents
       // These are the events avaiable to the public
@@ -28,7 +30,8 @@ export default function Calendar({ data, eventData }) {
           return check
         }
       })
-      setEvents(filteredEvents)
+      let sortedEvents = filterByDate(filteredEvents)
+      setEvents(sortedEvents)
     }
   }, [session, eventData])
 

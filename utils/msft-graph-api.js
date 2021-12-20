@@ -60,10 +60,11 @@ export async function getAuthorizationToken(id) {
       headers
     )
     .then((res) => {
-      // console.log(res)
+      console.log(res)
       return res.data.access_token;
     })
     .catch((error) => {
+      console.log("res1 ERROR")
       return error;
     });
 

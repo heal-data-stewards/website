@@ -1,3 +1,13 @@
+export function filterByDate(arr) {
+  let newArr = arr.sort(function (a, b) {
+    // Turn your strings into dates, and then subtract them
+    // to get a value that is either negative, positive, or zero.
+    return new Date(b.start.dateTime) - new Date(a.start.dateTime);
+  });
+
+  return newArr;
+}
+
 export function makeEasternTime(GMT) {
   switch (GMT) {
     case "11:00:00 AM":
