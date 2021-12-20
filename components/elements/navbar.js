@@ -50,10 +50,8 @@ const Navbar = ({ navbar, pageContext }) => {
     signOut({ redirect: false })
   }
 
-  if (loading) return null
-
   return (
-    <>
+    <div>
       <AppBar
         position="sticky"
         style={{
@@ -121,65 +119,61 @@ const Navbar = ({ navbar, pageContext }) => {
 
       {/* Mobile navigation menu panel */}
       {mobileMenuIsShown && (
-        <>
-          <Drawer
-            anchor={"left"}
-            open={mobileMenuIsShown}
-            onClose={() => setMobileMenuIsShown(false)}
-          >
-            <List style={{ width: "230px" }}>
-              <div style={{ margin: "10px" }}>
-                <Link href="/">
-                  <a>
-                    <Image
-                      src={`${navbar.logo.url}`}
-                      style={{ margin: "7px" }}
-                      width="180"
-                      height="54"
-                      layout="intrinsic"
-                      alt={`${navbar.logo.alternativeText || ""}`}
-                    />
-                  </a>
-                </Link>
-              </div>
-              {navigationItems.map((navLink) => (
-                <li key={navLink.id}>
-                  <CustomLink link={navLink} locale={router.locale}>
-                    <ListItem className="hover:text-white hover:bg-magenta text-purple px-2 py-1">
-                      <ListItemText>
-                        <span style={{ fontWeight: "bold" }}>
-                          {navLink.text}
-                        </span>
-                      </ListItemText>
-                    </ListItem>
-                  </CustomLink>
-                </li>
-              ))}
-              <Divider />
-              <div className="flex">
-                {navbar.button && (
-                  <div className="lg:block mt-4 ml-4">
-                    {!session && (
-                      <>
-                        <Btn2 href={"/account"} button={{ text: "Log In" }} />
-                      </>
-                    )}
-                    {session && (
-                      <>
-                        <AccountMenu
-                          handleLogOut={handleLogOut}
-                          setLoggedIn={setLoggedIn}
-                        />
-                      </>
-                    )}
-                  </div>
-                )}
-              </div>
-            </List>
-          </Drawer>
-        </>
+        <Drawer
+          anchor={"left"}
+          open={mobileMenuIsShown}
+          onClose={() => setMobileMenuIsShown(false)}
+        >
+          <List style={{ width: "230px" }}>
+            <div style={{ margin: "10px" }}>
+              <Link href="/">
+                <a>
+                  <Image
+                    src={`${navbar.logo.url}`}
+                    style={{ margin: "7px" }}
+                    width="180"
+                    height="54"
+                    layout="intrinsic"
+                    alt={`${navbar.logo.alternativeText || ""}`}
+                  />
+                </a>
+              </Link>
+            </div>
+            {navigationItems.map((navLink) => (
+              <li key={navLink.id}>
+                <CustomLink link={navLink} locale={router.locale}>
+                  <ListItem className="hover:text-white hover:bg-magenta text-purple px-2 py-1">
+                    <ListItemText>
+                      <span style={{ fontWeight: "bold" }}>{navLink.text}</span>
+                    </ListItemText>
+                  </ListItem>
+                </CustomLink>
+              </li>
+            ))}
+            <Divider />
+            <div className="flex">
+              {navbar.button && (
+                <div className="lg:block mt-4 ml-4">
+                  {!session && (
+                    <>
+                      <Btn2 href={"/account"} button={{ text: "Log In" }} />
+                    </>
+                  )}
+                  {session && (
+                    <>
+                      <AccountMenu
+                        handleLogOut={handleLogOut}
+                        setLoggedIn={setLoggedIn}
+                      />
+                    </>
+                  )}
+                </div>
+              )}
+            </div>
+          </List>
+        </Drawer>
       )}
-    </>
+    </div>
   )
 }
 
