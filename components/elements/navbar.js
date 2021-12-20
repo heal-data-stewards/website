@@ -133,6 +133,7 @@ const Navbar = ({ navbar, pageContext }) => {
                     style={{ margin: "7px" }}
                     width="180"
                     height="54"
+                    priority={true}
                     layout="intrinsic"
                     alt={`${navbar.logo.alternativeText || ""}`}
                   />
