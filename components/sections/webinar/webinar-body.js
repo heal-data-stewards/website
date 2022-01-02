@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react"
 import { useSession } from "next-auth/client"
 import BasicCard from "../../elements/event-list-item"
 import { filterByDate } from "utils/helper-functions"
+import Divider from "@mui/material/Divider"
 
 export default function WebinarBody({ data, eventData }) {
   const [events, setEvents] = useState([])
@@ -39,9 +40,32 @@ export default function WebinarBody({ data, eventData }) {
     <div className="container">
       {/* List of Events */}
       <section>
+        <h1 className="text-3xl font-black pb-4 text-purple">
+          Upcoming Events
+        </h1>
+        <Divider />
+        <p className="text-xl text-gray pt-4">
+          See the list below of events supported by the HEAL Stewards.
+        </p>
+        <br></br>
+        <br></br>
         {events.length !== 0 &&
           events.map((event, i) => {
-            return <BasicCard key={event.subject + i} event={event} />
+            if (new Date(event.start.dateTime) >= new Date()) {
+              return <BasicCard key={event.subject + i} event={event} />
+            }
+          })}
+      </section>
+      <section className={`pt-10 pb-10`}>
+        <h1 className="text-3xl font-black pb-4 text-purple">Past Events</h1>
+        <Divider />
+        <br></br>
+        <br></br>
+        {events.length !== 0 &&
+          events.map((event, i) => {
+            if (new Date(event.start.dateTime) <= new Date()) {
+              return <BasicCard key={event.subject + i} event={event} />
+            }
           })}
       </section>
     </div>

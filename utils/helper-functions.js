@@ -1,3 +1,12 @@
+export function renderImage(category){
+  switch(category) {
+    case 'Purple category':
+      return 'https://heal-community-portal-api.s3.amazonaws.com/HEAL_Website_Page_Design_V2_19_2c8b626d66.png';
+    default:
+      return 'https://heal-community-portal-api.s3.amazonaws.com/HEAL_Website_Page_Design_V2_17_54b02678c9.png';
+  }
+}
+
 export function filterByDate(arr) {
   let newArr = arr.sort(function (a, b) {
     // Turn your strings into dates, and then subtract them

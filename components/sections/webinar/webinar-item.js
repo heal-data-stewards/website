@@ -19,18 +19,10 @@ export default function WebinarItem({ data }) {
 
   return (
     <div className="basic-card-container container">
-      <div
-        style={{
-          minWidth: 275,
-          background: "rgb(192 179 197 / 10%)",
-          padding: "35px",
-          borderRadius: "16px",
-        }}
-        className="basic-card-content"
-      >
+      <div className="basic-card-content">
         <div className="event-img">
           <Image
-            alt="alt"
+            alt="Webinar"
             width={275}
             height={275}
             src={
@@ -40,7 +32,7 @@ export default function WebinarItem({ data }) {
         </div>
         <div className="card-blurb">
           <Typography
-            sx={{ fontWeight: "bold", color: "#532565", fontSize: 14 }}
+            sx={{ fontWeight: "bold", color: "#982568", fontSize: 14 }}
             color="text.secondary"
             gutterBottom
           >
