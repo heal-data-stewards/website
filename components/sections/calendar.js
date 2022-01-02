@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react"
 import { useSession } from "next-auth/client"
 import BasicCard from "../elements/event-list-item"
 import { filterByDate } from "utils/helper-functions"
+import Divider from "@mui/material/Divider"
 
 export default function Calendar({ data, eventData }) {
   const [events, setEvents] = useState([])
@@ -15,22 +16,14 @@ export default function Calendar({ data, eventData }) {
       let sortedEvents = filterByDate(eventData)
       setEvents(sortedEvents)
     } else {
-      // Events created in the HEAL Calendar created with out a category label are collected in filteredEvents
+      // Events created in the HEAL Calendar with out a category label are collected in filteredEvents
       // These are the events avaiable to the public
-      const filteredEvents = eventData.filter((event) => {
+      const publicEvents = eventData.filter((event) => {
         if (event.categories.length === 0) {
           return event
-        } else {
-          let check = ""
-          event.categories.forEach((element) => {
-            if (element === "Purple category") {
-              check = true
-            }
-          })
-          return check
         }
       })
-      let sortedEvents = filterByDate(filteredEvents)
+      let sortedEvents = filterByDate(publicEvents)
       setEvents(sortedEvents)
     }
   }, [session, eventData])
@@ -41,7 +34,21 @@ export default function Calendar({ data, eventData }) {
       <section>
         {events.length !== 0 &&
           events.map((event, i) => {
-            return <BasicCard key={event.subject + i} event={event} />
+            if (new Date(event.start.dateTime) >= new Date()) {
+              return <BasicCard key={event.subject + i} event={event} />
+            }
+          })}
+      </section>
+      <section className={`pt-10 pb-10`}>
+        <h1 className="text-5xl font-black pb-4 text-purple">Past Events</h1>
+        <Divider />
+        <br></br>
+        <br></br>
+        {events.length !== 0 &&
+          events.map((event, i) => {
+            if (new Date(event.start.dateTime) <= new Date()) {
+              return <BasicCard key={event.subject + i} event={event} />
+            }
           })}
       </section>
     </div>

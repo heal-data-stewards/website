@@ -205,16 +205,24 @@ content: ""
 /* Event List Cards */
 
 .basic-card-container {
-  margin-bottom: 75px
+  margin: 0 0 25px 0
+}
+.basic-card-content {
+  min-height: 250px;
+  background: rgb(192 179 197 / 18%);
+  padding: 35px;
+  position: relative;
 }
 
 .event-img {
-  margin: -56.5px 0 0 0;
-  position: absolute
+  position: absolute;
+  top: -12.5px;
 }
 
 .card-blurb {
-  padding: 0 0 0 300px
+  padding: 0 0 0 300px;
+  word-break: break-word;
+
 }
 
 .working-group-list-item{
@@ -250,7 +258,7 @@ content: ""
 
 @media screen and (max-width: 1025px){
   .event-img {
-    margin: 0;
+    top: unset;
   }
  .basic-card-content {
    min-height: 340px

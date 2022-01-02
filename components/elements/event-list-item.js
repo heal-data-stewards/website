@@ -5,6 +5,7 @@ import Link from "next/link"
 import Image from "next/image"
 import Markdown from "react-markdown"
 import { makeEasternTime } from "utils/helper-functions"
+import { renderImage } from "utils/helper-functions"
 
 export default function BasicCard({ event }) {
   let date = new Date(Date.parse(event.start.dateTime))
@@ -13,29 +14,21 @@ export default function BasicCard({ event }) {
   let eTime = endDate.toLocaleTimeString()
   let startTime = makeEasternTime(sTime)
   let endTime = makeEasternTime(eTime)
+
   return (
     <div className="basic-card-container">
-      <div
-        style={{
-          minWidth: 275,
-          background: "rgb(192 179 197 / 10%)",
-          padding: "35px",
-        }}
-        className="basic-card-content"
-      >
+      <div className="basic-card-content">
         <div className="event-img">
           <Image
-            alt="alt"
+            alt="Webinar"
             width={275}
             height={275}
-            src={
-              "https://heal-community-portal-api.s3.amazonaws.com/HEAL_Website_Page_Design_V2_19_2c8b626d66.png"
-            }
+            src={renderImage(event.categories[0])}
           />
         </div>
         <div className="card-blurb">
           <Typography
-            sx={{ fontWeight: "bold", color: "#532565", fontSize: 14 }}
+            sx={{ fontWeight: "bold", color: "#982568", fontSize: 14 }}
             color="text.secondary"
             gutterBottom
           >
@@ -58,12 +51,8 @@ export default function BasicCard({ event }) {
           >
             <Link href={`/events/${event.id}`}>{event.subject}</Link>
           </Typography>
-          <Typography sx={{ mb: 1.5 }} color="">
-            {event.location.displayName}
-          </Typography>
-          <Typography variant="body1">
-            <Markdown>{event.bodyPreview + " ..."}</Markdown>
-          </Typography>
+          <Typography sx={{ mb: 1.5 }}>{event.location.displayName}</Typography>
+          <Markdown>{event.bodyPreview.substring(0, 180) + " ..."}</Markdown>
         </div>
       </div>
       <div
