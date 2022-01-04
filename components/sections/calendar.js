@@ -3,6 +3,7 @@ import { useSession } from "next-auth/client"
 import BasicCard from "../elements/event-list-item"
 import { filterByDate } from "utils/helper-functions"
 import Divider from "@mui/material/Divider"
+import { getAuthorizationToken } from "utils/msft-graph-api"
 
 export default function Calendar({ data, eventData }) {
   const [events, setEvents] = useState([])
@@ -10,6 +11,12 @@ export default function Calendar({ data, eventData }) {
   const [loggedIn, setLoggedIn] = useState(false)
 
   useEffect(() => {
+    async function fetchMyAPI() {
+      let eventData2 = await getAuthorizationToken()
+      console.log(eventData2)
+      // dataSet(eventData2)
+    }
+    fetchMyAPI()
     if (session) {
       setLoggedIn(true)
       // eventData contains every event in the HEAL calendar, logged in users see every event

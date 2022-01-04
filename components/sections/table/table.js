@@ -42,6 +42,7 @@ export default function WorkingGroupTable({ data }) {
                 key={member.firstname + index}
                 name={member.firstname + " " + member.lastname}
                 organization={member.organization}
+                email={member.email}
               />
             )
           })}
