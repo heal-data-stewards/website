@@ -55,7 +55,7 @@ const sectionComponents = {
 }
 
 // Display a section individually
-const Section = ({ sectionData, eventData }) => {
+const Section = ({ sectionData, eventData, token }) => {
   // Prepare the component
   const SectionComponent = sectionComponents[sectionData.__component]
 
@@ -64,7 +64,9 @@ const Section = ({ sectionData, eventData }) => {
   }
 
   // Display the section
-  return <SectionComponent data={sectionData} eventData={eventData} />
+  return (
+    <SectionComponent data={sectionData} eventData={eventData} token={token} />
+  )
 }
 
 const PreviewModeBanner = () => {
@@ -89,7 +91,7 @@ const PreviewModeBanner = () => {
 }
 
 // Display the list of sections
-const Sections = ({ sections, preview, eventData }) => {
+const Sections = ({ sections, preview, eventData, token }) => {
   return (
     <div className="flex flex-col">
       {/* Show a banner if preview mode is on */}
@@ -100,6 +102,7 @@ const Sections = ({ sections, preview, eventData }) => {
           sectionData={section}
           eventData={eventData}
           key={`${section.__component}${section.id}`}
+          token={token}
         />
       ))}
     </div>

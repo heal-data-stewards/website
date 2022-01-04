@@ -3,37 +3,39 @@ import { useSession } from "next-auth/client"
 import BasicCard from "../elements/event-list-item"
 import { filterByDate } from "utils/helper-functions"
 import Divider from "@mui/material/Divider"
-import { getAuthorizationToken } from "utils/msft-graph-api"
+import { getAuthorizationToken2 } from "utils/msft-graph-api"
 
-export default function Calendar({ data, eventData }) {
-  const [events, setEvents] = useState([])
+export default function Calendar(props) {
+  const [events, setEvents] = useState(filterByDate(props.eventData))
   const [session, loading] = useSession()
   const [loggedIn, setLoggedIn] = useState(false)
 
   useEffect(() => {
-    async function fetchMyAPI() {
-      let eventData2 = await getAuthorizationToken()
-      console.log(eventData2)
-      // dataSet(eventData2)
-    }
-    fetchMyAPI()
     if (session) {
       setLoggedIn(true)
       // eventData contains every event in the HEAL calendar, logged in users see every event
-      let sortedEvents = filterByDate(eventData)
-      setEvents(sortedEvents)
+      async function fetchMyAPI() {
+        let eventData2 = await getAuthorizationToken2(props.token)
+        let sortedEvents = filterByDate(eventData2)
+        setEvents(sortedEvents)
+      }
+      fetchMyAPI()
     } else {
       // Events created in the HEAL Calendar with out a category label are collected in filteredEvents
       // These are the events avaiable to the public
-      const publicEvents = eventData.filter((event) => {
-        if (event.categories.length === 0) {
-          return event
-        }
-      })
-      let sortedEvents = filterByDate(publicEvents)
-      setEvents(sortedEvents)
+      async function fetchMyAPI() {
+        let eventData2 = await getAuthorizationToken2(props.token)
+        const publicEvents = eventData2.filter((event) => {
+          if (event.categories.length === 0) {
+            return event
+          }
+        })
+        let sortedEvents = filterByDate(publicEvents)
+        setEvents(sortedEvents)
+      }
+      fetchMyAPI()
     }
-  }, [session, eventData])
+  }, [props.token, session])
 
   return (
     <div className="container">
