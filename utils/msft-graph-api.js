@@ -12,7 +12,6 @@ function getEvents(token) {
         }
       )
       .then((res) => {
-        // console.log(res)
         resolve(res.data.value);
       })
       .catch((error) => {

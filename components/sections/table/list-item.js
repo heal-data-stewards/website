@@ -1,13 +1,16 @@
 import * as React from "react"
 import ListItem from "@mui/material/ListItem"
-import ListItemButton from "@mui/material/ListItemButton"
 import Chip from "@mui/material/Chip"
 import Image from "next/image"
 
-export default function WorkingGroupListItem({ name, organization }) {
+export default function WorkingGroupListItem({ name, organization, email }) {
+  console.log(email)
   return (
-    <ListItem className="working-group-list-item">
-      {/* <ListItemButton> */}
+    <ListItem
+      className="working-group-list-item"
+      component="a"
+      href={`mailto:${" " + email}`}
+    >
       <div className="">
         <Image
           alt="alt"
@@ -29,7 +32,6 @@ export default function WorkingGroupListItem({ name, organization }) {
         {name}
       </h2>
       <Chip label={organization} />
-      {/* </ListItemButton> */}
     </ListItem>
   )
 }
