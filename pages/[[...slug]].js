@@ -18,6 +18,7 @@ const DynamicPage = ({
   global,
   pageContext,
   eventData,
+  token,
 }) => {
   const router = useRouter()
   // Check if the required data was provided
@@ -54,7 +55,12 @@ const DynamicPage = ({
       {/* Add meta tags for SEO*/}
       <Seo metadata={metadata} />
       {/* Display content sections */}
-      <Sections sections={sections} preview={preview} eventData={eventData} />
+      <Sections
+        sections={sections}
+        preview={preview}
+        eventData={eventData}
+        token={token}
+      />
     </Layout>
   )
 }
@@ -126,6 +132,7 @@ export async function getStaticProps(context) {
 
   return {
     props: {
+      token: eventData.token || null,
       preview,
       eventData: eventData,
       sections: contentSections,

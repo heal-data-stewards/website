@@ -3,9 +3,10 @@ import { useSession } from "next-auth/client"
 import BasicCard from "../../elements/event-list-item"
 import { filterByDate } from "utils/helper-functions"
 import Divider from "@mui/material/Divider"
+import { getAuthorizationToken2 } from "utils/msft-graph-api"
 
-export default function WebinarBody({ data, eventData }) {
-  const [events, setEvents] = useState([])
+export default function WebinarBody(props) {
+  const [events, setEvents] = useState(filterByDate(props.eventData))
   const [session, loading] = useSession()
   const [loggedIn, setLoggedIn] = useState(false)
 
@@ -13,28 +14,28 @@ export default function WebinarBody({ data, eventData }) {
     if (session) {
       setLoggedIn(true)
       // eventData contains every event in the HEAL calendar, logged in users see every event
-      let sortedEvents = filterByDate(eventData)
-      setEvents(sortedEvents)
+      async function fetchMyAPI() {
+        let eventData2 = await getAuthorizationToken2(props.token)
+        let sortedEvents = filterByDate(eventData2)
+        setEvents(sortedEvents)
+      }
+      fetchMyAPI()
     } else {
-      // Events created in the HEAL Calendar created with out a category label are collected in filteredEvents
+      // Events created in the HEAL Calendar with out a category label are collected in filteredEvents
       // These are the events avaiable to the public
-      const filteredEvents = eventData.filter((event) => {
-        if (event.categories.length === 0) {
-          return event
-        } else {
-          let check = ""
-          event.categories.forEach((element) => {
-            if (element === "Purple category") {
-              check = true
-            }
-          })
-          return check
-        }
-      })
-      let sortedEvents = filterByDate(filteredEvents)
-      setEvents(sortedEvents)
+      async function fetchMyAPI() {
+        let eventData2 = await getAuthorizationToken2(props.token)
+        const publicEvents = eventData2.filter((event) => {
+          if (event.categories.length === 0) {
+            return event
+          }
+        })
+        let sortedEvents = filterByDate(publicEvents)
+        setEvents(sortedEvents)
+      }
+      fetchMyAPI()
     }
-  }, [session, eventData])
+  }, [props.token, session])
 
   return (
     <div className="container">
