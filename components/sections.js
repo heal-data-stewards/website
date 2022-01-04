@@ -23,6 +23,7 @@ import WorkingGroupTable from "./sections/table"
 import WebinarItem from "./sections/webinar/webinar-item"
 import WebinarBody from "./sections/webinar/webinar-body"
 import Faqs from "@/components/sections/faqs"
+import ResourceCards from "./sections/resources/resource-cards"
 
 // Map Strapi sections to section components
 const sectionComponents = {
@@ -50,6 +51,7 @@ const sectionComponents = {
   "sections.webinar-item": WebinarItem,
   "sections.webinarbody": WebinarBody,
   "sections.faqs": Faqs,
+  "sections.resource-cards": ResourceCards,
 }
 
 // Display a section individually
