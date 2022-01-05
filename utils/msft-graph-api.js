@@ -1,6 +1,6 @@
 import axios from "axios";
 
-function getEvents(token) {
+export function getEvents(token) {
   return new Promise((resolve, reject) => {
     axios
       .get(
