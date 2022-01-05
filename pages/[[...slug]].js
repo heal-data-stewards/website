@@ -100,10 +100,12 @@ export async function getStaticProps(context) {
   }
   if (params.slug !== undefined && params.slug[0] === "webinar") {
     let events = await getAuthorizationToken()
+
     const result = events.filter(
       (event) => event.categories[0] === "Purple category"
     )
     eventData = result
+    eventData.token = events.token
   }
 
   const pageData = await getPageData(
@@ -126,6 +128,7 @@ export async function getStaticProps(context) {
     defaultLocale,
     slug,
     localizations,
+    token: eventData.token || null,
   }
 
   const localizedPaths = getLocalizedPaths(pageContext)

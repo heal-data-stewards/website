@@ -65,6 +65,7 @@ export async function getStaticProps(context) {
   // Pass post data to the page via props
   return {
     props: {
+      token: eventData.token || null,
       event,
       global: globalLocale,
       metadata,
