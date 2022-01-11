@@ -13,7 +13,13 @@ const NextImage = ({ media, ...props }) => {
   // The image has a fixed width and height
   if (props.width && props.height) {
     return (
-      <Image loader={loader} src={url} alt={alternativeText || ""} {...props} />
+      <Image
+        priority={true}
+        loader={loader}
+        src={url}
+        alt={alternativeText || ""}
+        {...props}
+      />
     )
   }
   if (props.fill) {
@@ -21,6 +27,7 @@ const NextImage = ({ media, ...props }) => {
       <Image
         loader={loader}
         layout="fill"
+        priority={true}
         objectFit="contain"
         src={url}
         alt={alternativeText || ""}
@@ -32,6 +39,7 @@ const NextImage = ({ media, ...props }) => {
   return (
     <Image
       loader={loader}
+      priority={true}
       layout="responsive"
       width={media.width}
       height={media.height}

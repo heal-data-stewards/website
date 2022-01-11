@@ -8,14 +8,22 @@ import BottomActions from "@/components/sections/bottom-actions"
 import TestimonialsGroup from "@/components/sections/testimonials-group"
 import RichText from "./sections/rich-text"
 import Pricing from "./sections/pricing"
-// import LeadForm from "./sections/lead-form"
 import Directory from "./sections/directory"
 import SignIn from "./sections/sign-in"
 import SignUp from "./sections/sign-up"
-import Resources from "./sections/resources"
 import BasicTable from "./sections/basic-table"
+import EmblaCarousel from "./sections/carousel"
+import Glossary from "./sections/glossary"
+import Calendar from "./sections/calendar"
+import Resources from "./sections/resources"
 import ResourceBlocks from "./sections/resource-blocks"
+import FAIRiswheel from "./sections/resources/FAIRiswheel"
 import ConsortiumBlocks from "./sections/consortium-block"
+import WorkingGroupTable from "./sections/table"
+import WebinarItem from "./sections/webinar/webinar-item"
+import WebinarBody from "./sections/webinar/webinar-body"
+import Faqs from "@/components/sections/faqs"
+import ResourceCards from "./sections/resources/resource-cards"
 
 // Map Strapi sections to section components
 const sectionComponents = {
@@ -28,19 +36,26 @@ const sectionComponents = {
   "sections.testimonials-group": TestimonialsGroup,
   "sections.rich-text": RichText,
   "sections.pricing": Pricing,
-  // "sections.lead-form": LeadForm,
   "sections.directory": Directory,
   "sections.sign-in": SignIn,
   "sections.signup": SignUp,
   "sections.resources": Resources,
   "sections.table": BasicTable,
+  "sections.carousel": EmblaCarousel,
+  "sections.glossary-term-and-definition": Glossary,
+  "sections.calendarbody": Calendar,
   "sections.resourceblocksection": ResourceBlocks,
-  "sections.resources": Resources,
+  "sections.fairiswheel": FAIRiswheel,
   "sections.consortium": ConsortiumBlocks,
+  "sections.members": WorkingGroupTable,
+  "sections.webinar-item": WebinarItem,
+  "sections.webinarbody": WebinarBody,
+  "sections.faqs": Faqs,
+  "sections.resource-cards": ResourceCards,
 }
 
 // Display a section individually
-const Section = ({ sectionData, eventData }) => {
+const Section = ({ sectionData, eventData, token }) => {
   // Prepare the component
   const SectionComponent = sectionComponents[sectionData.__component]
 
@@ -49,7 +64,9 @@ const Section = ({ sectionData, eventData }) => {
   }
 
   // Display the section
-  return <SectionComponent data={sectionData} eventData={eventData} />
+  return (
+    <SectionComponent data={sectionData} eventData={eventData} token={token} />
+  )
 }
 
 const PreviewModeBanner = () => {
@@ -74,7 +91,7 @@ const PreviewModeBanner = () => {
 }
 
 // Display the list of sections
-const Sections = ({ sections, preview, eventData }) => {
+const Sections = ({ sections, preview, eventData, token }) => {
   return (
     <div className="flex flex-col">
       {/* Show a banner if preview mode is on */}
@@ -85,6 +102,7 @@ const Sections = ({ sections, preview, eventData }) => {
           sectionData={section}
           eventData={eventData}
           key={`${section.__component}${section.id}`}
+          token={token}
         />
       ))}
     </div>

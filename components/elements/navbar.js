@@ -3,10 +3,8 @@ import PropTypes from "prop-types"
 import Link from "next/link"
 import { useRouter } from "next/router"
 import Image from "next/image"
-import { getButtonAppearance } from "utils/button"
 import { mediaPropTypes, linkPropTypes, buttonLinkPropTypes } from "utils/types"
 import { MdMenu } from "react-icons/md"
-import ButtonLink from "./button-link"
 import NextImage from "./image"
 import CustomLink from "./custom-link"
 import AppBar from "@material-ui/core/AppBar"
@@ -17,9 +15,8 @@ import ListItem from "@material-ui/core/ListItem"
 import ListItemText from "@material-ui/core/ListItemText"
 import Divider from "@material-ui/core/Divider"
 import { signIn, signOut, useSession, getSession } from "next-auth/client"
-import Button from "@material-ui/core/Button"
-import Fade from "@material-ui/core/Fade"
-import { Btn, Btn2 } from "../elements/button"
+import { Btn2 } from "../elements/button"
+import AccountMenu from "./profile"
 
 const Navbar = ({ navbar, pageContext }) => {
   const [session, loading] = useSession()
@@ -31,6 +28,12 @@ const Navbar = ({ navbar, pageContext }) => {
       url: "/resources",
       newTab: false,
       text: "RESOURCES",
+    },
+    {
+      id: 37,
+      url: "/calendar",
+      newTab: false,
+      text: "CALENDAR",
     },
   ])
 
@@ -45,6 +48,12 @@ const Navbar = ({ navbar, pageContext }) => {
           newTab: false,
           text: "RESOURCES",
         },
+        {
+          id: 37,
+          url: "/calendar",
+          newTab: false,
+          text: "CALENDAR",
+        },
       ])
     }
   }, [session, navbar.links, loggedIn])
@@ -53,10 +62,8 @@ const Navbar = ({ navbar, pageContext }) => {
     signOut({ redirect: false })
   }
 
-  if (loading) return null
-
   return (
-    <>
+    <div>
       <AppBar
         position="sticky"
         style={{
@@ -95,42 +102,22 @@ const Navbar = ({ navbar, pageContext }) => {
           <div className="flex">
             {/* CTA button on desktop */}
             {navbar.button && (
-              // <div className="hidden lg:block">
-              //   <ButtonLink
-              //     button={navbar.button}
-              //     appearance={getButtonAppearance(navbar.button.type, "dark")}
-              //     compact
-              //   />
-              // </div>
               <div className="hidden lg:block">
-                {/* <ButtonLink
-                button={navbar.button}
-                appearance={getButtonAppearance(navbar.button.type, "dark")}
-                compact
-              /> */}
-
                 {!session && (
                   <>
                     <Btn2 href={"/account"} button={{ text: "Log In" }} />
                   </>
                 )}
                 {session && (
-                  <>
-                    <Btn
-                      handleClick={handleLogOut}
-                      button={{ text: "Log Out" }}
+                  <div>
+                    <AccountMenu
+                      handleLogOut={handleLogOut}
                       setLoggedIn={setLoggedIn}
                     />
-                  </>
+                  </div>
                 )}
               </div>
             )}
-            {/* Locale Switch Mobile */}
-            {/* {pageContext.localizedPaths && (
-              <div>
-                <LocaleSwitch pageContext={pageContext} />
-              </div>
-            )} */}
             {/* Hamburger menu on mobile */}
             <button
               onClick={() => setMobileMenuIsShown(true)}
@@ -144,66 +131,62 @@ const Navbar = ({ navbar, pageContext }) => {
 
       {/* Mobile navigation menu panel */}
       {mobileMenuIsShown && (
-        <>
-          <Drawer
-            anchor={"left"}
-            open={mobileMenuIsShown}
-            onClose={() => setMobileMenuIsShown(false)}
-          >
-            <List style={{ width: "230px" }}>
-              <div style={{ margin: "10px" }}>
-                <Link href="/">
-                  <a>
-                    <Image
-                      src={`${navbar.logo.url}`}
-                      style={{ margin: "7px" }}
-                      width="180"
-                      height="54"
-                      layout="intrinsic"
-                      alt={`${navbar.logo.alternativeText || ""}`}
-                    />
-                  </a>
-                </Link>
-              </div>
-              {navigationItems.map((navLink) => (
-                <li key={navLink.id}>
-                  <CustomLink link={navLink} locale={router.locale}>
-                    <ListItem className="hover:text-white hover:bg-magenta text-purple px-2 py-1">
-                      <ListItemText>
-                        <span style={{ fontWeight: "bold" }}>
-                          {navLink.text}
-                        </span>
-                      </ListItemText>
-                    </ListItem>
-                  </CustomLink>
-                </li>
-              ))}
-              <Divider />
-              <div className="flex">
-                {navbar.button && (
-                  <div className="lg:block mt-4 ml-4">
-                    {!session && (
-                      <>
-                        <Btn2 href={"/account"} button={{ text: "Log In" }} />
-                      </>
-                    )}
-                    {session && (
-                      <>
-                        <Btn
-                          handleClick={handleLogOut}
-                          button={{ text: "Log Out" }}
-                          setLoggedIn={setLoggedIn}
-                        />
-                      </>
-                    )}
-                  </div>
-                )}
-              </div>
-            </List>
-          </Drawer>
-        </>
+        <Drawer
+          anchor={"left"}
+          open={mobileMenuIsShown}
+          onClose={() => setMobileMenuIsShown(false)}
+        >
+          <List style={{ width: "230px" }}>
+            <div style={{ margin: "10px" }}>
+              <Link href="/">
+                <a>
+                  <Image
+                    src={`${navbar.logo.url}`}
+                    style={{ margin: "7px" }}
+                    width="180"
+                    height="54"
+                    priority={true}
+                    layout="intrinsic"
+                    alt={`${navbar.logo.alternativeText || ""}`}
+                  />
+                </a>
+              </Link>
+            </div>
+            {navigationItems.map((navLink) => (
+              <li key={navLink.id}>
+                <CustomLink link={navLink} locale={router.locale}>
+                  <ListItem className="hover:text-white hover:bg-magenta text-purple px-2 py-1">
+                    <ListItemText>
+                      <span style={{ fontWeight: "bold" }}>{navLink.text}</span>
+                    </ListItemText>
+                  </ListItem>
+                </CustomLink>
+              </li>
+            ))}
+            <Divider />
+            <div className="flex">
+              {navbar.button && (
+                <div className="lg:block mt-4 ml-4">
+                  {!session && (
+                    <>
+                      <Btn2 href={"/account"} button={{ text: "Log In" }} />
+                    </>
+                  )}
+                  {session && (
+                    <>
+                      <AccountMenu
+                        handleLogOut={handleLogOut}
+                        setLoggedIn={setLoggedIn}
+                      />
+                    </>
+                  )}
+                </div>
+              )}
+            </div>
+          </List>
+        </Drawer>
       )}
-    </>
+    </div>
   )
 }
 

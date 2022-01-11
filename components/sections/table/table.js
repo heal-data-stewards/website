@@ -42,6 +42,8 @@ export default function WorkingGroupTable({ data }) {
                 key={member.firstname + index}
                 name={member.firstname + " " + member.lastname}
                 organization={member.organization}
+                email={member.email}
+                picture={member.picture}
               />
             )
           })}
@@ -59,7 +61,7 @@ export default function WorkingGroupTable({ data }) {
       </section>
       <section
         style={{
-          margin: "0 0 55px 0",
+          margin: "0 0 25px 0",
         }}
       >
         <h1
