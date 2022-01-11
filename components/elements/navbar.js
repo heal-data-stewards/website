@@ -29,6 +29,12 @@ const Navbar = ({ navbar, pageContext }) => {
       newTab: false,
       text: "RESOURCES",
     },
+    {
+      id: 37,
+      url: "/calendar",
+      newTab: false,
+      text: "CALENDAR",
+    },
   ])
 
   useEffect(() => {
@@ -41,6 +47,12 @@ const Navbar = ({ navbar, pageContext }) => {
           url: "/resources",
           newTab: false,
           text: "RESOURCES",
+        },
+        {
+          id: 37,
+          url: "/calendar",
+          newTab: false,
+          text: "CALENDAR",
         },
       ])
     }
