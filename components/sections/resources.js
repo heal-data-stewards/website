@@ -20,7 +20,7 @@ const Resource = ({ data }) => {
           <h1 className="title mt-2 sm:mt-0 mb-4 sm:mb-2">{data.title}</h1>
         </a>
         {/* Description paragraph */}
-        <p className="text-xl mb-6">{data.blurb}</p>
+        <p className="text-xl mb-6 ">{data.blurb}</p>
       </div>
       <hr></hr>
     </main>
