@@ -43,6 +43,7 @@ export default function WorkingGroupTable({ data }) {
                 name={member.firstname + " " + member.lastname}
                 organization={member.organization}
                 email={member.email}
+                picture={member.picture}
               />
             )
           })}
