@@ -29,7 +29,6 @@ export default function ResourceCard({ data }) {
           alt={data.img.name}
           sx={{
             height: 100,
-            margin: "0 0 0 8px",
           }}
         />
         <CardContent>

@@ -26,7 +26,10 @@ export default function WebinarBody(props) {
       async function fetchMyAPI() {
         let eventData2 = await getAuthorizationToken2(props.token)
         const publicEvents = eventData2.filter((event) => {
-          if (event.categories.length === 0) {
+          if (
+            event.categories.length === 0 ||
+            event.categories[0] === "Purple category"
+          ) {
             return event
           }
         })
