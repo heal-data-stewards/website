@@ -7,6 +7,7 @@ import { passwordReset } from "utils/api"
 
 const NewPasswordResetForm = () => {
   const [errorNotice, setError] = useState(false)
+  const [errorNoticePw, setErrorPw] = useState(false)
   const [successNotice, setSuccess] = useState(false)
 
   const RegistrationSchema = yup.object().shape({
@@ -37,12 +38,19 @@ const NewPasswordResetForm = () => {
             const pwconfirm = values.pwconfirm
             passwordReset(code, pw, pwconfirm).then((res) => {
               if (res.status !== 200) {
-                resetForm()
-                setError(true)
-                setSuccess(false)
+                if (pw !== pwconfirm) {
+                  resetForm()
+                  setErrorPw(true)
+                  setSuccess(false)
+                } else {
+                  resetForm()
+                  setError(true)
+                  setSuccess(false)
+                }
               } else if (res.status === 200) {
                 resetForm()
                 setError(false)
+                setErrorPw(false)
                 setSuccess(true)
               }
             })
@@ -91,8 +99,13 @@ const NewPasswordResetForm = () => {
                 />{" "}
                 {errorNotice && (
                   <span style={{ color: "red", margin: "7px 0 0 0" }}>
-                    This email was not found. Please contact an admin or try a
-                    different email.
+                    An error has occured. Double check your entries or please
+                    contact an admin.
+                  </span>
+                )}
+                {errorNoticePw && (
+                  <span style={{ color: "red", margin: "7px 0 0 0" }}>
+                    The passwords do not match. Please try again.
                   </span>
                 )}
                 {successNotice && (
