@@ -1,19 +1,19 @@
-import * as yup from "yup";
-import { Formik, Form, Field } from "formik";
-import { Btn2 } from "../button";
-import React, { useState } from "react";
-import { TextField } from "formik-material-ui";
-import { passwordReset } from "utils/api";
+import * as yup from "yup"
+import { Formik, Form, Field } from "formik"
+import { Btn2 } from "../button"
+import React, { useState } from "react"
+import { TextField } from "formik-material-ui"
+import { passwordReset } from "utils/api"
 
 const NewPasswordResetForm = () => {
-  const [errorNotice, setError] = useState(false);
-  const [successNotice, setSuccess] = useState(false);
+  const [errorNotice, setError] = useState(false)
+  const [successNotice, setSuccess] = useState(false)
 
   const RegistrationSchema = yup.object().shape({
     pw: yup.string().required(),
     pwconfirm: yup.string().required(),
     code: yup.string().required(),
-  });
+  })
 
   return (
     <div
@@ -32,20 +32,20 @@ const NewPasswordResetForm = () => {
           }}
           validationSchema={RegistrationSchema}
           onSubmit={(values, { resetForm }) => {
-            const code = values.code;
-            const pw = values.pw;
-            const pwconfirm = values.pwconfirm;
+            const code = values.code
+            const pw = values.pw
+            const pwconfirm = values.pwconfirm
             passwordReset(code, pw, pwconfirm).then((res) => {
               if (res.status !== 200) {
-                resetForm();
-                setError(true);
-                setSuccess(false);
+                resetForm()
+                setError(true)
+                setSuccess(false)
               } else if (res.status === 200) {
-                resetForm();
-                setError(false);
-                setSuccess(true);
+                resetForm()
+                setError(false)
+                setSuccess(true)
               }
-            });
+            })
           }}
         >
           {({ errors, touched, isSubmitting }) => (
@@ -107,6 +107,6 @@ const NewPasswordResetForm = () => {
         </Formik>
       </div>
     </div>
-  );
-};
-export default NewPasswordResetForm;
+  )
+}
+export default NewPasswordResetForm
