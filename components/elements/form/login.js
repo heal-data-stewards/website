@@ -86,7 +86,8 @@ const LoginForm = ({ setLoggedIn }) => {
                 />{" "}
                 {errorNotice && (
                   <span style={{ color: "red", margin: "7px 0 0 0" }}>
-                    This account has not been approved and/or created
+                    There has been an error. Please try again or contact an
+                    admin.
                   </span>
                 )}
               </Form>
