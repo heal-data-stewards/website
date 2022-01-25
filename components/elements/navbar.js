@@ -1,30 +1,26 @@
-import React, { useState, useEffect } from "react";
-import PropTypes from "prop-types";
-import Link from "next/link";
-import { useRouter } from "next/router";
-import Image from "next/image";
-import {
-  mediaPropTypes,
-  linkPropTypes,
-  buttonLinkPropTypes,
-} from "utils/types";
-import { MdMenu } from "react-icons/md";
-import NextImage from "./image";
-import CustomLink from "./custom-link";
-import AppBar from "@material-ui/core/AppBar";
-import Toolbar from "@material-ui/core/Toolbar";
-import Drawer from "@material-ui/core/Drawer";
-import List from "@material-ui/core/List";
-import ListItem from "@material-ui/core/ListItem";
-import ListItemText from "@material-ui/core/ListItemText";
-import Divider from "@material-ui/core/Divider";
-import { signIn, signOut, useSession, getSession } from "next-auth/client";
-import { Btn2 } from "../elements/button";
-import AccountMenu from "./profile";
-import PopupState, { bindTrigger, bindMenu } from "material-ui-popup-state";
-import Menu from "@mui/material/Menu";
-import MenuItem from "@mui/material/MenuItem";
-import { styled, alpha } from '@mui/material/styles';
+import React, { useState, useEffect } from "react"
+import PropTypes from "prop-types"
+import Link from "next/link"
+import { useRouter } from "next/router"
+import Image from "next/image"
+import { mediaPropTypes, linkPropTypes, buttonLinkPropTypes } from "utils/types"
+import { MdMenu } from "react-icons/md"
+import NextImage from "./image"
+import CustomLink from "./custom-link"
+import AppBar from "@material-ui/core/AppBar"
+import Toolbar from "@material-ui/core/Toolbar"
+import Drawer from "@material-ui/core/Drawer"
+import List from "@material-ui/core/List"
+import ListItem from "@material-ui/core/ListItem"
+import ListItemText from "@material-ui/core/ListItemText"
+import Divider from "@material-ui/core/Divider"
+import { signIn, signOut, useSession, getSession } from "next-auth/client"
+import { Btn2 } from "../elements/button"
+import AccountMenu from "./profile"
+import PopupState, { bindTrigger, bindMenu } from "material-ui-popup-state"
+import Menu from "@mui/material/Menu"
+import MenuItem from "@mui/material/MenuItem"
+import { styled, alpha } from "@mui/material/styles"
 
 const StyledMenu = styled((props) => (
   <Menu
@@ -40,31 +36,30 @@ const StyledMenu = styled((props) => (
     {...props}
   />
 ))(({ theme }) => ({
-  '& .MuiPaper-root': {
+  "& .MuiPaper-root": {
     borderRadius: 0,
     // marginTop: "-9px",
-    padding: '10px 8px',
+    padding: "10px 8px",
     minWidth: 180,
     background: "#532565",
-    color:
-      "#fff",
+    color: "#fff",
     boxShadow:
-      'rgb(255, 255, 255) 0px 0px 0px 0px, rgba(0, 0, 0, 0.05) 0px 0px 0px 1px, rgba(0, 0, 0, 0.1) 0px 10px 15px -3px, rgba(0, 0, 0, 0.05) 0px 4px 6px -2px',
-    '& .MuiMenu-list': {
+      "rgb(255, 255, 255) 0px 0px 0px 0px, rgba(0, 0, 0, 0.05) 0px 0px 0px 1px, rgba(0, 0, 0, 0.1) 0px 10px 15px -3px, rgba(0, 0, 0, 0.05) 0px 4px 6px -2px",
+    "& .MuiMenu-list": {
       // padding: '0 0 5px 0',
     },
-    '& .MuiMenuItem-root': {
-      '& .MuiSvgIcon-root': {
+    "& .MuiMenuItem-root": {
+      "& .MuiSvgIcon-root": {
         // fontSize: 18,
         color: theme.palette.text.secondary,
         marginRight: theme.spacing(1.5),
       },
-      '&:hover': {
+      "&:hover": {
         color: "#e5e0e7",
       },
     },
   },
-}));
+}))
 
 const MenuPopupState = (data) => {
   return (
@@ -80,23 +75,25 @@ const MenuPopupState = (data) => {
               ABOUT
             </div>
           </button>
-          <StyledMenu {...bindMenu(popupState)} >
+          <StyledMenu {...bindMenu(popupState)}>
             <MenuItem onClick={popupState.close}>
-              <Link href="/[[...slug]]" as={"/collective"} >
-                <a style={{ fontSize: "14px", fontWeight: "bold" }} >COLLECTIVE BOARD</a>
+              <Link href="/[[...slug]]" as={"/collective"}>
+                <a style={{ fontSize: "14px", fontWeight: "bold" }}>
+                  COLLECTIVE BOARD
+                </a>
               </Link>
             </MenuItem>
           </StyledMenu>
         </React.Fragment>
       )}
     </PopupState>
-  );
-};
+  )
+}
 
 const Navbar = ({ navbar, pageContext }) => {
-  const [session, loading] = useSession();
-  const [mobileMenuIsShown, setMobileMenuIsShown] = useState(false);
-  const [loggedIn, setLoggedIn] = useState(false);
+  const [session, loading] = useSession()
+  const [mobileMenuIsShown, setMobileMenuIsShown] = useState(false)
+  const [loggedIn, setLoggedIn] = useState(false)
   const [navigationItems, setNavigationItems] = useState([
     {
       id: 27,
@@ -110,11 +107,11 @@ const Navbar = ({ navbar, pageContext }) => {
       newTab: false,
       text: "CALENDAR",
     },
-  ]);
+  ])
 
   useEffect(() => {
     if (session || loggedIn) {
-      setNavigationItems(navbar.links);
+      setNavigationItems(navbar.links)
     } else {
       setNavigationItems([
         {
@@ -129,13 +126,13 @@ const Navbar = ({ navbar, pageContext }) => {
           newTab: false,
           text: "CALENDAR",
         },
-      ]);
+      ])
     }
-  }, [session, navbar.links, loggedIn]);
-  const router = useRouter();
+  }, [session, navbar.links, loggedIn])
+  const router = useRouter()
   const handleLogOut = () => {
-    signOut({ redirect: false });
-  };
+    signOut({ redirect: false })
+  }
 
   return (
     <div>
@@ -265,8 +262,8 @@ const Navbar = ({ navbar, pageContext }) => {
         </Drawer>
       )}
     </div>
-  );
-};
+  )
+}
 
 Navbar.propTypes = {
   navbar: PropTypes.shape({
@@ -278,6 +275,6 @@ Navbar.propTypes = {
     button: buttonLinkPropTypes,
   }),
   initialLocale: PropTypes.string,
-};
+}
 
-export default Navbar;
+export default Navbar
