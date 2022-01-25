@@ -1,17 +1,17 @@
-import * as yup from "yup";
-import { Formik, Form, Field } from "formik";
-import { Btn2 } from "../button";
-import React, { useState } from "react";
-import { TextField } from "formik-material-ui";
-import { forgottenPassword } from "utils/api";
+import * as yup from "yup"
+import { Formik, Form, Field } from "formik"
+import { Btn2 } from "../button"
+import React, { useState } from "react"
+import { TextField } from "formik-material-ui"
+import { forgottenPassword } from "utils/api"
 
 const NewPasswordForm = () => {
-  const [errorNotice, setError] = useState(false);
-  const [successNotice, setSuccess] = useState(false);
+  const [errorNotice, setError] = useState(false)
+  const [successNotice, setSuccess] = useState(false)
 
   const RegistrationSchema = yup.object().shape({
     email: yup.string().required(),
-  });
+  })
 
   return (
     <div
@@ -28,19 +28,19 @@ const NewPasswordForm = () => {
           }}
           validationSchema={RegistrationSchema}
           onSubmit={(values, { resetForm }) => {
-            const email = values.email;
+            const email = values.email
             forgottenPassword(email).then((res) => {
               if (res.status !== 200) {
-                resetForm();
-                setError(true);
-                setSuccess(false);
+                resetForm()
+                setError(true)
+                setSuccess(false)
               } else if (res.status === 200) {
                 // console.log(res.config.data)
-                resetForm();
-                setError(false);
-                setSuccess(true);
+                resetForm()
+                setError(false)
+                setSuccess(true)
               }
-            });
+            })
           }}
         >
           {({ errors, touched, isSubmitting }) => (
@@ -70,7 +70,8 @@ const NewPasswordForm = () => {
                 )}
                 {successNotice && (
                   <span style={{ color: "green", margin: "7px 0 0 0" }}>
-                    An email has been sent with instructions on how to reset your password.
+                    An email has been sent with instructions on how to reset
+                    your password.
                   </span>
                 )}
               </Form>
@@ -79,6 +80,6 @@ const NewPasswordForm = () => {
         </Formik>
       </div>
     </div>
-  );
-};
-export default NewPasswordForm;
+  )
+}
+export default NewPasswordForm

@@ -1,9 +1,9 @@
-import React, { useState } from "react";
-import { makeStyles } from "@material-ui/core/styles";
-import Paper from "@material-ui/core/Paper";
-import Grid from "@material-ui/core/Grid";
-import LoginForm from "../elements/form/login";
-import NewPasswordForm from "../elements/form/password-recovery";
+import React, { useState } from "react"
+import { makeStyles } from "@material-ui/core/styles"
+import Paper from "@material-ui/core/Paper"
+import Grid from "@material-ui/core/Grid"
+import LoginForm from "../elements/form/login"
+import NewPasswordForm from "../elements/form/password-recovery"
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -19,7 +19,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function LoginSection(props) {
   const classes = useStyles()
-  const [showPasswordReset, setShowPasswordReset] = useState(false);
+  const [showPasswordReset, setShowPasswordReset] = useState(false)
 
   return (
     <div className={classes.root}>
@@ -29,7 +29,8 @@ export default function LoginSection(props) {
           <Grid item xs={12} md={9}>
             <Paper className={classes.paper} elevation={0} square>
               <div style={{ textAlign: "right", margin: "20px 0 20px 0" }}>
-                <span>Need an account? </span> <span style={{color: "#532565"}}>{props.children}</span>
+                <span>Need an account? </span>{" "}
+                <span style={{ color: "#532565" }}>{props.children}</span>
               </div>
               <br></br>
               <div
@@ -40,13 +41,13 @@ export default function LoginSection(props) {
                 }}
               >
                 <h1 className="text-3xl font-bold">
-                {!showPasswordReset ? "LOGIN" : "PASSWORD RESET" }
+                  {!showPasswordReset ? "LOGIN" : "PASSWORD RESET"}
                 </h1>
               </div>
 
-              {!showPasswordReset ? <LoginForm  /> : <NewPasswordForm />}
+              {!showPasswordReset ? <LoginForm /> : <NewPasswordForm />}
               {!showPasswordReset && (
-                <div style={{marginTop: "-23px", color: "#532565"}}>
+                <div style={{ marginTop: "-23px", color: "#532565" }}>
                   <button
                     onClick={() => setShowPasswordReset(!showPasswordReset)}
                   >
@@ -59,6 +60,5 @@ export default function LoginSection(props) {
         </Grid>
       </div>
     </div>
-  );
+  )
 }
-
