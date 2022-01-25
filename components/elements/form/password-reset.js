@@ -110,8 +110,7 @@ const NewPasswordResetForm = () => {
                 )}
                 {successNotice && (
                   <span style={{ color: "green", margin: "7px 0 0 0" }}>
-                    An email has been sent with instructions on how to reset
-                    your password.
+                    Your password has been updated successfully.
                   </span>
                 )}
               </Form>
