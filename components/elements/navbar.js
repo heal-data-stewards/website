@@ -169,9 +169,9 @@ const Navbar = ({ navbar, pageContext }) => {
                   </CustomLink>
                 </li>
               ))}
-              <li>
+              {/* <li>
                 <MenuPopupState />
-              </li>
+              </li> */}
             </ul>
           </div>
           <div className="flex">
