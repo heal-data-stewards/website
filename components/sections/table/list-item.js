@@ -14,6 +14,7 @@ export default function WorkingGroupListItem({
       className="working-group-list-item"
       component="a"
       href={`mailto:${" " + email}`}
+      target="_blank"
     >
       <div className="">
         <Image

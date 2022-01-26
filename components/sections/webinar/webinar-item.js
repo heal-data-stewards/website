@@ -15,7 +15,7 @@ export default function WebinarItem({ data }) {
   let startTime = makeEasternTime(sTime)
   let endTime = makeEasternTime(eTime)
 
-  const result = data.abstract.substring(0, 320)
+  const result = data.abstract.substring(100, 420)
 
   return (
     <div className="basic-card-container container">
