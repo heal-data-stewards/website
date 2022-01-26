@@ -24,14 +24,14 @@ export default function WorkingGroupTable({ data }) {
 
   return (
     <div className="container">
-      <section>
+      {/* <section>
         <h1 className="text-2xl text-purple p-2" style={{ fontWeight: "600" }}>
           Co-PIs
         </h1>
-      </section>
+      </section> */}
       <section>
         <h1 className="text-2xl text-purple p-2" style={{ fontWeight: "600" }}>
-          Team Members
+          Members
         </h1>
       </section>
       <nav aria-label="working group list">

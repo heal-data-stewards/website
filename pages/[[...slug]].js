@@ -50,6 +50,7 @@ const DynamicPage = ({
       </Layout>
     )
   }
+
   return (
     <Layout global={global} pageContext={pageContext}>
       {/* Add meta tags for SEO*/}
