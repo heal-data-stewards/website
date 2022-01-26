@@ -246,13 +246,7 @@ content: ""
     padding: 20px 0 0 0
   }
 
-  .working-group-list-item{
-    width: 100% !important;
-  }
-  .working-group-list-item:nth-of-type(2n){
-    margin-left: 0;
-    width: 100% !important;
-  }
+
 
 }
 
@@ -263,6 +257,14 @@ content: ""
  .basic-card-content {
    min-height: 340px
  }
+
+ .working-group-list-item{
+  width: 100% !important;
+}
+.working-group-list-item:nth-of-type(2n){
+  margin-left: 0;
+  width: 100% !important;
+}
 }
 
 .event-html li {

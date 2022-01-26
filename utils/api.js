@@ -1,3 +1,4 @@
+import axios from "axios";
 import { gridColumnsTotalWidthSelector } from "@material-ui/data-grid";
 
 export function getStrapiURL(path) {
@@ -21,9 +22,9 @@ export async function fetchAPI(path, options = {}) {
   const response = await fetch(requestUrl, mergedOptions);
 
   if (!response.ok) {
+    console.error(response.statusText);
     throw new Error(`An error occured please try again`);
   }
-
   const data = await response.json();
   return data;
 }
@@ -67,4 +68,51 @@ export async function getAllUsers(locale) {
 export async function getStrapiApiPageData(slug) {
   const pageData = await getPageData({ slug: [slug] }, "en", false);
   return pageData;
+}
+
+export async function passwordReset(code, myNewPassword, myNewPasswordConfirm) {
+  const path = "/auth/reset-password";
+  const requestUrl = getStrapiURL(path);
+
+  // Request API.
+  const response = axios
+    .post(requestUrl, {
+      code: code,
+      password: myNewPassword,
+      passwordConfirmation: myNewPasswordConfirm,
+    })
+    .then((response) => {
+      // Handle success.
+      console.log(response);
+      return response;
+    })
+    .catch((error) => {
+      // Handle error.
+      console.log("An error occurred:", error.response);
+      return error.response;
+    });
+
+  return response;
+}
+
+export async function forgottenPassword(email) {
+  const path = "/auth/forgot-password";
+  const pwResetPath = "/admin/plugins/users-permissions/auth/reset-password";
+  const requestUrl = getStrapiURL(path);
+  // Request API.
+  const response = axios
+    .post(requestUrl, {
+      email: email,
+      url: pwResetPath,
+    })
+    .then((response) => {
+      // Handle success.
+      return response;
+    })
+    .catch((error) => {
+      // Handle error.
+      return error.response;
+    });
+
+  return response;
 }
