@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from "react"
 import List from "@mui/material/List"
-import WorkingGroupListItem from "../table/list-item"
 import { getAllUsers } from "utils/api"
-import Button from "@mui/material/Button"
+// import Button from "@mui/material/Button"
 import PublicWorkingGroupListItem from "./list-item"
 
 export default function Boardlist({ data }) {
@@ -40,6 +39,8 @@ export default function Boardlist({ data }) {
                 organization={member.organization}
                 email={member.email}
                 picture={member.picture}
+                bio={member.bio}
+                linkedin={member.linkedin}
               />
             )
           })}

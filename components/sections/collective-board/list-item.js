@@ -1,19 +1,20 @@
-import * as React from "react";
-import Button from "@mui/material/Button";
-import Typography from "@mui/material/Typography";
-import Link from "next/link";
-import Image from "next/image";
-import Markdown from "react-markdown";
-import LinkedInIcon from "@mui/icons-material/LinkedIn";
+import * as React from "react"
+import Typography from "@mui/material/Typography"
+// import Link from "next/link";
+import Image from "next/image"
+import Markdown from "react-markdown"
+import LinkedInIcon from "@mui/icons-material/LinkedIn"
 
 export default function PublicWorkingGroupListItem({
   name,
   organization,
-  email,
+  //   email,
   picture,
+  bio,
+  linkedin,
 }) {
   return (
-    <div className="basic-card-container container">
+    <div className="basic-card-container" style={{ width: "100%" }}>
       <div className="basic-card-content">
         <div className="event-img">
           <Image alt="Webinar" width={275} height={275} src={picture.url} />
@@ -36,9 +37,8 @@ export default function PublicWorkingGroupListItem({
           >
             {organization}
           </Typography>
-          <div>
-            {/* <Markdown>{bio}</Markdown> */}
-            WEDJKSFHGBHNASKHLDFJB LISFDKJHIUAWDSH
+          <div className="public-member-bio">
+            <Markdown>{bio}</Markdown>
           </div>
         </div>
       </div>
@@ -47,22 +47,28 @@ export default function PublicWorkingGroupListItem({
           display: "flex",
           justifyContent: "end",
           padding: "0 25px 0 0",
-          marginTop: "-53px",
+          marginTop: "-42px",
           color: "#532565",
-          
         }}
       >
-        <LinkedInIcon
-          sx={{
-            fontSize: 100,
-            zIndex: 2,
-            cursor: "pointer",
-            "&:hover": {
-              color: "#982568",
-            },
-          }}
-        />
+        <a
+          target="_blank"
+          href={linkedin}
+          style={{ zIndex: 2 }}
+          rel="noreferrer"
+        >
+          {" "}
+          <LinkedInIcon
+            sx={{
+              fontSize: 100,
+              cursor: "pointer",
+              "&:hover": {
+                color: "#982568",
+              },
+            }}
+          />
+        </a>
       </div>
     </div>
-  );
+  )
 }
