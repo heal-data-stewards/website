@@ -39,23 +39,22 @@ const StyledMenu = styled((props) => (
   "& .MuiPaper-root": {
     borderRadius: 0,
     // marginTop: "-9px",
-    padding: "10px 8px",
     minWidth: 180,
     background: "#532565",
     color: "#fff",
     boxShadow:
       "rgb(255, 255, 255) 0px 0px 0px 0px, rgba(0, 0, 0, 0.05) 0px 0px 0px 1px, rgba(0, 0, 0, 0.1) 0px 10px 15px -3px, rgba(0, 0, 0, 0.05) 0px 4px 6px -2px",
     "& .MuiMenu-list": {
-      // padding: '0 0 5px 0',
+      "&:hover": {
+        background: "#982568",
+      },
+      padding: "15px 15px 15px 8px",
     },
     "& .MuiMenuItem-root": {
+      display: "block",
       "& .MuiSvgIcon-root": {
-        // fontSize: 18,
         color: theme.palette.text.secondary,
         marginRight: theme.spacing(1.5),
-      },
-      "&:hover": {
-        color: "#e5e0e7",
       },
     },
   },
@@ -78,7 +77,10 @@ const MenuPopupState = (data) => {
           <StyledMenu {...bindMenu(popupState)}>
             <MenuItem onClick={popupState.close}>
               <Link href="/[[...slug]]" as={"/collective"}>
-                <a style={{ fontSize: "14px", fontWeight: "bold" }}>
+                <a
+                  // className="hover:bg-magenta"
+                  style={{ fontSize: "14px", fontWeight: "bold" }}
+                >
                   COLLECTIVE BOARD
                 </a>
               </Link>
@@ -169,9 +171,9 @@ const Navbar = ({ navbar, pageContext }) => {
                   </CustomLink>
                 </li>
               ))}
-              {/* <li>
+              <li>
                 <MenuPopupState />
-              </li> */}
+              </li>
             </ul>
           </div>
           <div className="flex">

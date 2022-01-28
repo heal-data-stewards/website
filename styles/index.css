@@ -297,3 +297,22 @@ content: ""
   top: -90px;
   visibility: hidden;
 }
+
+/* Public Page: Members Collective */
+
+.public-member-bio {
+  max-height: 103px;
+    overflow: auto;
+}
+
+@media screen and (max-width: 1025px){
+  .public-member-bio {
+    max-height: 189px;
+      overflow: auto;
+  }
+}
+@media screen and (max-width: 755px){
+  .public-member-bio {
+    max-height: 1250px;
+  }
+}
