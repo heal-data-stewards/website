@@ -16,19 +16,8 @@ export default function Boardlist({ data }) {
     })
   }, [])
 
-  const mailTo = users
-    .map((user) => {
-      return user.username + ";"
-    })
-    .join()
-
   return (
     <div className="container">
-      {/* <section>
-        <h1 className="text-2xl text-purple p-2" style={{ fontWeight: "600" }}>
-          Co-PIs
-        </h1>
-      </section> */}
       <nav aria-label="working group list">
         <List className="flex flex-wrap">
           {users.map((member, index) => {
