@@ -15,11 +15,11 @@ export default function PublicWorkingGroupListItem({
 }) {
   return (
     <div className="basic-card-container" style={{ width: "100%" }}>
-      <div className="basic-card-content">
-        <div className="event-img">
-          <Image alt="Webinar" width={275} height={275} src={picture.url} />
+      <div className="members-basic-card-content">
+        <div className="members-event-img">
+          <Image alt="Webinar" width={100} height={100} src={picture.url} />
         </div>
-        <div className="card-blurb">
+        <div className="members-card-blurb">
           <Typography
             sx={{ fontWeight: "bold", color: "#532565", fontSize: 28 }}
             color="text.secondary"
@@ -47,7 +47,7 @@ export default function PublicWorkingGroupListItem({
           display: "flex",
           justifyContent: "end",
           padding: "0 25px 0 0",
-          marginTop: "-42px",
+          marginTop: "-18px",
           color: "#532565",
         }}
       >
@@ -60,7 +60,7 @@ export default function PublicWorkingGroupListItem({
           {" "}
           <LinkedInIcon
             sx={{
-              fontSize: 100,
+              fontSize: 40,
               cursor: "pointer",
               "&:hover": {
                 color: "#982568",
