@@ -316,3 +316,41 @@ content: ""
     max-height: 1250px;
   }
 }
+
+.members-basic-card-content {
+  min-height: 250px;
+  background: rgb(192 179 197 / 18%);
+  padding: 35px;
+  position: relative;
+  border-top: 10px solid #532565;
+}
+
+.members-event-img {
+  position: absolute;
+  top: -40px;
+  border-top: 10px solid #532565;
+}
+
+
+
+.members-card-blurb {
+  padding: 0 0 0 135px;
+  word-break: break-word;
+}
+
+
+@media screen and (max-width: 650px){
+  .members-card-blurb  {
+    padding: 40px 0 0 0
+  }
+}
+
+@media screen and (max-width: 755px){
+  /* .event-img {
+    position:relative;
+    text-align: center
+  }
+  .card-blurb  {
+    padding: 20px 0 0 0
+  } */
+}
