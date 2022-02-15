@@ -283,6 +283,11 @@ content: ""
   margin: 0 0 12px 0
 }
 
+.faq-markdown li {
+  list-style-type: square;
+  margin-left: 50px
+}
+
 .glossary-markdown a {
   color: #0044B3;
 }
@@ -300,23 +305,6 @@ content: ""
 
 /* Public Page: Members Collective */
 
-.public-member-bio {
-  max-height: 103px;
-    overflow: auto;
-}
-
-@media screen and (max-width: 1025px){
-  .public-member-bio {
-    max-height: 189px;
-      overflow: auto;
-  }
-}
-@media screen and (max-width: 755px){
-  .public-member-bio {
-    max-height: 1250px;
-  }
-}
-
 .members-basic-card-content {
   min-height: 250px;
   background: rgb(192 179 197 / 18%);
@@ -328,7 +316,6 @@ content: ""
 .members-event-img {
   position: absolute;
   top: -40px;
-  border-top: 10px solid #532565;
 }
 
 
