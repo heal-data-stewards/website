@@ -71,13 +71,39 @@ export default function AccountMenu({ handleLogOut, setLoggedIn }) {
         transformOrigin={{ horizontal: "right", vertical: "top" }}
         anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
       >
-        <MenuItem>
-          <Avatar />
-          <Link href="/account">My account</Link>
+        <MenuItem
+          sx={{
+            fontWeight: "bold",
+            color: "#532565 !important",
+            "&:hover": {
+              backgroundColor: "transparent",
+              color: "#982568 !important",
+            },
+          }}
+        >
+          <Avatar
+            sx={{
+              background: "#532565",
+            }}
+          />
+          <Link href="/account">My Account</Link>
         </MenuItem>
         <Divider />
-        <MenuItem>
-          <ListItemIcon>
+        <MenuItem
+          sx={{
+            fontWeight: "bold",
+            color: "#532565 !important",
+            "&:hover": {
+              backgroundColor: "transparent",
+              color: "#982568 !important",
+            },
+          }}
+        >
+          <ListItemIcon
+            sx={{
+              color: "#532565",
+            }}
+          >
             <Logout fontSize="small" />
           </ListItemIcon>
           <a onClick={handleLogOut}>Log Out</a>
