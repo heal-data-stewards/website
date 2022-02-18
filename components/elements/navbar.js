@@ -240,6 +240,15 @@ const Navbar = ({ navbar, pageContext }) => {
                 </CustomLink>
               </li>
             ))}
+            <li key={"dsnj342"}>
+              <CustomLink link={{ url: "/collective" }} locale={router.locale}>
+                <ListItem className="hover:text-white hover:bg-magenta text-purple px-2 py-1">
+                  <ListItemText>
+                    <span style={{ fontWeight: "bold" }}>COLLECTIVE BOARD</span>
+                  </ListItemText>
+                </ListItem>
+              </CustomLink>
+            </li>
             <Divider />
             <div className="flex">
               {navbar.button && (
