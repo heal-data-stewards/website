@@ -43,6 +43,8 @@ export default function AccountMenu({ handleLogOut, setLoggedIn }) {
         PaperProps={{
           elevation: 0,
           sx: {
+            width: "150px",
+            paddingLeft: "10px",
             overflow: "visible",
             filter: "drop-shadow(0px 2px 8px rgba(0,0,0,0.32))",
             mt: 1.5,
