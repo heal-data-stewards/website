@@ -1,10 +1,10 @@
-import * as React from "react";
-import Card from "@mui/material/Card";
+import * as React from "react"
+import Card from "@mui/material/Card"
 // import CardContent from "@mui/material/CardContent";
-import CardMedia from "@mui/material/CardMedia";
-import Typography from "@mui/material/Typography";
-import { Button, CardActionArea, CardActions } from "@mui/material";
-import DoubleArrowIcon from '@mui/icons-material/DoubleArrow';
+import CardMedia from "@mui/material/CardMedia"
+import Typography from "@mui/material/Typography"
+import { Button, CardActionArea, CardActions } from "@mui/material"
+import DoubleArrowIcon from "@mui/icons-material/DoubleArrow"
 
 export default function ResourceCard({ data }) {
   return (
@@ -38,5 +38,5 @@ export default function ResourceCard({ data }) {
         </CardContent> */}
       </CardActionArea>
     </Card>
-  );
+  )
 }
