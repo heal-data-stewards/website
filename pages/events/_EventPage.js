@@ -1,7 +1,7 @@
 import Layout from "@/components/layout"
 import Seo from "@/components/elements/seo"
 import { getEvent } from "utils/msft-graph-api"
-import React, { useState, useEffect } from "react"
+import React, { useState, useEffect, useRef } from "react"
 import Divider from "@mui/material/Divider"
 import { makeEasternTime } from "utils/helper-functions"
 
@@ -10,6 +10,7 @@ import { makeEasternTime } from "utils/helper-functions"
 function EventPage({ global, event, pageContext, metadata }) {
   // Render event page...
   const [data, dataSet] = useState(event.event)
+  const textInput = useRef(null)
   useEffect(() => {
     async function fetchMyAPI() {
       let eventData2 = await getEvent(pageContext.token, pageContext.url)
@@ -25,6 +26,11 @@ function EventPage({ global, event, pageContext, metadata }) {
   let eTime = endDate.toLocaleTimeString()
   let startTime = makeEasternTime(sTime)
   let endTime = makeEasternTime(eTime)
+
+  function stripScripts(s) {
+    let retVal = s.replace(/(<style[\w\W]+style>)/g, "")
+    return retVal
+  }
 
   return (
     <Layout global={global} pageContext={pageContext}>
@@ -58,8 +64,11 @@ function EventPage({ global, event, pageContext, metadata }) {
           </h3>
           <Divider />
           <div
+            ref={textInput}
             className="event-html"
-            dangerouslySetInnerHTML={{ __html: data.body.content }}
+            dangerouslySetInnerHTML={{
+              __html: stripScripts(data.body.content),
+            }}
           ></div>
         </section>
       </div>

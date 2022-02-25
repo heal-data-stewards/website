@@ -1,10 +1,10 @@
 import * as React from "react"
 import Card from "@mui/material/Card"
-import CardContent from "@mui/material/CardContent"
+// import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia"
 import Typography from "@mui/material/Typography"
 import { Button, CardActionArea, CardActions } from "@mui/material"
-import ArrowForwardOutlinedIcon from "@mui/icons-material/ArrowForwardOutlined"
+import DoubleArrowIcon from "@mui/icons-material/DoubleArrow"
 
 export default function ResourceCard({ data }) {
   return (
@@ -15,8 +15,8 @@ export default function ResourceCard({ data }) {
         </Typography>
         <div style={{ "margin-left": "auto" }}>
           <Button size="small" color="primary" href={data.link}>
-            {data.title}{" "}
-            <ArrowForwardOutlinedIcon
+            {/* {data.title}{" "} */}
+            <DoubleArrowIcon
               style={{ fontSize: "small", marginBottom: "3px" }}
             />
           </Button>
@@ -31,11 +31,11 @@ export default function ResourceCard({ data }) {
             height: 100,
           }}
         />
-        <CardContent>
+        {/* <CardContent>
           <Typography variant="body2" color="text.secondary">
             {data.blurb}
           </Typography>
-        </CardContent>
+        </CardContent> */}
       </CardActionArea>
     </Card>
   )
