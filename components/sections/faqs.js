@@ -125,7 +125,7 @@ export default function Faqs({ data }) {
                     <Typography>{question.question}</Typography>
                   </AccordionSummary>
                   <AccordionDetails style={{ backgroundColor: "#fff" }}>
-                    <Typography>
+                    <Typography component={"span"}>
                       <Markdown className="faq-markdown">
                         {question.answerFAQ}
                       </Markdown>
