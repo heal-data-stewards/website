@@ -4,7 +4,11 @@ import Typography from "@mui/material/Typography"
 import Link from "next/link"
 import Image from "next/image"
 import Markdown from "react-markdown"
-import { makeEasternTime } from "utils/helper-functions"
+import {
+  makeEasternTime,
+  checkDaylightSavings,
+  makeEasternTimeWithDaylightSavings,
+} from "utils/helper-functions"
 import { renderImage } from "utils/helper-functions"
 
 export default function BasicCard({ event }) {
@@ -12,8 +16,12 @@ export default function BasicCard({ event }) {
   let endDate = new Date(Date.parse(event.end.dateTime))
   let sTime = date.toLocaleTimeString()
   let eTime = endDate.toLocaleTimeString()
-  let startTime = makeEasternTime(sTime)
-  let endTime = makeEasternTime(eTime)
+  let startTime = checkDaylightSavings(date)
+    ? makeEasternTime(sTime)
+    : makeEasternTimeWithDaylightSavings(sTime)
+  let endTime = checkDaylightSavings(endDate)
+    ? makeEasternTimeWithDaylightSavings(eTime)
+    : makeEasternTime(eTime)
 
   return (
     <div className="basic-card-container">
