@@ -3,16 +3,14 @@ import { Formik, Form, Field } from "formik"
 import { Btn2 } from "../button"
 import React, { useState } from "react"
 import { TextField } from "formik-material-ui"
-import { signIn, useSession } from "next-auth/client"
+import { forgottenPassword } from "utils/api"
 
-const LoginForm = ({ setLoggedIn }) => {
-  const [session, loading] = useSession()
+const NewPasswordForm = () => {
   const [errorNotice, setError] = useState(false)
+  const [successNotice, setSuccess] = useState(false)
 
   const RegistrationSchema = yup.object().shape({
     email: yup.string().required(),
-    password: yup.string().required(),
-    csrfToken: yup.string(),
   })
 
   return (
@@ -27,30 +25,22 @@ const LoginForm = ({ setLoggedIn }) => {
         <Formik
           initialValues={{
             email: "",
-            password: "",
-            csrfToken: "",
           }}
           validationSchema={RegistrationSchema}
           onSubmit={(values, { resetForm }) => {
             const email = values.email
-            const password = values.password
-            signIn("credentials", {
-              redirect: false,
-              email,
-              password,
-              // The page where you want to redirect to after a
-              // successful login
-              // callbackUrl: "https://staging.healdatafair.org/",
-            }).then((res) => {
-              // console.log(res);
-              if (res.status === 401) {
+            forgottenPassword(email).then((res) => {
+              if (res.status !== 200) {
                 resetForm()
                 setError(true)
-              } else {
+                setSuccess(false)
+              } else if (res.status === 200) {
+                // console.log(res.config.data)
+                resetForm()
                 setError(false)
+                setSuccess(true)
               }
             })
-            // setLoggedIn(true)
           }}
         >
           {({ errors, touched, isSubmitting }) => (
@@ -67,27 +57,21 @@ const LoginForm = ({ setLoggedIn }) => {
                   fullWidth
                   style={{ background: "white" }}
                 />
-                <Field
-                  className="text-base focus:outline-none py-4 md:py-0 px-4 border-2 rounded-md"
-                  type="password"
-                  name="password"
-                  placeholder={"Password"}
-                  component={TextField}
-                  label="Password"
-                  variant="outlined"
-                  style={{ background: "white" }}
-                  fullWidth
-                />
                 <Btn2
                   type="submit"
-                  button={{ text: "Log In" }}
+                  button={{ text: "Submit" }}
                   disabled={isSubmitting}
-                  loading={loading}
                 />{" "}
                 {errorNotice && (
                   <span style={{ color: "red", margin: "7px 0 0 0" }}>
-                    There has been an error. Please try again or contact an
-                    admin.
+                    This email was not found. Please contact an admin or try a
+                    different email.
+                  </span>
+                )}
+                {successNotice && (
+                  <span style={{ color: "green", margin: "7px 0 0 0" }}>
+                    An email has been sent with instructions on how to reset
+                    your password.
                   </span>
                 )}
               </Form>
@@ -98,4 +82,4 @@ const LoginForm = ({ setLoggedIn }) => {
     </div>
   )
 }
-export default LoginForm
+export default NewPasswordForm

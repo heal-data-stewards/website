@@ -74,7 +74,7 @@ export default function Faqs({ data }) {
 
     getStrapiApiPageData("faqs")
       .then((res) => {
-        return groupByTag(res.contentSections[1].question, "tag")
+        return groupByTag(res.contentSections[2].question, "tag")
       })
       .then((res) => {
         const newState = separateObject(res)
@@ -125,7 +125,7 @@ export default function Faqs({ data }) {
                     <Typography>{question.question}</Typography>
                   </AccordionSummary>
                   <AccordionDetails style={{ backgroundColor: "#fff" }}>
-                    <Typography>
+                    <Typography component={"span"}>
                       <Markdown className="faq-markdown">
                         {question.answerFAQ}
                       </Markdown>

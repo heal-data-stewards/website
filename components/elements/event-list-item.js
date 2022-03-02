@@ -52,7 +52,7 @@ export default function BasicCard({ event }) {
             <Link href={`/events/${event.id}`}>{event.subject}</Link>
           </Typography>
           <Typography sx={{ mb: 1.5 }}>{event.location.displayName}</Typography>
-          <Markdown>{event.bodyPreview.substring(0, 180) + " ..."}</Markdown>
+          <Markdown>{event.bodyPreview.substring(52, 250) + " ..."}</Markdown>
         </div>
       </div>
       <div

@@ -17,6 +17,80 @@ import Divider from "@material-ui/core/Divider"
 import { signIn, signOut, useSession, getSession } from "next-auth/client"
 import { Btn2 } from "../elements/button"
 import AccountMenu from "./profile"
+import PopupState, { bindTrigger, bindMenu } from "material-ui-popup-state"
+import Menu from "@mui/material/Menu"
+import MenuItem from "@mui/material/MenuItem"
+import { styled, alpha } from "@mui/material/styles"
+
+const StyledMenu = styled((props) => (
+  <Menu
+    elevation={0}
+    // anchorOrigin={{
+    //   vertical: 'bottom',
+    //   horizontal: 'right',
+    // }}
+    // transformOrigin={{
+    //   vertical: 'top',
+    //   horizontal: 'right',
+    // }}
+    {...props}
+  />
+))(({ theme }) => ({
+  "& .MuiPaper-root": {
+    borderRadius: 0,
+    // marginTop: "-9px",
+    minWidth: 180,
+    background: "#532565",
+    color: "#fff",
+    boxShadow:
+      "rgb(255, 255, 255) 0px 0px 0px 0px, rgba(0, 0, 0, 0.05) 0px 0px 0px 1px, rgba(0, 0, 0, 0.1) 0px 10px 15px -3px, rgba(0, 0, 0, 0.05) 0px 4px 6px -2px",
+    "& .MuiMenu-list": {
+      "&:hover": {
+        background: "#982568",
+      },
+      padding: "15px 15px 15px 8px",
+    },
+    "& .MuiMenuItem-root": {
+      display: "block",
+      "& .MuiSvgIcon-root": {
+        color: theme.palette.text.secondary,
+        marginRight: theme.spacing(1.5),
+      },
+    },
+  },
+}))
+
+const MenuPopupState = (data) => {
+  return (
+    <PopupState variant="popover" popupId="demo-popup-menu">
+      {(popupState) => (
+        <React.Fragment>
+          <button>
+            <div
+              style={{ fontSize: "18px", fontWeight: "bold" }}
+              className="hover:text-magenta text-purple px-2 py-1"
+              {...bindTrigger(popupState)}
+            >
+              ABOUT
+            </div>
+          </button>
+          <StyledMenu {...bindMenu(popupState)}>
+            <MenuItem onClick={popupState.close}>
+              <Link href="/[[...slug]]" as={"/collective"}>
+                <a
+                  // className="hover:bg-magenta"
+                  style={{ fontSize: "14px", fontWeight: "bold" }}
+                >
+                  COLLECTIVE BOARD
+                </a>
+              </Link>
+            </MenuItem>
+          </StyledMenu>
+        </React.Fragment>
+      )}
+    </PopupState>
+  )
+}
 
 const Navbar = ({ navbar, pageContext }) => {
   const [session, loading] = useSession()
@@ -97,6 +171,9 @@ const Navbar = ({ navbar, pageContext }) => {
                   </CustomLink>
                 </li>
               ))}
+              {/* <li>
+                <MenuPopupState />
+              </li> */}
             </ul>
           </div>
           <div className="flex">
@@ -163,6 +240,15 @@ const Navbar = ({ navbar, pageContext }) => {
                 </CustomLink>
               </li>
             ))}
+            {/* <li key={"dsnj342"}>
+              <CustomLink link={{ url: "/collective" }} locale={router.locale}>
+                <ListItem className="hover:text-white hover:bg-magenta text-purple px-2 py-1">
+                  <ListItemText>
+                    <span style={{ fontWeight: "bold" }}>COLLECTIVE BOARD</span>
+                  </ListItemText>
+                </ListItem>
+              </CustomLink>
+            </li> */}
             <Divider />
             <div className="flex">
               {navbar.button && (
