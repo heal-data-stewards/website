@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react"
 import { useSession } from "next-auth/client"
-import BasicCard from "../../elements/event-list-item"
+import WebinarItem from "./webinar-item"
 import { filterByDate } from "utils/helper-functions"
 import Divider from "@mui/material/Divider"
 import { getAuthorizationToken2 } from "utils/msft-graph-api"
@@ -56,7 +56,7 @@ export default function WebinarBody(props) {
         {events.length !== 0 &&
           events.map((event, i) => {
             if (new Date(event.start.dateTime) >= new Date()) {
-              return <BasicCard key={event.subject + i} event={event} />
+              return <WebinarItem key={event.subject + i} event={event} />
             }
           })}
       </section>
@@ -68,7 +68,7 @@ export default function WebinarBody(props) {
         {events.length !== 0 &&
           events.map((event, i) => {
             if (new Date(event.start.dateTime) <= new Date()) {
-              return <BasicCard key={event.subject + i} event={event} />
+              return <WebinarItem key={event.subject + i} event={event} />
             }
           })}
       </section>
