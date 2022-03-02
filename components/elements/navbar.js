@@ -171,9 +171,9 @@ const Navbar = ({ navbar, pageContext }) => {
                   </CustomLink>
                 </li>
               ))}
-              {/* <li>
+              <li>
                 <MenuPopupState />
-              </li> */}
+              </li>
             </ul>
           </div>
           <div className="flex">
@@ -240,7 +240,7 @@ const Navbar = ({ navbar, pageContext }) => {
                 </CustomLink>
               </li>
             ))}
-            {/* <li key={"dsnj342"}>
+            <li key={"dsnj342"}>
               <CustomLink link={{ url: "/collective" }} locale={router.locale}>
                 <ListItem className="hover:text-white hover:bg-magenta text-purple px-2 py-1">
                   <ListItemText>
@@ -248,7 +248,7 @@ const Navbar = ({ navbar, pageContext }) => {
                   </ListItemText>
                 </ListItem>
               </CustomLink>
-            </li> */}
+            </li>
             <Divider />
             <div className="flex">
               {navbar.button && (
