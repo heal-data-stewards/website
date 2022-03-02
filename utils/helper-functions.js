@@ -17,7 +17,7 @@ export function filterByDate(arr) {
   return newArr;
 }
 
-export function makeEasternTimeWithDaylightSavings(GMT) {
+export function makeEasternTime(GMT) {
   switch (GMT) {
     case "11:00:00 AM":
       return "6:00 AM";
@@ -70,7 +70,7 @@ export function makeEasternTimeWithDaylightSavings(GMT) {
   }
 }
 
-export function makeEasternTime(GMT) {
+export function makeEasternTimeWithDaylightSavings(GMT) {
   switch (GMT) {
     case "11:00:00 AM":
       return "7:00 AM";
