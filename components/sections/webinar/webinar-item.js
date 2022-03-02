@@ -4,30 +4,34 @@ import Typography from "@mui/material/Typography"
 import Link from "next/link"
 import Image from "next/image"
 import Markdown from "react-markdown"
-import { makeEasternTime } from "utils/helper-functions"
+import {
+  makeEasternTime,
+  checkDaylightSavings,
+  makeEasternTimeWithDaylightSavings,
+} from "utils/helper-functions"
+import { renderImage } from "utils/helper-functions"
 
-export default function WebinarItem({ data }) {
-  // const dateTime = new Date(Date.parse(data.time))
-  let date = new Date(Date.parse(data.start.dateTime))
-  let endDate = new Date(Date.parse(data.end.dateTime))
+export default function WebinarItem({ event }) {
+  let date = new Date(Date.parse(event.start.dateTime))
+  let endDate = new Date(Date.parse(event.end.dateTime))
   let sTime = date.toLocaleTimeString()
   let eTime = endDate.toLocaleTimeString()
-  let startTime = makeEasternTime(sTime)
-  let endTime = makeEasternTime(eTime)
-
-  // const result = data.abstract.substring(100, 320)
+  let startTime = checkDaylightSavings(date)
+    ? makeEasternTimeWithDaylightSavings(sTime)
+    : makeEasternTime(sTime)
+  let endTime = checkDaylightSavings(endDate)
+    ? makeEasternTimeWithDaylightSavings(eTime)
+    : makeEasternTime(eTime)
 
   return (
-    <div className="basic-card-container container">
+    <div className="basic-card-container">
       <div className="basic-card-content">
         <div className="event-img">
           <Image
             alt="Webinar"
             width={275}
             height={275}
-            src={
-              "https://heal-community-portal-api.s3.amazonaws.com/HEAL_Website_Page_Design_V2_19_2c8b626d66.png"
-            }
+            src={renderImage(event.categories[0])}
           />
         </div>
         <div className="card-blurb">
@@ -37,7 +41,7 @@ export default function WebinarItem({ data }) {
             gutterBottom
           >
             {`${date.toDateString()} ${startTime} - ${endTime} ${
-              data.originalEndTimeZone
+              event.originalEndTimeZone
             }`}
           </Typography>
           <Typography
@@ -53,14 +57,11 @@ export default function WebinarItem({ data }) {
               },
             }}
           >
-            <Link href={data.RegistrationLink}>{data.title}</Link>
+            <Link href={`/events/${event.id}`}>{event.subject}</Link>
           </Typography>
-          <Typography sx={{ mb: 1.5 }} color="">
-            Webinar, Online
-          </Typography>
-          <div>
-            <Markdown>{data.abstract + " ..."}</Markdown>
-          </div>
+          <Typography sx={{ mb: 1.5 }}>{event.location.displayName}</Typography>
+          <Markdown>{event.bodyPreview + " ..."}</Markdown>
+          {/* <Markdown>{event.bodyPreview.substring(52, 350) + " ..."}</Markdown> */}
         </div>
       </div>
       <div
@@ -72,8 +73,7 @@ export default function WebinarItem({ data }) {
         }}
       >
         <Button variant="contained" size="small">
-          {/* <Link href={`/events/${event.id}`}>Read More</Link> */}
-          <Link href={data.RegistrationLink}>Register Here</Link>
+          <Link href={`/events/${event.id}`}>Read More</Link>
         </Button>
       </div>
     </div>
