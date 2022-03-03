@@ -20,51 +20,51 @@ export function filterByDate(arr) {
 export function makeEasternTime(GMT) {
   switch (GMT) {
     case "11:00:00 AM":
-      return "7:00 AM";
+      return "6:00 AM";
     case "11:30:00 AM":
-      return "7:30 AM";
+      return "6:30 AM";
     case "12:00:00 PM":
-      return "8:00 AM";
+      return "7:00 AM";
     case "12:30:00 PM":
-      return "8:30 AM";
+      return "7:30 AM";
     case "1:00:00 PM":
-      return "9:00 AM";
+      return "8:00 AM";
     case "1:30:00 PM":
-      return "9:30 AM";
+      return "8:30 AM";
     case "2:00:00 PM":
-      return "10:00 AM";
+      return "9:00 AM";
     case "2:30:00 PM":
-      return "10:30 AM";
+      return "9:30 AM";
     case "3:00:00 PM":
-      return "11:00 AM";
+      return "10:00 AM";
     case "3:30:00 PM":
-      return "11:30 AM";
+      return "10:30 AM";
     case "4:00:00 PM":
-      return "12:00 AM";
+      return "11:00 AM";
     case "4:30:00 PM":
-      return "12:30 AM";
+      return "11:30 AM";
     case "5:00:00 PM":
-      return "1:00 PM";
+      return "12:00 PM";
     case "5:30:00 PM":
-      return "1:30 PM";
+      return "12:30 PM";
     case "6:00:00 PM":
-      return "2:00 PM";
+      return "1:00 PM";
     case "6:30:00 PM":
-      return "2:30 PM";
+      return "1:30 PM";
     case "7:00:00 PM":
+      return "2:00 PM";
+    case "8:30:400 PM":
+      return "2:30 PM";
+    case "8:00:00 PM":
       return "3:00 PM";
     case "8:30:400 PM":
       return "3:30 PM";
-    case "8:00:00 PM":
-      return "4:00 PM";
-    case "8:30:400 PM":
-      return "4:30 PM";
     case "9:00:00 PM":
-      return "5:00 PM";
+      return "4:00 PM";
     case "9:30:00 PM":
-      return "5:30 PM";
+      return "4:30 PM";
     case "10:00:00 PM":
-      return "6:00 PM";
+      return "5:00 PM";
     default:
       return " ";
   }
