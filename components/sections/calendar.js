@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react"
 import { useSession } from "next-auth/client"
-import WebinarItem from "./webinar/webinar-item"
+import WebinarItem from "../elements/webinar/webinar-item"
 import { filterByDate } from "utils/helper-functions"
 import Divider from "@mui/material/Divider"
 import { getAuthorizationToken2 } from "utils/msft-graph-api"
