@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react"
 import { useSession, getSession } from "next-auth/client"
 import DataTable from "../elements/data-table"
+import Router from "next/router"
 
 export default function Directory() {
   const [session, loading] = useSession()
@@ -9,6 +10,8 @@ export default function Directory() {
   useEffect(() => {
     if (session) {
       setLoggedIn(true)
+    } else {
+      Router.push("/account")
     }
   }, [session])
 
@@ -17,8 +20,6 @@ export default function Directory() {
       {loggedIn && <DataTable />}
       {!loggedIn && (
         <div className="container">
-          <br></br>
-          <br></br>
           <p>Access Denied</p>
           <p>Please Log In</p>
         </div>
