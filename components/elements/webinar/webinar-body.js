@@ -10,37 +10,36 @@ export default function WebinarBody(props) {
   const [session, loading] = useSession()
   const [loggedIn, setLoggedIn] = useState(false)
 
-  // useEffect(() => {
-  //   console.log("useeffect")
-  //   if (session) {
-  //     setLoggedIn(true)
-  //     // eventData contains every event in the HEAL calendar, logged in users see every event
-  //     async function fetchMyAPI() {
-  //       let eventData2 = await getAuthorizationToken2(props.token)
-  //       let sortedEvents = filterByDate(eventData2)
-  //       setEvents(sortedEvents)
-  //     }
-  //     fetchMyAPI()
-  //   } else {
-  //     // Events created in the HEAL Calendar with out a category label are collected in filteredEvents
-  //     // These are the events avaiable to the public
-  //     async function fetchMyAPI() {
-  //       let eventData2 = await getAuthorizationToken2(props.token)
-  //       const publicEvents = eventData2.filter((event) => {
-  //         if (
-  //           event.categories.length === 0 ||
-  //           event.categories[0] === "Purple category"
-  //         ) {
-  //           return event
-  //         }
-  //       })
-  //       console.log(publicEvents)
-  //       let sortedEvents = filterByDate(publicEvents)
-  //       setEvents(sortedEvents)
-  //     }
-  //     fetchMyAPI()
-  //   }
-  // }, [session, props.token])
+  useEffect(() => {
+    // console.log("useeffect")
+    if (session) {
+      setLoggedIn(true)
+      // eventData contains every event in the HEAL calendar, logged in users see every event
+      async function fetchMyAPI() {
+        let eventData2 = await getAuthorizationToken2(props.token)
+        let sortedEvents = filterByDate(eventData2)
+        setEvents(sortedEvents)
+      }
+      fetchMyAPI()
+    } else {
+      // Events created in the HEAL Calendar with out a category label are collected in filteredEvents
+      // These are the events avaiable to the public
+      async function fetchMyAPI() {
+        let eventData2 = await getAuthorizationToken2(props.token)
+        const publicEvents = eventData2.filter((event) => {
+          if (
+            event.categories.length === 0 ||
+            event.categories[0] === "Purple category"
+          ) {
+            return event
+          }
+        })
+        let sortedEvents = filterByDate(publicEvents)
+        setEvents(sortedEvents)
+      }
+      fetchMyAPI()
+    }
+  }, [session, props.token])
 
   return (
     <div className="container">
