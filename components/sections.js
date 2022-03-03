@@ -20,8 +20,7 @@ import ResourceBlocks from "./sections/resource-blocks"
 import FAIRiswheel from "./sections/resources/FAIRiswheel"
 import ConsortiumBlocks from "./sections/consortium-block"
 import WorkingGroupTable from "./sections/table"
-import WebinarItem from "./sections/webinar/webinar-item"
-import WebinarBody from "./sections/webinar/webinar-body"
+import WebinarBody from "./elements/webinar/webinar-body"
 import Faqs from "@/components/sections/faqs"
 import ResourceCards from "./sections/resources/resource-cards"
 import NewPasswordResetForm from "./elements/form/password-reset"
@@ -50,7 +49,6 @@ const sectionComponents = {
   "sections.fairiswheel": FAIRiswheel,
   "sections.consortium": ConsortiumBlocks,
   "sections.members": WorkingGroupTable,
-  "sections.webinar-item": WebinarItem,
   "sections.webinarbody": WebinarBody,
   "sections.faqs": Faqs,
   "sections.resource-cards": ResourceCards,

@@ -4,16 +4,24 @@ import Typography from "@mui/material/Typography"
 import Link from "next/link"
 import Image from "next/image"
 import Markdown from "react-markdown"
-import { makeEasternTime } from "utils/helper-functions"
+import {
+  makeEasternTime,
+  checkDaylightSavings,
+  makeEasternTimeWithDaylightSavings,
+} from "utils/helper-functions"
 import { renderImage } from "utils/helper-functions"
 
-export default function BasicCard({ event }) {
+export default function WebinarItem({ event }) {
   let date = new Date(Date.parse(event.start.dateTime))
   let endDate = new Date(Date.parse(event.end.dateTime))
   let sTime = date.toLocaleTimeString()
   let eTime = endDate.toLocaleTimeString()
-  let startTime = makeEasternTime(sTime)
-  let endTime = makeEasternTime(eTime)
+  let startTime = checkDaylightSavings(date)
+    ? makeEasternTimeWithDaylightSavings(sTime)
+    : makeEasternTime(sTime)
+  let endTime = checkDaylightSavings(endDate)
+    ? makeEasternTimeWithDaylightSavings(eTime)
+    : makeEasternTime(eTime)
 
   return (
     <div className="basic-card-container">
@@ -52,7 +60,8 @@ export default function BasicCard({ event }) {
             <Link href={`/events/${event.id}`}>{event.subject}</Link>
           </Typography>
           <Typography sx={{ mb: 1.5 }}>{event.location.displayName}</Typography>
-          <Markdown>{event.bodyPreview.substring(52, 250) + " ..."}</Markdown>
+          <Markdown>{event.bodyPreview + " ..."}</Markdown>
+          {/* <Markdown>{event.bodyPreview.substring(52, 350) + " ..."}</Markdown> */}
         </div>
       </div>
       <div
