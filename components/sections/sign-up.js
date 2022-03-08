@@ -2,16 +2,17 @@ import React from "react"
 import { makeStyles } from "@material-ui/core/styles"
 import Paper from "@material-ui/core/Paper"
 import Grid from "@material-ui/core/Grid"
-import CreateAccountForm from "../elements/form/account-create"
+import CreateAccountForm from "../elements/form/create-account-form"
 
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
   },
   paper: {
-    padding: theme.spacing(2),
     textAlign: "center",
     color: theme.palette.text.secondary,
+    backgroundColor: "#fcf8fa",
+    width: "100%",
   },
 }))
 
@@ -31,14 +32,16 @@ export default function SignUp({ data }) {
       // }}
       >
         <Grid container spacing={0} className="container">
-          <Grid item xs={12} md={3}></Grid>
-          <Grid item xs={12} md={9}>
-            <Paper className={classes.paper} elevation={0} square>
-              <CreateAccountForm />
-            </Paper>
-          </Grid>
+          {/* <Grid item xs={3} md={3}></Grid> */}
+          {/* <Grid item xs={12} md={12}> */}
+          <Paper className={classes.paper} elevation={0} square>
+            <CreateAccountForm />
+          </Paper>
+          {/* </Grid> */}
         </Grid>
       </div>
+      <br></br>
+      <br></br>
     </div>
   )
 }

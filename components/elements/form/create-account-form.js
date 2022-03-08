@@ -23,7 +23,6 @@ const CreateAccountForm = () => {
     <div
       className="text-center"
       style={{
-        maxWidth: "600px",
         margin: "0 auto",
       }}
     >
@@ -70,10 +69,10 @@ const CreateAccountForm = () => {
           }}
         >
           {({ errors, touched, isSubmitting, status, values }) => (
-            <div>
+            <div style={{ width: "100%" }}>
               <Form className="flex flex-wrap flex-col md:flex-row gap-4">
                 <Field
-                  className="text-base focus:outline-none py-4 md:py-0 px-4 border-2 rounded-md"
+                  className="text-base focus:outline-none py-4 md:py-0 px-4 border-2 border-purple rounded-md bg-white"
                   type="text"
                   name="firstname"
                   label={"First Name"}
@@ -84,7 +83,7 @@ const CreateAccountForm = () => {
                   fullWidth
                 />
                 <Field
-                  className="text-base focus:outline-none py-4 md:py-0 px-4 border-2 rounded-md"
+                  className="text-base focus:outline-none py-4 md:py-0 px-4 border-2 bg-white rounded-md"
                   type="text"
                   name="lastname"
                   label={"Last Name"}
@@ -95,7 +94,7 @@ const CreateAccountForm = () => {
                   fullWidth
                 />
                 <Field
-                  className="text-base focus:outline-none py-4 md:py-0 px-4 border-2 rounded-md"
+                  className="text-base focus:outline-none py-4 md:py-0 px-4 border-2 bg-white rounded-md"
                   type="text"
                   name="email"
                   label={"Email"}
@@ -111,7 +110,7 @@ const CreateAccountForm = () => {
                   </>
                 )}
                 <Field
-                  className="text-base focus:outline-none py-4 md:py-0 px-4 border-2 rounded-md"
+                  className="text-base focus:outline-none py-4 md:py-0 px-4 border-2 bg-white rounded-md"
                   id="password"
                   name="password"
                   label="Password"
@@ -123,7 +122,7 @@ const CreateAccountForm = () => {
                   fullWidth
                 />
                 <Field
-                  className="text-base focus:outline-none py-4 md:py-0 px-4 border-2 rounded-md"
+                  className="text-base focus:outline-none py-4 md:py-0 px-4 border-2 bg-white rounded-md"
                   type="text"
                   name="organization"
                   label="Organization"
@@ -146,7 +145,8 @@ const CreateAccountForm = () => {
                   // placeholder={"What is your role in the HEAL Initiative?"}
                   required
                   fullWidth
-                  style={{ width: "100%" }}
+                  style={{ width: "100%", background: "#fff" }}
+                  variant="outlined"
                 >
                   <option
                     value="Working on a HEAL-funded program"
@@ -210,6 +210,7 @@ const CreateAccountForm = () => {
                   button={{ text: "Sign Up" }}
                   disabled={isSubmitting}
                   loading={loadingWheel}
+                  height={"40px"}
                 />{" "}
                 {errors.api && (
                   <>

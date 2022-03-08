@@ -34,6 +34,7 @@ const DynamicPage = ({
   if (
     pageContext.slug === "resources" ||
     pageContext.slug === "account" ||
+    pageContext.slug === "sign-up" ||
     pageContext.slug === "directory" ||
     pageContext.slug === "glossary"
   ) {
