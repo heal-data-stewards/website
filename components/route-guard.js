@@ -41,7 +41,6 @@ function RouteGuard({ children }) {
       "/faqs",
       "/glossary",
       "/webinar",
-      "/collective",
     ]
     const path = url.split("?")[0]
 
