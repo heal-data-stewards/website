@@ -8,6 +8,7 @@ import { getGlobalData } from "utils/api"
 import { Provider } from "next-auth/client"
 import { useEffect } from "react"
 import "@/styles/index.css"
+import { RouteGuard } from "@/components/route-guard"
 
 const MyApp = ({ Component, pageProps }) => {
   const router = useRouter()
@@ -56,7 +57,9 @@ const MyApp = ({ Component, pageProps }) => {
         }}
       />
       {/* Display the content */}
-      <Component {...pageProps} />
+      <RouteGuard>
+        <Component {...pageProps} />
+      </RouteGuard>
     </Provider>
   )
 }

@@ -133,6 +133,7 @@ const Navbar = ({ navbar, pageContext }) => {
   }, [session, navbar.links, loggedIn])
   const router = useRouter()
   const handleLogOut = () => {
+    localStorage.setItem("loggedIn", false)
     signOut({ redirect: false })
   }
 

@@ -47,6 +47,7 @@ const LoginForm = ({ setLoggedIn }) => {
                 resetForm()
                 setError(true)
               } else {
+                localStorage.setItem("loggedIn", true)
                 setError(false)
               }
             })
