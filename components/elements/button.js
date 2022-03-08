@@ -90,6 +90,7 @@ export const Btn2 = ({
   loading = false,
   type,
   href,
+  height = "inherit",
 }) => {
   return (
     <ThemeProvider theme={theme}>
@@ -99,6 +100,7 @@ export const Btn2 = ({
         type={type}
         variant="contained"
         color="primary"
+        style={{ height: height }}
       >
         {/* <div
         className={classNames(
