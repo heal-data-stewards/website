@@ -4,6 +4,7 @@ import Paper from "@material-ui/core/Paper"
 import Grid from "@material-ui/core/Grid"
 import LoginForm from "../elements/form/login"
 import NewPasswordForm from "../elements/form/password-recovery"
+import Link from "next/link"
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -30,7 +31,11 @@ export default function LoginSection(props) {
             <Paper className={classes.paper} elevation={0} square>
               <div style={{ textAlign: "right", margin: "20px 0 20px 0" }}>
                 <span>Need an account? </span>{" "}
-                <span style={{ color: "#532565" }}>{props.children}</span>
+                <span style={{ color: "#532565" }}>
+                  <Link style={{ color: "#0044b3" }} href="/sign-up">
+                    Sign Up
+                  </Link>
+                </span>
               </div>
               <br></br>
               <div

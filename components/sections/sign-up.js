@@ -22,30 +22,18 @@ export default function SignUp({ data }) {
     <div className={classes.root}>
       <div
       // style={{
-      //   backgroundImage: "url(" + "/dna.png" + ")",
-      //   backgroundRepeat: "no-repeat",
-      //   backgroundSize: "contain",
-      //   backgroundPosition: "left",
-      //   minHeight: "500px",
+      // backgroundImage: "url(" + "/dna.png" + ")",
+      // backgroundRepeat: "no-repeat",
+      // backgroundSize: "contain",
+      // backgroundPosition: "left",
+      // minHeight: "500px",
+
       // }}
       >
         <Grid container spacing={0} className="container">
           <Grid item xs={12} md={3}></Grid>
           <Grid item xs={12} md={9}>
             <Paper className={classes.paper} elevation={0} square>
-              {/* <div style={{ textAlign: "right", margin: "20px 0 20px 0" }}>
-                <span>Already have an account? </span> {props.children}
-              </div> */}
-              <br></br>
-              <div
-                style={{
-                  textAlign: "left",
-                  maxWidth: "600px",
-                  margin: "0 auto",
-                }}
-              >
-                <h1 className="text-3xl mb-10 font-bold mb-2">SIGN UP</h1>
-              </div>
               <CreateAccountForm />
             </Paper>
           </Grid>

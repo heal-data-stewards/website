@@ -21,7 +21,7 @@ const CreateAccountForm = () => {
 
   return (
     <div
-      className="py-10 text-center"
+      className="text-center"
       style={{
         maxWidth: "600px",
         margin: "0 auto",

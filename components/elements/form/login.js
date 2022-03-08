@@ -50,7 +50,6 @@ const LoginForm = ({ setLoggedIn }) => {
                 setError(true)
               } else {
                 localStorage.setItem("loggedIn", true)
-                setError(false)
                 router.back()
               }
             })

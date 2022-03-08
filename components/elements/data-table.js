@@ -27,7 +27,7 @@ const columns = [
     width: 150,
   },
   {
-    field: "userrole",
+    field: "role",
     headerName: "Role",
     width: 150,
   },
@@ -48,17 +48,19 @@ function createData(
   lastname,
   email,
   org,
-  userrole,
+  RoleInHeal,
   programarea,
   roleInProgramArea
 ) {
+  let role = RoleInHeal ? RoleInHeal.split("_").join(" ") : "N/A"
+
   return {
     id,
     firstname,
     lastname,
     email,
     org,
-    userrole,
+    role,
     programarea,
     roleInProgramArea,
   }
@@ -72,6 +74,7 @@ export default function DataTable() {
     getAllUsers()
       .then(function (result) {
         const users = result.filter((user) => user.confirmed === true)
+
         return users.map((user) => {
           return createData(
             user.id,
@@ -79,7 +82,7 @@ export default function DataTable() {
             user.lastname,
             user.email,
             user.organization,
-            user.userrole,
+            user.RoleInHeal,
             user.programarea,
             user.roleInProgramArea
           )
