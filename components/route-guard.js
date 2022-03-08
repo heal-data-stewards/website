@@ -28,6 +28,9 @@ function RouteGuard({ children }) {
   }, [])
 
   function authCheck(url) {
+    window.gtag("config", process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS, {
+      page_path: url,
+    })
     // redirect to account page if accessing a private page and not logged in
     const publicPaths = [
       "/account",
