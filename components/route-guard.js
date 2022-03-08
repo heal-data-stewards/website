@@ -45,6 +45,7 @@ function RouteGuard({ children }) {
     const path = url.split("?")[0]
 
     const rememberMe = localStorage.getItem("loggedIn") === "true"
+    // console.log(router.back())
 
     if (
       !publicPaths.includes(path) &&
