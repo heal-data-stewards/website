@@ -4,10 +4,12 @@ import { Btn2 } from "../button"
 import React, { useState } from "react"
 import { TextField } from "formik-material-ui"
 import { signIn, useSession } from "next-auth/client"
+import { useRouter } from "next/router"
 
 const LoginForm = ({ setLoggedIn }) => {
   const [session, loading] = useSession()
   const [errorNotice, setError] = useState(false)
+  const router = useRouter()
 
   const RegistrationSchema = yup.object().shape({
     email: yup.string().required(),
@@ -49,9 +51,9 @@ const LoginForm = ({ setLoggedIn }) => {
               } else {
                 localStorage.setItem("loggedIn", true)
                 setError(false)
+                router.back()
               }
             })
-            // setLoggedIn(true)
           }}
         >
           {({ errors, touched, isSubmitting }) => (
