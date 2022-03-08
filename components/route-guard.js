@@ -1,13 +1,12 @@
 import { useState, useEffect } from "react"
 import { useRouter } from "next/router"
-import { useSession, getSession } from "next-auth/client"
+import { getSession } from "next-auth/client"
 
 export { RouteGuard }
 
 function RouteGuard({ children }) {
   const router = useRouter()
   const [authorized, setAuthorized] = useState(false)
-  const [session, loading] = useSession()
 
   useEffect(() => {
     // on initial load - run auth check
@@ -41,6 +40,7 @@ function RouteGuard({ children }) {
       "/glossary",
       "/webinar",
       "/collective",
+      "/events",
     ]
     const path = url.split("?")[0]
 
