@@ -5,9 +5,6 @@ import Grid from "@material-ui/core/Grid"
 import CreateAccountForm from "../elements/form/create-account-form"
 
 const useStyles = makeStyles((theme) => ({
-  root: {
-    flexGrow: 1,
-  },
   paper: {
     textAlign: "center",
     color: theme.palette.text.secondary,
@@ -20,29 +17,15 @@ export default function SignUp({ data }) {
   const classes = useStyles()
 
   return (
-    <div className={classes.root}>
-      <div
-      // style={{
-      // backgroundImage: "url(" + "/dna.png" + ")",
-      // backgroundRepeat: "no-repeat",
-      // backgroundSize: "contain",
-      // backgroundPosition: "left",
-      // minHeight: "500px",
-
-      // }}
-      >
-        <Grid container spacing={0} className="container">
-          {/* <Grid item xs={3} md={3}></Grid> */}
-          {/* <Grid item xs={12} md={12}> */}
-          <Paper className={classes.paper} elevation={0} square>
-            <CreateAccountForm />
-          </Paper>
-          {/* </Grid> */}
-        </Grid>
-      </div>
+    <>
+      <Grid container spacing={0} className="container">
+        <Paper className={classes.paper} elevation={0} square>
+          <CreateAccountForm />
+        </Paper>
+      </Grid>
       <br></br>
       <br></br>
-    </div>
+    </>
   )
 }
 
