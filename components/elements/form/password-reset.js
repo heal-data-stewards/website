@@ -4,8 +4,10 @@ import { Btn2 } from "../button"
 import React, { useState } from "react"
 import { TextField } from "formik-material-ui"
 import { passwordReset } from "utils/api"
+import { useRouter } from "next/router"
 
 const NewPasswordResetForm = () => {
+  const router = useRouter()
   const [errorNotice, setError] = useState(false)
   const [errorNoticePw, setErrorPw] = useState(false)
   const [successNotice, setSuccess] = useState(false)
@@ -13,7 +15,6 @@ const NewPasswordResetForm = () => {
   const RegistrationSchema = yup.object().shape({
     pw: yup.string().required(),
     pwconfirm: yup.string().required(),
-    code: yup.string().required(),
   })
 
   return (
@@ -29,11 +30,11 @@ const NewPasswordResetForm = () => {
           initialValues={{
             pw: "",
             pwconfirm: "",
-            code: "",
+            code: router.asPath.split("=")[1],
           }}
           validationSchema={RegistrationSchema}
           onSubmit={(values, { resetForm }) => {
-            const code = values.code
+            const code = router.asPath.split("=")[1]
             const pw = values.pw
             const pwconfirm = values.pwconfirm
             passwordReset(code, pw, pwconfirm).then((res) => {
@@ -59,17 +60,6 @@ const NewPasswordResetForm = () => {
           {({ errors, touched, isSubmitting }) => (
             <div>
               <Form className="flex flex-wrap flex-col md:flex-row gap-4">
-                <Field
-                  className="text-base focus:outline-none py-4 md:py-0 px-4 border-2 rounded-md"
-                  type="text"
-                  name="code"
-                  placeholder={"Token"}
-                  component={TextField}
-                  label="Token"
-                  variant="outlined"
-                  fullWidth
-                  style={{ background: "white" }}
-                />
                 <Field
                   className="text-base focus:outline-none py-4 md:py-0 px-4 border-2 rounded-md"
                   type="password"
