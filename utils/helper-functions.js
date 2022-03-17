@@ -1,9 +1,9 @@
 export function renderImage(category) {
   switch (category) {
     case "Purple category":
-      return "https://heal-community-portal-api.s3.amazonaws.com/HEAL_Website_Page_Design_V2_19_2c8b626d66.png";
+      return "https://heal-community-portal-api.s3.amazonaws.com/webinar_img_8b5d53f130.png";
     default:
-      return "https://heal-community-portal-api.s3.amazonaws.com/HEAL_Website_Page_Design_V2_17_54b02678c9.png";
+      return "https://heal-community-portal-api.s3.amazonaws.com/webinar_img_8b5d53f130.png";
   }
 }
 

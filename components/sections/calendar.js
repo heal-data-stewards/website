@@ -47,7 +47,13 @@ export default function Calendar(props) {
         {events.length !== 0 &&
           events.map((event, i) => {
             if (new Date(event.start.dateTime) >= new Date()) {
-              return <WebinarItem key={event.subject + i} event={event} />
+              return (
+                <WebinarItem
+                  key={event.subject + i}
+                  event={event}
+                  past={false}
+                />
+              )
             }
           })}
       </section>
@@ -59,7 +65,13 @@ export default function Calendar(props) {
         {events.length !== 0 &&
           events.map((event, i) => {
             if (new Date(event.start.dateTime) <= new Date()) {
-              return <WebinarItem key={event.subject + i} event={event} />
+              return (
+                <WebinarItem
+                  key={event.subject + i}
+                  event={event}
+                  past={true}
+                />
+              )
             }
           })}
       </section>
