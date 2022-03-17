@@ -49,7 +49,7 @@ export default function WebinarBody(props) {
           Upcoming Events
         </h1>
         <Divider />
-        <p className="text-xl text-gray pt-4">
+        <p className="text-xl text-gray-dark pt-4">
           See the list below of events supported by the HEAL Stewards.
         </p>
         <br></br>
@@ -57,7 +57,13 @@ export default function WebinarBody(props) {
         {events.length !== 0 &&
           events.map((event, i) => {
             if (new Date(event.start.dateTime) >= new Date()) {
-              return <WebinarItem key={event.subject + i} event={event} />
+              return (
+                <WebinarItem
+                  key={event.subject + i}
+                  event={event}
+                  past={false}
+                />
+              )
             }
           })}
       </section>
@@ -69,7 +75,13 @@ export default function WebinarBody(props) {
         {events.length !== 0 &&
           events.map((event, i) => {
             if (new Date(event.start.dateTime) <= new Date()) {
-              return <WebinarItem key={event.subject + i} event={event} />
+              return (
+                <WebinarItem
+                  key={event.subject + i}
+                  event={event}
+                  past={true}
+                />
+              )
             }
           })}
       </section>
