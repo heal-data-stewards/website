@@ -237,6 +237,11 @@ content: ""
   width: calc(50% - 10px) !important;
 }
 
+/* .webinar-markdown p {
+  max-height: 100px;
+  overflow: hidden;
+} */
+
 @media screen and (max-width: 755px){
   .event-img {
     position:relative;

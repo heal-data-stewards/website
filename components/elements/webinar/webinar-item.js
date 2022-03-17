@@ -70,8 +70,8 @@ export default function WebinarItem({ event, past }) {
               <BlueLink target="_blank">{event.location.displayName}</BlueLink>
             </Link>
           </Typography>
-          {/* <Markdown>{event.bodyPreview + " ..."}</Markdown> */}
-          <Markdown>{event.bodyPreview.substring(0, 130) + " ..."}</Markdown>
+          {/* <Markdown className="webinar-markdown">{event.bodyPreview + " ..."}</Markdown> */}
+          <Markdown>{event.bodyPreview.substring(0, 150) + " ..."}</Markdown>
         </div>
       </div>
       <div

@@ -73,7 +73,12 @@ export default function BasicTable({ data }) {
                   <a href={row.link}>{row.description}</a>
                   <br></br>
                   <br></br>
-                  <a href={row.link} style={{ color: "#0044B3" }}>
+                  <a
+                    href={row.link}
+                    style={{ color: "#0044B3" }}
+                    target={"_blank"}
+                    rel="noreferrer"
+                  >
                     Read More...
                   </a>
                 </TableCell>

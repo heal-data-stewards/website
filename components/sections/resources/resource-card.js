@@ -14,7 +14,7 @@ export default function ResourceCard({ data }) {
           {data.title}
         </Typography>
         <div style={{ "margin-left": "auto" }}>
-          <Button size="small" color="primary" href={data.link}>
+          <Button size="small" color="primary" href={data.link} target="_blank">
             {/* {data.title}{" "} */}
             <DoubleArrowIcon
               style={{ fontSize: "small", marginBottom: "3px" }}
@@ -22,7 +22,7 @@ export default function ResourceCard({ data }) {
           </Button>
         </div>
       </CardActions>
-      <CardActionArea href={data.link}>
+      <CardActionArea href={data.link} target="_blank">
         <CardMedia
           component="img"
           image={data.img.url}
