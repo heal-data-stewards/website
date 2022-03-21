@@ -3,7 +3,7 @@ import { useSession } from "next-auth/client"
 import WebinarItem from "../elements/webinar/webinar-item"
 import { filterByDate } from "utils/helper-functions"
 import Divider from "@mui/material/Divider"
-import { getAuthorizationToken2 } from "utils/msft-graph-api"
+import { fetchEvents } from "utils/msft-graph-api"
 
 export default function Calendar(props) {
   const [events, setEvents] = useState(filterByDate(props.eventData))
@@ -15,7 +15,7 @@ export default function Calendar(props) {
       setLoggedIn(true)
       // eventData contains every event in the HEAL calendar, logged in users see every event
       async function fetchMyAPI() {
-        let eventData2 = await getAuthorizationToken2(props.token)
+        let eventData2 = await fetchEvents(props.token)
         let sortedEvents = filterByDate(eventData2)
         setEvents(sortedEvents)
       }
@@ -24,7 +24,7 @@ export default function Calendar(props) {
       // Events created in the HEAL Calendar with out a category label are collected in filteredEvents
       // These are the events avaiable to the public
       async function fetchMyAPI() {
-        let eventData2 = await getAuthorizationToken2(props.token)
+        let eventData2 = await fetchEvents(props.token)
         const publicEvents = eventData2.filter((event) => {
           if (
             event.categories.length === 0 ||
