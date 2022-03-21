@@ -20,7 +20,7 @@ export function getEvents(token) {
   });
 }
 
-export function getEvent(token,id) {
+export function getEvent(token, id) {
   return new Promise((resolve, reject) => {
     axios
       .get(
@@ -51,7 +51,7 @@ export async function getAuthorizationToken(id) {
   params.append("scope", process.env.SCOPE);
   params.append("client_secret", process.env.CLIENT_SECRET);
   params.append("grant_type", process.env.GRANT_TYPE);
-  
+
   const token = await axios
     .post(
       `https://login.microsoftonline.com/58b3d54f-16c9-42d3-af08-1fcabd095666/oauth2/v2.0/token`,
@@ -59,50 +59,22 @@ export async function getAuthorizationToken(id) {
       headers
     )
     .then((res) => {
-      // console.log(res)
       return res.data.access_token;
     })
     .catch((error) => {
-      // console.log("res1 ERROR")
       return error;
     });
 
-    if (id === undefined) {
-      event = await getEvents(token);
-    } else {
-      event = await getEvent(token, id);
-    }
-    event.token = token
+  if (id === undefined) {
+    event = await getEvents(token);
+  } else {
+    event = await getEvent(token, id);
+  }
+  event.token = token;
   return event;
 }
 
-export async function getAuthorizationToken2(id) {
-  const params = new URLSearchParams();
-  const headers = {
-    "Content-Type": "application/x-www-form-urlencoded",
-  };
-  let event = "";
-  params.append("client_id", process.env.CLIENT_ID);
-  params.append("scope", process.env.SCOPE);
-  params.append("client_secret", process.env.CLIENT_SECRET);
-  params.append("grant_type", process.env.GRANT_TYPE);
-  
-  const token = await axios
-    .post(
-      `https://login.microsoftonline.com/58b3d54f-16c9-42d3-af08-1fcabd095666/oauth2/v2.0/token`,
-      params,
-      headers
-    )
-    .then((res) => {
-      // console.log(res)
-      return res.data.access_token;
-    })
-    .catch((error) => {
-      // console.log("res1 ERROR")
-      return error;
-    });
-
-    
-      event = await getEvents(id);
+export async function fetchEvents(token) {
+  let event = await getEvents(token);
   return event;
 }
