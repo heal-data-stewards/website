@@ -25,6 +25,7 @@ import Faqs from "@/components/sections/faqs"
 import ResourceCards from "./sections/resources/resource-cards"
 import NewPasswordResetForm from "./elements/form/password-reset"
 import Boardlist from "./sections/collective-board/board-list"
+import MetaDataBlocks from "./sections/metadata/metadata-blocks"
 
 // Map Strapi sections to section components
 const sectionComponents = {
@@ -54,6 +55,7 @@ const sectionComponents = {
   "sections.resource-cards": ResourceCards,
   "sections.password-reset": NewPasswordResetForm,
   "sections.public-collective": Boardlist,
+  "sections.meta-data-content": MetaDataBlocks,
 }
 
 // Display a section individually
