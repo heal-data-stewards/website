@@ -29,7 +29,7 @@ export default function MetaDataBlocks({ data }) {
         alt="FAIR Spectrum Logo"
       />
       <div
-        style={{ backgroundImage: `url(/arrow.svg)` }}
+        style={{ backgroundImage: `url(/ARROW.svg)` }}
         className="bg-no-repeat bg-center"
       >
         <div className="grid">
