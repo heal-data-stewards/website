@@ -35,26 +35,26 @@ export default function MetaDataBlocks({ data }) {
         <div className="grid">
           <div
             onMouseEnter={(e) => onHover(e)}
-            className="row-start-1 row-end-3 col-start-1 col-end-2 w-3/4"
+            className="row-start-1 row-end-3 col-start-1 col-end-2 w-3/4 lg:mt-10"
           >
             <Image
-              width={"300px"}
-              height={"300px"}
+              width={"230px"}
+              height={"230px"}
               id="item-0"
-              src={"/fair1.svg"}
+              src={"/HEAL_WebsiteDesign_Spectrum_Study_V1.svg"}
               className="cursor-pointer"
               alt="study image"
             />
           </div>
           <div
             onMouseEnter={(e) => onHover(e)}
-            className="row-start-1 row-end-3 col-start-2 col-end-3 w-3/4"
+            className="row-start-1 row-end-3 col-start-2 col-end-3 w-3/4 lg:mt-10"
           >
             <Image
-              width={"300px"}
-              height={"300px"}
+              width={"230px"}
+              height={"230px"}
               id="item-1"
-              src={"/fair2.svg"}
+              src={"/HEAL_WebsiteDesign_Spectrum_Variable_V1.svg"}
               className="cursor-pointer"
               alt="variable image"
             />
