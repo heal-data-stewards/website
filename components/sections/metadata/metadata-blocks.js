@@ -4,8 +4,8 @@ import Divider from "@mui/material/Divider"
 
 export default function MetaDataBlocks({ data }) {
   const [shownFairContent, setShownFairContent] = useState(data.content[0])
-  const animate = "scale-100 "
-  const DEFAULT_SIZE = "scale-90 "
+  const animate = "scale-100 saturate-100 "
+  const DEFAULT_SIZE = "scale-90 saturate-50 "
   const [animate1, setAnimate1] = useState(animate)
   const [animate2, setAnimate2] = useState(" ")
   const [animate3, setAnimate3] = useState(" ")

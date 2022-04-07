@@ -11,7 +11,6 @@ export default function WebinarBody(props) {
   const [loggedIn, setLoggedIn] = useState(false)
 
   useEffect(() => {
-    // console.log("useeffect")
     if (session) {
       setLoggedIn(true)
       // eventData contains every event in the HEAL calendar, logged in users see every event
@@ -26,6 +25,7 @@ export default function WebinarBody(props) {
       // These are the events avaiable to the public
       async function fetchMyAPI() {
         let eventData2 = await fetchEvents(props.token)
+        console.log(eventData2)
         const publicEvents = eventData2.filter((event) => {
           if (
             event.categories.length === 0 ||
