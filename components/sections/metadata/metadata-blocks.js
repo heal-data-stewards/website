@@ -1,6 +1,7 @@
 import React, { useState } from "react"
 import Image from "next/image"
 import Divider from "@mui/material/Divider"
+import Markdown from "react-markdown"
 
 export default function MetaDataBlocks({ data }) {
   const [shownFairContent, setShownFairContent] = useState(data.content[0])
@@ -74,8 +75,8 @@ export default function MetaDataBlocks({ data }) {
         <h1 className={"font-bold mb-6 text-5xl " + color}>
           {shownFairContent.title}
         </h1>
-        <p className="mb-6 text-2xl text-gray-dark">
-          {shownFairContent.descriptiveText}
+        <p className="prose-lg pb-12 event-html text-gray-dark text-xl">
+          <Markdown>{shownFairContent.description}</Markdown>
         </p>
         <h4 className="font-bold mb-2 text-3xl">Products:</h4>
         <ul>
@@ -83,9 +84,9 @@ export default function MetaDataBlocks({ data }) {
             return (
               <li
                 key={product.item + i}
-                className="text-2xl list-inside list-disc"
+                className="prose-lg pb-12 event-html text-gray-dark text-xl"
               >
-                {product.item}
+                <Markdown>{product.item}</Markdown>
               </li>
             )
           })}
