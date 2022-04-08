@@ -40,14 +40,14 @@ export default function MetaDataBlocks({ data }) {
     }
   }
   return (
-    <div className="container mb-12 mt-12">
+    <div className="container mb-8 mt-2">
       <div className="flex flex-nowrap flex-row justify-evenly">
         <Image
           onMouseEnter={(e) => onHover(e)}
           height="300px"
           width="300px"
           id="item-0"
-          src={"/HEAL_WebsiteDesign_Spectrum_Study_V1.svg"}
+          src={"/HEAL_WebsiteDesign_Spectrum_Study_V2.svg"}
           className={"cursor-pointer duration-700 " + animate1}
           alt="study image"
         />
@@ -56,7 +56,7 @@ export default function MetaDataBlocks({ data }) {
           height="300px"
           width="300px"
           id="item-1"
-          src={"/HEAL_WebsiteDesign_Spectrum_Variable_V1.svg"}
+          src={"/HEAL_WebsiteDesign_Spectrum_Variable_V2.svg"}
           className={"cursor-pointer duration-700 " + animate2}
           alt="variable image"
         />
