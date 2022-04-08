@@ -12,6 +12,7 @@ export default function MetaDataBlocks({ data }) {
   const [animate3, setAnimate3] = useState(" ")
   const [color, setColor] = useState("text-purple")
 
+  console.log("test")
   function onHover(e) {
     switch (e.target.id) {
       case "item-0":
