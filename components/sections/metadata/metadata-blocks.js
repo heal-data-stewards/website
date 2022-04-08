@@ -78,7 +78,9 @@ export default function MetaDataBlocks({ data }) {
         <div className="prose-lg pb-12 event-html text-gray-dark text-xl">
           <Markdown>{shownFairContent.description}</Markdown>
         </div>
-        <h4 className="font-bold mb-2 text-3xl">Products:</h4>
+        <h4 className={"font-bold mb-2 text-3xl " + color}>
+          {shownFairContent.resource_title}:
+        </h4>
         <ul>
           {shownFairContent.products.map((product, i) => {
             return (
