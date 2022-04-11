@@ -10,8 +10,13 @@ import {
   makeEasternTimeWithDaylightSavings,
 } from "utils/helper-functions"
 import { renderImage } from "utils/helper-functions"
+import styled from "styled-components"
 
-export default function WebinarItem({ event }) {
+const BlueLink = styled.a`
+  color: #0044b3;
+`
+
+export default function WebinarItem({ event, past }) {
   let date = new Date(Date.parse(event.start.dateTime))
   let endDate = new Date(Date.parse(event.end.dateTime))
   let sTime = date.toLocaleTimeString()
@@ -59,9 +64,14 @@ export default function WebinarItem({ event }) {
           >
             <Link href={`/events/${event.id}`}>{event.subject}</Link>
           </Typography>
-          <Typography sx={{ mb: 1.5 }}>{event.location.displayName}</Typography>
-          <Markdown>{event.bodyPreview + " ..."}</Markdown>
-          {/* <Markdown>{event.bodyPreview.substring(52, 350) + " ..."}</Markdown> */}
+          <Typography sx={{ mb: 1.5, fontWeight: "bold", color: "#982568" }}>
+            {past ? "Recording Link:" : "Registration Link"}{" "}
+            <Link href={event.location.displayName} passHref>
+              <BlueLink target="_blank">{event.location.displayName}</BlueLink>
+            </Link>
+          </Typography>
+          {/* <Markdown className="webinar-markdown">{event.bodyPreview + " ..."}</Markdown> */}
+          <Markdown>{event.bodyPreview.substring(0, 150) + " ..."}</Markdown>
         </div>
       </div>
       <div

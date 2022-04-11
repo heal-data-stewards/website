@@ -46,7 +46,7 @@ export default function Glossary({ data }) {
       return newArr
     }
 
-    getStrapiApiPageData("glossary")
+    getStrapiApiPageData("resources/glossary")
       .then((res) => {
         setPageTitle(res.shortName)
         return findTermsSection(

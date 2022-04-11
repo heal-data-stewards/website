@@ -3,7 +3,7 @@ import { useSession } from "next-auth/client"
 import WebinarItem from "./webinar-item"
 import { filterByDate } from "utils/helper-functions"
 import Divider from "@mui/material/Divider"
-import { getAuthorizationToken2 } from "utils/msft-graph-api"
+import { fetchEvents } from "utils/msft-graph-api"
 
 export default function WebinarBody(props) {
   const [events, setEvents] = useState(filterByDate(props.eventData))
@@ -15,7 +15,7 @@ export default function WebinarBody(props) {
       setLoggedIn(true)
       // eventData contains every event in the HEAL calendar, logged in users see every event
       async function fetchMyAPI() {
-        let eventData2 = await getAuthorizationToken2(props.token)
+        let eventData2 = await fetchEvents(props.token)
         let sortedEvents = filterByDate(eventData2)
         setEvents(sortedEvents)
       }
@@ -24,7 +24,8 @@ export default function WebinarBody(props) {
       // Events created in the HEAL Calendar with out a category label are collected in filteredEvents
       // These are the events avaiable to the public
       async function fetchMyAPI() {
-        let eventData2 = await getAuthorizationToken2(props.token)
+        let eventData2 = await fetchEvents(props.token)
+        console.log(eventData2)
         const publicEvents = eventData2.filter((event) => {
           if (
             event.categories.length === 0 ||
@@ -38,7 +39,7 @@ export default function WebinarBody(props) {
       }
       fetchMyAPI()
     }
-  }, [props.token, session])
+  }, [session, props.token])
 
   return (
     <div className="container">
@@ -48,7 +49,7 @@ export default function WebinarBody(props) {
           Upcoming Events
         </h1>
         <Divider />
-        <p className="text-xl text-gray pt-4">
+        <p className="text-xl text-gray-dark pt-4">
           See the list below of events supported by the HEAL Stewards.
         </p>
         <br></br>
@@ -56,7 +57,13 @@ export default function WebinarBody(props) {
         {events.length !== 0 &&
           events.map((event, i) => {
             if (new Date(event.start.dateTime) >= new Date()) {
-              return <WebinarItem key={event.subject + i} event={event} />
+              return (
+                <WebinarItem
+                  key={event.subject + i}
+                  event={event}
+                  past={false}
+                />
+              )
             }
           })}
       </section>
@@ -68,7 +75,13 @@ export default function WebinarBody(props) {
         {events.length !== 0 &&
           events.map((event, i) => {
             if (new Date(event.start.dateTime) <= new Date()) {
-              return <WebinarItem key={event.subject + i} event={event} />
+              return (
+                <WebinarItem
+                  key={event.subject + i}
+                  event={event}
+                  past={true}
+                />
+              )
             }
           })}
       </section>
