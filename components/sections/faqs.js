@@ -72,8 +72,9 @@ export default function Faqs({ data }) {
       return res
     }
 
-    getStrapiApiPageData("faqs")
+    getStrapiApiPageData("resources/faqs")
       .then((res) => {
+        console.log(res)
         return groupByTag(res.contentSections[2].question, "tag")
       })
       .then((res) => {
