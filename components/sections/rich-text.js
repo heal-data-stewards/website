@@ -4,7 +4,7 @@ import Markdown from "react-markdown"
 const RichText = ({ data }) => {
   return (
     <div className="prose-lg container pb-12 event-html text-gray-dark text-xl">
-      <Markdown>{data.content}</Markdown>
+      <Markdown linkTarget="_blank">{data.content}</Markdown>
     </div>
   )
 }
