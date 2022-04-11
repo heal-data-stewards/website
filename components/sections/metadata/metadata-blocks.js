@@ -76,7 +76,9 @@ export default function MetaDataBlocks({ data }) {
           {shownFairContent.title}
         </h1>
         <div className="prose-lg pb-12 event-html text-gray-dark text-xl">
-          <Markdown>{shownFairContent.description}</Markdown>
+          <Markdown linkTarget="_blank">
+            {shownFairContent.description}
+          </Markdown>
         </div>
         <h4 className={"font-bold mb-2 text-3xl " + color}>
           {shownFairContent.resource_title}:
@@ -88,7 +90,7 @@ export default function MetaDataBlocks({ data }) {
                 key={product.item + i}
                 className="prose-lg pb-12 event-html text-gray-dark text-xl"
               >
-                <Markdown>{product.item}</Markdown>
+                <Markdown linkTarget="_blank">{product.item}</Markdown>
               </li>
             )
           })}
