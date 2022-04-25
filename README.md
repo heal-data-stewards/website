@@ -1,3 +1,15 @@
+
+# Overview
+
+This is the code base for the HEAL Data Fair website. healdatafair.org
+
+## Requirements
+
+Node/npm
+
+## Installation Generic
+
+
 # Next frontend
 
 This frontend relies on Next's [Static Generation](https://nextjs.org/docs/basic-features/pages) using [Strapi](https://strapi.io/) as the data source. Make sure Strapi is running in parallel when you run this app.
@@ -43,8 +55,7 @@ information.
 
 ## Database (postgres used by strapi)
 
-Hosted on AWS with 4 days of backup
-
+Hosted on AWS with 4 days of database backup
 
 # Administration Manual (Super Admins)
 * Super Admins must be signed in and approved as Super Admins
