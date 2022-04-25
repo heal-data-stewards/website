@@ -41,6 +41,7 @@ function RouteGuard({ children }) {
       "/resources/faqs",
       "/resources/webinar",
       "/",
+      "/collective",
       "/guidance",
       "/faqs",
       "/glossary",

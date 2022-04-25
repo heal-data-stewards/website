@@ -39,6 +39,7 @@ export default function MetaDataBlocks({ data }) {
         break
     }
   }
+
   return (
     <div className="container mb-8 mt-2">
       <div className="flex flex-nowrap flex-row justify-evenly">
