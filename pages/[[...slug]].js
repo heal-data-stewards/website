@@ -47,7 +47,7 @@ const DynamicPage = ({
         {/* Add meta tags for SEO*/}
         <Seo metadata={metadata} />
         {/* Display content sections */}
-        <Sections sections={sections} preview={preview} eventData={eventData} />
+        <Sections glossary={global.glossary_td}  sections={sections} preview={preview} eventData={eventData} />
       </Layout>
     )
   }
@@ -62,6 +62,7 @@ const DynamicPage = ({
         preview={preview}
         eventData={eventData}
         token={token}
+        glossary={global.glossary_td} 
       />
     </Layout>
   )
