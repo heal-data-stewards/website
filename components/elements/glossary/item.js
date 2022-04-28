@@ -3,7 +3,6 @@ import Divider from "@mui/material/Divider"
 import Markdown from "react-markdown"
 
 export default function GlossaryItem({ classes, word }) {
-  console.log(word)
   return (
     <>
       <div className={"anchor"} id={word.anchor} />
