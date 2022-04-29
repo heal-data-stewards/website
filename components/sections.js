@@ -68,7 +68,12 @@ const Section = ({ sectionData, eventData, token, glossary }) => {
 
   // Display the section
   return (
-    <SectionComponent glossary={glossary} data={sectionData} eventData={eventData} token={token} />
+    <SectionComponent
+      glossary={glossary}
+      data={sectionData}
+      eventData={eventData}
+      token={token}
+    />
   )
 }
 
