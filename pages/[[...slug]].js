@@ -21,7 +21,7 @@ const DynamicPage = ({
   token,
 }) => {
   const router = useRouter()
-  console.log(sections)
+ 
   // Check if the required data was provided
   if (!router.isFallback && !sections?.length) {
     return <ErrorPage statusCode={404} />
