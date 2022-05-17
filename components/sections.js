@@ -26,6 +26,7 @@ import ResourceCards from "./sections/resources/resource-cards"
 import NewPasswordResetForm from "./elements/form/password-reset"
 import Boardlist from "./sections/collective-board/board-list"
 import MetaDataBlocks from "./sections/metadata/metadata-blocks"
+import GeneralDataTable from "./sections/table/general-table"
 
 // Map Strapi sections to section components
 const sectionComponents = {
@@ -43,6 +44,7 @@ const sectionComponents = {
   "sections.signup": SignUp,
   "sections.resources": Resources,
   "sections.table": BasicTable,
+  "sections.general-data-table": GeneralDataTable,
   "sections.carousel": EmblaCarousel,
   "sections.glossary-term-and-definition": Glossary,
   "sections.calendarbody": Calendar,
