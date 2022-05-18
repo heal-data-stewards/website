@@ -69,7 +69,7 @@ export default function BasicTable({ data }) {
                 >
                   <a href={row.link}>{row.title}</a>
                 </TableCell>
-                <TableCell align="right" className={classes.tableDescription}>
+                <TableCell align="left" className={classes.tableDescription}>
                   <a href={row.link}>{row.description}</a>
                   <br></br>
                   <br></br>
