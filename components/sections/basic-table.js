@@ -84,9 +84,6 @@ export default function BasicTable({ data }) {
                     </a>
                   )}
                 </TableCell>
-                {/* <TableCell align="right" className={classes.tableTitle}>
-                  <a href={row.link}> {row.date}</a>
-                </TableCell> */}
               </TableRow>
             ))}
           </TableBody>
