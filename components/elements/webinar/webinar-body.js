@@ -25,7 +25,6 @@ export default function WebinarBody(props) {
       // These are the events avaiable to the public
       async function fetchMyAPI() {
         let eventData2 = await fetchEvents(props.token)
-        console.log(eventData2)
         const publicEvents = eventData2.filter((event) => {
           if (
             event.categories.length === 0 ||

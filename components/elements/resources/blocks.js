@@ -3,7 +3,7 @@ import Link from "next/link"
 
 export default function Block({ data }) {
   return (
-    <Link href={`/${data.url || "coming-soon"}`} passHref>
+    <Link target="_blank" href={`/${data.url || "coming-soon"}`} passHref>
       <div
         className="resource-block"
         style={{

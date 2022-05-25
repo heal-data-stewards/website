@@ -1,32 +1,32 @@
-import * as React from "react"
-import Button from "@mui/material/Button"
-import Typography from "@mui/material/Typography"
-import Link from "next/link"
-import Image from "next/image"
-import Markdown from "react-markdown"
+import * as React from "react";
+import PropTypes from "prop-types";
+import Button from "@mui/material/Button";
+import Typography from "@mui/material/Typography";
+import Image from "next/image";
+import Markdown from "react-markdown";
 import {
   makeEasternTime,
   checkDaylightSavings,
   makeEasternTimeWithDaylightSavings,
-} from "utils/helper-functions"
-import { renderImage } from "utils/helper-functions"
-import styled from "styled-components"
+} from "utils/helper-functions";
+import { renderImage } from "utils/helper-functions";
+import styled from "styled-components";
 
 const BlueLink = styled.a`
   color: #0044b3;
-`
+`;
 
 export default function WebinarItem({ event, past }) {
-  let date = new Date(Date.parse(event.start.dateTime))
-  let endDate = new Date(Date.parse(event.end.dateTime))
-  let sTime = date.toLocaleTimeString()
-  let eTime = endDate.toLocaleTimeString()
+  let date = new Date(Date.parse(event.start.dateTime));
+  let endDate = new Date(Date.parse(event.end.dateTime));
+  let sTime = date.toLocaleTimeString();
+  let eTime = endDate.toLocaleTimeString();
   let startTime = checkDaylightSavings(date)
     ? makeEasternTimeWithDaylightSavings(sTime)
-    : makeEasternTime(sTime)
+    : makeEasternTime(sTime);
   let endTime = checkDaylightSavings(endDate)
     ? makeEasternTimeWithDaylightSavings(eTime)
-    : makeEasternTime(eTime)
+    : makeEasternTime(eTime);
 
   return (
     <div className="basic-card-container">
@@ -62,16 +62,17 @@ export default function WebinarItem({ event, past }) {
               },
             }}
           >
-            <Link href={`/events/${event.id}`}>{event.subject}</Link>
+            <a target="_blank" rel="noreferrer" href={`/events/${event.id}`}>
+              {event.subject}
+            </a>
           </Typography>
           <Typography sx={{ mb: 1.5, fontWeight: "bold", color: "#982568" }}>
             {past ? "Recording Link:" : "Registration Link"}{" "}
-            <Link href={event.location.displayName} passHref>
-              <BlueLink target="_blank">{event.location.displayName}</BlueLink>
-            </Link>
+            <BlueLink href={event.location.displayName} target="_blank">
+              {event.location.displayName}
+            </BlueLink>
           </Typography>
-          {/* <Markdown className="webinar-markdown">{event.bodyPreview + " ..."}</Markdown> */}
-          <Markdown>{event.bodyPreview.substring(0, 150) + " ..."}</Markdown>
+          <Markdown linkTarget="_blank">{event.bodyPreview.substring(0, 150) + " ..."}</Markdown>
         </div>
       </div>
       <div
@@ -83,9 +84,20 @@ export default function WebinarItem({ event, past }) {
         }}
       >
         <Button variant="contained" size="small">
-          <Link href={`/events/${event.id}`}>Read More</Link>
+          <a target="_blank" rel="noreferrer" href={`/events/${event.id}`}>
+            Read More
+          </a>
         </Button>
       </div>
     </div>
-  )
+  );
 }
+
+WebinarItem.propTypes = {
+  id: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.number,
+    PropTypes.any.isRequired,
+  ]),
+  bodyPreview: PropTypes.string,
+};
