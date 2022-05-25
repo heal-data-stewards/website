@@ -22,43 +22,31 @@ import Menu from "@mui/material/Menu"
 import MenuItem from "@mui/material/MenuItem"
 import { styled, alpha } from "@mui/material/styles"
 
-const StyledMenu = styled((props) => (
-  <Menu
-    elevation={0}
-    // anchorOrigin={{
-    //   vertical: 'bottom',
-    //   horizontal: 'right',
-    // }}
-    // transformOrigin={{
-    //   vertical: 'top',
-    //   horizontal: 'right',
-    // }}
-    {...props}
-  />
-))(({ theme }) => ({
-  "& .MuiPaper-root": {
-    borderRadius: 0,
-    // marginTop: "-9px",
-    minWidth: 180,
-    background: "#532565",
-    color: "#fff",
-    boxShadow:
-      "rgb(255, 255, 255) 0px 0px 0px 0px, rgba(0, 0, 0, 0.05) 0px 0px 0px 1px, rgba(0, 0, 0, 0.1) 0px 10px 15px -3px, rgba(0, 0, 0, 0.05) 0px 4px 6px -2px",
-    "& .MuiMenu-list": {
-      "&:hover": {
-        background: "#982568",
+const StyledMenu = styled((props) => <Menu elevation={0} {...props} />)(
+  ({ theme }) => ({
+    "& .MuiPaper-root": {
+      borderRadius: 0,
+      minWidth: 180,
+      background: "#532565",
+      color: "#fff",
+      boxShadow:
+        "rgb(255, 255, 255) 0px 0px 0px 0px, rgba(0, 0, 0, 0.05) 0px 0px 0px 1px, rgba(0, 0, 0, 0.1) 0px 10px 15px -3px, rgba(0, 0, 0, 0.05) 0px 4px 6px -2px",
+      "& .MuiMenu-list": {
+        "&:hover": {
+          background: "#982568",
+        },
+        padding: "15px 15px 15px 8px",
       },
-      padding: "15px 15px 15px 8px",
-    },
-    "& .MuiMenuItem-root": {
-      display: "block",
-      "& .MuiSvgIcon-root": {
-        color: theme.palette.text.secondary,
-        marginRight: theme.spacing(1.5),
+      "& .MuiMenuItem-root": {
+        display: "block",
+        "& .MuiSvgIcon-root": {
+          color: theme.palette.text.secondary,
+          marginRight: theme.spacing(1.5),
+        },
       },
     },
-  },
-}))
+  })
+)
 
 const MenuPopupState = (data) => {
   return (
@@ -77,10 +65,7 @@ const MenuPopupState = (data) => {
           <StyledMenu {...bindMenu(popupState)}>
             <MenuItem onClick={popupState.close}>
               <Link href="/[[...slug]]" as={"/collective"}>
-                <a
-                  // className="hover:bg-magenta"
-                  style={{ fontSize: "14px", fontWeight: "bold" }}
-                >
+                <a style={{ fontSize: "14px", fontWeight: "bold" }}>
                   COLLECTIVE BOARD
                 </a>
               </Link>

@@ -1,9 +1,8 @@
 import React from "react"
-import Link from "next/link"
 
 export default function Block({ data }) {
   return (
-    <Link target="_blank" href={`/${data.url || "coming-soon"}`} passHref>
+    <a target="_blank" href={`/${data.url || "coming-soon"}`} rel="noreferrer">
       <div
         className="resource-block"
         style={{
@@ -28,6 +27,6 @@ export default function Block({ data }) {
           {data.title}
         </h1>
       </div>
-    </Link>
+    </a>
   )
 }
