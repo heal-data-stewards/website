@@ -67,7 +67,9 @@ export default function BasicTable({ data }) {
                   scope="row"
                   className={classes.tableTitle}
                 >
-                  <a href={row.link}>{row.title}</a>
+                  <a target="_blank" rel="noopener noreferrer" href={row.link}>
+                    {row.title}
+                  </a>
                 </TableCell>
                 <TableCell align="left" className={classes.tableDescription}>
                   <a href={row.link}>{row.description}</a>
@@ -78,7 +80,7 @@ export default function BasicTable({ data }) {
                       href={row.link}
                       style={{ color: "#0044B3" }}
                       target={"_blank"}
-                      rel="noreferrer"
+                      rel="noopener noreferrer"
                     >
                       Read More...
                     </a>
