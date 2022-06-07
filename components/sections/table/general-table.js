@@ -7,7 +7,7 @@ const columns = [
   {
     field: "Repository",
     headerName: "Repository",
-    width: 150,
+    width: 500,
     // eslint-disable-next-line react/display-name
     renderCell: ({ row }) => (
       <Markdown linkTarget="_blank">{row.Repository}</Markdown>
@@ -50,11 +50,10 @@ export default function GeneralDataTable(data) {
     return createData(i, bucket)
   })
   return (
-    <div style={{ height: 600, width: "100%" }} className={"container mb-8"}>
+    <div style={{ height: 600}} className={"container mb-8"}>
       <DataGrid
-        // className={classes.table}
         rows={test}
-        columns={columns}
+        columns={[...columns, { field: 'Overview', sortable: false } ,{ field: 'Repository', sortable: false }]}
         pageSize={25}
         components={{
           Toolbar: GridToolbar,
