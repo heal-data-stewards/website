@@ -17,7 +17,12 @@ export default function PublicWorkingGroupListItem({
     <div className="basic-card-container public-members-card">
       <div className="members-basic-card-content">
         <div className="members-event-img">
-          <Image alt="Webinar" width={100} height={100} src={picture.url} />
+          <Image
+            alt="Collective board member picture"
+            width={100}
+            height={100}
+            src={picture.url}
+          />
         </div>
         <div className="members-card-blurb">
           <Typography
