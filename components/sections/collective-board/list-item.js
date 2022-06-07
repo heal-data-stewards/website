@@ -14,7 +14,7 @@ export default function PublicWorkingGroupListItem({
   linkedin,
 }) {
   return (
-    <div className="basic-card-container" style={{ width: "100%" }}>
+    <div className="basic-card-container public-members-card">
       <div className="members-basic-card-content">
         <div className="members-event-img">
           <Image alt="Webinar" width={100} height={100} src={picture.url} />
