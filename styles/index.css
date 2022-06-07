@@ -337,12 +337,10 @@ content: ""
   }
 }
 
-@media screen and (max-width: 755px){
-  /* .event-img {
-    position:relative;
-    text-align: center
-  }
-  .card-blurb  {
-    padding: 20px 0 0 0
-  } */
+.event-html h2 {
+  color: #532565;
+}
+
+.event-html h3 {
+  color: #982568;
 }
