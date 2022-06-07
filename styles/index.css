@@ -315,7 +315,18 @@ content: ""
   background: rgb(192 179 197 / 18%);
   padding: 35px;
   position: relative;
-  border-top: 10px solid #532565;
+}
+
+.public-members-card {
+  margin-top:15px;
+  border-width: 6px;
+  border-style: solid;
+  border-image: 
+    linear-gradient(
+      to left, 
+      #532565, 
+      #f4f1f4
+    ) 100% 0 0 0;
 }
 
 .members-event-img {
