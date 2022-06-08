@@ -7,7 +7,8 @@ const columns = [
   {
     field: "Repository",
     headerName: "Repository",
-    width: 500,
+    sortable: false,
+    width: 150,
     // eslint-disable-next-line react/display-name
     renderCell: ({ row }) => (
       <Markdown linkTarget="_blank">{row.Repository}</Markdown>
@@ -20,6 +21,7 @@ const columns = [
     field: "Overview",
     headerName: "Overview",
     width: 150,
+    sortable: false,
     // eslint-disable-next-line react/display-name
     renderCell: ({ row }) => (
       <Markdown linkTarget="_blank">{row.Overview}</Markdown>
@@ -52,12 +54,9 @@ export default function GeneralDataTable(data) {
   return (
     <div style={{ height: 600 }} className={"container mb-8"}>
       <DataGrid
+        disableColumnFilter
         rows={test}
-        columns={[
-          ...columns,
-          { field: "Overview", sortable: false },
-          { field: "Repository", sortable: false },
-        ]}
+        columns={columns}
         pageSize={25}
         components={{
           Toolbar: GridToolbar,
