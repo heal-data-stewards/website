@@ -46,22 +46,26 @@ const NewPasswordForm = () => {
           {({ errors, touched, isSubmitting }) => (
             <div>
               <Form className="flex flex-wrap flex-col md:flex-row gap-4">
-                <Field
-                  className="text-base focus:outline-none py-4 md:py-0 px-4 border-2 rounded-md"
-                  type="email"
-                  name="email"
-                  placeholder={"Email"}
-                  component={TextField}
-                  label="Email"
-                  variant="outlined"
-                  fullWidth
-                  style={{ background: "white" }}
-                />
-                <Btn2
-                  type="submit"
-                  button={{ text: "Submit" }}
-                  disabled={isSubmitting}
-                />{" "}
+                {!successNotice && (
+                  <>
+                    <Field
+                      className="text-base focus:outline-none py-4 md:py-0 px-4 border-2 rounded-md"
+                      type="email"
+                      name="email"
+                      placeholder={"Email"}
+                      component={TextField}
+                      label="Email"
+                      variant="outlined"
+                      fullWidth
+                      style={{ background: "white" }}
+                    />
+                    <Btn2
+                      type="submit"
+                      button={{ text: "Submit" }}
+                      disabled={isSubmitting}
+                    />
+                  </>
+                )}
                 {errorNotice && (
                   <span style={{ color: "red", margin: "7px 0 0 0" }}>
                     This email was not found. Please contact an admin or try a

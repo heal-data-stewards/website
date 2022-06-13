@@ -1,7 +1,7 @@
 import React from "react"
 import Link from "next/link"
 
-export default function Block({ data }) {
+export default function ResourceBlock({ data }) {
   return (
     <Link href={`/${data.url || "coming-soon"}`} passHref>
       <div
@@ -12,7 +12,7 @@ export default function Block({ data }) {
           clipPath: "polygon(0 0, 100% 0, 100% 80%, 80% 100%, 0 100%)",
           backgroundSize: "cover",
           cursor: "pointer",
-          height: "400px",
+          height: "300px",
           marginBottom: "2.5rem",
         }}
       >

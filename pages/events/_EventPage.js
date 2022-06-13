@@ -5,7 +5,6 @@ import React, { useState, useEffect, useRef } from "react"
 import Divider from "@mui/material/Divider"
 import { makeEasternTime } from "utils/helper-functions"
 import styled from "styled-components"
-import Link from "next/link"
 
 const BlueLink = styled.a`
   color: #0044b3;
@@ -69,9 +68,10 @@ function EventPage({ global, event, pageContext, metadata }) {
           </p>
           <h2 className="pt-4 font-black text-magenta ">
             {checkIfPastEvent()}
-            <Link href={data.location.displayName} passHref>
-              <BlueLink target="_blank">{data.location.displayName}</BlueLink>
-            </Link>
+
+            <BlueLink href={data.location.displayName} target="_blank">
+              {data.location.displayName}
+            </BlueLink>
           </h2>
         </section>
         <section>

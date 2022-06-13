@@ -3,7 +3,6 @@ import Divider from "@mui/material/Divider"
 import Markdown from "react-markdown"
 
 export default function GlossaryItem({ classes, word }) {
-  console.log(word)
   return (
     <>
       <div className={"anchor"} id={word.anchor} />
@@ -12,7 +11,9 @@ export default function GlossaryItem({ classes, word }) {
           className="text-magenta capitalize pb-2"
           style={{ fontWeight: "600", fontSize: "1.3rem" }}
         >
-          <a href={`/glossary#${word.anchor}`}>{word.term_name}</a>
+          <a target="_blank" href={`/glossary#${word.anchor}`} rel="noreferrer">
+            {word.term_name}
+          </a>
         </h2>
         <Divider />
         <div className="pt-4 glossary-markdown">
@@ -26,7 +27,12 @@ export default function GlossaryItem({ classes, word }) {
                 {word.gtd_sources.map((source, i) => {
                   return (
                     <div key={source.title + i}>
-                      <a href={source.url} style={{ color: "#0044B3" }}>
+                      <a
+                        target="_blank"
+                        href={source.url}
+                        style={{ color: "#0044B3" }}
+                        rel="noreferrer"
+                      >
                         {source.title}
                       </a>
                       {word.gtd_sources.length - 1 !== i ? " & " : ""}
@@ -39,7 +45,12 @@ export default function GlossaryItem({ classes, word }) {
             <div>
               <br /> <b>Source: </b>
               <span>
-                <a href={word.gtd_sources[0].url} style={{ color: "#0044B3" }}>
+                <a
+                  target="_blank"
+                  href={word.gtd_sources[0].url}
+                  style={{ color: "#0044B3" }}
+                  rel="noreferrer"
+                >
                   {word.gtd_sources[0].title}
                 </a>
               </span>
