@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react"
 import { makeStyles } from "@material-ui/core/styles"
 import SearchBar from "../elements/glossary/search-bar"
-import PageTitle from "./page-title"
 import GlossaryItem from "../elements/glossary/item"
 import { getStrapiApiPageData } from "utils/api"
 
@@ -33,7 +32,6 @@ const filterByValue = (array, string) => {
 export default function Glossary({ data }) {
   const [filter, setFilter] = useState("")
   const [terms, setTerms] = useState(data.gtd_item)
-  const [pageTitle, setPageTitle] = useState("Glossary")
   const classes = useStyles()
   let items
 
@@ -48,7 +46,6 @@ export default function Glossary({ data }) {
 
     getStrapiApiPageData("resources/glossary")
       .then((res) => {
-        setPageTitle(res.shortName)
         return findTermsSection(
           res.contentSections,
           "sections.glossary-term-and-definition"
@@ -70,7 +67,6 @@ export default function Glossary({ data }) {
   }
   return (
     <>
-      <PageTitle data={{ title: pageTitle }} noPaddingBottom="true" />
       <main className="container pb-12 ">
         <div>
           <SearchBar setFilter={setFilter} filter={filter} />
