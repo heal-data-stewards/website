@@ -15,9 +15,19 @@ const columns = [
       <Markdown linkTarget="_blank">{row.Repository}</Markdown>
     ),
   },
-  { field: "Repository Type", headerName: "Repository Type", width: 200 },
-  { field: "Organism", headerName: "Organism", width: 150 },
-  { field: "IC/Program", headerName: "IC/Program", width: 150 },
+  {
+    field: "Repository Type",
+    headerName: "Repository Type",
+    width: 200,
+    sortable: false,
+  },
+  { field: "Organism", headerName: "Organism", width: 150, sortable: false },
+  {
+    field: "IC/Program",
+    headerName: "IC/Program",
+    width: 150,
+    sortable: false,
+  },
   {
     field: "Overview",
     headerName: "Overview",
