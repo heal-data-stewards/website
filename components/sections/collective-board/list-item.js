@@ -13,11 +13,17 @@ export default function PublicWorkingGroupListItem({
   bio,
   linkedin,
 }) {
+  console.log(linkedin)
   return (
-    <div className="basic-card-container" style={{ width: "100%" }}>
+    <div className="basic-card-container public-members-card">
       <div className="members-basic-card-content">
         <div className="members-event-img">
-          <Image alt="Webinar" width={100} height={100} src={picture.url} />
+          <Image
+            alt="Collective board member picture"
+            width={100}
+            height={100}
+            src={picture.url}
+          />
         </div>
         <div className="members-card-blurb">
           <Typography
@@ -42,33 +48,34 @@ export default function PublicWorkingGroupListItem({
           </div>
         </div>
       </div>
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "end",
-          padding: "0 25px 0 0",
-          marginTop: "-18px",
-          color: "#532565",
-        }}
-      >
-        <a
-          target="_blank"
-          href={linkedin}
-          style={{ zIndex: 2 }}
-          rel="noreferrer"
+      {linkedin && (
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "end",
+            padding: "0 25px 0 0",
+            marginTop: "-18px",
+            color: "#532565",
+          }}
         >
-          {" "}
-          <LinkedInIcon
-            sx={{
-              fontSize: 40,
-              cursor: "pointer",
-              "&:hover": {
-                color: "#982568",
-              },
-            }}
-          />
-        </a>
-      </div>
+          <a
+            target="_blank"
+            href={linkedin}
+            style={{ zIndex: 2 }}
+            rel="noreferrer"
+          >
+            <LinkedInIcon
+              sx={{
+                fontSize: 40,
+                cursor: "pointer",
+                "&:hover": {
+                  color: "#982568",
+                },
+              }}
+            />
+          </a>
+        </div>
+      )}
     </div>
   )
 }

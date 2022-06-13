@@ -26,6 +26,7 @@ import ResourceCards from "./sections/resources/resource-cards"
 import NewPasswordResetForm from "./elements/form/password-reset"
 import Boardlist from "./sections/collective-board/board-list"
 import MetaDataBlocks from "./sections/metadata/metadata-blocks"
+import GeneralDataTable from "./sections/table/general-table"
 
 // Map Strapi sections to section components
 const sectionComponents = {
@@ -43,6 +44,7 @@ const sectionComponents = {
   "sections.signup": SignUp,
   "sections.resources": Resources,
   "sections.table": BasicTable,
+  "sections.general-data-table": GeneralDataTable,
   "sections.carousel": EmblaCarousel,
   "sections.glossary-term-and-definition": Glossary,
   "sections.calendarbody": Calendar,
@@ -59,17 +61,21 @@ const sectionComponents = {
 }
 
 // Display a section individually
-const Section = ({ sectionData, eventData, token }) => {
+const Section = ({ sectionData, eventData, token, glossary }) => {
   // Prepare the component
   const SectionComponent = sectionComponents[sectionData.__component]
-
   if (!SectionComponent) {
     return null
   }
 
   // Display the section
   return (
-    <SectionComponent data={sectionData} eventData={eventData} token={token} />
+    <SectionComponent
+      glossary={glossary}
+      data={sectionData}
+      eventData={eventData}
+      token={token}
+    />
   )
 }
 
@@ -95,7 +101,7 @@ const PreviewModeBanner = () => {
 }
 
 // Display the list of sections
-const Sections = ({ sections, preview, eventData, token }) => {
+const Sections = ({ sections, preview, eventData, token, glossary }) => {
   return (
     <div className="flex flex-col">
       {/* Show a banner if preview mode is on */}
@@ -107,6 +113,7 @@ const Sections = ({ sections, preview, eventData, token }) => {
           eventData={eventData}
           key={`${section.__component}${section.id}`}
           token={token}
+          glossary={glossary}
         />
       ))}
     </div>

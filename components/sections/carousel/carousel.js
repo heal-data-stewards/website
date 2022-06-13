@@ -125,11 +125,10 @@ const EmblaCarousel = ({ data }) => {
                     </h1>
                     {/* Description paragraph */}
                     <div className="text-xl mb-4 text-grey text-center pl-10 pr-10 lg:text-left lg:pl-0 lg:pr-0">
-                      {/* <p
-                        dangerouslySetInnerHTML={createMarkup(slide.paragraph)}
-                      /> */}
                       <div className="event-html">
-                        <Markdown>{slide.paragraph}</Markdown>
+                        <Markdown linkTarget="_blank">
+                          {slide.paragraph}
+                        </Markdown>
                       </div>
                     </div>
                   </CardContent>
