@@ -7,36 +7,50 @@ const columns = [
   {
     field: "Repository",
     headerName: "Repository",
+    headerClassName: "general-table-headers",
     sortable: false,
     filterable: false,
     width: 150,
     // eslint-disable-next-line react/display-name
     renderCell: ({ row }) => (
-      <Markdown linkTarget="_blank">{row.Repository}</Markdown>
+      <Markdown linkTarget="_blank" className="general-table">
+        {row.Repository}
+      </Markdown>
     ),
   },
   {
     field: "Repository Type",
     headerName: "Repository Type",
+    headerClassName: "general-table-headers",
     width: 200,
     sortable: false,
   },
-  { field: "Organism", headerName: "Organism", width: 150, sortable: false },
+  {
+    field: "Organism",
+    headerName: "Organism",
+    headerClassName: "general-table-headers",
+    width: 150,
+    sortable: false,
+  },
   {
     field: "IC/Program",
     headerName: "IC/Program",
+    headerClassName: "general-table-headers",
     width: 150,
     sortable: false,
   },
   {
     field: "Overview",
     headerName: "Overview",
+    headerClassName: "general-table-headers",
     width: 150,
     sortable: false,
     filterable: false,
     // eslint-disable-next-line react/display-name
     renderCell: ({ row }) => (
-      <Markdown linkTarget="_blank">{row.Overview}</Markdown>
+      <Markdown linkTarget="_blank" className="general-table">
+        {row.Overview}
+      </Markdown>
     ),
   },
 ]
@@ -66,7 +80,6 @@ export default function GeneralDataTable(data) {
   return (
     <div style={{ height: 600 }} className={"container mb-8"}>
       <DataGrid
-        // disableColumnFilter
         rows={test}
         columns={columns}
         pageSize={25}
