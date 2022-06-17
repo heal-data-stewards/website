@@ -82,7 +82,7 @@ export default function GeneralDataTable(data) {
       <DataGrid
         rows={test}
         columns={columns}
-        pageSize={25}
+        pageSize={26}
         components={{
           Toolbar: GridToolbar,
         }}
