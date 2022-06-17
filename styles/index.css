@@ -355,3 +355,15 @@ content: ""
 .event-html h3 {
   color: #982568;
 }
+.general-table a {
+  color: #0044B3;
+}
+
+.general-table-headers{
+  color: #532565;
+  font-size: 14px;
+}
+
+.general-table-headers div{
+  font-weight: bold !important;
+}
