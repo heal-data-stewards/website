@@ -12,7 +12,7 @@ export default function Boardlist({ data }) {
       const users = result.filter(
         (user) => user.workgroup === "COLLECTIVE_BOARD"
       )
-      setUsers(users)
+      setUsers(users.sort((a, b) => a.lastname.localeCompare(b.lastname)))
     })
   }, [])
 
