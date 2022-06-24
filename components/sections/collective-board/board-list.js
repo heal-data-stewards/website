@@ -12,10 +12,9 @@ export default function Boardlist({ data }) {
       const users = result.filter(
         (user) => user.workgroup === "COLLECTIVE_BOARD"
       )
-      setUsers(users)
+      setUsers(users.sort((a, b) => a.firstname.localeCompare(b.firstname)))
     })
   }, [])
-
   return (
     <div className="container">
       <nav aria-label="working group list">
