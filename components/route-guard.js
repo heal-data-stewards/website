@@ -49,7 +49,7 @@ function RouteGuard({ children }) {
       "/sign-up",
       "/password-reset",
       "/resources/metadata",
-      "resources/guidance/selection",
+      "/resources/guidance/selection",
     ]
     const path = url.split("?")[0]
 
