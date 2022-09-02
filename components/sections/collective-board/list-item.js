@@ -13,7 +13,6 @@ export default function PublicWorkingGroupListItem({
   bio,
   linkedin,
 }) {
-  console.log(linkedin)
   return (
     <div className="basic-card-container public-members-card">
       <div className="members-basic-card-content">

@@ -33,7 +33,7 @@ function RouteGuard({ children }) {
     })
     // redirect to account page if accessing a private page and not logged in
     const publicPaths = [
-      "/account",
+      // "/account",
       "/calendar",
       "/resources",
       "/resources/guidance",
@@ -46,10 +46,14 @@ function RouteGuard({ children }) {
       "/faqs",
       "/glossary",
       "/webinar",
-      "/sign-up",
-      "/password-reset",
+      // "/sign-up",
+      // "/password-reset",
       "/resources/metadata",
       "/resources/guidance/selection",
+      // The following used to be private pages only exposed to signed in guests
+      "/directory",
+      "/collaboration",
+      "/collective-board",
     ]
     const path = url.split("?")[0]
 
