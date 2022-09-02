@@ -96,32 +96,32 @@ const Navbar = ({ navbar, pageContext }) => {
     },
   ])
 
-  useEffect(() => {
-    if (session || loggedIn) {
-      setNavigationItems(navbar.links)
-    } else {
-      setNavigationItems([
-        {
-          id: 37,
-          url: "/calendar",
-          newTab: false,
-          text: "CALENDAR",
-        },
-        {
-          id: 27,
-          url: "/resources",
-          newTab: false,
-          text: "RESOURCES",
-        },
-      ])
-    }
-  }, [session, navbar.links, loggedIn])
+  // useEffect(() => {
+  //   if (session || loggedIn) {
+  //     setNavigationItems(navbar.links)
+  //   } else {
+  //     setNavigationItems([
+  //       {
+  //         id: 37,
+  //         url: "/calendar",
+  //         newTab: false,
+  //         text: "CALENDAR",
+  //       },
+  //       {
+  //         id: 27,
+  //         url: "/resources",
+  //         newTab: false,
+  //         text: "RESOURCES",
+  //       },
+  //     ])
+  //   }
+  // }, [session, navbar.links, loggedIn])
   const router = useRouter()
-  const handleLogOut = () => {
-    localStorage.setItem("loggedIn", false)
-    signOut({ redirect: false })
-  }
-
+  // const handleLogOut = () => {
+  //   localStorage.setItem("loggedIn", false)
+  //   signOut({ redirect: false })
+  // }
+  console.log(navbar)
   return (
     <div>
       <AppBar
@@ -148,7 +148,7 @@ const Navbar = ({ navbar, pageContext }) => {
               <li>
                 <MenuPopupState />
               </li>
-              {navigationItems.map((navLink) => (
+              {navbar.links.map((navLink) => (
                 <li key={navLink.id}>
                   <CustomLink link={navLink} locale={router.locale}>
                     <div
