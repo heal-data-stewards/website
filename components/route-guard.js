@@ -51,9 +51,9 @@ function RouteGuard({ children }) {
       "/resources/metadata",
       "/resources/guidance/selection",
       // The following used to be private pages only exposed to signed in guests
-      "/directory",
-      "/collaboration",
-      "/collective-board",
+      // "/directory",
+      // "/collaboration",
+      // "/collective-board",
     ]
     const path = url.split("?")[0]
 
