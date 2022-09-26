@@ -46,6 +46,7 @@ function RouteGuard({ children }) {
       "/faqs",
       "/glossary",
       "/webinar",
+      "/road-map",
       // "/sign-up",
       // "/password-reset",
       "/resources/metadata",

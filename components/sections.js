@@ -27,6 +27,7 @@ import NewPasswordResetForm from "./elements/form/password-reset"
 import Boardlist from "./sections/collective-board/board-list"
 import MetaDataBlocks from "./sections/metadata/metadata-blocks"
 import GeneralDataTable from "./sections/table/general-table"
+import RoadMap from "./sections/roadmap"
 
 // Map Strapi sections to section components
 const sectionComponents = {
@@ -58,6 +59,7 @@ const sectionComponents = {
   "sections.password-reset": NewPasswordResetForm,
   "sections.public-collective": Boardlist,
   "sections.meta-data-content": MetaDataBlocks,
+  "sections.roadmap": RoadMap,
 }
 
 // Display a section individually
