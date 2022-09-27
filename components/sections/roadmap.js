@@ -42,7 +42,14 @@ export default function RoadMap({ data }) {
   }))
 
   function Icon({ img }) {
-    return <Image src={`/${img}.png`} alt="me" width="84" height="84" />
+    return (
+      <Image
+        src={`/${img}.png`}
+        alt="image for current step"
+        width="84"
+        height="84"
+      />
+    )
   }
 
   const CustomStepIcon = (props) => {

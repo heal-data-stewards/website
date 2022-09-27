@@ -368,11 +368,11 @@ content: ""
   font-weight: bold !important;
 }
 
-.css-14yr603-MuiStepContent-root {
+.MuiStepConnector-root {
   margin-left: 38px !important;
   border-left: 8px solid rgba(192, 179, 197, 0.41) !important;
 }
-.css-8t49rw-MuiStepConnector-line {
+.MuiStepConnector-line {
     border-color: rgba(192, 179, 197, 0.41) !important;
     border-left-width: 8px !important;
     margin-left: 26px !important;
