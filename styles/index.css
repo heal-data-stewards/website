@@ -370,12 +370,12 @@ content: ""
 
 
 .MuiStepConnector-vertical {
-    border-color: rgba(192, 179, 197, 0.41) !important;
+    border-color: #c0b3c5 !important;
     border-left-width: 8px !important;
     margin-left: 39px !important;
 }
 .MuiStepContent-root {
-  border-color: rgba(192, 179, 197, 0.41) !important;
+  border-color: #c0b3c5 !important;
   border-left-width: 8px !important;
   margin-left: 39px !important;
 }
