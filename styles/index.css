@@ -368,12 +368,14 @@ content: ""
   font-weight: bold !important;
 }
 
-.MuiStepConnector-root {
-  margin-left: 38px !important;
-  border-left: 8px solid rgba(192, 179, 197, 0.41) !important;
-}
-.MuiStepConnector-line {
+
+.MuiStepConnector-vertical {
     border-color: rgba(192, 179, 197, 0.41) !important;
     border-left-width: 8px !important;
-    margin-left: 26px !important;
+    margin-left: 39px !important;
+}
+.MuiStepContent-root {
+  border-color: rgba(192, 179, 197, 0.41) !important;
+  border-left-width: 8px !important;
+  margin-left: 39px !important;
 }
