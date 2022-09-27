@@ -8,37 +8,11 @@ import Button from "@mui/material/Button"
 import Paper from "@mui/material/Paper"
 import Typography from "@mui/material/Typography"
 import { makeStyles } from "@material-ui/core"
-import NoteAddIcon from "@material-ui/icons/NoteAdd"
-import AddAPhotoIcon from "@material-ui/icons/AddAPhoto"
-import AddAlertIcon from "@material-ui/icons/AddAlert"
 import clsx from "clsx"
 import Image from "next/image"
+import Markdown from "react-markdown"
 
-const steps = [
-  {
-    label: "Award Won!",
-    description: `NIH HEAL Initiative applicants must submit a data management and sharing plan (DMP) as part of their resource sharing plan that outlines management and sharing of scientific data, accompanying metadata, other relevant data, and associated documentation. If you haven’t submitted your DMP yet, please refer to the links below for guidance. Beginning in January 2023, a DMP will be a required part of any NIH proposal per the new NIH Policy for Data Management and Sharing.`,
-  },
-  {
-    label: "Submit your Data Management and Sharing Plan",
-    description: "Optional description",
-  },
-  {
-    label: "Register your Study on ClinicalTrials.gov",
-    description: `Optional description`,
-  },
-  {
-    label:
-      "Nostrud ad laboris irure aliquip culpa in labore magna laboris qui ut.",
-    description: "Optional description",
-  },
-  {
-    label: "Nisi mollit in labore amet tempor ullamco in commodo.",
-    description: `Optional description`,
-  },
-]
-
-export default function RoadMap() {
+export default function RoadMap({ data }) {
   const [activeStep, setActiveStep] = React.useState(0)
 
   const handleNext = () => {
@@ -81,6 +55,9 @@ export default function RoadMap() {
       4: <Icon img="4" />,
       5: <Icon img="5" />,
       6: <Icon img="6" />,
+      7: <Icon img="7" />,
+      8: <Icon img="6" />,
+      9: <Icon img="9" />,
     }
 
     return (
@@ -89,58 +66,61 @@ export default function RoadMap() {
   }
 
   return (
-    <Box
-      sx={{ maxWidth: 1200 }}
-      className={"prose-lg container mt-16 mb-16 pl-20"}
-    >
-      <Stepper activeStep={activeStep} orientation="vertical">
-        {steps.map((step, index) => (
-          <Step key={step.label}>
-            <StepLabel
-              style={{ padding: 0 }}
-              StepIconComponent={CustomStepIcon}
-              optional={
-                index === 2 ? (
-                  <Typography variant="caption">Last step</Typography>
-                ) : null
-              }
-            >
-              <span className={"text-xl text-purple font-bold"}>
-                {step.label}
-              </span>
-            </StepLabel>
-            <StepContent>
-              <Typography>{step.description}</Typography>
-              <Box sx={{ mb: 2 }}>
-                <div>
-                  <Button
-                    variant="contained"
-                    onClick={handleNext}
-                    sx={{ mt: 1, mr: 1 }}
-                  >
-                    {index === steps.length - 1 ? "Finish" : "Continue"}
-                  </Button>
-                  <Button
-                    disabled={index === 0}
-                    onClick={handleBack}
-                    sx={{ mt: 1, mr: 1 }}
-                  >
-                    Back
-                  </Button>
+    <div className={"prose-lg container mb-16"}>
+      <Box sx={{ maxWidth: 1200 }}>
+        <Stepper activeStep={activeStep} orientation="vertical">
+          {data.steps.map((step, index) => (
+            <Step key={step.title}>
+              <StepLabel
+                style={{ padding: 0 }}
+                StepIconComponent={CustomStepIcon}
+                optional={
+                  index === data.steps.length - 1 ? (
+                    <Typography variant="caption">Last step</Typography>
+                  ) : null
+                }
+              >
+                <span className={"text-xl text-purple font-bold"}>
+                  {step.title}
+                </span>
+              </StepLabel>
+              <StepContent>
+                <div className="event-html">
+                  <Typography>
+                    <Markdown>{step.description}</Markdown>
+                  </Typography>
                 </div>
-              </Box>
-            </StepContent>
-          </Step>
-        ))}
-      </Stepper>
-      {activeStep === steps.length && (
-        <Paper square elevation={0} sx={{ p: 3 }}>
-          <Typography>All steps completed - you&apos;re finished</Typography>
-          <Button onClick={handleReset} sx={{ mt: 1, mr: 1 }}>
-            Reset
-          </Button>
-        </Paper>
-      )}
-    </Box>
+                <Box sx={{ mb: 2 }}>
+                  <div>
+                    <Button
+                      variant="contained"
+                      onClick={handleNext}
+                      sx={{ mt: 1, mr: 1 }}
+                    >
+                      {index === data.steps.length - 1 ? "Finish" : "Continue"}
+                    </Button>
+                    <Button
+                      disabled={index === 0}
+                      onClick={handleBack}
+                      sx={{ mt: 1, mr: 1 }}
+                    >
+                      Back
+                    </Button>
+                  </div>
+                </Box>
+              </StepContent>
+            </Step>
+          ))}
+        </Stepper>
+        {activeStep === data.steps.length && (
+          <Paper square elevation={0} sx={{ p: 3 }}>
+            <Typography>All steps completed - you&apos;re finished</Typography>
+            <Button onClick={handleReset} sx={{ mt: 1, mr: 1 }}>
+              Reset
+            </Button>
+          </Paper>
+        )}
+      </Box>
+    </div>
   )
 }
