@@ -15,6 +15,10 @@ import Markdown from "react-markdown"
 export default function RoadMap({ data }) {
   const [activeStep, setActiveStep] = React.useState(0)
 
+  // React.useEffect(() => {
+
+  // }, [])
+
   const handleNext = () => {
     setActiveStep((prevActiveStep) => prevActiveStep + 1)
   }
@@ -25,6 +29,10 @@ export default function RoadMap({ data }) {
 
   const handleReset = () => {
     setActiveStep(0)
+  }
+
+  const handleSelect = (i) => {
+    setActiveStep(i)
   }
 
   const useStyles = makeStyles(() => ({
@@ -63,12 +71,19 @@ export default function RoadMap({ data }) {
       5: <Icon img="5" />,
       6: <Icon img="6" />,
       7: <Icon img="7" />,
-      8: <Icon img="6" />,
+      8: <Icon img="8" />,
       9: <Icon img="9" />,
     }
 
     return (
-      <div className={clsx(classes.root)}>{stepIcons[String(props.icon)]}</div>
+      <button
+        onClick={() => handleSelect(props.icon - 1)}
+        className="cursor-pointer"
+      >
+        <div className={clsx(classes.root)}>
+          {stepIcons[String(props.icon)]}
+        </div>
+      </button>
     )
   }
 
@@ -81,16 +96,23 @@ export default function RoadMap({ data }) {
               <StepLabel
                 style={{ padding: 0 }}
                 StepIconComponent={CustomStepIcon}
-                optional={
-                  index === data.steps.length - 1 ? (
-                    <Typography variant="caption">Last step</Typography>
-                  ) : null
-                }
+                // optional={
+                //   index === data.steps.length - 1 ? (
+                //     <Typography variant="caption">Last step</Typography>
+                //   ) : null
+                // }
               >
-                <span className={"text-xl text-purple font-bold"}>
-                  {step.title}
-                </span>
+                {" "}
+                <button
+                  onClick={() => handleSelect(index)}
+                  className="cursor-pointer"
+                >
+                  <span className={"text-xl text-purple font-bold"}>
+                    {step.title}
+                  </span>
+                </button>
               </StepLabel>
+
               <StepContent>
                 <div className="event-html">
                   <Typography>
@@ -121,7 +143,6 @@ export default function RoadMap({ data }) {
         </Stepper>
         {activeStep === data.steps.length && (
           <Paper square elevation={0} sx={{ p: 3 }}>
-            <Typography>All steps completed - you&apos;re finished</Typography>
             <Button onClick={handleReset} sx={{ mt: 1, mr: 1 }}>
               Reset
             </Button>
