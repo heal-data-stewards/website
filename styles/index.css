@@ -348,6 +348,12 @@ content: ""
   }
 }
 
+.event-html hr {
+  border-top-width: 1px;
+  border-color: #982466;
+  padding-bottom: 10px;
+}
+
 .event-html h2 {
   color: #532565;
 }

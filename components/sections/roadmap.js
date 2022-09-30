@@ -88,7 +88,7 @@ export default function RoadMap({ data }) {
   }
 
   return (
-    <div className={"prose-lg container mb-16"}>
+    <div className={"container mb-16"}>
       <Box sx={{ maxWidth: 1200 }}>
         <Stepper activeStep={activeStep} orientation="vertical">
           {data.steps.map((step, index) => (
@@ -120,7 +120,7 @@ export default function RoadMap({ data }) {
                   </Typography>
                 </div>
                 <Box sx={{ mb: 2 }}>
-                  <div>
+                  <div className="mt-6">
                     <Button
                       variant="contained"
                       onClick={handleNext}
