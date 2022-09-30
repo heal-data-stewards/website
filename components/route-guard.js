@@ -50,7 +50,9 @@ function RouteGuard({ children }) {
       // "/sign-up",
       // "/password-reset",
       "/resources/metadata",
+      "/resources/repositories",
       "/resources/guidance/selection",
+      "/resources/heal-stewards-guidance",
       // The following used to be private pages only exposed to signed in guests
       // "/directory",
       // "/collaboration",
