@@ -50,7 +50,7 @@ function RouteGuard({ children }) {
       "/password-reset",
       "/resources/metadata",
       "/resources/guidance/selection",
-      "resources/repositories",
+      "/resources/repositories",
     ]
     const path = url.split("?")[0]
 
