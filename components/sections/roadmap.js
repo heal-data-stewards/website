@@ -116,7 +116,7 @@ export default function RoadMap({ data }) {
               <StepContent>
                 <div className="event-html">
                   <Typography>
-                    <Markdown>{step.description}</Markdown>
+                    <Markdown linkTarget="_blank">{step.description}</Markdown>
                   </Typography>
                 </div>
                 <Box sx={{ mb: 2 }}>
@@ -128,13 +128,17 @@ export default function RoadMap({ data }) {
                     >
                       {index === data.steps.length - 1 ? "Finish" : "Continue"}
                     </Button>
-                    <Button
-                      disabled={index === 0}
-                      onClick={handleBack}
-                      sx={{ mt: 1, mr: 1 }}
-                    >
-                      Back
-                    </Button>
+                    {index === 0 ? (
+                      ""
+                    ) : (
+                      <Button
+                        disabled={index === 0}
+                        onClick={handleBack}
+                        sx={{ mt: 1, mr: 1 }}
+                      >
+                        Back
+                      </Button>
+                    )}
                   </div>
                 </Box>
               </StepContent>
