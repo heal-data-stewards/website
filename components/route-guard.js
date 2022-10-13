@@ -33,24 +33,30 @@ function RouteGuard({ children }) {
     })
     // redirect to account page if accessing a private page and not logged in
     const publicPaths = [
-      "/account",
+      // "/account",
       "/calendar",
       "/resources",
       "/resources/guidance",
       "/resources/glossary",
       "/resources/faqs",
       "/resources/webinar",
+      "/resources/road-map",
       "/",
       "/collective",
       "/guidance",
       "/faqs",
       "/glossary",
       "/webinar",
-      "/sign-up",
-      "/password-reset",
+      // "/sign-up",
+      // "/password-reset",
       "/resources/metadata",
-      "/resources/guidance/selection",
       "/resources/repositories",
+      "/resources/guidance/selection",
+      "/resources/heal-stewards-guidance",
+      // The following used to be private pages only exposed to signed in guests
+      // "/directory",
+      // "/collaboration",
+      // "/collective-board",
     ]
     const path = url.split("?")[0]
 
@@ -64,7 +70,7 @@ function RouteGuard({ children }) {
     ) {
       setAuthorized(false)
       router.push({
-        pathname: "/account",
+        pathname: "/",
         query: { returnUrl: router.asPath },
       })
     } else {

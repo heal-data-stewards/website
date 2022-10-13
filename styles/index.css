@@ -348,6 +348,12 @@ content: ""
   }
 }
 
+.event-html hr {
+  border-top-width: 1px;
+  border-color: #982466;
+  padding-bottom: 10px;
+}
+
 .event-html h2 {
   color: #532565;
 }
@@ -366,4 +372,16 @@ content: ""
 
 .general-table-headers div{
   font-weight: bold !important;
+}
+
+
+.MuiStepConnector-vertical {
+    border-color: #c0b3c5 !important;
+    border-left-width: 8px !important;
+    margin-left: 39px !important;
+}
+.MuiStepContent-root {
+  border-color: #c0b3c5 !important;
+  border-left-width: 8px !important;
+  margin-left: 39px !important;
 }

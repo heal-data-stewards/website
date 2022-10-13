@@ -10,7 +10,7 @@ export default function WorkingGroupTable({ data }) {
   const [users, setUsers] = useState([])
   // Call the strapi API to GET all users
   useEffect(() => {
-    if (session) {
+    if (session || !session) {
       getAllUsers().then(function (result) {
         const users = result.filter(
           (user) => user.workgroup === data.title.workinggroup
