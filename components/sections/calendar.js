@@ -39,23 +39,29 @@ export default function Calendar(props) {
       fetchMyAPI()
     }
   }, [props.token, session])
-
+  console.log(events)
   return (
     <div className="container">
       {/* List of Events */}
       <section>
         {events.length !== 0 &&
-          events.map((event, i) => {
-            if (new Date(event.start.dateTime) >= new Date()) {
-              return (
-                <WebinarItem
-                  key={event.subject + i}
-                  event={event}
-                  past={false}
-                />
-              )
-            }
-          })}
+          events
+            .sort(function (a, b) {
+              // Turn your strings into dates, and then subtract them
+              // to get a value that is either negative, positive, or zero.
+              return new Date(a.start.dateTime) - new Date(b.start.dateTime)
+            })
+            .map((event, i) => {
+              if (new Date(event.start.dateTime) >= new Date()) {
+                return (
+                  <WebinarItem
+                    key={event.subject + i}
+                    event={event}
+                    past={false}
+                  />
+                )
+              }
+            })}
       </section>
       <section className={`pt-10 pb-10`}>
         <h1 className="text-5xl font-black pb-4 text-purple">Past Events</h1>
