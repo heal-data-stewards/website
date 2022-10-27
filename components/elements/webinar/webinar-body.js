@@ -34,6 +34,7 @@ export default function WebinarBody(props) {
           }
         })
         let sortedEvents = filterByDate(publicEvents)
+        console.log(sortedEvents)
         setEvents(sortedEvents)
       }
       fetchMyAPI()
