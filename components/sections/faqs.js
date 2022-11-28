@@ -87,6 +87,8 @@ export default function Faqs({ data }) {
     setExpanded(newExpanded ? panel : false)
   }
 
+  console.log(faqs)
+
   return (
     <div className="container">
       {faqs.map((faq, i) => {
