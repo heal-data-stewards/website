@@ -10,7 +10,7 @@ const columns = [
     headerClassName: "general-table-headers",
     sortable: false,
     filterable: false,
-    width: 150,
+    width: 130,
     // eslint-disable-next-line react/display-name
     renderCell: ({ row }) => (
       <Markdown linkTarget="_blank" className="general-table">
@@ -19,31 +19,45 @@ const columns = [
     ),
   },
   {
-    field: "Repository Type",
-    headerName: "Repository Type",
+    field: "Descriptive Tags",
+    headerName: "Descriptive Tags",
     headerClassName: "general-table-headers",
-    width: 200,
+    width: 170,
     sortable: false,
   },
   {
     field: "Organism",
     headerName: "Organism",
     headerClassName: "general-table-headers",
-    width: 150,
+    width: 120,
+    sortable: false,
+  },
+  {
+    field: "IC/Program Required",
+    headerName: "IC/Program Required?",
+    headerClassName: "general-table-headers",
+    width: 210,
     sortable: false,
   },
   {
     field: "IC/Program",
     headerName: "IC/Program",
     headerClassName: "general-table-headers",
-    width: 150,
+    width: 130,
+    sortable: false,
+  },
+  {
+    field: "Accepts data from any HEAL study",
+    headerName: "Accepts data from any HEAL study",
+    headerClassName: "general-table-headers",
+    width: 290,
     sortable: false,
   },
   {
     field: "Overview",
     headerName: "Overview",
     headerClassName: "general-table-headers",
-    width: 150,
+    width: 120,
     sortable: false,
     filterable: false,
     // eslint-disable-next-line react/display-name
@@ -77,6 +91,8 @@ export default function GeneralDataTable(data) {
 
     return createData(i, bucket)
   })
+
+  console.log(data.data)
   return (
     <div style={{ height: 600 }} className={"container mb-8"}>
       <DataGrid
