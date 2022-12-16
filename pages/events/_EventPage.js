@@ -33,9 +33,13 @@ function EventPage({ global, event, pageContext, metadata }) {
   let endTime = makeEasternTime(eTime)
 
   function stripScripts(s) {
-    let retVal = s.replace(/(<style[\w\W]+style>)/g, "")
+    let retVal = s
+      .replace(/(<style[\w\W]+style>)/g, "")
+      .split("<a")
+      .join('<a target="_blank"')
     return retVal
   }
+
   function checkIfPastEvent() {
     if (new Date(data.start.dateTime) <= new Date()) {
       return "Recording Link: "
