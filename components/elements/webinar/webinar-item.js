@@ -62,7 +62,7 @@ export default function WebinarItem({ event, past }) {
               },
             }}
           >
-            <a target="_blank" rel="noreferrer" href={`/events/${event.id}`}>
+            <a rel="noreferrer" href={`/events/${event.id}`}>
               {event.subject}
             </a>
           </Typography>
@@ -86,7 +86,7 @@ export default function WebinarItem({ event, past }) {
         }}
       >
         <Button variant="contained" size="small">
-          <a target="_blank" rel="noreferrer" href={`/events/${event.id}`}>
+          <a rel="noreferrer" href={`/events/${event.id}`}>
             Read More
           </a>
         </Button>
