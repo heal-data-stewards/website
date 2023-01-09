@@ -1,6 +1,7 @@
 import React from "react"
 import { DataGrid, GridToolbar } from "@material-ui/data-grid"
 import Markdown from "react-markdown"
+import RenderExpandableCell from "./render-expandable-cell"
 
 const columns = [
   { field: "id", hide: true, headerName: "ID", width: 10 },
@@ -10,7 +11,7 @@ const columns = [
     headerClassName: "general-table-headers",
     sortable: false,
     filterable: false,
-    width: 130,
+    width: 160,
     // eslint-disable-next-line react/display-name
     renderCell: ({ row }) => (
       <Markdown linkTarget="_blank" className="general-table">
@@ -24,6 +25,11 @@ const columns = [
     headerClassName: "general-table-headers",
     width: 170,
     sortable: false,
+    cellClass: "overflow",
+    // eslint-disable-next-line react/display-name
+    renderCell: ({ row }) => (
+      <RenderExpandableCell data={row["Descriptive Tags"]} />
+    ),
   },
   {
     field: "Organism",
@@ -31,6 +37,8 @@ const columns = [
     headerClassName: "general-table-headers",
     width: 120,
     sortable: false,
+    // eslint-disable-next-line react/display-name
+    renderCell: ({ row }) => <RenderExpandableCell data={row["Organism"]} />,
   },
   {
     field: "IC/Program Required",
@@ -38,6 +46,10 @@ const columns = [
     headerClassName: "general-table-headers",
     width: 210,
     sortable: false,
+    // eslint-disable-next-line react/display-name
+    renderCell: ({ row }) => (
+      <RenderExpandableCell data={row["IC/Program Required"]} />
+    ),
   },
   {
     field: "IC/Program",
@@ -45,6 +57,8 @@ const columns = [
     headerClassName: "general-table-headers",
     width: 130,
     sortable: false,
+    // eslint-disable-next-line react/display-name
+    renderCell: ({ row }) => <RenderExpandableCell data={row["IC/Program"]} />,
   },
   {
     field: "Accepts data from any HEAL study",
@@ -52,6 +66,10 @@ const columns = [
     headerClassName: "general-table-headers",
     width: 290,
     sortable: false,
+    // eslint-disable-next-line react/display-name
+    renderCell: ({ row }) => (
+      <RenderExpandableCell data={row["Accepts data from any HEAL study"]} />
+    ),
   },
   {
     field: "Overview",
