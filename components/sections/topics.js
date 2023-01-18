@@ -1,6 +1,7 @@
 import React from "react"
 import Markdown from "react-markdown"
 import { Divider } from "@material-ui/core"
+import UniversalSearchBar from "components/elements/search-bar.js"
 
 export default function Topics({ data }) {
   // add error handling
@@ -11,7 +12,8 @@ export default function Topics({ data }) {
         style={{ background: "#c0b3c569" }}
       >
         <div className="container">
-          <h4 className="text-2xl text-magenta font-bold mb-4">
+          <UniversalSearchBar />
+          <h4 className="text-2xl text-magenta font-bold mb-4 mt-4">
             Search Results
           </h4>
           <Divider style={{ background: "black" }} />
