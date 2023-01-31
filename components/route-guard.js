@@ -48,7 +48,7 @@ function RouteGuard({ children }) {
       "/glossary",
       "/webinar",
       "/search",
-      // "/password-reset",
+      "/cb",
       "/resources/metadata",
       "/resources/repositories",
       "/resources/guidance/selection",

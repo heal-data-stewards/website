@@ -1,9 +1,10 @@
-import React from "react"
+import React, { useState } from "react"
 import Markdown from "react-markdown"
 import { Divider } from "@material-ui/core"
 import UniversalSearchBar from "components/elements/search-bar.js"
 
 export default function Topics({ data }) {
+  const [searched, setSearched] = useState(true)
   // add error handling
   return (
     <>
