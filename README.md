@@ -99,4 +99,13 @@ To edit a page
 3. Make edits to existing sections/components. You can also delete existing sections/components or add new ones. 
 4. Once you have made your required changes click the green save button on the top right hand corner. 
 
+## Editing a Collective Board Member
+
+In order to not send a welcome email after any edit.
+
+1. Switch the PreviouslyConfirmed button to on.
+2. Save
+3. Make desired changes
+4. Save
+
 
