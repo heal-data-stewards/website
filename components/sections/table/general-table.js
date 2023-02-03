@@ -1,7 +1,7 @@
-import React from "react"
-import { DataGrid, GridToolbar } from "@material-ui/data-grid"
-import Markdown from "react-markdown"
-import RenderExpandableCell from "./render-expandable-cell"
+import React from "react";
+import { DataGrid, GridToolbar } from "@material-ui/data-grid";
+import Markdown from "react-markdown";
+import RenderExpandableCell from "./render-expandable-cell";
 
 const columns = [
   { field: "id", hide: true, headerName: "ID", width: 10 },
@@ -45,7 +45,7 @@ const columns = [
     headerName: "IC/Program Required?",
     headerClassName: "general-table-headers",
     width: 210,
-    sortable: false,
+    sortable: true,
     // eslint-disable-next-line react/display-name
     renderCell: ({ row }) => (
       <RenderExpandableCell data={row["IC/Program Required"]} />
@@ -85,32 +85,36 @@ const columns = [
       </Markdown>
     ),
   },
-]
+];
 
 function createData(id, data) {
-  let row = { ...data }
+  let row = { ...data };
 
   for (const property in row) {
-    let index = Number(property) + 1
-    let newKey = columns[index].field
-    row[newKey] = row[property]
-    delete row[property]
+    let index = Number(property) + 1;
+    let newKey = columns[index].field;
+    row[newKey] = row[property];
+    delete row[property];
   }
-  row["id"] = id
+  row["id"] = id;
 
-  return row
+  return row;
 }
 
 export default function GeneralDataTable(data) {
+  const queryParameters = new URLSearchParams(window.location.search);
+  // Display the key/value pairs
+  for (const [key, value] of queryParameters.entries()) {
+    console.log(`${key}, ${value}`);
+  }
   let test = data.data.row.map((row, i) => {
     let bucket = row.columns.map((column, i) => {
-      return column.column_data
-    })
+      return column.column_data;
+    });
 
-    return createData(i, bucket)
-  })
+    return createData(i, bucket);
+  });
 
-  console.log(data.data)
   return (
     <div style={{ height: 600 }} className={"container mb-8"}>
       <DataGrid
@@ -120,7 +124,16 @@ export default function GeneralDataTable(data) {
         components={{
           Toolbar: GridToolbar,
         }}
+        // filterModel={{
+        //   items: [
+        //     {
+        //       columnField: "IC/Program Required",
+        //       operatorValue: "equals",
+        //       value: "Yes",
+        //     },
+        //   ],
+        // }}
       />
     </div>
-  )
+  );
 }

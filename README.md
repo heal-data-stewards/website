@@ -108,4 +108,13 @@ In order to not send a welcome email after any edit.
 3. Make desired changes
 4. Save
 
+## Creating a public collective board meeting
+
+In the HEAL outlook calendar
+
+1. Create a new meeting
+2. On the meeting header search for the category tag
+3. Choose green category
+4. Save
+
 
