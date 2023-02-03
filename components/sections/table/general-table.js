@@ -1,7 +1,7 @@
-import React from "react";
-import { DataGrid, GridToolbar } from "@material-ui/data-grid";
-import Markdown from "react-markdown";
-import RenderExpandableCell from "./render-expandable-cell";
+import React, { useState, useEffect } from "react"
+import { DataGrid, GridToolbar } from "@material-ui/data-grid"
+import Markdown from "react-markdown"
+import RenderExpandableCell from "./render-expandable-cell"
 
 const columns = [
   { field: "id", hide: true, headerName: "ID", width: 10 },
@@ -85,35 +85,38 @@ const columns = [
       </Markdown>
     ),
   },
-];
+]
 
 function createData(id, data) {
-  let row = { ...data };
+  let row = { ...data }
 
   for (const property in row) {
-    let index = Number(property) + 1;
-    let newKey = columns[index].field;
-    row[newKey] = row[property];
-    delete row[property];
+    let index = Number(property) + 1
+    let newKey = columns[index].field
+    row[newKey] = row[property]
+    delete row[property]
   }
-  row["id"] = id;
+  row["id"] = id
 
-  return row;
+  return row
 }
 
 export default function GeneralDataTable(data) {
-  const queryParameters = new URLSearchParams(window.location.search);
+  // useEffect(() => {
+
+  // }, [])
+  const queryParameters = new URLSearchParams(window.location.search)
   // Display the key/value pairs
   for (const [key, value] of queryParameters.entries()) {
-    console.log(`${key}, ${value}`);
+    console.log(`${key}, ${value}`)
   }
   let test = data.data.row.map((row, i) => {
     let bucket = row.columns.map((column, i) => {
-      return column.column_data;
-    });
+      return column.column_data
+    })
 
-    return createData(i, bucket);
-  });
+    return createData(i, bucket)
+  })
 
   return (
     <div style={{ height: 600 }} className={"container mb-8"}>
@@ -135,5 +138,5 @@ export default function GeneralDataTable(data) {
         // }}
       />
     </div>
-  );
+  )
 }
