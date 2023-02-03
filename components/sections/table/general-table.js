@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useState, useEffect } from "react"
 import { DataGrid, GridToolbar } from "@material-ui/data-grid"
 import Markdown from "react-markdown"
 import RenderExpandableCell from "./render-expandable-cell"
@@ -45,7 +45,7 @@ const columns = [
     headerName: "IC/Program Required?",
     headerClassName: "general-table-headers",
     width: 210,
-    sortable: false,
+    sortable: true,
     // eslint-disable-next-line react/display-name
     renderCell: ({ row }) => (
       <RenderExpandableCell data={row["IC/Program Required"]} />
@@ -102,6 +102,17 @@ function createData(id, data) {
 }
 
 export default function GeneralDataTable(data) {
+  const [param, setParam] = useState()
+  const [paramValue, setParamValue] = useState()
+  useEffect(() => {
+    const queryParameters = new URLSearchParams(window.location.search)
+
+    for (const [key, value] of queryParameters.entries()) {
+      setParam(key)
+      setParamValue(value)
+    }
+  }, [])
+
   let test = data.data.row.map((row, i) => {
     let bucket = row.columns.map((column, i) => {
       return column.column_data
@@ -110,7 +121,6 @@ export default function GeneralDataTable(data) {
     return createData(i, bucket)
   })
 
-  console.log(data.data)
   return (
     <div style={{ height: 600 }} className={"container mb-8"}>
       <DataGrid
@@ -119,6 +129,15 @@ export default function GeneralDataTable(data) {
         pageSize={26}
         components={{
           Toolbar: GridToolbar,
+        }}
+        filterModel={{
+          items: [
+            {
+              columnField: param,
+              operatorValue: "contains",
+              value: paramValue,
+            },
+          ],
         }}
       />
     </div>

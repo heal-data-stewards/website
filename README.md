@@ -112,4 +112,22 @@ To create a public event
 1. Leave the category tag with no selection.
 2. Done
 
+## Editing a Collective Board Member
+
+In order to not send a welcome email after any edit.
+
+1. Switch the PreviouslyConfirmed button to on.
+2. Save
+3. Make desired changes
+4. Save
+
+## Creating a public collective board meeting
+
+In the HEAL outlook calendar
+
+1. Create a new meeting
+2. On the meeting header search for the category tag
+3. Choose green category
+4. Save
+
 
