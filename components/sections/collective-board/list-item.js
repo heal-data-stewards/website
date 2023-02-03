@@ -37,7 +37,6 @@ export default function PublicWorkingGroupListItem({
             sx={{
               fontWeight: "bold",
               color: "#532565",
-              textTransform: "capitalize",
             }}
           >
             {organization}
