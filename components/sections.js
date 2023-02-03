@@ -28,6 +28,8 @@ import Boardlist from "./sections/collective-board/board-list"
 import MetaDataBlocks from "./sections/metadata/metadata-blocks"
 import GeneralDataTable from "./sections/table/general-table"
 import RoadMap from "./sections/roadmap"
+import Topics from "./sections/topics"
+import CollectiveEvents from "./elements/webinar/collective"
 
 // Map Strapi sections to section components
 const sectionComponents = {
@@ -60,6 +62,8 @@ const sectionComponents = {
   "sections.public-collective": Boardlist,
   "sections.meta-data-content": MetaDataBlocks,
   "sections.roadmap": RoadMap,
+  "sections.topics": Topics,
+  "sections.collective-events": CollectiveEvents,
 }
 
 // Display a section individually

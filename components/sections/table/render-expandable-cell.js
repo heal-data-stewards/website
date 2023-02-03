@@ -40,8 +40,6 @@ const RenderExpandableCell = (data) => {
     },
   }))
 
-  console.log(data)
-
   return (
     <HtmlTooltip title={data.data} disableHoverListener={!isOverflowed}>
       <span

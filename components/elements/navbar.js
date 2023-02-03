@@ -121,7 +121,6 @@ const Navbar = ({ navbar, pageContext }) => {
   //   localStorage.setItem("loggedIn", false)
   //   signOut({ redirect: false })
   // }
-  console.log(navbar)
   return (
     <div>
       <AppBar
