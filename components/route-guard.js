@@ -48,7 +48,7 @@ function RouteGuard({ children }) {
       "/glossary",
       "/webinar",
       "/search",
-      "/cb",
+      "/collective/meetings",
       "/resources/metadata",
       "/resources/repositories",
       "/resources/guidance/selection",
