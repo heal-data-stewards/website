@@ -102,8 +102,8 @@ function createData(id, data) {
 }
 
 export default function GeneralDataTable(data) {
-  const [param, setParam] = useState()
-  const [paramValue, setParamValue] = useState()
+  const [param, setParam] = useState(false)
+  const [paramValue, setParamValue] = useState(false)
   useEffect(() => {
     const queryParameters = new URLSearchParams(window.location.search)
 
@@ -123,23 +123,34 @@ export default function GeneralDataTable(data) {
 
   return (
     <div style={{ height: 600 }} className={"container mb-8"}>
-      <DataGrid
-        rows={test}
-        columns={columns}
-        pageSize={26}
-        components={{
-          Toolbar: GridToolbar,
-        }}
-        filterModel={{
-          items: [
-            {
-              columnField: param,
-              operatorValue: "contains",
-              value: paramValue,
-            },
-          ],
-        }}
-      />
+      {!paramValue ? (
+        <DataGrid
+          rows={test}
+          columns={columns}
+          pageSize={26}
+          components={{
+            Toolbar: GridToolbar,
+          }}
+        />
+      ) : (
+        <DataGrid
+          rows={test}
+          columns={columns}
+          pageSize={26}
+          components={{
+            Toolbar: GridToolbar,
+          }}
+          filterModel={{
+            items: [
+              {
+                columnField: param,
+                operatorValue: "contains",
+                value: paramValue,
+              },
+            ],
+          }}
+        />
+      )}
     </div>
   )
 }
