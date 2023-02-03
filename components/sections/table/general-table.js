@@ -102,14 +102,17 @@ function createData(id, data) {
 }
 
 export default function GeneralDataTable(data) {
-  // useEffect(() => {
+  const [param, setParam] = useState()
+  const [paramValue, setParamValue] = useState()
+  useEffect(() => {
+    const queryParameters = new URLSearchParams(window.location.search)
 
-  // }, [])
-  const queryParameters = new URLSearchParams(window.location.search)
-  // Display the key/value pairs
-  for (const [key, value] of queryParameters.entries()) {
-    console.log(`${key}, ${value}`)
-  }
+    for (const [key, value] of queryParameters.entries()) {
+      setParam(key)
+      setParamValue(value)
+    }
+  }, [])
+
   let test = data.data.row.map((row, i) => {
     let bucket = row.columns.map((column, i) => {
       return column.column_data
@@ -127,15 +130,15 @@ export default function GeneralDataTable(data) {
         components={{
           Toolbar: GridToolbar,
         }}
-        // filterModel={{
-        //   items: [
-        //     {
-        //       columnField: "IC/Program Required",
-        //       operatorValue: "equals",
-        //       value: "Yes",
-        //     },
-        //   ],
-        // }}
+        filterModel={{
+          items: [
+            {
+              columnField: param,
+              operatorValue: "equals",
+              value: paramValue,
+            },
+          ],
+        }}
       />
     </div>
   )
