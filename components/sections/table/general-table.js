@@ -134,7 +134,7 @@ export default function GeneralDataTable(data) {
           items: [
             {
               columnField: param,
-              operatorValue: "equals",
+              operatorValue: "contains",
               value: paramValue,
             },
           ],
