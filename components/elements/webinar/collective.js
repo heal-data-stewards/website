@@ -27,7 +27,7 @@ export default function CollectiveEvents(props) {
         let eventData2 = await fetchEvents(props.token)
         const publicEvents = eventData2.filter((event) => {
           if (
-            event.categories.length === 0 ||
+            // event.categories.length === 0 ||
             event.categories[0] === "Green category"
           ) {
             return event
