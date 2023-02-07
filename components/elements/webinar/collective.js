@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react"
-import { useSession } from "next-auth/client"
 import WebinarItem from "./webinar-item"
 import { filterByDate } from "utils/helper-functions"
 import Divider from "@mui/material/Divider"
@@ -7,38 +6,25 @@ import { fetchEvents } from "utils/msft-graph-api"
 
 export default function CollectiveEvents(props) {
   const [events, setEvents] = useState(filterByDate(props.eventData))
-  const [session, loading] = useSession()
-  const [loggedIn, setLoggedIn] = useState(false)
 
   useEffect(() => {
-    if (session) {
-      setLoggedIn(true)
-      // eventData contains every event in the HEAL calendar, logged in users see every event
-      async function fetchMyAPI() {
-        let eventData2 = await fetchEvents(props.token)
-        let sortedEvents = filterByDate(eventData2)
-        setEvents(sortedEvents)
-      }
-      fetchMyAPI()
-    } else {
-      // Events created in the HEAL Calendar with out a category label are collected in filteredEvents
-      // These are the events avaiable to the public
-      async function fetchMyAPI() {
-        let eventData2 = await fetchEvents(props.token)
-        const publicEvents = eventData2.filter((event) => {
-          if (
-            // event.categories.length === 0 ||
-            event.categories[0] === "Green category"
-          ) {
-            return event
-          }
-        })
-        let sortedEvents = filterByDate(publicEvents)
-        setEvents(sortedEvents)
-      }
-      fetchMyAPI()
+    // Events created in the HEAL Calendar with out a category label are collected in filteredEvents
+    // These are the events avaiable to the public
+    async function fetchMyAPI() {
+      let eventData2 = await fetchEvents(props.token)
+      const publicEvents = eventData2.filter((event) => {
+        if (
+          // event.categories.length === 0 ||
+          event.categories[0] === "Green category"
+        ) {
+          return event
+        }
+      })
+      let sortedEvents = filterByDate(publicEvents)
+      setEvents(sortedEvents)
     }
-  }, [session, props.token])
+    fetchMyAPI()
+  }, [props.token])
 
   return (
     <div className="container">
