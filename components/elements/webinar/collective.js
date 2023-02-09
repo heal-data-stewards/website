@@ -5,7 +5,7 @@ import Divider from "@mui/material/Divider"
 import { fetchEvents } from "utils/msft-graph-api"
 
 export default function CollectiveEvents(props) {
-  const [events, setEvents] = useState(filterByDate(props.eventData))
+  const [events, setEvents] = useState([])
 
   useEffect(() => {
     // Events created in the HEAL Calendar with out a category label are collected in filteredEvents
