@@ -11,8 +11,8 @@ export default function CollectiveEvents(props) {
     // Events created in the HEAL Calendar with out a category label are collected in filteredEvents
     // These are the events avaiable to the public
     async function fetchMyAPI() {
-      let eventData2 = await fetchEvents(props.token)
-      const publicEvents = eventData2.filter((event) => {
+      // let eventData2 = await fetchEvents(props.token)
+      const publicEvents = props.eventData.filter((event) => {
         if (
           // event.categories.length === 0 ||
           event.categories[0] === "Green category"
@@ -24,7 +24,7 @@ export default function CollectiveEvents(props) {
       setEvents(sortedEvents)
     }
     fetchMyAPI()
-  }, [props.token])
+  }, [])
 
   return (
     <div className="container">
