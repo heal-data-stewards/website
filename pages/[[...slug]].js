@@ -107,11 +107,25 @@ export async function getStaticProps(context) {
     let events = await getAuthorizationToken()
     eventData = events
   }
-  if ((params.slug !== undefined && params.slug[1] === "webinar") || "cb") {
+  if (params.slug !== undefined && params.slug[1] === "webinar") {
     let events = await getAuthorizationToken()
 
     const result = events.filter(
       (event) => event.categories[0] === "Purple category"
+    )
+    eventData = result
+    eventData.token = events.token
+  }
+  console.log(params.slug)
+  if (
+    params.slug !== undefined &&
+    params.slug[0] === "collective" &&
+    params.slug[1] === "meetings"
+  ) {
+    let events = await getAuthorizationToken()
+
+    const result = events.filter(
+      (event) => event.categories[0] === "Green category"
     )
     eventData = result
     eventData.token = events.token
