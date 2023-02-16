@@ -24,7 +24,7 @@ export default function CollectiveEvents(props) {
       setEvents(sortedEvents)
     }
     fetchMyAPI()
-  }, [])
+  }, [props.eventData])
 
   return (
     <div className="container">
