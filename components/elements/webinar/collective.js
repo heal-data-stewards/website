@@ -53,6 +53,7 @@ export default function CollectiveEvents(props) {
                     key={event.subject + i}
                     event={event}
                     past={false}
+                    collective={true}
                   />
                 )
               }
@@ -78,6 +79,7 @@ export default function CollectiveEvents(props) {
                     key={event.subject + i}
                     event={event}
                     past={true}
+                    collective={true}
                   />
                 )
               }

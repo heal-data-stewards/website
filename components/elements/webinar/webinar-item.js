@@ -16,7 +16,7 @@ const BlueLink = styled.a`
   color: #0044b3;
 `
 
-export default function WebinarItem({ event, past }) {
+export default function WebinarItem({ event, past, collective }) {
   let date = new Date(Date.parse(event.start.dateTime))
   let endDate = new Date(Date.parse(event.end.dateTime))
   let sTime = date.toLocaleTimeString()
@@ -67,7 +67,9 @@ export default function WebinarItem({ event, past }) {
             </a>
           </Typography>
           <Typography sx={{ mb: 1.5, fontWeight: "bold", color: "#982568" }}>
-            {past ? "Recording Link:" : "Registration Link"}{" "}
+            {!collective && (
+              past ? "Recording Link:" : "Registration Link"
+            )}
             <BlueLink href={event.location.displayName} target="_blank">
               {event.location.displayName}
             </BlueLink>
