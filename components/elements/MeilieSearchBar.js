@@ -1,14 +1,11 @@
 import React from "react"
 import PropTypes from "prop-types"
 import Grid from "@material-ui/core/Grid"
-import IconButton from "@material-ui/core/IconButton"
 import { withStyles } from "@material-ui/core/styles"
 import AppBar from "@material-ui/core/AppBar"
 import Toolbar from "@material-ui/core/AppBar"
 import SearchIcon from "@material-ui/icons/Search"
 import TextField from "@material-ui/core/TextField"
-import Tooltip from "@material-ui/core/Tooltip"
-import RefreshIcon from "@material-ui/icons/Refresh"
 
 const styles = (theme) => ({
   paper: {
@@ -24,6 +21,7 @@ const styles = (theme) => ({
   searchInput: {
     fontSize: theme.typography.fontSize,
     color: "#fff",
+    height: "40px",
   },
   block: {
     display: "block",
@@ -40,8 +38,8 @@ const styles = (theme) => ({
   },
 })
 
-function UniversalSearchBar(props) {
-  const { classes, filter, setFilter } = props
+function MeilieSearchBar(props) {
+  const { classes, currentRefinement, refine } = props
   //   const lowercasedFilter = filter.toLowerCase();
 
   return (
@@ -58,9 +56,9 @@ function UniversalSearchBar(props) {
           <Grid item xs>
             <TextField
               fullWidth
-              onChange={(e) => setFilter(e.currentTarget.value)}
+              onChange={(e) => refine(e.currentTarget.value)}
               placeholder="Search"
-              value={filter}
+              value={currentRefinement}
               InputProps={{
                 disableUnderline: true,
                 className: classes.searchInput,
@@ -68,25 +66,14 @@ function UniversalSearchBar(props) {
               style={{ color: "#fff" }}
             />
           </Grid>
-          <Grid item>
-            <Tooltip title="Reload">
-              <IconButton>
-                <RefreshIcon
-                  className={classes.block}
-                  color="inherit"
-                  onClick={() => setFilter("")}
-                />
-              </IconButton>
-            </Tooltip>
-          </Grid>
         </Grid>
       </Toolbar>
     </AppBar>
   )
 }
 
-UniversalSearchBar.propTypes = {
+MeilieSearchBar.propTypes = {
   classes: PropTypes.object.isRequired,
 }
 
-export default withStyles(styles)(UniversalSearchBar)
+export default withStyles(styles)(MeilieSearchBar)
