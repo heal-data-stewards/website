@@ -29,7 +29,7 @@ export default function CollectiveEvents(props) {
   return (
     <div className="container">
       {/* List of Events */}
-      <section>
+      {/* <section>
         <h1 className="text-3xl font-black pb-4 text-purple">
           Upcoming Events
         </h1>
@@ -58,7 +58,7 @@ export default function CollectiveEvents(props) {
                 )
               }
             })}
-      </section>
+      </section> */}
       <section className={`pt-10 pb-10`}>
         <h1 className="text-3xl font-black pb-4 text-purple">Past Events</h1>
         <Divider />

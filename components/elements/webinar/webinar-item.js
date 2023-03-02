@@ -34,8 +34,8 @@ export default function WebinarItem({ event, past, collective }) {
         <div className="event-img">
           <Image
             alt="Webinar"
-            width={275}
-            height={275}
+            width={175}
+            height={175}
             src={renderImage(event.categories[0])}
           />
         </div>
