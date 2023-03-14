@@ -116,7 +116,6 @@ export async function getStaticProps(context) {
     eventData = result
     eventData.token = events.token
   }
-  console.log(params.slug)
   if (
     params.slug !== undefined &&
     params.slug[0] === "collective" &&
