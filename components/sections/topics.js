@@ -1,6 +1,7 @@
 import React, { useState } from "react"
 import Markdown from "react-markdown"
 import { Divider } from "@material-ui/core"
+import Link from "next/link"
 import MeilieSearchBar from "components/elements/MeilieSearchBar.js"
 import { InstantSearch, Hits, Highlight } from "react-instantsearch-dom"
 import { instantMeiliSearch } from "@meilisearch/instant-meilisearch"
@@ -12,14 +13,12 @@ const searchClient = instantMeiliSearch("http://18.234.132.32/", "", {
 })
 
 const Hit = ({ hit }) => {
-  console.log(hit)
+  // console.log(hit);
   return (
     <>
-      <div>{hit.metadata.metaTitle}</div>
-      {/* <Snippet hit={hit} attribute={hit.metadata.metaTitle} /> */}
-
-      {/* <p className="mt-4">0 results found</p> */}
-      {/* <Highlight attribute="status" hit={hit} /> */}
+      <a className="search-link" href={hit.slug || " "}>
+        {hit.metadata.metaTitle}
+      </a>
     </>
   )
 }
@@ -75,6 +74,7 @@ export default function Topics({ data }) {
               Search Results
             </h4>
             <Divider style={{ background: "black" }} />
+            <br></br>
             <Hits hitComponent={Hit} />
           </InstantSearch>
         </div>
