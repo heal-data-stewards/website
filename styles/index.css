@@ -385,3 +385,7 @@ content: ""
   border-left-width: 8px !important;
   margin-left: 39px !important;
 }
+.search-link {
+  color: #0044B3;
+  font-weight: 400
+}
