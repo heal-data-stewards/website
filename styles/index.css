@@ -216,11 +216,11 @@ content: ""
 
 .event-img {
   position: absolute;
-  top: -12.5px;
+  top: 32.5px;
 }
 
 .card-blurb {
-  padding: 0 0 0 300px;
+  padding: 0 0 0 220px;
   word-break: break-word;
 
 }
@@ -384,4 +384,8 @@ content: ""
   border-color: #c0b3c5 !important;
   border-left-width: 8px !important;
   margin-left: 39px !important;
+}
+.search-link {
+  color: #0044B3;
+  font-weight: 400
 }

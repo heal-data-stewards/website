@@ -1,11 +1,66 @@
 import React, { useState } from "react"
 import Markdown from "react-markdown"
 import { Divider } from "@material-ui/core"
-import UniversalSearchBar from "components/elements/search-bar.js"
+import Link from "next/link"
+import MeilieSearchBar from "components/elements/MeilieSearchBar.js"
+import { InstantSearch, Hits, Highlight } from "react-instantsearch-dom"
+import { instantMeiliSearch } from "@meilisearch/instant-meilisearch"
+import { createConnector } from "react-instantsearch-dom"
+import { Snippet } from "react-instantsearch-dom"
+
+const searchClient = instantMeiliSearch("http://18.234.132.32/", "", {
+  placeholderSearch: false,
+})
+
+const Hit = ({ hit }) => {
+  // console.log(hit);
+  return (
+    <>
+      <a className="search-link" href={hit.slug || " "}>
+        {hit.metadata.metaTitle}
+      </a>
+    </>
+  )
+}
 
 export default function Topics({ data }) {
-  const [searched, setSearched] = useState(true)
+  // const [searched, setSearched] = useState(true);
   // add error handling
+  const connectWithQuery = createConnector({
+    displayName: "WidgetWithQuery",
+    getProvidedProps(props, searchState) {
+      // Since the `attributeForMyQuery` searchState entry isn't
+      // necessarily defined, we need to default its value.
+      const currentRefinement = searchState.attributeForMyQuery || ""
+
+      // Connect the underlying component with the `currentRefinement`
+      return { currentRefinement }
+    },
+    refine(props, searchState, nextRefinement) {
+      // When the underlying component calls its `refine` prop,
+      // we update the searchState with the provided refinement.
+      return {
+        // `searchState` represents the search state of *all* widgets. We need to extend it
+        // instead of replacing it, otherwise other widgets will lose their respective state.
+        ...searchState,
+        attributeForMyQuery: nextRefinement,
+      }
+    },
+    getSearchParameters(searchParameters, props, searchState) {
+      // When the `attributeForMyQuery` state entry changes, we update the query
+      return searchParameters.setQuery(searchState.attributeForMyQuery || "")
+    },
+    cleanUp(props, searchState) {
+      // When the widget is unmounted, we omit the entry `attributeForMyQuery`
+      // from the `searchState`, then on the next request the query will
+      // be empty
+      const { attributeForMyQuery, ...nextSearchState } = searchState
+
+      return nextSearchState
+    },
+  })
+
+  const ConnectedSearchBox = connectWithQuery(MeilieSearchBar)
   return (
     <>
       <div
@@ -13,12 +68,15 @@ export default function Topics({ data }) {
         style={{ background: "#c0b3c569" }}
       >
         <div className="container">
-          <UniversalSearchBar />
-          <h4 className="text-2xl text-magenta font-bold mb-4 mt-4">
-            Search Results
-          </h4>
-          <Divider style={{ background: "black" }} />
-          <p className="mt-4">0 results found</p>
+          <InstantSearch indexName="page" searchClient={searchClient}>
+            <ConnectedSearchBox />
+            <h4 className="text-2xl text-magenta font-bold mb-4 mt-4">
+              Search Results
+            </h4>
+            <Divider style={{ background: "black" }} />
+            <br></br>
+            <Hits hitComponent={Hit} />
+          </InstantSearch>
         </div>
       </div>
       <main className="container pb-12 ">
