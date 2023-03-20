@@ -71,7 +71,8 @@ function EventPage({ global, event, pageContext, metadata }) {
             }`}
           </p>
           <h2 className="pt-4 font-black text-magenta ">
-            {checkIfPastEvent()}
+            {event.event.categories[0] !== "Green category" &&
+              checkIfPastEvent()}
 
             <BlueLink href={data.location.displayName} target="_blank">
               {data.location.displayName}
