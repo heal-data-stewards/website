@@ -2,8 +2,10 @@ export function renderImage(category) {
   switch (category) {
     case "Purple category":
       return "https://heal-community-portal-api.s3.amazonaws.com/webinar_img_8b5d53f130.png";
-      case "Green category":
-        return "https://heal-community-portal-api.s3.amazonaws.com/commitee_ef9b9de8e5.png";
+    case "Green category":
+      return "https://heal-community-portal-api.s3.amazonaws.com/commitee_ef9b9de8e5.png";
+    case "Yellow category":
+      return "https://heal-community-portal-api.s3.amazonaws.com/HEAL_Website_Page_Design_V4_21_435a06df13.png";
     default:
       return "https://heal-community-portal-api.s3.amazonaws.com/webinar_img_8b5d53f130.png";
   }
