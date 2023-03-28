@@ -28,7 +28,8 @@ export default function Calendar(props) {
         const publicEvents = eventData2.filter((event) => {
           if (
             event.categories.length === 0 ||
-            event.categories[0] === "Purple category"
+            event.categories[0] === "Purple category" ||
+            event.categories[0] === "Yellow category"
           ) {
             return event
           }
