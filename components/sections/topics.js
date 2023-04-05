@@ -7,18 +7,50 @@ import { InstantSearch, Hits, Highlight } from "react-instantsearch-dom"
 import { instantMeiliSearch } from "@meilisearch/instant-meilisearch"
 import { createConnector } from "react-instantsearch-dom"
 import { Snippet } from "react-instantsearch-dom"
+import Box from "@mui/material/Box"
+import Card from "@mui/material/Card"
+import CardActions from "@mui/material/CardActions"
+import CardContent from "@mui/material/CardContent"
+import Button from "@mui/material/Button"
+import Typography from "@mui/material/Typography"
+
+function OutlinedCard(props) {
+  return (
+    <Box sx={{ minWidth: 275 }}>
+      <Card variant="outlined">
+        <CardContent>
+          <a className="search-link" href={props.hit.slug || " "}>
+            <Typography
+              sx={{ fontSize: 14 }}
+              color="text.secondary"
+              gutterBottom
+            >
+              {"https://healdatafair.org/" + props.hit.slug}
+            </Typography>
+            <Typography variant="h6" component="div">
+              {props.hit.metadata.metaTitle}
+            </Typography>
+          </a>
+          <Typography color="text.secondary">
+            {props.hit.metadata.metaDescription}
+          </Typography>
+        </CardContent>
+        {/* <CardActions>
+          <Button size="small">Visit</Button>
+        </CardActions> */}
+      </Card>
+    </Box>
+  )
+}
 
 const searchClient = instantMeiliSearch("http://18.234.132.32/", "", {
   placeholderSearch: false,
 })
 
 const Hit = ({ hit }) => {
-  // console.log(hit);
   return (
     <>
-      <a className="search-link" href={hit.slug || " "}>
-        {hit.metadata.metaTitle}
-      </a>
+      <OutlinedCard hit={hit} />
     </>
   )
 }
