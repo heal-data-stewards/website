@@ -81,7 +81,7 @@ const columns = [
     // eslint-disable-next-line react/display-name
     renderCell: ({ row }) => (
       <Markdown linkTarget="_blank" className="new1">
-        {row.Overview}
+        {row.new1}
       </Markdown>
     ),
   },
@@ -95,7 +95,7 @@ const columns = [
     // eslint-disable-next-line react/display-name
     renderCell: ({ row }) => (
       <Markdown linkTarget="_blank" className="new2">
-        {row.Overview}
+        {row.new2}
       </Markdown>
     ),
   },
@@ -109,7 +109,7 @@ const columns = [
     // eslint-disable-next-line react/display-name
     renderCell: ({ row }) => (
       <Markdown linkTarget="_blank" className="new3">
-        {row.Overview}
+        {row.new3}
       </Markdown>
     ),
   },
