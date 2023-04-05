@@ -72,6 +72,48 @@ const columns = [
     ),
   },
   {
+    field: "new1",
+    headerName: "new1",
+    headerClassName: "general-table-headers",
+    width: 120,
+    sortable: false,
+    filterable: false,
+    // eslint-disable-next-line react/display-name
+    renderCell: ({ row }) => (
+      <Markdown linkTarget="_blank" className="new1">
+        {row.Overview}
+      </Markdown>
+    ),
+  },
+  {
+    field: "new2",
+    headerName: "new2",
+    headerClassName: "general-table-headers",
+    width: 120,
+    sortable: false,
+    filterable: false,
+    // eslint-disable-next-line react/display-name
+    renderCell: ({ row }) => (
+      <Markdown linkTarget="_blank" className="new2">
+        {row.Overview}
+      </Markdown>
+    ),
+  },
+  {
+    field: "new3",
+    headerName: "new 3",
+    headerClassName: "general-table-headers",
+    width: 120,
+    sortable: false,
+    filterable: false,
+    // eslint-disable-next-line react/display-name
+    renderCell: ({ row }) => (
+      <Markdown linkTarget="_blank" className="new3">
+        {row.Overview}
+      </Markdown>
+    ),
+  },
+  {
     field: "Overview",
     headerName: "Overview",
     headerClassName: "general-table-headers",
