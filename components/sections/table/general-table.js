@@ -72,44 +72,44 @@ const columns = [
     ),
   },
   {
-    field: "new1",
-    headerName: "new1",
+    field: "Cost",
+    headerName: "Cost",
     headerClassName: "general-table-headers",
     width: 120,
     sortable: false,
     filterable: false,
     // eslint-disable-next-line react/display-name
     renderCell: ({ row }) => (
-      <Markdown linkTarget="_blank" className="new1">
-        {row.new1}
+      <Markdown linkTarget="_blank" className="Cost">
+        {row["Cost"]}
       </Markdown>
     ),
   },
   {
-    field: "new2",
-    headerName: "new2",
+    field: "Supports Embargo",
+    headerName: "Supports Embargo",
     headerClassName: "general-table-headers",
     width: 120,
     sortable: false,
     filterable: false,
     // eslint-disable-next-line react/display-name
     renderCell: ({ row }) => (
-      <Markdown linkTarget="_blank" className="new2">
-        {row.new2}
+      <Markdown linkTarget="_blank" className="Supports-Embargo">
+        {row["Supports Embargo"]}
       </Markdown>
     ),
   },
   {
-    field: "new3",
-    headerName: "new 3",
+    field: "Curation Services",
+    headerName: "Curation Services",
     headerClassName: "general-table-headers",
     width: 120,
     sortable: false,
     filterable: false,
     // eslint-disable-next-line react/display-name
     renderCell: ({ row }) => (
-      <Markdown linkTarget="_blank" className="new3">
-        {row.new3}
+      <Markdown linkTarget="_blank" className="Curation-Services">
+        {row["Curation Services"]}
       </Markdown>
     ),
   },
