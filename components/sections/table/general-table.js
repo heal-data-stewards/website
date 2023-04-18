@@ -72,6 +72,48 @@ const columns = [
     ),
   },
   {
+    field: "Cost",
+    headerName: "Cost",
+    headerClassName: "general-table-headers",
+    width: 120,
+    sortable: false,
+    filterable: false,
+    // eslint-disable-next-line react/display-name
+    renderCell: ({ row }) => (
+      <Markdown linkTarget="_blank" className="Cost">
+        {row["Cost"]}
+      </Markdown>
+    ),
+  },
+  {
+    field: "Supports Embargo",
+    headerName: "Supports Embargo",
+    headerClassName: "general-table-headers",
+    width: 120,
+    sortable: false,
+    filterable: false,
+    // eslint-disable-next-line react/display-name
+    renderCell: ({ row }) => (
+      <Markdown linkTarget="_blank" className="Supports-Embargo">
+        {row["Supports Embargo"]}
+      </Markdown>
+    ),
+  },
+  {
+    field: "Curation Services",
+    headerName: "Curation Services",
+    headerClassName: "general-table-headers",
+    width: 120,
+    sortable: false,
+    filterable: false,
+    // eslint-disable-next-line react/display-name
+    renderCell: ({ row }) => (
+      <Markdown linkTarget="_blank" className="Curation-Services">
+        {row["Curation Services"]}
+      </Markdown>
+    ),
+  },
+  {
     field: "Overview",
     headerName: "Overview",
     headerClassName: "general-table-headers",
