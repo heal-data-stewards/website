@@ -117,4 +117,13 @@ In the HEAL outlook calendar
 3. Choose green category
 4. Save
 
+## Creating an announcement type meeting
+
+In the HEAL outlook calendar
+
+1. Create a new meeting
+2. On the meeting header search for the category tag
+3. Choose yellow category
+4. Save
+
 
