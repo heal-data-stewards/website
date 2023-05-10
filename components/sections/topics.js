@@ -102,9 +102,9 @@ export default function Topics({ data }) {
         <div className="container">
           <InstantSearch indexName="page" searchClient={searchClient}>
             <ConnectedSearchBox />
-            <h4 className="text-2xl text-magenta font-bold mb-4 mt-4">
+            {/* <h4 className="text-2xl text-magenta font-bold mb-4 mt-4">
               Search Results
-            </h4>
+            </h4> */}
             <Divider style={{ background: "black" }} />
             <br></br>
             <Hits hitComponent={Hit} />
