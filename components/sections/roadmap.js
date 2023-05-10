@@ -73,7 +73,7 @@ export default function RoadMap({ data }) {
       7: <Icon img="7" />,
       8: <Icon img="8" />,
       9: <Icon img="9" />,
-      10: <Icon img="10" />
+      10: <Icon img="10" />,
     }
 
     return (
