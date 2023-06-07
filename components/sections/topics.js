@@ -43,9 +43,13 @@ function OutlinedCard(props) {
   )
 }
 
-const searchClient = instantMeiliSearch("http://18.234.132.32/", "", {
-  placeholderSearch: false,
-})
+const searchClient = instantMeiliSearch(
+  "https://search.healdatafair.org/",
+  "",
+  {
+    placeholderSearch: false,
+  }
+)
 
 const Hit = ({ hit }) => {
   return (
