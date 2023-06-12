@@ -51,16 +51,15 @@ const searchClient = instantMeiliSearch(
   }
 )
 
-const Hit = ({ hit }) => {
-  return (
-    <>
-      <OutlinedCard hit={hit} />
-    </>
-  )
-}
-
 export default function Topics({ data }) {
-  // const [searched, setSearched] = useState(true);
+  const Hit = ({ hit }) => {
+    return (
+      <>
+        <OutlinedCard key={hit.id} hit={hit} />
+      </>
+    )
+  }
+
   // add error handling
   const connectWithQuery = createConnector({
     displayName: "WidgetWithQuery",
@@ -68,7 +67,6 @@ export default function Topics({ data }) {
       // Since the `attributeForMyQuery` searchState entry isn't
       // necessarily defined, we need to default its value.
       const currentRefinement = searchState.attributeForMyQuery || ""
-
       // Connect the underlying component with the `currentRefinement`
       return { currentRefinement }
     },
@@ -84,6 +82,7 @@ export default function Topics({ data }) {
     },
     getSearchParameters(searchParameters, props, searchState) {
       // When the `attributeForMyQuery` state entry changes, we update the query
+      // props.setSearched(searchState.attributeForMyQuery)
       return searchParameters.setQuery(searchState.attributeForMyQuery || "")
     },
     cleanUp(props, searchState) {
@@ -106,9 +105,11 @@ export default function Topics({ data }) {
         <div className="container">
           <InstantSearch indexName="page" searchClient={searchClient}>
             <ConnectedSearchBox />
-            {/* <h4 className="text-2xl text-magenta font-bold mb-4 mt-4">
-              Search Results
-            </h4> */}
+            {/* {setSearched() && (
+              <h4 className="text-2xl text-magenta font-bold mb-4 mt-4">
+                Search Results
+              </h4>
+            )} */}
             <Divider style={{ background: "black" }} />
             <br></br>
             <Hits hitComponent={Hit} />
