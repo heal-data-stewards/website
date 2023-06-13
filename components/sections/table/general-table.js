@@ -41,17 +41,6 @@ const columns = [
     renderCell: ({ row }) => <RenderExpandableCell data={row["Organism"]} />,
   },
   {
-    field: "IC/Program Required",
-    headerName: "IC/Program Required?",
-    headerClassName: "general-table-headers",
-    width: 210,
-    sortable: true,
-    // eslint-disable-next-line react/display-name
-    renderCell: ({ row }) => (
-      <RenderExpandableCell data={row["IC/Program Required"]} />
-    ),
-  },
-  {
     field: "IC/Program",
     headerName: "IC/Program",
     headerClassName: "general-table-headers",
@@ -61,16 +50,29 @@ const columns = [
     renderCell: ({ row }) => <RenderExpandableCell data={row["IC/Program"]} />,
   },
   {
-    field: "Accepts data from any HEAL study",
-    headerName: "Accepts data from any HEAL study",
+    field: "Get Started Here",
+    headerName: "Get Started Here",
     headerClassName: "general-table-headers",
-    width: 290,
-    sortable: false,
+    width: 210,
+    sortable: true,
     // eslint-disable-next-line react/display-name
     renderCell: ({ row }) => (
-      <RenderExpandableCell data={row["Accepts data from any HEAL study"]} />
+      <Markdown linkTarget="_blank" className="general-table">
+        {row["Get Started Here"]}
+      </Markdown>
     ),
   },
+  // {
+  //   field: "Accepts data from any HEAL study",
+  //   headerName: "Accepts data from any HEAL study",
+  //   headerClassName: "general-table-headers",
+  //   width: 290,
+  //   sortable: false,
+  //   // eslint-disable-next-line react/display-name
+  //   renderCell: ({ row }) => (
+  //     <RenderExpandableCell data={row["Accepts data from any HEAL study"]} />
+  //   ),
+  // },
   // {
   //   field: "Cost",
   //   headerName: "Cost",
