@@ -11,7 +11,7 @@ const columns = [
     headerClassName: "general-table-headers",
     sortable: false,
     filterable: false,
-    width: 160,
+    width: 300,
     // eslint-disable-next-line react/display-name
     renderCell: ({ row }) => (
       <Markdown linkTarget="_blank" className="general-table">
@@ -35,7 +35,7 @@ const columns = [
     field: "Organism",
     headerName: "Organism",
     headerClassName: "general-table-headers",
-    width: 120,
+    width: 118,
     sortable: false,
     // eslint-disable-next-line react/display-name
     renderCell: ({ row }) => <RenderExpandableCell data={row["Organism"]} />,
@@ -53,7 +53,7 @@ const columns = [
     field: "Get Started Here",
     headerName: "Get Started Here",
     headerClassName: "general-table-headers",
-    width: 210,
+    width: 300,
     sortable: true,
     // eslint-disable-next-line react/display-name
     renderCell: ({ row }) => (
@@ -119,7 +119,7 @@ const columns = [
     field: "Overview",
     headerName: "Overview",
     headerClassName: "general-table-headers",
-    width: 120,
+    width: 155,
     sortable: false,
     filterable: false,
     // eslint-disable-next-line react/display-name
