@@ -72,22 +72,24 @@ export default function Faqs({ data }) {
       return res
     }
 
-    getStrapiApiPageData("resources/faqs")
-      .then((res) => {
-        // console.log(res)
-        return groupByTag(res.contentSections[2].question, "tag")
-      })
-      .then((res) => {
-        const newState = separateObject(res)
-        setFaqs(newState)
-      })
-  }, [])
+    // getStrapiApiPageData("resources/faqs")
+    //   .then((res) => {
+    //     // console.log(res)
+    //     return groupByTag(res.contentSections[2].question, "tag")
+    //   })
+    //   .then((res) => {
+    //     const newState = separateObject(res)
+    //     setFaqs(newState)
+    //   })
+
+    const group = groupByTag(data.question, "tag")
+    const newState = separateObject(group)
+    setFaqs(newState)
+  }, [data.question])
 
   const handleChange = (panel) => (event, newExpanded) => {
     setExpanded(newExpanded ? panel : false)
   }
-
-  console.log(faqs)
 
   return (
     <div className="container">
