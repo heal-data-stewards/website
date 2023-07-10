@@ -33,15 +33,19 @@ const StyledMenu = styled((props) => <Menu elevation={0} {...props} />)(
         "rgb(255, 255, 255) 0px 0px 0px 0px, rgba(0, 0, 0, 0.05) 0px 0px 0px 1px, rgba(0, 0, 0, 0.1) 0px 10px 15px -3px, rgba(0, 0, 0, 0.05) 0px 4px 6px -2px",
       "& .MuiMenu-list": {
         "&:hover": {
-          background: "#982568",
+          // background: "#982568",
         },
         padding: "15px 15px 15px 8px",
       },
       "& .MuiMenuItem-root": {
+        borderBottom: "1px solid #532565",
         display: "block",
         "& .MuiSvgIcon-root": {
           color: theme.palette.text.secondary,
           marginRight: theme.spacing(1.5),
+        },
+        "&:hover": {
+          borderBottom: "1px solid #fff",
         },
       },
     },
@@ -63,6 +67,11 @@ const MenuPopupState = (data) => {
             </div>
           </button>
           <StyledMenu {...bindMenu(popupState)}>
+            <MenuItem onClick={popupState.close}>
+              <Link href="/[[...slug]]" as={"/about"}>
+                <a style={{ fontSize: "14px", fontWeight: "bold" }}>ABOUT</a>
+              </Link>
+            </MenuItem>
             <MenuItem onClick={popupState.close}>
               <Link href="/[[...slug]]" as={"/collective"}>
                 <a style={{ fontSize: "14px", fontWeight: "bold" }}>
@@ -225,6 +234,15 @@ const Navbar = ({ navbar, pageContext }) => {
                 </CustomLink>
               </li>
             ))}
+            <li key={"dregqfasd342"}>
+              <CustomLink link={{ url: "/about" }} locale={router.locale}>
+                <ListItem className="hover:text-white hover:bg-magenta text-purple px-2 py-1">
+                  <ListItemText>
+                    <span style={{ fontWeight: "bold" }}>ABOUT</span>
+                  </ListItemText>
+                </ListItem>
+              </CustomLink>
+            </li>
             <li key={"dsnj342"}>
               <CustomLink link={{ url: "/collective" }} locale={router.locale}>
                 <ListItem className="hover:text-white hover:bg-magenta text-purple px-2 py-1">

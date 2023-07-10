@@ -2,8 +2,7 @@ import classNames from "classnames"
 import NextImage from "../elements/image"
 import Video from "../elements/video"
 import CustomLink from "../elements/custom-link"
-import React, { useState, useEffect } from "react"
-import TransitionsModal from "../elements/modal"
+import React from "react"
 
 const FeatureRowsGroup = ({ data }) => {
   return (
