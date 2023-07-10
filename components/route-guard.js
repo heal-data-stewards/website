@@ -33,7 +33,7 @@ function RouteGuard({ children }) {
     })
     // redirect to account page if accessing a private page and not logged in
     const publicPaths = [
-      // "/account",
+      "/about",
       "/calendar",
       "/resources",
       "/resources/guidance",
