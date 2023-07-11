@@ -1,5 +1,5 @@
 import PropTypes from "prop-types"
-import Markdown from "react-markdown"
+import Markdown from '../elements/markdown'
 import React, { useState, useEffect } from "react"
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
@@ -67,7 +67,7 @@ const RichTextModal = ({ data }) => {
           </h3>
         </BootstrapDialogTitle>
         <DialogContent dividers>
-            <Markdown style={{color: '#532565'}}>{data.content}</Markdown>
+          <Markdown src={data.content}/>
         </DialogContent>
       </BootstrapDialog>
     </div>
