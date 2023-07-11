@@ -14,7 +14,7 @@ function BootstrapDialogTitle(props) {
   const { children, onClose, ...other } = props;
 
   return (
-    <DialogTitle sx={{ m: 0, p: 2, display: "flex", justifyContent: 'space-between', alignItems: "center" }} {...other}>
+    <DialogTitle sx={{ m: 0, p: '1.5rem 1rem 1rem 2.5rem', display: "flex", justifyContent: 'space-between', alignItems: "center" }} {...other}>
       {children}
       {onClose ? (
         <IconButton
@@ -58,7 +58,7 @@ const RichTextModal = ({ data }) => {
             {data.title}
           </h3>
         </BootstrapDialogTitle>
-        <DialogContent dividers>
+        <DialogContent dividers sx={{ padding: '1.5rem 2.5rem 1rem' }}>
           <Markdown src={data.content}/>
         </DialogContent>
       </Dialog>
