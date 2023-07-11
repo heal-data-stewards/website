@@ -9,14 +9,6 @@ import DialogTitle from '@mui/material/DialogTitle';
 import DialogContent from '@mui/material/DialogContent';
 import Typography from '@mui/material/Typography'
 
-const BootstrapDialog = styled(Dialog)(({ theme }) => ({
-  '& .MuiDialogContent-root': {
-    padding: theme.spacing(2),
-  },
-  '& .MuiDialogActions-root': {
-    padding: theme.spacing(1),
-  },
-}));
 
 function BootstrapDialogTitle(props) {
   const { children, onClose, ...other } = props;
@@ -56,7 +48,7 @@ const RichTextModal = ({ data }) => {
 
   return (
     <div>
-      <BootstrapDialog
+      <Dialog
         onClose={handleClose}
         aria-labelledby="customized-dialog-title"
         open={open}
@@ -69,7 +61,7 @@ const RichTextModal = ({ data }) => {
         <DialogContent dividers>
           <Markdown src={data.content}/>
         </DialogContent>
-      </BootstrapDialog>
+      </Dialog>
     </div>
 
   )
