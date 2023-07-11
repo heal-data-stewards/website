@@ -8,7 +8,8 @@ import Dialog from '@mui/material/Dialog';
 import DialogTitle from '@mui/material/DialogTitle';
 import DialogContent from '@mui/material/DialogContent';
 import Typography from '@mui/material/Typography'
-
+import Button from '@mui/material/Button';
+import DialogActions from '@mui/material/DialogActions';
 
 function BootstrapDialogTitle(props) {
   const { children, onClose, ...other } = props;
@@ -61,6 +62,13 @@ const RichTextModal = ({ data }) => {
         <DialogContent dividers sx={{ padding: '1.5rem 2.5rem 1rem' }}>
           <Markdown src={data.content}/>
         </DialogContent>
+        <DialogActions>
+          <Button  onClick={handleClose} >
+            < Typography sx={{fontFamily: 'Montserrat', fontWeight: 600, letterSpacing: '0.5px'}}>
+              Acknowledge
+            </Typography>
+          </Button>
+        </DialogActions>
       </Dialog>
     </div>
 
