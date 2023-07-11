@@ -1,28 +1,37 @@
 import PropTypes from "prop-types"
-import Markdown from '../elements/markdown'
+import Markdown from "../elements/markdown"
 import React, { useState, useEffect } from "react"
-import IconButton from '@material-ui/core/IconButton';
-import CloseIcon from '@material-ui/icons/Close';
-import { styled } from '@mui/material/styles';
-import Dialog from '@mui/material/Dialog';
-import DialogTitle from '@mui/material/DialogTitle';
-import DialogContent from '@mui/material/DialogContent';
-import Typography from '@mui/material/Typography'
-import Button from '@mui/material/Button';
-import DialogActions from '@mui/material/DialogActions';
+import IconButton from "@material-ui/core/IconButton"
+import CloseIcon from "@material-ui/icons/Close"
+import { styled } from "@mui/material/styles"
+import Dialog from "@mui/material/Dialog"
+import DialogTitle from "@mui/material/DialogTitle"
+import DialogContent from "@mui/material/DialogContent"
+import Typography from "@mui/material/Typography"
+import Button from "@mui/material/Button"
+import DialogActions from "@mui/material/DialogActions"
 
 function BootstrapDialogTitle(props) {
-  const { children, onClose, ...other } = props;
+  const { children, onClose, ...other } = props
 
   return (
-    <DialogTitle sx={{ m: 0, p: '1.5rem 1rem 1rem 2.5rem', display: "flex", justifyContent: 'space-between', alignItems: "center" }} {...other}>
+    <DialogTitle
+      sx={{
+        m: 0,
+        p: "1.5rem 1rem 1rem 2.5rem",
+        display: "flex",
+        justifyContent: "space-between",
+        alignItems: "center",
+      }}
+      {...other}
+    >
       {children}
       {onClose ? (
         <IconButton
           aria-label="close"
           onClick={onClose}
           sx={{
-            position: 'absolute',
+            position: "absolute",
             right: 8,
             top: 8,
             color: (theme) => theme.palette.grey[500],
@@ -32,13 +41,13 @@ function BootstrapDialogTitle(props) {
         </IconButton>
       ) : null}
     </DialogTitle>
-  );
+  )
 }
 
 BootstrapDialogTitle.propTypes = {
   children: PropTypes.node,
   onClose: PropTypes.func.isRequired,
-};
+}
 
 const RichTextModal = ({ data }) => {
   const [open, setOpen] = useState(true)
@@ -54,24 +63,32 @@ const RichTextModal = ({ data }) => {
         aria-labelledby="customized-dialog-title"
         open={open}
       >
-        <BootstrapDialogTitle id="customized-dialog-title" onClose={handleClose}>
-          <h3 style={{fontFamily: 'Montserrat', fontWeight: 600}}>
+        <BootstrapDialogTitle
+          id="customized-dialog-title"
+          onClose={handleClose}
+        >
+          <h3 style={{ fontFamily: "Montserrat", fontWeight: 600 }}>
             {data.title}
           </h3>
         </BootstrapDialogTitle>
-        <DialogContent dividers sx={{ padding: '1.5rem 2.5rem 1rem' }}>
-          <Markdown src={data.content}/>
+        <DialogContent dividers sx={{ padding: "1.5rem 2.5rem 1rem" }}>
+          <Markdown src={data.content} />
         </DialogContent>
         <DialogActions>
-          <Button  onClick={handleClose} >
-            < Typography sx={{fontFamily: 'Montserrat', fontWeight: 600, letterSpacing: '0.5px'}}>
+          <Button onClick={handleClose}>
+            <Typography
+              sx={{
+                fontFamily: "Montserrat",
+                fontWeight: 600,
+                letterSpacing: "0.5px",
+              }}
+            >
               Acknowledge
             </Typography>
           </Button>
         </DialogActions>
       </Dialog>
     </div>
-
   )
 }
 
