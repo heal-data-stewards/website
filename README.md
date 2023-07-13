@@ -99,6 +99,19 @@ To edit a page
 3. Make edits to existing sections/components. You can also delete existing sections/components or add new ones. 
 4. Once you have made your required changes click the green save button on the top right hand corner. 
 
+## Adding events to the heal calendar
+### In the Heal outlook calendar 
+
+To create a webinar event
+
+1. Select the purple category tag when creating the event.
+2. Done
+
+To create a public event
+
+1. Leave the category tag with no selection.
+2. Done
+
 ## Editing a Collective Board Member
 
 In order to not send a welcome email after any edit.
