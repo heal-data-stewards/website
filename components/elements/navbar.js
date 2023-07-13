@@ -69,7 +69,9 @@ const MenuPopupState = (data) => {
           <StyledMenu {...bindMenu(popupState)}>
             <MenuItem onClick={popupState.close}>
               <Link href="/[[...slug]]" as={"/about"}>
-                <a style={{ fontSize: "14px", fontWeight: "bold" }}>ABOUT</a>
+                <a style={{ fontSize: "14px", fontWeight: "bold" }}>
+                  HEAL DATA ECOSYSTEM
+                </a>
               </Link>
             </MenuItem>
             <MenuItem onClick={popupState.close}>
