@@ -65,15 +65,16 @@ export default function RoadMap({ data }) {
 
     const stepIcons = {
       1: <Icon img="1" />,
-      2: <Icon img="2" />,
-      3: <Icon img="3" />,
-      4: <Icon img="4" />,
-      5: <Icon img="5" />,
-      6: <Icon img="6" />,
-      7: <Icon img="7" />,
-      8: <Icon img="8" />,
-      9: <Icon img="9" />,
-      10: <Icon img="10" />,
+      2: <Icon img="11" />,
+      3: <Icon img="2" />,
+      4: <Icon img="3" />,
+      5: <Icon img="4" />,
+      6: <Icon img="5" />,
+      7: <Icon img="6" />,
+      8: <Icon img="7" />,
+      9: <Icon img="8" />,
+      10: <Icon img="9" />,
+      11: <Icon img="10" />,
     }
 
     return (
