@@ -6,11 +6,7 @@ const Markdown = ({ children }) => {
     () => ({
       p: function Anchor({ node, href, children, ...props }) {
         return (
-          <p
-            style={{
-              paddingBottom: "1rem",
-            }}
-          >
+          <p style={{ paddingBottom: "1rem" }}>
             {children}
           </p>
         )
