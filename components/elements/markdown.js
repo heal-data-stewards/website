@@ -1,16 +1,12 @@
 import ReactMarkdown from "react-markdown"
 import React, { useMemo } from "react"
 
-const Markdown = ({ src }) => {
+const Markdown = ({ children }) => {
   const componentMap = useMemo(
     () => ({
       p: function Anchor({ node, href, children, ...props }) {
         return (
-          <p
-            style={{
-              paddingBottom: "1rem",
-            }}
-          >
+          <p style={{ paddingBottom: "1rem" }}>
             {children}
           </p>
         )
@@ -26,7 +22,11 @@ const Markdown = ({ src }) => {
     []
   )
 
-  return <ReactMarkdown components={componentMap} children={src} />
+  return (
+    <ReactMarkdown components={ componentMap }>
+      {children}
+    </ReactMarkdown>
+  )
 }
 
 export default Markdown
