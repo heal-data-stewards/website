@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react"
 import WebinarItem from "./webinar-item"
 import { filterByDate } from "utils/helper-functions"
 import Divider from "@mui/material/Divider"
-import { fetchEvents } from "utils/msft-graph-api"
+// import { fetchEvents } from "utils/msft-graph-api"
 
 export default function CollectiveEvents(props) {
   const [events, setEvents] = useState([])

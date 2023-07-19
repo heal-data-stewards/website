@@ -30,7 +30,7 @@ import GeneralDataTable from "./sections/table/general-table"
 import RoadMap from "./sections/roadmap"
 import Topics from "./sections/topics"
 import CollectiveEvents from "./elements/webinar/collective"
-import RichTextModal from "./sections/rich-text-modal"
+// import RichTextModal from "./sections/rich-text-modal"
 
 // Map Strapi sections to section components
 const sectionComponents = {
