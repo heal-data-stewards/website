@@ -1,16 +1,16 @@
 import React, { useEffect, useState } from "react"
 import { DataGrid, GridToolbar } from "@material-ui/data-grid"
 import { getAllUsers } from "utils/api"
-import { styled } from "@material-ui/core/styles"
-import { makeStyles } from "@material-ui/core/styles"
-const useStyles = makeStyles({
-  table: {
-    background: "#fff",
-  },
-})
-const TestComponent = styled(GridToolbar)({
-  background: "#c0b3c569",
-})
+// import { styled } from "@material-ui/core/styles"
+// import { makeStyles } from "@material-ui/core/styles"
+// const useStyles = makeStyles({
+// table: {
+//   background: "#fff",
+// },
+// })
+// const TestComponent = styled(GridToolbar)({
+// background: "#c0b3c569",
+// })
 
 const columns = [
   { field: "id", hide: true, headerName: "ID", width: 70 },
@@ -27,7 +27,7 @@ const columns = [
     width: 150,
   },
   {
-    field: "userrole",
+    field: "role",
     headerName: "Role",
     width: 150,
   },
@@ -48,17 +48,19 @@ function createData(
   lastname,
   email,
   org,
-  userrole,
+  RoleInHeal,
   programarea,
   roleInProgramArea
 ) {
+  let role = RoleInHeal ? RoleInHeal.split("_").join(" ") : "N/A"
+
   return {
     id,
     firstname,
     lastname,
     email,
     org,
-    userrole,
+    role,
     programarea,
     roleInProgramArea,
   }
@@ -66,12 +68,13 @@ function createData(
 
 export default function DataTable() {
   const [users, setUsers] = useState([])
-  const classes = useStyles()
+  // const classes = useStyles()
   // Call the strapi API to GET all users
   useEffect(() => {
     getAllUsers()
       .then(function (result) {
         const users = result.filter((user) => user.confirmed === true)
+
         return users.map((user) => {
           return createData(
             user.id,
@@ -79,7 +82,7 @@ export default function DataTable() {
             user.lastname,
             user.email,
             user.organization,
-            user.userrole,
+            user.RoleInHeal,
             user.programarea,
             user.roleInProgramArea
           )
@@ -92,13 +95,13 @@ export default function DataTable() {
   return (
     <div style={{ height: 600, width: "100%" }} className={"container mb-8"}>
       <DataGrid
-        className={classes.table}
+        // className={classes.table}
         rows={users}
         columns={columns}
         pageSize={25}
         checkboxSelection
         components={{
-          Toolbar: TestComponent,
+          Toolbar: GridToolbar,
         }}
       />
     </div>

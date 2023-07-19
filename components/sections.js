@@ -20,9 +20,17 @@ import ResourceBlocks from "./sections/resource-blocks"
 import FAIRiswheel from "./sections/resources/FAIRiswheel"
 import ConsortiumBlocks from "./sections/consortium-block"
 import WorkingGroupTable from "./sections/table"
-import WebinarItem from "./sections/webinar/webinar-item"
-import WebinarBody from "./sections/webinar/webinar-body"
+import WebinarBody from "./elements/webinar/webinar-body"
 import Faqs from "@/components/sections/faqs"
+import ResourceCards from "./sections/resources/resource-cards"
+import NewPasswordResetForm from "./elements/form/password-reset"
+import Boardlist from "./sections/collective-board/board-list"
+import MetaDataBlocks from "./sections/metadata/metadata-blocks"
+import GeneralDataTable from "./sections/table/general-table"
+import RoadMap from "./sections/roadmap"
+import Topics from "./sections/topics"
+import CollectiveEvents from "./elements/webinar/collective"
+import RichTextModal from "./sections/rich-text-modal"
 
 // Map Strapi sections to section components
 const sectionComponents = {
@@ -40,6 +48,7 @@ const sectionComponents = {
   "sections.signup": SignUp,
   "sections.resources": Resources,
   "sections.table": BasicTable,
+  "sections.general-data-table": GeneralDataTable,
   "sections.carousel": EmblaCarousel,
   "sections.glossary-term-and-definition": Glossary,
   "sections.calendarbody": Calendar,
@@ -47,22 +56,35 @@ const sectionComponents = {
   "sections.fairiswheel": FAIRiswheel,
   "sections.consortium": ConsortiumBlocks,
   "sections.members": WorkingGroupTable,
-  "sections.webinar-item": WebinarItem,
   "sections.webinarbody": WebinarBody,
   "sections.faqs": Faqs,
+  "sections.resource-cards": ResourceCards,
+  "sections.password-reset": NewPasswordResetForm,
+  "sections.public-collective": Boardlist,
+  "sections.meta-data-content": MetaDataBlocks,
+  "sections.roadmap": RoadMap,
+  "sections.topics": Topics,
+  "sections.collective-events": CollectiveEvents,
+  "sections.rich-text-modal": RichTextModal,
 }
 
 // Display a section individually
-const Section = ({ sectionData, eventData }) => {
+const Section = ({ sectionData, eventData, token, glossary }) => {
   // Prepare the component
   const SectionComponent = sectionComponents[sectionData.__component]
-
   if (!SectionComponent) {
     return null
   }
 
   // Display the section
-  return <SectionComponent data={sectionData} eventData={eventData} />
+  return (
+    <SectionComponent
+      glossary={glossary}
+      data={sectionData}
+      eventData={eventData}
+      token={token}
+    />
+  )
 }
 
 const PreviewModeBanner = () => {
@@ -87,7 +109,7 @@ const PreviewModeBanner = () => {
 }
 
 // Display the list of sections
-const Sections = ({ sections, preview, eventData }) => {
+const Sections = ({ sections, preview, eventData, token, glossary }) => {
   return (
     <div className="flex flex-col">
       {/* Show a banner if preview mode is on */}
@@ -98,6 +120,8 @@ const Sections = ({ sections, preview, eventData }) => {
           sectionData={section}
           eventData={eventData}
           key={`${section.__component}${section.id}`}
+          token={token}
+          glossary={glossary}
         />
       ))}
     </div>

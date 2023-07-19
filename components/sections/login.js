@@ -1,8 +1,10 @@
-import React from "react"
+import React, { useState } from "react"
 import { makeStyles } from "@material-ui/core/styles"
 import Paper from "@material-ui/core/Paper"
 import Grid from "@material-ui/core/Grid"
 import LoginForm from "../elements/form/login"
+import NewPasswordForm from "../elements/form/password-recovery"
+import Link from "next/link"
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -18,6 +20,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function LoginSection(props) {
   const classes = useStyles()
+  const [showPasswordReset, setShowPasswordReset] = useState(false)
 
   return (
     <div className={classes.root}>
@@ -27,7 +30,12 @@ export default function LoginSection(props) {
           <Grid item xs={12} md={9}>
             <Paper className={classes.paper} elevation={0} square>
               <div style={{ textAlign: "right", margin: "20px 0 20px 0" }}>
-                <span>Need an account? </span> {props.children}
+                <span>Need an account? </span>{" "}
+                <span style={{ color: "#532565" }}>
+                  <Link style={{ color: "#0044b3" }} href="/sign-up">
+                    Sign Up
+                  </Link>
+                </span>
               </div>
               <br></br>
               <div
@@ -37,9 +45,21 @@ export default function LoginSection(props) {
                   margin: "0 auto",
                 }}
               >
-                <h1 className="text-3xl mb-10 font-bold mb-2">LOGIN</h1>
+                <h1 className="text-3xl font-bold">
+                  {!showPasswordReset ? "LOGIN" : "PASSWORD RESET"}
+                </h1>
               </div>
-              <LoginForm />
+
+              {!showPasswordReset ? <LoginForm /> : <NewPasswordForm />}
+              {!showPasswordReset && (
+                <div style={{ marginTop: "-23px", color: "#532565" }}>
+                  <button
+                    onClick={() => setShowPasswordReset(!showPasswordReset)}
+                  >
+                    Forgot Password
+                  </button>
+                </div>
+              )}
             </Paper>
           </Grid>
         </Grid>

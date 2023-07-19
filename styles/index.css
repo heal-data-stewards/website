@@ -205,16 +205,24 @@ content: ""
 /* Event List Cards */
 
 .basic-card-container {
-  margin-bottom: 75px
+  margin: 0 0 25px 0
+}
+.basic-card-content {
+  min-height: 250px;
+  background: rgb(192 179 197 / 18%);
+  padding: 35px;
+  position: relative;
 }
 
 .event-img {
-  margin: -56.5px 0 0 0;
-  position: absolute
+  position: absolute;
+  top: 32.5px;
 }
 
 .card-blurb {
-  padding: 0 0 0 300px
+  padding: 0 0 0 220px;
+  word-break: break-word;
+
 }
 
 .working-group-list-item{
@@ -229,6 +237,11 @@ content: ""
   width: calc(50% - 10px) !important;
 }
 
+/* .webinar-markdown p {
+  max-height: 100px;
+  overflow: hidden;
+} */
+
 @media screen and (max-width: 755px){
   .event-img {
     position:relative;
@@ -238,23 +251,25 @@ content: ""
     padding: 20px 0 0 0
   }
 
-  .working-group-list-item{
-    width: 100% !important;
-  }
-  .working-group-list-item:nth-of-type(2n){
-    margin-left: 0;
-    width: 100% !important;
-  }
+
 
 }
 
 @media screen and (max-width: 1025px){
   .event-img {
-    margin: 0;
+    top: unset;
   }
  .basic-card-content {
    min-height: 340px
  }
+
+ .working-group-list-item{
+  width: 100% !important;
+}
+.working-group-list-item:nth-of-type(2n){
+  margin-left: 0;
+  width: 100% !important;
+}
 }
 
 .event-html li {
@@ -273,6 +288,11 @@ content: ""
   margin: 0 0 12px 0
 }
 
+.faq-markdown li {
+  list-style-type: square;
+  margin-left: 50px
+}
+
 .glossary-markdown a {
   color: #0044B3;
 }
@@ -286,4 +306,86 @@ content: ""
   position: relative;
   top: -90px;
   visibility: hidden;
+}
+
+/* Public Page: Members Collective */
+
+.members-basic-card-content {
+  min-height: 250px;
+  background: rgb(192 179 197 / 18%);
+  padding: 35px;
+  position: relative;
+}
+
+.public-members-card {
+  margin-top:15px;
+  border-width: 6px;
+  border-style: solid;
+  border-image: 
+    linear-gradient(
+      to left, 
+      #532565, 
+      #f4f1f4
+    ) 100% 0 0 0;
+}
+
+.members-event-img {
+  position: absolute;
+  top: -40px;
+}
+
+
+
+.members-card-blurb {
+  padding: 0 0 0 135px;
+  word-break: break-word;
+}
+
+
+@media screen and (max-width: 650px){
+  .members-card-blurb  {
+    padding: 40px 0 0 0
+  }
+}
+
+.event-html hr {
+  border-top-width: 1px;
+  border-color: #982466;
+  padding-bottom: 10px;
+}
+
+.event-html h2 {
+  color: #532565;
+}
+
+.event-html h3 {
+  color: #982568;
+}
+.general-table a {
+  color: #0044B3;
+}
+
+.general-table-headers{
+  color: #532565;
+  font-size: 14px;
+}
+
+.general-table-headers div{
+  font-weight: bold !important;
+}
+
+
+.MuiStepConnector-vertical {
+    border-color: #c0b3c5 !important;
+    border-left-width: 8px !important;
+    margin-left: 39px !important;
+}
+.MuiStepContent-root {
+  border-color: #c0b3c5 !important;
+  border-left-width: 8px !important;
+  margin-left: 39px !important;
+}
+.search-link {
+  color: #0044B3;
+  font-weight: 400
 }

@@ -1,10 +1,10 @@
 import axios from "axios";
 
-function getEvents(token) {
+export function getEvents(token) {
   return new Promise((resolve, reject) => {
     axios
       .get(
-        `https://graph.microsoft.com/v1.0/users/${process.env.USER_ID}/calendar/events`,
+        `https://graph.microsoft.com/v1.0/users/RENCI_healdataca.rmb@ad.unc.edu/calendar/events?$top=50`,
         {
           headers: {
             Authorization: "Bearer " + token,
@@ -20,7 +20,7 @@ function getEvents(token) {
   });
 }
 
-export function getEvent(token,id) {
+export function getEvent(token, id) {
   return new Promise((resolve, reject) => {
     axios
       .get(
@@ -32,6 +32,7 @@ export function getEvent(token,id) {
         }
       )
       .then((res) => {
+        // console.log(res)
         resolve(res.data);
       })
       .catch((error) => {
@@ -53,7 +54,7 @@ export async function getAuthorizationToken(id) {
 
   const token = await axios
     .post(
-      `https://login.microsoftonline.com/${process.env.MSFT_TENANT}/oauth2/v2.0/token`,
+      `https://login.microsoftonline.com/58b3d54f-16c9-42d3-af08-1fcabd095666/oauth2/v2.0/token`,
       params,
       headers
     )
@@ -64,11 +65,16 @@ export async function getAuthorizationToken(id) {
       return error;
     });
 
-    if (id === undefined) {
-      event = await getEvents(token);
-    } else {
-      event = await getEvent(token, id);
-    }
-    event.token = token
+  if (id === undefined) {
+    event = await getEvents(token);
+  } else {
+    event = await getEvent(token, id);
+  }
+  event.token = token;
+  return event;
+}
+
+export async function fetchEvents(token) {
+  let event = await getEvents(token);
   return event;
 }

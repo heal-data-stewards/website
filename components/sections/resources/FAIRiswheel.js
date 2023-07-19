@@ -4,7 +4,6 @@ import FileDownloadIcon from "@mui/icons-material/FileDownload"
 import FairIsWheelSVG from "./clickable-wheel"
 
 export default function FAIRiswheel(data) {
-  console.log(data)
   const [contentTitle, setcontentTitle] = useState({
     title: "Heal Platform",
   })

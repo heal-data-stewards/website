@@ -24,7 +24,7 @@ const Footer = ({ footer }) => {
                   marginTop: "20px",
                   maxWidth: "420px",
                   marginBottom: "45px",
-                  color: "rgba(55, 58, 60, 1)",
+                  color: "#000",
                 }}
               >
                 The HEAL Data Stewardship Group is funded by the The NIH HEAL
