@@ -71,9 +71,7 @@ const RichTextModal = ({ data }) => {
           </h3>
         </BootstrapDialogTitle>
         <DialogContent dividers sx={{ padding: "1.5rem 2.5rem 1rem" }}>
-          <Markdown>
-            {data.content}
-          </Markdown>
+          <Markdown>{data.content}</Markdown>
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose}>

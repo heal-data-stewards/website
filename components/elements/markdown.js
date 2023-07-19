@@ -5,11 +5,7 @@ const Markdown = ({ children }) => {
   const componentMap = useMemo(
     () => ({
       p: function Anchor({ node, href, children, ...props }) {
-        return (
-          <p style={{ paddingBottom: "1rem" }}>
-            {children}
-          </p>
-        )
+        return <p style={{ paddingBottom: "1rem" }}>{children}</p>
       },
       li: function Anchor({ node, href, children, ...props }) {
         return (
@@ -22,11 +18,7 @@ const Markdown = ({ children }) => {
     []
   )
 
-  return (
-    <ReactMarkdown components={ componentMap }>
-      {children}
-    </ReactMarkdown>
-  )
+  return <ReactMarkdown components={componentMap}>{children}</ReactMarkdown>
 }
 
 export default Markdown
