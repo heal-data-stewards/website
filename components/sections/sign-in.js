@@ -12,7 +12,6 @@ import TransitionsModal from "../elements/modal"
 import EditForm from "../elements/form/account-edit"
 import Avatar from "@material-ui/core/Avatar"
 import LoginSection from "./login"
-import Link from "next/link"
 
 const useStyles = makeStyles({
   root: {
@@ -75,15 +74,7 @@ export default function SignIn(initialData) {
       <div>
         {!session && (
           <>
-            <LoginSection>
-              <Link style={{ color: "#0044b3" }} href="/sign-up">
-                Sign Up
-              </Link>
-            </LoginSection>
-            {/* <div className="container mt-8 mb-8">
-              <p>Access Denied</p>
-              <p>Please Log In</p>
-            </div> */}
+            <LoginSection />
           </>
         )}
         {/* If Logged in show user profile */}

@@ -1,3 +1,3 @@
-import Block from "./blocks"
+import ResourceBlock from "./resource-block"
 
-export { Block }
+export { ResourceBlock }

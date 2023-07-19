@@ -1,15 +1,21 @@
 import Layout from "@/components/layout"
 import Seo from "@/components/elements/seo"
 import { getEvent } from "utils/msft-graph-api"
-import React, { useState, useEffect } from "react"
+import React, { useState, useEffect, useRef } from "react"
 import Divider from "@mui/material/Divider"
 import { makeEasternTime } from "utils/helper-functions"
+import styled from "styled-components"
+
+const BlueLink = styled.a`
+  color: #0044b3;
+`
 
 // Creates an Event page from the outlook calendar
 
 function EventPage({ global, event, pageContext, metadata }) {
   // Render event page...
   const [data, dataSet] = useState(event.event)
+  const textInput = useRef(null)
   useEffect(() => {
     async function fetchMyAPI() {
       let eventData2 = await getEvent(pageContext.token, pageContext.url)
@@ -26,6 +32,22 @@ function EventPage({ global, event, pageContext, metadata }) {
   let startTime = makeEasternTime(sTime)
   let endTime = makeEasternTime(eTime)
 
+  function stripScripts(s) {
+    let retVal = s
+      .replace(/(<style[\w\W]+style>)/g, "")
+      .split("<a")
+      .join('<a target="_blank"')
+    return retVal
+  }
+
+  function checkIfPastEvent() {
+    if (new Date(data.start.dateTime) <= new Date()) {
+      return "Recording Link: "
+    } else {
+      return "Registration Link: "
+    }
+  }
+
   return (
     <Layout global={global} pageContext={pageContext}>
       <Seo metadata={metadata} />
@@ -36,9 +58,6 @@ function EventPage({ global, event, pageContext, metadata }) {
             {data.subject}
           </h1>
           <Divider />
-          <h2 className="pt-4 font-black text-magenta">
-            {data.location.displayName}
-          </h2>
           <p
             className="bg-magenta text-white mt-4"
             style={{
@@ -51,6 +70,15 @@ function EventPage({ global, event, pageContext, metadata }) {
               data.originalEndTimeZone
             }`}
           </p>
+          <h2 className="pt-4 font-black text-magenta ">
+            {event.event.categories[0] !== "Yellow category" &&
+              event.event.categories[0] !== "Green category" &&
+              checkIfPastEvent()}
+
+            <BlueLink href={data.location.displayName} target="_blank">
+              {data.location.displayName}
+            </BlueLink>
+          </h2>
         </section>
         <section>
           <h3 className="text-2xl font-black pb-2 pt-8 text-magenta">
@@ -58,8 +86,11 @@ function EventPage({ global, event, pageContext, metadata }) {
           </h3>
           <Divider />
           <div
+            ref={textInput}
             className="event-html"
-            dangerouslySetInnerHTML={{ __html: data.body.content }}
+            dangerouslySetInnerHTML={{
+              __html: stripScripts(data.body.content),
+            }}
           ></div>
         </section>
       </div>

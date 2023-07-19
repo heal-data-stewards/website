@@ -1,9 +1,12 @@
 import React, { useState, useEffect } from "react"
 import { useSession } from "next-auth/client"
-import BasicCard from "../elements/event-list-item"
+import WebinarItem from "../elements/webinar/webinar-item"
+import { filterByDate } from "utils/helper-functions"
+import Divider from "@mui/material/Divider"
+import { fetchEvents } from "utils/msft-graph-api"
 
-export default function Calendar({ data, eventData }) {
-  const [events, setEvents] = useState([])
+export default function Calendar(props) {
+  const [events, setEvents] = useState(filterByDate(props.eventData))
   const [session, loading] = useSession()
   const [loggedIn, setLoggedIn] = useState(false)
 
@@ -11,35 +14,80 @@ export default function Calendar({ data, eventData }) {
     if (session) {
       setLoggedIn(true)
       // eventData contains every event in the HEAL calendar, logged in users see every event
-      setEvents(eventData)
+      async function fetchMyAPI() {
+        let eventData2 = await fetchEvents(props.token)
+        let sortedEvents = filterByDate(eventData2)
+        setEvents(sortedEvents)
+      }
+      fetchMyAPI()
     } else {
-      // Events created in the HEAL Calendar created with out a category label are collected in filteredEvents
+      // Events created in the HEAL Calendar with out a category label are collected in filteredEvents
       // These are the events avaiable to the public
-      const filteredEvents = eventData.filter((event) => {
-        if (event.categories.length === 0) {
-          return event
-        } else {
-          let check = ""
-          event.categories.forEach((element) => {
-            if (element === "Purple category") {
-              check = true
-            }
-          })
-          return check
-        }
-      })
-      setEvents(filteredEvents)
+      async function fetchMyAPI() {
+        let eventData2 = await fetchEvents(props.token)
+        const publicEvents = eventData2.filter((event) => {
+          if (
+            event.categories.length === 0 ||
+            event.categories[0] === "Purple category" ||
+            event.categories[0] === "Yellow category"
+          ) {
+            return event
+          }
+        })
+        let sortedEvents = filterByDate(publicEvents)
+        setEvents(sortedEvents)
+      }
+      fetchMyAPI()
     }
-  }, [session, eventData])
+  }, [props.token, session])
 
   return (
     <div className="container">
       {/* List of Events */}
       <section>
         {events.length !== 0 &&
-          events.map((event, i) => {
-            return <BasicCard key={event.subject + i} event={event} />
-          })}
+          events
+            .sort(function (a, b) {
+              // Turn your strings into dates, and then subtract them
+              // to get a value that is either negative, positive, or zero.
+              return new Date(a.start.dateTime) - new Date(b.start.dateTime)
+            })
+            .map((event, i) => {
+              if (new Date(event.start.dateTime) >= new Date()) {
+                return (
+                  <WebinarItem
+                    key={event.subject + i}
+                    event={event}
+                    past={false}
+                  />
+                )
+              }
+            })}
+      </section>
+      <section className={`pt-10 pb-10`}>
+        <h1 className="text-5xl font-black pb-4 text-purple">Past Events</h1>
+        <Divider />
+        <br></br>
+        <br></br>
+        {events.length !== 0 &&
+          events
+            .sort(function (a, b) {
+              // Turn your strings into dates, and then subtract them
+              // to get a value that is either negative, positive, or zero.
+              return new Date(a.start.dateTime) - new Date(b.start.dateTime)
+            })
+            .reverse()
+            .map((event, i) => {
+              if (new Date(event.start.dateTime) <= new Date()) {
+                return (
+                  <WebinarItem
+                    key={event.subject + i}
+                    event={event}
+                    past={true}
+                  />
+                )
+              }
+            })}
       </section>
     </div>
   )

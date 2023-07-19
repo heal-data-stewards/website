@@ -7,6 +7,7 @@ import MuiAccordionDetails from "@mui/material/AccordionDetails"
 import Typography from "@mui/material/Typography"
 import Markdown from "react-markdown"
 import { getStrapiApiPageData } from "utils/api"
+import TransitionsModal from "../elements/modal"
 
 const Accordion = styled((props) => (
   <MuiAccordion disableGutters elevation={0} square {...props} />
@@ -47,6 +48,11 @@ const AccordionDetails = styled(MuiAccordionDetails)(({ theme }) => ({
 export default function Faqs({ data }) {
   const [faqs, setFaqs] = useState([])
   const [expanded, setExpanded] = useState()
+  const [open, setOpen] = useState(true)
+
+  const handleClose = () => {
+    setOpen(false)
+  }
 
   useEffect(() => {
     // Split the array into separate objects by the tag property
@@ -72,15 +78,20 @@ export default function Faqs({ data }) {
       return res
     }
 
-    getStrapiApiPageData("faqs")
-      .then((res) => {
-        return groupByTag(res.contentSections[1].question, "tag")
-      })
-      .then((res) => {
-        const newState = separateObject(res)
-        setFaqs(newState)
-      })
-  }, [])
+    // getStrapiApiPageData("resources/faqs")
+    //   .then((res) => {
+    //     // console.log(res)
+    //     return groupByTag(res.contentSections[2].question, "tag")
+    //   })
+    //   .then((res) => {
+    //     const newState = separateObject(res)
+    //     setFaqs(newState)
+    //   })
+
+    const group = groupByTag(data.question, "tag")
+    const newState = separateObject(group)
+    setFaqs(newState)
+  }, [data.question])
 
   const handleChange = (panel) => (event, newExpanded) => {
     setExpanded(newExpanded ? panel : false)
@@ -125,7 +136,7 @@ export default function Faqs({ data }) {
                     <Typography>{question.question}</Typography>
                   </AccordionSummary>
                   <AccordionDetails style={{ backgroundColor: "#fff" }}>
-                    <Typography>
+                    <Typography component={"span"}>
                       <Markdown className="faq-markdown">
                         {question.answerFAQ}
                       </Markdown>

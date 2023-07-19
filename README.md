@@ -1,3 +1,15 @@
+
+# Overview
+
+This is the code base for the HEAL Data Fair website. healdatafair.org
+
+## Requirements
+
+Node/npm
+
+## Installation Generic
+
+
 # Next frontend
 
 This frontend relies on Next's [Static Generation](https://nextjs.org/docs/basic-features/pages) using [Strapi](https://strapi.io/) as the data source. Make sure Strapi is running in parallel when you run this app.
@@ -43,8 +55,7 @@ information.
 
 ## Database (postgres used by strapi)
 
-Hosted on AWS with 4 days of backup
-
+Hosted on AWS with 4 days of database backup
 
 # Administration Manual (Super Admins)
 * Super Admins must be signed in and approved as Super Admins
@@ -87,5 +98,45 @@ To edit a page
 2. Click any of the existing pages
 3. Make edits to existing sections/components. You can also delete existing sections/components or add new ones. 
 4. Once you have made your required changes click the green save button on the top right hand corner. 
+
+## Adding events to the heal calendar
+### In the Heal outlook calendar 
+
+To create a webinar event
+
+1. Select the purple category tag when creating the event.
+2. Done
+
+To create a public event
+
+1. Leave the category tag with no selection.
+2. Done
+
+## Editing a Collective Board Member
+
+In order to not send a welcome email after any edit.
+
+1. Switch the PreviouslyConfirmed button to on.
+2. Save
+3. Make desired changes
+4. Save
+
+## Creating a public collective board meeting
+
+In the HEAL outlook calendar
+
+1. Create a new meeting
+2. On the meeting header search for the category tag
+3. Choose green category
+4. Save
+
+## Creating an announcement type meeting
+
+In the HEAL outlook calendar
+
+1. Create a new meeting
+2. On the meeting header search for the category tag
+3. Choose yellow category
+4. Save
 
 

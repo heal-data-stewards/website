@@ -8,6 +8,7 @@ import CardContent from "@material-ui/core/CardContent"
 import { DotButton } from "./buttons"
 import PauseIcon from "@mui/icons-material/Pause"
 import PlayArrowIcon from "@mui/icons-material/PlayArrow"
+import Markdown from "react-markdown"
 
 const AUTOPLAY_INTERVAL = 8000
 
@@ -124,9 +125,11 @@ const EmblaCarousel = ({ data }) => {
                     </h1>
                     {/* Description paragraph */}
                     <div className="text-xl mb-4 text-grey text-center pl-10 pr-10 lg:text-left lg:pl-0 lg:pr-0">
-                      <p
-                        dangerouslySetInnerHTML={createMarkup(slide.paragraph)}
-                      />
+                      <div className="event-html">
+                        <Markdown linkTarget="_blank">
+                          {slide.paragraph}
+                        </Markdown>
+                      </div>
                     </div>
                   </CardContent>
                 </div>

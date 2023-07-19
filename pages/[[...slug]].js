@@ -18,8 +18,10 @@ const DynamicPage = ({
   global,
   pageContext,
   eventData,
+  token,
 }) => {
   const router = useRouter()
+
   // Check if the required data was provided
   if (!router.isFallback && !sections?.length) {
     return <ErrorPage statusCode={404} />
@@ -33,6 +35,7 @@ const DynamicPage = ({
   if (
     pageContext.slug === "resources" ||
     pageContext.slug === "account" ||
+    pageContext.slug === "sign-up" ||
     pageContext.slug === "directory" ||
     pageContext.slug === "glossary"
   ) {
@@ -45,16 +48,28 @@ const DynamicPage = ({
         {/* Add meta tags for SEO*/}
         <Seo metadata={metadata} />
         {/* Display content sections */}
-        <Sections sections={sections} preview={preview} eventData={eventData} />
+        <Sections
+          glossary={global.glossary_td}
+          sections={sections}
+          preview={preview}
+          eventData={eventData}
+        />
       </Layout>
     )
   }
+
   return (
     <Layout global={global} pageContext={pageContext}>
       {/* Add meta tags for SEO*/}
       <Seo metadata={metadata} />
       {/* Display content sections */}
-      <Sections sections={sections} preview={preview} eventData={eventData} />
+      <Sections
+        sections={sections}
+        preview={preview}
+        eventData={eventData}
+        token={token}
+        glossary={global.glossary_td}
+      />
     </Layout>
   )
 }
@@ -92,12 +107,27 @@ export async function getStaticProps(context) {
     let events = await getAuthorizationToken()
     eventData = events
   }
-  if (params.slug !== undefined && params.slug[0] === "webinar") {
+  if (params.slug !== undefined && params.slug[1] === "webinar") {
     let events = await getAuthorizationToken()
+
     const result = events.filter(
       (event) => event.categories[0] === "Purple category"
     )
     eventData = result
+    eventData.token = events.token
+  }
+  if (
+    params.slug !== undefined &&
+    params.slug[0] === "collective" &&
+    params.slug[1] === "meetings"
+  ) {
+    let events = await getAuthorizationToken()
+
+    const result = events.filter(
+      (event) => event.categories[0] === "Green category"
+    )
+    eventData = result
+    eventData.token = events.token
   }
 
   const pageData = await getPageData(
@@ -120,12 +150,14 @@ export async function getStaticProps(context) {
     defaultLocale,
     slug,
     localizations,
+    token: eventData.token || null,
   }
 
   const localizedPaths = getLocalizedPaths(pageContext)
 
   return {
     props: {
+      token: eventData.token || null,
       preview,
       eventData: eventData,
       sections: contentSections,
