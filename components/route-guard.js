@@ -53,6 +53,7 @@ function RouteGuard({ children }) {
       "/resources/repositories",
       "/resources/guidance/selection",
       "/resources/heal-stewards-guidance",
+      "/sensitive-data",
       // The following used to be private pages only exposed to signed in guests
       // "/directory",
       // "/collaboration",
