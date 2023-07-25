@@ -48,9 +48,9 @@ BootstrapDialogTitle.propTypes = {
   onClose: PropTypes.func.isRequired,
 }
 
-const ModalComponent =({data}) => {
+const ModalComponent = ({ data }) => {
   const [open, setOpen] = useState(true)
-  
+
   const handleClose = () => {
     setOpen(false)
   }
@@ -91,27 +91,20 @@ const ModalComponent =({data}) => {
 }
 
 const RichTextModal = ({ data }) => {
-  const [showModal, setShowModal] = useState(false);
+  const [showModal, setShowModal] = useState(false)
 
   useEffect(() => {
-    const hasVisitedBefore = localStorage.getItem('hasVisitedBefore');
+    const hasVisitedBefore = localStorage.getItem("hasVisitedBefore")
 
     if (!hasVisitedBefore) {
-      setShowModal(true);
-      localStorage.setItem('hasVisitedBefore', true);
+      setShowModal(true)
+      localStorage.setItem("hasVisitedBefore", true)
     } else {
-      setShowModal(false); // Hide the modal if the user has already visited before
+      setShowModal(false) // Hide the modal if the user has already visited before
     }
-  }, []);
+  }, [])
 
-  
-  return (
-    <div>
-      {showModal && <ModalComponent data={data}/>}
-    </div>  
-  
-  )
-
+  return <div>{showModal && <ModalComponent data={data} />}</div>
 }
 
 RichTextModal.propTypes = {
