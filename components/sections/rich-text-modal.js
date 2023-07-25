@@ -1,6 +1,6 @@
 import PropTypes from "prop-types"
 import Markdown from "../elements/markdown"
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
 import IconButton from "@material-ui/core/IconButton"
 import CloseIcon from "@material-ui/icons/Close"
 import Dialog from "@mui/material/Dialog"
@@ -48,13 +48,12 @@ BootstrapDialogTitle.propTypes = {
   onClose: PropTypes.func.isRequired,
 }
 
-const RichTextModal = ({ data }) => {
+const ModalComponent = ({ data }) => {
   const [open, setOpen] = useState(true)
 
   const handleClose = () => {
     setOpen(false)
   }
-
   return (
     <div>
       <Dialog
@@ -82,13 +81,30 @@ const RichTextModal = ({ data }) => {
                 letterSpacing: "0.5px",
               }}
             >
-              Acknowledge
+              Do Not Show Again
             </Typography>
           </Button>
         </DialogActions>
       </Dialog>
     </div>
   )
+}
+
+const RichTextModal = ({ data }) => {
+  const [showModal, setShowModal] = useState(false)
+
+  useEffect(() => {
+    const hasVisitedBefore = localStorage.getItem("hasVisitedBefore")
+
+    if (!hasVisitedBefore) {
+      setShowModal(true)
+      localStorage.setItem("hasVisitedBefore", true)
+    } else {
+      setShowModal(false) // Hide the modal if the user has already visited before
+    }
+  }, [])
+
+  return <div>{showModal && <ModalComponent data={data} />}</div>
 }
 
 RichTextModal.propTypes = {
