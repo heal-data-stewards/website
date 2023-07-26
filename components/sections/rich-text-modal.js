@@ -1,6 +1,6 @@
 import PropTypes from "prop-types"
 import Markdown from "../elements/markdown"
-import React, { useState, useEffect } from "react"
+import React, { useState, Fragment } from "react"
 import IconButton from "@material-ui/core/IconButton"
 import CloseIcon from "@material-ui/icons/Close"
 import Dialog from "@mui/material/Dialog"
@@ -59,9 +59,9 @@ const ModalComponent = ({ data }) => {
     localStorage.setItem(`${slug}-do-not-show`, true)
     setOpen(false)
   }
-  
+
   return (
-    <div>
+    <Fragment>
       <Dialog
         onClose={handleClose}
         aria-labelledby="customized-dialog-title"
@@ -92,20 +92,14 @@ const ModalComponent = ({ data }) => {
           </Button>
         </DialogActions>
       </Dialog>
-    </div>
+    </Fragment>
   )
 }
 
-const RichTextModal = ({ data }) => {  
+const RichTextModal = ({ data }) => {
   const doNotShow = localStorage.getItem(`${data.slug}-do-not-show`)
 
-  return (
-    <div>
-      {
-        !doNotShow && <ModalComponent data={data} />
-      }
-    </div>
-    )
+  return <div>{!doNotShow && <ModalComponent data={data} />}</div>
 }
 
 RichTextModal.propTypes = {
