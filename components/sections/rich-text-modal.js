@@ -54,6 +54,12 @@ const ModalComponent = ({ data }) => {
   const handleClose = () => {
     setOpen(false)
   }
+
+  const handleDoNotShow = (slug) => {
+    localStorage.setItem(`${slug}-do-not-show`, true)
+    setOpen(false)
+  }
+  
   return (
     <div>
       <Dialog
@@ -73,7 +79,7 @@ const ModalComponent = ({ data }) => {
           <Markdown>{data.content}</Markdown>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose}>
+          <Button onClick={() => handleDoNotShow(data.slug)}>
             <Typography
               sx={{
                 fontFamily: "Montserrat",
@@ -90,21 +96,16 @@ const ModalComponent = ({ data }) => {
   )
 }
 
-const RichTextModal = ({ data }) => {
-  const [showModal, setShowModal] = useState(false)
+const RichTextModal = ({ data }) => {  
+  const doNotShow = localStorage.getItem(`${data.slug}-do-not-show`)
 
-  useEffect(() => {
-    const hasVisitedBefore = localStorage.getItem("hasVisitedBefore")
-
-    if (!hasVisitedBefore) {
-      setShowModal(true)
-      localStorage.setItem("hasVisitedBefore", true)
-    } else {
-      setShowModal(false) // Hide the modal if the user has already visited before
-    }
-  }, [])
-
-  return <div>{showModal && <ModalComponent data={data} />}</div>
+  return (
+    <div>
+      {
+        !doNotShow && <ModalComponent data={data} />
+      }
+    </div>
+    )
 }
 
 RichTextModal.propTypes = {
