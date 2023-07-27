@@ -66,7 +66,7 @@ const sectionComponents = {
   "sections.roadmap": RoadMap,
   "sections.topics": Topics,
   "sections.collective-events": CollectiveEvents,
-  // "sections.rich-text-modal": RichTextModal,
+  "sections.rich-text-modal": RichTextModal,
   "sections.sensitive-data": SensitiveData,
 }
 
