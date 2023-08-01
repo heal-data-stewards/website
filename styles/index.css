@@ -37,6 +37,11 @@ html {
   }
 }
 
+.sensitive-data-blocks:hover {
+  background: rgba(83, 37, 101, 1) !important;
+  color: white !important;
+}
+
 .rich-text-hero a {
   @apply text-blue-600 underline;
 }
