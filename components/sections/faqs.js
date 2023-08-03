@@ -5,9 +5,10 @@ import MuiAccordion from "@mui/material/Accordion"
 import MuiAccordionSummary from "@mui/material/AccordionSummary"
 import MuiAccordionDetails from "@mui/material/AccordionDetails"
 import Typography from "@mui/material/Typography"
-import Markdown from "react-markdown"
+// import Markdown from "react-markdown"
 import { getStrapiApiPageData } from "utils/api"
 import TransitionsModal from "../elements/modal"
+import Markdown from '../elements/markdown'
 
 const Accordion = styled((props) => (
   <MuiAccordion disableGutters elevation={0} square {...props} />
