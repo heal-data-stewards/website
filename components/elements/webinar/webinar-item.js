@@ -3,7 +3,8 @@ import PropTypes from "prop-types"
 import Button from "@mui/material/Button"
 import Typography from "@mui/material/Typography"
 import Image from "next/image"
-import Markdown from "react-markdown"
+import Markdown from '../../elements/markdown'
+
 import {
   makeEasternTime,
   checkDaylightSavings,

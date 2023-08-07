@@ -1,6 +1,6 @@
 import React from "react"
 import Divider from "@mui/material/Divider"
-import Markdown from "react-markdown"
+import Markdown from '../../elements/markdown'
 
 export default function GlossaryItem({ classes, word }) {
   return (
