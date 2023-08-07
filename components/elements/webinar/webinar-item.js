@@ -70,7 +70,7 @@ export default function WebinarItem({ event, past, collective }) {
           <Typography sx={{ mb: 1.5, fontWeight: "bold", color: "#982568" }}>
             {event.categories[0] !== "Green category" &&
               event.categories[0] !== "Yellow category" &&
-              (past ? "Recording Link: " : "Registration Link ")}
+              (past ? "Recording Link: " : "Registration Link: ")}
             <BlueLink href={event.location.displayName} target="_blank">
               {event.location.displayName}
             </BlueLink>
