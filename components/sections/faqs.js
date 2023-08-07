@@ -7,7 +7,7 @@ import MuiAccordionDetails from "@mui/material/AccordionDetails"
 import Typography from "@mui/material/Typography"
 import { getStrapiApiPageData } from "utils/api"
 import TransitionsModal from "../elements/modal"
-import Markdown from '../elements/markdown'
+import Markdown from "../elements/markdown"
 
 const Accordion = styled((props) => (
   <MuiAccordion disableGutters elevation={0} square {...props} />
