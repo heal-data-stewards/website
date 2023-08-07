@@ -65,7 +65,7 @@ export default function Calendar(props) {
             })}
       </section>
       <section className={`pt-10 pb-10`}>
-        <h1 className="text-5xl font-black pb-4 text-purple">Past Events</h1>
+        <h1 className="text-5xl font-bold pb-4 text-purple">Past Events</h1>
         <Divider />
         <br></br>
         <br></br>
