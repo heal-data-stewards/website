@@ -1,8 +1,8 @@
-import Markdown from "react-markdown"
 import { getButtonAppearance } from "utils/button"
 import ButtonLink from "../elements/button-link"
 import NextImage from "../elements/image"
 import React from "react"
+import Markdown from '../elements/markdown'
 
 const Hero = ({ data }) => {
   return (

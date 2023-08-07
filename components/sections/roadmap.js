@@ -10,7 +10,7 @@ import Typography from "@mui/material/Typography"
 import { makeStyles } from "@material-ui/core"
 import clsx from "clsx"
 import Image from "next/image"
-import Markdown from "react-markdown"
+import Markdown from "../elements/markdown"
 
 export default function RoadMap({ data }) {
   const [activeStep, setActiveStep] = React.useState(0)
