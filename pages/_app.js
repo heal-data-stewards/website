@@ -8,6 +8,8 @@ import { getGlobalData } from "utils/api"
 import { Provider } from "next-auth/client"
 // import { useEffect } from "react"
 import { RouteGuard } from "@/components/route-guard"
+import { ThemeProvider } from "@emotion/react"
+import { theme } from "../styles/theme"
 import "@/styles/index.css"
 
 const MyApp = ({ Component, pageProps }) => {
@@ -61,7 +63,9 @@ const MyApp = ({ Component, pageProps }) => {
       />
       {/* Display the content */}
       <RouteGuard>
-        <Component {...pageProps} />
+        <ThemeProvider theme={theme}>
+          <Component {...pageProps} />
+        </ThemeProvider>
       </RouteGuard>
     </Provider>
   )
