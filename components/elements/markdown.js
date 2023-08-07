@@ -6,7 +6,7 @@ import NextLink from 'next/link'
 const InternalLink = React.forwardRef(function InternalLink({ children, className, ...props }, ref) {
   return (
     <NextLink { ...props }>
-      <a style={{color: 'red'}} ref={ ref }>{ children }</a>
+      <a ref={ ref }>{ children }</a>
     </NextLink>
   )
 })
@@ -20,7 +20,6 @@ const ExternalLink = ({ href, children, ...props }) => {
         href={ href }
         target="_blank"
         rel="noopener noreferrer"
-        style={{color: 'green'}}
         { ...props }
       >
         { children }
