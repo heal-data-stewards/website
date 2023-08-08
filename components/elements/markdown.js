@@ -1,6 +1,6 @@
 import ReactMarkdown from "react-markdown"
 import React, { Fragment } from "react"
-import Typography from "@material-ui/core/Typography"
+import Typography from "@mui/material/Typography"
 import Link from "../elements/link"
 
 
@@ -13,7 +13,7 @@ const componentMap = {
   // for links, we'll use our smart link component.
   a: ({ node, href, ...props }) => <Link to={href} {...props} />,
   p: ({ node, children, ...props }) => (
-    <Typography style={{ paddingBottom: "1rem" }}>{children}</Typography>
+    <Typography paragraph>{children}</Typography>
   ),
 }
 
