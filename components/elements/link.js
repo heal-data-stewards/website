@@ -1,6 +1,7 @@
 import React, { Fragment } from "react"
 import PropTypes from "prop-types"
 import NextLink from "next/link"
+import Typography from "@mui/material/Typography"
 
 const InternalLink = React.forwardRef(function InternalLink(
   { children, className, ...props },
