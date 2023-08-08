@@ -7,6 +7,8 @@ import TableContainer from "@material-ui/core/TableContainer"
 import TableHead from "@material-ui/core/TableHead"
 import TableRow from "@material-ui/core/TableRow"
 import Paper from "@material-ui/core/Paper"
+import Markdown from '../elements/markdown'
+import Typography from "@mui/material/Typography"
 
 const useStyles = makeStyles({
   table: {
@@ -68,13 +70,11 @@ export default function BasicTable({ data }) {
                   className={classes.tableTitle}
                 >
                   <a target="_blank" rel="noopener noreferrer" href={row.link}>
-                    {row.title}
+                    <Typography sx={{fontWeight: 600}}>{row.title}</Typography>
                   </a>
                 </TableCell>
                 <TableCell align="left" className={classes.tableDescription}>
-                  <a href={row.link}>{row.description}</a>
-                  <br></br>
-                  <br></br>
+                  <Markdown>{row.description}</Markdown>
                   {row.link && (
                     <a
                       href={row.link}
@@ -82,7 +82,7 @@ export default function BasicTable({ data }) {
                       target={"_blank"}
                       rel="noopener noreferrer"
                     >
-                      Read More...
+                      <Typography>Read More...</Typography>
                     </a>
                   )}
                 </TableCell>
