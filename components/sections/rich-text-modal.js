@@ -71,7 +71,7 @@ const ModalComponent = ({ data }) => {
           id="customized-dialog-title"
           onClose={handleClose}
         >
-          <h3 style={{ fontFamily: "Montserrat", fontWeight: 600 }}>
+          <h3 style={{ fontWeight: 600 }}>
             {data.title}
           </h3>
         </BootstrapDialogTitle>
@@ -82,7 +82,6 @@ const ModalComponent = ({ data }) => {
           <Button onClick={() => handleDoNotShow(data.slug)}>
             <Typography
               sx={{
-                fontFamily: "Montserrat",
                 fontWeight: 600,
                 letterSpacing: "0.5px",
               }}
