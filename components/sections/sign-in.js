@@ -81,7 +81,7 @@ export default function SignIn(initialData) {
         {session && (
           <>
             <section className={`container pt-10`}>
-              <h1 className="text-5xl font-black pb-4 text-purple">
+              <h1 className="text-5xl font-bold pb-4 text-purple">
                 {data.firstname + " " + data.lastname}
               </h1>
               <Divider />
@@ -351,7 +351,7 @@ export async function getServerSideProps({ req }) {
 //             {console.log(data)}
 
 //             <section className={`container pt-10`}>
-//               <h1 className="text-5xl font-black pb-4 text-purple">
+//               <h1 className="text-5xl font-bold pb-4 text-purple">
 //                 {data.firstname + " " + data.lastname}
 //               </h1>
 //               <Divider />

@@ -1,7 +1,7 @@
 import React, { useState } from "react"
 import Image from "next/image"
 import Divider from "@mui/material/Divider"
-import Markdown from "react-markdown"
+import Markdown from "../../elements/markdown"
 
 export default function MetaDataBlocks({ data }) {
   const [shownFairContent, setShownFairContent] = useState(data.content[0])
