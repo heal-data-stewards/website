@@ -1,23 +1,25 @@
 import ReactMarkdown from "react-markdown"
-import React, { useMemo } from "react"
+import React, { Fragment } from "react"
+import Typography from "@mui/material/Typography"
+import Link from "../elements/link"
+
+// this object defines a map:
+//    DOM elements --> React components.
+// this allows us to streamline styles for content coming
+// from Strapi with that of content built here by Nextjs.
 
 const Markdown = ({ children }) => {
   const componentMap = useMemo(
     () => ({
-      p: function Anchor({ node, href, children, ...props }) {
-        return <p style={{ paddingBottom: "1rem" }}>{children}</p>
+      p: function Anchor({ node, children, ...props }) {
+        return <Typography paragraph>{children}</Typography>
       },
-      li: function Anchor({ node, href, children, ...props }) {
-        return (
-          <li style={{ lineHeight: "1.5", letterSpacing: "0.2px" }}>
-            {children}
-          </li>
-        )
+      a: function Anchor({ node, href, ...props }) {
+        return <Link to={href} {...props} />
       },
     }),
     []
   )
-
   return <ReactMarkdown components={componentMap}>{children}</ReactMarkdown>
 }
 

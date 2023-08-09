@@ -1,5 +1,4 @@
 import React, { useState } from "react"
-import Markdown from "react-markdown"
 import { Divider } from "@material-ui/core"
 import Link from "next/link"
 import MeilieSearchBar from "components/elements/MeilieSearchBar.js"
@@ -13,6 +12,7 @@ import CardActions from "@mui/material/CardActions"
 import CardContent from "@mui/material/CardContent"
 import Button from "@mui/material/Button"
 import Typography from "@mui/material/Typography"
+import Markdown from "../elements/markdown"
 
 function OutlinedCard(props) {
   return (

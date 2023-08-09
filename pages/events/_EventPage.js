@@ -54,7 +54,7 @@ function EventPage({ global, event, pageContext, metadata }) {
       <div className="container pt-10 pb-10">
         {/* Page header section */}
         <section className="">
-          <h1 className="text-5xl pb-4 font-black text-purple">
+          <h1 className="text-5xl pb-4 font-bold text-purple">
             {data.subject}
           </h1>
           <Divider />
@@ -70,7 +70,7 @@ function EventPage({ global, event, pageContext, metadata }) {
               data.originalEndTimeZone
             }`}
           </p>
-          <h2 className="pt-4 font-black text-magenta ">
+          <h2 className="pt-4 font-bold text-magenta ">
             {event.event.categories[0] !== "Yellow category" &&
               event.event.categories[0] !== "Green category" &&
               checkIfPastEvent()}
@@ -81,7 +81,7 @@ function EventPage({ global, event, pageContext, metadata }) {
           </h2>
         </section>
         <section>
-          <h3 className="text-2xl font-black pb-2 pt-8 text-magenta">
+          <h3 className="text-2xl font-bold pb-2 pt-8 text-magenta">
             About this event
           </h3>
           <Divider />
