@@ -23,6 +23,7 @@
 html {
   font-size: 13px;
   @apply text-gray-900;
+  font-family: Montserrat;
 }
 
 @media screen and (min-width: 640px) {

@@ -1,8 +1,10 @@
 import Link from "next/link"
 import PropTypes from "prop-types"
 import { linkPropTypes } from "utils/types"
-import Button from "@material-ui/core/Button"
-import { createTheme, ThemeProvider } from "@material-ui/core/styles"
+import { ThemeProvider } from "@emotion/react"
+import { createTheme } from "@mui/material/styles"
+import Button from "@mui/material/Button"
+import Typography from "@mui/material/Typography"
 
 const theme = createTheme({
   palette: {
@@ -30,17 +32,20 @@ const CustomLink = ({ link, children }) => {
   // Plain <a> tags for external links
   if (link.newTab) {
     return (
-      <ThemeProvider theme={theme}>
-        <Button
-          variant="contained"
-          color={"primary"}
-          href={link.url}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          {children}
-        </Button>
-      </ThemeProvider>
+      // <ThemeProvider theme={theme}>
+      <Button
+        variant="contained"
+        color="primary"
+        href={link.url}
+        target="_blank"
+        rel="noopener noreferrer"
+        style={{
+          padding: "0.5rem 1rem",
+        }}
+      >
+        <Typography>{children}</Typography>
+      </Button>
+      // </ThemeProvider>
     )
   }
 
