@@ -45,9 +45,7 @@ export default function WebinarBody(props) {
     <div className="container">
       {/* List of Events */}
       <section>
-        <h1 className="text-3xl font-bold pb-4 text-purple">
-          Upcoming Events
-        </h1>
+        <h1 className="text-3xl font-bold pb-4 text-purple">Upcoming Events</h1>
         <Divider />
         <p className="text-xl text-gray-dark pt-4">
           See the list below of events supported by the HEAL Stewards.

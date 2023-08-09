@@ -42,9 +42,7 @@ export default function Boardlist({ data }) {
             )
           })}
         </List>
-        <h2 className="text-3xl font-bold pb-4 text-purple mb-8">
-          {"Former"}
-        </h2>
+        <h2 className="text-3xl font-bold pb-4 text-purple mb-8">{"Former"}</h2>
         <List className="flex flex-wrap">
           {formerUsers.map((member, index) => {
             return (

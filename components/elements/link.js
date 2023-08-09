@@ -19,7 +19,7 @@ const InternalLink = React.forwardRef(function InternalLink(
 const ExternalLink = ({ href, children, ...props }) => {
   return (
     <Fragment>
-      <a href={href} target="_blank" rel="noopener noreferrer"  {...props}>
+      <a href={href} target="_blank" rel="noopener noreferrer" {...props}>
         {children}
       </a>
     </Fragment>
@@ -28,10 +28,7 @@ const ExternalLink = ({ href, children, ...props }) => {
 
 //
 
-const Link = React.forwardRef(function Link(
-  { to, children, ...props },
-  ref
-) {
+const Link = React.forwardRef(function Link({ to, children, ...props }, ref) {
   const mailtoPattern = new RegExp(/^mailto:/)
   const externalUrlPattern = new RegExp(/^https?:\/\//)
   const externalUrlMatch = externalUrlPattern.exec(to)

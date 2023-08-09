@@ -3,7 +3,6 @@ import React, { Fragment } from "react"
 import Typography from "@mui/material/Typography"
 import Link from "../elements/link"
 
-
 // this object defines a map:
 //    DOM elements --> React components.
 // this allows us to streamline styles for content coming

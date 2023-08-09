@@ -2,8 +2,8 @@ import Link from "next/link"
 import PropTypes from "prop-types"
 import { linkPropTypes } from "utils/types"
 import { ThemeProvider } from "@emotion/react"
-import { createTheme } from '@mui/material/styles';
-import Button from '@mui/material/Button';
+import { createTheme } from "@mui/material/styles"
+import Button from "@mui/material/Button"
 import Typography from "@mui/material/Typography"
 
 const theme = createTheme({
@@ -33,20 +33,18 @@ const CustomLink = ({ link, children }) => {
   if (link.newTab) {
     return (
       // <ThemeProvider theme={theme}>
-        <Button
-          variant="contained"
-          color="primary"
-          href={link.url}
-          target="_blank"
-          rel="noopener noreferrer"
-          style={{
-            padding: '0.5rem 1rem',
-          }}
-        >
-          <Typography>
-            {children}
-          </Typography>
-        </Button>
+      <Button
+        variant="contained"
+        color="primary"
+        href={link.url}
+        target="_blank"
+        rel="noopener noreferrer"
+        style={{
+          padding: "0.5rem 1rem",
+        }}
+      >
+        <Typography>{children}</Typography>
+      </Button>
       // </ThemeProvider>
     )
   }
