@@ -1,8 +1,8 @@
 import PropTypes from "prop-types"
 import Markdown from "../elements/markdown"
 import React, { useState, Fragment } from "react"
-import IconButton from '@mui/material/IconButton';
-import CloseIcon from '@mui/icons-material/Close';
+import IconButton from "@mui/material/IconButton"
+import CloseIcon from "@mui/icons-material/Close"
 import Dialog from "@mui/material/Dialog"
 import DialogTitle from "@mui/material/DialogTitle"
 import DialogContent from "@mui/material/DialogContent"
@@ -71,9 +71,7 @@ const ModalComponent = ({ data }) => {
           id="customized-dialog-title"
           onClose={handleClose}
         >
-          <h3 style={{ fontWeight: 600 }}>
-            {data.title}
-          </h3>
+          <h3 style={{ fontWeight: 600 }}>{data.title}</h3>
         </BootstrapDialogTitle>
         <DialogContent dividers sx={{ padding: "1.5rem 2.5rem 1rem" }}>
           <Markdown>{data.content}</Markdown>
