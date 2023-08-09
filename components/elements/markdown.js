@@ -8,15 +8,18 @@ import Link from "../elements/link"
 // this allows us to streamline styles for content coming
 // from Strapi with that of content built here by Nextjs.
 
-const componentMap = {
-  // for links, we'll use our smart link component.
-  a: ({ node, href, ...props }) => <Link to={href} {...props} />,
-  p: ({ node, children, ...props }) => (
-    <Typography paragraph>{children}</Typography>
-  ),
-}
-
 const Markdown = ({ children }) => {
+  const componentMap = useMemo(
+    () => ({
+      p: function Anchor({ node, children, ...props }) {
+        return <Typography paragraph>{children}</Typography>
+      },
+      a: function Anchor({ node, href, ...props }) {
+        return <Link to={href} {...props} />
+      },
+    }),
+    []
+  )
   return <ReactMarkdown components={componentMap}>{children}</ReactMarkdown>
 }
 
