@@ -2,8 +2,8 @@ import * as React from "react"
 import Typography from "@mui/material/Typography"
 // import Link from "next/link";
 import Image from "next/image"
-import Markdown from "react-markdown"
 import LinkedInIcon from "@mui/icons-material/LinkedIn"
+import Markdown from "../../elements/markdown"
 
 export default function PublicWorkingGroupListItem({
   name,

@@ -3,7 +3,8 @@ import PropTypes from "prop-types"
 import Button from "@mui/material/Button"
 import Typography from "@mui/material/Typography"
 import Image from "next/image"
-import Markdown from "react-markdown"
+import Markdown from "../../elements/markdown"
+
 import {
   makeEasternTime,
   checkDaylightSavings,
@@ -69,7 +70,7 @@ export default function WebinarItem({ event, past, collective }) {
           <Typography sx={{ mb: 1.5, fontWeight: "bold", color: "#982568" }}>
             {event.categories[0] !== "Green category" &&
               event.categories[0] !== "Yellow category" &&
-              (past ? "Recording Link: " : "Registration Link ")}
+              (past ? "Recording Link: " : "Registration Link: ")}
             <BlueLink href={event.location.displayName} target="_blank">
               {event.location.displayName}
             </BlueLink>

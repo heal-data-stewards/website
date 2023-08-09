@@ -24,7 +24,7 @@ export default function FAIRiswheel(data) {
         />
       </section>
       <section className="w-full large:ml-10 mb-10">
-        <h1 className="text-4xl font-black pb-4 text-purple">
+        <h1 className="text-4xl font-bold pb-4 text-purple">
           {contentTitle.title}
         </h1>
         <div
