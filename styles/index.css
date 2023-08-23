@@ -1,5 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
 @tailwind base;
-
 @layer base {
   /* Extending Preflight */
   /* If you’d like to add your own base styles on top of Preflight, simply add them to your CSS within a @layer base directive: */
@@ -23,7 +23,7 @@
 html {
   font-size: 13px;
   @apply text-gray-900;
-  font-family: Montserrat;
+  font-family: Montserrat !important;
 }
 
 @media screen and (min-width: 640px) {
