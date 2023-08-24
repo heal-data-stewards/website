@@ -5,7 +5,7 @@ const DugSearch = ({ data }) => {
         <input type="text" id="dug-search" placeholder={data.placeholder} />
       </form>
     </div>
-  );
-};
+  )
+}
 
-export default DugSearch;
+export default DugSearch
