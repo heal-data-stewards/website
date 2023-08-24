@@ -3,6 +3,7 @@ import NextImage from "../elements/image"
 import Video from "../elements/video"
 import CustomLink from "../elements/custom-link"
 import React from "react"
+import Typography from "@mui/material/Typography"
 
 const FeatureRowsGroup = ({ data }) => {
   return (
@@ -26,17 +27,9 @@ const FeatureRowsGroup = ({ data }) => {
           {/* Text section */}
           <div className="w-full lg:w-6/12 lg:pr-6 text-lg">
             {/* <h3 className="title">{feature.title}</h3> */}
-            <p
-              className="my-6"
-              style={{
-                color: "#441d4f",
-                fontWeight: "600",
-                lineHeight: "30.2px",
-                fontSize: "19px",
-              }}
-            >
+            <Typography variant="subtitle1">
               {feature.description}
-            </p>
+            </Typography>
 
             {!feature.link == null && (
               <CustomLink link={feature.link}>
