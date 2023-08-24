@@ -44,33 +44,37 @@ const palette = {
 const typography = {
   fontFamily: "Montserrat",
   h1: {
-    fontSize: '2.25rem',
-    fontWeight: '600',
-    paddingBottom: '1.5rem',
-    lineHeight: 1.2,
+    fontSize: '3rem',
+    fontWeight: '700',
+    paddingBottom: '1rem',
+    lineHeight: 1,
   },
   h2: {
-    fontSize: '1.5rem',
-    lineHeight: '1.4',
-    fontWeight: '400',
-    letterSpacing: '.1px',
+    fontSize: '1.875rem',
+    lineHeight: '2.25rem',
+    fontWeight: 700,
     paddingBottom: '1rem',
+    marginBottom: '2rem'
   },
   h3: {
-    fontSize: '1.2rem',
+    fontSize: '1.25rem',
     fontWeight: '700',
     paddingBottom: '0.5rem',
-    lineHeight: "1.7rem"
+    lineHeight: 1.35,
   },
   h4: {
-    fontSize: '0.9rem'
+    fontSize: '1.15rem',
+    fontWeight: '700',
+    paddingBottom: '0.5rem',
+    lineHeight: 1.35,
   },
   h6: {
     fontSize: '1rem',
   },
   body1: {
-    lineHeight: 1.5,
-    fontSize: '1.25rem',
+    lineHeight: 1.45,
+    fontSize: '1.1rem',
+    // color: 'blue',
   },
   body2: {
     lineHeight: 1.35,
@@ -83,7 +87,7 @@ const typography = {
     fontSize: "1.26rem",
   },
   subtitle2: {
-    fontWeight: "700",
+    fontWeight: 700,
     letterSpacing: "0.025em",
     textTransform: "uppercase",
     color: palette.magenta.DEFAULT,
