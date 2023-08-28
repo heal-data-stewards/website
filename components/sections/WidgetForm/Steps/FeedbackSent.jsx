@@ -1,11 +1,11 @@
-import { CloseButton } from "../../CloseButton";
-import Button from "@mui/material/Button";
+import { CloseButton } from "../../CloseButton"
+import Button from "@mui/material/Button"
 
 export function FeedbackSent({ setRestartFeedback, title, buttonText }) {
   return (
     <>
       <header>
-      <span className="text-l mt-2">{title}</span>
+        <span className="text-l mt-2">{title}</span>
         <CloseButton />
       </header>
 
@@ -24,5 +24,5 @@ export function FeedbackSent({ setRestartFeedback, title, buttonText }) {
         </Button>
       </div>
     </>
-  );
+  )
 }

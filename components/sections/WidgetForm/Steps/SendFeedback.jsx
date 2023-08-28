@@ -1,5 +1,5 @@
-import { CloseButton } from "../../CloseButton";
-import Button from "@mui/material/Button";
+import { CloseButton } from "../../CloseButton"
+import Button from "@mui/material/Button"
 
 export function SendFeedback({ setFeedbackSent, feedback, title }) {
   return (
@@ -20,9 +20,9 @@ export function SendFeedback({ setFeedbackSent, feedback, title }) {
             padding: "0.5rem 1rem",
           }}
         >
-          <span>{feedback.title}</span>
+          <span>{feedback}</span>
         </Button>
       </div>
     </>
-  );
+  )
 }
