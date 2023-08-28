@@ -98,56 +98,56 @@ export default function Faqs({ data }) {
   }
 
   return (
-      <div className="container">
-        {faqs.map((faq, i) => {
-          return (
+    <div className="container">
+      {faqs.map((faq, i) => {
+        return (
+          <div
+            key={i + "obj"}
+            style={{
+              marginBottom: "15px",
+              background: "#fff",
+            }}
+          >
             <div
-              key={i + "obj"}
               style={{
-                marginBottom: "15px",
-                background: "#fff",
+                textAlign: "center",
+                fontSize: "1.8rem",
+                backgroundColor: "#532565",
+                color: "white",
+                padding: "0.9rem 0",
               }}
             >
-              <div
-                style={{
-                  textAlign: "center",
-                  fontSize: "1.8rem",
-                  backgroundColor: "#532565",
-                  color: "white",
-                  padding: "0.9rem 0",
-                }}
-              >
-                <h1 style={{ fontWeight: "300" }}>
-                  {faq.key !== "null" ? faq.key : "FAQs"}
-                </h1>
-              </div>
-              {faq.data.map((question, i) => {
-                return (
-                  <Accordion
-                    expanded={expanded === "panel" + i + question.question}
-                    onChange={handleChange("panel" + i + question.question)}
-                    style={{ backgroundColor: "#e5e0e7" }}
-                    key={question.question + i}
-                  >
-                    <AccordionSummary
-                      aria-controls={"panel" + i + question.question}
-                      id={"panel" + i + question.question}
-                    >
-                      <Typography>{question.question}</Typography>
-                    </AccordionSummary>
-                    <AccordionDetails style={{ backgroundColor: "#fff" }}>
-                      <Typography component={"span"}>
-                        <Markdown className="faq-markdown">
-                          {question.answerFAQ}
-                        </Markdown>
-                      </Typography>
-                    </AccordionDetails>
-                  </Accordion>
-                )
-              })}
+              <h1 style={{ fontWeight: "300" }}>
+                {faq.key !== "null" ? faq.key : "FAQs"}
+              </h1>
             </div>
-          )
-        })}
-      </div>
+            {faq.data.map((question, i) => {
+              return (
+                <Accordion
+                  expanded={expanded === "panel" + i + question.question}
+                  onChange={handleChange("panel" + i + question.question)}
+                  style={{ backgroundColor: "#e5e0e7" }}
+                  key={question.question + i}
+                >
+                  <AccordionSummary
+                    aria-controls={"panel" + i + question.question}
+                    id={"panel" + i + question.question}
+                  >
+                    <Typography>{question.question}</Typography>
+                  </AccordionSummary>
+                  <AccordionDetails style={{ backgroundColor: "#fff" }}>
+                    <Typography component={"span"}>
+                      <Markdown className="faq-markdown">
+                        {question.answerFAQ}
+                      </Markdown>
+                    </Typography>
+                  </AccordionDetails>
+                </Accordion>
+              )
+            })}
+          </div>
+        )
+      })}
+    </div>
   )
 }
