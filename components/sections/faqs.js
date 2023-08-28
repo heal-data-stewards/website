@@ -8,6 +8,7 @@ import Typography from "@mui/material/Typography"
 import { getStrapiApiPageData } from "utils/api"
 import TransitionsModal from "../elements/modal"
 import Markdown from "../elements/markdown"
+import { Widget } from "./Widget"
 
 const Accordion = styled((props) => (
   <MuiAccordion disableGutters elevation={0} square {...props} />
@@ -97,7 +98,7 @@ export default function Faqs({ data }) {
     setExpanded(newExpanded ? panel : false)
   }
 
-  return (
+  return (<>
     <div className="container">
       {faqs.map((faq, i) => {
         return (
@@ -149,5 +150,6 @@ export default function Faqs({ data }) {
         )
       })}
     </div>
-  )
+   <Widget/>
+    </>)
 }
