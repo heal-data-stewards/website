@@ -20,7 +20,6 @@ const DugSearch = ({ data }) => {
         component="form"
         noValidate
         autoComplete="off"
-        //autofocus
         sx={{
           display: "flex",
           alignItems: "center",
@@ -34,13 +33,17 @@ const DugSearch = ({ data }) => {
           inputProps={{ "aria-label": `${data.placeholder}` }}
           inputRef={inputField}
           autoFocus
-        ></InputBase>
+        />
         <ButtonBase
+          type="submit"
+          onSubmit={() => {
+            doSearch
+          }}
           sx={{
             backgroundColor: "#982568",
             height: "100%",
             padding: "1rem 1rem",
-            color: "white",
+            color: "#FFF",
             borderRadius: "0 4px 4px 0",
           }}
         >
