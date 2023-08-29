@@ -45,12 +45,13 @@ const DugSearch = ({ data }) => {
             padding: "1rem 1rem",
             color: "#FFF",
             borderRadius: "0 4px 4px 0",
-            transition: 'background-color 500ms cubic-bezier(0.4, 0, 0.2, 1) 0ms',
-            transition: 'color 500ms cubic-bezier(0.4, 0, 0.2, 1) 0ms',
-            '&:hover, &.Mui-focusVisible': {
+            transition:
+              "background-color 500ms cubic-bezier(0.4, 0, 0.2, 1) 0ms",
+            transition: "color 500ms cubic-bezier(0.4, 0, 0.2, 1) 0ms",
+            "&:hover, &.Mui-focusVisible": {
               backgroundColor: "#98256830",
               color: "#532565",
-            }
+            },
           }}
         >
           Search
