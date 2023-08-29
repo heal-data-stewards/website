@@ -33,6 +33,7 @@ const DugSearch = ({ data }) => {
           placeholder={data.placeholder}
           inputProps={{ "aria-label": `${data.placeholder}` }}
           inputRef={inputField}
+          autoFocus
         ></InputBase>
         <ButtonBase
           sx={{
