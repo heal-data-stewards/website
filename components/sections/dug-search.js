@@ -11,7 +11,14 @@ const DugSearch = ({ data }) => {
     if (!inputField.current) {
       return
     }
-    window.location = `https://heal.renci.org/?q=${inputField.current.value}`
+    if (!inputField.current.value) {
+      return
+    }
+    const trimmedString = inputField.current.value.trim()
+    if (!trimmedString) {
+      return
+    }
+    window.location = `https://heal.renci.org/?q=${trimmedString}`
   }
 
   return (
