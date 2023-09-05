@@ -9,7 +9,10 @@ export function SendFeedback({ setFeedbackSent, feedback, title }) {
         <span className="text-l leading-6 mr-6">{title}</span>
       </header>
 
-      <div style={{justifyContent: "center"}} className="flex py-8 gap-2 w-full">
+      <div
+        style={{ justifyContent: "center" }}
+        className="flex py-8 gap-2 w-full"
+      >
         <Button
           onClick={() => setFeedbackSent()}
           type="button"
