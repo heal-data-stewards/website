@@ -11,7 +11,7 @@ export function WidgetForm({ data }) {
   }
 
   return (
-    <div className="bg-[#c0b3c5] p-4 relative mb-4 flex flex-col items-center shadow-lg w-[calc(100vw-2rem)] md:w-auto">
+    <div className="bg-[#f4f1f4] p-4 relative mb-4 flex flex-col items-center shadow-lg w-[calc(100vw-2rem)] md:w-auto">
       {feedbackSent ? (
         <FeedbackSent
           buttonText={data.feedbackSentButtonText}
