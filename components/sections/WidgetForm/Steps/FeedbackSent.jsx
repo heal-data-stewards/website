@@ -9,7 +9,7 @@ export function FeedbackSent({ setRestartFeedback, title, buttonText }) {
         <CloseButton />
       </header>
 
-      <div className="flex flex-col items-center py-10 w-[304px]">
+      <div style={{justifyContent: "center"}} className="flex flex-col items-center py-10 w-[304px]">
         <Button
           onClick={() => setRestartFeedback(false)}
           type="button"
