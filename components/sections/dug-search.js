@@ -52,6 +52,12 @@ const DugSearch = ({ data }) => {
       }}
     >
       <div className="prose-lg container event-html text-gray-dark text-xl">
+        <Typography
+          variant="h3"
+          sx={{ marginBottom: "2rem", color: "#982568", fontSize: "1.5rem" }}
+        >
+          {data.title}
+        </Typography>
         <Paper
           component="form"
           noValidate
@@ -90,7 +96,7 @@ const DugSearch = ({ data }) => {
               },
             }}
           >
-            Search
+            {data.buttonText}
           </ButtonBase>
         </Paper>
         <FeedbackLine message={errorMessage} />
