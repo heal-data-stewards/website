@@ -40,7 +40,12 @@ const DugSearch = ({ data }) => {
     }
 
     //this only sends you to the heal-dug page with your trimmed version of the search term
-    window.location = `https://heal.renci.org/?q=${trimmedString}`
+    if (data.newTab === true) {
+      window.open(`https://heal.renci.org/?q=${trimmedString}`, "_blank")
+    } else {
+      window.location = `https://heal.renci.org/?q=${trimmedString}`
+    }
+    setErrorMessage("")
   }
 
   return (
