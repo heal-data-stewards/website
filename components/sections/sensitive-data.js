@@ -1,4 +1,6 @@
-import React, { useState } from "react"
+import React, { useState } from "react";
+import { connectAutoComplete } from "react-instantsearch-dom";
+import Markdown from "../elements/markdown";
 
 const Block = ({ title, onMouseEnter }) => {
   return (
@@ -7,7 +9,7 @@ const Block = ({ title, onMouseEnter }) => {
         clipPath: "polygon(0% 0%, 100% 0px, 100% 82%, 93% 100%, 0% 100%)",
         marginBottom: "15px",
         padding: "15px",
-        height: "75px",
+        minHeight: "75px",
         background: "#e5e0e7",
         cursor: "pointer",
         color: "rgba(83, 37, 101, 1)",
@@ -18,16 +20,15 @@ const Block = ({ title, onMouseEnter }) => {
     >
       {title}
     </div>
-  )
-}
+  );
+};
 
 const SensitiveData = ({ data }) => {
-  const [shownContent, setShownContent] = useState(data.sensitiveDataItem[0])
+  const [shownContent, setShownContent] = useState(data.sensitiveDataItem[0]);
 
   function onHover(item) {
-    setShownContent(item)
+    setShownContent(item);
   }
-
   return (
     <div className="prose-lg container pb-12 event-html text-gray-dark text-xl">
       <div style={{ display: "flex", justifyContent: "space-between" }}>
@@ -39,7 +40,7 @@ const SensitiveData = ({ data }) => {
                 key={i + item.title}
                 title={item.title}
               />
-            )
+            );
           })}
         </div>
         <div style={{ width: "-webkit-fill-available" }}>
@@ -76,18 +77,9 @@ const SensitiveData = ({ data }) => {
                         margin: "0 0 0 16px",
                       }}
                     >
-                      <a
-                        style={{
-                          color: "#9a256b",
-                        }}
-                        target={"_blank"}
-                        href={resource.link}
-                        rel="noreferrer"
-                      >
-                        {resource.link}
-                      </a>
+                      <Markdown>{resource.link}</Markdown>
                     </li>
-                  )
+                  );
                 })}
               </ul>
             )}
@@ -104,9 +96,9 @@ const SensitiveData = ({ data }) => {
             </h2>
             <hr style={{ marginBottom: 0 }} />
 
-            {shownContent.sensitiveDataResources.length > 0 && (
+            {shownContent.healSpecificResourses.length > 0 && (
               <ul>
-                {shownContent.sensitiveDataResources.map((resource, i) => {
+                {shownContent.healSpecificResourses.map((resource, i) => {
                   return (
                     <li
                       key={resource.link + i}
@@ -116,18 +108,9 @@ const SensitiveData = ({ data }) => {
                         margin: "0 0 0 16px",
                       }}
                     >
-                      <a
-                        style={{
-                          color: "#9a256b",
-                        }}
-                        target={"_blank"}
-                        href={resource.link}
-                        rel="noreferrer"
-                      >
-                        {resource.link}
-                      </a>
+                      <Markdown>{resource.link}</Markdown>
                     </li>
-                  )
+                  );
                 })}
               </ul>
             )}
@@ -135,7 +118,7 @@ const SensitiveData = ({ data }) => {
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default SensitiveData
+export default SensitiveData;
