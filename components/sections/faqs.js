@@ -113,7 +113,8 @@ export default function Faqs({ data }) {
                 textAlign: "center",
                 fontSize: "1.8rem",
                 backgroundColor: "#532565",
-                clipPath: "polygon(0px 0px, 100% 0px, 100% 80%, 98% 100%, 0px 100%)",
+                clipPath:
+                  "polygon(0px 0px, 100% 0px, 100% 80%, 98% 100%, 0px 100%)",
                 marginBottom: "10px",
                 color: "white",
                 padding: "0.9rem 0",
