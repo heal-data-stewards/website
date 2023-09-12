@@ -1,6 +1,6 @@
-import React, { useState } from "react";
-import { connectAutoComplete } from "react-instantsearch-dom";
-import Markdown from "../elements/markdown";
+import React, { useState } from "react"
+import { connectAutoComplete } from "react-instantsearch-dom"
+import Markdown from "../elements/markdown"
 
 const Block = ({ title, onMouseEnter }) => {
   return (
@@ -20,14 +20,14 @@ const Block = ({ title, onMouseEnter }) => {
     >
       {title}
     </div>
-  );
-};
+  )
+}
 
 const SensitiveData = ({ data }) => {
-  const [shownContent, setShownContent] = useState(data.sensitiveDataItem[0]);
+  const [shownContent, setShownContent] = useState(data.sensitiveDataItem[0])
 
   function onHover(item) {
-    setShownContent(item);
+    setShownContent(item)
   }
   return (
     <div className="prose-lg container pb-12 event-html text-gray-dark text-xl">
@@ -40,7 +40,7 @@ const SensitiveData = ({ data }) => {
                 key={i + item.title}
                 title={item.title}
               />
-            );
+            )
           })}
         </div>
         <div style={{ width: "-webkit-fill-available" }}>
@@ -79,7 +79,7 @@ const SensitiveData = ({ data }) => {
                     >
                       <Markdown>{resource.link}</Markdown>
                     </li>
-                  );
+                  )
                 })}
               </ul>
             )}
@@ -110,7 +110,7 @@ const SensitiveData = ({ data }) => {
                     >
                       <Markdown>{resource.link}</Markdown>
                     </li>
-                  );
+                  )
                 })}
               </ul>
             )}
@@ -118,7 +118,7 @@ const SensitiveData = ({ data }) => {
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default SensitiveData;
+export default SensitiveData
