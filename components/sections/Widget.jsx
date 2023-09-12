@@ -1,7 +1,7 @@
-import { ChatTeardropDots } from "phosphor-react";
+import { ChatTeardropDots } from "phosphor-react"
 
-import { Popover } from "@headlessui/react";
-import { WidgetForm } from "./WidgetForm";
+import { Popover } from "@headlessui/react"
+import { WidgetForm } from "./WidgetForm"
 
 export function Widget({ data }) {
   return (
@@ -25,5 +25,5 @@ export function Widget({ data }) {
         </span> */}
       </Popover.Button>
     </Popover>
-  );
+  )
 }
