@@ -51,7 +51,7 @@ const DugSearch = ({ data }) => {
   return (
     <Box
       sx={{
-        margin: "1rem 0 3rem",
+        margin: "0 0 3rem",
         padding: "3rem 0 3.5rem",
         backgroundColor: "#53256510",
       }}
