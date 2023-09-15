@@ -1,199 +1,277 @@
-import React, { useState, useEffect } from "react"
-import { DataGrid, GridToolbar } from "@material-ui/data-grid"
-import RenderExpandableCell from "./render-expandable-cell"
-import Markdown from "../../elements/markdown"
-const columns = [
-  { field: "id", hide: true, headerName: "ID", width: 10 },
-  {
-    field: "Repository",
-    headerName: "Repository",
-    headerClassName: "general-table-headers",
-    sortable: false,
-    filterable: false,
-    width: 300,
-    // eslint-disable-next-line react/display-name
-    renderCell: ({ row }) => (
-      <Markdown linkTarget="_blank" className="general-table">
-        {row.Repository}
-      </Markdown>
-    ),
-  },
-  {
-    field: "Descriptive Tags",
-    headerName: "Descriptive Tags",
-    headerClassName: "general-table-headers",
-    width: 170,
-    sortable: false,
-    cellClass: "overflow",
-    // eslint-disable-next-line react/display-name
-    renderCell: ({ row }) => (
-      <RenderExpandableCell data={row["Descriptive Tags"]} />
-    ),
-  },
-  {
-    field: "Organism",
-    headerName: "Organism",
-    headerClassName: "general-table-headers",
-    width: 118,
-    sortable: false,
-    // eslint-disable-next-line react/display-name
-    renderCell: ({ row }) => <RenderExpandableCell data={row["Organism"]} />,
-  },
-  {
-    field: "IC/Program",
-    headerName: "IC/Program",
-    headerClassName: "general-table-headers",
-    width: 130,
-    sortable: false,
-    // eslint-disable-next-line react/display-name
-    renderCell: ({ row }) => <RenderExpandableCell data={row["IC/Program"]} />,
-  },
-  {
-    field: "Get Started Here",
-    headerName: "Get Started Here",
-    headerClassName: "general-table-headers",
-    width: 300,
-    sortable: true,
-    // eslint-disable-next-line react/display-name
-    renderCell: ({ row }) => (
-      <Markdown linkTarget="_blank" className="general-table">
-        {row["Get Started Here"]}
-      </Markdown>
-    ),
-  },
-  // {
-  //   field: "Accepts data from any HEAL study",
-  //   headerName: "Accepts data from any HEAL study",
-  //   headerClassName: "general-table-headers",
-  //   width: 290,
-  //   sortable: false,
-  //   // eslint-disable-next-line react/display-name
-  //   renderCell: ({ row }) => (
-  //     <RenderExpandableCell data={row["Accepts data from any HEAL study"]} />
-  //   ),
-  // },
-  // {
-  //   field: "Cost",
-  //   headerName: "Cost",
-  //   headerClassName: "general-table-headers",
-  //   width: 120,
-  //   sortable: false,
-  //   filterable: false,
-  //   // eslint-disable-next-line react/display-name
-  //   renderCell: ({ row }) => (
-  //     <Markdown linkTarget="_blank" className="Cost">
-  //       {row["Cost"]}
-  //     </Markdown>
-  //   ),
-  // },
-  // {
-  //   field: "Supports Embargo",
-  //   headerName: "Supports Embargo",
-  //   headerClassName: "general-table-headers",
-  //   width: 120,
-  //   sortable: false,
-  //   filterable: false,
-  //   // eslint-disable-next-line react/display-name
-  //   renderCell: ({ row }) => (
-  //     <Markdown linkTarget="_blank" className="Supports-Embargo">
-  //       {row["Supports Embargo"]}
-  //     </Markdown>
-  //   ),
-  // },
-  // {
-  //   field: "Curation Services",
-  //   headerName: "Curation Services",
-  //   headerClassName: "general-table-headers",
-  //   width: 120,
-  //   sortable: false,
-  //   filterable: false,
-  //   // eslint-disable-next-line react/display-name
-  //   renderCell: ({ row }) => (
-  //     <Markdown linkTarget="_blank" className="Curation-Services">
-  //       {row["Curation Services"]}
-  //     </Markdown>
-  //   ),
-  // },
-  {
-    field: "Overview",
-    headerName: "Overview",
-    headerClassName: "general-table-headers",
-    width: 155,
-    sortable: false,
-    filterable: false,
-    // eslint-disable-next-line react/display-name
-    renderCell: ({ row }) => (
-      <Markdown linkTarget="_blank" className="general-table">
-        {row.Overview}
-      </Markdown>
-    ),
-  },
-]
+// import React, { useState, useEffect } from "react"
+// import { DataGrid, GridToolbar } from "@material-ui/data-grid"
+// import RenderExpandableCell from "./render-expandable-cell"
+// import Markdown from "../../elements/markdown"
+// const columns = [
+//   { field: "id", hide: true, headerName: "ID", width: 10 },
+//   {
+//     field: "Repository",
+//     headerName: "Repository",
+//     headerClassName: "general-table-headers",
+//     sortable: false,
+//     filterable: false,
+//     width: 300,
+//     // eslint-disable-next-line react/display-name
+//     renderCell: ({ row }) => (
+//       <Markdown linkTarget="_blank" className="general-table">
+//         {row.Repository}
+//       </Markdown>
+//     ),
+//   },
+//   {
+//     field: "Descriptive Tags",
+//     headerName: "Descriptive Tags",
+//     headerClassName: "general-table-headers",
+//     width: 170,
+//     sortable: false,
+//     cellClass: "overflow",
+//     // eslint-disable-next-line react/display-name
+//     renderCell: ({ row }) => (
+//       <RenderExpandableCell data={row["Descriptive Tags"]} />
+//     ),
+//   },
+//   {
+//     field: "Organism",
+//     headerName: "Organism",
+//     headerClassName: "general-table-headers",
+//     width: 118,
+//     sortable: false,
+//     // eslint-disable-next-line react/display-name
+//     renderCell: ({ row }) => <RenderExpandableCell data={row["Organism"]} />,
+//   },
+//   {
+//     field: "IC/Program",
+//     headerName: "IC/Program",
+//     headerClassName: "general-table-headers",
+//     width: 130,
+//     sortable: false,
+//     // eslint-disable-next-line react/display-name
+//     renderCell: ({ row }) => <RenderExpandableCell data={row["IC/Program"]} />,
+//   },
+//   {
+//     field: "Get Started Here",
+//     headerName: "Get Started Here",
+//     headerClassName: "general-table-headers",
+//     width: 300,
+//     sortable: true,
+//     // eslint-disable-next-line react/display-name
+//     renderCell: ({ row }) => (
+//       <Markdown linkTarget="_blank" className="general-table">
+//         {row["Get Started Here"]}
+//       </Markdown>
+//     ),
+//   },
+//   {
+//     field: "Overview",
+//     headerName: "Overview",
+//     headerClassName: "general-table-headers",
+//     width: 155,
+//     sortable: false,
+//     filterable: false,
+//     // eslint-disable-next-line react/display-name
+//     renderCell: ({ row }) => (
+//       <Markdown linkTarget="_blank" className="general-table">
+//         {row.Overview}
+//       </Markdown>
+//     ),
+//   },
+// ]
 
-function createData(id, data) {
-  let row = { ...data }
+// function createData(id, data) {
+//   let row = { ...data }
 
-  for (const property in row) {
-    let index = Number(property) + 1
-    let newKey = columns[index].field
-    row[newKey] = row[property]
-    delete row[property]
-  }
-  row["id"] = id
+//   for (const property in row) {
+//     let index = Number(property) + 1
+//     let newKey = columns[index].field
+//     row[newKey] = row[property]
+//     delete row[property]
+//   }
+//   row["id"] = id
 
-  return row
-}
+//   return row
+// }
+
+// export default function GeneralDataTable(data) {
+//   const [param, setParam] = useState(false)
+//   const [paramValue, setParamValue] = useState(false)
+//   useEffect(() => {
+//     const queryParameters = new URLSearchParams(window.location.search)
+
+//     for (const [key, value] of queryParameters.entries()) {
+//       setParam(key)
+//       setParamValue(value)
+//     }
+//   }, [])
+
+//   let test = data.data.row.map((row, i) => {
+//     let bucket = row.columns.map((column, i) => {
+//       return column.column_data
+//     })
+
+//     return createData(i, bucket)
+//   })
+
+//   return (
+//     <div style={{ height: 600 }} className={"container mb-8"}>
+//       {!paramValue ? (
+//         <DataGrid
+//           rows={test}
+//           columns={columns}
+//           pageSize={26}
+//           components={{
+//             Toolbar: GridToolbar,
+//           }}
+//         />
+//       ) : (
+//         <DataGrid
+//           rows={test}
+//           columns={columns}
+//           pageSize={26}
+//           components={{
+//             Toolbar: GridToolbar,
+//           }}
+//           filterModel={{
+//             items: [
+//               {
+//                 columnField: param,
+//                 operatorValue: "contains",
+//                 value: paramValue,
+//               },
+//             ],
+//           }}
+//         />
+//       )}
+//     </div>
+//   )
+// }
+
+import React, { useState, useEffect, useMemo } from "react";
+import RenderExpandableCell from "./render-expandable-cell";
+import Markdown from "../../elements/markdown";
+import { MaterialReactTable } from "material-react-table";
 
 export default function GeneralDataTable(data) {
-  const [param, setParam] = useState(false)
-  const [paramValue, setParamValue] = useState(false)
+  const [param, setParam] = useState(false);
+  const [paramValue, setParamValue] = useState(false);
+
   useEffect(() => {
-    const queryParameters = new URLSearchParams(window.location.search)
+    const queryParameters = new URLSearchParams(window.location.search);
 
     for (const [key, value] of queryParameters.entries()) {
-      setParam(key)
-      setParamValue(value)
+      setParam(key);
+      setParamValue(value);
     }
-  }, [])
+  }, []);
+
+  const columns = useMemo(
+    () => [
+      {
+        accessorKey: 'Repository',
+        header: 'Repository',
+        // Header: <i style={{ color: 'red' }}>Age</i>, //optional custom markup
+        Cell: ({ cell }) => {
+          return <Markdown linkTarget="_blank" className="general-table">{cell.getValue()}</Markdown>
+        },
+      },
+      {
+        accessorKey: 'Descriptive Tags',
+        header: 'Descriptive Tags',
+        Cell: ({ cell }) => {
+          return <RenderExpandableCell linkTarget="_blank" className="general-table">{cell.getValue()}</RenderExpandableCell>
+        },
+      },
+      {
+        accessorKey: 'Organism',
+        header: 'Organism',
+        Cell: ({ cell }) => {
+          return <RenderExpandableCell linkTarget="_blank" className="general-table">{cell.getValue()}</RenderExpandableCell>
+        },
+      },
+      {
+        accessorKey: 'IC/Program',
+        header: 'IC/Program',
+        Cell: ({ cell }) => {
+          return <RenderExpandableCell linkTarget="_blank" className="general-table">{cell.getValue()}</RenderExpandableCell>
+        },
+      },
+      {
+        accessorKey: 'Get Started Here',
+        header: 'Get Started Here',
+        // Header: <i style={{ color: 'red' }}>Age</i>, //optional custom markup
+        Cell: ({ cell }) => {
+          return <Markdown linkTarget="_blank" className="general-table">{cell.getValue()}</Markdown>
+        },
+      },
+      {
+        accessorKey: 'Overview',
+        header: 'Overview',
+        // Header: <i style={{ color: 'red' }}>Age</i>, //optional custom markup
+        Cell: ({ cell }) => {
+          return <Markdown linkTarget="_blank" className="general-table">{cell.getValue()}</Markdown>
+        },
+      },
+    ],
+    [],
+  );
+
+  function createData(id, data) {
+    let row = { ...data };
+  
+    for (const property in row) {
+      let index = Number(property);
+      let newKey = columns[index].header;
+      row[newKey] = row[property];
+      delete row[property];
+    }
+  
+    return row;
+  }
 
   let test = data.data.row.map((row, i) => {
     let bucket = row.columns.map((column, i) => {
-      return column.column_data
-    })
+      return column.column_data;
+    });
 
-    return createData(i, bucket)
-  })
+    return createData(i, bucket);
+  });
+
 
   return (
-    <div style={{ height: 600 }} className={"container mb-8"}>
+    <div style={{ height: 600, marginBottom: "520px" }} className={"container mb-8"}>
       {!paramValue ? (
-        <DataGrid
-          rows={test}
+        <MaterialReactTable
+          data={test}
           columns={columns}
-          pageSize={26}
-          components={{
-            Toolbar: GridToolbar,
-          }}
+          enableRowSelection //enable some features
+          enableColumnOrdering
+          enableGlobalFilter={true} //turn off a feature
+          // pageSize={26}
+          // components={{
+          //   Toolbar: GridToolbar,
+          // }}
         />
       ) : (
-        <DataGrid
-          rows={test}
+        <MaterialReactTable
+          data={test}
           columns={columns}
-          pageSize={26}
-          components={{
-            Toolbar: GridToolbar,
-          }}
-          filterModel={{
-            items: [
-              {
-                columnField: param,
-                operatorValue: "contains",
-                value: paramValue,
-              },
-            ],
-          }}
+          enableRowSelection //enable some features
+          enableColumnOrdering
+          enableGlobalFilter={true} //turn off a feature
+          // pageSize={26}
+          // components={{
+          //   Toolbar: GridToolbar,
+          // }}
+          // filterModel={{
+          //   items: [
+          //     {
+          //       columnField: param,
+          //       operatorValue: "contains",
+          //       value: paramValue,
+          //     },
+          //   ],
+          // }}
         />
       )}
     </div>
-  )
+  );
 }
