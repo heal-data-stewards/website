@@ -145,99 +145,128 @@
 //   )
 // }
 
-import React, { useState, useEffect, useMemo } from "react";
-import RenderExpandableCell from "./render-expandable-cell";
-import Markdown from "../../elements/markdown";
-import { MaterialReactTable } from "material-react-table";
+import React, { useState, useEffect, useMemo } from "react"
+import RenderExpandableCell from "./render-expandable-cell"
+import Markdown from "../../elements/markdown"
+import { MaterialReactTable } from "material-react-table"
 
 export default function GeneralDataTable(data) {
-  const [param, setParam] = useState(false);
-  const [paramValue, setParamValue] = useState(false);
+  const [param, setParam] = useState(false)
+  const [paramValue, setParamValue] = useState(false)
 
   useEffect(() => {
-    const queryParameters = new URLSearchParams(window.location.search);
+    const queryParameters = new URLSearchParams(window.location.search)
 
     for (const [key, value] of queryParameters.entries()) {
-      setParam(key);
-      setParamValue(value);
+      setParam(key)
+      setParamValue(value)
     }
-  }, []);
+  }, [])
 
   const columns = useMemo(
     () => [
       {
-        accessorKey: 'Repository',
-        header: 'Repository',
-        // Header: <i style={{ color: 'red' }}>Age</i>, //optional custom markup
+        accessorKey: "Repository",
+        header: "Repository",
+        /* eslint-disable react/display-name */
         Cell: ({ cell }) => {
-          return <Markdown linkTarget="_blank" className="general-table">{cell.getValue()}</Markdown>
+          return (
+            <Markdown linkTarget="_blank" className="general-table">
+              {cell.getValue()}
+            </Markdown>
+          )
         },
       },
       {
-        accessorKey: 'Descriptive Tags',
-        header: 'Descriptive Tags',
+        accessorKey: "Descriptive Tags",
+        header: "Descriptive Tags",
+        /* eslint-disable react/display-name */
         Cell: ({ cell }) => {
-          return <RenderExpandableCell linkTarget="_blank" className="general-table">{cell.getValue()}</RenderExpandableCell>
+          return (
+            <RenderExpandableCell linkTarget="_blank" className="general-table">
+              {cell.getValue()}
+            </RenderExpandableCell>
+          )
         },
       },
       {
-        accessorKey: 'Organism',
-        header: 'Organism',
+        accessorKey: "Organism",
+        header: "Organism",
+        /* eslint-disable react/display-name */
         Cell: ({ cell }) => {
-          return <RenderExpandableCell linkTarget="_blank" className="general-table">{cell.getValue()}</RenderExpandableCell>
+          return (
+            <RenderExpandableCell linkTarget="_blank" className="general-table">
+              {cell.getValue()}
+            </RenderExpandableCell>
+          )
         },
       },
       {
-        accessorKey: 'IC/Program',
-        header: 'IC/Program',
+        accessorKey: "IC/Program",
+        header: "IC/Program",
+        /* eslint-disable react/display-name */
         Cell: ({ cell }) => {
-          return <RenderExpandableCell linkTarget="_blank" className="general-table">{cell.getValue()}</RenderExpandableCell>
+          return (
+            <RenderExpandableCell linkTarget="_blank" className="general-table">
+              {cell.getValue()}
+            </RenderExpandableCell>
+          )
         },
       },
       {
-        accessorKey: 'Get Started Here',
-        header: 'Get Started Here',
-        // Header: <i style={{ color: 'red' }}>Age</i>, //optional custom markup
+        accessorKey: "Get Started Here",
+        header: "Get Started Here",
+        /* eslint-disable react/display-name */
         Cell: ({ cell }) => {
-          return <Markdown linkTarget="_blank" className="general-table">{cell.getValue()}</Markdown>
+          return (
+            <Markdown linkTarget="_blank" className="general-table">
+              {cell.getValue()}
+            </Markdown>
+          )
         },
       },
       {
-        accessorKey: 'Overview',
-        header: 'Overview',
-        // Header: <i style={{ color: 'red' }}>Age</i>, //optional custom markup
+        accessorKey: "Overview",
+        header: "Overview",
+        /* eslint-disable react/display-name */
         Cell: ({ cell }) => {
-          return <Markdown linkTarget="_blank" className="general-table">{cell.getValue()}</Markdown>
+          return (
+            <Markdown linkTarget="_blank" className="general-table">
+              {cell.getValue()}
+            </Markdown>
+          )
         },
       },
     ],
-    [],
-  );
+    []
+  )
 
   function createData(id, data) {
-    let row = { ...data };
-  
+    let row = { ...data }
+
     for (const property in row) {
-      let index = Number(property);
-      let newKey = columns[index].header;
-      row[newKey] = row[property];
-      delete row[property];
+      let index = Number(property)
+      let newKey = columns[index].header
+      row[newKey] = row[property]
+      delete row[property]
     }
-  
-    return row;
+
+    return row
   }
 
   let test = data.data.row.map((row, i) => {
     let bucket = row.columns.map((column, i) => {
-      return column.column_data;
-    });
+      return column.column_data
+    })
 
-    return createData(i, bucket);
-  });
-
+    return createData(i, bucket)
+  })
 
   return (
-    <div style={{ height: 600, marginBottom: "520px" }} className={"container mb-8"}>
+    <div
+      style={{ height: 600, marginBottom: "520px" }}
+      className={"container mb-8"}
+    >
       {!paramValue ? (
         <MaterialReactTable
           data={test}
@@ -273,5 +302,5 @@ export default function GeneralDataTable(data) {
         />
       )}
     </div>
-  );
+  )
 }
