@@ -4,22 +4,27 @@ import Markdown from "../elements/markdown"
 
 const Block = ({ title, onMouseEnter }) => {
   return (
-    <div
+    <button
       style={{
-        clipPath: "polygon(0% 0%, 100% 0px, 100% 82%, 93% 100%, 0% 100%)",
+        fontSize: "14px",
+        fontWeight: "bold",
+        textAlign: "start",
         marginBottom: "15px",
         padding: "15px",
         minHeight: "75px",
-        background: "#e5e0e7",
+        background:
+          "linear-gradient(306deg, transparent 9px, rgb(229, 224, 231) 0)",
         cursor: "pointer",
         color: "rgba(83, 37, 101, 1)",
         maxWidth: "300px",
+        display: "block",
+        width: "-webkit-fill-available",
       }}
       className={"sensitive-data-blocks"}
-      onMouseEnter={onMouseEnter}
+      onClick={onMouseEnter}
     >
       {title}
-    </div>
+    </button>
   )
 }
 
