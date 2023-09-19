@@ -13,7 +13,7 @@ export default function ResourceBlock({ data }) {
           backgroundSize: "cover",
           cursor: "pointer",
           height: "300px",
-          marginBottom: "2.5rem"
+          marginBottom: "2.5rem",
         }}
       >
         <h1
