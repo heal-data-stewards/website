@@ -17,6 +17,13 @@ const Markdown = ({ children }) => {
       a: function Anchor({ node, href, ...props }) {
         return <Link to={href} {...props} />
       },
+      ul: function Anchor({ node, children, ...props }) {
+        return (
+          <Typography>
+            <ul>{children}</ul>
+          </Typography>
+        )
+      },
     }),
     []
   )
