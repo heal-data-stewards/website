@@ -112,9 +112,11 @@ export default function Faqs({ data }) {
               style={{
                 textAlign: "center",
                 fontSize: "1.8rem",
-                backgroundColor: "#532565",
-                clipPath:
-                  "polygon(0px 0px, 100% 0px, 100% 80%, 98% 100%, 0px 100%)",
+                // backgroundColor: "#532565",
+                background:
+                  "linear-gradient(306deg, transparent 9px, #532565 0)",
+                // clipPath:
+                //   "polygon(0px 0px, 100% 0px, 100% 80%, 98% 100%, 0px 100%)",
                 marginBottom: "10px",
                 color: "white",
                 padding: "0.9rem 0",
