@@ -114,7 +114,7 @@ export default function Faqs({ data }) {
                 fontSize: "1.8rem",
                 // backgroundColor: "#532565",
                 background:
-                  "linear-gradient(306deg, transparent 9px, #532565 0)",
+                  "linear-gradient(315deg, transparent 17px, #532565 0)",
                 // clipPath:
                 //   "polygon(0px 0px, 100% 0px, 100% 80%, 98% 100%, 0px 100%)",
                 marginBottom: "10px",
