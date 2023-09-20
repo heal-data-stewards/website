@@ -13,7 +13,7 @@ const Block = ({ title, onMouseEnter }) => {
         padding: "15px",
         minHeight: "75px",
         background:
-          "linear-gradient(306deg, transparent 9px, rgb(229, 224, 231) 0)",
+          "linear-gradient(315deg, transparent 17px, rgb(229, 224, 231) 0)",
         cursor: "pointer",
         color: "rgba(83, 37, 101, 1)",
         maxWidth: "300px",
