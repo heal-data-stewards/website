@@ -9,7 +9,8 @@ export default function ResourceBlock({ data }) {
         style={{
           position: "relative",
           backgroundImage: `url(${data.img.url})`,
-          clipPath: "polygon(0 0, 100% 0, 100% 80%, 80% 100%, 0 100%)",
+          clipPath:
+            "polygon(0px 0px, 100% 0px,100% calc(100%  - 48px),calc(100% - 48px) 100%, 0px 100%)",
           backgroundSize: "cover",
           cursor: "pointer",
           height: "300px",
