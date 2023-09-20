@@ -8,8 +8,7 @@ import CardContent from "@material-ui/core/CardContent"
 import { DotButton } from "./buttons"
 import PauseIcon from "@mui/icons-material/Pause"
 import PlayArrowIcon from "@mui/icons-material/PlayArrow"
-import Markdown from "react-markdown"
-
+import Markdown from "../../elements/markdown"
 const AUTOPLAY_INTERVAL = 8000
 
 const useStyles = makeStyles({

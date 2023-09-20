@@ -7,8 +7,12 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "lint:fix": "next lint --fix"
+    "lint:fix": "next lint --fix",
+    "test": "next lint --fix"
   },
+  "pre-commit": [
+    "test"
+  ],
   "dependencies": {
     "@emotion/react": "^11.4.1",
     "@emotion/styled": "^11.3.0",
@@ -53,6 +57,7 @@
     "postcss-flexbugs-fixes": "^5.0.2",
     "postcss-nested": "^5.0.5",
     "postcss-preset-env": "^6.7.0",
+    "pre-commit": "^1.2.2",
     "prettier": "^2.3.1"
   }
 }
