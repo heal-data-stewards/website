@@ -37,7 +37,10 @@ html {
     font-size: 15px;
   }
 }
-
+.rich-text p {
+  font-size: 1.25rem !important;
+  line-height: 1.75rem;
+}
 .sensitive-data-blocks:hover {
   /* background: rgba(83, 37, 101, 1) !important; */
   background: linear-gradient(306deg, transparent 9px, rgba(83, 37, 101, 1) 0) !important;
