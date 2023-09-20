@@ -5,9 +5,9 @@ import MuiAccordion from "@mui/material/Accordion"
 import MuiAccordionSummary from "@mui/material/AccordionSummary"
 import MuiAccordionDetails from "@mui/material/AccordionDetails"
 import Typography from "@mui/material/Typography"
-import Markdown from "react-markdown"
 import { getStrapiApiPageData } from "utils/api"
 import TransitionsModal from "../elements/modal"
+import Markdown from "../elements/markdown"
 
 const Accordion = styled((props) => (
   <MuiAccordion disableGutters elevation={0} square {...props} />
@@ -112,7 +112,12 @@ export default function Faqs({ data }) {
               style={{
                 textAlign: "center",
                 fontSize: "1.8rem",
-                backgroundColor: "#532565",
+                // backgroundColor: "#532565",
+                background:
+                  "linear-gradient(315deg, transparent 17px, #532565 0)",
+                // clipPath:
+                //   "polygon(0px 0px, 100% 0px, 100% 80%, 98% 100%, 0px 100%)",
+                marginBottom: "10px",
                 color: "white",
                 padding: "0.9rem 0",
               }}
