@@ -12,7 +12,7 @@ const Markdown = ({ children }) => {
   const componentMap = useMemo(
     () => ({
       p: function Anchor({ node, children, ...props }) {
-        return <Typography paragraph>{children}</Typography>
+        return <Typography variant="body1">{children}</Typography>
       },
       a: function Anchor({ node, href, ...props }) {
         return <Link to={href} {...props} />

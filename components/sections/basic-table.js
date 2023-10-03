@@ -56,7 +56,7 @@ export default function BasicTable({ data }) {
                   className={classes.tableCell}
                   key={i + row}
                 >
-                  {row}
+                  <Typography variant="h3">{row}</Typography>
                 </TableCell>
               ))}
             </TableRow>
@@ -70,7 +70,7 @@ export default function BasicTable({ data }) {
                   className={classes.tableTitle}
                 >
                   <a target="_blank" rel="noopener noreferrer" href={row.link}>
-                    <Typography sx={{ fontWeight: 600 }}>
+                    <Typography variant="h4" sx={{ fontWeight: 600 }}>
                       {row.title}
                     </Typography>
                   </a>
@@ -84,7 +84,7 @@ export default function BasicTable({ data }) {
                       target={"_blank"}
                       rel="noopener noreferrer"
                     >
-                      <Typography>Read More...</Typography>
+                      <Typography variant="body1" sx={{pt: '1rem'}}>Read More...</Typography>
                     </a>
                   )}
                 </TableCell>
