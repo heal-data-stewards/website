@@ -9,6 +9,8 @@ import { DotButton } from "./buttons"
 import PauseIcon from "@mui/icons-material/Pause"
 import PlayArrowIcon from "@mui/icons-material/PlayArrow"
 import Markdown from "../../elements/markdown"
+import Typography from "@mui/material/Typography"
+
 const AUTOPLAY_INTERVAL = 8000
 
 const useStyles = makeStyles({
@@ -115,15 +117,17 @@ const EmblaCarousel = ({ data }) => {
                   {/* Left column for content */}
                   <CardContent>
                     {/* label */}
-                    <p className="uppercase mb-4 tracking-wide font-semibold text-magenta text-center lg:text-left">
+                    <Typography variant="subtitle2"
+                      className= "text-center lg:text-left"
+                    >
                       {slide.smallheader}
-                    </p>
+                    </Typography>
                     {/* Big title */}
-                    <h1 className="title mb-4 text-center lg:text-left">
+                    <Typography variant="h1" className=" mb-4 text-center lg:text-left">
                       {slide.header}
-                    </h1>
+                    </Typography>
                     {/* Description paragraph */}
-                    <div className="text-xl mb-4 text-grey text-center pl-10 pr-10 lg:text-left lg:pl-0 lg:pr-0">
+                    <div className=" mb-4 text-grey text-center pl-10 pr-10 lg:text-left lg:pl-0 lg:pr-0">
                       <div className="event-html">
                         <Markdown linkTarget="_blank">
                           {slide.paragraph}

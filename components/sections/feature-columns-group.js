@@ -37,6 +37,7 @@
 // export default FeatureColumnsGroup
 
 import NextImage from "../elements/image"
+import Typography from "@mui/material/Typography"
 
 const FeatureColumnsGroup = ({ data }) => {
   return (
@@ -64,21 +65,18 @@ const FeatureColumnsGroup = ({ data }) => {
               {/* <div className="w-10 h-10">
             <NextImage media={feature.icon} />
           </div> */}
-              <h3
-                className="font-bold mb-2"
+              <Typography variant="h3"
                 style={{ marginLeft: "50px", paddingTop: "15px" }}
               >
                 {feature.title}
-              </h3>
-              <p
+              </Typography>
+              <Typography variant="body2"
                 style={{
-                  fontSize: "16px",
-                  lineHeight: "24px",
                   padding: "0 32px 19px 50px",
                 }}
               >
                 {feature.description}
-              </p>
+              </Typography>
             </div>
           </div>
         ))}
