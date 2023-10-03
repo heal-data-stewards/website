@@ -31,6 +31,8 @@ import RoadMap from "./sections/roadmap"
 import Topics from "./sections/topics"
 import CollectiveEvents from "./elements/webinar/collective"
 import RichTextModal from "./sections/rich-text-modal"
+import SensitiveData from "./sections/sensitive-data"
+import DugSearch from "./sections/dug-search"
 
 // Map Strapi sections to section components
 const sectionComponents = {
@@ -66,6 +68,8 @@ const sectionComponents = {
   "sections.topics": Topics,
   "sections.collective-events": CollectiveEvents,
   "sections.rich-text-modal": RichTextModal,
+  "sections.sensitive-data": SensitiveData,
+  "sections.dug-search": DugSearch,
 }
 
 // Display a section individually
