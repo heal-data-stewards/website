@@ -1,5 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
 @tailwind base;
-
 @layer base {
   /* Extending Preflight */
   /* If you’d like to add your own base styles on top of Preflight, simply add them to your CSS within a @layer base directive: */
@@ -23,7 +23,7 @@
 html {
   font-size: 13px;
   @apply text-gray-900;
-  font-family: Montserrat;
+  /* font-family: Montserrat !important; */
 }
 
 @media screen and (min-width: 640px) {
@@ -36,6 +36,15 @@ html {
   html {
     font-size: 15px;
   }
+}
+.rich-text p {
+  font-size: 1.25rem !important;
+  line-height: 1.75rem;
+}
+.sensitive-data-blocks:hover {
+  /* background: rgba(83, 37, 101, 1) !important; */
+  background: linear-gradient(306deg, transparent 9px, rgba(83, 37, 101, 1) 0) !important;
+  color: white !important;
 }
 
 .rich-text-hero a {
