@@ -117,13 +117,17 @@ const EmblaCarousel = ({ data }) => {
                   {/* Left column for content */}
                   <CardContent>
                     {/* label */}
-                    <Typography variant="subtitle2"
-                      className= "text-center lg:text-left"
+                    <Typography
+                      variant="subtitle2"
+                      className="text-center lg:text-left"
                     >
                       {slide.smallheader}
                     </Typography>
                     {/* Big title */}
-                    <Typography variant="h1" className=" mb-4 text-center lg:text-left">
+                    <Typography
+                      variant="h1"
+                      className=" mb-4 text-center lg:text-left"
+                    >
                       {slide.header}
                     </Typography>
                     {/* Description paragraph */}
