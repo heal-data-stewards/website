@@ -65,12 +65,14 @@ const FeatureColumnsGroup = ({ data }) => {
               {/* <div className="w-10 h-10">
             <NextImage media={feature.icon} />
           </div> */}
-              <Typography variant="h3"
+              <Typography
+                variant="h3"
                 style={{ marginLeft: "50px", paddingTop: "15px" }}
               >
                 {feature.title}
               </Typography>
-              <Typography variant="body2"
+              <Typography
+                variant="body2"
                 style={{
                   padding: "0 32px 19px 50px",
                 }}

@@ -84,7 +84,9 @@ export default function BasicTable({ data }) {
                       target={"_blank"}
                       rel="noopener noreferrer"
                     >
-                      <Typography variant="body1" sx={{pt: '1rem'}}>Read More...</Typography>
+                      <Typography variant="body1" sx={{ pt: "1rem" }}>
+                        Read More...
+                      </Typography>
                     </a>
                   )}
                 </TableCell>

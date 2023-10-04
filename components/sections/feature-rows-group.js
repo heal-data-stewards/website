@@ -27,9 +27,7 @@ const FeatureRowsGroup = ({ data }) => {
           {/* Text section */}
           <div className="w-full lg:w-6/12 lg:pr-6 text-lg">
             {/* <h3 className="title">{feature.title}</h3> */}
-            <Typography variant="subtitle1">
-              {feature.description}
-            </Typography>
+            <Typography variant="subtitle1">{feature.description}</Typography>
 
             {!feature.link == null && (
               <CustomLink link={feature.link}>
