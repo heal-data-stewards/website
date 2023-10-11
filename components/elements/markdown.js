@@ -20,16 +20,16 @@ const Markdown = ({ children }) => {
       },
       ul: function Anchor({ node, children, ...props }) {
         return (
-          <List
-            sx={{ listStyleType: "disc", marginTop: "0", marginBottom: "0" }}
-          >
+          <List sx={{ listStyleType: "square", marginLeft: "50px" }}>
             {children}
           </List>
         )
       },
       li: function Anchor({ node, children, ...props }) {
         return (
-          <ListItem sx={{ display: "list-item", marginLeft: "2rem" }}>
+          <ListItem
+            sx={{ display: "list-item", lineHeight: 1.45, fontSize: "1.1rem" }}
+          >
             {children}
           </ListItem>
         )
