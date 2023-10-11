@@ -45,20 +45,21 @@ const typography = {
   fontFamily: "Montserrat",
   h1: {
     fontSize: '3rem',
-    fontWeight: '700',
+    fontWeight: '600',
     paddingBottom: '1rem',
     lineHeight: 1,
+    color: palette.purple.DEFAULT
   },
   h2: {
     fontSize: '1.875rem',
     lineHeight: '2.25rem',
-    fontWeight: 700,
+    fontWeight: '700',
     paddingBottom: '1rem',
-    marginBottom: '2rem'
+    marginBottom: '2rem',
   },
   h3: {
     fontSize: '1.25rem',
-    fontWeight: '700',
+    // fontWeight: '700',
     paddingBottom: '0.5rem',
     lineHeight: 1.35,
   },
