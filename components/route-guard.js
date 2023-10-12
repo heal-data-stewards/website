@@ -56,7 +56,7 @@ function RouteGuard({ children }) {
       "/sensitive-data",
       "/resources/semanticsearch",
       "/resources/dmsps",
-      "/requirements"
+      "/requirements",
       // The following used to be private pages only exposed to signed in guests
       // "/directory",
       // "/collaboration",
