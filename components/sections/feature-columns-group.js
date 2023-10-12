@@ -37,6 +37,7 @@
 // export default FeatureColumnsGroup
 
 import NextImage from "../elements/image"
+import Typography from "@mui/material/Typography"
 
 const FeatureColumnsGroup = ({ data }) => {
   return (
@@ -53,7 +54,6 @@ const FeatureColumnsGroup = ({ data }) => {
         {data.features.map((feature) => (
           <div className="tag-wrap flex-1" key={feature.id}>
             <div
-              className="text-lg"
               style={{
                 background: feature.color,
                 minHeight: "100%",
@@ -64,21 +64,22 @@ const FeatureColumnsGroup = ({ data }) => {
               {/* <div className="w-10 h-10">
             <NextImage media={feature.icon} />
           </div> */}
-              <h3
-                className="font-bold mb-2"
-                style={{ marginLeft: "50px", paddingTop: "15px" }}
+          <div style={{padding: "1.5rem 2.5rem"}}>
+              <Typography
+                variant="h3"
+                style={{color: '#fff' }}
               >
                 {feature.title}
-              </h3>
-              <p
+              </Typography>
+              <Typography
+                variant="body1"
                 style={{
-                  fontSize: "16px",
-                  lineHeight: "24px",
-                  padding: "0 32px 19px 50px",
+                  // padding: "0 2.2rem 0",
                 }}
               >
                 {feature.description}
-              </p>
+              </Typography>
+              </div>
             </div>
           </div>
         ))}
