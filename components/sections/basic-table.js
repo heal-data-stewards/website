@@ -85,7 +85,7 @@ export default function BasicTable({ data }) {
                       // target={"_blank"}
                       // rel="noopener noreferrer"
                     >
-                      <Typography variant="body2" sx={{fontWeight: '500'}}>
+                      <Typography variant="body2" sx={{ fontWeight: "500" }}>
                         Read More...
                       </Typography>
                     </Link>

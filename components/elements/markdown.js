@@ -27,15 +27,19 @@ const Markdown = ({ children }) => {
       },
       li: function Anchor({ node, children, ...props }) {
         return (
-          <ListItem
-            sx={{ display: "list-item", lineHeight: 1.45, fontSize: "1.1rem" }}
-          >
+          <ListItem sx={{ display: "list-item", fontSize: "1.1rem" }}>
             {children}
           </ListItem>
         )
       },
       h1: function Anchor({ node, children, ...props }) {
         return <Typography variant="h1">{children}</Typography>
+      },
+      h3: function Anchor({ node, children, ...props }) {
+        return <Typography variant="h3">{children}</Typography>
+      },
+      h4: function Anchor({ node, children, ...props }) {
+        return <Typography variant="h4">{children}</Typography>
       },
     }),
     []
