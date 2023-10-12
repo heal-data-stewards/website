@@ -1,113 +1,101 @@
 import React, { useState, useEffect } from "react"
 import { DataGrid, GridToolbar } from "@material-ui/data-grid"
-// import RenderExpandableCell from "./render-expandable-cell"
 import Markdown from "../../elements/markdown"
+import { MaterialReactTable } from "material-react-table"
 const columns = [
-  { field: "id", hide: true, headerName: "ID", width: 10 },
   {
-    field: "Repository",
-    headerName: "Repository",
-    headerClassName: "general-table-headers",
-    sortable: false,
-    filterable: false,
-    width: 150,
+    accessorKey: "Repository",
+    header: "Repository",
     // eslint-disable-next-line react/display-name
-    renderCell: ({ row }) => (
-      <Markdown linkTarget="_blank" className="general-table">
-        {row["Repository"]}
-      </Markdown>
-    ),
-  },
-  {
-    field: "De-identification Method",
-    headerName: "De-identification Method",
-    headerClassName: "general-table-headers",
-    width: 270,
-    sortable: false,
-    cellClass: "overflow",
-    // eslint-disable-next-line react/display-name
-    renderCell: ({ row }) => (
+    Cell: ({ cell }) => {
+      return (
         <Markdown linkTarget="_blank" className="general-table">
-          {row["De-identification Method"]}
+          {cell.getValue()}
         </Markdown>
-      ),
+      )
+    },
   },
   {
-    field: "De-ID Documentation",
-    headerName: "De-ID Documentation",
-    headerClassName: "general-table-headers",
-    width: 200,
-    sortable: false,
+    accessorKey: "De-identification Method",
+    header: "De-identification Method",
     // eslint-disable-next-line react/display-name
-    renderCell: ({ row }) => (
+    Cell: ({ cell }) => {
+      return (
         <Markdown linkTarget="_blank" className="general-table">
-          {row["De-ID Documentation"]}
+          {cell.getValue()}
         </Markdown>
-      ),
+      )
+    },
   },
   {
-    field: "De-ID Verification",
-    headerName: "De-ID Verification",
-    headerClassName: "general-table-headers",
-    width: 150,
-    sortable: true,
+    accessorKey: "De-ID Documentation",
+    header: "De-ID Documentation",
     // eslint-disable-next-line react/display-name
-    renderCell: ({ row }) => (
-      <Markdown linkTarget="_blank" className="general-table">
-        {row["De-ID Verification"]}
-      </Markdown>
-    ),
+    Cell: ({ cell }) => {
+      return (
+        <Markdown linkTarget="_blank" className="general-table">
+          {cell.getValue()}
+        </Markdown>
+      )
+    },
   },
   {
-    field: "De-ID Assistance",
-    headerName: "De-ID Assistance",
-    headerClassName: "general-table-headers",
-    width: 150,
-    sortable: true,
+    accessorKey: "De-ID Verification",
+    header: "De-ID Verification",
     // eslint-disable-next-line react/display-name
-    renderCell: ({ row }) => (
-      <Markdown linkTarget="_blank" className="general-table">
-        {row["De-ID Assistance"]}
-      </Markdown>
-    ),
+    Cell: ({ cell }) => {
+      return (
+        <Markdown linkTarget="_blank" className="general-table">
+          {cell.getValue()}
+        </Markdown>
+      )
+    },
   },
   {
-    field: "Special Notes",
-    headerName: "Special Notes",
-    headerClassName: "general-table-headers",
-    width: 155,
-    sortable: false,
-    filterable: false,
+    accessorKey: "De-ID Assistance",
+    header: "De-ID Assistance",
     // eslint-disable-next-line react/display-name
-    renderCell: ({ row }) => (
-      <Markdown linkTarget="_blank" className="general-table">
-        {row["Special Notes"]}
-      </Markdown>
-    ),
+    Cell: ({ cell }) => {
+      return (
+        <Markdown linkTarget="_blank" className="general-table">
+          {cell.getValue()}
+        </Markdown>
+      )
+    },
   },
   {
-    field: "References",
-    headerName: "References",
-    headerClassName: "general-table-headers",
-    width: 355,
-    sortable: false,
-    filterable: false,
+    accessorKey: "Special Notes",
+    header: "Special Notes",
     // eslint-disable-next-line react/display-name
-    renderCell: ({ row }) => (
-      <Markdown linkTarget="_blank" className="general-table">
-        {row["References"]}
-      </Markdown>
-    ),
+    Cell: ({ cell }) => {
+      return (
+        <Markdown linkTarget="_blank" className="general-table">
+          {cell.getValue()}
+        </Markdown>
+      )
+    },
+  },
+  {
+    accessorKey: "References",
+    header: "References",
+    // eslint-disable-next-line react/display-name
+    Cell: ({ cell }) => {
+      return (
+        <Markdown linkTarget="_blank" className="general-table">
+          {cell.getValue()}
+        </Markdown>
+      )
+    },
   },
 ]
 
 function createData(id, data) {
   let row = { ...data }
-  
+
   for (const property in row) {
     console.log(row[property])
     let index = Number(property) + 1
-    let newKey = columns[index].field
+    let newKey = columns[Number(property)].header
     row[newKey] = row[property].di_page_data
     delete row[property]
   }
@@ -139,31 +127,20 @@ export default function DiTable(data) {
   return (
     <div style={{ height: 600 }} className={"container mb-8"}>
       {!paramValue ? (
-        <DataGrid
-          rows={test}
+        <MaterialReactTable
+          data={test}
           columns={columns}
-          pageSize={26}
-          components={{
-            Toolbar: GridToolbar,
-          }}
+          // enableRowSelection //enable some features
+          enableColumnOrdering
+          enableGlobalFilter={true} //turn off a feature
         />
       ) : (
-        <DataGrid
-          rows={test}
+        <MaterialReactTable
+          data={test}
           columns={columns}
-          pageSize={26}
-          components={{
-            Toolbar: GridToolbar,
-          }}
-          filterModel={{
-            items: [
-              {
-                columnField: param,
-                operatorValue: "contains",
-                value: paramValue,
-              },
-            ],
-          }}
+          //   enableRowSelection //enable some features
+          enableColumnOrdering
+          enableGlobalFilter={true} //turn off a feature
         />
       )}
     </div>
