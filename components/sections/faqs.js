@@ -164,9 +164,7 @@ export default function Faqs({ data }) {
                     }}
                   >
                     <Typography component={"span"}>
-                      <Markdown className="faq-markdown">
-                        {question.answerFAQ}
-                      </Markdown>
+                      <Markdown>{question.answerFAQ}</Markdown>
                     </Typography>
                   </AccordionDetails>
                 </Accordion>

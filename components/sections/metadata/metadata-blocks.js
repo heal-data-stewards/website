@@ -84,18 +84,9 @@ export default function MetaDataBlocks({ data }) {
         <h4 className={"font-bold mb-2 text-3xl " + color}>
           {shownFairContent.resource_title}:
         </h4>
-        <ul>
-          {shownFairContent.products.map((product, i) => {
-            return (
-              <li
-                key={product.item + i}
-                className="prose-lg pb-12 event-html text-gray-dark text-xl"
-              >
-                <Markdown linkTarget="_blank">{product.item}</Markdown>
-              </li>
-            )
-          })}
-        </ul>
+        {shownFairContent.products.map((product, i) => {
+          return <Markdown key={`metadata-item-${i}`}>{product.item}</Markdown>
+        })}
       </div>
     </div>
   )

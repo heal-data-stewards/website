@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react"
 import List from "@mui/material/List"
 import { getAllUsers } from "utils/api"
 import PublicWorkingGroupListItem from "./list-item"
+import Typography from "@mui/material/Typography"
 
 export default function Boardlist({ data }) {
   const [users, setUsers] = useState([])
@@ -23,9 +24,9 @@ export default function Boardlist({ data }) {
   return (
     <div className="container">
       <nav aria-label="working group list">
-        <h2 className="text-3xl font-bold pb-4 text-purple mb-8">
+        <Typography variant="h2" color="primary">
           {"Current"}
-        </h2>
+        </Typography>
         <List className="flex flex-wrap">
           {currentUsers.map((member, index) => {
             return (
@@ -42,7 +43,9 @@ export default function Boardlist({ data }) {
             )
           })}
         </List>
-        <h2 className="text-3xl font-bold pb-4 text-purple mb-8">{"Former"}</h2>
+        <Typography variant="h2" color="primary">
+          {"Former"}
+        </Typography>
         <List className="flex flex-wrap">
           {formerUsers.map((member, index) => {
             return (
