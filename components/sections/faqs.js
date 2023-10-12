@@ -142,9 +142,7 @@ export default function Faqs({ data }) {
                   </AccordionSummary>
                   <AccordionDetails style={{ backgroundColor: "#fff" }}>
                     <Typography component={"span"}>
-                      <Markdown className="faq-markdown">
-                        {question.answerFAQ}
-                      </Markdown>
+                      <Markdown>{question.answerFAQ}</Markdown>
                     </Typography>
                   </AccordionDetails>
                 </Accordion>

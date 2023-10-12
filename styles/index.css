@@ -276,18 +276,6 @@ content: ""
 .event-html a {
   color: #0044B3
 }
-.faq-markdown a {
-  color: #0044B3
-}
-
-.faq-markdown p {
-  margin: 0 0 12px 0
-}
-
-.faq-markdown li {
-  list-style-type: square;
-  margin-left: 50px
-}
 
 .glossary-markdown a {
   color: #0044B3;
@@ -330,13 +318,10 @@ content: ""
   top: -40px;
 }
 
-
-
 .members-card-blurb {
   padding: 0 0 0 135px;
   word-break: break-word;
 }
-
 
 @media screen and (max-width: 650px){
   .members-card-blurb  {
