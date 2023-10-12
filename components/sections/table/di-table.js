@@ -93,8 +93,7 @@ function createData(id, data) {
   let row = { ...data }
 
   for (const property in row) {
-    console.log(row[property])
-    let index = Number(property) + 1
+    // let index = Number(property) + 1
     let newKey = columns[Number(property)].header
     row[newKey] = row[property].di_page_data
     delete row[property]
