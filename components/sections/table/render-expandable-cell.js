@@ -3,7 +3,7 @@ import { useEffect, useRef, useState } from "react"
 import { tooltipClasses } from "@mui/material/Tooltip"
 import { styled } from "@mui/material/styles"
 
-const RenderExpandableCell = (data) => {
+const RenderExpandableCell = (props) => {
   const [isOverflowed, setIsOverflow] = useState(true)
 
   const textElementRef = useRef(null)
@@ -41,7 +41,7 @@ const RenderExpandableCell = (data) => {
   }))
 
   return (
-    <HtmlTooltip title={data.data} disableHoverListener={!isOverflowed}>
+    <HtmlTooltip title={"props.data.data"} disableHoverListener={!isOverflowed}>
       <span
         ref={textElementRef}
         style={{
@@ -50,7 +50,7 @@ const RenderExpandableCell = (data) => {
           textOverflow: "ellipsis",
         }}
       >
-        {data.data}
+        {props.children}
       </span>
     </HtmlTooltip>
   )
