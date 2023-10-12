@@ -142,7 +142,7 @@ export default function Faqs({ data }) {
                   style={{
                     marginBottom: "1rem",
                     background:
-                      "linear-gradient(315deg, transparent 17px, #c0b3c5 0)",
+                      "linear-gradient(315deg, transparent 17px, #e5e0e7 0)",
                   }}
                   key={question.question + i}
                 >
@@ -160,7 +160,7 @@ export default function Faqs({ data }) {
                   <AccordionDetails
                     style={{
                       background:
-                        "linear-gradient(315deg, transparent 17px, #c0b3c5 0)",
+                        "linear-gradient(315deg, transparent 17px, #e5e0e7 0)",
                     }}
                   >
                     <Typography component={"span"}>
