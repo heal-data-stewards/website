@@ -9,6 +9,7 @@ import TableRow from "@material-ui/core/TableRow"
 import Paper from "@material-ui/core/Paper"
 import Markdown from "../elements/markdown"
 import Typography from "@mui/material/Typography"
+import Link from "../elements/link"
 
 const useStyles = makeStyles({
   table: {
@@ -69,25 +70,25 @@ export default function BasicTable({ data }) {
                   scope="row"
                   className={classes.tableTitle}
                 >
-                  <a target="_blank" rel="noopener noreferrer" href={row.link}>
+                  <Link to={row.link}>
                     <Typography variant="h4" sx={{ fontWeight: 600 }}>
                       {row.title}
                     </Typography>
-                  </a>
+                  </Link>
                 </TableCell>
                 <TableCell align="left" className={classes.tableDescription}>
                   <Markdown>{row.description}</Markdown>
                   {row.link && (
-                    <a
-                      href={row.link}
-                      style={{ color: "#0044B3" }}
-                      target={"_blank"}
-                      rel="noopener noreferrer"
+                    <Link
+                      to={row.link}
+                      // style={{ color: "#0044B3" }}
+                      // target={"_blank"}
+                      // rel="noopener noreferrer"
                     >
-                      <Typography variant="body1" sx={{ pt: "1rem" }}>
+                      <Typography variant="body2" sx={{fontWeight: '500'}}>
                         Read More...
                       </Typography>
-                    </a>
+                    </Link>
                   )}
                 </TableCell>
               </TableRow>
