@@ -8,21 +8,6 @@ import Typography from "@mui/material/Typography"
 import Markdown from "../elements/markdown"
 import Divider from "@mui/material/Divider"
 
-const DataBox = () => {
-  return (
-    <div
-      style={{
-        textAlign: "center",
-        fontSize: "1.8rem",
-        background: "linear-gradient(315deg, transparent 17px, #532565 0)",
-        marginBottom: "10px",
-        color: "white",
-        padding: "0.9rem 0",
-      }}
-    ></div>
-  )
-}
-
 const Accordion = styled((props) => (
   <MuiAccordion disableGutters elevation={0} square {...props} />
 ))(({ theme }) => ({
