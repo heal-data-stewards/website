@@ -73,7 +73,7 @@ const sectionComponents = {
   "sections.sensitive-data": SensitiveData,
   "sections.dug-search": DugSearch,
   "sections.di-page-table": DiTable,
-  "sections.di-boxes": DiBoxes
+  "sections.di-boxes": DiBoxes,
 }
 
 // Display a section individually
