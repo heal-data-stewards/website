@@ -5,14 +5,27 @@ import MuiAccordion from "@mui/material/Accordion"
 import MuiAccordionSummary from "@mui/material/AccordionSummary"
 import MuiAccordionDetails from "@mui/material/AccordionDetails"
 import Typography from "@mui/material/Typography"
-import { getStrapiApiPageData } from "utils/api"
-import TransitionsModal from "../elements/modal"
 import Markdown from "../elements/markdown"
+import Divider from "@mui/material/Divider"
+
+const DataBox = () => {
+  return (
+    <div
+      style={{
+        textAlign: "center",
+        fontSize: "1.8rem",
+        background: "linear-gradient(315deg, transparent 17px, #532565 0)",
+        marginBottom: "10px",
+        color: "white",
+        padding: "0.9rem 0",
+      }}
+    ></div>
+  )
+}
 
 const Accordion = styled((props) => (
   <MuiAccordion disableGutters elevation={0} square {...props} />
 ))(({ theme }) => ({
-  border: `1px solid ${theme.palette.divider}`,
   "&:not(:last-child)": {
     borderBottom: 0,
   },
@@ -25,24 +38,33 @@ const AccordionSummary = styled((props) => (
   <MuiAccordionSummary
     expandIcon={
       <ArrowForwardIosSharpIcon
-        sx={{ fontSize: "2rem", paddingLeft: "10px" }}
+        sx={{
+          fontSize: "2rem",
+          padding: "0.75rem 0.5rem 0.5rem 0",
+          color: "#532565",
+        }}
       />
     }
     {...props}
   />
 ))(({ theme }) => ({
-  flexDirection: "row-reverse",
+  flexDirection: "row",
   "& .MuiAccordionSummary-expandIconWrapper.Mui-expanded": {
     transform: "rotate(90deg)",
   },
   "& .MuiAccordionSummary-content": {
     marginLeft: theme.spacing(1),
   },
+  color: "#532565",
+  fontWeight: "600",
+  padding: "0.5rem 1rem",
 }))
 
 const AccordionDetails = styled(MuiAccordionDetails)(({ theme }) => ({
-  padding: "3rem 2.6rem",
-  borderTop: "1px solid rgba(0, 0, 0, .125)",
+  padding: "0rem 2.6rem 1rem",
+  // borderTop: "1px solid rgba(0, 0, 0, .125)",
+  border: "none",
+  color: "#532565",
 }))
 
 export default function Faqs({ data }) {
@@ -78,16 +100,6 @@ export default function Faqs({ data }) {
       return res
     }
 
-    // getStrapiApiPageData("resources/faqs")
-    //   .then((res) => {
-    //     // console.log(res)
-    //     return groupByTag(res.contentSections[2].question, "tag")
-    //   })
-    //   .then((res) => {
-    //     const newState = separateObject(res)
-    //     setFaqs(newState)
-    //   })
-
     const group = groupByTag(data.question, "tag")
     const newState = separateObject(group)
     setFaqs(newState)
@@ -104,47 +116,55 @@ export default function Faqs({ data }) {
           <div
             key={i + "obj"}
             style={{
-              marginBottom: "15px",
+              marginBottom: "2rem",
               background: "#fff",
             }}
           >
-            <div
-              style={{
-                textAlign: "center",
+            <Typography
+              variant="h2"
+              sx={{
                 fontSize: "1.8rem",
-                // backgroundColor: "#532565",
-                background:
-                  "linear-gradient(315deg, transparent 17px, #532565 0)",
-                // clipPath:
-                //   "polygon(0px 0px, 100% 0px, 100% 80%, 98% 100%, 0px 100%)",
-                marginBottom: "10px",
-                color: "white",
-                padding: "0.9rem 0",
+                lineHeight: "1.25",
+                fontWeight: "500",
+                color: "#982568",
+                paddingTop: "2rem",
               }}
             >
-              <h1 style={{ fontWeight: "300" }}>
-                {faq.key !== "null" ? faq.key : "FAQs"}
-              </h1>
-            </div>
+              {faq.key !== "null" ? faq.key : "FAQs"}
+            </Typography>
+            <Divider sx={{ backgroundColor: "#982568" }} />
+            <br />
             {faq.data.map((question, i) => {
               return (
                 <Accordion
                   expanded={expanded === "panel" + i + question.question}
                   onChange={handleChange("panel" + i + question.question)}
-                  style={{ backgroundColor: "#e5e0e7" }}
+                  style={{
+                    marginBottom: "1rem",
+                    background:
+                      "linear-gradient(315deg, transparent 17px, #e5e0e7 0)",
+                  }}
                   key={question.question + i}
                 >
                   <AccordionSummary
                     aria-controls={"panel" + i + question.question}
                     id={"panel" + i + question.question}
                   >
-                    <Typography>{question.question}</Typography>
+                    <Typography
+                      variant="h3"
+                      sx={{ fontSize: "1.2rem", fontWeight: "500" }}
+                    >
+                      {question.question}
+                    </Typography>
                   </AccordionSummary>
-                  <AccordionDetails style={{ backgroundColor: "#fff" }}>
+                  <AccordionDetails
+                    style={{
+                      background:
+                        "linear-gradient(315deg, transparent 17px, #e5e0e7 0)",
+                    }}
+                  >
                     <Typography component={"span"}>
-                      <Markdown className="faq-markdown">
-                        {question.answerFAQ}
-                      </Markdown>
+                      <Markdown>{question.answerFAQ}</Markdown>
                     </Typography>
                   </AccordionDetails>
                 </Accordion>

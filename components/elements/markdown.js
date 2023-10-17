@@ -2,7 +2,8 @@ import ReactMarkdown from "react-markdown"
 import React, { useMemo } from "react"
 import Typography from "@mui/material/Typography"
 import Link from "../elements/link"
-
+import ListItem from "@mui/material/ListItem"
+import List from "@mui/material/List"
 // this object defines a map:
 //    DOM elements --> React components.
 // this allows us to streamline styles for content coming
@@ -19,10 +20,26 @@ const Markdown = ({ children }) => {
       },
       ul: function Anchor({ node, children, ...props }) {
         return (
-          <Typography>
-            <ul>{children}</ul>
-          </Typography>
+          <List sx={{ listStyleType: "square", marginLeft: "50px" }}>
+            {children}
+          </List>
         )
+      },
+      li: function Anchor({ node, children, ...props }) {
+        return (
+          <ListItem sx={{ display: "list-item", fontSize: "1.1rem" }}>
+            {children}
+          </ListItem>
+        )
+      },
+      h1: function Anchor({ node, children, ...props }) {
+        return <Typography variant="h1">{children}</Typography>
+      },
+      h3: function Anchor({ node, children, ...props }) {
+        return <Typography variant="h3">{children}</Typography>
+      },
+      h4: function Anchor({ node, children, ...props }) {
+        return <Typography variant="h4">{children}</Typography>
       },
     }),
     []

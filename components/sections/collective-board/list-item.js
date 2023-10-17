@@ -25,20 +25,10 @@ export default function PublicWorkingGroupListItem({
           />
         </div>
         <div className="members-card-blurb">
-          <Typography
-            sx={{ fontWeight: "bold", color: "#532565", fontSize: 28 }}
-            color="text.secondary"
-          >
+          <Typography variant="h3" sx={{ fontSize: 28 }}>
             {name}
           </Typography>
-          <Typography
-            gutterBottom
-            component="div"
-            sx={{
-              fontWeight: "bold",
-              color: "#532565",
-            }}
-          >
+          <Typography gutterBottom variant="subtitle1">
             {organization}
           </Typography>
           <div className="public-member-bio">

@@ -5,7 +5,7 @@ export default function ResourceBlocks(data) {
   const { resourceblocks } = data.data
   return (
     <div className="container">
-      <div className="flex flex-wrap justify-between">
+      <div style={{ gap: "25px" }} className="flex flex-wrap justify-left">
         {resourceblocks.map((block, i) => {
           return <ResourceBlock data={block} key={block + i} />
         })}
