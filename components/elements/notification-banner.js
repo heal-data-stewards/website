@@ -1,6 +1,6 @@
 import classNames from "classnames"
 import { MdClose } from "react-icons/md"
-import Markdown from "../elements/markdown"
+import Markdown from "react-markdown"
 
 const NotificationBanner = ({ data: { text, type }, closeSelf }) => {
   return (
