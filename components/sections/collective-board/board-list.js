@@ -24,7 +24,7 @@ export default function Boardlist({ data }) {
   return (
     <div className="container">
       <nav aria-label="working group list">
-        <Typography variant="h2" className=" text-purple mb-8">
+        <Typography variant="h2" color="primary">
           {"Current"}
         </Typography>
         <List className="flex flex-wrap">
@@ -43,10 +43,7 @@ export default function Boardlist({ data }) {
             )
           })}
         </List>
-        <Typography
-          variant="h2"
-          className="text-3xl font-bold pb-4 text-purple mb-8"
-        >
+        <Typography variant="h2" color="primary">
           {"Former"}
         </Typography>
         <List className="flex flex-wrap">

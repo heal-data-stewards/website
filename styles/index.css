@@ -37,25 +37,11 @@ html {
     font-size: 15px;
   }
 }
-.rich-text p {
-  font-size: 1.25rem !important;
-  line-height: 1.75rem;
-}
+
 .sensitive-data-blocks:hover {
   /* background: rgba(83, 37, 101, 1) !important; */
   background: linear-gradient(306deg, transparent 9px, rgba(83, 37, 101, 1) 0) !important;
   color: white !important;
-}
-
-.rich-text-hero a {
-  @apply text-blue-600 underline;
-}
-
-.rich-text-banner {
-  @apply whitespace-pre-line;
-  a {
-    @apply underline;
-  }
 }
 
 .title {
@@ -290,18 +276,6 @@ content: ""
 .event-html a {
   color: #0044B3
 }
-.faq-markdown a {
-  color: #0044B3
-}
-
-.faq-markdown p {
-  margin: 0 0 12px 0
-}
-
-.faq-markdown li {
-  list-style-type: square;
-  margin-left: 50px
-}
 
 .glossary-markdown a {
   color: #0044B3;
@@ -344,13 +318,10 @@ content: ""
   top: -40px;
 }
 
-
-
 .members-card-blurb {
   padding: 0 0 0 135px;
   word-break: break-word;
 }
-
 
 @media screen and (max-width: 650px){
   .members-card-blurb  {

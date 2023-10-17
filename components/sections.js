@@ -33,6 +33,8 @@ import CollectiveEvents from "./elements/webinar/collective"
 import RichTextModal from "./sections/rich-text-modal"
 import SensitiveData from "./sections/sensitive-data"
 import DugSearch from "./sections/dug-search"
+import DiTable from "./sections/table/di-table"
+import DiBoxes from "./sections/di-boxes"
 
 // Map Strapi sections to section components
 const sectionComponents = {
@@ -70,6 +72,8 @@ const sectionComponents = {
   "sections.rich-text-modal": RichTextModal,
   "sections.sensitive-data": SensitiveData,
   "sections.dug-search": DugSearch,
+  "sections.di-page-table": DiTable,
+  "sections.di-boxes": DiBoxes
 }
 
 // Display a section individually

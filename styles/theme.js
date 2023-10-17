@@ -1,11 +1,11 @@
 import { createTheme } from '@mui/material/styles';
 
 const palette = {
-  primary: "#532565",
-  purple: {
+  primary: {
+    main: "#532565",
     light: "#c0b3c5",
-    DEFAULT: "#532565",
     dark: "#532565",
+    contrastText: "#fff",
   },
   magenta: {
     light2: "#e5e0e7",
@@ -45,22 +45,24 @@ const typography = {
   fontFamily: "Montserrat",
   h1: {
     fontSize: '3rem',
-    fontWeight: '700',
+    fontWeight: '600',
     paddingBottom: '1rem',
     lineHeight: 1,
+    color: palette.primary.main
   },
   h2: {
-    fontSize: '1.875rem',
-    lineHeight: '2.25rem',
-    fontWeight: 700,
+    fontSize: '2rem',
+    lineHeight: '1.25',
+    fontWeight: '500',
     paddingBottom: '1rem',
-    marginBottom: '2rem'
+    marginBottom: '2rem',
   },
   h3: {
     fontSize: '1.25rem',
-    fontWeight: '700',
+    fontWeight: '600',
     paddingBottom: '0.5rem',
     lineHeight: 1.35,
+    color: palette.primary.main
   },
   h4: {
     fontSize: '1.15rem',
@@ -74,17 +76,16 @@ const typography = {
   body1: {
     lineHeight: 1.45,
     fontSize: '1.1rem',
-    // color: 'blue',
   },
   body2: {
     lineHeight: 1.35,
     fontSize: '1.15rem',
   },
   subtitle1: {
-    color: "#441d4f",
+    color: palette.primary.main,
     fontWeight: "600",
     lineHeight: "30.2px",
-    fontSize: "1.26rem",
+    fontSize: "1.15rem",
   },
   subtitle2: {
     fontWeight: 700,
@@ -97,5 +98,6 @@ const typography = {
 }
 
 export const theme = createTheme({
+  palette,
   typography
 })
