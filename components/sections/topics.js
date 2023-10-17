@@ -1,18 +1,19 @@
-import React, { useState } from "react"
-import { Divider } from "@material-ui/core"
-import Link from "next/link"
-import MeilieSearchBar from "components/elements/MeilieSearchBar.js"
-import { InstantSearch, Hits, Highlight } from "react-instantsearch-dom"
-import { instantMeiliSearch } from "@meilisearch/instant-meilisearch"
-import { createConnector } from "react-instantsearch-dom"
-import { Snippet } from "react-instantsearch-dom"
-import Box from "@mui/material/Box"
-import Card from "@mui/material/Card"
-import CardActions from "@mui/material/CardActions"
-import CardContent from "@mui/material/CardContent"
-import Button from "@mui/material/Button"
-import Typography from "@mui/material/Typography"
-import Markdown from "../elements/markdown"
+import React, { useState } from "react";
+import { Divider } from "@material-ui/core";
+import Link from "next/link";
+import MeilieSearchBar from "components/elements/MeilieSearchBar.js";
+import { InstantSearch, Hits, Highlight } from "react-instantsearch-dom";
+import { instantMeiliSearch } from "@meilisearch/instant-meilisearch";
+import { createConnector } from "react-instantsearch-dom";
+import { Snippet } from "react-instantsearch-dom";
+import Box from "@mui/material/Box";
+import Card from "@mui/material/Card";
+import CardActions from "@mui/material/CardActions";
+import CardContent from "@mui/material/CardContent";
+import Button from "@mui/material/Button";
+import Typography from "@mui/material/Typography";
+import Markdown from "../elements/markdown";
+import link from "next/link";
 
 function OutlinedCard(props) {
   return (
@@ -40,7 +41,7 @@ function OutlinedCard(props) {
         </CardActions> */}
       </Card>
     </Box>
-  )
+  );
 }
 
 const searchClient = instantMeiliSearch(
@@ -49,7 +50,7 @@ const searchClient = instantMeiliSearch(
   {
     placeholderSearch: false,
   }
-)
+);
 
 export default function Topics({ data }) {
   const Hit = ({ hit }) => {
@@ -57,8 +58,8 @@ export default function Topics({ data }) {
       <>
         <OutlinedCard key={hit.id} hit={hit} />
       </>
-    )
-  }
+    );
+  };
 
   // add error handling
   const connectWithQuery = createConnector({
@@ -66,9 +67,9 @@ export default function Topics({ data }) {
     getProvidedProps(props, searchState) {
       // Since the `attributeForMyQuery` searchState entry isn't
       // necessarily defined, we need to default its value.
-      const currentRefinement = searchState.attributeForMyQuery || ""
+      const currentRefinement = searchState.attributeForMyQuery || "";
       // Connect the underlying component with the `currentRefinement`
-      return { currentRefinement }
+      return { currentRefinement };
     },
     refine(props, searchState, nextRefinement) {
       // When the underlying component calls its `refine` prop,
@@ -78,24 +79,24 @@ export default function Topics({ data }) {
         // instead of replacing it, otherwise other widgets will lose their respective state.
         ...searchState,
         attributeForMyQuery: nextRefinement,
-      }
+      };
     },
     getSearchParameters(searchParameters, props, searchState) {
       // When the `attributeForMyQuery` state entry changes, we update the query
       // props.setSearched(searchState.attributeForMyQuery)
-      return searchParameters.setQuery(searchState.attributeForMyQuery || "")
+      return searchParameters.setQuery(searchState.attributeForMyQuery || "");
     },
     cleanUp(props, searchState) {
       // When the widget is unmounted, we omit the entry `attributeForMyQuery`
       // from the `searchState`, then on the next request the query will
       // be empty
-      const { attributeForMyQuery, ...nextSearchState } = searchState
+      const { attributeForMyQuery, ...nextSearchState } = searchState;
 
-      return nextSearchState
+      return nextSearchState;
     },
-  })
-
-  const ConnectedSearchBox = connectWithQuery(MeilieSearchBar)
+  });
+  console.log(data);
+  const ConnectedSearchBox = connectWithQuery(MeilieSearchBar);
   return (
     <>
       <div
@@ -121,7 +122,7 @@ export default function Topics({ data }) {
           {data.title}
         </h2>
         <h3 className="text-1xl mb-14">{data.subtitle}</h3>
-        <div className="flex-wrap flex">
+        {/* <div className="flex-wrap flex">
           {data.topic.map((topic, i) => {
             return (
               <div
@@ -136,8 +137,26 @@ export default function Topics({ data }) {
               </div>
             )
           })}
+        </div> */}
+        <div className="flex-wrap flex">
+          {data.popular.pages.map((topic, i) => {
+            return (
+              <div
+                className={"mb-8 odd:pr-10"}
+                style={{ width: "50%" }}
+                key={topic.title + i}
+              >
+                <Link href={`/${topic.slug || "coming-soon"}`} passHref>
+                  <a className="text-2xl text-magenta font-bold mb-4">
+                    {topic.shortName}
+                  </a>
+                </Link>
+                <Markdown linkTarget="_blank">{topic.short_description}</Markdown>
+              </div>
+            );
+          })}
         </div>
       </main>
     </>
-  )
+  );
 }
