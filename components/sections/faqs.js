@@ -95,7 +95,7 @@ export default function Faqs({ data }) {
   }
 
   return (
-    <div className="container">
+    <div className="container pb-4">
       {faqs.map((faq, i) => {
         return (
           <div
