@@ -71,7 +71,7 @@ const ModalComponent = ({ data }) => {
           id="customized-dialog-title"
           onClose={handleClose}
         >
-          <h3 style={{ fontWeight: 600 }}>{data.title}</h3>
+          <Typography variant="h3">{data.title}</Typography>
         </BootstrapDialogTitle>
         <DialogContent dividers sx={{ padding: "1.5rem 2.5rem 1rem" }}>
           <Markdown>{data.content}</Markdown>
