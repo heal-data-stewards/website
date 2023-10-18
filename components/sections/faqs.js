@@ -17,6 +17,8 @@ const Accordion = styled((props) => (
   "&:before": {
     display: "none",
   },
+  background: "linear-gradient(315deg, transparent 17px, #e5e0e7 0)",
+  marginBottom: "1rem",
 }))
 
 const AccordionSummary = styled((props) => (
@@ -124,11 +126,6 @@ export default function Faqs({ data }) {
                 <Accordion
                   expanded={expanded === "panel" + i + question.question}
                   onChange={handleChange("panel" + i + question.question)}
-                  style={{
-                    marginBottom: "1rem",
-                    background:
-                      "linear-gradient(315deg, transparent 17px, #e5e0e7 0)",
-                  }}
                   key={question.question + i}
                 >
                   <AccordionSummary
@@ -142,15 +139,8 @@ export default function Faqs({ data }) {
                       {question.question}
                     </Typography>
                   </AccordionSummary>
-                  <AccordionDetails
-                    style={{
-                      background:
-                        "linear-gradient(315deg, transparent 17px, #e5e0e7 0)",
-                    }}
-                  >
-                    <Typography component={"span"}>
-                      <Markdown>{question.answerFAQ}</Markdown>
-                    </Typography>
+                  <AccordionDetails>
+                    <Markdown>{question.answerFAQ}</Markdown>
                   </AccordionDetails>
                 </Accordion>
               )
