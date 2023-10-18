@@ -25,7 +25,10 @@ export default function PublicWorkingGroupListItem({
           />
         </div>
         <div className="members-card-blurb">
-          <Typography variant="h3" sx={{ fontSize: 28 }}>
+          <Typography
+            variant="h3"
+            sx={{ fontSize: "1.75rem", fontWeight: "700" }}
+          >
             {name}
           </Typography>
           <Typography gutterBottom variant="subtitle1">
