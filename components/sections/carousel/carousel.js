@@ -125,8 +125,9 @@ const EmblaCarousel = ({ data }) => {
                     </Typography>
                     {/* Big title */}
                     <Typography
-                      variant="h1"
-                      className=" mb-4 text-center lg:text-left"
+                      variant="h2"
+                      className="mb-4 text-center lg:text-left"
+                      color="primary"
                     >
                       {slide.header}
                     </Typography>

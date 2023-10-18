@@ -8,12 +8,8 @@ const InternalLink = React.forwardRef(function InternalLink(
   ref
 ) {
   return (
-    <NextLink {...props}>
-      <MUILink
-        href={ref}
-        underline="hover"
-        sx={{ fontWeight: "500", color: "#982568" }}
-      >
+    <NextLink href={ref} passHref {...props}>
+      <MUILink underline="hover" sx={{ fontWeight: "600", color: "#982568" }}>
         {children}
       </MUILink>
     </NextLink>
@@ -30,7 +26,7 @@ const ExternalLink = ({ href, children, ...props }) => {
         target="_blank"
         rel="noopener noreferrer"
         underline="hover"
-        sx={{ fontWeight: "500", color: "#982568" }}
+        sx={{ fontWeight: "600", color: "#982568" }}
         {...props}
       >
         {children}

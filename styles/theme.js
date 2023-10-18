@@ -55,7 +55,7 @@ const typography = {
     lineHeight: '1.25',
     fontWeight: '500',
     paddingBottom: '1rem',
-    marginBottom: '2rem',
+    paddingTop: '1.25rem',
   },
   h3: {
     fontSize: '1.25rem',
@@ -76,6 +76,7 @@ const typography = {
   body1: {
     lineHeight: 1.45,
     fontSize: '1.1rem',
+    marginBottom: '0.5rem',
   },
   body2: {
     lineHeight: 1.35,

@@ -3,7 +3,7 @@ import Markdown from "../elements/markdown"
 
 const RichText = ({ data }) => {
   return (
-    <div className="container pb-12  text-gray-dark">
+    <div className="container pb-4  text-gray-dark">
       <Markdown>{data.content}</Markdown>
     </div>
   )

@@ -8,21 +8,6 @@ import Typography from "@mui/material/Typography"
 import Markdown from "../elements/markdown"
 import Divider from "@mui/material/Divider"
 
-const DataBox = () => {
-  return (
-    <div
-      style={{
-        textAlign: "center",
-        fontSize: "1.8rem",
-        background: "linear-gradient(315deg, transparent 17px, #532565 0)",
-        marginBottom: "10px",
-        color: "white",
-        padding: "0.9rem 0",
-      }}
-    ></div>
-  )
-}
-
 const Accordion = styled((props) => (
   <MuiAccordion disableGutters elevation={0} square {...props} />
 ))(({ theme }) => ({
@@ -32,6 +17,8 @@ const Accordion = styled((props) => (
   "&:before": {
     display: "none",
   },
+  background: "linear-gradient(315deg, transparent 17px, #e5e0e7 0)",
+  marginBottom: "1rem",
 }))
 
 const AccordionSummary = styled((props) => (
@@ -110,7 +97,7 @@ export default function Faqs({ data }) {
   }
 
   return (
-    <div className="container">
+    <div className="container pb-4">
       {faqs.map((faq, i) => {
         return (
           <div
@@ -139,11 +126,6 @@ export default function Faqs({ data }) {
                 <Accordion
                   expanded={expanded === "panel" + i + question.question}
                   onChange={handleChange("panel" + i + question.question)}
-                  style={{
-                    marginBottom: "1rem",
-                    background:
-                      "linear-gradient(315deg, transparent 17px, #e5e0e7 0)",
-                  }}
                   key={question.question + i}
                 >
                   <AccordionSummary
@@ -157,15 +139,8 @@ export default function Faqs({ data }) {
                       {question.question}
                     </Typography>
                   </AccordionSummary>
-                  <AccordionDetails
-                    style={{
-                      background:
-                        "linear-gradient(315deg, transparent 17px, #e5e0e7 0)",
-                    }}
-                  >
-                    <Typography component={"span"}>
-                      <Markdown>{question.answerFAQ}</Markdown>
-                    </Typography>
+                  <AccordionDetails>
+                    <Markdown>{question.answerFAQ}</Markdown>
                   </AccordionDetails>
                 </Accordion>
               )
