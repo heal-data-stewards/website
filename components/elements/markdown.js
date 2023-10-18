@@ -41,14 +41,22 @@ const Markdown = ({ children }) => {
       },
       h1: function Anchor({ node, children, ...props }) {
         return (
-          <Typography variant="h2" color="primary">
+          <Typography
+            variant="h2"
+            color="primary"
+            sx={{ paddingTop: "1.25rem" }}
+          >
             {children}
           </Typography>
         )
       },
       h2: function Anchor({ node, children, ...props }) {
         return (
-          <Typography variant="h2" color="primary">
+          <Typography
+            variant="h2"
+            color="primary"
+            sx={{ paddingTop: "1.25rem" }}
+          >
             {children}
           </Typography>
         )
