@@ -42,32 +42,31 @@ export function getEvent(token, id) {
 }
 
 export async function getAuthorizationToken(id) {
-  const params = new URLSearchParams();
-  const headers = {
-    "Host": "login.microsoftonline.com",
-    "Content-Type": "application/x-www-form-urlencoded"
-  };
   let event = "";
-  params.append("client_id", process.env.CLIENT_ID);
-  params.append("scope", process.env.SCOPE);
-  params.append("client_secret", process.env.CLIENT_SECRET);
-  params.append("grant_type", process.env.GRANT_TYPE);
-  // params.append("host", process.env.HOST);
 
-  const token = await axios
-    .post(
-      `https://login.microsoftonline.com/58b3d54f-16c9-42d3-af08-1fcabd095666/oauth2/v2.0`,
-      params,
-      headers
-    )
-    .then((res) => {
-      console.log("res.data.access_token")
-      console.log(res.data.access_token)
-      return res.data.access_token;
+  const data = {
+    client_id: process.env.CLIENT_ID,
+    scope: process.env.SCOPE,
+    client_secret: process.env.CLIENT_SECRET,
+    grant_type: process.env.GRANT_TYPE,
+  };
+
+  let token = await fetch(
+    "https://login.microsoftonline.com/58b3d54f-16c9-42d3-af08-1fcabd095666/oauth2/v2.0/token",
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+      },
+      body: new URLSearchParams(data),
+    }
+  )
+    .then((response) => response.json())
+    .then((data) => {
+      return data.access_token;
     })
     .catch((error) => {
-      console.log("error")
-      return error;
+      console.error(error);
     });
 
   if (id === undefined) {
