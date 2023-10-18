@@ -8,6 +8,8 @@ import List from "@mui/material/List"
 //    DOM elements --> React components.
 // this allows us to streamline styles for content coming
 // from Strapi with that of content built here by Nextjs.
+import { CustomUnorderedList } from "../elements/lists/unordered-list"
+import { CustomListItem } from "../elements/lists/list-item"
 
 const Markdown = ({ children }) => {
   const componentMap = useMemo(
@@ -19,25 +21,10 @@ const Markdown = ({ children }) => {
         return <Link to={href} {...props} />
       },
       ul: function Anchor({ node, children, ...props }) {
-        return (
-          <List sx={{ listStyleType: "square", marginLeft: "50px" }}>
-            {children}
-          </List>
-        )
+        return <CustomUnorderedList>{children}</CustomUnorderedList>
       },
       li: function Anchor({ node, children, ...props }) {
-        return (
-          <ListItem
-            sx={{
-              display: "list-item",
-              fontSize: "1.1rem",
-              paddingTop: "0",
-              paddingBottom: "0",
-            }}
-          >
-            {children}
-          </ListItem>
-        )
+        return <CustomListItem>{children}</CustomListItem>
       },
       h1: function Anchor({ node, children, ...props }) {
         return (
