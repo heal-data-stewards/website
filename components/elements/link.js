@@ -1,15 +1,17 @@
 import React, { Fragment } from "react"
 import PropTypes from "prop-types"
 import NextLink from "next/link"
-import Typography from "@mui/material/Typography"
+import MUILink from "@mui/material/Link"
 
 const InternalLink = React.forwardRef(function InternalLink(
   { children, className, ...props },
   ref
 ) {
   return (
-    <NextLink {...props}>
-      <a ref={ref}>{children}</a>
+    <NextLink href={ref} passHref {...props}>
+      <MUILink underline="hover" sx={{ fontWeight: "600", color: "#982568" }}>
+        {children}
+      </MUILink>
     </NextLink>
   )
 })
@@ -19,16 +21,26 @@ const InternalLink = React.forwardRef(function InternalLink(
 const ExternalLink = ({ href, children, ...props }) => {
   return (
     <Fragment>
-      <a href={href} target="_blank" rel="noopener noreferrer" {...props}>
+      <MUILink
+        href={href}
+        target="_blank"
+        rel="noopener noreferrer"
+        underline="hover"
+        sx={{ fontWeight: "600", color: "#982568" }}
+        {...props}
+      >
         {children}
-      </a>
+      </MUILink>
     </Fragment>
   )
 }
 
 //
 
-const Link = React.forwardRef(function Link({ to, children, ...props }, ref) {
+const CustomLink = React.forwardRef(function Link(
+  { to, children, ...props },
+  ref
+) {
   const mailtoPattern = new RegExp(/^mailto:/)
   const externalUrlPattern = new RegExp(/^https?:\/\//)
   const externalUrlMatch = externalUrlPattern.exec(to)
@@ -42,12 +54,12 @@ const Link = React.forwardRef(function Link({ to, children, ...props }, ref) {
   )
 })
 
-Link.propTypes = {
+CustomLink.propTypes = {
   to: PropTypes.string.isRequired,
   children: PropTypes.node.isRequired,
 }
 
-ExternalLink.propTypes = Link.propTypes
-ExternalLink.defaultProps = Link.defaultProps
+ExternalLink.propTypes = CustomLink.propTypes
+ExternalLink.defaultProps = CustomLink.defaultProps
 
-export default Link
+export default CustomLink

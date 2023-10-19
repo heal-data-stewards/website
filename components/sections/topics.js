@@ -13,6 +13,7 @@ import CardContent from "@mui/material/CardContent"
 import Button from "@mui/material/Button"
 import Typography from "@mui/material/Typography"
 import Markdown from "../elements/markdown"
+import link from "next/link"
 
 function OutlinedCard(props) {
   return (
@@ -94,7 +95,7 @@ export default function Topics({ data }) {
       return nextSearchState
     },
   })
-
+  console.log(data)
   const ConnectedSearchBox = connectWithQuery(MeilieSearchBar)
   return (
     <>
@@ -121,7 +122,7 @@ export default function Topics({ data }) {
           {data.title}
         </h2>
         <h3 className="text-1xl mb-14">{data.subtitle}</h3>
-        <div className="flex-wrap flex">
+        {/* <div className="flex-wrap flex">
           {data.topic.map((topic, i) => {
             return (
               <div
@@ -133,6 +134,26 @@ export default function Topics({ data }) {
                   {topic.title}
                 </h4>
                 <Markdown linkTarget="_blank">{topic.body}</Markdown>
+              </div>
+            )
+          })}
+        </div> */}
+        <div className="flex-wrap flex">
+          {data.popular.pages.map((topic, i) => {
+            return (
+              <div
+                className={"mb-8 odd:pr-10"}
+                style={{ width: "50%" }}
+                key={topic.title + i}
+              >
+                <Link href={`/${topic.slug || "coming-soon"}`} passHref>
+                  <a className="text-2xl text-magenta font-bold mb-4">
+                    {topic.shortName}
+                  </a>
+                </Link>
+                <Markdown linkTarget="_blank">
+                  {topic.short_description}
+                </Markdown>
               </div>
             )
           })}

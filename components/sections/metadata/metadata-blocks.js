@@ -2,6 +2,7 @@ import React, { useState } from "react"
 import Image from "next/image"
 import Divider from "@mui/material/Divider"
 import Markdown from "../../elements/markdown"
+import Typography from "@mui/material/Typography"
 
 export default function MetaDataBlocks({ data }) {
   const [shownFairContent, setShownFairContent] = useState(data.content[0])
@@ -73,9 +74,13 @@ export default function MetaDataBlocks({ data }) {
       </div>
       <Divider />
       <div className="mt-2">
-        <h1 className={"font-bold mb-6 text-5xl " + color}>
+        <Typography
+          variant="h2"
+          sx={{ fontWeight: "600", paddingTop: "1.25rem" }}
+          color="primary"
+        >
           {shownFairContent.title}
-        </h1>
+        </Typography>
         <div className="prose-lg pb-12 event-html text-gray-dark text-xl">
           <Markdown linkTarget="_blank">
             {shownFairContent.description}
@@ -84,18 +89,9 @@ export default function MetaDataBlocks({ data }) {
         <h4 className={"font-bold mb-2 text-3xl " + color}>
           {shownFairContent.resource_title}:
         </h4>
-        <ul>
-          {shownFairContent.products.map((product, i) => {
-            return (
-              <li
-                key={product.item + i}
-                className="prose-lg pb-12 event-html text-gray-dark text-xl"
-              >
-                <Markdown linkTarget="_blank">{product.item}</Markdown>
-              </li>
-            )
-          })}
-        </ul>
+        {shownFairContent.products.map((product, i) => {
+          return <Markdown key={`metadata-item-${i}`}>{product.item}</Markdown>
+        })}
       </div>
     </div>
   )
