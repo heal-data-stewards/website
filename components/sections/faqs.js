@@ -36,15 +36,20 @@ const AccordionSummary = styled((props) => (
   />
 ))(({ theme }) => ({
   flexDirection: "row",
-  "& .MuiAccordionSummary-expandIconWrapper.Mui-expanded": {
+  "& .MuiAccordionSummary-expandIconWrapper": {
     transform: "rotate(90deg)",
+  },
+  "& .MuiAccordionSummary-expandIconWrapper.Mui-expanded": {
+    transform: "rotate(270deg)",
   },
   "& .MuiAccordionSummary-content": {
     marginLeft: theme.spacing(1),
   },
+  "& .MuiSvgIcon-root": {
+    padding: "0.5rem",
+  },
   color: "#532565",
   fontWeight: "600",
-  padding: "0.5rem 1rem",
 }))
 
 const AccordionDetails = styled(MuiAccordionDetails)(({ theme }) => ({
