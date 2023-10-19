@@ -39,8 +39,7 @@ html {
 }
 
 .sensitive-data-blocks:hover {
-  /* background: rgba(83, 37, 101, 1) !important; */
-  background: linear-gradient(306deg, transparent 9px, rgba(83, 37, 101, 1) 0) !important;
+  background: linear-gradient(315deg, transparent 17px, rgba(83, 37, 101, 1) 0) !important;
   color: white !important;
 }
 
