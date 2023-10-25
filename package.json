@@ -37,6 +37,7 @@
     "next": "^11.0.0",
     "next-auth": "^3.28.0",
     "next-seo": "^4.7.1",
+    "next-test-api-route-handler": "^2.2.1",
     "phosphor-react": "^1.4.1",
     "postcss-import": "^14.0.2",
     "prop-types": "^15.7.2",
