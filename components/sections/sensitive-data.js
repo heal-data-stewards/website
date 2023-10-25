@@ -1,5 +1,5 @@
 import React, { useState } from "react"
-import { connectAutoComplete } from "react-instantsearch-dom"
+// import { connectAutoComplete } from "react-instantsearch-dom"
 import Markdown from "../elements/markdown"
 
 const Block = ({ title, onMouseEnter }) => {

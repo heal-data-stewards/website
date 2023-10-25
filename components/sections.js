@@ -35,6 +35,7 @@ import SensitiveData from "./sections/sensitive-data"
 import DugSearch from "./sections/dug-search"
 import DiTable from "./sections/table/di-table"
 import DiBoxes from "./sections/di-boxes"
+import { Widget } from "./sections/Widget"
 
 // Map Strapi sections to section components
 const sectionComponents = {
@@ -74,6 +75,7 @@ const sectionComponents = {
   "sections.dug-search": DugSearch,
   "sections.di-page-table": DiTable,
   "sections.di-boxes": DiBoxes,
+  "sections.feedback": Widget,
 }
 
 // Display a section individually
