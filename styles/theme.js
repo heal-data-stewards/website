@@ -55,7 +55,6 @@ const typography = {
     lineHeight: '1.25',
     fontWeight: '500',
     paddingBottom: '1rem',
-    paddingTop: '1.25rem',
   },
   h3: {
     fontSize: '1.25rem',

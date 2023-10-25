@@ -17,6 +17,8 @@ const Accordion = styled((props) => (
   "&:before": {
     display: "none",
   },
+  background: "linear-gradient(315deg, transparent 17px, #e5e0e7 0)",
+  marginBottom: "1rem",
 }))
 
 const AccordionSummary = styled((props) => (
@@ -34,15 +36,20 @@ const AccordionSummary = styled((props) => (
   />
 ))(({ theme }) => ({
   flexDirection: "row",
-  "& .MuiAccordionSummary-expandIconWrapper.Mui-expanded": {
+  "& .MuiAccordionSummary-expandIconWrapper": {
     transform: "rotate(90deg)",
+  },
+  "& .MuiAccordionSummary-expandIconWrapper.Mui-expanded": {
+    transform: "rotate(270deg)",
   },
   "& .MuiAccordionSummary-content": {
     marginLeft: theme.spacing(1),
   },
+  "& .MuiSvgIcon-root": {
+    padding: "0.5rem",
+  },
   color: "#532565",
   fontWeight: "600",
-  padding: "0.5rem 1rem",
 }))
 
 const AccordionDetails = styled(MuiAccordionDetails)(({ theme }) => ({
@@ -124,11 +131,6 @@ export default function Faqs({ data }) {
                 <Accordion
                   expanded={expanded === "panel" + i + question.question}
                   onChange={handleChange("panel" + i + question.question)}
-                  style={{
-                    marginBottom: "1rem",
-                    background:
-                      "linear-gradient(315deg, transparent 17px, #e5e0e7 0)",
-                  }}
                   key={question.question + i}
                 >
                   <AccordionSummary
@@ -142,15 +144,8 @@ export default function Faqs({ data }) {
                       {question.question}
                     </Typography>
                   </AccordionSummary>
-                  <AccordionDetails
-                    style={{
-                      background:
-                        "linear-gradient(315deg, transparent 17px, #e5e0e7 0)",
-                    }}
-                  >
-                    <Typography component={"span"}>
-                      <Markdown>{question.answerFAQ}</Markdown>
-                    </Typography>
+                  <AccordionDetails>
+                    <Markdown>{question.answerFAQ}</Markdown>
                   </AccordionDetails>
                 </Accordion>
               )

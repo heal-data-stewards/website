@@ -1,6 +1,10 @@
-import React, { useState } from "react"
-// import { connectAutoComplete } from "react-instantsearch-dom"
+import React, { useState, Fragment } from "react"
+import { connectAutoComplete } from "react-instantsearch-dom"
 import Markdown from "../elements/markdown"
+import Typography from "@mui/material/Typography"
+import Divider from "@mui/material/Divider"
+import { CustomUnorderedList } from "../elements/lists/unordered-list"
+import { CustomListItem } from "../elements/lists/list-item"
 
 const Block = ({ title, onMouseEnter }) => {
   return (
@@ -35,7 +39,7 @@ const SensitiveData = ({ data }) => {
     setShownContent(item)
   }
   return (
-    <div className="prose-lg container pb-12 event-html text-gray-dark text-xl">
+    <div className="container pb-12">
       <div style={{ display: "flex", justifyContent: "space-between" }}>
         <div style={{ width: "50%", maxWidth: "350px", marginRight: "20px" }}>
           {data.sensitiveDataItem.map((item, i) => {
@@ -49,75 +53,41 @@ const SensitiveData = ({ data }) => {
           })}
         </div>
         <div style={{ width: "-webkit-fill-available" }}>
-          <h1
-            style={{
-              marginBottom: "5px",
-              fontSize: "21px",
-              fontWeight: "bold",
-            }}
-          >
+          <Typography variant="h2" color="primary" sx={{ fontWeight: "600" }}>
             {shownContent.title}
-          </h1>
-          <div style={{ marginBottom: "30px" }}>{shownContent.body}</div>
+          </Typography>
+          <Markdown>{shownContent.body}</Markdown>
+          <br />
           <div>
-            <h2
-              style={{
-                margin: "0 0 3px 0",
-                fontSize: "19px",
-                fontWeight: "bold",
-              }}
-            >
-              Resources
-            </h2>
-            <hr style={{ marginBottom: 0 }} />
+            <Typography variant="h3">Resources</Typography>
+            <Divider />
             {shownContent.sensitiveDataResources.length > 0 && (
-              <ul>
+              <CustomUnorderedList>
                 {shownContent.sensitiveDataResources.map((resource, i) => {
                   return (
-                    <li
-                      key={resource.link + i}
-                      style={{
-                        padding: 0,
-                        color: "#9a256b",
-                        margin: "0 0 0 16px",
-                      }}
-                    >
+                    <CustomListItem key={resource.link + i}>
                       <Markdown>{resource.link}</Markdown>
-                    </li>
+                    </CustomListItem>
                   )
                 })}
-              </ul>
+              </CustomUnorderedList>
             )}
           </div>
           <div>
-            <h2
-              style={{
-                margin: "0 0 3px 0",
-                fontSize: "19px",
-                fontWeight: "bold",
-              }}
-            >
-              HEAL-specific Resources
-            </h2>
-            <hr style={{ marginBottom: 0 }} />
-
             {shownContent.healSpecificResourses.length > 0 && (
-              <ul>
-                {shownContent.healSpecificResourses.map((resource, i) => {
-                  return (
-                    <li
-                      key={resource.link + i}
-                      style={{
-                        padding: 0,
-                        color: "#9a256b",
-                        margin: "0 0 0 16px",
-                      }}
-                    >
-                      <Markdown>{resource.link}</Markdown>
-                    </li>
-                  )
-                })}
-              </ul>
+              <Fragment>
+                <Typography variant="h3">HEAL-specific Resources</Typography>
+                <Divider />
+                <CustomUnorderedList>
+                  {shownContent.healSpecificResourses.map((resource, i) => {
+                    return (
+                      <CustomListItem key={resource.link + i}>
+                        <Markdown>{resource.link}</Markdown>
+                      </CustomListItem>
+                    )
+                  })}
+                </CustomUnorderedList>
+              </Fragment>
             )}
           </div>
         </div>

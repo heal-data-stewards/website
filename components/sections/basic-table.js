@@ -70,11 +70,21 @@ export default function BasicTable({ data }) {
                   scope="row"
                   className={classes.tableTitle}
                 >
-                  <Link to={row.link}>
-                    <Typography variant="h4" sx={{ fontWeight: 600 }}>
+                  {row.link ? (
+                    <Link to={row.link}>
+                      <Typography variant="h4" sx={{ fontWeight: 600 }}>
+                        {row.title}
+                      </Typography>
+                    </Link>
+                  ) : (
+                    <Typography
+                      variant="h4"
+                      sx={{ fontWeight: 600 }}
+                      color="primary"
+                    >
                       {row.title}
                     </Typography>
-                  </Link>
+                  )}
                 </TableCell>
                 <TableCell align="left" className={classes.tableDescription}>
                   <Markdown>{row.description}</Markdown>
