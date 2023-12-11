@@ -11,9 +11,7 @@ export default function GlossaryItem({ classes, word }) {
           className="text-magenta capitalize pb-2"
           style={{ fontWeight: "600", fontSize: "1.3rem" }}
         >
-          <a target="_blank" href={`/glossary#${word.anchor}`} rel="noreferrer">
-            {word.term_name}
-          </a>
+          {word.term_name}
         </h2>
         <Divider />
         <div className="pt-4 glossary-markdown">
