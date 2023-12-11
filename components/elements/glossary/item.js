@@ -8,7 +8,7 @@ export default function GlossaryItem({ classes, word }) {
       <div className={"anchor"} id={word.anchor} />
       <div className={classes.root + " mt-10"}>
         <h2
-          className="text-magenta capitalize pb-2"
+          className="text-magenta pb-2"
           style={{ fontWeight: "600", fontSize: "1.3rem" }}
         >
           {word.term_name}
