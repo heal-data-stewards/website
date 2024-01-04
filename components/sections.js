@@ -36,6 +36,7 @@ import DugSearch from "./sections/dug-search"
 import DiTable from "./sections/table/di-table"
 import DiBoxes from "./sections/di-boxes"
 import { Widget } from "./sections/Widget"
+import AppSearch from "./sections/app-search"
 
 // Map Strapi sections to section components
 const sectionComponents = {
@@ -76,6 +77,7 @@ const sectionComponents = {
   "sections.di-page-table": DiTable,
   "sections.di-boxes": DiBoxes,
   "sections.feedback": Widget,
+  "sections.app-search": AppSearch,
 }
 
 // Display a section individually
