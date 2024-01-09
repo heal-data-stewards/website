@@ -11,7 +11,7 @@ import { makeStyles } from "@material-ui/core"
 import clsx from "clsx"
 import Image from "next/image"
 import Markdown from "../elements/markdown"
-import TextField from '@mui/material/TextField';
+import TextField from "@mui/material/TextField"
 
 export default function RoadMap({ data }) {
   const [activeStep, setActiveStep] = React.useState(0)
@@ -93,11 +93,23 @@ export default function RoadMap({ data }) {
   return (
     <div className={"container mb-16"}>
       {/* <p style={{marginBottom: "20px", fontSize: "16px"}}>Wondering where your study is on the HEAL Compliance Journey? Try our new checklist companion tool. Just type in your study's unique application id or project number and see results.</p> */}
-      <div style={{marginBottom: "10px"}}><TextField id="outlined-basic" label="App / Proj Number" variant="outlined" /><Button style={{
-        height: "43px",
-        "margin-top": "7.5px",
-        marginLeft: "20px"
-      }} variant="contained">Check Status</Button></div>
+      <div style={{ marginBottom: "10px" }}>
+        <TextField
+          id="outlined-basic"
+          label="App / Proj Number"
+          variant="outlined"
+        />
+        <Button
+          style={{
+            height: "43px",
+            "margin-top": "7.5px",
+            marginLeft: "20px",
+          }}
+          variant="contained"
+        >
+          Check Status
+        </Button>
+      </div>
       <Box sx={{ maxWidth: 1200 }}>
         <Stepper activeStep={activeStep} orientation="vertical">
           {data.steps.map((step, index) => (
@@ -105,11 +117,11 @@ export default function RoadMap({ data }) {
               <StepLabel
                 style={{ padding: 0 }}
                 StepIconComponent={CustomStepIcon}
-              // optional={
-              //   index === data.steps.length - 1 ? (
-              //     <Typography variant="caption">Last step</Typography>
-              //   ) : null
-              // }
+                // optional={
+                //   index === data.steps.length - 1 ? (
+                //     <Typography variant="caption">Last step</Typography>
+                //   ) : null
+                // }
               >
                 {" "}
                 <button
