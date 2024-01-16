@@ -271,7 +271,7 @@ export default function GeneralDataTable(data) {
         <MaterialReactTable
           data={test}
           columns={columns}
-          enableRowSelection //enable some features
+          // enableRowSelection //enable some features
           enableColumnOrdering
           enableGlobalFilter={true} //turn off a feature
           // pageSize={26}
