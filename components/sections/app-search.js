@@ -6,6 +6,7 @@ import Markdown from "../elements/markdown"
 import CheckCircleIcon from "@mui/icons-material/CheckCircle"
 import HelpIcon from "@mui/icons-material/Help"
 import CancelIcon from "@mui/icons-material/Cancel"
+import axios from "axios"
 
 const columns = [
   {
@@ -66,35 +67,69 @@ const columns = [
   },
 ]
 
-function createData(id, data) {
-  let row = { ...data }
-
-  for (const property in row) {
-    let newKey = columns[Number(property)].header
-    row[newKey] = row[property]
-    delete row[property]
-  }
-  row["id"] = id
-
-  return row
-}
-
-// let test = [{ status: "test", step: "test", notes: "test" }, { status: "test2", step: "test2", notes: "test2" }, { status: "test3", step: "test3", notes: "test3" }].map((row, i) => {
-
-//     return createData(i, row)
-// })
-
 export default function AppSearch({ data }) {
   const [idNumber, setIdNumber] = React.useState(0)
+  const [value, setValue] = React.useState("")
+  const [tableData, setData] = React.useState(false)
+
+  function createData(res) {
+    let bucket = [];
+
+    for (const [key, keyValue] of Object.entries(res[0])) {
+      switch (key) {
+        case "clinical_trials_study_ID":
+          let status = keyValue ? "green" : "yellow";
+          let notes = status == "green" ? "Thank you for registering your study on ClinicalTrials.gov!" : "We do not have a record of an NCT ID for your study. If your study is not a clinical trial, please skip this step!  If your study IS a clinical trial, please register your study on ClinicalTrials.gov as soon as possible, and send the NCT ID to heal-support@datacommons.io so we can update your study on the platform.";
+          let step = "Register Your Study on ClinicalTrials.gov (if appropriate)";
+          bucket.push({ status, step, notes })
+          break;
+        case "hdp_id":
+          let status2 = keyValue ? "green" : "yellow";
+          let notes2 = status == "green" ? "Thank you for registering your study on the HEAL Platform!" : "Please register your study on the HEAL Platform as soon as possible. For registration instructions, click here. If you cannot find your study on the platform, please reach out to heat-support@datacommons.io";
+          let step2 = "Register Your Study With the HEAL Data Platform";
+          bucket.push({ status: status2, step: step2, notes: notes2 })
+          break;
+        default:
+          break
+      }
+    }
+    setData(bucket);
+  }
+
+  const getAppId = (e) => {
+    e.preventDefault();
+
+    let regExp = /[a-zA-Z]/g;
+    let param;
+
+    if (regExp.test(value)) {
+      param = "proj_num="
+    } else {
+      param = "appl_id=";
+    }
+
+    axios
+      .get(`https://9trlpa4nv4.execute-api.us-east-1.amazonaws.com/dev/checklistv3?${param}${value}`)
+      .then((response) => {
+        setValue(response.data);
+        createData(response.data);
+      }).catch((err) => console.error(err));
+  }
+
+  let handleTextFieldChange = (e) => {
+    setValue(e.target.value)
+  }
 
   return (
     <div className={"container mb-16"}>
       {/* <p style={{marginBottom: "20px", fontSize: "16px"}}>Wondering where your study is on the HEAL Compliance Journey? Try our new checklist companion tool. Just type in your study's unique application id or project number and see results.</p> */}
-      <div style={{ marginBottom: "10px" }}>
+      <form noValidate autoComplete="off" onSubmit={getAppId} style={{ marginBottom: "10px" }}>
         <TextField
           id="outlined-basic"
           label="App / Proj Number"
           variant="outlined"
+          onChange={handleTextFieldChange}
+          value={value}
         />
         <Button
           style={{
@@ -103,43 +138,47 @@ export default function AppSearch({ data }) {
             marginLeft: "20px",
           }}
           variant="contained"
+          type="submit"
         >
           Check Status
         </Button>
-      </div>
+      </form>
+      {value && (
+        <>
+          <div
+            className="p-[20px] flex overflow-auto"
+            style={{ background: "#e6e6e6" }}
+          >
+            <div className="w-96 pr-[20px]">
+              <h2 className="font-bold text-xl">Study title</h2>
+              <p className="text-l">{value[0].study_name}</p>
+            </div>
+            <div className="w-96 pr-[20px]">
+              <h2 className="font-bold text-xl">PI</h2>
+              {/* <p className="text-xl">{value.investigators_name.map((pi) => {
+              return <div>{pi}</div>
+            })}</p> */}
+              {value.investigators_name}
+            </div>
+            <div className="w-96 pr-[20px]">
+              <h2 className="font-bold text-xl">Research Area</h2>
+              <p className="text-l">{value[0].project_title}</p>
+            </div>
+            <div className="w-96">
+              <h2 className="font-bold text-xl">Award Year</h2>
+              <p className="text-l"> {value[0].year_awarded} </p>
+            </div>
+          </div>
+          <MaterialReactTable
+            data={tableData}
+            columns={columns}
+            //   enableRowSelection //enable some features
+            enableColumnOrdering
+            enableGlobalFilter={false} //turn off a feature
+          /></>
+      )}
 
-      <div
-        className="p-[20px] flex overflow-auto"
-        style={{ background: "#e6e6e6" }}
-      >
-        <div className="w-96 pr-[20px]">
-          <h2 className="font-bold text-xl">Study title</h2>
-          <p className="text-xl">Lorem Ipsum suhfjgbewugbkd wukdyjhsgv</p>
-        </div>
-        <div className="w-96 pr-[20px]">
-          <h2 className="font-bold text-xl">PI</h2>
-          <p className="text-xl">Lorem Ipsum suhfjgbewugbkd</p>
-        </div>
-        <div className="w-96 pr-[20px]">
-          <h2 className="font-bold text-xl">Research Area</h2>
-          <p className="text-xl"> orem Ipsum suhfjgbewugbkd wukdyjhsgv wa</p>
-        </div>
-        <div className="w-96">
-          <h2 className="font-bold text-xl">Award Year</h2>
-          <p className="text-xl"> 2004 </p>
-        </div>
-      </div>
-      <MaterialReactTable
-        data={[
-          { status: "green", step: "test", notes: "test" },
-          { status: "yellow", step: "test2", notes: "test2" },
-          { status: "red", step: "test3", notes: "test3" },
-        ]}
-        columns={columns}
-        //   enableRowSelection //enable some features
-        enableColumnOrdering
-        enableGlobalFilter={false} //turn off a feature
-      />
+
     </div>
   )
 }
