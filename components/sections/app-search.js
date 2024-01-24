@@ -73,8 +73,41 @@ export default function AppSearch({ data }) {
   const [value, setValue] = React.useState("")
   const [payload, setPayload] = React.useState(false)
   const [tableData, setData] = React.useState(false)
+  const [sentParam, setStoreSentParam] = React.useState()
+  const [showSupport, setShowSupport] = React.useState(false)
 
   const router = useRouter()
+  const params = router.query
+
+  React.useEffect(() => {
+    let regExp = /[a-zA-Z]/g
+    let param
+
+    if (regExp.test(value)) {
+      param = "proj_num="
+    } else {
+      param = "appl_id="
+    }
+
+    axios
+      .get(
+        `https://9trlpa4nv4.execute-api.us-east-1.amazonaws.com/dev/checklistv3?${param}${params.data}`
+      )
+      .then((response) => {
+        if (response.data.length > 0) {
+          setPayload(response.data)
+          createData(response.data)
+          setShowSupport(false)
+        } else {
+          if (params.data.length > 0) {
+            setStoreSentParam(params.data)
+            setShowSupport(true)
+          }
+        }
+      })
+      .catch((err) => console.error(err))
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   function createData(res) {
     let bucket = []
@@ -196,8 +229,15 @@ export default function AppSearch({ data }) {
         `https://9trlpa4nv4.execute-api.us-east-1.amazonaws.com/dev/checklistv3?${param}${value}`
       )
       .then((response) => {
-        setPayload(response.data)
-        createData(response.data)
+        if (response.data.length > 0) {
+          setShowSupport(false)
+          setPayload(response.data)
+          createData(response.data)
+        } else {
+          setShowSupport(true)
+          setStoreSentParam(value)
+          setPayload()
+        }
       })
       .catch((err) => console.error(err))
   }
@@ -208,7 +248,6 @@ export default function AppSearch({ data }) {
 
   return (
     <div className={"container mb-16"}>
-      {/* <p style={{marginBottom: "20px", fontSize: "16px"}}>Wondering where your study is on the HEAL Compliance Journey? Try our new checklist companion tool. Just type in your study's unique application id or project number and see results.</p> */}
       <div className="text-xl pb-6">
         <button type="button" onClick={() => router.back()}>
           {"< - Back to Checklist Requirements"}
@@ -239,6 +278,20 @@ export default function AppSearch({ data }) {
           Check Status
         </Button>
       </form>
+      {showSupport && (
+        <div>
+          <span className="text-xl">{`We could not locate a study with an application ID or project number of ${sentParam}.`}</span>
+          <span className="text-xl">
+            {
+              " Please verify that you input the correct information, or contact "
+            }
+          </span>
+          <span className="text-xl" style={{ color: "blue" }}>
+            <a href="#test">support</a>{" "}
+          </span>{" "}
+          <span className="text-xl">{" for assistance."}</span>
+        </div>
+      )}
       {payload && (
         <>
           <div
@@ -256,7 +309,7 @@ export default function AppSearch({ data }) {
                   ? payload[0].investigators_name
                       .replace(/\[|\]/g, "")
                       .split(",")
-                      .map((i, name) => {
+                      .map((name, i) => {
                         return <div key={i + name}>{name}</div>
                       })
                   : ""}
