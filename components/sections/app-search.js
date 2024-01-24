@@ -70,6 +70,7 @@ const columns = [
 export default function AppSearch({ data }) {
   const [idNumber, setIdNumber] = React.useState(0)
   const [value, setValue] = React.useState("")
+  const [payload, setPayload] = React.useState(false)
   const [tableData, setData] = React.useState(false)
 
   function createData(res) {
@@ -77,7 +78,25 @@ export default function AppSearch({ data }) {
 
     for (const [key, keyValue] of Object.entries(res[0])) {
       switch (key) {
-        case "clinical_trials_study_ID":
+        case "appl_id":
+          let status4 = keyValue ? "green" : "yellow"
+          let notes4 =
+            status4 == "green"
+              ? "Congratulations! Thanks for being a HEAL-affiliated researcher!"
+              : " "
+          let step4 = "Award Received"
+          bucket.push({ status: status4, step: step4, notes: notes4 })
+          break
+        // case "dmp_plan":
+        //   let status3 = keyValue ? "green" : "yellow"
+        //   let notes3 =
+        //     status3 == "green"
+        //       ? "Thank you for registering your study on the HEAL Platform!"
+        //       : "Please register your study on the HEAL Platform as soon as possible. For registration instructions, click here. If you cannot find your study on the platform, please reach out to heat-support@datacommons.io"
+        //   let step3 = "Provide Your Data Management and Sharing Plan to the HEAL Stewards (optional but encouraged)"
+        //   bucket.push({ status: status2, step: step2, notes: notes2 })
+        //   break
+        case "clinical_trials_study_link":
           let status = keyValue ? "green" : "yellow"
           let notes =
             status == "green"
@@ -87,15 +106,69 @@ export default function AppSearch({ data }) {
             "Register Your Study on ClinicalTrials.gov (if appropriate)"
           bucket.push({ status, step, notes })
           break
-        case "hdp_id":
+        case "time_of_registration":
           let status2 = keyValue ? "green" : "yellow"
           let notes2 =
-            status == "green"
+            status2 == "green"
               ? "Thank you for registering your study on the HEAL Platform!"
               : "Please register your study on the HEAL Platform as soon as possible. For registration instructions, click here. If you cannot find your study on the platform, please reach out to heat-support@datacommons.io"
           let step2 = "Register Your Study With the HEAL Data Platform"
           bucket.push({ status: status2, step: step2, notes: notes2 })
           break
+        case "overall_percent_complete":
+          let status5 = keyValue ? "green" : "red"
+          let notes5 =
+            status5 == "green"
+              ? "Thank you for submitting your study-level metadata! You are another step closer to making your data more FAIR (findable, accessible, interoperable, reusable). "
+              : "Please complete your study-level metadata form as soon as possible. For information and instructions on how to complete the form, click here."
+          let step5 = "Complete Your Study-Level Metadata Form"
+          bucket.push({ status: status5, step: step5, notes: notes5 })
+          break
+        case "data_repositories":
+          let status6 = keyValue ? "green" : "yellow"
+          let notes6 =
+            status6 == "green"
+              ? "Thank you for selecting a repository and reporting your selection to the HEAL Platform!"
+              : "Have you selected a HEAL-compliant repostiory for sharing your data yet? If not, please review the HEAL data repository selection guide for guidance in selecting an appropriate repository, and reach out to us for additional assistance at any time. If you have already selected a repository, please report your selection to the Platform team at heal-support@datacommons.io."
+          let step6 = "Select a Repository"
+          bucket.push({ status: status6, step: step6, notes: notes6 })
+          break
+        case "vlmd_metadata":
+          let status7 = keyValue ? "green" : "red"
+          let notes7 =
+            status7 == "green"
+              ? "Thank you for submitting your variable-level metadata (VLMD)! VLMD enriches the HEAL Platform and powers HEAL Semantic Search."
+              : "Please submit your variable-level metadata (VLMD) or, data dictionary, to the HEAL Stewards via email at HEALStewards@renci.org. Note that we can accept data dictionaries at any point in your study, even if incomplete! Data dictionaries inherently should not contain sensitive information such as personal health information (PHI) or personally identifiable information (PII). Data dictionaries will be shared publicly via the HEAL Data Platform and HEAL Semantic Search tool."
+          let step7 = "Submit Variable-Level Metadata"
+          bucket.push({ status: status7, step: step7, notes: notes7 })
+          break
+        case "vlmd_metadata":
+          let status8 = keyValue ? "green" : "red"
+          let notes8 =
+            status8 == "green"
+              ? "Congratulations on submitting your data and metadata to a HEAL-compliant repository!"
+              : "If you are not ready to submit your data and metadata to a repository, that's okay! Revisit this when you're ready, and feel free to reach out to us with any questions or if you need assistance."
+          let step8 = "Submit Data and Metadata to a Repository"
+          bucket.push({ status: status8, step: step8, notes: notes8 })
+          break
+        // case "":
+        //   let status9 = keyValue ? "green" : "red"
+        //   let notes9 =
+        //     status9 == "green"
+        //       ? ""
+        //       : ""
+        //   let step9 = "Ensure Public Access to HEAL-funded publications"
+        //   bucket.push({ status: status9, step: step9, notes: notes9 })
+        //   break
+        // case "":
+        //   let status10 = keyValue ? "green" : "red"
+        //   let notes10 =
+        //     status10 == "green"
+        //       ? ""
+        //       : ""
+        //   let step10 = "Report Your Research Publication"
+        //   bucket.push({ status: status10, step: step10, notes: notes10 })
+        //   break
         default:
           break
       }
@@ -120,7 +193,7 @@ export default function AppSearch({ data }) {
         `https://9trlpa4nv4.execute-api.us-east-1.amazonaws.com/dev/checklistv3?${param}${value}`
       )
       .then((response) => {
-        setValue(response.data)
+        setPayload(response.data)
         createData(response.data)
       })
       .catch((err) => console.error(err))
@@ -158,7 +231,7 @@ export default function AppSearch({ data }) {
           Check Status
         </Button>
       </form>
-      {value && (
+      {payload && (
         <>
           <div
             className="p-[20px] flex overflow-auto"
@@ -166,22 +239,28 @@ export default function AppSearch({ data }) {
           >
             <div className="w-96 pr-[20px]">
               <h2 className="font-bold text-xl">Study title</h2>
-              <p className="text-l">{value[0].study_name}</p>
+              <p className="text-l">{payload[0].study_name}</p>
             </div>
             <div className="w-96 pr-[20px]">
               <h2 className="font-bold text-xl">PI</h2>
-              {/* <p className="text-xl">{value.investigators_name.map((pi) => {
-              return <div>{pi}</div>
-            })}</p> */}
-              {value.investigators_name}
+              <p className="text-l">
+                {payload[0].investigators_name
+                  ? payload[0].investigators_name
+                      .replace(/\[|\]/g, "")
+                      .split(",")
+                      .map((i, name) => {
+                        return <div key={i + name}>{name}</div>
+                      })
+                  : ""}
+              </p>
             </div>
             <div className="w-96 pr-[20px]">
               <h2 className="font-bold text-xl">Research Area</h2>
-              <p className="text-l">{value[0].project_title}</p>
+              <p className="text-l">{payload[0].project_title}</p>
             </div>
             <div className="w-96">
               <h2 className="font-bold text-xl">Award Year</h2>
-              <p className="text-l"> {value[0].year_awarded} </p>
+              <p className="text-l"> {payload[0].year_awarded} </p>
             </div>
           </div>
           <MaterialReactTable
