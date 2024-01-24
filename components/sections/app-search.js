@@ -287,7 +287,13 @@ export default function AppSearch({ data }) {
             }
           </span>
           <span className="text-xl" style={{ color: "blue" }}>
-            <a href="#test">support</a>{" "}
+            <a
+              target="_blank"
+              href="https://docs.google.com/forms/d/e/1FAIpQLSc1gGjOQ7UsmBlMuqUzczPnbjKnbH2hjWgGLrY2xVsRH3n1vg/viewform "
+              rel="noreferrer"
+            >
+              support
+            </a>{" "}
           </span>{" "}
           <span className="text-xl">{" for assistance."}</span>
         </div>
