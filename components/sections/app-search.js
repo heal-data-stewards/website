@@ -7,6 +7,7 @@ import CheckCircleIcon from "@mui/icons-material/CheckCircle"
 import HelpIcon from "@mui/icons-material/Help"
 import CancelIcon from "@mui/icons-material/Cancel"
 import axios from "axios"
+import { useRouter } from "next/router"
 
 const columns = [
   {
@@ -72,6 +73,8 @@ export default function AppSearch({ data }) {
   const [value, setValue] = React.useState("")
   const [payload, setPayload] = React.useState(false)
   const [tableData, setData] = React.useState(false)
+
+  const router = useRouter()
 
   function createData(res) {
     let bucket = []
@@ -206,6 +209,11 @@ export default function AppSearch({ data }) {
   return (
     <div className={"container mb-16"}>
       {/* <p style={{marginBottom: "20px", fontSize: "16px"}}>Wondering where your study is on the HEAL Compliance Journey? Try our new checklist companion tool. Just type in your study's unique application id or project number and see results.</p> */}
+      <div className="text-xl pb-6">
+        <button type="button" onClick={() => router.back()}>
+          {"< - Back to Checklist Requirements"}
+        </button>
+      </div>
       <form
         noValidate
         autoComplete="off"
