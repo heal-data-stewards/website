@@ -37,6 +37,7 @@ import DiTable from "./sections/table/di-table"
 import DiBoxes from "./sections/di-boxes"
 import { Widget } from "./sections/Widget"
 import AppSearch from "./sections/app-search"
+import SensitiveDataTree from "./sections/sensitive-data-tree"
 
 // Map Strapi sections to section components
 const sectionComponents = {
@@ -78,6 +79,7 @@ const sectionComponents = {
   "sections.di-boxes": DiBoxes,
   "sections.feedback": Widget,
   "sections.app-search": AppSearch,
+  "sections.sensitive-data-map": SensitiveDataTree,
 }
 
 // Display a section individually
