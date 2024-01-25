@@ -80,9 +80,7 @@ export default function SensitiveDataTree({ data }) {
         onClick={() => handleSelect(props.icon - 1)}
         className="cursor-pointer"
       >
-        <div className={clsx(classes.root)}>
-          {stepIcons[1]}
-        </div>
+        <div className={clsx(classes.root)}>{stepIcons[1]}</div>
       </button>
     )
   }
@@ -161,10 +159,7 @@ export default function SensitiveDataTree({ data }) {
           })}
           {yes && (
             <Step key={"yes"}>
-              <StepLabel
-                style={{ padding: 0 }}
-                StepIconComponent={YesStepIcon}
-              >
+              <StepLabel style={{ padding: 0 }} StepIconComponent={YesStepIcon}>
                 <div className={"text-purple"}>
                   <Markdown linkTarget="_blank">{yesValue.yes}</Markdown>
                   <br></br>
