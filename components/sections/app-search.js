@@ -89,8 +89,6 @@ export default function AppSearch({ data }) {
       param = "appl_id="
     }
 
-    console.log(param)
-
     axios
       .get(
         `https://9trlpa4nv4.execute-api.us-east-1.amazonaws.com/dev/checklistv3?${param}${params.data}`
