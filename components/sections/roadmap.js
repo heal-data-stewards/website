@@ -100,7 +100,7 @@ export default function RoadMap({ data }) {
     <div className={"container mb-16"}>
       <p style={{ marginBottom: "20px", fontSize: "16px" }}>
         {
-          "Wondering where your study is on the HEAL Compliance Journey? Try our new checklist companion tool. Just type in your study's unique application id or project number and see results."
+          "Wondering where your study is on the HEAL compliance journey? Try our new HEAL Checklist Progress Tracker. Just type in your study's unique application ID or project number in the search bar below to see your study's status for steps we can track."
         }
       </p>
       <div style={{ marginBottom: "10px" }}>
