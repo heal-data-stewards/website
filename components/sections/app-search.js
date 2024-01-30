@@ -83,11 +83,13 @@ export default function AppSearch({ data }) {
     let regExp = /[a-zA-Z]/g
     let param
 
-    if (regExp.test(value)) {
+    if (regExp.test(params.data)) {
       param = "proj_num="
     } else {
       param = "appl_id="
     }
+
+    console.log(param)
 
     axios
       .get(
