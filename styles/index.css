@@ -38,6 +38,9 @@ html {
   }
 }
 
+#headlessui-popover-panel-1 {
+  margin: 0 30px 25px 0 !important;
+}
 .sensitive-data-blocks:hover {
   background: linear-gradient(315deg, transparent 17px, rgba(83, 37, 101, 1) 0) !important;
   color: white !important;

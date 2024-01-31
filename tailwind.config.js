@@ -2,14 +2,18 @@ const { colors } = require(`tailwindcss/defaultTheme`);
 // console.log(colors.purple);
 module.exports = {
   mode: "jit", // see https://tailwindcss.com/docs/just-in-time-mode
-  purge: ["./components/**/*.js", "./pages/**/*.js"],
+  purge: ["./components/**/*.js","./components/**/*.jsx", "./pages/**/*.js"],
   darkMode: false, // or "media" or "class"
   variants: {
-    fill: ['hover', 'focus'], // this line does the trick
+    fill: ["hover", "focus"], // this line does the trick
   },
   theme: {
     extend: {
       colors: {
+        brand: {
+          300: '#996DFF',
+          500: '#8257e6',
+        },
         primary: "#532565",
         purple: {
           light: "#c0b3c5",
@@ -64,13 +68,17 @@ module.exports = {
       sm: "640px",
       md: "768px",
       lg: "1024px",
-      "large": {"min": "1051px"},
+      large: { min: "1051px" },
       xl: "1280px",
-      'mdmax': {'max': '1050px'},
+      mdmax: { max: "1050px" },
     },
   },
   variants: {
     extend: {},
   },
-  plugins: [require("@tailwindcss/typography")],
+  plugins: [
+    require("@tailwindcss/typography"),
+    require("@tailwindcss/forms"),
+    require("tailwind-scrollbar"),
+  ],
 };
