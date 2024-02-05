@@ -13,6 +13,7 @@ const columns = [
   {
     accessorKey: "status",
     header: "Status",
+    size: 40,
     // eslint-disable-next-line react/display-name
     Cell: ({ cell }) => {
       let icon = (expr) => {
@@ -45,6 +46,7 @@ const columns = [
   {
     accessorKey: "step",
     header: "Checklist Step",
+    size: 75,
     // eslint-disable-next-line react/display-name
     Cell: ({ cell }) => {
       return (
@@ -169,11 +171,11 @@ export default function AppSearch({ data }) {
           bucket[4] = { status: status2, step: step2, notes: notes2 }
           break
         case "overall_percent_complete":
-          let status5 = keyValue ? "green" : "red"
+          let status5 = Number(keyValue) >= 50 ? "green" : "red"
           let notes5 =
             status5 == "green"
               ? `Thank you for submitting your study-level metadata currently at ${keyValue}% complete! You are another step closer to making your data more FAIR (findable, accessible, interoperable, reusable). `
-              : "Please complete your study-level metadata form as soon as possible. For information and instructions on how to complete the form, click here."
+              : `Please complete your study-level metadata form as soon as possible. Currently at ${keyValue}%. For information and instructions on how to complete the form, click here.`
           let step5 = "Complete Your Study-Level Metadata Form"
           bucket[5] = { status: status5, step: step5, notes: notes5 }
           break
@@ -181,7 +183,7 @@ export default function AppSearch({ data }) {
           let status6 = keyValue ? "green" : "red"
           let notes6 =
             status6 == "green"
-              ? "Thank you for selecting a repository and reporting your selection to the HEAL Platform!"
+              ? `Thank you for selecting a repository and reporting your selection to the HEAL Platform! Repository: ${keyValue}`
               : "Have you selected a HEAL-compliant repostiory for sharing your data yet? If not, please review the HEAL data repository selection guide for guidance in selecting an appropriate repository, and reach out to us for additional assistance at any time. If you have already selected a repository, please report your selection to the Platform team at heal-support@datacommons.io."
           let step6 = "Select a Repository"
           bucket[6] = { status: status6, step: step6, notes: notes6 }
@@ -351,6 +353,7 @@ export default function AppSearch({ data }) {
             columns={columns}
             //   enableRowSelection //enable some features
             enableColumnOrdering
+            enableColumnResizing
             enableGlobalFilter={false} //turn off a feature
           />
         </>
