@@ -1,10 +1,11 @@
 import React, { useState, Fragment } from "react"
 import classNames from "classnames"
 import { MdClose } from "react-icons/md"
-import Markdown from "react-markdown"
+import ReactMarkdown from "react-markdown"
+import CustomMarkdown from "./markdown"
 import Box from "@mui/material/Box"
 import ButtonBase from "@mui/material/ButtonBase"
-import Modal from "./modal"
+import Modal from "@material-ui/core/Modal"
 
 const NotificationBanner = ({
   data: { text, type, clickForModal, modalContent },
@@ -40,7 +41,7 @@ const NotificationBanner = ({
               }}
               className="rich-text-banner flex-1"
             >
-              {text}
+              <ReactMarkdown>{text}</ReactMarkdown>
             </Box>
             <Modal
               open={open}
@@ -60,7 +61,7 @@ const NotificationBanner = ({
                   p: 4,
                 }}
               >
-                <Markdown>{modalContent}</Markdown>
+                <CustomMarkdown>{modalContent}</CustomMarkdown>
               </Box>
             </Modal>
           </Fragment>
@@ -75,7 +76,7 @@ const NotificationBanner = ({
               }}
               className="rich-text-banner flex-1"
             >
-              <Markdown>{text}</Markdown>
+              <ReactMarkdown>{text}</ReactMarkdown>
             </Box>
             <button onClick={closeSelf} className="px-1 py-1 flex-shrink-0">
               <MdClose className="h-6 w-auto" color="#fff" />
