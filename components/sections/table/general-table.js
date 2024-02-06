@@ -127,10 +127,13 @@ export default function GeneralDataTable(data) {
         <DataGrid
           rows={test}
           columns={columns}
-          pageSize={26}
-          components={{
-            Toolbar: GridToolbar,
-          }}
+          // enableRowSelection //enable some features
+          enableColumnOrdering
+          enableGlobalFilter={true} //turn off a feature
+          // pageSize={26}
+          // components={{
+          //   Toolbar: GridToolbar,
+          // }}
         />
       ) : (
         <DataGrid
