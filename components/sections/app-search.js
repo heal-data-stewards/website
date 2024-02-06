@@ -175,7 +175,7 @@ export default function AppSearch({ data }) {
           let notes5 =
             status5 == "green"
               ? `Thank you for submitting your study-level metadata currently at ${keyValue}% complete! You are another step closer to making your data more FAIR (findable, accessible, interoperable, reusable). `
-              : `Please complete your study-level metadata form as soon as possible. Currently at ${keyValue}%. For information and instructions on how to complete the form, click here.`
+              : `Please complete your study-level metadata form as soon as possible. For information and instructions on how to complete the form, click here.`
           let step5 = "Complete Your Study-Level Metadata Form"
           bucket[5] = { status: status5, step: step5, notes: notes5 }
           break
@@ -296,6 +296,8 @@ export default function AppSearch({ data }) {
           Check Status
         </Button>
       </form>
+      {/* For studies that have many projects to one number https://mui.com/material-ui/react-select/ */}
+      {}
       {showSupport && (
         <div>
           <span className="text-xl">{`We could not locate a study with an application ID or project number of ${sentParam}.`}</span>
