@@ -57,6 +57,8 @@ function RouteGuard({ children }) {
       "/resources/semanticsearch",
       "/resources/dmsps",
       "/requirements",
+      "/app-search",
+      "/decision-tool",
       // The following used to be private pages only exposed to signed in guests
       // "/directory",
       // "/collaboration",
