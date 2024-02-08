@@ -12,11 +12,9 @@ import clsx from "clsx"
 import Image from "next/image"
 import Markdown from "../elements/markdown"
 import TextField from "@mui/material/TextField"
-import Link from "next/link"
 
-export default function RoadMap({ data }) {
+export default function DecisionTool({ data }) {
   const [activeStep, setActiveStep] = React.useState(0)
-  const [value, setValue] = React.useState("")
 
   // React.useEffect(() => {
 
@@ -92,24 +90,14 @@ export default function RoadMap({ data }) {
     )
   }
 
-  let handleTextFieldChange = (e) => {
-    setValue(e.target.value)
-  }
-
   return (
     <div className={"container mb-16"}>
-      <p style={{ marginBottom: "20px", fontSize: "16px" }}>
-        {
-          "Wondering where your study is on the HEAL compliance journey? Try our new HEAL Checklist Progress Tracker. Just type in your study's unique application ID or project number in the search bar below to see your study's status for steps we can track."
-        }
-      </p>
+      {/* <p style={{marginBottom: "20px", fontSize: "16px"}}>Wondering where your study is on the HEAL Compliance Journey? Try our new checklist companion tool. Just type in your study's unique application id or project number and see results.</p> */}
       <div style={{ marginBottom: "10px" }}>
         <TextField
           id="outlined-basic"
           label="App / Proj Number"
           variant="outlined"
-          onChange={handleTextFieldChange}
-          value={value}
         />
         <Button
           style={{
@@ -119,14 +107,7 @@ export default function RoadMap({ data }) {
           }}
           variant="contained"
         >
-          <Link
-            href={{
-              pathname: "/app-search",
-              query: { data: value }, // the data
-            }}
-          >
-            <a>Check Status</a>
-          </Link>
+          Check Status
         </Button>
       </div>
       <Box sx={{ maxWidth: 1200 }}>
