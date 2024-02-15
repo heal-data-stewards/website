@@ -65,6 +65,7 @@ const Block = ({
     >
       <div style={{ display: "flex" }}>
         <Checkbox
+          disableRipple
           checked={checked}
           onChange={handleChange}
           inputProps={{ "aria-label": "controlled" }}
@@ -96,7 +97,7 @@ const VariableStandards = ({ data }) => {
   const handleOpen = () => setOpen(true)
   const handleClose = () => setOpen(false)
 
-  console.log(data)
+  // console.log(data)
   return (
     <div className="container pb-4 mt-20">
       <div style={{ display: "flex" }}>
@@ -201,6 +202,14 @@ const VariableStandards = ({ data }) => {
             <Typography id="modal-modal-description" sx={{ mt: 2 }}>
               I need an example of a table comparing two or more options. (How
               will it look, what will the headers be, what data to show etc)
+              Current chosen options to compare{" "}
+              {compareList.map((item, i) => {
+                return (
+                  <p key={item.title + i} style={{ color: "blue" }}>
+                    {item.title}
+                  </p>
+                )
+              })}
             </Typography>
           </Box>
         </Modal>
