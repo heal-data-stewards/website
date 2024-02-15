@@ -59,6 +59,7 @@ function RouteGuard({ children }) {
       "/requirements",
       "/app-search",
       "/decision-tool",
+      "/resources/metadata/finder",
       // The following used to be private pages only exposed to signed in guests
       // "/directory",
       // "/collaboration",
