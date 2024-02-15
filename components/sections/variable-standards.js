@@ -1,4 +1,4 @@
-import React, { useState, Fragment } from "react"
+import React, { useState, useEffect } from "react"
 import Radio from "@mui/material/Radio"
 import RadioGroup from "@mui/material/RadioGroup"
 import FormControlLabel from "@mui/material/FormControlLabel"
@@ -11,6 +11,7 @@ import Typography from "@mui/material/Typography"
 import Modal from "@mui/material/Modal"
 import Checkbox from "@mui/material/Checkbox"
 import TripOriginIcon from "@mui/icons-material/TripOrigin"
+import { fetchAPI } from "utils/api"
 
 const style = {
   position: "absolute",
@@ -62,7 +63,6 @@ const Block = ({
       // className={"sensitive-data-blocks"}
       onClick={onMouseEnter}
     >
-      {" "}
       <div style={{ display: "flex" }}>
         <Checkbox
           checked={checked}
@@ -73,9 +73,8 @@ const Block = ({
         />
         <div>
           <div>{title}</div>
-          <div style={{ fontWeight: "500" }}>
-            subtext dshkdbfhdjsb dshjbc hdvbsc dsjchv sdjccuvjshc
-            sdavcjsvdchhjsvj
+          <div style={{ fontWeight: "500", fontSize: "9px" }}>
+            {choice.subtext}
           </div>
         </div>
       </div>
@@ -85,7 +84,15 @@ const Block = ({
 
 const VariableStandards = ({ data }) => {
   const [compareList, setCompareList] = useState([])
+  const [cardList, setCardList] = useState([])
   const [open, setOpen] = React.useState(false)
+
+  useEffect(() => {
+    fetchAPI("/vlmds").then((res) => {
+      setCardList(res)
+    })
+  }, [])
+
   const handleOpen = () => setOpen(true)
   const handleClose = () => setOpen(false)
 
@@ -144,12 +151,12 @@ const VariableStandards = ({ data }) => {
               flexWrap: "wrap",
             }}
           >
-            {[1, 2, 3, 4].map((choice, i) => {
+            {cardList.map((choice, i) => {
               return (
                 <Block
                   // onMouseEnter={(e) => onHover(choice)}
                   key={i}
-                  title={"item.title"}
+                  title={choice.title}
                   setCompareList={setCompareList}
                   compareList={compareList}
                   choice={choice}
