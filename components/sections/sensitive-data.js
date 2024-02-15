@@ -1,5 +1,5 @@
 import React, { useState, Fragment } from "react"
-import { connectAutoComplete } from "react-instantsearch-dom"
+// import { connectAutoComplete } from "react-instantsearch-dom"
 import Markdown from "../elements/markdown"
 import Typography from "@mui/material/Typography"
 import Divider from "@mui/material/Divider"

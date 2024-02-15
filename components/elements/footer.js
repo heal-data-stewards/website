@@ -1,6 +1,6 @@
 import PropTypes from "prop-types"
 import { linkPropTypes, mediaPropTypes } from "utils/types"
-import NextImage from "./image"
+// import NextImage from "./image"
 import Image from "next/image"
 import CustomLink from "./custom-link"
 

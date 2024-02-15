@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react"
-import { DataGrid, GridToolbar } from "@material-ui/data-grid"
+import { DataGrid, GridToolbar } from '@mui/x-data-grid'
 import RenderExpandableCell from "./render-expandable-cell"
 import Markdown from "../../elements/markdown"
+
 const columns = [
   { field: "id", hide: true, headerName: "ID", width: 10 },
   {

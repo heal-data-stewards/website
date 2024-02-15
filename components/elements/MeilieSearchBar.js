@@ -1,11 +1,11 @@
 import React from "react"
 import PropTypes from "prop-types"
-import Grid from "@material-ui/core/Grid"
-import { withStyles } from "@material-ui/core/styles"
-import AppBar from "@material-ui/core/AppBar"
-import Toolbar from "@material-ui/core/AppBar"
-import SearchIcon from "@material-ui/icons/Search"
-import TextField from "@material-ui/core/TextField"
+import Grid from "@mui/material/Grid"
+import { withStyles } from "@mui/material"
+import AppBar from "@mui/material/AppBar"
+import Toolbar from "@mui/material/Toolbar"
+import SearchIcon from '@mui/icons-material/Search';
+import TextField from "@mui/material/TextField"
 
 const styles = (theme) => ({
   paper: {

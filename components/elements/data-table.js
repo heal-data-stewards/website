@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react"
-import { DataGrid, GridToolbar } from "@material-ui/data-grid"
+import { DataGrid, GridToolbar } from '@mui/x-data-grid'
 import { getAllUsers } from "utils/api"
 // import { styled } from "@material-ui/core/styles"
 // import { makeStyles } from "@material-ui/core/styles"

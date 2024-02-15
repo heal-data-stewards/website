@@ -1,5 +1,4 @@
 import axios from "axios";
-import { gridColumnsTotalWidthSelector } from "@material-ui/data-grid";
 
 export function getStrapiURL(path) {
   return `${
@@ -26,6 +25,7 @@ export async function fetchAPI(path, options = {}) {
     throw new Error(`An error occured please try again`);
   }
   const data = await response.json();
+  
   return data;
 }
 

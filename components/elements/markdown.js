@@ -2,8 +2,8 @@ import ReactMarkdown from "react-markdown"
 import React, { useMemo } from "react"
 import Typography from "@mui/material/Typography"
 import Link from "../elements/link"
-import ListItem from "@mui/material/ListItem"
-import List from "@mui/material/List"
+// import ListItem from "@mui/material/ListItem"
+// import List from "@mui/material/List"
 // this object defines a map:
 //    DOM elements --> React components.
 // this allows us to streamline styles for content coming

@@ -1,13 +1,11 @@
 import React from "react"
 import PropTypes from "prop-types"
-import { withStyles } from "@material-ui/core/styles"
-import Typography from "@material-ui/core/Typography"
-import ExpandMoreIcon from "@material-ui/icons/ExpandMore"
-import {
-  Accordion,
-  AccordionSummary,
-  AccordionDetails,
-} from "@material-ui/core"
+import { withStyles } from "@mui/material"
+import Typography from "@mui/material/Typography"
+import AccordionDetails from "@mui/material/AccordionDetails"
+import AccordionSummary from "@mui/material/AccordionSummary"
+import Accordion from "@mui/material/Accordion"
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
 const styles = (theme) => ({
   root: {

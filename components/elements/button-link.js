@@ -1,8 +1,7 @@
-import classNames from "classnames"
 import PropTypes from "prop-types"
 import { buttonLinkPropTypes } from "utils/types"
 import CustomLink from "./custom-link"
-import { createTheme, ThemeProvider } from "@material-ui/core/styles"
+import { createTheme, ThemeProvider } from "@mui/material"
 
 const theme = createTheme({
   palette: {
