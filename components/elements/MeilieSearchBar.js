@@ -4,7 +4,7 @@ import Grid from "@mui/material/Grid"
 import { withStyles } from "@mui/material"
 import AppBar from "@mui/material/AppBar"
 import Toolbar from "@mui/material/Toolbar"
-import SearchIcon from '@mui/icons-material/Search';
+import SearchIcon from "@mui/icons-material/Search"
 import TextField from "@mui/material/TextField"
 
 const styles = (theme) => ({
