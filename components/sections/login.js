@@ -1,5 +1,5 @@
 import React, { useState } from "react"
-import { makeStyles } from "@mui/material"
+import { makeStyles } from "@mui/styles"
 import Paper from "@mui/material/Paper"
 import Grid from "@mui/material/Grid"
 import LoginForm from "../elements/form/login"

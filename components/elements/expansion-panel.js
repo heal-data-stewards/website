@@ -1,6 +1,6 @@
 import React from "react"
 import PropTypes from "prop-types"
-import { withStyles } from "@mui/material"
+import { withStyles } from "@mui/styles"
 import Typography from "@mui/material/Typography"
 import AccordionDetails from "@mui/material/AccordionDetails"
 import AccordionSummary from "@mui/material/AccordionSummary"

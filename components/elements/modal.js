@@ -1,5 +1,5 @@
 import React from "react"
-import { makeStyles } from "@mui/material"
+import { makeStyles } from "@mui/styles"
 import Modal from "@mui/material/Modal"
 import Backdrop from "@mui/material/Backdrop"
 import Fade from "@mui/material/Fade"

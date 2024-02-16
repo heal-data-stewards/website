@@ -1,7 +1,7 @@
 import { signIn, signOut, useSession, getSession } from "next-auth/client"
 import axios from "axios"
 import React, { useState, useEffect } from "react"
-import { makeStyles } from "@mui/material"
+import { makeStyles } from "@mui/styles"
 import Card from "@mui/material/Card"
 import CardContent from "@mui/material/CardContent"
 import Button from "@mui/material/Button"

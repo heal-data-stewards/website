@@ -1,7 +1,7 @@
 import React from "react"
 import PropTypes from "prop-types"
 import Grid from "@mui/material/Grid"
-import { withStyles } from "@mui/material"
+import { withStyles } from "@mui/styles"
 import AppBar from "@mui/material/AppBar"
 import Toolbar from "@mui/material/Toolbar"
 import SearchIcon from "@mui/icons-material/Search"

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react"
-import { makeStyles } from "@mui/material"
+import { makeStyles } from "@mui/styles"
 import SearchBar from "../elements/glossary/search-bar"
 import GlossaryItem from "../elements/glossary/item"
 import { getStrapiApiPageData } from "utils/api"
