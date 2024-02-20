@@ -100,7 +100,7 @@ export default function DataTable() {
         columns={columns}
         pageSize={25}
         checkboxSelection
-        components={{
+        slots={{
           Toolbar: GridToolbar,
         }}
       />
