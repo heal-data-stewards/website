@@ -11,11 +11,15 @@ import List from "@mui/material/List"
 import { CustomUnorderedList } from "../elements/lists/unordered-list"
 import { CustomListItem } from "../elements/lists/list-item"
 
-const Markdown = ({ children }) => {
+const Markdown = ({ children, sensitiveTool }) => {
   const componentMap = useMemo(
     () => ({
       p: function Anchor({ node, children, ...props }) {
-        return <Typography variant="body1">{children}</Typography>
+        return (
+          <Typography className={sensitiveTool} variant="body1">
+            {children}
+          </Typography>
+        )
       },
       a: function Anchor({ node, href, ...props }) {
         return <Link to={href} {...props} />
@@ -55,7 +59,7 @@ const Markdown = ({ children }) => {
         return <Typography variant="h4">{children}</Typography>
       },
     }),
-    []
+    [sensitiveTool]
   )
   return <ReactMarkdown components={componentMap}>{children}</ReactMarkdown>
 }

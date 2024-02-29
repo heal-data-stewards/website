@@ -95,7 +95,7 @@ export default function Topics({ data }) {
       return nextSearchState
     },
   })
-  console.log(data)
+
   const ConnectedSearchBox = connectWithQuery(MeilieSearchBar)
   return (
     <>

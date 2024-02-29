@@ -234,6 +234,12 @@ content: ""
   margin-left: 10px;
   width: calc(50% - 10px) !important;
 }
+.sensitive-tool {
+  color: #522664 !important;
+  font-weight: bold !important;
+  font-size: large !important;
+  text-align: justify !important;
+}
 
 /* .webinar-markdown p {
   max-height: 100px;
