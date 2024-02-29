@@ -5,7 +5,6 @@ import Step from "@mui/material/Step"
 import StepLabel from "@mui/material/StepLabel"
 import StepContent from "@mui/material/StepContent"
 import Button from "@mui/material/Button"
-import Paper from "@mui/material/Paper"
 import Typography from "@mui/material/Typography"
 import { makeStyles } from "@material-ui/core"
 import clsx from "clsx"
@@ -17,6 +16,7 @@ export default function SensitiveDataTree({ data }) {
   const [value, setValue] = React.useState(0)
   const [yes, setYes] = React.useState(false)
   const [yesValue, setYesValue] = React.useState()
+  const [chosen, setChose] = React.useState(1)
 
   const handleNext = () => {
     setYes(false)
@@ -25,6 +25,7 @@ export default function SensitiveDataTree({ data }) {
   }
 
   const handleShowYes = (props) => {
+    setChose(props.target.id)
     setYesValue(data.datasteps[props.target.id])
     setActiveStep(data.datasteps.length)
     setYes(true)
@@ -72,15 +73,20 @@ export default function SensitiveDataTree({ data }) {
     const classes = useStyles()
 
     const stepIcons = {
-      1: <Icon img="20" />,
+      1: <Icon img="step1" />,
+      2: <Icon img="step2" />,
+      3: <Icon img="step3" />,
+      4: <Icon img="step4" />,
+      5: <Icon img="step5" />,
+      6: <Icon img="step6" />,
     }
 
     return (
       <button
-        onClick={() => handleSelect(props.icon - 1)}
+        onClick={() => handleSelect(props - 1)}
         className="cursor-pointer"
       >
-        <div className={clsx(classes.root)}>{stepIcons[1]}</div>
+        <div className={clsx(classes.root)}>{stepIcons[props]}</div>
       </button>
     )
   }
@@ -89,17 +95,20 @@ export default function SensitiveDataTree({ data }) {
     const classes = useStyles()
 
     const stepIcons = {
-      1: <Icon img="1" />,
+      0: <Icon img="step1" />,
+      1: <Icon img="step2" />,
+      2: <Icon img="step3" />,
+      3: <Icon img="step4" />,
+      4: <Icon img="step5" />,
+      5: <Icon img="step6" />,
     }
 
     return (
       <button
-        onClick={() => handleSelect(props.icon - 1)}
+        onClick={() => handleSelect(props - 1)}
         className="cursor-pointer"
       >
-        <div className={clsx(classes.root)}>
-          {stepIcons[String(props.icon)]}
-        </div>
+        <div className={clsx(classes.root)}>{stepIcons[chosen]}</div>
       </button>
     )
   }
@@ -114,15 +123,18 @@ export default function SensitiveDataTree({ data }) {
                 <Step key={step.question + index}>
                   <StepLabel
                     style={{ padding: 0 }}
-                    StepIconComponent={CustomStepIcon}
+                    StepIconComponent={() => CustomStepIcon(index + 1)}
                   >
                     <button
                       onClick={() => handleSelect(index)}
                       className="cursor-pointer"
                     >
-                      <span className={"text-2xl text-purple font-bold"}>
+                      <Markdown
+                        sensitiveTool={"sensitive-tool"}
+                        linkTarget="_blank"
+                      >
                         {step.question}
-                      </span>
+                      </Markdown>
                     </button>
                   </StepLabel>
                   <StepContent>
