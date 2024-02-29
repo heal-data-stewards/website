@@ -41,7 +41,7 @@ const RenderExpandableCell = (props) => {
   }))
 
   return (
-    <HtmlTooltip title={"props.data.data"} disableHoverListener={!isOverflowed}>
+    <HtmlTooltip title={props.children} disableHoverListener={!isOverflowed}>
       <span
         ref={textElementRef}
         style={{
