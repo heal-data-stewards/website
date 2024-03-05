@@ -41,6 +41,7 @@ const CustomLink = ({ link, children }) => {
         rel="noopener noreferrer"
         style={{
           padding: "0.5rem 1rem",
+          color: "white",
         }}
       >
         <Typography>{children}</Typography>
