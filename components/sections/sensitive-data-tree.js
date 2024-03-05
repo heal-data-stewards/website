@@ -148,7 +148,7 @@ export default function SensitiveDataTree({ data }) {
                       </div>
                       {index + 1 < data.datasteps.length && (
                         <div className="mt-6">
-                          < Button
+                          <Button
                             variant="contained"
                             onClick={handleShowYes}
                             sx={{ mt: 1, mr: 1 }}
@@ -219,6 +219,6 @@ export default function SensitiveDataTree({ data }) {
           )}
         </Stepper>
       </Box>
-    </div >
+    </div>
   )
 }
