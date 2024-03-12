@@ -16,7 +16,6 @@ import InputLabel from "@mui/material/InputLabel"
 import MenuItem from "@mui/material/MenuItem"
 import Select from "@mui/material/Select"
 import Markdown from "../elements/markdown"
-import { CSVLink, CSVDownload } from "react-csv"
 
 const style = {
   position: "absolute",
@@ -209,9 +208,10 @@ const VariableStandards = ({ data }) => {
   const [compareList, setCompareList] = useState([])
   const [cardList, setCardList] = useState([])
   const [recommendedList, setRecommendedList] = useState([])
-  const [requiredList, setRequiredList] = useState([])
   const [questionList, setQuestionList] = useState([])
+  const [requiredList, setRequiredList] = useState([])
   const [currentStep, setCurrentStep] = useState(1)
+  const [open, setOpen] = useState(false)
   const [value, setValue] = useState("")
 
   useEffect(() => {
@@ -258,6 +258,8 @@ const VariableStandards = ({ data }) => {
     })
   }, [data.single, data.dropdown_vs])
   // console.log(questionList)
+  const handleOpen = () => setOpen(true)
+  const handleClose = () => setOpen(false)
 
   const handleChange = (event) => {
     if (
@@ -343,21 +345,19 @@ const VariableStandards = ({ data }) => {
         <div style={{ width: "65%" }}>
           <div
             style={{
-              display: "flex",
-              flexWrap: "wrap",
+              display: "inline-flex",
               width: "100%",
               fontWeight: "bold",
-              // top: "-76px",
+              top: "-50px",
               position: "relative",
-              padding: "0 15px 15px",
-              // borderRight: "2px solid #532666"
+              textAlign: "center",
             }}
           >
-            <div style={{ width: "100%", textAlign: "end" }}>
+            <div style={{ width: "50%" }}>
               <CircleIcon style={{ fill: "#992569" }} />{" "}
               <span>Recommended Resources</span>
             </div>
-            <div style={{ width: "100%", textAlign: "end" }}>
+            <div style={{ width: "50%" }}>
               <WarningIcon style={{ fill: "rgb(83 38 101)" }} />{" "}
               <span>Required Resources</span>
             </div>
@@ -365,12 +365,13 @@ const VariableStandards = ({ data }) => {
           {compareList.length > 0 && (
             <Button
               style={{
-                left: "calc(50% - 71px)",
-                marginBottom: "10px",
+                left: "calc(50% - 95px)",
+                marginTop: "-38px",
               }}
               variant="contained"
+              onClick={handleOpen}
             >
-              <CSVLink data={compareList}>Download CSV</CSVLink>
+              Compare Results
             </Button>
           )}
           <div
@@ -383,7 +384,7 @@ const VariableStandards = ({ data }) => {
             }}
           >
             {cardList.map((choice, i) => {
-              if (false) {
+              if (i == 2) {
                 return (
                   <RequiredBlock
                     key={i}
@@ -393,7 +394,7 @@ const VariableStandards = ({ data }) => {
                     choice={choice}
                   />
                 )
-              } else if (false) {
+              } else if (i == 5) {
                 return (
                   <RecommendedBlock
                     key={i}
@@ -417,10 +418,84 @@ const VariableStandards = ({ data }) => {
               }
             })}
           </div>
+          {/* <div
+            style={{
+              display: "inline-flex",
+              flexDirection: "column",
+              width: "50%",
+              alignItems: "center"
+            }}
+          >
+            {requiredList.map((choice, i) => {
+              return (
+                <Block
+                  // onMouseEnter={(e) => onHover(choice)}
+                  key={i}
+                  title={choice.title}
+                  setCompareList={setCompareList}
+                  compareList={compareList}
+                  choice={choice}
+                />
+              )
+            })}
+          </div> */}
         </div>
       </div>
+      {/* {compareList.length > 0 && (
+        <div
+          style={{
+            background: "rgb(229, 224, 231)",
+            height: "50px",
+            bottom: "0",
+            position: "fixed",
+            width: "100%",
+            zIndex: "2",
+            left: "0",
+            display: "flex",
+            justifyContent: "space-around",
+            padding: "8px",
+          }}
+        >
+          <span>Selected {compareList.length}</span>{" "}
+          <Button variant="contained" onClick={handleOpen}>
+            Compare Results
+          </Button>
+        </div>
+      )} */}
+      {open && (
+        <Modal
+          open={open}
+          onClose={handleClose}
+          aria-labelledby="modal-modal-title"
+          aria-describedby="modal-modal-description"
+        >
+          <Box sx={style}>
+            <Typography id="modal-modal-title" variant="h6" component="h2">
+              Comparison results
+            </Typography>
+            <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+              I need an example of a table comparing two or more options. (How
+              will it look, what will the headers be, what data to show etc)
+              Current chosen options to compare{" "}
+              {compareList.map((item, i) => {
+                return (
+                  <p key={item.title + i} style={{ color: "blue" }}>
+                    {item.title}
+                  </p>
+                )
+              })}
+            </Typography>
+          </Box>
+        </Modal>
+      )}
     </div>
   )
 }
+
+// RichText.propTypes = {
+//   data: PropTypes.shape({
+//     content: PropTypes.string,
+//   }),
+// }
 
 export default VariableStandards
