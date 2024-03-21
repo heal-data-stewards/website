@@ -141,9 +141,6 @@ export default function GeneralDataTable(data) {
           rows={test}
           columns={columns}
           pageSize={26}
-          slots={{
-            Toolbar: GridToolbar,
-          }}
           filterModel={{
             items: [
               {
