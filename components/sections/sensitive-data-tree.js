@@ -146,23 +146,25 @@ export default function SensitiveDataTree({ data }) {
                           </Markdown>
                         </Typography>
                       </div>
-                      <div className="mt-6">
-                        <Button
-                          variant="contained"
-                          onClick={handleShowYes}
-                          sx={{ mt: 1, mr: 1 }}
-                          id={index}
-                        >
-                          Yes
-                        </Button>
-                        <Button
-                          variant="contained"
-                          onClick={handleNext}
-                          sx={{ mt: 1, mr: 1 }}
-                        >
-                          No
-                        </Button>
-                      </div>
+                      {index + 1 < data.datasteps.length && (
+                        <div className="mt-6">
+                          <Button
+                            variant="contained"
+                            onClick={handleShowYes}
+                            sx={{ mt: 1, mr: 1 }}
+                            id={index}
+                          >
+                            Yes
+                          </Button>
+                          <Button
+                            variant="contained"
+                            onClick={handleNext}
+                            sx={{ mt: 1, mr: 1 }}
+                          >
+                            No
+                          </Button>
+                        </div>
+                      )}
                     </Box>
                   </StepContent>
                 </Step>
