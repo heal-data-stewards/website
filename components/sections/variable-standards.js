@@ -16,6 +16,210 @@ import InputLabel from "@mui/material/InputLabel"
 import MenuItem from "@mui/material/MenuItem"
 import Select from "@mui/material/Select"
 import Markdown from "../elements/markdown"
+import { CSVLink, CSVDownload } from "react-csv"
+import { OutlinedInput } from "@mui/material"
+import { ListItemText } from "@mui/material"
+
+const rules = [
+  {
+    title: "CDASH",
+    description:
+      "A suite of standards used in clinical research for data exchange",
+    card: 1,
+    link: "https://www.cdisc.org/standards/foundational/cdash",
+  },
+  {
+    title: "ChEBI",
+    description:
+      "Chemical Entities of Biological Interest (ChEBI) is a dictionary of molecular entities focused on ‘small’ chemical compounds",
+    card: 1,
+    link: "http://www.ebi.ac.uk/chebi/",
+  },
+  {
+    title: "HUPO PSI",
+    description:
+      "Proteomic Standard Initiative (PSI) provide a consensus annotation system to standardize the meaning, syntax and formalism of proteomics terms",
+    card: 1,
+    link: "https://www.psidev.info/groups/controlled-vocabularies",
+  },
+  {
+    title: "ICD",
+    description:
+      "Clinical terms coded with ICD are the main basis for health recording and statistics on disease in primary, secondary and tertiary care, as well as on cause of death certificates",
+    card: 1,
+    link: "http://www.who.int/classifications/icd/en/",
+  },
+  {
+    title: "LOINC",
+    description:
+      "Logical Observation Identifiers Names, and Codes (LOINC) is used for tests, observations and measurements",
+    card: 1,
+    link: "https://loinc.org/",
+  },
+  {
+    title: "MGED",
+    description:
+      "Concepts, definitions, terms, and resources for standardized description of a microarray experiment in support of MAGE v.1",
+    card: 1,
+    link: "https://bioportal.bioontology.org/ontologies/MO",
+  },
+  {
+    title: "NIH CDE",
+    description:
+      "Structured human and machine-readable definitions of data elements that have been recommended or required by NIH Institutes and Centers and other organizations for use in research and for other purposes",
+    card: 1,
+    link: "https://cde.nlm.nih.gov/home",
+  },
+  {
+    title: "OMOP",
+    description:
+      "Observational Medical Outcomes Partnership (OMOP) Common Data Model (CDM) is an open community data standard, designed to standardize the structure and content of observational data and to enable efficient analyses that can produce reliable evidence. A central component of the OMOP CDM is the OHDSI standardized vocabularies.",
+    card: 1,
+    link: "https://ohdsi.github.io/CommonDataModel/index.html",
+  },
+  {
+    title: "Rx Norm",
+    description:
+      "Provides normalized names for clinical drugs and links its names to many drug vocabularies",
+    card: 1,
+    link: "https://www.nlm.nih.gov/research/umls/rxnorm/",
+  },
+  {
+    title: "SNOMED-CT",
+    description:
+      "One of a suite of designated standards for use in U.S. Federal Government systems for the electronic exchange of clinical health information and is also a required standard in interoperability specifications of the U.S. Healthcare Information Technology Standards Panel.",
+    card: 1,
+    link: "https://www.nlm.nih.gov/research/umls/Snomed/snomed_main.html",
+  },
+  {
+    title: "DDI Codebook ",
+    description:
+      "Based on the Data Documentation Initiative standard, the DDI Codebook enables basic descriptive content for variables, files, source material, and study level information. Supports discovery, preservation, and the informed use of data. ",
+    card: 1,
+    link: "https://ddialliance.org/Specification/DDI-Codebook/2.5/",
+  },
+  {
+    title: "HEAL CDE",
+    description:
+      "Nine core pain domains and questionnaires to measure them, designed for studies examining acute pain and chronic pain in adults and pediatric populations",
+    card: 1,
+    link: "https://heal.nih.gov/data/common-data-elements",
+  },
+  {
+    title: "Data Coordinating Center (DCC) Standards",
+    description:
+      "Contact your Data Coordinating Center to determine if they require the use of any specific variable standards.",
+    card: 1,
+    link: "#",
+  },
+  {
+    title: "NIH Funding Institute/Center Standards",
+    description:
+      "Review your IC's data sharing policies to determine if your IC requires the use of any specific variable standards.",
+    card: 1,
+    link: "#",
+  },
+]
+
+const questions = [
+  {
+    var_name: "specific_study_yn",
+    type: "start",
+    question: "Do you have a specific HEAL-funded award in mind?",
+  },
+]
+
+const YesQuestions = [
+  {
+    var_name: "research_focus_area",
+    type: "single",
+    question: "Which HEAL Research Focus Area does the award fall under?",
+    additionalInfo:
+      "If you aren't sure, you can find your award's focus area at: https://heal.nih.gov/funding/awarded",
+    choices: [
+      "Clinical Research in Pain Management",
+      "Cross-Cutting Research",
+      "Enhanced Outcomes for Infants and Children Exposed to Opioids",
+      "New Strategies to Prevent and Treat Opioid Addiction",
+      "Novel Therapeutic Options for Opioid Use Disorder and Overdose",
+      "Preclinical and Translational Research in Pain Management",
+      "Translation of Research to Practice for the Treatment of Opioid Addiction",
+    ],
+  },
+  // { var_name: "award_type_excepts", type: "single", question: "Is the award a UG3, UH3, Small Business Programs (SBIR/STTR) award, or does it include data about American Indian/Alaska Native (AI/AN) populations ?", additionalInfo: "If you aren't sure of the award type, see Deciphering NIH Application / Grant Numbers at https://www.era.nih.gov/files/Deciphering_NIH_Application.pdf Learn more about NIH's Small Business Programs at https://seed.nih.gov/small-business-funding", choices: ["Yes", "No"] },
+]
+
+const NoQuestions = [
+  {
+    var_name: "study_stage",
+    type: "multiple",
+    question: "What type of research is it?",
+    additionalInfo: "Select all that apply",
+    choices: [
+      "Pre-Research/Protocol Development",
+      "Basic Research",
+      "Pre-Clinical Research",
+      "Clinical Research",
+      "Implementation Research",
+      "Post-market Research",
+      "Business Development",
+      "Epidemiologic Research",
+      "Other",
+    ],
+  },
+  {
+    var_name: "study_subject_type",
+    type: "multiple",
+    question: "What is the study subject type?",
+    additionalInfo: "Select all that apply",
+    choices: [
+      "Human (including human cell / tissue / tissue model)",
+      "Animal (including animal cell / tissue / tissue model)",
+      "Molecule (e.g. chemical compounds, drugs, protein engineering, protein crystallization, etc)",
+      "Other",
+    ],
+  },
+]
+
+const specific_study_yn = [
+  { rec_req: 3, choice: "Yes", rule: "NIH CDE" },
+  { rec_req: false, choice: "No", rule: false },
+]
+
+const research_focus_area = [
+  {
+    choice: "Clinical Research in Pain Management",
+    rule: "HEAL CDE",
+    rec_req: 2,
+  },
+  { choice: "Cross-Cutting Research", rule: "NIH CDE", rec_req: 3 },
+  {
+    choice: "Enhanced Outcomes for Infants and Children Exposed to Opioids",
+    rule: "NIH CDE",
+    rec_req: 3,
+  },
+  {
+    choice: "New Strategies to Prevent and Treat Opioid Addiction",
+    rule: "NIH CDE",
+    rec_req: 3,
+  },
+  {
+    choice: "Novel Therapeutic Options for Opioid Use Disorder and Overdose",
+    rule: "NIH CDE",
+    rec_req: 3,
+  },
+  {
+    choice: "Preclinical and Translational Research in Pain Management",
+    rule: "HEAL CDE",
+    rec_req: 2,
+  },
+  {
+    choice:
+      "Translation of Research to Practice for the Treatment of Opioid Addiction",
+    rule: "NIH CDE",
+    rec_req: 3,
+  },
+]
 
 const style = {
   position: "absolute",
@@ -79,7 +283,7 @@ const Block = ({
         <div>
           <div>{title}</div>
           <div style={{ fontWeight: "500", fontSize: "9px" }}>
-            {choice.subtext}
+            {choice.description}
           </div>
         </div>
       </div>
@@ -137,7 +341,7 @@ const RequiredBlock = ({
         <div>
           <div>{title}</div>
           <div style={{ fontWeight: "500", fontSize: "9px" }}>
-            {choice.subtext}
+            {choice.description}
           </div>
         </div>
       </div>
@@ -196,7 +400,7 @@ const RecommendedBlock = ({
         <div>
           <div>{title}</div>
           <div style={{ fontWeight: "500", fontSize: "9px" }}>
-            {choice.subtext}
+            {choice.description}
           </div>
         </div>
       </div>
@@ -204,79 +408,222 @@ const RecommendedBlock = ({
   )
 }
 
+const SingleChoice = ({ q, value, handleChange, var_name }) => {
+  let options = []
+
+  switch (var_name) {
+    case "specific_study_yn":
+      options = specific_study_yn
+      break
+    case "research_focus_area":
+      options = research_focus_area
+      break
+    default:
+      console.log(`Sorry, we are out of ${expr}.`)
+  }
+
+  return (
+    <div key={q.question}>
+      <div style={{ fontWeight: "bold", marginBottom: "7px" }}>
+        {q.question}
+      </div>
+      <Markdown>{q.additionalInfo}</Markdown>
+      <br></br>
+      <FormControl>
+        <RadioGroup
+          aria-labelledby="demo-radio-buttons-group-label"
+          value={value}
+          onChange={handleChange}
+        >
+          {options.map((option, i) => {
+            return (
+              <FormControlLabel
+                key={option.choice}
+                value={option.choice}
+                control={
+                  <Radio id={[option.rec_req, q.question]} name={option.rule} />
+                }
+                label={option.choice}
+              />
+            )
+          })}
+        </RadioGroup>
+      </FormControl>
+    </div>
+  )
+}
+
+const ITEM_HEIGHT = 48
+const ITEM_PADDING_TOP = 8
+const MenuProps = {
+  PaperProps: {
+    style: {
+      maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
+    },
+  },
+}
+
+const MultipleChoice = ({ q, value, handleChange }) => {
+  return (
+    <div key={q.question}>
+      <div style={{ fontWeight: "bold", marginBottom: "7px" }}>
+        {q.question}
+      </div>
+      <br></br>
+      <FormControl sx={{ m: 1, width: 300 }}>
+        <InputLabel id="demo-multiple-checkbox-label">
+          {q.additionalInfo}
+        </InputLabel>
+        <Select
+          labelId="demo-multiple-checkbox-label"
+          id="demo-multiple-checkbox"
+          multiple
+          value={value}
+          onChange={handleChange}
+          input={<OutlinedInput label="Tag" />}
+          // renderValue={(selected) => selected.join(', ')}
+          MenuProps={MenuProps}
+        >
+          {q.choices.map((answer) => (
+            <MenuItem key={answer} value={answer}>
+              <Checkbox checked={value.indexOf(answer) > -1} />
+              <ListItemText primary={answer} />
+            </MenuItem>
+          ))}
+        </Select>
+      </FormControl>
+    </div>
+  )
+}
+
 const VariableStandards = ({ data }) => {
   const [compareList, setCompareList] = useState([])
-  const [cardList, setCardList] = useState([])
+  const [cardList, setCardList] = useState(rules)
   const [recommendedList, setRecommendedList] = useState([])
-  const [questionList, setQuestionList] = useState([])
   const [requiredList, setRequiredList] = useState([])
+  const [questionList, setQuestionList] = useState(questions)
   const [currentStep, setCurrentStep] = useState(1)
-  const [open, setOpen] = useState(false)
-  const [value, setValue] = useState("")
+  const [value, setValue] = useState([])
 
-  useEffect(() => {
-    // let dropDownQuestions = data.dropdown_vs.map((q) => {
-    //   const [answer, setAnswer] = useState('');
+  // useEffect(() => {
+  //   // let dropDownQuestions = data.dropdown_vs.map((q) => {
+  //   //   const [answer, setAnswer] = useState('');
 
-    //   const handleChange = (event) => {
-    //     setAnswer(event.target.value);
-    //   };
+  //   //   const handleChange = (event) => {
+  //   //     setAnswer(event.target.value);
+  //   //   };
 
-    //   return (
-    //     <div>
-    //       <div style={{ fontWeight: "bold", marginBottom: "7px" }}>
-    //         {q.question}
-    //       </div>
-    //       <div style={{ fontWeight: "400", marginBottom: "10px" }}>
-    //         {q.more_info}
-    //       </div>
-    //       <Box sx={{ minWidth: 120 }}>
-    //         <FormControl fullWidth>
-    //           <InputLabel id="demo-simple-select-label">Select one below</InputLabel>
-    //           <Select
-    //             labelId="demo-simple-select-label"
-    //             id="demo-simple-select"
-    //             value={answer}
-    //             label="Age"
-    //             onChange={handleChange}
-    //           >
-    //             {q.answer_list.map(a => {
-    //               return <MenuItem value={a.responses}>{a.responses}</MenuItem>
-    //             })}
-    //           </Select>
-    //         </FormControl>
-    //       </Box>
-    //     </div>
-    //   )
-    // })
+  //   //   return (
+  //   //     <div>
+  //   //       <div style={{ fontWeight: "bold", marginBottom: "7px" }}>
+  //   //         {q.question}
+  //   //       </div>
+  //   //       <div style={{ fontWeight: "400", marginBottom: "10px" }}>
+  //   //         {q.more_info}
+  //   //       </div>
+  //   //       <Box sx={{ minWidth: 120 }}>
+  //   //         <FormControl fullWidth>
+  //   //           <InputLabel id="demo-simple-select-label">Select one below</InputLabel>
+  //   //           <Select
+  //   //             labelId="demo-simple-select-label"
+  //   //             id="demo-simple-select"
+  //   //             value={answer}
+  //   //             label="Age"
+  //   //             onChange={handleChange}
+  //   //           >
+  //   //             {q.answer_list.map(a => {
+  //   //               return <MenuItem value={a.responses}>{a.responses}</MenuItem>
+  //   //             })}
+  //   //           </Select>
+  //   //         </FormControl>
+  //   //       </Box>
+  //   //     </div>
+  //   //   )
+  //   // })
 
-    setQuestionList([...data.dropdown_vs, ...data.single])
-    fetchAPI("/vlmds").then((res) => {
-      setCardList(res)
-      setRecommendedList(res)
-      setRequiredList(res)
-    })
-  }, [data.single, data.dropdown_vs])
+  //   setQuestionList([...data.dropdown_vs, ...data.single])
+  //   // fetchAPI("/vlmds").then((res) => {
+  //   //   setCardList(res)
+  //   //   setRecommendedList(res)
+  //   //   setRequiredList(res)
+  //   // })
+  // }, [data.single, data.dropdown_vs])
   // console.log(questionList)
-  const handleOpen = () => setOpen(true)
-  const handleClose = () => setOpen(false)
 
   const handleChange = (event) => {
+    // if (event.target.name) {
+    //   const result = cardList.map((card) => {
+    //     if (card.question && card.question == event.target.id[1] && card.title != event.target.name) {
+    //       return { title: card.title, description: card.description, link: card.link, card: 1, question: event.target.id[1] }
+    //     } else if (card.title == event.target.name) {
+    //       return { title: card.title, description: card.description, link: card.link, card: event.target.id[0], question: event.target.id[1] }
+    //     } else return card
+    //   });
+
+    if (event.target.name) {
+      const result = cardList.map((card) => {
+        if (card.question && card.question != event.target.id[1]) {
+          // check if this card has been used by a different question
+          return card
+        } else if (card.question && card.question == event.target.id[1]) {
+          // check if this card has been used by the same question
+          if (card.title == event.target.name) {
+            return {
+              title: card.title,
+              description: card.description,
+              link: card.link,
+              card: event.target.id[0],
+              question: event.target.id[1],
+            }
+          } else
+            return {
+              title: card.title,
+              description: card.description,
+              link: card.link,
+              card: 1,
+            }
+        } else if (card.title == event.target.name) {
+          return {
+            title: card.title,
+            description: card.description,
+            link: card.link,
+            card: event.target.id[0],
+            question: event.target.id[1],
+          }
+        } else return card
+      })
+      setCardList(result)
+    }
     if (
       (currentStep === 1 && event.target.value === "Yes") ||
       (currentStep === 1 && event.target.value === "yes")
     ) {
+      setValue([])
       setCurrentStep(2)
-      setValue(event.target.value)
+      setQuestionList([...questions, ...YesQuestions])
+      setValue([event.target.value])
     } else if (
       (currentStep === 1 && event.target.value === "No") ||
       (currentStep === 1 && event.target.value === "no")
     ) {
-      setCurrentStep(1)
-      setValue(event.target.value)
+      setValue([])
+      setCurrentStep(2)
+      setQuestionList([...questions, ...NoQuestions])
+      setValue([event.target.value])
     } else {
-      setValue(event.target.value)
+      // console.log(event.target.value)
+      setValue([event.target.value])
+      // console.log(value)
     }
+  }
+
+  const handleMultipleChange = (event) => {
+    setValue(
+      // On autofill we get a stringified value.
+      typeof event.target.value === "string"
+        ? event.target.value.split(",")
+        : event.target.value
+    )
   }
 
   return (
@@ -290,38 +637,31 @@ const VariableStandards = ({ data }) => {
           }}
         >
           {questionList
-            .filter((q) => {
-              return q.step == currentStep
+            .filter((q, i) => {
+              return i + 1 == currentStep
             })
             .map((q) => {
-              return (
-                <div key={q.question}>
-                  <div style={{ fontWeight: "bold", marginBottom: "7px" }}>
-                    {q.question}
-                  </div>
-                  <Markdown>{q.more_info}</Markdown>
-                  <br></br>
-                  <FormControl>
-                    <RadioGroup
-                      aria-labelledby="demo-radio-buttons-group-label"
-                      value={value}
-                      onChange={handleChange}
-                      name="radio-buttons-group"
-                    >
-                      {q.list_of_answers.map((answer) => {
-                        return (
-                          <FormControlLabel
-                            key={answer.response}
-                            value={answer.response}
-                            control={<Radio />}
-                            label={answer.response}
-                          />
-                        )
-                      })}
-                    </RadioGroup>
-                  </FormControl>
-                </div>
-              )
+              if (q.type == "single" || q.type == "start") {
+                return (
+                  <SingleChoice
+                    var_name={q.var_name}
+                    key={q.question}
+                    handleChange={handleChange}
+                    value={value}
+                    q={q}
+                  />
+                )
+              } else if ((q.type = "multiple")) {
+                return (
+                  <MultipleChoice
+                    var_name={q.var_name}
+                    key={q.question}
+                    handleChange={handleMultipleChange}
+                    value={value}
+                    q={q}
+                  />
+                )
+              }
             })}
           {currentStep > 1 && (
             <div
@@ -332,32 +672,33 @@ const VariableStandards = ({ data }) => {
                 color: "#532665",
               }}
             >
-              {" "}
               <button onClick={() => setCurrentStep(currentStep - 1)}>
                 {"< back"}
-              </button>{" "}
+              </button>
               <button onClick={() => setCurrentStep(currentStep + 1)}>
                 {"next >"}
-              </button>{" "}
+              </button>
             </div>
           )}
         </div>
         <div style={{ width: "65%" }}>
           <div
             style={{
-              display: "inline-flex",
+              display: "flex",
+              flexWrap: "wrap",
               width: "100%",
               fontWeight: "bold",
-              top: "-50px",
+              // top: "-76px",
               position: "relative",
-              textAlign: "center",
+              padding: "0 15px 15px",
+              // borderRight: "2px solid #532666"
             }}
           >
-            <div style={{ width: "50%" }}>
+            <div style={{ width: "100%", textAlign: "end" }}>
               <CircleIcon style={{ fill: "#992569" }} />{" "}
               <span>Recommended Resources</span>
             </div>
-            <div style={{ width: "50%" }}>
+            <div style={{ width: "100%", textAlign: "end" }}>
               <WarningIcon style={{ fill: "rgb(83 38 101)" }} />{" "}
               <span>Required Resources</span>
             </div>
@@ -365,13 +706,12 @@ const VariableStandards = ({ data }) => {
           {compareList.length > 0 && (
             <Button
               style={{
-                left: "calc(50% - 95px)",
-                marginTop: "-38px",
+                left: "calc(50% - 71px)",
+                marginBottom: "10px",
               }}
               variant="contained"
-              onClick={handleOpen}
             >
-              Compare Results
+              <CSVLink data={compareList}>Download CSV</CSVLink>
             </Button>
           )}
           <div
@@ -384,7 +724,7 @@ const VariableStandards = ({ data }) => {
             }}
           >
             {cardList.map((choice, i) => {
-              if (i == 2) {
+              if (choice.card == 2) {
                 return (
                   <RequiredBlock
                     key={i}
@@ -394,7 +734,7 @@ const VariableStandards = ({ data }) => {
                     choice={choice}
                   />
                 )
-              } else if (i == 5) {
+              } else if (choice.card == 3) {
                 return (
                   <RecommendedBlock
                     key={i}
@@ -418,84 +758,10 @@ const VariableStandards = ({ data }) => {
               }
             })}
           </div>
-          {/* <div
-            style={{
-              display: "inline-flex",
-              flexDirection: "column",
-              width: "50%",
-              alignItems: "center"
-            }}
-          >
-            {requiredList.map((choice, i) => {
-              return (
-                <Block
-                  // onMouseEnter={(e) => onHover(choice)}
-                  key={i}
-                  title={choice.title}
-                  setCompareList={setCompareList}
-                  compareList={compareList}
-                  choice={choice}
-                />
-              )
-            })}
-          </div> */}
         </div>
       </div>
-      {/* {compareList.length > 0 && (
-        <div
-          style={{
-            background: "rgb(229, 224, 231)",
-            height: "50px",
-            bottom: "0",
-            position: "fixed",
-            width: "100%",
-            zIndex: "2",
-            left: "0",
-            display: "flex",
-            justifyContent: "space-around",
-            padding: "8px",
-          }}
-        >
-          <span>Selected {compareList.length}</span>{" "}
-          <Button variant="contained" onClick={handleOpen}>
-            Compare Results
-          </Button>
-        </div>
-      )} */}
-      {open && (
-        <Modal
-          open={open}
-          onClose={handleClose}
-          aria-labelledby="modal-modal-title"
-          aria-describedby="modal-modal-description"
-        >
-          <Box sx={style}>
-            <Typography id="modal-modal-title" variant="h6" component="h2">
-              Comparison results
-            </Typography>
-            <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-              I need an example of a table comparing two or more options. (How
-              will it look, what will the headers be, what data to show etc)
-              Current chosen options to compare{" "}
-              {compareList.map((item, i) => {
-                return (
-                  <p key={item.title + i} style={{ color: "blue" }}>
-                    {item.title}
-                  </p>
-                )
-              })}
-            </Typography>
-          </Box>
-        </Modal>
-      )}
     </div>
   )
 }
-
-// RichText.propTypes = {
-//   data: PropTypes.shape({
-//     content: PropTypes.string,
-//   }),
-// }
 
 export default VariableStandards
