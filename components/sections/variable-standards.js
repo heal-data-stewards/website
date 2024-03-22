@@ -179,6 +179,19 @@ const NoQuestions = [
       "Other",
     ],
   },
+
+  {
+    var_name: "data_type",
+    type: "multiple",
+    question: "What is the data type?",
+    additionalInfo: "Select all that apply",
+    choices: [
+      "Biochemical",
+      "Biophysical",
+      "Molecule (e.g. chemical compounds, drugs, protein engineering, protein crystallization, etc)",
+      "Other",
+    ],
+  },
 ]
 
 const specific_study_yn = [
