@@ -143,6 +143,8 @@ In the HEAL outlook calendar
 
 ## Local Deployment
 
+use Node 14.
+
 1. Clone the repo
 2. run npm install
 3. create a .env.local file by copying the .env.local.example file found in the root folder
@@ -153,7 +155,7 @@ In the HEAL outlook calendar
 
 ## Deployment
 
-Heal is currently set up for automatic deployment through AWS.
+Heal is currently set up for automatic deployment through AWS Amplify.
 Any merges into the main branch on github will trigger the rebuild.
 The same applies for the staging build. 
 
