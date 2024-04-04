@@ -39,6 +39,7 @@ import { Widget } from "./sections/Widget"
 import AppSearch from "./sections/app-search"
 import SensitiveDataTree from "./sections/sensitive-data-tree"
 import VariableStandards from "./sections/variable-standards"
+import PurpleBar from "./sections/purple-bar"
 
 // Map Strapi sections to section components
 const sectionComponents = {
@@ -82,6 +83,7 @@ const sectionComponents = {
   "sections.app-search": AppSearch,
   "sections.sensitive-data-map": SensitiveDataTree,
   "sections.variable-standards": VariableStandards,
+  "sections.purple-banner": PurpleBar,
 }
 
 // Display a section individually
