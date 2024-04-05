@@ -56,7 +56,6 @@ export default function WebinarItem({ event, past, collective }) {
             sx={{
               fontWeight: "bold",
               color: "#532565",
-              textTransform: "capitalize",
               cursor: "pointer",
               "&:hover": {
                 color: "#982568",
