@@ -102,6 +102,10 @@ html {
   filter: drop-shadow(-1px 6px 3px #441d4f);
 }
 
+.repo-questions ol{
+  list-style: number !important;
+}
+
 .embla__dots {
   display: flex;
   list-style: none;

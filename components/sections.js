@@ -40,6 +40,7 @@ import AppSearch from "./sections/app-search"
 import SensitiveDataTree from "./sections/sensitive-data-tree"
 import VariableStandards from "./sections/variable-standards"
 import PurpleBar from "./sections/purple-bar"
+import RepoQuestions from "./sections/repo-questions"
 
 // Map Strapi sections to section components
 const sectionComponents = {
@@ -84,6 +85,7 @@ const sectionComponents = {
   "sections.sensitive-data-map": SensitiveDataTree,
   "sections.variable-standards": VariableStandards,
   "sections.purple-banner": PurpleBar,
+  "sections.repo-questions": RepoQuestions,
 }
 
 // Display a section individually
