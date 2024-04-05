@@ -178,6 +178,6 @@ The same applies for the staging build.
 * Find your branch and hit deploy
 * Make note of the link created so that you can share it 
 5. Create a PR and tag the content team owner and two developers for code review.
-6. Never merge a PR until the code has been approved and the owner of the new feature gives us the green light to pus into production.
-7. After approved and merged into staging, check the staging build to mke sure everything looks good.
+6. Never merge a PR until the code has been approved and the owner of the new feature gives us the green light to push into production.
+7. After approved and merged into staging, check the staging build to make sure everything looks good.
 8. Once staging is approved, create a PR to the main branch and notify the team that it is ready.
