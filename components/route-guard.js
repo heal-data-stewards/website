@@ -61,6 +61,7 @@ function RouteGuard({ children }) {
       "/decision-tool",
       "/resources/metadata/finder",
       "/repository-decision-tree",
+      "/resources/sensitive-data",
       // The following used to be private pages only exposed to signed in guests
       // "/directory",
       // "/collaboration",
