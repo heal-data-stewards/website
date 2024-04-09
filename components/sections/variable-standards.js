@@ -126,9 +126,14 @@ const questions = [
     var_name: "specific_study_yn",
     type: "start",
     question: "Do you have a specific HEAL-funded award in mind?",
+    choices: [
+      { rec_req: 3, choice: "Yes", rule: "NIH CDE" },
+      { rec_req: false, choice: "No", rule: false },
+    ],
   },
 ]
 
+// rec_req: 1 means default, 2 means required, 3 means recommended
 const YesQuestions = [
   {
     var_name: "research_focus_area",
@@ -137,16 +142,171 @@ const YesQuestions = [
     additionalInfo:
       "If you aren't sure, you can find your award's focus area at: https://heal.nih.gov/funding/awarded",
     choices: [
-      "Clinical Research in Pain Management",
-      "Cross-Cutting Research",
-      "Enhanced Outcomes for Infants and Children Exposed to Opioids",
-      "New Strategies to Prevent and Treat Opioid Addiction",
-      "Novel Therapeutic Options for Opioid Use Disorder and Overdose",
-      "Preclinical and Translational Research in Pain Management",
-      "Translation of Research to Practice for the Treatment of Opioid Addiction",
+      {
+        choice: "Clinical Research in Pain Management",
+        rule: "HEAL CDE",
+        rec_req: 2,
+      },
+      { choice: "Cross-Cutting Research", rule: "NIH CDE", rec_req: 3 },
+      {
+        choice: "Enhanced Outcomes for Infants and Children Exposed to Opioids",
+        rule: "NIH CDE",
+        rec_req: 3,
+      },
+      {
+        choice: "New Strategies to Prevent and Treat Opioid Addiction",
+        rule: "NIH CDE",
+        rec_req: 3,
+      },
+      {
+        choice:
+          "Novel Therapeutic Options for Opioid Use Disorder and Overdose",
+        rule: "NIH CDE",
+        rec_req: 3,
+      },
+      {
+        choice: "Preclinical and Translational Research in Pain Management",
+        rule: "HEAL CDE",
+        rec_req: 2,
+      },
+      {
+        choice:
+          "Translation of Research to Practice for the Treatment of Opioid Addiction",
+        rule: "NIH CDE",
+        rec_req: 3,
+      },
     ],
   },
-  // { var_name: "award_type_excepts", type: "single", question: "Is the award a UG3, UH3, Small Business Programs (SBIR/STTR) award, or does it include data about American Indian/Alaska Native (AI/AN) populations ?", additionalInfo: "If you aren't sure of the award type, see Deciphering NIH Application / Grant Numbers at https://www.era.nih.gov/files/Deciphering_NIH_Application.pdf Learn more about NIH's Small Business Programs at https://seed.nih.gov/small-business-funding", choices: ["Yes", "No"] },
+  {
+    var_name: "award_type_excepts",
+    type: "single",
+    question:
+      "Is the award a UG3, UH3, Small Business Programs (SBIR/STTR) award, or does it include data about American Indian/Alaska Native (AI/AN) populations ?",
+    additionalInfo:
+      "If you aren't sure of the award type, see 'Deciphering NIH Application / Grant Numbers' at https://www.era.nih.gov/files/Deciphering_NIH_Application.pdf Learn more about NIH's Small Business Programs at https://seed.nih.gov/small-business-funding ",
+    choices: [
+      { rec_req: 3, choice: "Yes", rule: "NIH CDE" },
+      { rec_req: false, choice: "No", rule: false },
+    ],
+  },
+  {
+    var_name: "dcc_yn",
+    type: "single",
+    question:
+      "Is the award associated with any of the following consortium awards?",
+    additionalInfo: "",
+    choices: [
+      {
+        choice:
+          "Advancing Clinical Trials in Neonatal Opioid Withdrawal (ACT NOW)",
+        rule: "Data Coordinating Center (DCC) Standards",
+        rec_req: 2,
+      },
+      {
+        choice: "Back Pain Consortium Research Program (BACPAC)",
+        rule: "Data Coordinating Center (DCC) Standards",
+        rec_req: 2,
+      },
+      {
+        choice: "Early Phase Pain Investigation Clinical Network (EPPIC-Net)",
+        rule: "Data Coordinating Center (DCC) Standards",
+        rec_req: 2,
+      },
+      {
+        choice:
+          "Harm Reduction Approaches to Reduce Overdose Death (Harm Reduction)",
+        rule: "Data Coordinating Center (DCC) Standards",
+        rec_req: 2,
+      },
+      {
+        choice: "HEAL Prevention Cooperative (HPC)",
+        rule: "Data Coordinating Center (DCC) Standards",
+        rec_req: 2,
+      },
+      {
+        choice: "HEALing Communities (HEALing Communities)",
+        rule: "Data Coordinating Center (DCC) Standards",
+        rec_req: 2,
+      },
+      {
+        choice: "HEALthy Brain and Child Development Study (HBCD)",
+        rule: "Data Coordinating Center (DCC) Standards",
+        rec_req: 2,
+      },
+      {
+        choice:
+          "Integrated Approach to Pain and Opioid Use in Hemodialysis Patients (HOPE)",
+        rule: "Data Coordinating Center (DCC) Standards",
+        rec_req: 2,
+      },
+      {
+        choice:
+          "Integrated Management of Chronic Pain and OUD for Whole Recovery (IMPOWR)",
+        rule: "Data Coordinating Center (DCC) Standards",
+        rec_req: 2,
+      },
+      {
+        choice: "Justice Community of Opioid Innovation Network (JCOIN)",
+        rule: "Data Coordinating Center (DCC) Standards",
+        rec_req: 2,
+      },
+      {
+        choice: "Pain Management Effectiveness Research Network (Pain ERN)",
+        rule: "Data Coordinating Center (DCC) Standards",
+        rec_req: 2,
+      },
+      {
+        choice: "PRECISION ",
+        rule: "Data Coordinating Center (DCC) Standards",
+        rec_req: 2,
+      },
+      {
+        choice: "Restoring Joint Health and Function to Reduce Pain (RE-JOIN)",
+        rule: "Data Coordinating Center (DCC) Standards",
+        rec_req: 2,
+      },
+      {
+        choice: "I dont't know",
+        rule: "Data Coordinating Center (DCC) Standards",
+        rec_req: 2,
+      },
+    ],
+  },
+  // For this question they would like a textbox to start filtering through the choices
+  // {
+  //   var_name: "funder",
+  //   type: "dropdown",
+  //   question: "What is the funding NIH Institute or Center?",
+  //   additionalInfo:
+  //     "",
+  //   choices: [
+  //     {choice: "Fogarty International Center (FIC) ", rec_req: false, rule: false},
+  //     {choice: "National Center for Advancing Translational Sciences (NCATS)", rec_req: false, rule: false},
+  //     {choice: "National Center for Complementary and Integrative Health (NCCIH)", rec_req: false, rule: false},
+  //     {choice: "National Cancer Institute (NCI)", rec_req: 2, rule: "NIH Funding Institute/Center Standards"},
+  //     {choice: "National Eye Institute (NEI)", rec_req: false, rule: false},
+  //     {choice: "National Human Genome Research Institute (NHGRI)", rec_req: false, rule: false},
+  //     {choice: "National Heart, Lung, and Blood Institute (NHLBI)", rec_req: 2, rule: "NIH Funding Institute/Center Standards"},
+  //     {choice: "National Institute on Aging (NIA)", rec_req: 2, rule: "NIH Funding Institute/Center Standards"},
+  //     {choice: "National Institute on Alcohol Abuse and Alcoholism (NIAAA)", rec_req: 2, rule: "NIH Funding Institute/Center Standards"},
+  //     {choice: "National Institute of Allergy and Infectious Diseases (NIAID)", rec_req: false, rule: false},
+  //     {choice: "National Institute of Arthritis and Musculoskeletal and Skin Diseases (NIAMS)", rec_req: false, rule: false},
+  //     {choice: "National Institute of Biomedical Imaging and Bioengineering (NIBIB)", rec_req: 2, rule: "NIH Funding Institute/Center Standards"},
+  //     {choice: "Eunice Kennedy Shriver National Institute of Child Health and Human Development (NICHD)", rec_req: false, rule: false},
+  //     {choice: "National Institute on Drug Abuse (NIDA)", rec_req: false, rule: false},
+  //     {choice: "National Institute on Deafness and Other Communication Disorders (NIDCD)", rec_req: false, rule: false},
+  //     {choice: "National Institute of Dental and Craniofacial Research (NIDCR)", rec_req: false, rule: false},
+  //     {choice: "National Institute of Diabetes and Digestive and Kidney Diseases (NIDDK)", rec_req: false, rule: false},
+  //     {choice: "National Institute of Environmental Health Sciences (NIEHS)", rec_req: false, rule: false},
+  //     {choice: "National Institute of General Medical Sciences (NIGMS)", rec_req: false, rule: false},
+  //     {choice: "National Institute of Mental Health (NIMH)", rec_req: 2, rule: "NIH Funding Institute/Center Standards"},
+  //     {choice: "National Institute on Minority Health and Health Disparities (NIMHD)", rec_req: false, rule: false},
+  //     {choice: "National Institute of Neurological Disorders and Stroke (NINDS)", rec_req: false, rule: false},
+  //     {choice: "National Institute of Nursing Research (NINR)", rec_req: false, rule: false},
+  //     {choice: "National Library of Medicine (NLM)", rec_req: false, rule: false},
+  //     {choice: "Office of the Director(OD)", rec_req: false, rule: false},
+  //   ],
+  // },
 ]
 
 const NoQuestions = [
@@ -178,46 +338,6 @@ const NoQuestions = [
       "Molecule (e.g. chemical compounds, drugs, protein engineering, protein crystallization, etc)",
       "Other",
     ],
-  },
-]
-
-const specific_study_yn = [
-  { rec_req: 3, choice: "Yes", rule: "NIH CDE" },
-  { rec_req: false, choice: "No", rule: false },
-]
-
-const research_focus_area = [
-  {
-    choice: "Clinical Research in Pain Management",
-    rule: "HEAL CDE",
-    rec_req: 2,
-  },
-  { choice: "Cross-Cutting Research", rule: "NIH CDE", rec_req: 3 },
-  {
-    choice: "Enhanced Outcomes for Infants and Children Exposed to Opioids",
-    rule: "NIH CDE",
-    rec_req: 3,
-  },
-  {
-    choice: "New Strategies to Prevent and Treat Opioid Addiction",
-    rule: "NIH CDE",
-    rec_req: 3,
-  },
-  {
-    choice: "Novel Therapeutic Options for Opioid Use Disorder and Overdose",
-    rule: "NIH CDE",
-    rec_req: 3,
-  },
-  {
-    choice: "Preclinical and Translational Research in Pain Management",
-    rule: "HEAL CDE",
-    rec_req: 2,
-  },
-  {
-    choice:
-      "Translation of Research to Practice for the Treatment of Opioid Addiction",
-    rule: "NIH CDE",
-    rec_req: 3,
   },
 ]
 
@@ -408,20 +528,7 @@ const RecommendedBlock = ({
   )
 }
 
-const SingleChoice = ({ q, value, handleChange, var_name }) => {
-  let options = []
-
-  switch (var_name) {
-    case "specific_study_yn":
-      options = specific_study_yn
-      break
-    case "research_focus_area":
-      options = research_focus_area
-      break
-    default:
-      console.log(`Sorry, we are out of ${expr}.`)
-  }
-
+const SingleChoice = ({ q, value, handleChange }) => {
   return (
     <div key={q.question}>
       <div style={{ fontWeight: "bold", marginBottom: "7px" }}>
@@ -435,7 +542,7 @@ const SingleChoice = ({ q, value, handleChange, var_name }) => {
           value={value}
           onChange={handleChange}
         >
-          {options.map((option, i) => {
+          {q.choices.map((option, i) => {
             return (
               <FormControlLabel
                 key={option.choice}
@@ -485,9 +592,9 @@ const MultipleChoice = ({ q, value, handleChange }) => {
           MenuProps={MenuProps}
         >
           {q.choices.map((answer) => (
-            <MenuItem key={answer} value={answer}>
+            <MenuItem key={answer.choice} value={answer.choice}>
               <Checkbox checked={value.indexOf(answer) > -1} />
-              <ListItemText primary={answer} />
+              <ListItemText primary={answer.choice} />
             </MenuItem>
           ))}
         </Select>
@@ -675,9 +782,11 @@ const VariableStandards = ({ data }) => {
               <button onClick={() => setCurrentStep(currentStep - 1)}>
                 {"< back"}
               </button>
-              <button onClick={() => setCurrentStep(currentStep + 1)}>
-                {"next >"}
-              </button>
+              {questionList.length > currentStep && (
+                <button onClick={() => setCurrentStep(currentStep + 1)}>
+                  {"next >"}
+                </button>
+              )}
             </div>
           )}
         </div>
