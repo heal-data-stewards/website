@@ -19,6 +19,8 @@ import Markdown from "../elements/markdown"
 import { CSVLink, CSVDownload } from "react-csv"
 import { OutlinedInput } from "@mui/material"
 import { ListItemText } from "@mui/material"
+import TextField from "@mui/material/TextField"
+import Autocomplete from "@mui/material/Autocomplete"
 
 const rules = [
   {
@@ -273,72 +275,172 @@ const YesQuestions = [
     ],
   },
   // For this question they would like a textbox to start filtering through the choices
-  // {
-  //   var_name: "funder",
-  //   type: "dropdown",
-  //   question: "What is the funding NIH Institute or Center?",
-  //   additionalInfo:
-  //     "",
-  //   choices: [
-  //     {choice: "Fogarty International Center (FIC) ", rec_req: false, rule: false},
-  //     {choice: "National Center for Advancing Translational Sciences (NCATS)", rec_req: false, rule: false},
-  //     {choice: "National Center for Complementary and Integrative Health (NCCIH)", rec_req: false, rule: false},
-  //     {choice: "National Cancer Institute (NCI)", rec_req: 2, rule: "NIH Funding Institute/Center Standards"},
-  //     {choice: "National Eye Institute (NEI)", rec_req: false, rule: false},
-  //     {choice: "National Human Genome Research Institute (NHGRI)", rec_req: false, rule: false},
-  //     {choice: "National Heart, Lung, and Blood Institute (NHLBI)", rec_req: 2, rule: "NIH Funding Institute/Center Standards"},
-  //     {choice: "National Institute on Aging (NIA)", rec_req: 2, rule: "NIH Funding Institute/Center Standards"},
-  //     {choice: "National Institute on Alcohol Abuse and Alcoholism (NIAAA)", rec_req: 2, rule: "NIH Funding Institute/Center Standards"},
-  //     {choice: "National Institute of Allergy and Infectious Diseases (NIAID)", rec_req: false, rule: false},
-  //     {choice: "National Institute of Arthritis and Musculoskeletal and Skin Diseases (NIAMS)", rec_req: false, rule: false},
-  //     {choice: "National Institute of Biomedical Imaging and Bioengineering (NIBIB)", rec_req: 2, rule: "NIH Funding Institute/Center Standards"},
-  //     {choice: "Eunice Kennedy Shriver National Institute of Child Health and Human Development (NICHD)", rec_req: false, rule: false},
-  //     {choice: "National Institute on Drug Abuse (NIDA)", rec_req: false, rule: false},
-  //     {choice: "National Institute on Deafness and Other Communication Disorders (NIDCD)", rec_req: false, rule: false},
-  //     {choice: "National Institute of Dental and Craniofacial Research (NIDCR)", rec_req: false, rule: false},
-  //     {choice: "National Institute of Diabetes and Digestive and Kidney Diseases (NIDDK)", rec_req: false, rule: false},
-  //     {choice: "National Institute of Environmental Health Sciences (NIEHS)", rec_req: false, rule: false},
-  //     {choice: "National Institute of General Medical Sciences (NIGMS)", rec_req: false, rule: false},
-  //     {choice: "National Institute of Mental Health (NIMH)", rec_req: 2, rule: "NIH Funding Institute/Center Standards"},
-  //     {choice: "National Institute on Minority Health and Health Disparities (NIMHD)", rec_req: false, rule: false},
-  //     {choice: "National Institute of Neurological Disorders and Stroke (NINDS)", rec_req: false, rule: false},
-  //     {choice: "National Institute of Nursing Research (NINR)", rec_req: false, rule: false},
-  //     {choice: "National Library of Medicine (NLM)", rec_req: false, rule: false},
-  //     {choice: "Office of the Director(OD)", rec_req: false, rule: false},
-  //   ],
-  // },
+  {
+    var_name: "funder",
+    type: "single",
+    question: "What is the funding NIH Institute or Center?",
+    additionalInfo: "",
+    choices: [
+      {
+        choice: "Fogarty International Center (FIC) ",
+        rec_req: false,
+        rule: false,
+      },
+      {
+        choice: "National Center for Advancing Translational Sciences (NCATS)",
+        rec_req: false,
+        rule: false,
+      },
+      {
+        choice:
+          "National Center for Complementary and Integrative Health (NCCIH)",
+        rec_req: false,
+        rule: false,
+      },
+      {
+        choice: "National Cancer Institute (NCI)",
+        rec_req: 2,
+        rule: "NIH Funding Institute/Center Standards",
+      },
+      { choice: "National Eye Institute (NEI)", rec_req: false, rule: false },
+      {
+        choice: "National Human Genome Research Institute (NHGRI)",
+        rec_req: false,
+        rule: false,
+      },
+      {
+        choice: "National Heart, Lung, and Blood Institute (NHLBI)",
+        rec_req: 2,
+        rule: "NIH Funding Institute/Center Standards",
+      },
+      {
+        choice: "National Institute on Aging (NIA)",
+        rec_req: 2,
+        rule: "NIH Funding Institute/Center Standards",
+      },
+      {
+        choice: "National Institute on Alcohol Abuse and Alcoholism (NIAAA)",
+        rec_req: 2,
+        rule: "NIH Funding Institute/Center Standards",
+      },
+      {
+        choice: "National Institute of Allergy and Infectious Diseases (NIAID)",
+        rec_req: false,
+        rule: false,
+      },
+      {
+        choice:
+          "National Institute of Arthritis and Musculoskeletal and Skin Diseases (NIAMS)",
+        rec_req: false,
+        rule: false,
+      },
+      {
+        choice:
+          "National Institute of Biomedical Imaging and Bioengineering (NIBIB)",
+        rec_req: 2,
+        rule: "NIH Funding Institute/Center Standards",
+      },
+      {
+        choice:
+          "Eunice Kennedy Shriver National Institute of Child Health and Human Development (NICHD)",
+        rec_req: false,
+        rule: false,
+      },
+      {
+        choice: "National Institute on Drug Abuse (NIDA)",
+        rec_req: false,
+        rule: false,
+      },
+      {
+        choice:
+          "National Institute on Deafness and Other Communication Disorders (NIDCD)",
+        rec_req: false,
+        rule: false,
+      },
+      {
+        choice:
+          "National Institute of Dental and Craniofacial Research (NIDCR)",
+        rec_req: false,
+        rule: false,
+      },
+      {
+        choice:
+          "National Institute of Diabetes and Digestive and Kidney Diseases (NIDDK)",
+        rec_req: false,
+        rule: false,
+      },
+      {
+        choice: "National Institute of Environmental Health Sciences (NIEHS)",
+        rec_req: false,
+        rule: false,
+      },
+      {
+        choice: "National Institute of General Medical Sciences (NIGMS)",
+        rec_req: false,
+        rule: false,
+      },
+      {
+        choice: "National Institute of Mental Health (NIMH)",
+        rec_req: 2,
+        rule: "NIH Funding Institute/Center Standards",
+      },
+      {
+        choice:
+          "National Institute on Minority Health and Health Disparities (NIMHD)",
+        rec_req: false,
+        rule: false,
+      },
+      {
+        choice:
+          "National Institute of Neurological Disorders and Stroke (NINDS)",
+        rec_req: false,
+        rule: false,
+      },
+      {
+        choice: "National Institute of Nursing Research (NINR)",
+        rec_req: false,
+        rule: false,
+      },
+      {
+        choice: "National Library of Medicine (NLM)",
+        rec_req: false,
+        rule: false,
+      },
+      { choice: "Office of the Director(OD)", rec_req: false, rule: false },
+    ],
+  },
 ]
 
 const NoQuestions = [
-  {
-    var_name: "study_stage",
-    type: "multiple",
-    question: "What type of research is it?",
-    additionalInfo: "Select all that apply",
-    choices: [
-      "Pre-Research/Protocol Development",
-      "Basic Research",
-      "Pre-Clinical Research",
-      "Clinical Research",
-      "Implementation Research",
-      "Post-market Research",
-      "Business Development",
-      "Epidemiologic Research",
-      "Other",
-    ],
-  },
-  {
-    var_name: "study_subject_type",
-    type: "multiple",
-    question: "What is the study subject type?",
-    additionalInfo: "Select all that apply",
-    choices: [
-      "Human (including human cell / tissue / tissue model)",
-      "Animal (including animal cell / tissue / tissue model)",
-      "Molecule (e.g. chemical compounds, drugs, protein engineering, protein crystallization, etc)",
-      "Other",
-    ],
-  },
+  // {
+  //   var_name: "study_stage",
+  //   type: "multiple",
+  //   question: "What type of research is it?",
+  //   additionalInfo: "Select all that apply",
+  //   choices: [
+  //     "Pre-Research/Protocol Development",
+  //     "Basic Research",
+  //     "Pre-Clinical Research",
+  //     "Clinical Research",
+  //     "Implementation Research",
+  //     "Post-market Research",
+  //     "Business Development",
+  //     "Epidemiologic Research",
+  //     "Other",
+  //   ],
+  // },
+  // {
+  //   var_name: "study_subject_type",
+  //   type: "multiple",
+  //   question: "What is the study subject type?",
+  //   additionalInfo: "Select all that apply",
+  //   choices: [
+  //     "Human (including human cell / tissue / tissue model)",
+  //     "Animal (including animal cell / tissue / tissue model)",
+  //     "Molecule (e.g. chemical compounds, drugs, protein engineering, protein crystallization, etc)",
+  //     "Other",
+  //   ],
+  // },
 ]
 
 const style = {
@@ -603,6 +705,18 @@ const MultipleChoice = ({ q, value, handleChange }) => {
   )
 }
 
+const Dropdown = ({ q }) => {
+  return (
+    <Autocomplete
+      disablePortal
+      id="dropdown"
+      options={q.choices}
+      sx={{ width: 300 }}
+      renderInput={(params) => <TextField {...params} label="choice" />}
+    />
+  )
+}
+
 const VariableStandards = ({ data }) => {
   const [compareList, setCompareList] = useState([])
   const [cardList, setCardList] = useState(rules)
@@ -759,12 +873,22 @@ const VariableStandards = ({ data }) => {
                   />
                 )
               } else if ((q.type = "multiple")) {
+                // return (
+                //   <MultipleChoice
+                //     var_name={q.var_name}
+                //     key={q.question}
+                //     handleChange={handleMultipleChange}
+                //     value={value}
+                //     q={q}
+                //   />
+                // )
+              } else if ((q.type = "dropdown")) {
                 return (
-                  <MultipleChoice
-                    var_name={q.var_name}
+                  <Dropdown
+                    // var_name={q.var_name}
                     key={q.question}
-                    handleChange={handleMultipleChange}
-                    value={value}
+                    // handleChange={handleMultipleChange}
+                    // value={value}
                     q={q}
                   />
                 )
