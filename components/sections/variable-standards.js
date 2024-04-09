@@ -720,7 +720,8 @@ const Dropdown = ({ q }) => {
 const VariableStandards = ({ data }) => {
   const [compareList, setCompareList] = useState([])
   const [cardList, setCardList] = useState(rules)
-  const [recommendedList, setRecommendedList] = useState([])
+  // An array that holds the changes requested by each answer
+  const [answerList, setAnswerList] = useState({})
   const [requiredList, setRequiredList] = useState([])
   const [questionList, setQuestionList] = useState(questions)
   const [currentStep, setCurrentStep] = useState(1)
@@ -772,49 +773,88 @@ const VariableStandards = ({ data }) => {
   // console.log(questionList)
 
   const handleChange = (event) => {
-    // if (event.target.name) {
-    //   const result = cardList.map((card) => {
-    //     if (card.question && card.question == event.target.id[1] && card.title != event.target.name) {
-    //       return { title: card.title, description: card.description, link: card.link, card: 1, question: event.target.id[1] }
-    //     } else if (card.title == event.target.name) {
-    //       return { title: card.title, description: card.description, link: card.link, card: event.target.id[0], question: event.target.id[1] }
-    //     } else return card
-    //   });
+    let changedObj = {}
+    changedObj[event.target.id.substr(2)] = {
+      card: event.target.name,
+      status: event.target.id[0],
+    }
+    let newStateObj = { ...answerList, ...changedObj }
 
-    if (event.target.name) {
-      const result = cardList.map((card) => {
-        if (card.question && card.question != event.target.id[1]) {
-          // check if this card has been used by a different question
-          return card
-        } else if (card.question && card.question == event.target.id[1]) {
-          // check if this card has been used by the same question
-          if (card.title == event.target.name) {
-            return {
-              title: card.title,
-              description: card.description,
-              link: card.link,
-              card: event.target.id[0],
-              question: event.target.id[1],
-            }
-          } else
-            return {
-              title: card.title,
-              description: card.description,
-              link: card.link,
-              card: 1,
-            }
-        } else if (card.title == event.target.name) {
+    for (const property in newStateObj) {
+      // console.log(newStateObj[property].card)
+      const result = cardList.map((rule) => {
+        if (rule.title == newStateObj[property].card) {
+          // console.log(rule.title)
           return {
-            title: card.title,
-            description: card.description,
-            link: card.link,
-            card: event.target.id[0],
-            question: event.target.id[1],
+            title: rule.title,
+            description: rule.description,
+            link: rule.link,
+            card: newStateObj[property].status,
+            question: rule.question,
           }
-        } else return card
+        } else {
+          return rule
+        }
       })
       setCardList(result)
     }
+
+    setAnswerList(newStateObj)
+
+    // setAnswerList({ ...answerList, ...changedObj })
+
+    // console.log(answerList)
+
+    // if (event.target.name) {
+    //   // const result = cardList.map((card) => {
+    //   //   if (card.question && card.question != event.target.id[1]) {
+    //   //     // check if this card has been used by a different question
+    //   //     return card
+    //   //   } else if (card.question && card.question == event.target.id[1]) {
+    //   //     // check if this card has been used by the same question
+    //   //     if (card.title == event.target.name) {
+    //   //       return {
+    //   //         title: card.title,
+    //   //         description: card.description,
+    //   //         link: card.link,
+    //   //         card: event.target.id[0],
+    //   //         question: event.target.id[1],
+    //   //       }
+    //   //     } else
+    //   //       return {
+    //   //         title: card.title,
+    //   //         description: card.description,
+    //   //         link: card.link,
+    //   //         card: 1,
+    //   //       }
+    //   //   } else if (card.title == event.target.name) {
+    //   //     return {
+    //   //       title: card.title,
+    //   //       description: card.description,
+    //   //       link: card.link,
+    //   //       card: event.target.id[0],
+    //   //       question: event.target.id[1],
+    //   //     }
+    //   //   } else return card
+    //   // })
+    //   const result = rules.map(rule => {
+    //     //       return {
+    //     //         title: card.title,
+    //     //         description: card.description,
+    //     //         link: card.link,
+    //     //         card: event.target.id[0],
+    //     //         question: event.target.id[1],
+    //     //       }
+
+    //     if (rule.title == event.target.name) {
+
+    //     } else {
+    //       return rule
+    //     }
+    //   })
+    //   setCardList(result)
+    // }
+    // Checks if its the first question and if the yes line of questioning should be enabled
     if (
       (currentStep === 1 && event.target.value === "Yes") ||
       (currentStep === 1 && event.target.value === "yes")
@@ -824,6 +864,7 @@ const VariableStandards = ({ data }) => {
       setQuestionList([...questions, ...YesQuestions])
       setValue([event.target.value])
     } else if (
+      // Checks if its the first question and if the no line of questioning should be enabled
       (currentStep === 1 && event.target.value === "No") ||
       (currentStep === 1 && event.target.value === "no")
     ) {
