@@ -57,10 +57,11 @@ const typography = {
     paddingBottom: '1rem',
   },
   h3: {
-    fontSize: '1.25rem',
-    fontWeight: '600',
+    fontSize: '2rem',
+    fontWeight: 500,
+    margin: 0,
     paddingBottom: '0.5rem',
-    lineHeight: 1.35,
+    lineHeight: 1.25,
     color: palette.primary.main
   },
   h4: {

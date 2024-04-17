@@ -237,14 +237,14 @@ content: ""
 }
 
 .MuiTypography-h2 {
-  margin: 0px !important;
-    font-size: 2rem !important;
-    line-height: 1.25 !important;
-    font-weight: 500 !important;
+  /* margin: 0px !important; */
+    /* font-size: 2rem !important;
+    line-height: 1.25 !important; */
+    /* font-weight: 500 !important; */
     padding-bottom: 1rem !important;
     font-family: Montserrat !important;
     color: rgb(83, 37, 101) !important;
-    padding-top: 1.25rem !important;
+    /* padding-top: 1.25rem !important; */
 }
 
 .MuiTypography-h3 {
