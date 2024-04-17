@@ -71,6 +71,8 @@ export default function Faqs({ data }) {
                 onMouseEnter={(e) => onHover(item)}
                 key={i + item.key}
                 title={item.key}
+                index={i}
+                isSelected={item.key === shownContent.key}
               />
             )
           })}
@@ -110,8 +112,7 @@ export default function Faqs({ data }) {
                   </AccordionDetails>
                 </Accordion>
               )
-            }
-          )}
+            })}
         </PanelContainer>
       </div>
     </div>

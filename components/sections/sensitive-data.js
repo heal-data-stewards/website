@@ -28,6 +28,8 @@ const SensitiveData = ({ data }) => {
                 onMouseEnter={(e) => onHover(item)}
                 key={i + item.title}
                 title={item.title}
+                index={i}
+                isSelected={item.title === shownContent.title}
               />
             )
           })}
