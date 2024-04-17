@@ -9,9 +9,7 @@ import {
   Block,
   ButtonBlockContainer,
   PanelContainer,
-} from '../elements/side-tab-buttons'
-
-
+} from "../elements/side-tab-buttons"
 
 const SensitiveData = ({ data }) => {
   const [shownContent, setShownContent] = useState(data.sensitiveDataItem[0])
@@ -20,11 +18,10 @@ const SensitiveData = ({ data }) => {
     setShownContent(item)
   }
 
-  console.log(data)
   return (
     <div className="container pb-12">
       <div style={{ display: "flex", justifyContent: "space-between" }}>
-        <div style={{ width: "50%", maxWidth: "350px", marginRight: "20px" }}>
+        <ButtonBlockContainer>
           {data.sensitiveDataItem.map((item, i) => {
             return (
               <Block
@@ -34,8 +31,8 @@ const SensitiveData = ({ data }) => {
               />
             )
           })}
-        </div>
-        <div style={{ width: "-webkit-fill-available" }}>
+        </ButtonBlockContainer>
+        <PanelContainer>
           <Typography variant="h2" color="primary" sx={{ fontWeight: "600" }}>
             {shownContent.title}
           </Typography>
@@ -73,7 +70,7 @@ const SensitiveData = ({ data }) => {
               </Fragment>
             )}
           </div>
-        </div>
+        </PanelContainer>
       </div>
     </div>
   )
