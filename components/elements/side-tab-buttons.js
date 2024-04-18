@@ -30,8 +30,6 @@ export const Block = ({ title, onMouseEnter, isSelected, index }) => {
 }
 
 export const ButtonBlockContainer = styled("div")({
-  width: "50%",
-  maxWidth: "350px",
   marginRight: "20px",
 })
 
