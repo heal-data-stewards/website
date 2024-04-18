@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react"
-import Typography from "@mui/material/Typography"
+import { Divider, Stack, Typography } from "@mui/material"
 import Markdown from "../elements/markdown"
-import Divider from "@mui/material/Divider"
 import {
   Accordion,
   AccordionSummary,
@@ -63,8 +62,15 @@ export default function Faqs({ data }) {
 
   return (
     <div className="container pb-4">
-      <div style={{ display: "flex", justifyContent: "space-between" }}>
-        <ButtonBlockContainer>
+      <Stack direction="row" justifyContent="flex-start">
+        <ButtonBlockContainer
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "stretch",
+            flex: { md: "0 0 300px", sm: "0 0 200px" },
+          }}
+        >
           {faqs.map((item, i) => {
             return (
               <Block
@@ -114,7 +120,7 @@ export default function Faqs({ data }) {
               )
             })}
         </PanelContainer>
-      </div>
+      </Stack>
     </div>
   )
 }
