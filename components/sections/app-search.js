@@ -123,8 +123,7 @@ export default function AppSearch({ data }) {
   const [value, setValue] = React.useState("")
   const [payload, setPayload] = React.useState(false)
   const [tableData, setData] = React.useState(false)
-  const [sentParam, setStoreSentParam] = React.useState()
-  const [showSupport, setShowSupport] = React.useState(false)
+  const [showStudyNotFound, setShowStudyNotFound] = React.useState(false)
 
   const router = useRouter()
   const params = router.query
@@ -134,14 +133,8 @@ export default function AppSearch({ data }) {
     // several fields, some of which are text, others are numeric. this
     // has potential to get tricky as more complex functionality is expected.
     if (params.data) {
-      let regExp = /[a-zA-Z]/g
-      let paramKey
-
-      if (regExp.test(params.data)) {
-        paramKey = "proj_num="
-      } else {
-        paramKey = "appl_id="
-      }
+      const pattern = /[a-zA-Z]/g
+      const paramKey = pattern.test(params.data) ? "proj_num=" : "appl_id="
 
       setLoading(true)
 
@@ -153,15 +146,14 @@ export default function AppSearch({ data }) {
           if (response.data.length > 0) {
             setPayload(response.data)
             createData(response.data)
-            setShowSupport(false)
+            setShowStudyNotFound(false)
           } else {
-            if (params.data.length > 0) {
-              setStoreSentParam(params.data)
-              setShowSupport(true)
-            }
+            setShowStudyNotFound(true)
           }
         })
-        .catch((err) => console.error(err))
+        .catch((err) => {
+          console.error(err.message)
+        })
         .finally(() => setLoading(false))
     }
 
@@ -299,9 +291,9 @@ export default function AppSearch({ data }) {
 
       {/* For studies that have many projects to one number https://mui.com/material-ui/react-select/ */}
 
-      {showSupport && (
+      {showStudyNotFound && (
         <div>
-          <span className="text-xl">{`We could not locate a study with an application ID or project number of ${sentParam}.`}</span>
+          <span className="text-xl">{`We could not locate a study matching the given query.`}</span>
           <span className="text-xl">
             {
               " Please verify that you input the correct information, or contact "
@@ -320,7 +312,13 @@ export default function AppSearch({ data }) {
         </div>
       )}
 
-      {payload[0] ? (
+      {loading && (
+        <Stack justifyContent="center" alignItems="center">
+          <CircularProgress />
+        </Stack>
+      )}
+
+      {payload[0] && (
         <>
           <TableTopper
             studyName={payload[0].study_name}
@@ -338,10 +336,6 @@ export default function AppSearch({ data }) {
             enableTopToolbar={false}
           />
         </>
-      ) : (
-        <Stack justifyContent="center" alignItems="center">
-          <CircularProgress />
-        </Stack>
       )}
     </div>
   )

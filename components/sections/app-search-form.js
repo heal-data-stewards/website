@@ -26,6 +26,17 @@ export const ProjectSearchForm = ({ defaultValue = "" }) => {
     setValue(e.target.value)
   }
 
+  const handleKeyPress = (event) => {
+    if (!["Enter", "NumpadEnter"].includes(event.code)) {
+      return
+    }
+    router.push(`/app-search?data=${value}`)
+  }
+
+  const handleSubmit = () => {
+    router.push(`/app-search?data=${value}`)
+  }
+
   return (
     <Stack
       justifyContent="center"
@@ -45,12 +56,10 @@ export const ProjectSearchForm = ({ defaultValue = "" }) => {
             variant="outlined"
             onChange={handleTextFieldChange}
             value={value}
+            onKeyPress={handleKeyPress}
           />
         </FormControl>
-        <Button
-          variant="contained"
-          onClick={() => router.push(`/app-search?data=${value}`)}
-        >
+        <Button variant="contained" onClick={handleSubmit}>
           Check Status
         </Button>
       </Stack>
