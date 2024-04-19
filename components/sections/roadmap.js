@@ -16,50 +16,7 @@ import Image from "next/image"
 import Markdown from "../elements/markdown"
 import TextField from "@mui/material/TextField"
 import Link from "next/link"
-
-const SearchForm = () => {
-  const [value, setValue] = React.useState("")
-
-  let handleTextFieldChange = (e) => {
-    setValue(e.target.value)
-  }
-
-  return (
-    <Stack
-      justifyContent="center"
-      alignItems="center"
-      sx={{
-        pt: 4,
-        pb: 6,
-        ".MuiInputBase-root": { m: 0, width: "500px", border: 0 },
-        ".MuiInputBase-input": { boxShadow: 0 },
-      }}
-    >
-      <Stack direction="row" gap={2}>
-        <FormControl>
-          <TextField
-            id="textfield"
-            label="App / Proj Number"
-            variant="outlined"
-            onChange={handleTextFieldChange}
-            value={value}
-          />
-        </FormControl>
-        <Button variant="contained">
-          <Link
-            href={{
-              pathname: "/app-search",
-              // pass the input text as query param
-              query: { data: value },
-            }}
-          >
-            <a>Check Status</a>
-          </Link>
-        </Button>
-      </Stack>
-    </Stack>
-  )
-}
+import { ProjectSearchForm } from './app-search-form'
 
 function Icon({ src }) {
   return (
@@ -73,6 +30,7 @@ function Icon({ src }) {
 }
 
 export default function RoadMap({ data }) {
+  const [query, setQuery] = React.useState("")
   const [activeStep, setActiveStep] = React.useState(0)
 
   const handleClickNext = () => {
@@ -129,7 +87,7 @@ export default function RoadMap({ data }) {
         }
       </p>
 
-      <SearchForm />
+      <ProjectSearchForm />
 
       <Box sx={{ maxWidth: 1200 }}>
         <Stepper orientation="vertical">

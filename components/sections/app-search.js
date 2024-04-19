@@ -8,6 +8,7 @@ import HelpIcon from "@mui/icons-material/Help"
 import CancelIcon from "@mui/icons-material/Cancel"
 import axios from "axios"
 import { useRouter } from "next/router"
+import { ProjectSearchForm } from './app-search-form'
 
 const statusIcons = {
   red: {
@@ -81,6 +82,9 @@ export default function AppSearch({ data }) {
   const params = router.query
 
   React.useEffect(() => {
+    // this must be here because this search field is intended to search
+    // several fields, some of which are text, others are numeric. this
+    // has potential to get tricky as more complex functionality is expected.
     if (params.data) {
       let regExp = /[a-zA-Z]/g
       let param
@@ -228,37 +232,6 @@ export default function AppSearch({ data }) {
     setData(output)
   }
 
-  const getAppId = (e) => {
-    e.preventDefault()
-
-    let regExp = /[a-zA-Z]/g
-    let param
-
-    if (regExp.test(value)) {
-      param = "proj_num="
-    } else {
-      param = "appl_id="
-    }
-
-    axios
-      .get(
-        `https://9trlpa4nv4.execute-api.us-east-1.amazonaws.com/dev/checklistv3?${param}${value}`
-      )
-      .then((response) => {
-        if (response.data.length > 0) {
-          setShowSupport(false)
-          console.log(response.data)
-          setPayload(response.data)
-          createData(response.data)
-        } else {
-          setShowSupport(true)
-          setStoreSentParam(value)
-          setPayload()
-        }
-      })
-      .catch((err) => console.error(err))
-  }
-
   let handleTextFieldChange = (e) => {
     setValue(e.target.value)
   }
@@ -270,33 +243,11 @@ export default function AppSearch({ data }) {
           {"< - Back to Checklist Requirements"}
         </button>
       </div>
-      <form
-        noValidate
-        autoComplete="off"
-        onSubmit={getAppId}
-        style={{ marginBottom: "10px" }}
-      >
-        <TextField
-          id="outlined-basic"
-          label="App / Proj Number"
-          variant="outlined"
-          onChange={handleTextFieldChange}
-          value={value}
-        />
-        <Button
-          style={{
-            height: "43px",
-            marginTop: "7.5px",
-            marginLeft: "20px",
-          }}
-          variant="contained"
-          type="submit"
-        >
-          Check Status
-        </Button>
-      </form>
+
+      <ProjectSearchForm defaultValue={ params.data } />
+
       {/* For studies that have many projects to one number https://mui.com/material-ui/react-select/ */}
-      {}
+
       {showSupport && (
         <div>
           <span className="text-xl">{`We could not locate a study with an application ID or project number of ${sentParam}.`}</span>
