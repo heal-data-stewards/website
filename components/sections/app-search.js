@@ -9,36 +9,35 @@ import CancelIcon from "@mui/icons-material/Cancel"
 import axios from "axios"
 import { useRouter } from "next/router"
 
+const statusIcons = {
+  red: {
+    icon: CancelIcon,
+    color: "#cf0000",
+  },
+  green: {
+    icon: CheckCircleIcon,
+    color: "green",
+  },
+  yellow: {
+    icon: HelpIcon,
+    color: "#f9bc00",
+  },
+}
+
 const columns = [
   {
     accessorKey: "status",
     header: "Status",
     size: 40,
-    // eslint-disable-next-line react/display-name
-    Cell: ({ cell }) => {
-      let icon = (expr) => {
-        switch (expr) {
-          case "red":
-            return (
-              <CancelIcon
-                style={{ color: "#cf0000", width: "50px", height: "50px" }}
-              />
-            )
-          case "green":
-            return (
-              <CheckCircleIcon
-                style={{ color: "green", width: "50px", height: "50px" }}
-              />
-            )
-          case "yellow":
-            return (
-              <HelpIcon
-                style={{ color: "#f9bc00", width: "50px", height: "50px" }}
-              />
-            )
-          default:
-            console.log(`Sorry, we are out of ${expr}.`)
-        }
+    Cell: function Cell({ cell }) {
+      const icon = (expr) => {
+        return React.createElement(statusIcons[expr].icon, {
+          style: {
+            color: statusIcons[expr].color,
+            width: "50px",
+            height: "50px",
+          },
+        })
       }
       return <div>{icon(cell.getValue())}</div>
     },
