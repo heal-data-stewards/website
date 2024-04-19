@@ -1,5 +1,5 @@
-import { Button, Card, CardContent, CardHeader } from "@mui/material"
-import { ChatTeardropDots, X } from "phosphor-react"
+import { Button, Card, CardContent, CardHeader, Divider } from "@mui/material"
+import { Close as CloseIcon } from "@mui/icons-material"
 import { Popover } from "@headlessui/react"
 
 export function Widget({ data }) {
@@ -21,16 +21,14 @@ export function Widget({ data }) {
               className="top-5 right-5 absolute text-zinc-400 hover:text-zinc-100"
               title="Close feedback form"
             >
-              <X weight="bold" className="w-4 h-4" />
+              <CloseIcon />
             </Popover.Button>
           }
-        ></CardHeader>
-        <CardContent
-          sx={{
-            justifyContent: "center",
-          }}
-          className="flex py-8 gap-2 w-full"
-        >
+        />
+
+        <Divider />
+
+        <CardContent sx={{ justifyContent: "center" }}>
           <Popover.Button
             as={Button}
             href={data.formLink}
@@ -39,6 +37,7 @@ export function Widget({ data }) {
             rel="noopener noreferrer"
             style={{
               padding: "0.5rem 1rem",
+              color: "white",
             }}
           >
             {data.sendFeedbackButtonText}
@@ -51,16 +50,16 @@ export function Widget({ data }) {
         variant="contained"
         color="primary"
         sx={{
-          transform: "rotate(-90deg) translateY(50px)",
+          transform: "rotate(-90deg) translateY(40px)",
           transition: "transform 250ms, background-color 250ms",
           height: "100px",
           display: "flex",
           alignItems: "flex-start",
           "&:hover": {
-            transform: "rotate(-90deg) translateY(40px)",
+            transform: "rotate(-90deg) translateY(20px)",
           },
+          color: "white",
         }}
-        className="bg-[#992568] p-3 h-10 text-white"
       >
         {data.buttonText}
       </Button>

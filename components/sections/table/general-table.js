@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react"
-import { DataGrid, GridToolbar } from "@material-ui/data-grid"
-// import { DataGrid} from "@mui/x-data-grid"
+import { Box } from "@mui/material"
+import { DataGrid, GridToolbar } from "@mui/x-data-grid"
 import RenderExpandableCell from "./render-expandable-cell"
 import Markdown from "../../elements/markdown"
+
 const columns = [
   { field: "id", hide: true, headerName: "ID", width: 10 },
   {
@@ -97,7 +98,7 @@ function createData(id, data) {
     row[newKey] = row[property]
     delete row[property]
   }
-  row["id"] = id
+  row.id = id
 
   return row
 }
@@ -105,16 +106,8 @@ function createData(id, data) {
 export default function GeneralDataTable(data) {
   const [param, setParam] = useState(false)
   const [paramValue, setParamValue] = useState(false)
-  useEffect(() => {
-    const queryParameters = new URLSearchParams(window.location.search)
 
-    for (const [key, value] of queryParameters.entries()) {
-      setParam(key)
-      setParamValue(value)
-    }
-  }, [])
-
-  let test = data.data.row.map((row, i) => {
+  let rows = data.data.row.map((row, i) => {
     let bucket = row.columns.map((column, i) => {
       return column.column_data
     })
@@ -123,198 +116,13 @@ export default function GeneralDataTable(data) {
   })
 
   return (
-    <div style={{ height: 600 }} className={"container mb-8"}>
-      {!paramValue ? (
-        <DataGrid
-          rows={test}
-          columns={columns}
-          // enableRowSelection //enable some features
-          enableColumnOrdering
-          enableGlobalFilter={true} //turn off a feature
-          // pageSize={26}
-          // components={{
-          //   Toolbar: GridToolbar,
-          // }}
-        />
-      ) : (
-        <DataGrid
-          rows={test}
-          columns={columns}
-          pageSize={26}
-          components={{
-            Toolbar: GridToolbar,
-          }}
-          filterModel={{
-            items: [
-              {
-                columnField: param,
-                operatorValue: "contains",
-                value: paramValue,
-              },
-            ],
-          }}
-        />
-      )}
-    </div>
+    <Box className="container" sx={{ height: 600 }}>
+      <DataGrid
+        rows={rows}
+        columns={columns}
+        enableColumnOrdering
+        enableGlobalFilter={true}
+      />
+    </Box>
   )
 }
-
-// import React, { useState, useEffect, useMemo } from "react"
-// import RenderExpandableCell from "./render-expandable-cell"
-// import Markdown from "../../elements/markdown"
-// import { MaterialReactTable } from "material-react-table"
-
-// export default function GeneralDataTable(data) {
-//   const [param, setParam] = useState(false)
-//   const [paramValue, setParamValue] = useState(false)
-
-//   useEffect(() => {
-//     const queryParameters = new URLSearchParams(window.location.search)
-
-//     for (const [key, value] of queryParameters.entries()) {
-//       setParam(key)
-//       setParamValue(value)
-//     }
-//   }, [])
-
-//   const columns = useMemo(
-//     () => [
-//       {
-//         accessorKey: "Repository",
-//         header: "Repository",
-//         /* eslint-disable react/display-name */
-//         Cell: ({ cell }) => {
-//           return (
-//             <Markdown linkTarget="_blank" className="general-table">
-//               {cell.getValue()}
-//             </Markdown>
-//           )
-//         },
-//       },
-//       {
-//         accessorKey: "Descriptive Tags",
-//         header: "Descriptive Tags",
-//         /* eslint-disable react/display-name */
-//         Cell: ({ cell }) => {
-//           return (
-//             <RenderExpandableCell linkTarget="_blank" className="general-table">
-//               {cell.getValue()}
-//             </RenderExpandableCell>
-//           )
-//         },
-//       },
-//       {
-//         accessorKey: "Organism",
-//         header: "Organism",
-//         /* eslint-disable react/display-name */
-//         Cell: ({ cell }) => {
-//           return (
-//             <RenderExpandableCell linkTarget="_blank" className="general-table">
-//               {cell.getValue()}
-//             </RenderExpandableCell>
-//           )
-//         },
-//       },
-//       {
-//         accessorKey: "IC/Program",
-//         header: "IC/Program",
-//         /* eslint-disable react/display-name */
-//         Cell: ({ cell }) => {
-//           return (
-//             <RenderExpandableCell linkTarget="_blank" className="general-table">
-//               {cell.getValue()}
-//             </RenderExpandableCell>
-//           )
-//         },
-//       },
-//       {
-//         accessorKey: "Get Started Here",
-//         header: "Get Started Here",
-//         /* eslint-disable react/display-name */
-//         Cell: ({ cell }) => {
-//           return (
-//             <Markdown linkTarget="_blank" className="general-table">
-//               {cell.getValue()}
-//             </Markdown>
-//           )
-//         },
-//       },
-//       {
-//         accessorKey: "Overview",
-//         header: "Overview",
-//         /* eslint-disable react/display-name */
-//         Cell: ({ cell }) => {
-//           return (
-//             <Markdown linkTarget="_blank" className="general-table">
-//               {cell.getValue()}
-//             </Markdown>
-//           )
-//         },
-//       },
-//     ],
-//     []
-//   )
-
-//   function createData(id, data) {
-//     let row = { ...data }
-
-//     for (const property in row) {
-//       let index = Number(property)
-//       let newKey = columns[index].header
-//       row[newKey] = row[property]
-//       delete row[property]
-//     }
-
-//     return row
-//   }
-
-//   let test = data.data.row.map((row, i) => {
-//     let bucket = row.columns.map((column, i) => {
-//       return column.column_data
-//     })
-
-//     return createData(i, bucket)
-//   })
-
-//   return (
-//     <div
-//       style={{ height: 600, marginBottom: "520px" }}
-//       className={"container mb-8"}
-//     >
-//       {!paramValue ? (
-//         <MaterialReactTable
-//           data={test}
-//           columns={columns}
-//           enableRowSelection //enable some features
-//           enableColumnOrdering
-//           enableGlobalFilter={true} //turn off a feature
-//           // pageSize={26}
-//           // components={{
-//           //   Toolbar: GridToolbar,
-//           // }}
-//         />
-//       ) : (
-//         <MaterialReactTable
-//           data={test}
-//           columns={columns}
-//           enableRowSelection //enable some features
-//           enableColumnOrdering
-//           enableGlobalFilter={true} //turn off a feature
-//           // pageSize={26}
-//           // components={{
-//           //   Toolbar: GridToolbar,
-//           // }}
-//           // filterModel={{
-//           //   items: [
-//           //     {
-//           //       columnField: param,
-//           //       operatorValue: "contains",
-//           //       value: paramValue,
-//           //     },
-//           //   ],
-//           // }}
-//         />
-//       )}
-//     </div>
-//   )
-// }
