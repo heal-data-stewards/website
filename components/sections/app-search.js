@@ -1,14 +1,19 @@
 import * as React from "react"
 import Button from "@mui/material/Button"
 import TextField from "@mui/material/TextField"
+import Stack from "@mui/material/Stack"
 import { MaterialReactTable } from "material-react-table"
 import Markdown from "../elements/markdown"
-import CheckCircleIcon from "@mui/icons-material/CheckCircle"
-import HelpIcon from "@mui/icons-material/Help"
-import CancelIcon from "@mui/icons-material/Cancel"
 import axios from "axios"
 import { useRouter } from "next/router"
 import { ProjectSearchForm } from "./app-search-form"
+import CircularProgress from '@mui/material/CircularProgress'
+import {
+  CheckCircle as CheckCircleIcon,
+  Help as HelpIcon,
+  Cancel as CancelIcon,
+  KeyboardDoubleArrowLeft as BackIcon,
+} from '@mui/icons-material'
 
 const statusIcons = {
   red: {
@@ -70,7 +75,50 @@ const columns = [
   },
 ]
 
+const TableTopper = ({
+  awardYear,
+  investigatorsName,
+  projectTitle,
+  studyName,
+}) => {
+  return (
+    <div
+      className="p-[20px] flex overflow-auto"
+      style={{ background: "#e6e6e6" }}
+    >
+      <div className="w-96 pr-[20px]">
+        <h2 className="font-bold text-xl">Study title</h2>
+        <p className="text-l">{studyName}</p>
+      </div>
+      <div className="w-96 pr-[20px]">
+        <h2 className="font-bold text-xl">PI</h2>
+        <div className="text-l">
+          {investigatorsName
+            ? investigatorsName
+                .replace(/\[|\]/g, "")
+                .replace(/^'/, '')
+                .replace(/'$/, '')
+                .split(",")
+                .map((name, i) => {
+                  return <div key={i + name}>{name}</div>
+                })
+            : ""}
+        </div>
+      </div>
+      <div className="w-96 pr-[20px]">
+        <h2 className="font-bold text-xl">Research Area</h2>
+        <p className="text-l">{projectTitle}</p>
+      </div>
+      <div className="w-96">
+        <h2 className="font-bold text-xl">Award Year</h2>
+        <p className="text-l"> {awardYear} </p>
+      </div>
+    </div>
+  )
+}
+
 export default function AppSearch({ data }) {
+  const [loading, setLoading] = React.useState(false)
   const [idNumber, setIdNumber] = React.useState(0)
   const [value, setValue] = React.useState("")
   const [payload, setPayload] = React.useState(false)
@@ -87,17 +135,19 @@ export default function AppSearch({ data }) {
     // has potential to get tricky as more complex functionality is expected.
     if (params.data) {
       let regExp = /[a-zA-Z]/g
-      let param
+      let paramKey
 
       if (regExp.test(params.data)) {
-        param = "proj_num="
+        paramKey = "proj_num="
       } else {
-        param = "appl_id="
+        paramKey = "appl_id="
       }
+
+      setLoading(true)
 
       axios
         .get(
-          `https://9trlpa4nv4.execute-api.us-east-1.amazonaws.com/dev/checklistv3?${param}${params.data}`
+          `https://9trlpa4nv4.execute-api.us-east-1.amazonaws.com/dev/checklistv3?${paramKey}${params.data}`
         )
         .then((response) => {
           if (response.data.length > 0) {
@@ -112,6 +162,7 @@ export default function AppSearch({ data }) {
           }
         })
         .catch((err) => console.error(err))
+        .finally(() => setLoading(false))
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -239,7 +290,12 @@ export default function AppSearch({ data }) {
   return (
     <div className={"container mb-16"}>
       <div className="text-xl pb-6">
-        <Button onClick={() => router.back()}>Back to Checklist Requirements</Button>
+        <Button
+          onClick={() => router.back()}
+          startIcon={<BackIcon />}
+        >
+          Back to Checklist Requirements
+        </Button>
       </div>
 
       <ProjectSearchForm defaultValue={params.data} />
@@ -266,48 +322,35 @@ export default function AppSearch({ data }) {
           <span className="text-xl">{" for assistance."}</span>
         </div>
       )}
-      {payload && (
-        <>
-          <div
-            className="p-[20px] flex overflow-auto"
-            style={{ background: "#e6e6e6" }}
+      
+      {
+        payload[0] ? (
+          <>
+            <TableTopper
+              studyName={ payload[0].study_name }
+              investigatorsName={ payload[0].investigators_name }
+              projectTitle={ payload[0].project_title }
+              awardYear={ payload[0].year_awarded }
+            />
+            <MaterialReactTable
+              data={tableData}
+              columns={columns}
+              enableColumnOrdering
+              enableColumnResizing
+              enableGlobalFilter={false}
+              enablePagination={false}
+              enableTopToolbar={ false}
+            />
+          </>
+        ) : (
+          <Stack
+            justifyContent="center"
+            alignItems="center"
           >
-            <div className="w-96 pr-[20px]">
-              <h2 className="font-bold text-xl">Study title</h2>
-              <p className="text-l">{payload[0].study_name}</p>
-            </div>
-            <div className="w-96 pr-[20px]">
-              <h2 className="font-bold text-xl">PI</h2>
-              <div className="text-l">
-                {payload[0].investigators_name
-                  ? payload[0].investigators_name
-                      .replace(/\[|\]/g, "")
-                      .split(",")
-                      .map((name, i) => {
-                        return <div key={i + name}>{name}</div>
-                      })
-                  : ""}
-              </div>
-            </div>
-            <div className="w-96 pr-[20px]">
-              <h2 className="font-bold text-xl">Research Area</h2>
-              <p className="text-l">{payload[0].project_title}</p>
-            </div>
-            <div className="w-96">
-              <h2 className="font-bold text-xl">Award Year</h2>
-              <p className="text-l"> {payload[0].year_awarded} </p>
-            </div>
-          </div>
-          <MaterialReactTable
-            data={tableData}
-            columns={columns}
-            //   enableRowSelection //enable some features
-            enableColumnOrdering
-            enableColumnResizing
-            enableGlobalFilter={false} //turn off a feature
-          />
-        </>
-      )}
+            <CircularProgress />
+          </Stack>
+        )
+      }
     </div>
   )
 }

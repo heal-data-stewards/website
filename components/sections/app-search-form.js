@@ -47,7 +47,10 @@ export const ProjectSearchForm = ({ defaultValue = "" }) => {
             value={value}
           />
         </FormControl>
-        <Button variant="contained" onClick={ () => router.push(`/app-search?data=${ value }`)}>
+        <Button
+          variant="contained"
+          onClick={() => router.push(`/app-search?data=${value}`)}
+        >
           Check Status
         </Button>
       </Stack>
