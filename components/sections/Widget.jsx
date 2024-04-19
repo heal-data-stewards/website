@@ -3,7 +3,6 @@ import { ChatTeardropDots, X } from "phosphor-react"
 import { Popover } from "@headlessui/react"
 
 export function Widget({ data }) {
-  console.log(data)
   return (
     <Popover
       style={{ right: "-1rem", bottom: "106px", zIndex: 999 }}
