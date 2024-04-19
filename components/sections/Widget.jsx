@@ -1,22 +1,56 @@
-import { Button } from "@mui/material"
-import { ChatTeardropDots } from "phosphor-react"
-
+import { Button, Card, CardContent, CardHeader } from "@mui/material"
+import { ChatTeardropDots, X } from "phosphor-react"
 import { Popover } from "@headlessui/react"
-import { WidgetForm } from "./WidgetForm"
 
 export function Widget({ data }) {
+  console.log(data)
   return (
     <Popover
       style={{ right: "-1rem", bottom: "106px", zIndex: 999 }}
       className="fixed flex flex-col items-end"
     >
-      <Popover.Panel>
-        <WidgetForm data={data} />
-      </Popover.Panel>
+      <Card
+        component={Popover.Panel}
+        sx={{
+          transform: "translate(-2rem, -1rem)",
+        }}
+      >
+        <CardHeader
+          title={data.sendFeedbackText}
+          action={
+            <Popover.Button
+              className="top-5 right-5 absolute text-zinc-400 hover:text-zinc-100"
+              title="Close feedback form"
+            >
+              <X weight="bold" className="w-4 h-4" />
+            </Popover.Button>
+          }
+        ></CardHeader>
+        <CardContent
+          sx={{
+            justifyContent: "center",
+          }}
+          className="flex py-8 gap-2 w-full"
+        >
+          <Popover.Button
+            as={Button}
+            href={data.formLink}
+            variant="contained"
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{
+              padding: "0.5rem 1rem",
+            }}
+          >
+            {data.sendFeedbackButtonText}
+          </Popover.Button>
+        </CardContent>
+      </Card>
 
       <Button
         component={Popover.Button}
         variant="contained"
+        color="primary"
         sx={{
           transform: "rotate(-90deg) translateY(50px)",
           transition: "transform 250ms, background-color 250ms",
@@ -29,12 +63,7 @@ export function Widget({ data }) {
         }}
         className="bg-[#992568] p-3 h-10 text-white"
       >
-        {/* <ChatTeardropDots className="w-6 h-6" /> */}
         {data.buttonText}
-        {/* <span className="max-w-0 overflow-hidden group-hover:max-w-xs transition-all duration-500 ease-linear">
-          <span className="pl-2"></span>
-          {data.buttonText}
-        </span> */}
       </Button>
     </Popover>
   )
