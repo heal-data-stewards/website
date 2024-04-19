@@ -16,7 +16,7 @@ import Image from "next/image"
 import Markdown from "../elements/markdown"
 import TextField from "@mui/material/TextField"
 import Link from "next/link"
-import { ProjectSearchForm } from './app-search-form'
+import { ProjectSearchForm } from "./app-search-form"
 
 function Icon({ src }) {
   return (

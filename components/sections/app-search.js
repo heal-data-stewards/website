@@ -8,7 +8,7 @@ import HelpIcon from "@mui/icons-material/Help"
 import CancelIcon from "@mui/icons-material/Cancel"
 import axios from "axios"
 import { useRouter } from "next/router"
-import { ProjectSearchForm } from './app-search-form'
+import { ProjectSearchForm } from "./app-search-form"
 
 const statusIcons = {
   red: {
@@ -244,7 +244,7 @@ export default function AppSearch({ data }) {
         </button>
       </div>
 
-      <ProjectSearchForm defaultValue={ params.data } />
+      <ProjectSearchForm defaultValue={params.data} />
 
       {/* For studies that have many projects to one number https://mui.com/material-ui/react-select/ */}
 

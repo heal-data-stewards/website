@@ -60,4 +60,3 @@ export const ProjectSearchForm = ({ defaultValue = "" }) => {
     </Stack>
   )
 }
-
