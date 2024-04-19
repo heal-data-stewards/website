@@ -31,7 +31,7 @@ function Icon({ src }) {
 
 export default function RoadMap({ data }) {
   const [query, setQuery] = React.useState("")
-  const [activeStep, setActiveStep] = React.useState(0)
+  const [activeStep, setActiveStep] = React.useState(-1)
 
   const handleClickNext = () => {
     setActiveStep((prevActiveStep) => prevActiveStep + 1)
@@ -53,28 +53,10 @@ export default function RoadMap({ data }) {
     setActiveStep(i)
   }
 
-  const useStyles = makeStyles(() => ({
-    root: {
-      padding: "0",
-      marginBottom: "-14px",
-      marginTop: "-4px",
-    },
-    active: {
-      color: "red",
-    },
-    completed: {
-      color: "green",
-    },
-  }))
-
   const StepIcon = (props) => {
-    const classes = useStyles()
-
     return (
       <button onClick={handleClickStep} className="cursor-pointer">
-        <div className={clsx(classes.root)}>
-          <Icon src={`/${props.icon}.png`} />
-        </div>
+        <Icon src={`/${props.icon}.png`} />
       </button>
     )
   }
@@ -89,23 +71,39 @@ export default function RoadMap({ data }) {
 
       <ProjectSearchForm />
 
-      <Box sx={{ maxWidth: 1200 }}>
+      <Box
+        sx={{
+          maxWidth: 1200,
+          ".MuiStepper-root .MuiStep-root": {
+            transition: "filter 250ms",
+            filter: activeStep > -1 ? "opacity(0.66)" : "opacity(1.0)",
+          },
+          ".MuiStepper-root .MuiStep-root.active": {
+            filter: "opacity(1.0)",
+          },
+          ".MuiStepper-root .MuiStep-root:not(.active):hover": {
+            filter: "opacity(1.0)",
+          },
+        }}
+      >
         <Stepper orientation="vertical">
           {data.steps.map((step, index) => (
-            <Step active={activeStep === index} key={step.title}>
-              <StepLabel style={{ padding: 0 }} StepIconComponent={StepIcon}>
-                {" "}
+            <Step
+              key={step.title}
+              active={activeStep === index}
+              className={activeStep === index ? "active" : ""}
+            >
+              <StepLabel sx={{ p: 0 }} StepIconComponent={StepIcon}>
                 <button
                   onClick={() => handleClickStep(index)}
-                  className="cursor-pointer"
+                  className="cursor-pointer text-xl text-purple font-bold step-title"
+                  style={{ marginLeft: "0.5rem" }}
                 >
-                  <span className={"text-xl text-purple font-bold"}>
-                    {step.title}
-                  </span>
+                  {step.title}
                 </button>
               </StepLabel>
 
-              <StepContent sx={{ pl: 6 }}>
+              <StepContent sx={{ pl: 7 }}>
                 <div className="event-html">
                   <Markdown linkTarget="_blank">{step.description}</Markdown>
                 </div>

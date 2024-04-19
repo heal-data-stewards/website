@@ -7,13 +7,13 @@ import Markdown from "../elements/markdown"
 import axios from "axios"
 import { useRouter } from "next/router"
 import { ProjectSearchForm } from "./app-search-form"
-import CircularProgress from '@mui/material/CircularProgress'
+import CircularProgress from "@mui/material/CircularProgress"
 import {
   CheckCircle as CheckCircleIcon,
   Help as HelpIcon,
   Cancel as CancelIcon,
   KeyboardDoubleArrowLeft as BackIcon,
-} from '@mui/icons-material'
+} from "@mui/icons-material"
 
 const statusIcons = {
   red: {
@@ -96,8 +96,8 @@ const TableTopper = ({
           {investigatorsName
             ? investigatorsName
                 .replace(/\[|\]/g, "")
-                .replace(/^'/, '')
-                .replace(/'$/, '')
+                .replace(/^'/, "")
+                .replace(/'$/, "")
                 .split(",")
                 .map((name, i) => {
                   return <div key={i + name}>{name}</div>
@@ -290,10 +290,7 @@ export default function AppSearch({ data }) {
   return (
     <div className={"container mb-16"}>
       <div className="text-xl pb-6">
-        <Button
-          onClick={() => router.back()}
-          startIcon={<BackIcon />}
-        >
+        <Button onClick={() => router.back()} startIcon={<BackIcon />}>
           Back to Checklist Requirements
         </Button>
       </div>
@@ -322,35 +319,30 @@ export default function AppSearch({ data }) {
           <span className="text-xl">{" for assistance."}</span>
         </div>
       )}
-      
-      {
-        payload[0] ? (
-          <>
-            <TableTopper
-              studyName={ payload[0].study_name }
-              investigatorsName={ payload[0].investigators_name }
-              projectTitle={ payload[0].project_title }
-              awardYear={ payload[0].year_awarded }
-            />
-            <MaterialReactTable
-              data={tableData}
-              columns={columns}
-              enableColumnOrdering
-              enableColumnResizing
-              enableGlobalFilter={false}
-              enablePagination={false}
-              enableTopToolbar={ false}
-            />
-          </>
-        ) : (
-          <Stack
-            justifyContent="center"
-            alignItems="center"
-          >
-            <CircularProgress />
-          </Stack>
-        )
-      }
+
+      {payload[0] ? (
+        <>
+          <TableTopper
+            studyName={payload[0].study_name}
+            investigatorsName={payload[0].investigators_name}
+            projectTitle={payload[0].project_title}
+            awardYear={payload[0].year_awarded}
+          />
+          <MaterialReactTable
+            data={tableData}
+            columns={columns}
+            enableColumnOrdering
+            enableColumnResizing
+            enableGlobalFilter={false}
+            enablePagination={false}
+            enableTopToolbar={false}
+          />
+        </>
+      ) : (
+        <Stack justifyContent="center" alignItems="center">
+          <CircularProgress />
+        </Stack>
+      )}
     </div>
   )
 }
