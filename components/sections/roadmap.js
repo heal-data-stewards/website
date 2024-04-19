@@ -1,5 +1,8 @@
 import * as React from "react"
 import Box from "@mui/material/Box"
+import Stack from "@mui/material/Stack"
+import FormControl from "@mui/material/FormControl"
+import InputLabel from "@mui/material/InputLabel"
 import Stepper from "@mui/material/Stepper"
 import Step from "@mui/material/Step"
 import StepLabel from "@mui/material/StepLabel"
@@ -14,27 +17,81 @@ import Markdown from "../elements/markdown"
 import TextField from "@mui/material/TextField"
 import Link from "next/link"
 
-export default function RoadMap({ data }) {
-  const [activeStep, setActiveStep] = React.useState(0)
+const SearchForm = () => {
   const [value, setValue] = React.useState("")
 
-  // React.useEffect(() => {
+  let handleTextFieldChange = (e) => {
+    setValue(e.target.value)
+  }
 
-  // }, [])
+  return (
+    <Stack
+      justifyContent="center"
+      alignItems="center"
+      sx={{
+        pt: 4, pb: 6,
+        '.MuiInputBase-root': { m: 0, width: '500px', border: 0 },
+        '.MuiInputBase-input': { boxShadow: 0 },
+      }}
+    >
+      <Stack direction="row" gap={ 2 }>
+        <FormControl>
 
-  const handleNext = () => {
+          <TextField
+            id="textfield"
+            label="App / Proj Number"
+            variant="outlined"
+            onChange={handleTextFieldChange}
+            value={value}
+          />
+        </FormControl>
+        <Button variant="contained">
+          <Link
+            href={{
+              pathname: "/app-search",
+              // pass the input text as query param
+              query: { data: value },
+            }}
+          >
+            <a>Check Status</a>
+          </Link>
+        </Button>
+      </Stack>
+    </Stack>
+  )
+}
+
+function Icon({ src }) {
+  return (
+    <Image
+      src={src}
+      alt="" // decorative image
+      width="84"
+      height="84"
+    />
+  )
+}
+
+export default function RoadMap({ data }) {
+  const [activeStep, setActiveStep] = React.useState(0)
+
+  const handleClickNext = () => {
     setActiveStep((prevActiveStep) => prevActiveStep + 1)
   }
 
-  const handleBack = () => {
+  const handleClickBack = () => {
     setActiveStep((prevActiveStep) => prevActiveStep - 1)
   }
 
-  const handleReset = () => {
+  const handleClickReset = () => {
     setActiveStep(0)
   }
 
-  const handleSelect = (i) => {
+  const handleClickStep = (i) => {
+    if (activeStep === i) {
+      setActiveStep(-1)
+      return
+    }
     setActiveStep(i)
   }
 
@@ -52,48 +109,19 @@ export default function RoadMap({ data }) {
     },
   }))
 
-  function Icon({ img }) {
-    return (
-      <Image
-        src={`/${img}.png`}
-        alt="image for current step"
-        width="84"
-        height="84"
-      />
-    )
-  }
-
-  const CustomStepIcon = (props) => {
+  const StepIcon = (props) => {
     const classes = useStyles()
-
-    const stepIcons = {
-      1: <Icon img="1" />,
-      2: <Icon img="2" />,
-      3: <Icon img="3" />,
-      4: <Icon img="4" />,
-      5: <Icon img="5" />,
-      6: <Icon img="6" />,
-      7: <Icon img="7" />,
-      8: <Icon img="11" />,
-      9: <Icon img="8" />,
-      11: <Icon img="9" />,
-      10: <Icon img="10" />,
-    }
 
     return (
       <button
-        onClick={() => handleSelect(props.icon - 1)}
+        onClick={handleClickStep}
         className="cursor-pointer"
       >
         <div className={clsx(classes.root)}>
-          {stepIcons[String(props.icon)]}
+          <Icon src={ `/${props.icon}.png` } />
         </div>
       </button>
     )
-  }
-
-  let handleTextFieldChange = (e) => {
-    setValue(e.target.value)
   }
 
   return (
@@ -103,48 +131,20 @@ export default function RoadMap({ data }) {
           "Wondering where your study is on the HEAL compliance journey? Try our new HEAL Checklist Progress Tracker. Just type in your study's unique application ID or project number in the search bar below to see your study's status for steps we can track."
         }
       </p>
-      <div style={{ marginBottom: "10px" }}>
-        <TextField
-          id="outlined-basic"
-          label="App / Proj Number"
-          variant="outlined"
-          onChange={handleTextFieldChange}
-          value={value}
-        />
-        <Button
-          style={{
-            height: "43px",
-            "margin-top": "7.5px",
-            marginLeft: "20px",
-          }}
-          variant="contained"
-        >
-          <Link
-            href={{
-              pathname: "/app-search",
-              query: { data: value }, // the data
-            }}
-          >
-            <a>Check Status</a>
-          </Link>
-        </Button>
-      </div>
+      
+      <SearchForm />
+
       <Box sx={{ maxWidth: 1200 }}>
-        <Stepper activeStep={activeStep} orientation="vertical">
+        <Stepper orientation="vertical">
           {data.steps.map((step, index) => (
-            <Step key={step.title}>
+            <Step active={ activeStep === index } key={step.title}>
               <StepLabel
                 style={{ padding: 0 }}
-                StepIconComponent={CustomStepIcon}
-                // optional={
-                //   index === data.steps.length - 1 ? (
-                //     <Typography variant="caption">Last step</Typography>
-                //   ) : null
-                // }
+                StepIconComponent={StepIcon}
               >
                 {" "}
                 <button
-                  onClick={() => handleSelect(index)}
+                  onClick={() => handleClickStep(index)}
                   className="cursor-pointer"
                 >
                   <span className={"text-xl text-purple font-bold"}>
@@ -153,28 +153,25 @@ export default function RoadMap({ data }) {
                 </button>
               </StepLabel>
 
-              <StepContent>
+              <StepContent sx={{ pl: 6 }}>
                 <div className="event-html">
-                  <Typography>
-                    <Markdown linkTarget="_blank">{step.description}</Markdown>
-                  </Typography>
+                  <Markdown linkTarget="_blank">{step.description}</Markdown>
                 </div>
                 <Box sx={{ mb: 2 }}>
                   <div className="mt-6">
                     <Button
                       variant="contained"
-                      onClick={handleNext}
+                      onClick={handleClickNext}
                       sx={{ mt: 1, mr: 1 }}
                     >
                       {index === data.steps.length - 1 ? "Finish" : "Continue"}
                     </Button>
-                    {index === 0 ? (
-                      ""
-                    ) : (
+                    {index !== 0 && (
                       <Button
                         disabled={index === 0}
-                        onClick={handleBack}
+                        onClick={handleClickBack}
                         sx={{ mt: 1, mr: 1 }}
+                        variant="outlined"
                       >
                         Back
                       </Button>
@@ -185,9 +182,9 @@ export default function RoadMap({ data }) {
             </Step>
           ))}
         </Stepper>
-        {activeStep === data.steps.length && (
+        {activeStep === data.steps.length - 1 && (
           <Paper square elevation={0} sx={{ p: 3 }}>
-            <Button onClick={handleReset} sx={{ mt: 1, mr: 1 }}>
+            <Button onClick={handleClickReset} sx={{ mt: 1, mr: 1 }}>
               Reset
             </Button>
           </Paper>
