@@ -41,7 +41,7 @@ export const ProjectSearchForm = ({ defaultValue = "" }) => {
         <FormControl>
           <TextField
             id="textfield"
-            label="App / Proj Number"
+            label="Application ID or Project Number"
             variant="outlined"
             onChange={handleTextFieldChange}
             value={value}
