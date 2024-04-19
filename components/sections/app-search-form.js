@@ -16,8 +16,10 @@ import Image from "next/image"
 import Markdown from "../elements/markdown"
 import TextField from "@mui/material/TextField"
 import Link from "next/link"
+import { useRouter } from "next/router"
 
 export const ProjectSearchForm = ({ defaultValue = "" }) => {
+  const router = useRouter()
   const [value, setValue] = React.useState(defaultValue)
 
   let handleTextFieldChange = (e) => {
@@ -45,16 +47,8 @@ export const ProjectSearchForm = ({ defaultValue = "" }) => {
             value={value}
           />
         </FormControl>
-        <Button variant="contained">
-          <Link
-            href={{
-              pathname: "/app-search",
-              // pass the input text as query param
-              query: { data: value },
-            }}
-          >
-            <a>Check Status</a>
-          </Link>
+        <Button variant="contained" onClick={ () => router.push(`/app-search?data=${ value }`)}>
+          Check Status
         </Button>
       </Stack>
     </Stack>

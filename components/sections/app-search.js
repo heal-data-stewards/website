@@ -239,9 +239,7 @@ export default function AppSearch({ data }) {
   return (
     <div className={"container mb-16"}>
       <div className="text-xl pb-6">
-        <button type="button" onClick={() => router.back()}>
-          {"< - Back to Checklist Requirements"}
-        </button>
+        <Button onClick={() => router.back()}>Back to Checklist Requirements</Button>
       </div>
 
       <ProjectSearchForm defaultValue={params.data} />
