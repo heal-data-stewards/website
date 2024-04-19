@@ -29,14 +29,14 @@ const SearchForm = () => {
       justifyContent="center"
       alignItems="center"
       sx={{
-        pt: 4, pb: 6,
-        '.MuiInputBase-root': { m: 0, width: '500px', border: 0 },
-        '.MuiInputBase-input': { boxShadow: 0 },
+        pt: 4,
+        pb: 6,
+        ".MuiInputBase-root": { m: 0, width: "500px", border: 0 },
+        ".MuiInputBase-input": { boxShadow: 0 },
       }}
     >
-      <Stack direction="row" gap={ 2 }>
+      <Stack direction="row" gap={2}>
         <FormControl>
-
           <TextField
             id="textfield"
             label="App / Proj Number"
@@ -113,12 +113,9 @@ export default function RoadMap({ data }) {
     const classes = useStyles()
 
     return (
-      <button
-        onClick={handleClickStep}
-        className="cursor-pointer"
-      >
+      <button onClick={handleClickStep} className="cursor-pointer">
         <div className={clsx(classes.root)}>
-          <Icon src={ `/${props.icon}.png` } />
+          <Icon src={`/${props.icon}.png`} />
         </div>
       </button>
     )
@@ -131,17 +128,14 @@ export default function RoadMap({ data }) {
           "Wondering where your study is on the HEAL compliance journey? Try our new HEAL Checklist Progress Tracker. Just type in your study's unique application ID or project number in the search bar below to see your study's status for steps we can track."
         }
       </p>
-      
+
       <SearchForm />
 
       <Box sx={{ maxWidth: 1200 }}>
         <Stepper orientation="vertical">
           {data.steps.map((step, index) => (
-            <Step active={ activeStep === index } key={step.title}>
-              <StepLabel
-                style={{ padding: 0 }}
-                StepIconComponent={StepIcon}
-              >
+            <Step active={activeStep === index} key={step.title}>
+              <StepLabel style={{ padding: 0 }} StepIconComponent={StepIcon}>
                 {" "}
                 <button
                   onClick={() => handleClickStep(index)}
