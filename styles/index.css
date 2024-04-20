@@ -396,12 +396,12 @@ content: ""
   color: #0044B3;
 }
 
-.general-table-headers{
+.general-table-header {
   color: #532565;
   font-size: 14px;
 }
 
-.general-table-headers div{
+.general-table-header div{
   font-weight: bold !important;
 }
 

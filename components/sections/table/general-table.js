@@ -9,7 +9,7 @@ const columns = [
   {
     field: "Repository",
     headerName: "Repository",
-    headerClassName: "general-table-headers",
+    headerClassName: "general-table-header",
     sortable: false,
     filterable: false,
     width: 300,
@@ -23,7 +23,7 @@ const columns = [
   {
     field: "Descriptive Tags",
     headerName: "Descriptive Tags",
-    headerClassName: "general-table-headers",
+    headerClassName: "general-table-header",
     width: 170,
     sortable: false,
     cellClass: "overflow",
@@ -37,7 +37,7 @@ const columns = [
   {
     field: "Organism",
     headerName: "Organism",
-    headerClassName: "general-table-headers",
+    headerClassName: "general-table-header",
     width: 118,
     sortable: false,
     // eslint-disable-next-line react/display-name
@@ -50,7 +50,7 @@ const columns = [
   {
     field: "IC/Program",
     headerName: "IC/Program",
-    headerClassName: "general-table-headers",
+    headerClassName: "general-table-header",
     width: 130,
     sortable: false,
     // eslint-disable-next-line react/display-name
@@ -63,7 +63,7 @@ const columns = [
   {
     field: "Get Started Here",
     headerName: "Get Started Here",
-    headerClassName: "general-table-headers",
+    headerClassName: "general-table-header",
     width: 300,
     sortable: true,
     // eslint-disable-next-line react/display-name
@@ -76,7 +76,7 @@ const columns = [
   {
     field: "Overview",
     headerName: "Overview",
-    headerClassName: "general-table-headers",
+    headerClassName: "general-table-header",
     width: 155,
     sortable: false,
     filterable: false,
