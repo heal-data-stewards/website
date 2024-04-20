@@ -1,8 +1,30 @@
-import { Button, Card, CardContent, CardHeader, Divider } from "@mui/material"
+import {
+  Button,
+  Card,
+  CardContent,
+  CardHeader,
+  Divider,
+} from "@material-ui/core"
 import { Close as CloseIcon } from "@mui/icons-material"
 import { Popover } from "@headlessui/react"
+import { makeStyles } from "@material-ui/core/styles"
+
+const useStyles = makeStyles((theme) => ({
+  feedbackButton: {
+    transform: "rotate(-90deg) translateY(40px)",
+    transition: "transform 250ms, background-color 250ms",
+    height: "100px",
+    display: "flex",
+    alignItems: "flex-start",
+    "&:hover": {
+      transform: "rotate(-90deg) translateY(20px)",
+    },
+    color: "white",
+  },
+}))
 
 export function Widget({ data }) {
+  const classes = useStyles()
   return (
     <Popover
       style={{ right: "-1rem", bottom: "106px", zIndex: 999 }}
@@ -46,20 +68,10 @@ export function Widget({ data }) {
       </Card>
 
       <Button
+        className={classes.feedbackButton}
         component={Popover.Button}
         variant="contained"
         color="primary"
-        sx={{
-          transform: "rotate(-90deg) translateY(40px)",
-          transition: "transform 250ms, background-color 250ms",
-          height: "100px",
-          display: "flex",
-          alignItems: "flex-start",
-          "&:hover": {
-            transform: "rotate(-90deg) translateY(20px)",
-          },
-          color: "white",
-        }}
       >
         {data.buttonText}
       </Button>
