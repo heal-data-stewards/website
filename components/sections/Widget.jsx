@@ -21,21 +21,19 @@ const useStyles = makeStyles((theme) => ({
     },
     color: "white",
   },
+  feedbackPopup: {
+    transform: "translate(-2rem, -1rem)",
+  },
 }))
 
 export function Widget({ data }) {
   const classes = useStyles()
   return (
     <Popover
-      style={{ right: "-1rem", bottom: "106px", zIndex: 999 }}
+      style={{ right: "-1rem", bottom: "106px" }}
       className="fixed flex flex-col items-end"
     >
-      <Card
-        component={Popover.Panel}
-        sx={{
-          transform: "translate(-2rem, -1rem)",
-        }}
-      >
+      <Card component={Popover.Panel} className={classes.feedbackPopup}>
         <CardHeader
           title={data.sendFeedbackText}
           action={
@@ -54,6 +52,7 @@ export function Widget({ data }) {
           <Popover.Button
             as={Button}
             href={data.formLink}
+            color="primary"
             variant="contained"
             target="_blank"
             rel="noopener noreferrer"
