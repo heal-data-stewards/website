@@ -44,39 +44,50 @@ const palette = {
 const typography = {
   fontFamily: "Montserrat",
   h1: {
+    fontFamily: "Montserrat",
     fontSize: '3rem',
     fontWeight: '600',
     paddingBottom: '1rem',
+    margin: 0,
     lineHeight: 1,
-    color: palette.primary.main
+    color: palette.primary.main,
   },
   h2: {
+    fontFamily: "Montserrat",
     fontSize: '2rem',
     lineHeight: '1.25',
     fontWeight: '500',
     paddingBottom: '1rem',
+    color: palette.primary.main,
   },
   h3: {
-    fontSize: '2rem',
-    fontWeight: 500,
+    fontFamily: "Montserrat",
+    fontSize: '1.25rem',
+    fontWeight: 600,
     margin: 0,
     paddingBottom: '0.5rem',
-    lineHeight: 1.25,
+    lineHeight: 1.35,
     color: palette.primary.main
   },
   h4: {
-    fontSize: '1.15rem',
-    fontWeight: '700',
+    fontFamily: "Montserrat",
+    fontSize: '1.25rem',
+    fontWeight: '600',
     paddingBottom: '0.5rem',
+    margin: 0,
     lineHeight: 1.35,
+    color: palette.primary.main
   },
   h6: {
     fontSize: '1rem',
   },
   body1: {
-    lineHeight: 1.45,
-    fontSize: '1.1rem',
+    fontFamily: "Montserrat",
     marginBottom: '0.5rem',
+    lineHeight: 1.5,
+    fontSize: '1.1rem',
+    fontWeight: '400',
+    letterSpacing: '0.00938em'
   },
   body2: {
     lineHeight: 1.35,
