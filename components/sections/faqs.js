@@ -68,7 +68,11 @@ export default function Faqs({ data }) {
             display: "flex",
             flexDirection: "column",
             alignItems: "stretch",
-            flex: { md: "0 0 300px", sm: "0 0 200px" },
+            flex: {
+              md: "0 0 300px",
+              sm: "0 0 200px",
+              xs: "0 0 150px",
+            },
           }}
         >
           {faqs.map((item, i) => {
