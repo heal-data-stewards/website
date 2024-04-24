@@ -21,7 +21,14 @@ const SensitiveData = ({ data }) => {
   return (
     <div className="container pb-12">
       <div style={{ display: "flex", justifyContent: "space-between" }}>
-        <ButtonBlockContainer>
+        <ButtonBlockContainer
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "stretch",
+            flex: { md: "0 0 300px", sm: "0 0 200px" },
+          }}
+        >
           {data.sensitiveDataItem.map((item, i) => {
             return (
               <Block

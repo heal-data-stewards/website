@@ -1,5 +1,6 @@
 import { styled } from "@mui/material/styles"
-//if id is the same as whats active, make it this color
+import { Box } from "@mui/material"
+
 export const Block = ({ title, onMouseEnter, isSelected, index }) => {
   return (
     <button
@@ -11,15 +12,11 @@ export const Block = ({ title, onMouseEnter, isSelected, index }) => {
         textAlign: "start",
         marginBottom: "15px",
         padding: "1rem 15px",
-        // minHeight: "75px",
         background: isSelected
           ? "linear-gradient(315deg, transparent 17px, rgba(83, 37, 101, 1) 0)"
           : "linear-gradient(315deg, transparent 17px, rgb(229, 224, 231) 0)",
         cursor: "pointer",
         color: isSelected ? "#fff" : "rgba(83, 37, 101, 1)",
-        maxWidth: "300px",
-        display: "block",
-        width: "-webkit-fill-available",
       }}
       className={"sensitive-data-blocks"}
       onClick={onMouseEnter}
@@ -29,12 +26,11 @@ export const Block = ({ title, onMouseEnter, isSelected, index }) => {
   )
 }
 
-export const ButtonBlockContainer = styled("div")({
-  width: "50%",
-  maxWidth: "350px",
+export const ButtonBlockContainer = styled(Box)({
   marginRight: "20px",
+  flex: 1,
 })
 
-export const PanelContainer = styled("div")({
-  width: "-webkit-fill-available",
+export const PanelContainer = styled(Box)({
+  flex: 4,
 })

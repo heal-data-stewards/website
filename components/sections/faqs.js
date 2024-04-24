@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react"
-import Typography from "@mui/material/Typography"
+import { Divider, Stack, Typography } from "@mui/material"
 import Markdown from "../elements/markdown"
-import Divider from "@mui/material/Divider"
 import {
   Accordion,
   AccordionSummary,
@@ -63,8 +62,19 @@ export default function Faqs({ data }) {
 
   return (
     <div className="container pb-4">
-      <div style={{ display: "flex", justifyContent: "space-between" }}>
-        <ButtonBlockContainer>
+      <Stack direction="row" justifyContent="flex-start">
+        <ButtonBlockContainer
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "stretch",
+            flex: {
+              md: "0 0 300px",
+              sm: "0 0 200px",
+              xs: "0 0 150px",
+            },
+          }}
+        >
           {faqs.map((item, i) => {
             return (
               <Block
@@ -82,7 +92,11 @@ export default function Faqs({ data }) {
           <Typography
             variant="h2"
             color="primary"
-            sx={{ fontWeight: "600", paddingTop: 0 }}
+            sx={{
+              fontWeight: "600",
+              paddingTop: 0,
+              fontSize: "1.4rem",
+            }}
           >
             {shownContent.key}
           </Typography>
@@ -102,19 +116,22 @@ export default function Faqs({ data }) {
                   >
                     <Typography
                       variant="h3"
-                      sx={{ fontSize: "1.2rem", fontWeight: "500" }}
+                      sx={{
+                        fontSize: "1.1rem",
+                        paddingBottom: 0,
+                      }}
                     >
                       {question.question}
                     </Typography>
                   </AccordionSummary>
                   <AccordionDetails>
-                    <Markdown>{question.answerFAQ}</Markdown>
+                    <Markdown accordionText>{question.answerFAQ}</Markdown>
                   </AccordionDetails>
                 </Accordion>
               )
             })}
         </PanelContainer>
-      </div>
+      </Stack>
     </div>
   )
 }
