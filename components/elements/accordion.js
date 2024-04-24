@@ -29,7 +29,6 @@ export const AccordionSummary = styled((props) => (
     {...props}
   />
 ))(({ theme }) => ({
-  // flexDirection: "row",
   "& .MuiAccordionSummary-expandIconWrapper": {
     transform: "rotate(90deg)",
   },
