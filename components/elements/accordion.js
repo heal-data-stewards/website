@@ -11,9 +11,6 @@ export const Accordion = styled((props) => (
   "&:not(:last-child)": {
     borderBottom: 0,
   },
-  "&:before": {
-    display: "none",
-  },
   background: "linear-gradient(315deg, transparent 17px, #e5e0e7 0)",
   marginBottom: "1rem",
 }))
@@ -32,15 +29,12 @@ export const AccordionSummary = styled((props) => (
     {...props}
   />
 ))(({ theme }) => ({
-  flexDirection: "row",
+  // flexDirection: "row",
   "& .MuiAccordionSummary-expandIconWrapper": {
     transform: "rotate(90deg)",
   },
   "& .MuiAccordionSummary-expandIconWrapper.Mui-expanded": {
     transform: "rotate(270deg)",
-  },
-  "& .MuiAccordionSummary-content": {
-    marginLeft: theme.spacing(1),
   },
   "& .MuiSvgIcon-root": {
     padding: "0.5rem",
@@ -52,8 +46,6 @@ export const AccordionSummary = styled((props) => (
 // the wrap styles below ensure that long urls don't cause the accordion
 // container to extend past the edge of the page container
 export const AccordionDetails = styled(MuiAccordionDetails)(({ theme }) => ({
-  padding: "0rem 2.6rem 1rem",
-  // borderTop: "1px solid rgba(0, 0, 0, .125)",
   border: "none",
   color: "#532565",
   wordWrap: "break-word",
