@@ -88,7 +88,11 @@ export default function Faqs({ data }) {
           <Typography
             variant="h2"
             color="primary"
-            sx={{ fontWeight: "600", paddingTop: 0 }}
+            sx={{
+              fontWeight: "600",
+              paddingTop: 0,
+              fontSize: "1.4rem",
+            }}
           >
             {shownContent.key}
           </Typography>
@@ -108,13 +112,16 @@ export default function Faqs({ data }) {
                   >
                     <Typography
                       variant="h3"
-                      sx={{ fontSize: "1.2rem", fontWeight: "500" }}
+                      sx={{
+                        fontSize: "1.1rem",
+                        paddingBottom: 0,
+                      }}
                     >
                       {question.question}
                     </Typography>
                   </AccordionSummary>
                   <AccordionDetails>
-                    <Markdown>{question.answerFAQ}</Markdown>
+                    <Markdown accordionText>{question.answerFAQ}</Markdown>
                   </AccordionDetails>
                 </Accordion>
               )

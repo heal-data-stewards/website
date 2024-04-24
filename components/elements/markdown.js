@@ -20,7 +20,7 @@ const Markdown = ({ children, sensitiveTool, accordionText }) => {
             className={sensitiveTool}
             variant="body1"
             sx={{
-              fontSize: accordionText ? "0.9rem" : "1.1rem",
+              fontSize: accordionText ? "1rem" : "1.1rem",
             }}
           >
             {children}
