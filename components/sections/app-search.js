@@ -74,7 +74,7 @@ export default function AppSearch({ data }) {
   const [idNumber, setIdNumber] = React.useState(0)
   const [value, setValue] = React.useState("")
   const [payload, setPayload] = React.useState(false)
-  const [tableData, setData] = React.useState(false)
+  const [tableData, setTableData] = React.useState(false)
   const [sentParam, setStoreSentParam] = React.useState()
   const [showSupport, setShowSupport] = React.useState(false)
 
@@ -156,7 +156,7 @@ export default function AppSearch({ data }) {
           let notes =
             status == "green"
               ? "Thank you for registering your study on ClinicalTrials.gov!"
-              : "We do not have a record of an NCT ID for your study. If your study is not a clinical trial, please skip this step!  If your study IS a clinical trial, please register your study on ClinicalTrials.gov as soon as possible, and send the NCT ID to heal-support@datacommons.io so we can update your study on the platform."
+              : "We do not have a record of an NCT ID for your study. If your study is not a clinical trial, please skip this step! If your study IS a clinical trial, please register your study on ClinicalTrials.gov as soon as possible. If you have not yet registered your study on the HEAL Data Platform, you can enter your NCT ID at registration. If you have already registered your study, please send the NCT ID to [heal-support@datacommons.io](heal-support@datacommons.io) so we can update your study record."
           let step =
             "Register Your Study on ClinicalTrials.gov (if appropriate)"
           bucket[3] = { status, step, notes }
@@ -166,7 +166,7 @@ export default function AppSearch({ data }) {
           let notes2 =
             status2 == "green"
               ? "Thank you for registering your study on the HEAL Platform!"
-              : "Please register your study on the HEAL Platform as soon as possible. For registration instructions, click here. If you cannot find your study on the platform, please reach out to heat-support@datacommons.io"
+              : "Please register your study on the HEAL Platform as soon as possible. For registration instructions, click here. If you cannot find your study on the platform, please reach out to [heal-support@datacommons.io](heal-support@datacommons.io)."
           let step2 = "Register Your Study With the HEAL Data Platform"
           bucket[4] = { status: status2, step: step2, notes: notes2 }
           break
@@ -175,7 +175,7 @@ export default function AppSearch({ data }) {
           let notes5 =
             status5 == "green"
               ? `Thank you for submitting your study-level metadata currently at ${keyValue}% complete! You are another step closer to making your data more FAIR (findable, accessible, interoperable, reusable). `
-              : `Please complete your study-level metadata form as soon as possible. For information and instructions on how to complete the form, click here.`
+              : "Please complete your study-level metadata form as soon as possible. For information and instructions on how to complete the form, [click here](https://heal.github.io/platform-documentation/slmd_submission/)."
           let step5 = "Complete Your Study-Level Metadata Form"
           bucket[5] = { status: status5, step: step5, notes: notes5 }
           break
@@ -222,11 +222,13 @@ export default function AppSearch({ data }) {
 
     let output = []
 
+    console.log(bucket)
+
     for (const [key, keyValue] of Object.entries(bucket)) {
       output.push(keyValue)
     }
 
-    setData(output)
+    setTableData(output)
   }
 
   const getAppId = (e) => {
