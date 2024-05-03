@@ -23,9 +23,13 @@ const RepoQuestions = ({ data }) => {
     setQuestionToShow(1)
     setOptionalInformation(false)
     setShowOptions(true)
+    setValue("")
   }
   const handleClickBack = () => {
     setQuestionToShow(Math.max(questionToShow - 1, 1))
+    setOptionalInformation(false)
+    setShowOptions(true)
+    setValue("")
   }
 
   const handleChange = (event) => {
@@ -62,6 +66,7 @@ const RepoQuestions = ({ data }) => {
         onClick={handleClickStartOver}
         variant="outlined"
         startIcon={<StartOverIcon />}
+        disabled={questionToShow === 1 && optionalInformation}
       >
         Start Over
       </Button>
