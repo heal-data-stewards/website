@@ -166,7 +166,7 @@ export default function AppSearch({ data }) {
           let notes2 =
             status2 == "green"
               ? "Thank you for registering your study on the HEAL Platform!"
-              : "Please register your study on the HEAL Platform as soon as possible. For registration instructions, [click here](https://heal.github.io/platform-documentation/study-registration/). If you cannot find your study on the platform, please reach out to [heal-support@datacommons.io](heal-support@datacommons.io)."
+              : "Please register your study on the HEAL Platform as soon as possible. For registration instructions, [click here](https://heal.github.io/platform-documentation/study-registration/). If you cannot find your study on the platform, please reach out to heal-support@datacommons.io."
           let step2 = "Register Your Study With the HEAL Data Platform"
           bucket[4] = { status: status2, step: step2, notes: notes2 }
           break
