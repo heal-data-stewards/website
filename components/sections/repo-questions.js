@@ -14,6 +14,7 @@ import {
 } from "@mui/icons-material"
 
 const RepoQuestions = ({ data }) => {
+  console.log(data)
   const [value, setValue] = React.useState("")
   const [showOptions, setShowOptions] = React.useState(true)
   const [optionalInformation, setOptionalInformation] = React.useState(false)
@@ -57,7 +58,7 @@ const RepoQuestions = ({ data }) => {
         Back
       </Button>
     ),
-    [questionToShow]
+    [handleClickBack, questionToShow]
   )
 
   const StartOverButton = React.useCallback(
@@ -71,7 +72,7 @@ const RepoQuestions = ({ data }) => {
         Start Over
       </Button>
     ),
-    []
+    [optionalInformation, questionToShow]
   )
 
   return (
@@ -85,8 +86,8 @@ const RepoQuestions = ({ data }) => {
       {data.repo_question.map((q, i) => {
         if (i + 1 === questionToShow) {
           return (
-            <div className={"repo-questions"} key={q.question}>
-              <Markdown className={"repo-questions"}>{q.question}</Markdown>
+            <div className="repo-questions" key={q.question}>
+              <Markdown className="repo-questions">{q.question}</Markdown>
               <br></br>
               {showOptions && (
                 <div>
@@ -130,10 +131,34 @@ const RepoQuestions = ({ data }) => {
                 </div>
               )}
 
+              {!showOptions && (
+                <Box
+                  sx={{
+                    borderLeft: "6px solid",
+                    borderLeftColor: "primary.light",
+                    backgroundColor: "rgb(229, 224, 232)",
+                    my: 6,
+                    p: 2,
+                  }}
+                >
+                  <Markdown>
+                    Once you have selected a repository, please report your
+                    selection to the HEAL Stewards by emailing
+                    [HEALStewards@renci.org](mailto:HEALStewards@renci.org), or
+                    the Platform Team via the [Platform Help
+                    Desk](https://heal.github.io/platform-documentation/contact/).
+                    For more information or repository selection assistance,
+                    please [contact the HEAL
+                    Stewards](https://forms.fillout.com/t/gcVveGMswBus).
+                  </Markdown>
+                </Box>
+              )}
+
               <Box
                 sx={{
                   display: "flex",
                   flexDirection: "row",
+                  justifyContent: "center",
                   gap: 1,
                   mt: 3,
                 }}
