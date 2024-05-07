@@ -1,7 +1,7 @@
 import React, { useRef, useState } from "react"
 import Paper from "@mui/material/Paper"
 import InputBase from "@mui/material/InputBase"
-import ButtonBase from "@mui/material/ButtonBase"
+import Button from "@mui/material/Button"
 import Typography from "@mui/material/Typography"
 import Box from "@mui/material/Box"
 
@@ -70,8 +70,9 @@ const DugSearch = ({ data }) => {
           autoComplete="off"
           sx={{
             display: "flex",
-            alignItems: "center",
+            alignItems: "stretch",
             width: "100%",
+            overflow: "hidden",
           }}
           onSubmit={doSearch}
         >
@@ -82,28 +83,15 @@ const DugSearch = ({ data }) => {
             inputRef={inputField}
             autoFocus
           />
-          <ButtonBase
+          <Button
             type="submit"
             onSubmit={() => {
               doSearch
             }}
-            sx={{
-              backgroundColor: "#982568",
-              height: "100%",
-              padding: "1rem 1rem",
-              color: "#FFF",
-              borderRadius: "0 4px 4px 0",
-              transition:
-                "background-color 500ms cubic-bezier(0.4, 0, 0.2, 1) 0ms",
-              transition: "color 500ms cubic-bezier(0.4, 0, 0.2, 1) 0ms",
-              "&:hover, &.Mui-focusVisible": {
-                backgroundColor: "#98256830",
-                color: "#532565",
-              },
-            }}
+            variant="contained"
           >
             {data.buttonText}
-          </ButtonBase>
+          </Button>
         </Paper>
         <FeedbackLine message={errorMessage} />
       </div>
