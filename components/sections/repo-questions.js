@@ -20,18 +20,19 @@ const RepoQuestions = ({ data }) => {
   const [optionalInformation, setOptionalInformation] = React.useState(false)
   const [questionToShow, setQuestionToShow] = React.useState(1)
 
-  const handleClickStartOver = () => {
+  const handleClickStartOver = useCallback(() => {
     setQuestionToShow(1)
     setOptionalInformation(false)
     setShowOptions(true)
     setValue("")
-  }
-  const handleClickBack = () => {
+  }, [])
+
+  const handleClickBack = useCallback(() => {
     setQuestionToShow(Math.max(questionToShow - 1, 1))
     setOptionalInformation(false)
     setShowOptions(true)
     setValue("")
-  }
+  }, [])
 
   const handleChange = (event) => {
     setValue(event.target.value)
