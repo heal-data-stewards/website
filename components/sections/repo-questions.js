@@ -14,25 +14,25 @@ import {
 } from "@mui/icons-material"
 
 const RepoQuestions = ({ data }) => {
-  console.log(data)
   const [value, setValue] = React.useState("")
   const [showOptions, setShowOptions] = React.useState(true)
   const [optionalInformation, setOptionalInformation] = React.useState(false)
   const [questionToShow, setQuestionToShow] = React.useState(1)
 
-  const handleClickStartOver = useCallback(() => {
+  const handleClickStartOver = React.useCallback(() => {
     setQuestionToShow(1)
     setOptionalInformation(false)
     setShowOptions(true)
     setValue("")
   }, [])
 
-  const handleClickBack = useCallback(() => {
+  const handleClickBack = React.useCallback(() => {
+    console.log({ questionToShow })
     setQuestionToShow(Math.max(questionToShow - 1, 1))
     setOptionalInformation(false)
     setShowOptions(true)
     setValue("")
-  }, [])
+  }, [questionToShow])
 
   const handleChange = (event) => {
     setValue(event.target.value)
@@ -52,7 +52,7 @@ const RepoQuestions = ({ data }) => {
     () => (
       <Button
         onClick={handleClickBack}
-        disabled={questionToShow === 1}
+        disabled={questionToShow === 1 && !showOptions}
         variant="outlined"
         startIcon={<BackIcon />}
       >
@@ -66,9 +66,9 @@ const RepoQuestions = ({ data }) => {
     () => (
       <Button
         onClick={handleClickStartOver}
+        disabled={questionToShow === 1 && showOptions}
         variant="outlined"
         startIcon={<StartOverIcon />}
-        disabled={questionToShow === 1 && optionalInformation}
       >
         Start Over
       </Button>
