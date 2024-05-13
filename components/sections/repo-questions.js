@@ -14,6 +14,7 @@ import {
 } from "@mui/icons-material"
 
 const RepoQuestions = ({ data }) => {
+  console.log(data)
   const [value, setValue] = React.useState("")
   const [showOptions, setShowOptions] = React.useState(true)
   const [optionalInformation, setOptionalInformation] = React.useState(false)
@@ -27,7 +28,6 @@ const RepoQuestions = ({ data }) => {
   }, [])
 
   const handleClickBack = React.useCallback(() => {
-    console.log({ questionToShow })
     setQuestionToShow(Math.max(questionToShow - 1, 1))
     setOptionalInformation(false)
     setShowOptions(true)
@@ -52,7 +52,7 @@ const RepoQuestions = ({ data }) => {
     () => (
       <Button
         onClick={handleClickBack}
-        disabled={questionToShow === 1 && !showOptions}
+        disabled={questionToShow === 1}
         variant="outlined"
         startIcon={<BackIcon />}
       >
