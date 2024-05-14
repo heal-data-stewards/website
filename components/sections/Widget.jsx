@@ -1,29 +1,79 @@
-import { ChatTeardropDots } from "phosphor-react"
-
+import {
+  Button,
+  Card,
+  CardContent,
+  CardHeader,
+  Divider,
+} from "@material-ui/core"
+import { Close as CloseIcon } from "@mui/icons-material"
 import { Popover } from "@headlessui/react"
-import { WidgetForm } from "./WidgetForm"
+import { makeStyles } from "@material-ui/core/styles"
+
+const useStyles = makeStyles((theme) => ({
+  feedbackButton: {
+    transform: "rotate(-90deg) translateY(40px)",
+    transition: "transform 250ms, background-color 250ms",
+    height: "100px",
+    display: "flex",
+    alignItems: "flex-start",
+    "&:hover": {
+      transform: "rotate(-90deg) translateY(20px)",
+    },
+    color: "white",
+  },
+  feedbackPopup: {
+    transform: "translate(-2rem, -1rem)",
+  },
+}))
 
 export function Widget({ data }) {
+  const classes = useStyles()
   return (
     <Popover
-      style={{ right: "-20px", bottom: "106px", zIndex: 100 }}
+      style={{ right: "-1rem", bottom: "106px" }}
       className="fixed flex flex-col items-end"
     >
-      <Popover.Panel>
-        <WidgetForm data={data} />
-      </Popover.Panel>
+      <Card component={Popover.Panel} className={classes.feedbackPopup}>
+        <CardHeader
+          title={data.sendFeedbackText}
+          action={
+            <Popover.Button
+              className="top-5 right-5 absolute text-zinc-400 hover:text-zinc-100"
+              title="Close feedback form"
+            >
+              <CloseIcon />
+            </Popover.Button>
+          }
+        />
 
-      <Popover.Button
-        style={{ transform: "rotate(-90deg)" }}
-        className="bg-[#992568] px-3 h-10 text-white flex items-center group"
+        <Divider />
+
+        <CardContent sx={{ justifyContent: "center" }}>
+          <Popover.Button
+            as={Button}
+            href={data.formLink}
+            color="primary"
+            variant="contained"
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{
+              padding: "0.5rem 1rem",
+              color: "white",
+            }}
+          >
+            {data.sendFeedbackButtonText}
+          </Popover.Button>
+        </CardContent>
+      </Card>
+
+      <Button
+        className={classes.feedbackButton}
+        component={Popover.Button}
+        variant="contained"
+        color="primary"
       >
-        {/* <ChatTeardropDots className="w-6 h-6" /> */}
         {data.buttonText}
-        {/* <span className="max-w-0 overflow-hidden group-hover:max-w-xs transition-all duration-500 ease-linear">
-          <span className="pl-2"></span>
-          {data.buttonText}
-        </span> */}
-      </Popover.Button>
+      </Button>
     </Popover>
   )
 }
