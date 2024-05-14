@@ -41,6 +41,7 @@ import SensitiveDataTree from "./sections/sensitive-data-tree"
 import VariableStandards from "./sections/variable-standards"
 import PurpleBar from "./sections/purple-bar"
 import RepoQuestions from "./sections/repo-questions"
+import FloatingInfoBox from "./sections/floating-info-box"
 
 // Map Strapi sections to section components
 const sectionComponents = {
@@ -86,6 +87,7 @@ const sectionComponents = {
   "sections.variable-standards": VariableStandards,
   "sections.purple-banner": PurpleBar,
   "sections.repo-questions": RepoQuestions,
+  "sections.floating-info-box": FloatingInfoBox,
 }
 
 // Display a section individually
