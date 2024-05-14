@@ -93,9 +93,7 @@ export default function AppSearch({ data }) {
       }
 
       axios
-        .get(
-          `https://k18san0v73.execute-api.us-east-1.amazonaws.com/prod/progresstracker?${param}${params.data}`
-        )
+        .get( `https://k18san0v73.execute-api.us-east-1.amazonaws.com/prod/progresstracker?${param}${params.data}` )
         .then((response) => {
           if (response.data.length > 0) {
             setPayload(response.data)
@@ -242,9 +240,7 @@ export default function AppSearch({ data }) {
     }
 
     axios
-      .get(
-        `https://k18san0v73.execute-api.us-east-1.amazonaws.com/prod/progresstracker?${param}${value}`
-      )
+      .get( `https://k18san0v73.execute-api.us-east-1.amazonaws.com/prod/progresstracker?${param}${value}` )
       .then((response) => {
         if (response.data.length > 0) {
           setShowSupport(false)
