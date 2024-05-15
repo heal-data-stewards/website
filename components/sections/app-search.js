@@ -93,9 +93,7 @@ export default function AppSearch({ data }) {
       }
 
       axios
-        .get(
-          `https://9trlpa4nv4.execute-api.us-east-1.amazonaws.com/dev/checklistv3?${param}${params.data}`
-        )
+        .get( `https://k18san0v73.execute-api.us-east-1.amazonaws.com/prod/progresstracker?${param}${params.data}` )
         .then((response) => {
           if (response.data.length > 0) {
             setPayload(response.data)
@@ -244,9 +242,7 @@ export default function AppSearch({ data }) {
     }
 
     axios
-      .get(
-        `https://9trlpa4nv4.execute-api.us-east-1.amazonaws.com/dev/checklistv3?${param}${value}`
-      )
+      .get( `https://k18san0v73.execute-api.us-east-1.amazonaws.com/prod/progresstracker?${param}${value}` )
       .then((response) => {
         if (response.data.length > 0) {
           setShowSupport(false)
