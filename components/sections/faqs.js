@@ -1,68 +1,22 @@
 import React, { useState, useEffect } from "react"
-import { styled } from "@mui/material/styles"
-import ArrowForwardIosSharpIcon from "@mui/icons-material/ArrowForwardIosSharp"
-import MuiAccordion from "@mui/material/Accordion"
-import MuiAccordionSummary from "@mui/material/AccordionSummary"
-import MuiAccordionDetails from "@mui/material/AccordionDetails"
-import Typography from "@mui/material/Typography"
+import { Divider, Stack, Typography } from "@mui/material"
 import Markdown from "../elements/markdown"
-import Divider from "@mui/material/Divider"
-
-const Accordion = styled((props) => (
-  <MuiAccordion disableGutters elevation={0} square {...props} />
-))(({ theme }) => ({
-  "&:not(:last-child)": {
-    borderBottom: 0,
-  },
-  "&:before": {
-    display: "none",
-  },
-  background: "linear-gradient(315deg, transparent 17px, #e5e0e7 0)",
-  marginBottom: "1rem",
-}))
-
-const AccordionSummary = styled((props) => (
-  <MuiAccordionSummary
-    expandIcon={
-      <ArrowForwardIosSharpIcon
-        sx={{
-          fontSize: "2rem",
-          padding: "0.75rem 0.5rem 0.5rem 0",
-          color: "#532565",
-        }}
-      />
-    }
-    {...props}
-  />
-))(({ theme }) => ({
-  flexDirection: "row",
-  "& .MuiAccordionSummary-expandIconWrapper": {
-    transform: "rotate(90deg)",
-  },
-  "& .MuiAccordionSummary-expandIconWrapper.Mui-expanded": {
-    transform: "rotate(270deg)",
-  },
-  "& .MuiAccordionSummary-content": {
-    marginLeft: theme.spacing(1),
-  },
-  "& .MuiSvgIcon-root": {
-    padding: "0.5rem",
-  },
-  color: "#532565",
-  fontWeight: "600",
-}))
-
-const AccordionDetails = styled(MuiAccordionDetails)(({ theme }) => ({
-  padding: "0rem 2.6rem 1rem",
-  // borderTop: "1px solid rgba(0, 0, 0, .125)",
-  border: "none",
-  color: "#532565",
-}))
+import {
+  Accordion,
+  AccordionSummary,
+  AccordionDetails,
+} from "../elements/accordion"
+import {
+  Block,
+  ButtonBlockContainer,
+  PanelContainer,
+} from "../elements/side-tab-buttons"
 
 export default function Faqs({ data }) {
   const [faqs, setFaqs] = useState([])
   const [expanded, setExpanded] = useState()
   const [open, setOpen] = useState(true)
+  const [shownContent, setShownContent] = useState([])
 
   const handleClose = () => {
     setOpen(false)
@@ -95,38 +49,61 @@ export default function Faqs({ data }) {
     const group = groupByTag(data.question, "tag")
     const newState = separateObject(group)
     setFaqs(newState)
+    setShownContent(newState[0])
   }, [data.question])
 
   const handleChange = (panel) => (event, newExpanded) => {
     setExpanded(newExpanded ? panel : false)
   }
 
+  function onHover(item) {
+    setShownContent(item)
+  }
+
   return (
     <div className="container pb-4">
-      {faqs.map((faq, i) => {
-        return (
-          <div
-            key={i + "obj"}
-            style={{
-              marginBottom: "2rem",
-              background: "#fff",
+      <Stack direction="row" justifyContent="flex-start">
+        <ButtonBlockContainer
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "stretch",
+            flex: {
+              md: "0 0 300px",
+              sm: "0 0 200px",
+              xs: "0 0 150px",
+            },
+          }}
+        >
+          {faqs.map((item, i) => {
+            return (
+              <Block
+                onMouseEnter={(e) => onHover(item)}
+                key={i + item.key}
+                title={item.key}
+                index={i}
+                isSelected={item.key === shownContent.key}
+              />
+            )
+          })}
+        </ButtonBlockContainer>
+
+        <PanelContainer>
+          <Typography
+            variant="h2"
+            color="primary"
+            sx={{
+              fontWeight: "600",
+              paddingTop: 0,
+              fontSize: "1.4rem",
             }}
           >
-            <Typography
-              variant="h2"
-              sx={{
-                fontSize: "1.8rem",
-                lineHeight: "1.25",
-                fontWeight: "500",
-                color: "#982568",
-                paddingTop: "2rem",
-              }}
-            >
-              {faq.key !== "null" ? faq.key : "FAQs"}
-            </Typography>
-            <Divider sx={{ backgroundColor: "#982568" }} />
-            <br />
-            {faq.data.map((question, i) => {
+            {shownContent.key}
+          </Typography>
+          <Divider sx={{ backgroundColor: "#982568", marginBottom: "1rem" }} />
+
+          {shownContent.data &&
+            shownContent.data.map((question, i) => {
               return (
                 <Accordion
                   expanded={expanded === "panel" + i + question.question}
@@ -139,20 +116,22 @@ export default function Faqs({ data }) {
                   >
                     <Typography
                       variant="h3"
-                      sx={{ fontSize: "1.2rem", fontWeight: "500" }}
+                      sx={{
+                        fontSize: "1.1rem",
+                        paddingBottom: 0,
+                      }}
                     >
                       {question.question}
                     </Typography>
                   </AccordionSummary>
                   <AccordionDetails>
-                    <Markdown>{question.answerFAQ}</Markdown>
+                    <Markdown accordionText>{question.answerFAQ}</Markdown>
                   </AccordionDetails>
                 </Accordion>
               )
             })}
-          </div>
-        )
-      })}
+        </PanelContainer>
+      </Stack>
     </div>
   )
 }
