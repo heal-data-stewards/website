@@ -70,9 +70,8 @@ export default function RoadMap({ data }) {
       5: <Icon img="5" />,
       6: <Icon img="6" />,
       7: <Icon img="7" />,
-      8: <Icon img="11" />,
-      9: <Icon img="8" />,
-      11: <Icon img="9" />,
+      8: <Icon img="8" />,
+      9: <Icon img="9" />,
       10: <Icon img="10" />,
     }
 
