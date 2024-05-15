@@ -18,10 +18,6 @@ export default function RoadMap({ data }) {
   const [activeStep, setActiveStep] = React.useState(0)
   const [value, setValue] = React.useState("")
 
-  // React.useEffect(() => {
-
-  // }, [])
-
   const handleNext = () => {
     setActiveStep((prevActiveStep) => prevActiveStep + 1)
   }

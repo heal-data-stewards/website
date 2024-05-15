@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react"
+import React from "react"
 import { styled } from "@mui/material/styles"
 import MuiAccordion from "@mui/material/Accordion"
 import MuiAccordionSummary from "@mui/material/AccordionSummary"
@@ -13,6 +13,11 @@ export const Accordion = styled((props) => (
   },
   background: "linear-gradient(315deg, transparent 17px, #e5e0e7 0)",
   marginBottom: "1rem",
+  "& .MuiAccordionSummary-root": {
+    padding: "0.25rem 1rem",
+    display: "flex",
+    justifyContent: "space-between",
+  },
 }))
 
 export const AccordionSummary = styled((props) => (
@@ -38,8 +43,6 @@ export const AccordionSummary = styled((props) => (
   "& .MuiSvgIcon-root": {
     padding: "0.5rem",
   },
-  color: "#532565",
-  fontWeight: "600",
 }))
 
 // the wrap styles below ensure that long urls don't cause the accordion
