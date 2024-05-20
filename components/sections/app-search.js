@@ -206,8 +206,8 @@ export default function AppSearch({ data }) {
           let step9 = "Use HEAL Common Data Elements to Collect Your Data"
           bucket[7] = { status: status9, step: step9, notes: notes9 }
           break
-        case "data_repositories_hdp":
-          let status11 = keyValue ? "green" : "red"
+        case "repository_metadata":
+          let status11 = keyValue.split(",").length > 0 ? "green" : "red"
           let notes11 =
             status11 == "green"
               ? "Congratulations on submitting your data and metadata to a HEAL-compliant repository!"
