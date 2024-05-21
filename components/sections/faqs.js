@@ -62,7 +62,10 @@ export default function Faqs({ data }) {
 
   return (
     <div className="container pb-4">
-      <Stack direction="row" justifyContent="flex-start">
+      <Stack
+        direction={{ sm: "column", md: "row" }}
+        justifyContent="flex-start"
+      >
         <ButtonBlockContainer
           sx={{
             display: "flex",
