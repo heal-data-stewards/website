@@ -142,7 +142,7 @@ export default function AppSearch({ data }) {
           bucket[1] = { status: status4, step: step4, notes: notes4 }
           break
         case "dmp_plan":
-          let status3 = keyValue.length != 2 ? "green" : "yellow"
+          let status3 = keyValue?.length > 0 ? "green" : "yellow"
           let notes3 =
             status3 == "green"
               ? ""
@@ -189,7 +189,7 @@ export default function AppSearch({ data }) {
           bucket[6] = { status: status6, step: step6, notes: notes6 }
           break
         case "vlmd_metadata":
-          let status7 = keyValue.length != 2 ? "green" : "red"
+          let status7 = keyValue?.length > 0 ? "green" : "red"
           let notes7 =
             status7 == "green"
               ? "Thank you for submitting your variable-level metadata (VLMD)! VLMD enriches the HEAL Platform and powers HEAL Semantic Search."
@@ -198,7 +198,7 @@ export default function AppSearch({ data }) {
           bucket[8] = { status: status7, step: step7, notes: notes7 }
           break
         case "heal_cde_used":
-          let status9 = keyValue.length != 2 ? "green" : "yellow"
+          let status9 = keyValue?.length > 0 ? "green" : "yellow"
           let notes9 =
             status9 == "green"
               ? ""
@@ -207,7 +207,7 @@ export default function AppSearch({ data }) {
           bucket[7] = { status: status9, step: step9, notes: notes9 }
           break
         case "repository_metadata":
-          let status11 = keyValue.split(",").length > 0 ? "green" : "red"
+          let status11 = keyValue?.length > 0 ? "green" : "red"
           let notes11 =
             status11 == "green"
               ? "Congratulations on submitting your data and metadata to a HEAL-compliant repository!"
@@ -333,14 +333,9 @@ export default function AppSearch({ data }) {
             <div className="w-96 pr-[20px]">
               <h2 className="font-bold text-xl">PI</h2>
               <div className="text-l">
-                {payload[0].investigators_name
-                  ? payload[0].investigators_name
-                      .replace(/\[|\]/g, "")
-                      .split(",")
-                      .map((name, i) => {
-                        return <div key={i + name}>{name}</div>
-                      })
-                  : ""}
+                {payload[0].investigators_name?.map((name, i) => {
+                  return <div key={i + name}>{name}</div>
+                }) ?? ""}
               </div>
             </div>
             <div className="w-96 pr-[20px]">
@@ -355,6 +350,7 @@ export default function AppSearch({ data }) {
           <MaterialReactTable
             data={tableData}
             columns={columns}
+            enablePagination={false}
             //   enableRowSelection //enable some features
             enableColumnOrdering
             enableColumnResizing
