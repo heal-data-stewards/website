@@ -8,6 +8,7 @@ import HelpIcon from "@mui/icons-material/Help"
 import CancelIcon from "@mui/icons-material/Cancel"
 import axios from "axios"
 import { useRouter } from "next/router"
+import { CircularProgress } from "@mui/material"
 
 const columns = [
   {
@@ -141,16 +142,6 @@ export default function AppSearch({ data }) {
           let step4 = "Award Received"
           bucket[1] = { status: status4, step: step4, notes: notes4 }
           break
-        case "dmp_plan":
-          let status3 = keyValue?.length > 0 ? "green" : "yellow"
-          let notes3 =
-            status3 == "green"
-              ? ""
-              : "We cannot currently confirm whether or not you have submitted a DMSP to the HEAL Stewards team. While this step is optional, sharing your DMSP provides us with insight into how we can best assist investigators with managing and sharing data."
-          let step3 =
-            "Provide Your Data Management and Sharing Plan to the HEAL Stewards (optional but encouraged)"
-          bucket[2] = { status: status3, step: step3, notes: notes3 }
-          break
         case "clinical_trials_study_ID":
           let status = keyValue ? "green" : "yellow"
           let notes =
@@ -234,6 +225,8 @@ export default function AppSearch({ data }) {
   const getAppId = (e) => {
     e.preventDefault()
 
+    setPayload(false)
+
     let regExp = /[a-zA-Z]/g
     let param
 
@@ -273,31 +266,33 @@ export default function AppSearch({ data }) {
           {"< - Back to Checklist Requirements"}
         </button>
       </div>
-      <form
-        noValidate
-        autoComplete="off"
-        onSubmit={getAppId}
-        style={{ marginBottom: "10px" }}
-      >
-        <TextField
-          id="outlined-basic"
-          label="App / Proj Number"
-          variant="outlined"
-          onChange={handleTextFieldChange}
-          value={value}
-        />
-        <Button
-          style={{
-            height: "43px",
-            marginTop: "7.5px",
-            marginLeft: "20px",
-          }}
-          variant="contained"
-          type="submit"
+      {payload && (
+        <form
+          noValidate
+          autoComplete="off"
+          onSubmit={getAppId}
+          style={{ marginBottom: "10px" }}
         >
-          Check Status
-        </Button>
-      </form>
+          <TextField
+            id="outlined-basic"
+            label="App / Proj Number"
+            variant="outlined"
+            onChange={handleTextFieldChange}
+            value={value}
+          />
+          <Button
+            style={{
+              height: "43px",
+              marginTop: "7.5px",
+              marginLeft: "20px",
+            }}
+            variant="contained"
+            type="submit"
+          >
+            Check Status
+          </Button>
+        </form>
+      )}
       {/* For studies that have many projects to one number https://mui.com/material-ui/react-select/ */}
       {}
       {showSupport && (
@@ -320,7 +315,18 @@ export default function AppSearch({ data }) {
           <span className="text-xl">{" for assistance."}</span>
         </div>
       )}
-      {payload && (
+      {!payload ? (
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            minHeight: "200px",
+          }}
+        >
+          <CircularProgress />
+        </div>
+      ) : (
         <>
           <div
             className="p-[20px] flex overflow-auto"
