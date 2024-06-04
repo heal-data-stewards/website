@@ -77,6 +77,7 @@ export default function Faqs({ data }) {
               xs: "0 0 150px",
             },
           }}
+          role="tablist"
         >
           {faqs.map((item, i) => {
             return (
@@ -91,7 +92,7 @@ export default function Faqs({ data }) {
           })}
         </ButtonBlockContainer>
 
-        <PanelContainer>
+        <PanelContainer role="tabpanel">
           <Typography
             variant="h2"
             color="primary"

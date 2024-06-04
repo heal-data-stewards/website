@@ -4,7 +4,7 @@ import { Box } from "@mui/material"
 export const Block = ({ title, onMouseEnter, isSelected, index }) => {
   return (
     <button
-      aria-selected={isSelected}
+      role="tab"
       aria-controls={`tabpanel-${index}`}
       style={{
         fontSize: "1.1rem",
