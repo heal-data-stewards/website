@@ -333,7 +333,7 @@ export default function AppSearch({ data }) {
             style={{ background: "#e6e6e6" }}
           >
             <div className="w-96 pr-[20px]">
-              <h2 className="font-bold text-xl">Study title</h2>
+              <h2 className="font-bold text-xl">Study Title</h2>
               <p className="text-l">{payload[0].study_name}</p>
             </div>
             <div className="w-96 pr-[20px]">
