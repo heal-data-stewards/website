@@ -12,45 +12,37 @@ import {
   PanelContainer,
 } from "../elements/side-tab-menu"
 
+// Split the array into separate objects by the tag property
+const groupByTag = (arr, property) =>
+  arr.reduce(function (memo, x) {
+    // Check if the memo object already has a key for the current property's value.
+    // If not, initialize an empty array for that key.
+    if (!memo[x[property]]) {
+      memo[x[property]] = []
+    }
+    // Push the current object into the array for that key.
+    memo[x[property]].push(x)
+    return memo
+  }, {}) // Start with an empty object as the initial value of the accumulator.
+
+// takes the object into an array of objects with key as a property instead of outside of the object
+const separateObject = (obj) => {
+  const res = []
+  const keys = Object.keys(obj)
+  keys.forEach((key) => {
+    res.push({
+      key: key,
+      data: obj[key],
+    })
+  })
+  return res
+}
+
 export default function Faqs({ data }) {
-  const [faqs, setFaqs] = useState([])
   const [expanded, setExpanded] = useState()
-  const [open, setOpen] = useState(true)
   const [shownContent, setShownContent] = useState([])
 
-  const handleClose = () => {
-    setOpen(false)
-  }
-
-  useEffect(() => {
-    // Split the array into separate objects by the tag property
-    function groupByTag(arr, property) {
-      return arr.reduce(function (memo, x) {
-        if (!memo[x[property]]) {
-          memo[x[property]] = []
-        }
-        memo[x[property]].push(x)
-        return memo
-      }, {})
-    }
-
-    const separateObject = (obj) => {
-      const res = []
-      const keys = Object.keys(obj)
-      keys.forEach((key) => {
-        res.push({
-          key: key,
-          data: obj[key],
-        })
-      })
-      return res
-    }
-
-    const group = groupByTag(data.question, "tag")
-    const newState = separateObject(group)
-    setFaqs(newState)
-    setShownContent(newState[0])
-  }, [data.question])
+  const faqs = separateObject(groupByTag(data.question, "tag"))
 
   const handleChange = (panel) => (event, newExpanded) => {
     setExpanded(newExpanded ? panel : false)
