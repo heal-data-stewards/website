@@ -26,7 +26,10 @@ const ExternalLink = ({ href, children, darkBackground, ...props }) => {
         target="_blank"
         rel="noopener noreferrer"
         underline="hover"
-        sx={{ fontWeight: "600", color: darkBackground ? "#EFBDDA" : "#982568" }}
+        sx={{
+          fontWeight: "600",
+          color: darkBackground ? "#EFBDDA" : "#982568",
+        }}
         {...props}
       >
         {children}
@@ -48,7 +51,13 @@ const CustomLink = React.forwardRef(function Link(
   const LinkComponent =
     externalUrlMatch || mailtoMatch ? ExternalLink : InternalLink
   return (
-    <LinkComponent href={to} to={to} ref={ref} darkBackground={darkBackground} {...props}>
+    <LinkComponent
+      href={to}
+      to={to}
+      ref={ref}
+      darkBackground={darkBackground}
+      {...props}
+    >
       {children}
     </LinkComponent>
   )
