@@ -22,7 +22,7 @@ const Markdown = ({ children, sensitiveTool, darkBackground }) => {
         )
       },
       a: function Anchor({ node, href, ...props }) {
-      return <Link to={href} darkBackground={darkBackground} {...props} />
+        return <Link to={href} darkBackground={darkBackground} {...props} />
       },
       ul: function Anchor({ node, children, ...props }) {
         return <CustomUnorderedList>{children}</CustomUnorderedList>
@@ -59,7 +59,7 @@ const Markdown = ({ children, sensitiveTool, darkBackground }) => {
         return <Typography variant="h4">{children}</Typography>
       },
     }),
-    [sensitiveTool]
+    [sensitiveTool, darkBackground]
   )
   return <ReactMarkdown components={componentMap}>{children}</ReactMarkdown>
 }
