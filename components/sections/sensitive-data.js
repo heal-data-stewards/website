@@ -14,10 +14,6 @@ import {
 const SensitiveData = ({ data }) => {
   const [shownContent, setShownContent] = useState(data.sensitiveDataItem[0])
 
-  function onHover(item) {
-    setShownContent(item)
-  }
-
   return (
     <div className="container pb-12">
       <div style={{ display: "flex", justifyContent: "space-between" }}>
@@ -32,7 +28,7 @@ const SensitiveData = ({ data }) => {
           {data.sensitiveDataItem.map((item, i) => {
             return (
               <Block
-                onMouseEnter={(e) => onHover(item)}
+                onClick={() => setShownContent(item)}
                 key={i + item.title}
                 title={item.title}
                 index={i}
