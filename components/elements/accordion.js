@@ -52,6 +52,5 @@ export const AccordionDetails = styled(MuiAccordionDetails)(({ theme }) => ({
   color: "#532565",
   wordWrap: "break-word",
   overflowWrap: "break-word",
-  "-ms-word-break": "break-all",
   wordBreak: "break-word",
 }))

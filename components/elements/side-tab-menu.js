@@ -1,7 +1,7 @@
 import { styled } from "@mui/material/styles"
 import { Box } from "@mui/material"
 
-export const Block = ({ title, onMouseEnter, isSelected, index }) => {
+export const Block = ({ title, onClick, isSelected, index }) => {
   return (
     <button
       role="tab"
@@ -19,7 +19,7 @@ export const Block = ({ title, onMouseEnter, isSelected, index }) => {
         color: isSelected ? "#fff" : "rgba(83, 37, 101, 1)",
       }}
       className={"sensitive-data-blocks"}
-      onClick={onMouseEnter}
+      onClick={onClick}
     >
       {title}
     </button>

@@ -12,44 +12,24 @@ import {
   PanelContainer,
 } from "../elements/side-tab-menu"
 
-// Split the array into separate objects by the tag property
-const groupByTag = (arr, property) =>
-  arr.reduce(function (memo, x) {
-    // Check if the memo object already has a key for the current property's value.
-    // If not, initialize an empty array for that key.
-    if (!memo[x[property]]) {
-      memo[x[property]] = []
+const groupByTag = (array) =>
+  array.reduce((buckets, question) => {
+    if (question.tag in buckets) {
+      buckets[question.tag].push(question)
+      return buckets
     }
-    // Push the current object into the array for that key.
-    memo[x[property]].push(x)
-    return memo
-  }, {}) // Start with an empty object as the initial value of the accumulator.
-
-// takes the object into an array of objects with key as a property instead of outside of the object
-const separateObject = (obj) => {
-  const res = []
-  const keys = Object.keys(obj)
-  keys.forEach((key) => {
-    res.push({
-      key: key,
-      data: obj[key],
-    })
-  })
-  return res
-}
+    buckets[question.tag] = [question]
+    return buckets
+  }, {})
 
 export default function Faqs({ data }) {
+  const faqs = groupByTag(data.question)
+
   const [expanded, setExpanded] = useState()
-  const [shownContent, setShownContent] = useState([])
+  const [selectedCategory, setSelectedCategory] = useState(Object.keys(faqs)[0])
 
-  const faqs = separateObject(groupByTag(data.question, "tag"))
-
-  const handleChange = (panel) => (event, newExpanded) => {
+  const handleAccordionChange = (panel) => (_, newExpanded) => {
     setExpanded(newExpanded ? panel : false)
-  }
-
-  function onHover(item) {
-    setShownContent(item)
   }
 
   return (
@@ -71,14 +51,14 @@ export default function Faqs({ data }) {
           }}
           role="tablist"
         >
-          {faqs.map((item, i) => {
+          {Object.keys(faqs).map((faqCategory, i) => {
             return (
               <Block
-                onMouseEnter={(e) => onHover(item)}
-                key={i + item.key}
-                title={item.key}
+                onClick={() => setSelectedCategory(faqCategory)}
+                key={i + faqCategory}
+                title={faqCategory}
                 index={i}
-                isSelected={item.key === shownContent.key}
+                isSelected={faqCategory === selectedCategory}
               />
             )
           })}
@@ -94,16 +74,18 @@ export default function Faqs({ data }) {
               fontSize: "1.4rem",
             }}
           >
-            {shownContent.key}
+            {selectedCategory}
           </Typography>
           <Divider sx={{ backgroundColor: "#982568", marginBottom: "1rem" }} />
 
-          {shownContent.data &&
-            shownContent.data.map((question, i) => {
+          {Boolean(selectedCategory) &&
+            faqs[selectedCategory].map((question, i) => {
               return (
                 <Accordion
                   expanded={expanded === "panel" + i + question.question}
-                  onChange={handleChange("panel" + i + question.question)}
+                  onChange={handleAccordionChange(
+                    "panel" + i + question.question
+                  )}
                   key={question.question + i}
                 >
                   <AccordionSummary
