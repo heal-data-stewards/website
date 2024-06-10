@@ -20,6 +20,11 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Remove weird tailwind box shadow focus outline that was conflicting with MUI styling */
+[type='text']:focus {
+  --tw-ring-shadow: none;
+}
+
 html {
   font-size: 13px;
   @apply text-gray-900;
