@@ -103,7 +103,7 @@ export default function Faqs({ data }) {
                     </Typography>
                   </AccordionSummary>
                   <AccordionDetails>
-                    <Markdown accordionText>{question.answerFAQ}</Markdown>
+                    <Markdown>{question.answerFAQ}</Markdown>
                   </AccordionDetails>
                 </Accordion>
               )
