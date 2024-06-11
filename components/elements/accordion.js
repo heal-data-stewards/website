@@ -43,6 +43,9 @@ export const AccordionSummary = styled((props) => (
   "& .MuiSvgIcon-root": {
     padding: "0.5rem",
   },
+  h3: {
+    paddingBottom: 0,
+  },
 }))
 
 // the wrap styles below ensure that long urls don't cause the accordion
@@ -53,4 +56,7 @@ export const AccordionDetails = styled(MuiAccordionDetails)(({ theme }) => ({
   wordWrap: "break-word",
   overflowWrap: "break-word",
   wordBreak: "break-word",
+  p: {
+    fontSize: "0.95rem",
+  },
 }))

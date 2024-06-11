@@ -92,15 +92,7 @@ export default function Faqs({ data }) {
                     aria-controls={"panel" + i + question.question}
                     id={"panel" + i + question.question}
                   >
-                    <Typography
-                      variant="h3"
-                      sx={{
-                        fontSize: "1.1rem",
-                        paddingBottom: 0,
-                      }}
-                    >
-                      {question.question}
-                    </Typography>
+                    <Typography variant="h3">{question.question}</Typography>
                   </AccordionSummary>
                   <AccordionDetails>
                     <Markdown>{question.answerFAQ}</Markdown>
