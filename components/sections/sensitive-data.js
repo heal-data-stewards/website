@@ -5,54 +5,39 @@ import Typography from "@mui/material/Typography"
 import Divider from "@mui/material/Divider"
 import { CustomUnorderedList } from "../elements/lists/unordered-list"
 import { CustomListItem } from "../elements/lists/list-item"
-
-const Block = ({ title, onMouseEnter }) => {
-  return (
-    <button
-      style={{
-        fontSize: "14px",
-        fontWeight: "bold",
-        textAlign: "start",
-        marginBottom: "15px",
-        padding: "15px",
-        minHeight: "75px",
-        background:
-          "linear-gradient(315deg, transparent 17px, rgb(229, 224, 231) 0)",
-        cursor: "pointer",
-        color: "rgba(83, 37, 101, 1)",
-        maxWidth: "300px",
-        display: "block",
-        width: "-webkit-fill-available",
-      }}
-      className={"sensitive-data-blocks"}
-      onClick={onMouseEnter}
-    >
-      {title}
-    </button>
-  )
-}
+import {
+  Block,
+  ButtonBlockContainer,
+  PanelContainer,
+} from "../elements/side-tab-menu"
 
 const SensitiveData = ({ data }) => {
   const [shownContent, setShownContent] = useState(data.sensitiveDataItem[0])
 
-  function onHover(item) {
-    setShownContent(item)
-  }
   return (
     <div className="container pb-12">
       <div style={{ display: "flex", justifyContent: "space-between" }}>
-        <div style={{ width: "50%", maxWidth: "350px", marginRight: "20px" }}>
+        <ButtonBlockContainer
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "stretch",
+            flex: { md: "0 0 300px", sm: "0 0 200px" },
+          }}
+        >
           {data.sensitiveDataItem.map((item, i) => {
             return (
               <Block
-                onMouseEnter={(e) => onHover(item)}
+                onClick={() => setShownContent(item)}
                 key={i + item.title}
                 title={item.title}
+                index={i}
+                isSelected={item.title === shownContent.title}
               />
             )
           })}
-        </div>
-        <div style={{ width: "-webkit-fill-available" }}>
+        </ButtonBlockContainer>
+        <PanelContainer>
           <Typography variant="h2" color="primary" sx={{ fontWeight: "600" }}>
             {shownContent.title}
           </Typography>
@@ -90,7 +75,7 @@ const SensitiveData = ({ data }) => {
               </Fragment>
             )}
           </div>
-        </div>
+        </PanelContainer>
       </div>
     </div>
   )
