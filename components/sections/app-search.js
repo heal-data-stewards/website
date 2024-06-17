@@ -182,15 +182,6 @@ export default function AppSearch({ data }) {
           let step5 = "Complete Your Study-Level Metadata Form"
           bucket[5] = { status: status5, step: step5, notes: notes5 }
           break
-        case "repository_name":
-          let status6 = keyValue ? "green" : "red"
-          let notes6 =
-            status6 == "green"
-              ? `Thank you for selecting a repository and reporting your selection to the HEAL Platform! Repository: ${keyValue}`
-              : "Have you selected a HEAL-compliant repostiory for sharing your data yet? If not, please review the HEAL data repository selection guide for guidance in selecting an appropriate repository, and reach out to us for additional assistance at any time. If you have already selected a repository, please report your selection to the Platform team at [heal-support@datacommons.io](mailto:heal-support@datacommons.io)."
-          let step6 = "Select a Repository"
-          bucket[6] = { status: status6, step: step6, notes: notes6 }
-          break
         case "vlmd_metadata":
           let status7 = keyValue?.length > 0 ? "green" : "red"
           let notes7 =
@@ -220,6 +211,23 @@ export default function AppSearch({ data }) {
             (r) => !reposWithData.includes(r)
           )
 
+          // "Select a Repository" step
+          const repoNames = repos
+            .filter((r) => typeof r.repository_name === "string")
+            .map((r) => r.repository_name)
+          const status6 = repoNames.length > 0 ? "green" : "red"
+          const notes6 =
+            status6 == "green"
+              ? `Thank you for reporting your selection${
+                  repoNames.length > 1 ? "s" : ""
+                } to the HEAL Platform! Your repositor${
+                  repoNames.length > 1 ? "ies" : "y"
+                }: ${formatList(repoNames)}`
+              : "Have you selected a HEAL-compliant repostiory for sharing your data yet? If not, please review the HEAL data repository selection guide for guidance in selecting an appropriate repository, and reach out to us for additional assistance at any time. If you have already selected a repository, please report your selection to the Platform team at [heal-support@datacommons.io](mailto:heal-support@datacommons.io)."
+          const step6 = "Select a Repository"
+          bucket[6] = { status: status6, step: step6, notes: notes6 }
+
+          // "Submit Data and Metadata to a Repository" step
           let status11, notes11
           if (repos.length === 0) {
             status11 = "red"
