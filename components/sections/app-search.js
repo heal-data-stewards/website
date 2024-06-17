@@ -241,7 +241,7 @@ export default function AppSearch({ data }) {
               if (repoDataNames.length > 0) {
                 notes11 += `Thanks for submitting to ${formatList(
                   repoDataNames
-                )}.`
+                )}`
               } else {
                 notes11 += `Thanks for submitting to ${
                   reposWithData.length
