@@ -245,8 +245,10 @@ export default function AppSearch({ data }) {
               } else {
                 notes11 += `Thanks for submitting to ${
                   reposWithData.length
-                } repositor${reposWithData.length > 1 ? "ies" : "y"}.`
+                } repositor${reposWithData.length > 1 ? "ies" : "y"}`
               }
+
+              if (reposWithoutData.length === 0) notes11 += "."
             }
 
             if (reposWithoutData.length > 0) {
