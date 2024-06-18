@@ -11,12 +11,11 @@ const FloatingInfoBox = ({ data }) => {
           marginLeft: data.alignment === "left" ? 0 : "1.2rem",
           marginBottom: "1rem",
           width: "40%",
-          background: "linear-gradient(315deg, transparent 17px, #532565 0)",
+          background: "linear-gradient(315deg, transparent 17px, #e5e0e7 0)",
           padding: "1rem 1.5rem",
-          color: "#fff",
         }}
       >
-        <Markdown darkBackground>{data.content}</Markdown>
+        <Markdown>{data.content}</Markdown>
       </Box>
       <Markdown>{data.textWrapContent}</Markdown>
     </div>
