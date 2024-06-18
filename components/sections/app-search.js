@@ -9,6 +9,7 @@ import CancelIcon from "@mui/icons-material/Cancel"
 import axios from "axios"
 import { useRouter } from "next/router"
 import { CircularProgress } from "@mui/material"
+import { formatList } from "utils/format-list"
 
 const columns = [
   {
@@ -30,6 +31,17 @@ const columns = [
               <CheckCircleIcon
                 style={{ color: "green", width: "50px", height: "50px" }}
               />
+            )
+          case "green-and-red":
+            return (
+              <div>
+                <CheckCircleIcon
+                  style={{ color: "green", width: "50px", height: "50px" }}
+                />
+                <CancelIcon
+                  style={{ color: "#cf0000", width: "50px", height: "50px" }}
+                />
+              </div>
             )
           case "yellow":
             return (
@@ -170,15 +182,6 @@ export default function AppSearch({ data }) {
           let step5 = "Complete Your Study-Level Metadata Form"
           bucket[5] = { status: status5, step: step5, notes: notes5 }
           break
-        case "repository_name":
-          let status6 = keyValue ? "green" : "red"
-          let notes6 =
-            status6 == "green"
-              ? `Thank you for selecting a repository and reporting your selection to the HEAL Platform! Repository: ${keyValue}`
-              : "Have you selected a HEAL-compliant repostiory for sharing your data yet? If not, please review the HEAL data repository selection guide for guidance in selecting an appropriate repository, and reach out to us for additional assistance at any time. If you have already selected a repository, please report your selection to the Platform team at [heal-support@datacommons.io](mailto:heal-support@datacommons.io)."
-          let step6 = "Select a Repository"
-          bucket[6] = { status: status6, step: step6, notes: notes6 }
-          break
         case "vlmd_metadata":
           let status7 = keyValue?.length > 0 ? "green" : "red"
           let notes7 =
@@ -198,13 +201,98 @@ export default function AppSearch({ data }) {
           bucket[7] = { status: status9, step: step9, notes: notes9 }
           break
         case "repository_metadata":
-          let status11 = keyValue?.length > 0 ? "green" : "red"
-          let notes11 =
-            status11 == "green"
-              ? "Congratulations on submitting your data and metadata to a HEAL-compliant repository!"
-              : "If you are not ready to submit your data and metadata to a repository, that's okay! Revisit this when you're ready, and feel free to reach out to us with any questions or if you need assistance."
-          let step11 = "Submit Data and Metadata to a Repository"
-          bucket[9] = { status: status11, step: step11, notes: notes11 }
+          const repos = keyValue
+          const reposWithData = repos.filter(
+            ({ repository_study_link }) =>
+              typeof repository_study_link === "string" &&
+              repository_study_link.length > 0
+          )
+          const reposWithoutData = repos.filter(
+            (r) => !reposWithData.includes(r)
+          )
+
+          // "Select a Repository" step
+          const repoNames = repos
+            .filter((r) => typeof r.repository_name === "string")
+            .map((r) => r.repository_name)
+          const status6 = repoNames.length > 0 ? "green" : "red"
+          const notes6 =
+            status6 == "green"
+              ? `Thank you for reporting your selection${
+                  repoNames.length > 1 ? "s" : ""
+                } to the HEAL Platform! Your repositor${
+                  repoNames.length > 1 ? "ies" : "y"
+                }: ${formatList(repoNames)}`
+              : "Have you selected a HEAL-compliant repostiory for sharing your data yet? If not, please review the HEAL data repository selection guide for guidance in selecting an appropriate repository, and reach out to us for additional assistance at any time. If you have already selected a repository, please report your selection to the Platform team at [heal-support@datacommons.io](mailto:heal-support@datacommons.io)."
+          const step6 = "Select a Repository"
+          bucket[6] = { status: status6, step: step6, notes: notes6 }
+
+          // "Submit Data and Metadata to a Repository" step
+          let status11, notes11
+          if (repos.length === 0) {
+            status11 = "red"
+            notes11 =
+              "If you are not ready to submit your data and metadata to a repository, that's okay! Revisit this when you're ready, and feel free to reach out to us with any questions or if you need assistance."
+          } else if (reposWithData.length === repos.length) {
+            status11 = "green"
+            notes11 =
+              "Congratulations on submitting your data and metadata to a HEAL-compliant repository!"
+          } else {
+            status11 = "green-and-red"
+            notes11 = ""
+
+            if (reposWithData.length > 0) {
+              const repoDataNames = reposWithData
+                .filter((r) => typeof r.repository_name === "string")
+                .map((r) => r.repository_name)
+
+              if (repoDataNames.length > 0) {
+                notes11 += `Thanks for submitting to ${formatList(
+                  repoDataNames
+                )}`
+              } else {
+                notes11 += `Thanks for submitting to ${
+                  reposWithData.length
+                } repositor${reposWithData.length > 1 ? "ies" : "y"}`
+              }
+
+              if (reposWithoutData.length === 0) notes11 += "."
+            }
+
+            if (reposWithoutData.length > 0) {
+              if (reposWithData.length > 0) {
+                notes11 += "; p"
+              } else {
+                notes11 += "P"
+              }
+
+              if (reposWithData.length === 0) {
+                status11 = "red"
+              }
+
+              const repoWithoutDataNames = reposWithoutData
+                .filter((r) => typeof r.repository_name === "string")
+                .map((r) => r.repository_name)
+
+              if (repoWithoutDataNames.length > 0) {
+                notes11 += `lease let us know once you've submitted data to ${formatList(
+                  repoWithoutDataNames
+                )}.`
+              } else {
+                notes11 += `lease let us know once you've submitted data to the ${
+                  reposWithoutData.length
+                } remaining repositor${
+                  reposWithoutData.length > 1 ? "ies" : "y"
+                }.`
+              }
+            }
+          }
+
+          bucket[9] = {
+            status: status11,
+            step: "Submit Data and Metadata to a Repository",
+            notes: notes11,
+          }
           break
         default:
           break
@@ -212,8 +300,6 @@ export default function AppSearch({ data }) {
     }
 
     let output = []
-
-    console.log(bucket)
 
     for (const [key, keyValue] of Object.entries(bucket)) {
       output.push(keyValue)
@@ -243,7 +329,6 @@ export default function AppSearch({ data }) {
       .then((response) => {
         if (response.data.length > 0) {
           setShowSupport(false)
-          console.log(response.data)
           setPayload(response.data)
           createData(response.data)
         } else {
