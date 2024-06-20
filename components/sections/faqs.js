@@ -1,148 +1,98 @@
 import React, { useState, useEffect } from "react"
-import { styled } from "@mui/material/styles"
-import ArrowForwardIosSharpIcon from "@mui/icons-material/ArrowForwardIosSharp"
-import MuiAccordion from "@mui/material/Accordion"
-import MuiAccordionSummary from "@mui/material/AccordionSummary"
-import MuiAccordionDetails from "@mui/material/AccordionDetails"
-import Typography from "@mui/material/Typography"
+import { Divider, Stack, Typography } from "@mui/material"
 import Markdown from "../elements/markdown"
-import Divider from "@mui/material/Divider"
+import {
+  Accordion,
+  AccordionSummary,
+  AccordionDetails,
+} from "../elements/accordion"
+import {
+  Block,
+  ButtonBlockContainer,
+  PanelContainer,
+} from "../elements/side-tab-menu"
 
-const Accordion = styled((props) => (
-  <MuiAccordion disableGutters elevation={0} square {...props} />
-))(({ theme }) => ({
-  "&:not(:last-child)": {
-    borderBottom: 0,
-  },
-  "&:before": {
-    display: "none",
-  },
-  background: "linear-gradient(315deg, transparent 17px, #e5e0e7 0)",
-  marginBottom: "1rem",
-}))
-
-const AccordionSummary = styled((props) => (
-  <MuiAccordionSummary
-    expandIcon={
-      <ArrowForwardIosSharpIcon
-        sx={{
-          fontSize: "2rem",
-          padding: "0.75rem 0.5rem 0.5rem 0",
-          color: "#532565",
-        }}
-      />
+const groupByTag = (array) =>
+  array.reduce((buckets, question) => {
+    if (question.tag in buckets) {
+      buckets[question.tag].push(question)
+      return buckets
     }
-    {...props}
-  />
-))(({ theme }) => ({
-  flexDirection: "row",
-  "& .MuiAccordionSummary-expandIconWrapper": {
-    transform: "rotate(90deg)",
-  },
-  "& .MuiAccordionSummary-expandIconWrapper.Mui-expanded": {
-    transform: "rotate(270deg)",
-  },
-  "& .MuiAccordionSummary-content": {
-    marginLeft: theme.spacing(1),
-  },
-  "& .MuiSvgIcon-root": {
-    padding: "0.5rem",
-  },
-  color: "#532565",
-  fontWeight: "600",
-}))
-
-const AccordionDetails = styled(MuiAccordionDetails)(({ theme }) => ({
-  padding: "0rem 2.6rem 1rem",
-  // borderTop: "1px solid rgba(0, 0, 0, .125)",
-  border: "none",
-  color: "#532565",
-}))
+    buckets[question.tag] = [question]
+    return buckets
+  }, {})
 
 export default function Faqs({ data }) {
-  const [faqs, setFaqs] = useState([])
+  const faqs = groupByTag(data.question)
+
   const [expanded, setExpanded] = useState()
-  const [open, setOpen] = useState(true)
+  const [selectedCategory, setSelectedCategory] = useState(Object.keys(faqs)[0])
 
-  const handleClose = () => {
-    setOpen(false)
-  }
-
-  useEffect(() => {
-    // Split the array into separate objects by the tag property
-    function groupByTag(arr, property) {
-      return arr.reduce(function (memo, x) {
-        if (!memo[x[property]]) {
-          memo[x[property]] = []
-        }
-        memo[x[property]].push(x)
-        return memo
-      }, {})
-    }
-
-    const separateObject = (obj) => {
-      const res = []
-      const keys = Object.keys(obj)
-      keys.forEach((key) => {
-        res.push({
-          key: key,
-          data: obj[key],
-        })
-      })
-      return res
-    }
-
-    const group = groupByTag(data.question, "tag")
-    const newState = separateObject(group)
-    setFaqs(newState)
-  }, [data.question])
-
-  const handleChange = (panel) => (event, newExpanded) => {
+  const handleAccordionChange = (panel) => (_, newExpanded) => {
     setExpanded(newExpanded ? panel : false)
   }
 
   return (
     <div className="container pb-4">
-      {faqs.map((faq, i) => {
-        return (
-          <div
-            key={i + "obj"}
-            style={{
-              marginBottom: "2rem",
-              background: "#fff",
+      <Stack
+        direction={{ sm: "column", md: "row" }}
+        justifyContent="flex-start"
+      >
+        <ButtonBlockContainer
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "stretch",
+            flex: {
+              md: "0 0 300px",
+              sm: "0 0 200px",
+              xs: "0 0 150px",
+            },
+          }}
+          role="tablist"
+        >
+          {Object.keys(faqs).map((faqCategory, i) => {
+            return (
+              <Block
+                onClick={() => setSelectedCategory(faqCategory)}
+                key={i + faqCategory}
+                title={faqCategory}
+                index={i}
+                isSelected={faqCategory === selectedCategory}
+              />
+            )
+          })}
+        </ButtonBlockContainer>
+
+        <PanelContainer role="tabpanel">
+          <Typography
+            variant="h2"
+            color="primary"
+            sx={{
+              fontWeight: "600",
+              paddingTop: 0,
+              fontSize: "1.4rem",
             }}
           >
-            <Typography
-              variant="h2"
-              sx={{
-                fontSize: "1.8rem",
-                lineHeight: "1.25",
-                fontWeight: "500",
-                color: "#982568",
-                paddingTop: "2rem",
-              }}
-            >
-              {faq.key !== "null" ? faq.key : "FAQs"}
-            </Typography>
-            <Divider sx={{ backgroundColor: "#982568" }} />
-            <br />
-            {faq.data.map((question, i) => {
+            {selectedCategory}
+          </Typography>
+          <Divider sx={{ backgroundColor: "#982568", marginBottom: "1rem" }} />
+
+          {Boolean(selectedCategory) &&
+            faqs[selectedCategory].map((question, i) => {
               return (
                 <Accordion
                   expanded={expanded === "panel" + i + question.question}
-                  onChange={handleChange("panel" + i + question.question)}
+                  onChange={handleAccordionChange(
+                    "panel" + i + question.question
+                  )}
                   key={question.question + i}
                 >
                   <AccordionSummary
                     aria-controls={"panel" + i + question.question}
                     id={"panel" + i + question.question}
                   >
-                    <Typography
-                      variant="h3"
-                      sx={{ fontSize: "1.2rem", fontWeight: "500" }}
-                    >
-                      {question.question}
-                    </Typography>
+                    <Typography variant="h3">{question.question}</Typography>
                   </AccordionSummary>
                   <AccordionDetails>
                     <Markdown>{question.answerFAQ}</Markdown>
@@ -150,9 +100,8 @@ export default function Faqs({ data }) {
                 </Accordion>
               )
             })}
-          </div>
-        )
-      })}
+        </PanelContainer>
+      </Stack>
     </div>
   )
 }
