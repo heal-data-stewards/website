@@ -18,7 +18,7 @@ const InternalLink = React.forwardRef(function InternalLink(
 
 //
 
-const ExternalLink = ({ href, children, ...props }) => {
+const ExternalLink = ({ href, children, darkBackground, ...props }) => {
   return (
     <Fragment>
       <MUILink
@@ -28,7 +28,7 @@ const ExternalLink = ({ href, children, ...props }) => {
         underline="hover"
         sx={{
           fontWeight: "600",
-          color: "#982568",
+          color: darkBackground ? "#EFBDDA" : "#982568",
         }}
         {...props}
       >
@@ -41,7 +41,7 @@ const ExternalLink = ({ href, children, ...props }) => {
 //
 
 const CustomLink = React.forwardRef(function Link(
-  { to, children, ...props },
+  { to, children, darkBackground, ...props },
   ref
 ) {
   const mailtoPattern = new RegExp(/^mailto:/)
@@ -55,6 +55,7 @@ const CustomLink = React.forwardRef(function Link(
       href={to}
       to={to}
       ref={ref}
+      darkBackground={darkBackground}
       {...props}
     >
       {children}
