@@ -96,7 +96,7 @@ export default function DecisionTool({ data }) {
       <div style={{ marginBottom: "10px" }}>
         <TextField
           id="outlined-basic"
-          label="App / Proj Number"
+          label="App / Proj / CTN Number"
           variant="outlined"
         />
         <Button
