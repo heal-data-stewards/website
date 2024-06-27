@@ -95,13 +95,13 @@ export default function RoadMap({ data }) {
     <div className={"container mb-16"}>
       <p style={{ marginBottom: "20px", fontSize: "16px" }}>
         {
-          "Wondering where your study is on the HEAL compliance journey? Try our new HEAL Checklist Progress Tracker. Just type in your study's unique application ID or project number in the search bar below to see your study's status for steps we can track."
+          "Just type in your study's unique application ID, project number, or CTN protocol number (as CTN[number] or CTN-[number]) in the search bar below to see your study's status for steps we can track."
         }
       </p>
       <div style={{ marginBottom: "10px" }}>
         <TextField
           id="outlined-basic"
-          label="App / Proj Number"
+          label="App / Proj / CTN Number"
           variant="outlined"
           onChange={handleTextFieldChange}
           value={value}

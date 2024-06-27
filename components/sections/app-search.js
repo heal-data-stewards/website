@@ -360,7 +360,7 @@ export default function AppSearch({ data }) {
         >
           <TextField
             id="outlined-basic"
-            label="App / Proj Number"
+            label="App / Proj / CTN Number"
             variant="outlined"
             onChange={handleTextFieldChange}
             value={value}
