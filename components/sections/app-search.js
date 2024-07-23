@@ -77,7 +77,7 @@ const columns = [
           <>
             <p style={{ marginBottom: "1rem" }}>
               Below is a table indicating submission status for repositories
-              you&apos;ve indicated
+              you&apos;ve indicated.
             </p>
             <SubTable>
               <thead>
@@ -261,7 +261,7 @@ export default function AppSearch({ data }) {
           linkProvided: hasDataLink,
           additionalInformation: hasDataLink
             ? "Thank you!"
-            : `If you've submitted data to ${repo.repository_name}, please submit corresponding link to platform`,
+            : `If you've submitted data to ${repo.repository_name}, please submit the corresponding link to the platform.`,
         })
       }
 
