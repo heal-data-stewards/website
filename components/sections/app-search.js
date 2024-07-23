@@ -72,7 +72,6 @@ const columns = [
           </Markdown>
         )
       } else {
-        console.log(value)
         return (
           <>
             <p style={{ marginBottom: "1rem" }}>
