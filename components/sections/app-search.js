@@ -10,6 +10,19 @@ import axios from "axios"
 import { useRouter } from "next/router"
 import { CircularProgress } from "@mui/material"
 import { formatList } from "utils/format-list"
+import styled from "styled-components"
+
+const RedX = () => (
+  <CancelIcon style={{ color: "#cf0000", width: "50px", height: "50px" }} />
+)
+
+const GreenCheck = () => (
+  <CheckCircleIcon style={{ color: "green", width: "50px", height: "50px" }} />
+)
+
+const QuestionMark = () => (
+  <HelpIcon style={{ color: "#f9bc00", width: "50px", height: "50px" }} />
+)
 
 const columns = [
   {
@@ -21,34 +34,11 @@ const columns = [
       let icon = (expr) => {
         switch (expr) {
           case "red":
-            return (
-              <CancelIcon
-                style={{ color: "#cf0000", width: "50px", height: "50px" }}
-              />
-            )
+            return <RedX />
           case "green":
-            return (
-              <CheckCircleIcon
-                style={{ color: "green", width: "50px", height: "50px" }}
-              />
-            )
-          case "green-and-red":
-            return (
-              <div>
-                <CheckCircleIcon
-                  style={{ color: "green", width: "50px", height: "50px" }}
-                />
-                <CancelIcon
-                  style={{ color: "#cf0000", width: "50px", height: "50px" }}
-                />
-              </div>
-            )
+            return <GreenCheck />
           case "yellow":
-            return (
-              <HelpIcon
-                style={{ color: "#f9bc00", width: "50px", height: "50px" }}
-              />
-            )
+            return <QuestionMark />
           default:
             console.log(`Sorry, we are out of ${expr}.`)
         }
@@ -74,11 +64,46 @@ const columns = [
     header: "Notes",
     // eslint-disable-next-line react/display-name
     Cell: ({ cell }) => {
-      return (
-        <Markdown linkTarget="_blank" className="general-table">
-          {cell.getValue()}
-        </Markdown>
-      )
+      const value = cell.getValue()
+      if (typeof value === "string") {
+        return (
+          <Markdown linkTarget="_blank" className="general-table">
+            {cell.getValue()}
+          </Markdown>
+        )
+      } else {
+        console.log(value)
+        return (
+          <>
+            <p style={{ marginBottom: "1rem" }}>
+              Below is a table indicating submission status for repositories
+              you&apos;ve indicated
+            </p>
+            <SubTable>
+              <thead>
+                <tr>
+                  <th>Repository</th>
+                  <th>Data Submitted</th>
+                  <th>Link Provided</th>
+                  <th>Additional Information</th>
+                </tr>
+              </thead>
+              <tbody>
+                {value.map((row, i) => (
+                  <tr key={i}>
+                    <td>{row.repository}</td>
+                    <td>
+                      {row.dataSubmitted ? <GreenCheck /> : <QuestionMark />}
+                    </td>
+                    <td>{row.linkProvided ? <GreenCheck /> : <RedX />}</td>
+                    <td>{row.additionalInformation}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </SubTable>
+          </>
+        )
+      }
     },
   },
 ]
@@ -222,70 +247,30 @@ export default function AppSearch({ data }) {
     }
 
     if ("repository_metadata" in data) {
-      const step = "Submit Data and Metadata to a Repository"
-      const repos = data.repository_metadata
-      const reposWithData = repos.filter(
-        ({ repository_study_link }) =>
-          typeof repository_study_link === "string" &&
-          repository_study_link.length > 0
-      )
-      const reposWithoutData = repos.filter((r) => !reposWithData.includes(r))
+      const step =
+        "Submit Data and Metadata to a Repository / Submit Data Link to Platform"
 
-      let status, notes
-      if (repos.length === 0) {
-        status = "red"
-        notes =
-          "If you are not ready to submit your data and metadata to a repository, that's okay! Revisit this when you're ready, and feel free to reach out to us with any questions or if you need assistance."
-      } else if (reposWithData.length === repos.length) {
-        status = "green"
-        notes =
-          "Congratulations on submitting your data and metadata to a HEAL-compliant repository!"
-      } else {
-        status = "green-and-red"
-        notes = ""
-
-        if (reposWithData.length > 0) {
-          const repoDataNames = reposWithData
-            .filter((r) => typeof r.repository_name === "string")
-            .map((r) => r.repository_name)
-
-          if (repoDataNames.length > 0) {
-            notes += `Thanks for submitting to ${formatList(repoDataNames)}`
-          } else {
-            notes += `Thanks for submitting to ${
-              reposWithData.length
-            } repositor${reposWithData.length > 1 ? "ies" : "y"}`
-          }
-
-          if (reposWithoutData.length === 0) notes += "."
-        }
-
-        if (reposWithoutData.length > 0) {
-          if (reposWithData.length > 0) {
-            notes += "; p"
-          } else {
-            notes += "P"
-          }
-
-          if (reposWithData.length === 0) {
-            status = "red"
-          }
-
-          const repoWithoutDataNames = reposWithoutData
-            .filter((r) => typeof r.repository_name === "string")
-            .map((r) => r.repository_name)
-
-          if (repoWithoutDataNames.length > 0) {
-            notes += `lease let us know once you've submitted data to ${formatList(
-              repoWithoutDataNames
-            )}.`
-          } else {
-            notes += `lease let us know once you've submitted data to the ${
-              reposWithoutData.length
-            } remaining repositor${reposWithoutData.length > 1 ? "ies" : "y"}.`
-          }
-        }
+      const notes = []
+      for (const repo of data.repository_metadata) {
+        const hasDataLink =
+          typeof repo.repository_study_link === "string" &&
+          repo.repository_study_link.length > 0
+        notes.push({
+          repository: repo.repository_name,
+          dataSubmitted: hasDataLink,
+          linkProvided: hasDataLink,
+          additionalInformation: hasDataLink
+            ? "Thank you!"
+            : `If you've submitted data to ${repo.repository_name}, please submit corresponding link to platform`,
+        })
       }
+
+      const status = notes.every(({ dataSubmitted }) => dataSubmitted)
+        ? "green"
+        : notes.every(({ dataSubmitted }) => !dataSubmitted)
+        ? "red"
+        : "yellow"
+
       steps.push({ status, step, notes })
     }
 
@@ -450,3 +435,28 @@ export default function AppSearch({ data }) {
     </div>
   )
 }
+
+const SubTable = styled.table`
+  table-layout: fixed;
+
+  & th {
+    vertical-align: top;
+    font-weight: 600;
+    width: fit-content;
+  }
+
+  & th:nth-of-type(2),
+  & th:nth-of-type(3) {
+    width: 160px;
+  }
+
+  & td:nth-of-type(2),
+  & td:nth-of-type(3) {
+    text-align: center;
+  }
+
+  & td,
+  & th {
+    padding: 0.25rem;
+  }
+`
