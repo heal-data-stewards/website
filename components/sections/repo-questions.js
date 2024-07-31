@@ -73,7 +73,7 @@ const RepoQuestions = ({ data }) => {
         Start Over
       </Button>
     ),
-    [optionalInformation, questionToShow]
+    [handleClickStartOver, questionToShow, showOptions]
   )
 
   return (
