@@ -8,7 +8,14 @@ import HelpIcon from "@mui/icons-material/Help"
 import CancelIcon from "@mui/icons-material/Cancel"
 import axios from "axios"
 import { useRouter } from "next/router"
-import { CircularProgress } from "@mui/material"
+import {
+  Box,
+  CircularProgress,
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Select,
+} from "@mui/material"
 import { formatList } from "utils/format-list"
 import styled from "styled-components"
 
@@ -108,15 +115,20 @@ const columns = [
 ]
 
 export default function AppSearch({ data }) {
-  const [idNumber, setIdNumber] = React.useState(0)
   const [value, setValue] = React.useState("")
   const [payload, setPayload] = React.useState(false)
-  const [tableData, setTableData] = React.useState(false)
+  const [selectedHdpId, setSelectedHdpId] = React.useState("")
   const [sentParam, setStoreSentParam] = React.useState()
   const [showSupport, setShowSupport] = React.useState(false)
 
   const router = useRouter()
   const params = router.query
+
+  const tableData = React.useMemo(() => {
+    if (!payload) return false
+    const study = payload.find(({ hdp_id }) => hdp_id === selectedHdpId)
+    return study !== undefined ? createData(study) : false
+  }, [payload, selectedHdpId])
 
   React.useEffect(() => {
     if (params.data) {
@@ -136,7 +148,7 @@ export default function AppSearch({ data }) {
         .then((response) => {
           if (response.data.length > 0) {
             setPayload(response.data)
-            createData(response.data)
+            setSelectedHdpId(response.data[0].hdp_id)
             setShowSupport(false)
           } else {
             if (params.data.length > 0) {
@@ -151,8 +163,7 @@ export default function AppSearch({ data }) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
-  function createData(res) {
-    const data = res[0]
+  function createData(data) {
     const steps = []
 
     if ("appl_id" in data) {
@@ -287,7 +298,7 @@ export default function AppSearch({ data }) {
         "We cannot confirm whether or not you have reported your research publications. Remember to report your research publication to  HEALquestion@od.nih.gov upon publication in a journal! Award recipients and their collaborators are required to acknowledge NIH HEAL Initiative support by referencing in the acknowledgement sections of any relevant publication: This research was supported by the National Institutes of Health through the NIH HEAL Initiative (/) under award number [include specific grant/contract/award number; with NIH grant number(s) in this format: R01GM987654].",
     })
 
-    setTableData(steps)
+    return steps
   }
 
   const getAppId = (e) => {
@@ -338,26 +349,61 @@ export default function AppSearch({ data }) {
           noValidate
           autoComplete="off"
           onSubmit={getAppId}
-          style={{ marginBottom: "10px" }}
+          style={{
+            marginBottom: "10px",
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            gap: "1rem",
+          }}
         >
-          <TextField
-            id="outlined-basic"
-            label="App / Proj / CTN Number"
-            variant="outlined"
-            onChange={handleTextFieldChange}
-            value={value}
-          />
-          <Button
-            style={{
-              height: "43px",
-              marginTop: "7.5px",
-              marginLeft: "20px",
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "row",
+              "& .MuiInputBase-root": { mb: 0 },
             }}
-            variant="contained"
-            type="submit"
           >
-            Check Status
-          </Button>
+            <TextField
+              id="outlined-basic"
+              label="App / Proj / CTN Number"
+              variant="outlined"
+              onChange={handleTextFieldChange}
+              value={value}
+              sx={{ "& .MuiInputBase-root": { borderRadius: "4px 0 0 4px" } }}
+            />
+            <Button
+              variant="contained"
+              type="submit"
+              sx={{ borderRadius: "0 4px 4px 0 !important" }}
+            >
+              Check Status
+            </Button>
+          </Box>
+          {payload.length <= 1 ? (
+            <span>HEAL Data Plan ID: {selectedHdpId}</span>
+          ) : (
+            <FormControl
+              sx={{ width: "200px", "& .MuiInputBase-root": { mb: 0 } }}
+            >
+              <InputLabel id="hdp-id-label">HEAL Data Plan ID</InputLabel>
+              <Select
+                labelId="hdp-id-label"
+                id="hdp-id"
+                label="HEAL Data Plan ID"
+                value={selectedHdpId}
+                onChange={(e) => {
+                  setSelectedHdpId(e.target.value)
+                }}
+              >
+                {payload.map(({ hdp_id }) => (
+                  <MenuItem key={hdp_id} value={hdp_id}>
+                    {hdp_id}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+          )}
         </form>
       )}
       {/* For studies that have many projects to one number https://mui.com/material-ui/react-select/ */}
