@@ -532,7 +532,9 @@ const SubTable = styled.table`
 `
 
 const SecondaryTable = styled.table`
-  margin: 1rem 0 2rem 0;
+  --table-padding: 1rem;
+  margin: 1rem calc(-1 * var(--table-padding)) 2rem
+    calc(-1 * var(--table-padding));
   font-size: 1.075rem;
   line-height: 1.546;
 
@@ -548,6 +550,6 @@ const SecondaryTable = styled.table`
 
   & td,
   & th {
-    padding: 1rem;
+    padding: var(--table-padding);
   }
 `
