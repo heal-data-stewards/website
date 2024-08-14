@@ -234,12 +234,12 @@ export default function AppSearch({ data }) {
       const step =
         "Submit Data and Metadata to a Repository / Submit Data Link to Platform"
 
-      const notes = []
+      const multiRepoNotes = []
       for (const repo of data.repository_metadata) {
         const hasDataLink =
           typeof repo.repository_study_link === "string" &&
           repo.repository_study_link.length > 0
-        notes.push({
+        multiRepoNotes.push({
           repository: repo.repository_name,
           dataSubmitted: hasDataLink,
           linkProvided: hasDataLink,
@@ -249,13 +249,19 @@ export default function AppSearch({ data }) {
         })
       }
 
-      const status = notes.every(({ dataSubmitted }) => dataSubmitted)
+      const status = multiRepoNotes.every(({ dataSubmitted }) => dataSubmitted)
         ? "green"
-        : notes.every(({ dataSubmitted }) => !dataSubmitted)
+        : multiRepoNotes.every(({ dataSubmitted }) => !dataSubmitted)
         ? "red"
         : "yellow"
 
-      steps.push({ status, step, notes })
+      const completeNote = `Thank you for submitting the data and links for the repositories you've indicated.`
+
+      steps.push({
+        status,
+        step,
+        notes: multiRepoNotes.length > 0 ? multiRepoNotes : completeNote,
+      })
     }
 
     return steps
