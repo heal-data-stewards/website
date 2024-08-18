@@ -395,16 +395,18 @@ export default function AppSearch({ data }) {
         </div>
       )}
       {!payload ? (
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            minHeight: "200px",
-          }}
-        >
-          <CircularProgress />
-        </div>
+        !showSupport ? (
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              minHeight: "200px",
+            }}
+          >
+            <CircularProgress />
+          </div>
+        ) : null
       ) : (
         <>
           <div
