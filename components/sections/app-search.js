@@ -352,11 +352,11 @@ export default function AppSearch({ data }) {
             <FormControl
               sx={{ width: "200px", "& .MuiInputBase-root": { mb: 0 } }}
             >
-              <InputLabel id="hdp-id-label">HEAL Data Plan ID</InputLabel>
+              <InputLabel id="hdp-id-label">HEAL Data Platform ID</InputLabel>
               <Select
                 labelId="hdp-id-label"
                 id="hdp-id"
-                label="HEAL Data Plan ID"
+                label="HEAL Data Platform ID"
                 value={selectedHdpId}
                 onChange={(e) => {
                   setSelectedHdpId(e.target.value)
