@@ -347,7 +347,7 @@ export default function AppSearch({ data }) {
             </Button>
           </Box>
           {payload.length <= 1 ? (
-            <span>HEAL Data Plan ID: {selectedHdpId}</span>
+            <span>HEAL Data Platform ID: {selectedHdpId}</span>
           ) : (
             <FormControl
               sx={{ width: "200px", "& .MuiInputBase-root": { mb: 0 } }}
