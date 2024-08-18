@@ -289,7 +289,7 @@ export default function AppSearch({ data }) {
         if (response.data.length > 0) {
           setShowSupport(false)
           setPayload(response.data)
-          createData(response.data)
+          setSelectedHdpId(response.data[0].hdp_id)
         } else {
           setShowSupport(true)
           setStoreSentParam(value)
