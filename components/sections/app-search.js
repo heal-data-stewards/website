@@ -249,18 +249,25 @@ export default function AppSearch({ data }) {
         })
       }
 
-      const status = multiRepoNotes.every(({ dataSubmitted }) => dataSubmitted)
-        ? "green"
-        : multiRepoNotes.every(({ dataSubmitted }) => !dataSubmitted)
-        ? "red"
-        : "yellow"
-
-      const completeNote = `Thank you for submitting the data and links for the repositories you've indicated.`
+      let status, simpleNote
+      if (multiRepoNotes.length === 0) {
+        status = "red"
+        simpleNote =
+          "Have you selected a HEAL-compliant repostiory for sharing your data yet? If not, please review the HEAL data repository selection guide for guidance in selecting an appropriate repository, and reach out to us for additional assistance at any time. If you have already selected a repository, please report your selection to the Platform team at [heal-support@datacommons.io](mailto:heal-support@datacommons.io)."
+      } else {
+        if (multiRepoNotes.every((r) => r.dataSubmitted)) {
+          status = "green"
+        } else if (multiRepoNotes.every((r) => !r.dataSubmitted)) {
+          status = "red"
+        } else {
+          status = "yellow"
+        }
+      }
 
       steps.push({
         status,
         step,
-        notes: multiRepoNotes.length > 0 ? multiRepoNotes : completeNote,
+        notes: multiRepoNotes.length > 0 ? multiRepoNotes : simpleNote,
       })
     }
 
