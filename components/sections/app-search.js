@@ -226,7 +226,8 @@ export default function AppSearch({ data }) {
             } to the HEAL Platform! Your repositor${
               repoNames.length > 1 ? "ies" : "y"
             }: ${formatList(repoNames)}`
-          : "Have you selected a HEAL-compliant repostiory for sharing your data yet? If not, please review the HEAL data repository selection guide for guidance in selecting an appropriate repository, and reach out to us for additional assistance at any time. If you have already selected a repository, please report your selection to the Platform team at [heal-support@datacommons.io](mailto:heal-support@datacommons.io)."
+          : "Have you selected a HEAL-compliant repostiory for sharing your data yet? If not, please review the [HEAL data repository selection guide](https://www.healdatafair.org/resources/guidance/selection) for guidance in selecting an appropriate repository, and [reach out to the HEAL Stewards](https://docs.google.com/forms/d/e/1FAIpQLSc1gGjOQ7UsmBlMuqUzczPnbjKnbH2hjWgGLrY2xVsRH3n1vg/viewform) for additional assistance at any time. If you have already selected a repository, please report your selection to the Platform team at [heal-support@datacommons.io](mailto:heal-support@datacommons.io)."
+
       steps.push({ status, step, notes })
     }
 
@@ -253,7 +254,7 @@ export default function AppSearch({ data }) {
       if (multiRepoNotes.length === 0) {
         status = "red"
         simpleNote =
-          "Have you selected a HEAL-compliant repostiory for sharing your data yet? If not, please review the HEAL data repository selection guide for guidance in selecting an appropriate repository, and reach out to us for additional assistance at any time. If you have already selected a repository, please report your selection to the Platform team at [heal-support@datacommons.io](mailto:heal-support@datacommons.io)."
+          "If you are not ready to submit your data and metadata to a repository, that's okay! Revisit this when you're ready, and feel free to [reach out to the HEAL Stewards](https://forms.fillout.com/t/gcVveGMswBus) with any questions or if you need assistance. If you are ready to submit your data and metadata to a repository, please do so as soon as you can! For guidance on submitting data to the repository you selected, follow the appropriate link in the “get started here” column on the [HEAL Data Repository Selection Guide](https://www.healdatafair.org/resources/guidance/selection) webpage."
       } else {
         if (multiRepoNotes.every((r) => r.dataSubmitted)) {
           status = "green"
