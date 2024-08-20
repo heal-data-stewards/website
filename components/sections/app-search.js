@@ -451,8 +451,7 @@ export default function AppSearch({ data }) {
             enableGlobalFilter={false} //turn off a feature
           />
           <p style={{ fontSize: "1.075rem", margin: "4rem 0 1rem 0" }}>
-            We cannot confirm all checklist steps automatically. Below are a
-            list of the extra steps that must be checked manually.
+            Below is a list of the extra steps that must be checked manually.
           </p>
           <SecondaryTable>
             <thead>
@@ -465,52 +464,66 @@ export default function AppSearch({ data }) {
               <tr>
                 <td>Use HEAL Common Data Elements to Collect Your Data</td>
                 <td>
-                  We cannot currently confirm whether or not you are using CDEs
-                  to collect your study data. All pain clinical studies are
-                  required to use these CDEs, and to use the variable names and
-                  the standardized codings provided by the HEAL CDE team.
-                  Additionally, all studies using CDEs will be required to
-                  report which questionnaires are being used to the HEAL CDE
-                  team at heal_cde@hsc.utah.edu. Please review the CDEs section
-                  of the Checklist for HEAL-Compliant Data for more information.
+                  <Markdown>
+                    We cannot currently confirm whether or not you are using
+                    CDEs to collect your study data. All pain clinical studies
+                    are required to use these CDEs, and to use the variable
+                    names and the standardized codings provided by the HEAL CDE
+                    team. Additionally, all studies using CDEs will be required
+                    to report which questionnaires are being used to the HEAL
+                    CDE team at
+                    [heal_cde@hsc.utah.edu](mailto:heal_cde@hsc.utah.edu).
+                    Please review the CDEs section of the Checklist for
+                    HEAL-Compliant Data for more information.
+                  </Markdown>
                 </td>
               </tr>
               <tr>
                 <td>Submit Variable-Level Metadata</td>
                 <td>
-                  Please submit your variable-level metadata (VLMD) or, data
-                  dictionary, to the HEAL Stewards via email at
-                  HEALStewards@renci.org. Note that we can accept data
-                  dictionaries at any point in your study, even if incomplete!
-                  Data dictionaries inherently should not contain sensitive
-                  information such as personal health information (PHI) or
-                  personally identifiable information (PII). Data dictionaries
-                  will be shared publicly via the HEAL Data Platform and HEAL
-                  Semantic Search tool.
+                  <Markdown>
+                    Please submit your variable-level metadata (VLMD) or, data
+                    dictionary, to the HEAL Stewards via email at
+                    [HEALStewards@renci.org](mailto:HEALStewards@renci.org).
+                    Note that we can accept data dictionaries at any point in
+                    your study, even if incomplete! Data dictionaries inherently
+                    should not contain sensitive information such as personal
+                    health information (PHI) or personally identifiable
+                    information (PII). Data dictionaries will be shared publicly
+                    via the HEAL Data Platform and [HEAL Semantic Search
+                    tool](https://www.healdatafair.org/resources/semanticsearch).
+                  </Markdown>
                 </td>
               </tr>
               <tr>
                 <td>Ensure Public Access to HEAL-funded publications</td>
                 <td>
-                  We cannot confirm whether or not your research publicatons are
-                  publicly accessible. NIH HEAL Initiative funded investigators
-                  are required to make any publications associated with their
-                  study publicly accessible immediately upon publication.
+                  <Markdown>
+                    We cannot confirm whether or not your research publicatons
+                    are publicly accessible. NIH HEAL Initiative funded
+                    investigators are required to make any publications
+                    associated with their study publicly accessible immediately
+                    upon publication.
+                  </Markdown>
                 </td>
               </tr>
               <tr>
                 <td>Report Your Research Publication</td>
                 <td>
-                  We cannot confirm whether or not you have reported your
-                  research publications. Remember to report your research
-                  publication to HEALquestion@od.nih.gov upon publication in a
-                  journal! Award recipients and their collaborators are required
-                  to acknowledge NIH HEAL Initiative support by referencing in
-                  the acknowledgement sections of any relevant publication: This
-                  research was supported by the National Institutes of Health
-                  through the NIH HEAL Initiative (/) under award number
-                  [include specific grant/contract/award number; with NIH grant
-                  number(s) in this format: R01GM987654].
+                  <Markdown>
+                    We cannot confirm whether or not you have reported your
+                    research publications. Remember to report your research
+                    publication to
+                    [HEALquestion@od.nih.gov](mailto:HEALquestion@od.nih.gov)
+                    upon publication in a journal! Award recipients and their
+                    collaborators are required to acknowledge NIH HEAL
+                    Initiative support by referencing in the acknowledgement
+                    sections of any relevant publication: This research was
+                    supported by the National Institutes of Health through the
+                    NIH HEAL Initiative (/) under award number [include specific
+                    grant/contract/award number; with NIH grant number(s) in
+                    this format: R01GM987654].
+                  </Markdown>
                 </td>
               </tr>
             </tbody>
