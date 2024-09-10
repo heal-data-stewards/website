@@ -130,6 +130,11 @@ export default function AppSearch({ data }) {
     return study !== undefined ? createData(study) : false
   }, [payload, selectedHdpId])
 
+  const selectedStudy = React.useMemo(() => {
+    if (!payload) return false
+    return payload.find(({ hdp_id }) => hdp_id === selectedHdpId) ?? false
+  }, [payload, selectedHdpId])
+
   React.useEffect(() => {
     if (params.data) {
       let regExp = /[a-zA-Z]/g
@@ -146,9 +151,12 @@ export default function AppSearch({ data }) {
           `https://k18san0v73.execute-api.us-east-1.amazonaws.com/prod/progresstracker?${param}${params.data}`
         )
         .then((response) => {
-          if (response.data.length > 0) {
-            setPayload(response.data)
-            setSelectedHdpId(response.data[0].hdp_id)
+          const filteredStudies = response.data.filter(
+            ({ archived }) => archived === "live"
+          )
+          if (filteredStudies.length > 0) {
+            setPayload(filteredStudies)
+            setSelectedHdpId(filteredStudies[0].hdp_id)
             setShowSupport(false)
           } else {
             if (params.data.length > 0) {
@@ -423,23 +431,23 @@ export default function AppSearch({ data }) {
           >
             <div className="w-96 pr-[20px]">
               <h2 className="font-bold text-xl">Study Title</h2>
-              <p className="text-l">{payload[0].study_name}</p>
+              <p className="text-l">{selectedStudy.study_name}</p>
             </div>
             <div className="w-96 pr-[20px]">
               <h2 className="font-bold text-xl">PI</h2>
               <div className="text-l">
-                {payload[0].investigators_name?.map((name, i) => {
+                {selectedStudy.investigators_name?.map((name, i) => {
                   return <div key={i + name}>{name}</div>
                 }) ?? ""}
               </div>
             </div>
             <div className="w-96 pr-[20px]">
               <h2 className="font-bold text-xl">Research Area</h2>
-              <p className="text-l">{payload[0].project_title}</p>
+              <p className="text-l">{selectedStudy.project_title}</p>
             </div>
             <div className="w-96">
               <h2 className="font-bold text-xl">Award Year</h2>
-              <p className="text-l"> {payload[0].year_awarded} </p>
+              <p className="text-l"> {selectedStudy.year_awarded} </p>
             </div>
           </div>
           <MaterialReactTable
