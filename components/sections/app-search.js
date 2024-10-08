@@ -1,6 +1,7 @@
 import * as React from "react"
 import Button from "@mui/material/Button"
 import TextField from "@mui/material/TextField"
+import InfoIcon from "@mui/icons-material/Info"
 import { MaterialReactTable } from "material-react-table"
 import Markdown from "../elements/markdown"
 import CheckCircleIcon from "@mui/icons-material/CheckCircle"
@@ -15,6 +16,8 @@ import {
   InputLabel,
   MenuItem,
   Select,
+  Tooltip,
+  tooltipClasses,
 } from "@mui/material"
 import { formatList } from "utils/format-list"
 import styled from "styled-components"
@@ -89,8 +92,8 @@ const columns = [
               <thead>
                 <tr>
                   <th>Repository</th>
-                  <th>Data Submitted</th>
-                  <th>Link Provided</th>
+                  <th style={{ textAlign: "center" }}>Data Submitted</th>
+                  <th style={{ textAlign: "center" }}>Link Provided</th>
                   <th>Additional Information</th>
                 </tr>
               </thead>
@@ -365,26 +368,45 @@ export default function AppSearch({ data }) {
           {payload.length <= 1 ? (
             <span>HEAL Data Platform ID: {selectedHdpId}</span>
           ) : (
-            <FormControl
-              sx={{ width: "200px", "& .MuiInputBase-root": { mb: 0 } }}
-            >
-              <InputLabel id="hdp-id-label">HEAL Data Platform ID</InputLabel>
-              <Select
-                labelId="hdp-id-label"
-                id="hdp-id"
-                label="HEAL Data Platform ID"
-                value={selectedHdpId}
-                onChange={(e) => {
-                  setSelectedHdpId(e.target.value)
-                }}
+            <Box sx={{ display: "flex", alignItems: "center", gap: "1rem" }}>
+              <LightTooltip
+                title={
+                  <Markdown>
+                    To locate your HEAL Data Platform ID: 1) search for your
+                    study on the [HEAL Data Platform Discovery
+                    page](https://healdata.org/portal/discovery), then 2) click
+                    on the Study Name in the search results to open the study
+                    page on the right; the HDP ID will be in gray letters under
+                    the study title (ex: HDP00258). If you have your study’s
+                    permalink, your HDP ID will be the number at the end of the
+                    URL. If you need assistance, contact the HEAL Platform Team
+                    at [heal-support@gen3.org](mailto:heal-support@gen3.org).
+                  </Markdown>
+                }
               >
-                {payload.map(({ hdp_id }) => (
-                  <MenuItem key={hdp_id} value={hdp_id}>
-                    {hdp_id}
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
+                <InfoIcon />
+              </LightTooltip>
+              <FormControl
+                sx={{ width: "200px", "& .MuiInputBase-root": { mb: 0 } }}
+              >
+                <InputLabel id="hdp-id-label">HEAL Data Platform ID</InputLabel>
+                <Select
+                  labelId="hdp-id-label"
+                  id="hdp-id"
+                  label="HEAL Data Platform ID"
+                  value={selectedHdpId}
+                  onChange={(e) => {
+                    setSelectedHdpId(e.target.value)
+                  }}
+                >
+                  {payload.map(({ hdp_id }) => (
+                    <MenuItem key={hdp_id} value={hdp_id}>
+                      {hdp_id}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+            </Box>
           )}
         </form>
       )}
@@ -401,7 +423,7 @@ export default function AppSearch({ data }) {
           <span className="text-xl" style={{ color: "blue" }}>
             <a
               target="_blank"
-              href="https://docs.google.com/forms/d/e/1FAIpQLSc1gGjOQ7UsmBlMuqUzczPnbjKnbH2hjWgGLrY2xVsRH3n1vg/viewform "
+              href="https://forms.fillout.com/t/gcVveGMswBus"
               rel="noreferrer"
             >
               support
@@ -459,8 +481,10 @@ export default function AppSearch({ data }) {
             enableColumnResizing
             enableGlobalFilter={false} //turn off a feature
           />
-          <p style={{ fontSize: "1.075rem", margin: "4rem 0 1rem 0" }}>
-            Below is a list of the extra steps that must be checked manually.
+
+          <p style={{ fontSize: "1.075rem", margin: "4rem 0 0 0" }}>
+            The steps below cannot currently be verified through this website.
+            Please review these steps carefully and complete them if applicable.
           </p>
           <SecondaryTable>
             <thead>
@@ -570,8 +594,7 @@ const SubTable = styled.table`
 
 const SecondaryTable = styled.table`
   --table-padding: 1rem;
-  margin: 1rem calc(-1 * var(--table-padding)) 2rem
-    calc(-1 * var(--table-padding));
+  margin: 0 calc(-1 * var(--table-padding)) 2rem calc(-1 * var(--table-padding));
   font-size: 1.075rem;
   line-height: 1.546;
 
@@ -590,3 +613,14 @@ const SecondaryTable = styled.table`
     padding: var(--table-padding);
   }
 `
+
+const LightTooltip = styled(({ className, ...props }) => (
+  <Tooltip {...props} classes={{ popper: className }} />
+))(({ theme }) => ({
+  [`& .${tooltipClasses.tooltip}`]: {
+    backgroundColor: "white",
+    color: "rgba(0, 0, 0, 0.87)",
+    boxShadow: "0px 2px 4px 0px rgba(0, 0, 0, 0.3)",
+    fontSize: 8,
+  },
+}))
