@@ -384,7 +384,7 @@ export default function AppSearch({ data }) {
                   </Markdown>
                 }
               >
-                <InfoIcon />
+                <InfoIcon sx={{ color: "#cacaca" }} />
               </LightTooltip>
               <FormControl
                 sx={{ width: "200px", "& .MuiInputBase-root": { mb: 0 } }}
