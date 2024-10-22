@@ -162,10 +162,8 @@ export default function AppSearch({ data }) {
             setSelectedHdpId(filteredStudies[0].hdp_id)
             setShowSupport(false)
           } else {
-            if (params.data.length > 0) {
-              setStoreSentParam(params.data)
-              setShowSupport(true)
-            }
+            setStoreSentParam(params.data)
+            setShowSupport(response.data.length > 0 ? "archived" : "unknown")
           }
         })
         .catch((err) => console.error(err))
@@ -305,14 +303,16 @@ export default function AppSearch({ data }) {
         `https://k18san0v73.execute-api.us-east-1.amazonaws.com/prod/progresstracker?${param}${value}`
       )
       .then((response) => {
-        if (response.data.length > 0) {
+        const filteredStudies = response.data.filter(
+          ({ archived }) => archived === "live"
+        )
+        if (filteredStudies.length > 0) {
+          setPayload(filteredStudies)
+          setSelectedHdpId(filteredStudies[0].hdp_id)
           setShowSupport(false)
-          setPayload(response.data)
-          setSelectedHdpId(response.data[0].hdp_id)
         } else {
-          setShowSupport(true)
-          setStoreSentParam(value)
-          setPayload()
+          setStoreSentParam(params.data)
+          setShowSupport(response.data.length > 0 ? "archived" : "unknown")
         }
       })
       .catch((err) => console.error(err))
@@ -325,8 +325,11 @@ export default function AppSearch({ data }) {
   return (
     <div className={"container mb-16"}>
       <div className="text-xl pb-6">
-        <button type="button" onClick={() => router.back()}>
-          {"< - Back to Checklist Requirements"}
+        <button
+          type="button"
+          onClick={() => router.push("/resources/road-map")}
+        >
+          ← Back to Checklist Requirements
         </button>
       </div>
       {payload && (
@@ -412,24 +415,39 @@ export default function AppSearch({ data }) {
       )}
       {/* For studies that have many projects to one number https://mui.com/material-ui/react-select/ */}
       {}
-      {showSupport && (
+      {showSupport !== false && (
         <div>
-          <span className="text-xl">{`We could not locate a study with an application ID or project number of ${sentParam}.`}</span>
-          <span className="text-xl">
-            {
-              " Please verify that you input the correct information, or contact "
-            }
-          </span>
-          <span className="text-xl" style={{ color: "blue" }}>
-            <a
-              target="_blank"
-              href="https://forms.fillout.com/t/gcVveGMswBus"
-              rel="noreferrer"
-            >
-              support
-            </a>{" "}
-          </span>{" "}
-          <span className="text-xl">{" for assistance."}</span>
+          {showSupport === "archived" ? (
+            <span className="text-xl">
+              This record ({sentParam}) was archived based on instructions from
+              someone on the study team, usually because there is another award
+              representing the same study on the HEAL Data Platform. Please{" "}
+              <a
+                style={{ color: "blue" }}
+                target="_blank"
+                href="https://forms.fillout.com/t/gcVveGMswBus"
+                rel="noreferrer"
+              >
+                contact the HEAL stewards
+              </a>{" "}
+              if you think the study should not have been archived.
+            </span>
+          ) : (
+            <span className="text-xl">
+              We could not locate a study with an application ID or project
+              number of {sentParam}. Please verify that you input the correct
+              information, or contact{" "}
+              <a
+                style={{ color: "blue" }}
+                target="_blank"
+                href="https://forms.fillout.com/t/gcVveGMswBus"
+                rel="noreferrer"
+              >
+                support
+              </a>{" "}
+              for assistance.
+            </span>
+          )}
         </div>
       )}
       {!payload ? (
