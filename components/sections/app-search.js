@@ -44,11 +44,34 @@ const columns = [
       let icon = (expr) => {
         switch (expr) {
           case "red":
-            return <RedX />
+            return (
+              <CancelIcon
+                style={{ color: "#cf0000", width: "50px", height: "50px" }}
+              />
+            )
           case "green":
-            return <GreenCheck />
+            return (
+              <CheckCircleIcon
+                style={{ color: "green", width: "50px", height: "50px" }}
+              />
+            )
+          case "green-and-red":
+            return (
+              <div>
+                <CheckCircleIcon
+                  style={{ color: "green", width: "50px", height: "50px" }}
+                />
+                <CancelIcon
+                  style={{ color: "#cf0000", width: "50px", height: "50px" }}
+                />
+              </div>
+            )
           case "yellow":
-            return <QuestionMark />
+            return (
+              <HelpIcon
+                style={{ color: "#f9bc00", width: "50px", height: "50px" }}
+              />
+            )
           default:
             console.log(`Sorry, we are out of ${expr}.`)
         }
