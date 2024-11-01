@@ -246,12 +246,12 @@ content: ""
     padding-bottom: 1rem !important;
     font-family: Montserrat !important;
     color: rgb(83, 37, 101) !important;
-    padding-top: 1.25rem !important;
+    /* padding-top: 1.25rem !important; */
 }
 
 .MuiTypography-h3 {
-    margin: 0px !important;
-    font-size: 1.25rem !important;
+    margin: 1.75rem 0px 0px !important;
+    font-size: 1.5rem !important;
     font-weight: 600 !important;
     padding-bottom: 0.5rem !important;
     line-height: 1.35 !important;
