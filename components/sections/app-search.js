@@ -216,7 +216,7 @@ export default function AppSearch({ data }) {
         step,
         notes: data.clinical_trials_study_ID
           ? "Thank you for registering your study on ClinicalTrials.gov!"
-          : "We do not have a record of an NCT ID for your study. If your study is not a clinical trial, please skip this step! If your study IS a clinical trial, please register your study on ClinicalTrials.gov as soon as possible. If you have not yet registered your study on the HEAL Data Platform, you can enter your NCT ID at registration. If you have already registered your study, please send the NCT ID to [heal-support@datacommons.io](mailto:heal-support@datacommons.io) so we can update your study record.",
+          : "We do not have a record of an NCT ID for your study. If your study is not a clinical trial, please skip this step! If your study IS a clinical trial, please register your study on ClinicalTrials.gov as soon as possible. If you have not yet registered your study on the HEAL Data Platform, you can enter your NCT ID at registration. If you have already registered your study, please send the NCT ID to [heal-support@gen3.org](mailto:heal-support@gen3.org) so we can update your study record.",
       })
     }
 
@@ -227,7 +227,7 @@ export default function AppSearch({ data }) {
         step,
         notes: data.time_of_registration
           ? "Thank you for registering your study on the HEAL Platform!"
-          : "Please register your study on the HEAL Platform as soon as possible. For registration instructions, [click here](https://heal.github.io/platform-documentation/study-registration/). If you cannot find your study on the platform, please reach out to [heal-support@datacommons.io](mailto:heal-support@datacommons.io).",
+          : "Please register your study on the HEAL Platform as soon as possible. For registration instructions, [click here](https://heal.github.io/platform-documentation/study-registration/). If you cannot find your study on the platform, please reach out to [heal-support@gen3.org](mailto:heal-support@gen3.org).",
       })
     }
 
@@ -258,7 +258,7 @@ export default function AppSearch({ data }) {
             } to the HEAL Platform! Your repositor${
               repoNames.length > 1 ? "ies" : "y"
             }: ${formatList(repoNames)}`
-          : "Have you selected a HEAL-compliant repository for sharing your data yet? If not, please review the [HEAL data repository selection guide](https://www.healdatafair.org/resources/guidance/selection) for guidance in selecting an appropriate repository, and [reach out to the HEAL Stewards](https://docs.google.com/forms/d/e/1FAIpQLSc1gGjOQ7UsmBlMuqUzczPnbjKnbH2hjWgGLrY2xVsRH3n1vg/viewform) for additional assistance at any time. If you have already selected a repository, please report your selection to the Platform team at [heal-support@datacommons.io](mailto:heal-support@datacommons.io)."
+          : "Have you selected a HEAL-compliant repository for sharing your data yet? If not, please review the [HEAL data repository selection guide](https://www.healdatafair.org/resources/guidance/selection) for guidance in selecting an appropriate repository, and [reach out to the HEAL Stewards](https://docs.google.com/forms/d/e/1FAIpQLSc1gGjOQ7UsmBlMuqUzczPnbjKnbH2hjWgGLrY2xVsRH3n1vg/viewform) for additional assistance at any time. If you have already selected a repository, please report your selection to the Platform team at [heal-support@gen3.org](mailto:heal-support@gen3.org)."
 
       steps.push({ status, step, notes })
     }
