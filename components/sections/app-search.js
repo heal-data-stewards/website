@@ -128,7 +128,9 @@ const columns = [
                       {row.dataSubmitted ? <GreenCheck /> : <QuestionMark />}
                     </td>
                     <td>{row.linkProvided ? <GreenCheck /> : <RedX />}</td>
-                    <td>{row.additionalInformation}</td>
+                    <td>
+                      <Markdown>{row.additionalInformation}</Markdown>
+                    </td>
                   </tr>
                 ))}
               </tbody>
@@ -277,8 +279,8 @@ export default function AppSearch({ data }) {
           dataSubmitted: hasDataLink,
           linkProvided: hasDataLink,
           additionalInformation: hasDataLink
-            ? "Thank you!"
-            : `If you've submitted data to ${repo.repository_name}, please submit the corresponding link to the platform.`,
+            ? `Congratulations on submitting your data to ${repo_repository_name}!`
+            : `If you've submitted data to ${repo.repository_name}, please submit the corresponding link to the Platform at [heal-support@gen3.org](mailto:heal-support@gen3.org). If you are not ready to submit your data and VLMD to a repository, that's okay\! Revisit this when you're ready, and feel free to reach out to us with any questions or if you need assistance.`,
         })
       }
 
