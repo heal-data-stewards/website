@@ -2,32 +2,52 @@ import React from "react"
 import questions from "../../data/vlmd/questions.json"
 import Markdown from "../elements/markdown"
 
+const initialState = questions.reduce(
+  (prev, { type, id }) => ({
+    ...prev,
+    [id]: type === "single-choice" ? null : [],
+  }),
+  {}
+)
+
+function reducer(state, action) {
+  if (action.type === "update_answer") {
+    const { id, value } = action.payload
+    return { ...state, [id]: value }
+  }
+  return state
+}
+
 const VariableStandards = () => {
-  const [focusArea, setFocusArea] = React.useState()
+  const [state, dispatch] = React.useReducer(reducer, initialState)
+
+  const handleSetSelected = (id, value) => {
+    dispatch({
+      type: "update_answer",
+      payload: { id, value },
+    })
+  }
+
+  React.useEffect(() => console.log(state), [state])
 
   return (
     <div className="container pb-4 mt-20">
-      {/* {questions.map((q, i) => (
+      <pre>{JSON.stringify(state, null, 2)}</pre>
+
+      {questions.map((q, i) => (
         <>
           <Question
             number={i + 1}
             key={i}
             question={q}
-            selected={focusArea}
-            onChange={setFocusArea}
+            selected={state[q.id]}
+            setSelected={(value) => {
+              handleSetSelected(q.id, value)
+            }}
           />
           <hr />
         </>
-      ))} */}
-
-      <pre>{JSON.stringify(focusArea, null, 2)}</pre>
-
-      <Question
-        number={1}
-        question={questions[5]}
-        selected={focusArea}
-        setSelected={setFocusArea}
-      />
+      ))}
     </div>
   )
 }
@@ -102,15 +122,10 @@ function SingleChoice({ answers, id, selected, setSelected }) {
 
 function MultipleChoice({ answers, id, selected, setSelected }) {
   const toggleChoice = (value) => {
-    if (selected === undefined) {
-      setSelected([value])
-      return
-    }
-
     if (!selected.includes(value)) {
-      setSelected((prev) => [...prev, value])
+      setSelected([...selected, value])
     } else {
-      setSelected((prev) => prev.filter((item) => item !== value))
+      setSelected(selected.filter((item) => item !== value))
     }
   }
 
@@ -133,7 +148,7 @@ function MultipleChoice({ answers, id, selected, setSelected }) {
               name={id}
               value={value}
               className="mr-2"
-              checked={selected !== undefined && selected.includes(value)}
+              checked={selected.includes(value)}
               onChange={(e) => {
                 toggleChoice(e.target.value)
               }}
