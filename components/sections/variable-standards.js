@@ -15,6 +15,9 @@ function reducer(state, action) {
     const { id, value } = action.payload
     return { ...state, [id]: value }
   }
+  if (action.type === "reset_form") {
+    return initialState
+  }
   return state
 }
 
@@ -188,34 +191,73 @@ const VariableStandards = () => {
   ]
 
   return (
-    <div className="container pb-4 mt-20">
-      {questions.map((q, i) => (
-        <>
-          <Question
-            number={i + 1}
-            key={i}
-            question={q}
-            selected={state[q.id]}
-            setSelected={(value) => {
-              handleSetSelected(q.id, value)
-            }}
-          />
-          <hr />
-        </>
-      ))}
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "row",
+        gap: "1rem",
+        padding: "2rem",
+      }}
+    >
+      <div style={{ flex: "0 0 33%" }}>
+        <button
+          onClick={() => {
+            dispatch({ type: "reset_form" })
+          }}
+        >
+          Clear form
+        </button>
+        {questions.map((q, i) => (
+          <>
+            <Question
+              number={i + 1}
+              key={i}
+              question={q}
+              selected={state[q.id]}
+              setSelected={(value) => {
+                handleSetSelected(q.id, value)
+              }}
+            />
+            <hr />
+          </>
+        ))}
 
-      <pre>{JSON.stringify(state, null, 2)}</pre>
+        <details>
+          <summary>Click to view computed question variables</summary>
+          <pre>{JSON.stringify(state, null, 2)}</pre>
+        </details>
+      </div>
 
-      {hasDataSharingReq && (
-        <em>
-          This is provided for estimation purposes only and is not a reflection
-          of award specifics. You must consult the Terms and Conditions of your
-          award and/or confer with your Program Officer to verify your
-          award&apos;s exact requirements.
-        </em>
-      )}
+      <div>
+        {hasDataSharingReq && (
+          <em>
+            This is provided for estimation purposes only and is not a
+            reflection reflection reflection reflection reflection of award
+            specifics. You consult the Terms Conditions of your award and/or
+            confer with your Program Officer to verify your award&apos;s exact
+            requirements.
+          </em>
+        )}
 
-      <pre>{JSON.stringify(standards, null, 2)}</pre>
+        <div style={{ display: "flex", gap: "1rem", flexDirection: "column" }}>
+          {standards.map(
+            ({ name, description, requiredOrRecommended, isSelected }) => (
+              <div
+                key={name}
+                style={{
+                  background: isSelected ? "#ffdef2" : "#f4f4f4",
+                  padding: "1rem",
+                }}
+              >
+                <h2 style={{ fontWeight: "bold", fontSize: "1rem" }}>
+                  {name} ({requiredOrRecommended})
+                </h2>
+                <p>{description}</p>
+              </div>
+            )
+          )}
+        </div>
+      </div>
     </div>
   )
 }
