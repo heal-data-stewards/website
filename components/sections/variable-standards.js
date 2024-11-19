@@ -217,6 +217,9 @@ const VariableStandards = () => {
               setSelected={(value) => {
                 handleSetSelected(q.id, value)
               }}
+              disabled={
+                q.skippedBySpecificStudy && state["has-specific-study"] === "1"
+              }
             />
             <hr />
           </>
@@ -262,9 +265,12 @@ const VariableStandards = () => {
   )
 }
 
-function Question({ number, question, selected, setSelected }) {
+function Question({ number, question, selected, setSelected, disabled }) {
   return (
-    <div className="py-4">
+    <div
+      className="py-4"
+      style={disabled ? { opacity: 0.2, userSelect: "none" } : undefined}
+    >
       <p>
         <Markdown>{`${number ? `${number}: ` : ""}${
           question.question
@@ -284,6 +290,7 @@ function Question({ number, question, selected, setSelected }) {
           id={question.id}
           selected={selected}
           setSelected={setSelected}
+          disabled={disabled}
         />
       ) : (
         <MultipleChoice
@@ -291,13 +298,14 @@ function Question({ number, question, selected, setSelected }) {
           id={question.id}
           selected={selected}
           setSelected={setSelected}
+          disabled={disabled}
         />
       )}
     </div>
   )
 }
 
-function SingleChoice({ answers, id, selected, setSelected }) {
+function SingleChoice({ answers, id, selected, setSelected, disabled }) {
   return (
     <div className="flex flex-col">
       {answers.map((a) => {
@@ -321,6 +329,7 @@ function SingleChoice({ answers, id, selected, setSelected }) {
               onChange={(e) => {
                 setSelected(e.target.value)
               }}
+              disabled={disabled}
             />
             {answer}
           </label>
@@ -330,7 +339,7 @@ function SingleChoice({ answers, id, selected, setSelected }) {
   )
 }
 
-function MultipleChoice({ answers, id, selected, setSelected }) {
+function MultipleChoice({ answers, id, selected, setSelected, disabled }) {
   const toggleChoice = (value) => {
     if (!selected.includes(value)) {
       setSelected([...selected, value])
@@ -362,6 +371,7 @@ function MultipleChoice({ answers, id, selected, setSelected }) {
               onChange={(e) => {
                 toggleChoice(e.target.value)
               }}
+              disabled={disabled}
             />
             {answer}
           </label>
