@@ -28,8 +28,6 @@ const VariableStandards = () => {
     })
   }
 
-  React.useEffect(() => console.log(state), [state])
-
   return (
     <div className="container pb-4 mt-20">
       <pre>{JSON.stringify(state, null, 2)}</pre>
