@@ -233,13 +233,14 @@ const VariableStandards = () => {
 
       <div>
         {hasDataSharingReq && (
-          <em>
-            This is provided for estimation purposes only and is not a
-            reflection reflection reflection reflection reflection of award
-            specifics. You consult the Terms Conditions of your award and/or
-            confer with your Program Officer to verify your award&apos;s exact
-            requirements.
-          </em>
+          <p className="mb-2">
+            <em>
+              This is provided for estimation purposes only and is not a
+              reflection of award specifics. You consult the Terms Conditions of
+              your award and/or confer with your Program Officer to verify your
+              award&apos;s exact requirements.
+            </em>
+          </p>
         )}
 
         <div style={{ display: "flex", gap: "1rem", flexDirection: "column" }}>
