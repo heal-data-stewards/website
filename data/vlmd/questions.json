@@ -1,7 +1,7 @@
 [
   {
     "question": "Do you have a specific HEAL-funded award in mind?",
-    "notes": "null",
+    "notes": null,
     "id": "has-specific-study",
     "type": "single-choice",
     "skippedBySpecificStudy": false,
