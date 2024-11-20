@@ -25,6 +25,9 @@ const Markdown = ({ children, sensitiveTool }) => {
       a: function Anchor({ node, href, ...props }) {
         return <Link to={href} {...props} />
       },
+      ol: function Anchor({ node, children, ...props }) {
+        return <ol>{children}</ol>
+      },
       ul: function Anchor({ node, children, ...props }) {
         return <CustomUnorderedList>{children}</CustomUnorderedList>
       },
