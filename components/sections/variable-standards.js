@@ -1,6 +1,7 @@
 import React from "react"
 import questions from "../../data/vlmd/questions.json"
 import Markdown from "../elements/markdown"
+import { gridTemplateColumns } from "tailwindcss/defaultTheme"
 
 const initialState = questions.reduce(
   (prev, { type, id }) => ({
@@ -243,7 +244,15 @@ const VariableStandards = () => {
           </p>
         )}
 
-        <div style={{ display: "flex", gap: "1rem", flexDirection: "column" }}>
+        <div
+          style={{
+            position: "sticky",
+            top: "1rem",
+            display: "grid",
+            gap: "1rem",
+            gridTemplateColumns: "repeat(2, 1fr)",
+          }}
+        >
           {standards.map(
             ({ name, description, requiredOrRecommended, isSelected }) => (
               <div
