@@ -12,11 +12,18 @@ import { CustomUnorderedList } from "../elements/lists/unordered-list"
 import { CustomListItem } from "../elements/lists/list-item"
 import Image from "next/image"
 
-const Markdown = ({ children, sensitiveTool }) => {
+const Markdown = ({ children, sensitiveTool, footnote }) => {
   const componentMap = useMemo(
     () => ({
       p: function Anchor({ node, children, ...props }) {
-        return (
+        return footnote ? (
+          <Typography
+            variant="body2"
+            sx={{ display: "inline", paddingLeft: "2px" }}
+          >
+            {children}
+          </Typography>
+        ) : (
           <Typography className={sensitiveTool} variant="body1">
             {children}
           </Typography>
