@@ -4,7 +4,7 @@
     "notes": null,
     "id": "has-specific-study",
     "type": "single-choice",
-    "skippedBySpecificStudy": false,
+    "enabledBySpecificStudy": false,
     "answers": [
       { "answer": "Yes", "value": 1 },
       { "answer": "No", "value": 0 }
@@ -15,7 +15,7 @@
     "notes": "If you aren't sure, you can find your award's focus area at:  [https://heal.nih.gov/funding/awarded](https://heal.nih.gov/funding/awarded)",
     "id": "research-focus-area",
     "type": "single-choice",
-    "skippedBySpecificStudy": true,
+    "enabledBySpecificStudy": true,
     "answers": [
       { "answer": "Clinical Research in Pain Management", "value": 1 },
       { "answer": "Cross-Cutting Research", "value": 2 },
@@ -31,7 +31,7 @@
     "notes": "If you aren't sure of the award type, see \"Deciphering NIH Application / Grant Numbers\" at [https://www.era.nih.gov/files/Deciphering_NIH_Application.pdf](https://www.era.nih.gov/files/Deciphering_NIH_Application.pdf). Learn more about NIH's Small Business Programs at [https://seed.nih.gov/small-business-funding](https://seed.nih.gov/small-business-funding)",
     "id": "award-type-excepts",
     "type": "single-choice",
-    "skippedBySpecificStudy": true,
+    "enabledBySpecificStudy": true,
     "answers": [
       { "answer": "Yes", "value": 1 },
       { "answer": "No", "value": 0 }
@@ -42,7 +42,7 @@
     "notes": null,
     "id": "has-dcc",
     "type": "single-choice",
-    "skippedBySpecificStudy": true,
+    "enabledBySpecificStudy": true,
     "answers": [
       { "answer": "Advancing Clinical Trials in Neonatal Opioid Withdrawal (ACT NOW)", "value": 1 },
       { "answer": "Back Pain Consortium Research Program (BACPAC)", "value": 2 },
@@ -65,7 +65,7 @@
     "notes": null,
     "id": "funder",
     "type": "single-choice",
-    "skippedBySpecificStudy": true,
+    "enabledBySpecificStudy": true,
     "answers": [
       { "answer": "Fogarty International Center (FIC)", "value": "FIC" },
       { "answer": "National Center for Advancing Translational Sciences (NCATS)", "value": "NCATS" },
@@ -99,7 +99,7 @@
     "notes": null,
     "id": "study-stage",
     "type": "multi-choice",
-    "skippedBySpecificStudy": false,
+    "enabledBySpecificStudy": false,
     "answers": [
       "Pre-Research/Protocol Development",
       "Basic Research",
@@ -117,7 +117,7 @@
     "notes": null,
     "id": "study-subject-type",
     "type": "multi-choice",
-    "skippedBySpecificStudy": false,
+    "enabledBySpecificStudy": false,
     "answers": [
       "Human (including human cell / tissue / tissue model)",
       "Animal (including animal cell / tissue / tissue model)",
@@ -130,7 +130,7 @@
     "notes": null,
     "id": "data-type",
     "type": "multi-choice",
-    "skippedBySpecificStudy": false,
+    "enabledBySpecificStudy": false,
     "answers": [
       "Biochemical",
       "Biophysical",

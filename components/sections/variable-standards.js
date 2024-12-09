@@ -219,7 +219,7 @@ const VariableStandards = () => {
                 handleSetSelected(q.id, value)
               }}
               disabled={
-                q.skippedBySpecificStudy && state["has-specific-study"] === "1"
+                q.enabledBySpecificStudy && state["has-specific-study"] === "0"
               }
             />
             <hr />
