@@ -44,7 +44,7 @@ const VariableStandards = () => {
     : "0"
 
   const hasDataSharingReq =
-    state["award-type-excepts"] === "0" || dataSharingFunder === "1"
+    state["award-type-excepts"] === "1" || dataSharingFunder === "0"
 
   const standards = [
     {
