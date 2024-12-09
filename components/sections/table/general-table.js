@@ -57,6 +57,7 @@ const columns = [
     renderCell: ({ row }) => (
       <RenderExpandableCell linkTarget="_blank" className="general-table">
         {row["IC/Program"]}
+        {row[`IC/Program Footnote`] && <sup>{row[`IC/Program Footnote`]}</sup>}
       </RenderExpandableCell>
     ),
   },
@@ -68,9 +69,14 @@ const columns = [
     sortable: true,
     // eslint-disable-next-line react/display-name
     renderCell: ({ row }) => (
-      <Markdown linkTarget="_blank" className="general-table">
-        {row["Get Started Here"]}
-      </Markdown>
+      <>
+        <Markdown linkTarget="_blank" className="general-table">
+          {row["Get Started Here"]}
+        </Markdown>
+        {row[`Get Started Here Footnote`] && (
+          <sup>{row[`Get Started Here Footnote`]}</sup>
+        )}
+      </>
     ),
   },
   {
@@ -95,7 +101,12 @@ function createData(id, data) {
   for (const property in row) {
     let index = Number(property) + 1
     let newKey = columns[index].field
-    row[newKey] = row[property]
+
+    row[newKey] = row[property].column_data
+
+    if (row[property].footnote) {
+      row[`${newKey} Footnote`] = row[property].footnote
+    }
     delete row[property]
   }
   row.id = id
@@ -108,11 +119,7 @@ export default function GeneralDataTable(data) {
   const [paramValue, setParamValue] = useState(false)
 
   let rows = data.data.row.map((row, i) => {
-    let bucket = row.columns.map((column, i) => {
-      return column.column_data
-    })
-
-    return createData(i, bucket)
+    return createData(i, row.columns)
   })
 
   return (
