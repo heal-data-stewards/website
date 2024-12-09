@@ -189,6 +189,21 @@ const VariableStandards = () => {
         state["study-stage"].includes("Basic Research") ||
         state["study-stage"].includes("Clinical Research"),
     },
+    {
+      name: "BIDS",
+      description:
+        "Brain imaging data structure. A simple and easy to adopt way of organizing neuroimaging and behavioral data.",
+      requiredOrRecommended: "recommended",
+      isSelected:
+        state["data-type"].includes("Imaging") || state.funder === "NIMH",
+    },
+    {
+      name: "DICOM",
+      description:
+        "Digital Imaging and COmmunications in Medicine. An international standard for medical images and related information",
+      requiredOrRecommended: "recommended",
+      isSelected: state["data-type"].includes("Imaging"),
+    },
   ]
 
   return (
