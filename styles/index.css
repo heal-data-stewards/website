@@ -425,3 +425,16 @@ content: ""
   color: #0044B3;
   font-weight: 400
 }
+
+.vlmd-standards-wrapper {
+  align-self: flex-start;
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(2, 1fr);
+}
+
+@media (max-width: 800px) {
+  .vlmd-standards-wrapper {
+    grid-template-columns: 1fr;
+  }
+}

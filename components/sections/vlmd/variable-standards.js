@@ -1,7 +1,9 @@
 import React from "react"
-import questions from "../../data/vlmd/questions.json"
-import Markdown from "../elements/markdown"
-import { gridTemplateColumns } from "tailwindcss/defaultTheme"
+import questions from "./questions.json"
+import Markdown from "../../elements/markdown"
+import { StandardTile } from "./standard-tile"
+import { Quiz } from "./quiz"
+import { RequiredIcon } from "./required-icon"
 
 const initialState = questions.reduce(
   (prev, { type, id }) => ({
@@ -14,6 +16,26 @@ const initialState = questions.reduce(
 function reducer(state, action) {
   if (action.type === "update_answer") {
     const { id, value } = action.payload
+
+    // if the user went back to question 1 ("do you have a specific study in mind")
+    // and set it to "no", make sure that the answers to all the now-hidden questions
+    // are blanked out
+    if (id === "has-specific-study" && value === "0") {
+      return {
+        ...state,
+        [id]: value,
+        ...questions
+          .filter((q) => q.enabledBySpecificStudy)
+          .reduce(
+            (obj, q) => ({
+              ...obj,
+              [q.id]: q.type === "single-choice" ? null : [],
+            }),
+            {}
+          ),
+      }
+    }
+
     return { ...state, [id]: value }
   }
   if (action.type === "reset_form") {
@@ -44,7 +66,16 @@ const VariableStandards = () => {
     : "0"
 
   const hasDataSharingReq =
-    state["award-type-excepts"] === "1" || dataSharingFunder === "0"
+    state["award-type-excepts"] === "1" ||
+    (dataSharingFunder === "0" && state.funder !== null)
+
+  console.log(
+    "award-type-excepts",
+    state["award-type-excepts"],
+    "dataSharingFunder",
+    dataSharingFunder,
+    hasDataSharingReq
+  )
 
   const standards = [
     {
@@ -209,199 +240,92 @@ const VariableStandards = () => {
   return (
     <div
       style={{
+        margin: "3rem 1rem",
         display: "flex",
-        flexDirection: "row",
-        gap: "1rem",
-        padding: "2rem",
+        justifyContent: "center",
       }}
     >
-      <div style={{ flex: "0 0 33%" }}>
-        <button
-          onClick={() => {
-            dispatch({ type: "reset_form" })
-          }}
-        >
-          Clear form
-        </button>
-        {questions.map((q, i) => (
-          <>
-            <Question
-              number={i + 1}
-              key={i}
-              question={q}
-              selected={state[q.id]}
-              setSelected={(value) => {
-                handleSetSelected(q.id, value)
-              }}
-              disabled={
-                q.enabledBySpecificStudy && state["has-specific-study"] === "0"
-              }
-            />
-            <hr />
-          </>
-        ))}
+      <div style={{ maxWidth: "1600px", display: "flex", gap: "2rem" }}>
+        <Quiz
+          state={state}
+          dispatch={dispatch}
+          handleSetSelected={handleSetSelected}
+        />
 
-        <details>
-          <summary>Click to view computed question variables</summary>
-          <pre>{JSON.stringify(state, null, 2)}</pre>
-        </details>
-      </div>
-
-      <div>
-        {hasDataSharingReq && (
-          <p className="mb-2">
-            <em>
-              This is provided for estimation purposes only and is not a
-              reflection of award specifics. You consult the Terms Conditions of
-              your award and/or confer with your Program Officer to verify your
-              award&apos;s exact requirements.
-            </em>
-          </p>
-        )}
-
+        {/* Divider */}
         <div
+          aria-hidden="true"
           style={{
-            position: "sticky",
-            top: "1rem",
-            display: "grid",
-            gap: "1rem",
-            gridTemplateColumns: "repeat(2, 1fr)",
+            flex: "0 0 auto",
+            backgroundColor: "rgb(76, 51, 89)",
+            width: "3px",
+            height: "100%",
           }}
-        >
-          {standards.map(
-            ({ name, description, requiredOrRecommended, isSelected }) => (
-              <div
-                key={name}
-                style={{
-                  background: isSelected ? "#ffdef2" : "#f4f4f4",
-                  padding: "1rem",
-                }}
-              >
-                <h2 style={{ fontWeight: "bold", fontSize: "1rem" }}>
-                  {name} ({requiredOrRecommended})
-                </h2>
-                <p>{description}</p>
-              </div>
-            )
+        ></div>
+
+        <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
+          <Legend />
+          {hasDataSharingReq && (
+            <p style={{ fontStyle: "italic" }}>
+              This is provided for estimation purposes only and is not a
+              reflection of award specifics. You must consult the Terms and
+              Conditions of your award and/or confer with your Program Officer
+              to verify your award&apos;s exact requirements.
+            </p>
           )}
+          <div className="vlmd-standards-wrapper">
+            {standards.map(
+              ({ name, description, requiredOrRecommended, isSelected }) => (
+                <StandardTile
+                  active={isSelected}
+                  description={description}
+                  title={name}
+                  requiredOrRecommended={requiredOrRecommended}
+                  key={name}
+                />
+              )
+            )}
+          </div>
         </div>
       </div>
     </div>
   )
 }
 
-function Question({ number, question, selected, setSelected, disabled }) {
+function Legend() {
   return (
     <div
-      className="py-4"
-      style={disabled ? { opacity: 0.2, userSelect: "none" } : undefined}
+      style={{
+        fontSize: "1.1em",
+        fontWeight: 600,
+        display: "flex",
+        gap: "2rem",
+      }}
     >
-      <p>
-        <Markdown>{`${number ? `${number}: ` : ""}${
-          question.question
-        }`}</Markdown>
-      </p>
-      <p>
-        {question.notes !== null && (
-          <em>
-            <Markdown>{question.notes}</Markdown>
-          </em>
-        )}
-      </p>
-
-      {question.type === "single-choice" ? (
-        <SingleChoice
-          answers={question.answers}
-          id={question.id}
-          selected={selected}
-          setSelected={setSelected}
-          disabled={disabled}
-        />
-      ) : (
-        <MultipleChoice
-          answers={question.answers}
-          id={question.id}
-          selected={selected}
-          setSelected={setSelected}
-          disabled={disabled}
-        />
-      )}
-    </div>
-  )
-}
-
-function SingleChoice({ answers, id, selected, setSelected, disabled }) {
-  return (
-    <div className="flex flex-col">
-      {answers.map((a) => {
-        let answer, value
-        if (typeof a === "string") {
-          answer = a
-          value = a
-        } else {
-          answer = a.answer
-          value = a.value
-        }
-
-        return (
-          <label key={value}>
-            <input
-              type="radio"
-              name={id}
-              value={value}
-              className="mr-2"
-              checked={selected === value.toString()}
-              onChange={(e) => {
-                setSelected(e.target.value)
-              }}
-              disabled={disabled}
-            />
-            {answer}
-          </label>
-        )
-      })}
-    </div>
-  )
-}
-
-function MultipleChoice({ answers, id, selected, setSelected, disabled }) {
-  const toggleChoice = (value) => {
-    if (!selected.includes(value)) {
-      setSelected([...selected, value])
-    } else {
-      setSelected(selected.filter((item) => item !== value))
-    }
-  }
-
-  return (
-    <div className="flex flex-col">
-      {answers.map((a) => {
-        let answer, value
-        if (typeof a === "string") {
-          answer = a
-          value = a
-        } else {
-          answer = a.answer
-          value = a.value
-        }
-
-        return (
-          <label key={value}>
-            <input
-              type="checkbox"
-              name={id}
-              value={value}
-              className="mr-2"
-              checked={selected.includes(value)}
-              onChange={(e) => {
-                toggleChoice(e.target.value)
-              }}
-              disabled={disabled}
-            />
-            {answer}
-          </label>
-        )
-      })}
+      <span
+        style={{
+          display: "flex",
+          gap: "1rem",
+          alignItems: "center",
+        }}
+      >
+        <div
+          style={{
+            width: "22px",
+            height: "22px",
+            flex: "0 0 auto",
+            borderRadius: "50%",
+            backgroundColor: "#782c5c",
+          }}
+        ></div>
+        Recommended Resources
+      </span>
+      <span style={{ display: "flex", gap: "1rem", alignItems: "center" }}>
+        <span style={{ color: "white", "--icon-fill-color": "#462c53" }}>
+          <RequiredIcon />
+        </span>
+        Required Resources
+      </span>
     </div>
   )
 }

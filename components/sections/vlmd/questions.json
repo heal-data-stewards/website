@@ -12,7 +12,7 @@
   },
   {
     "question": "Which HEAL Research Focus Area does the award fall under?",
-    "notes": "If you aren't sure, you can find your award's focus area at:  [https://heal.nih.gov/funding/awarded](https://heal.nih.gov/funding/awarded)",
+    "notes": "If you aren't sure, you can find your award's focus area [here](https://heal.nih.gov/funding/awarded).",
     "id": "research-focus-area",
     "type": "single-choice",
     "enabledBySpecificStudy": true,
@@ -28,7 +28,7 @@
   },
   {
     "question": "Is the award a UG3, UH3, Small Business Programs (SBIR/STTR) award, or does it include data about American Indian/Alaska Native (AI/AN) populations?",
-    "notes": "If you aren't sure of the award type, see \"Deciphering NIH Application / Grant Numbers\" at [https://www.era.nih.gov/files/Deciphering_NIH_Application.pdf](https://www.era.nih.gov/files/Deciphering_NIH_Application.pdf). Learn more about NIH's Small Business Programs at [https://seed.nih.gov/small-business-funding](https://seed.nih.gov/small-business-funding)",
+    "notes": "If you aren't sure of the award type, see [\"Deciphering NIH Application / Grant Numbers\"](https://www.era.nih.gov/files/Deciphering_NIH_Application.pdf). [Learn more about NIH's Small Business Programs](https://seed.nih.gov/small-business-funding).",
     "id": "award-type-excepts",
     "type": "single-choice",
     "enabledBySpecificStudy": true,
