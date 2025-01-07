@@ -137,6 +137,11 @@ const RepoQuestions = ({ data }) => {
                           />
                         }
                         label={o.yes_no}
+                        sx={{
+                          "& .MuiFormControlLabel-label": {
+                            marginBottom: 0,
+                          },
+                        }}
                       />
                     ))}
                   </FormGroup>
@@ -177,6 +182,11 @@ const RepoQuestions = ({ data }) => {
                             value={v}
                             control={<Radio />}
                             label={o.yes_no}
+                            sx={{
+                              "& .MuiFormControlLabel-label": {
+                                marginBottom: 0,
+                              },
+                            }}
                           />
                         )
                       })}
