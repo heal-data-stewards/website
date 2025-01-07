@@ -14,6 +14,7 @@ import {
   RestartAlt as StartOverIcon,
 } from "@mui/icons-material"
 import Checkbox from "@mui/material/Checkbox"
+import Typography from "@mui/material/Typography"
 
 const RepoQuestions = ({ data }) => {
   const [value, setValue] = React.useState("")
@@ -116,7 +117,9 @@ const RepoQuestions = ({ data }) => {
         if (i + 1 === questionToShow) {
           return (
             <div key={q.question}>
-              <Markdown>{q.question}</Markdown>
+              <Typography>
+                {questionToShow}. <Markdown>{q.question}</Markdown>
+              </Typography>
               <br />
 
               {q.options.length > 2 && (
