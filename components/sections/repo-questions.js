@@ -118,7 +118,7 @@ const RepoQuestions = ({ data }) => {
           return (
             <div key={q.question}>
               <Typography>
-                {questionToShow}. <Markdown>{q.question}</Markdown>
+                {questionToShow}. <Markdown inline>{q.question}</Markdown>
               </Typography>
               <br />
 
