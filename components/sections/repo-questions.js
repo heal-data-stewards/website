@@ -18,12 +18,14 @@ import Checkbox from "@mui/material/Checkbox"
 const RepoQuestions = ({ data }) => {
   const [value, setValue] = React.useState("")
   const [showOptions, setShowOptions] = React.useState(true)
+  const [optionalInformation, setOptionalInformation] = React.useState(false)
   const [questionToShow, setQuestionToShow] = React.useState(1)
   const [selectedCheckboxes, setSelectedCheckboxes] = React.useState({})
   const [showRepositories, setShowRepositories] = React.useState(false)
 
   const handleClickStartOver = React.useCallback(() => {
     setQuestionToShow(1)
+    setOptionalInformation(false)
     setShowOptions(true)
     setValue("")
     setSelectedCheckboxes({})
@@ -32,6 +34,7 @@ const RepoQuestions = ({ data }) => {
 
   const handleClickBack = React.useCallback(() => {
     setQuestionToShow(Math.max(questionToShow - 1, 1))
+    setOptionalInformation(false)
     setShowOptions(true)
     setValue("")
     setSelectedCheckboxes({})
@@ -42,7 +45,7 @@ const RepoQuestions = ({ data }) => {
     const selectedValue = event.target.value
 
     if (selectedValue === "next") {
-
+      setOptionalInformation(false)
       setSelectedCheckboxes({})
       setShowRepositories(false)
 
@@ -208,7 +211,17 @@ const RepoQuestions = ({ data }) => {
                     </Button>
                   </div>
                 )}
-
+              {optionalInformation && (
+                <div>
+                  <Markdown>{optionalInformation}</Markdown>
+                  <br></br>
+                  <Button variant="contained" startIcon={<FileDownloadIcon />}>
+                    <CSVLink data={optionalInformation}>
+                      Download Results
+                    </CSVLink>
+                  </Button>
+                </div>
+              )}
               {!showOptions && (
                 <Box
                   sx={{
