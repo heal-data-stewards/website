@@ -5,47 +5,72 @@ import Radio from "@mui/material/Radio"
 import RadioGroup from "@mui/material/RadioGroup"
 import FormControlLabel from "@mui/material/FormControlLabel"
 import FormControl from "@mui/material/FormControl"
+import FormGroup from "@mui/material/FormGroup"
 import { Button } from "@mui/material"
 import FileDownloadIcon from "@mui/icons-material/FileDownload"
-import { CSVLink, CSVDownload } from "react-csv"
+import { CSVLink } from "react-csv"
 import {
   KeyboardArrowLeft as BackIcon,
   RestartAlt as StartOverIcon,
 } from "@mui/icons-material"
+import Checkbox from "@mui/material/Checkbox"
 
 const RepoQuestions = ({ data }) => {
-  console.log(data)
   const [value, setValue] = React.useState("")
   const [showOptions, setShowOptions] = React.useState(true)
-  const [optionalInformation, setOptionalInformation] = React.useState(false)
   const [questionToShow, setQuestionToShow] = React.useState(1)
+  const [selectedCheckboxes, setSelectedCheckboxes] = React.useState({})
+  const [showRepositories, setShowRepositories] = React.useState(false)
 
   const handleClickStartOver = React.useCallback(() => {
     setQuestionToShow(1)
-    setOptionalInformation(false)
     setShowOptions(true)
     setValue("")
+    setSelectedCheckboxes({})
+    setShowRepositories(false)
   }, [])
 
   const handleClickBack = React.useCallback(() => {
     setQuestionToShow(Math.max(questionToShow - 1, 1))
-    setOptionalInformation(false)
     setShowOptions(true)
     setValue("")
+    setSelectedCheckboxes({})
+    setShowRepositories(false)
   }, [questionToShow])
 
   const handleChange = (event) => {
-    setValue(event.target.value)
-    if (event.target.value != "next") {
-      setShowOptions(false)
-      setOptionalInformation(event.target.value)
-    } else if (event.target.value == "next") {
-      setOptionalInformation(false)
+    const selectedValue = event.target.value
+
+    if (selectedValue === "next") {
+
+      setSelectedCheckboxes({})
+      setShowRepositories(false)
+
       if (data.repo_question.length > questionToShow) {
         setQuestionToShow(questionToShow + 1)
         setValue("")
       }
+    } else {
+      setValue(selectedValue)
+      setShowOptions(false)
+      setOptionalInformation(selectedValue)
     }
+  }
+
+  const handleCheckboxChange = (option, checked) => {
+    setSelectedCheckboxes((prev) => {
+      const updated = { ...prev }
+      if (checked) {
+        updated[option.yes_no] = option.optional_information
+      } else {
+        delete updated[option.yes_no]
+      }
+      return updated
+    })
+  }
+
+  const handleSeeRepositories = () => {
+    setShowRepositories(true)
   }
 
   const BackButton = React.useCallback(
@@ -73,7 +98,7 @@ const RepoQuestions = ({ data }) => {
         Start Over
       </Button>
     ),
-    [optionalInformation, questionToShow]
+    [handleClickStartOver, questionToShow, showOptions]
   )
 
   return (
@@ -89,8 +114,47 @@ const RepoQuestions = ({ data }) => {
           return (
             <div className="repo-questions" key={q.question}>
               <Markdown className="repo-questions">{q.question}</Markdown>
-              <br></br>
-              {showOptions && (
+              <br />
+
+              {q.options.length > 2 && (
+                <div>
+                  <FormGroup>
+                    {q.options.map((o, index) => (
+                      <FormControlLabel
+                        key={`checkbox-${index}`}
+                        control={
+                          <Checkbox
+                            onChange={(e) =>
+                              handleCheckboxChange(o, e.target.checked)
+                            }
+                            checked={!!selectedCheckboxes[o.yes_no]}
+                          />
+                        }
+                        label={o.yes_no}
+                      />
+                    ))}
+                  </FormGroup>
+
+                  <Button
+                    variant="contained"
+                    onClick={handleSeeRepositories}
+                    disabled={Object.keys(selectedCheckboxes).length === 0}
+                    style={{ marginTop: "10px", color: "white" }}
+                  >
+                    See Repositories
+                  </Button>
+                  <Button
+                    variant="outlined"
+                    onClick={() => handleChange({ target: { value: "next" } })} // Simulate selecting "next"
+                    disabled={Object.keys(selectedCheckboxes).length > 0} // Disable if any checkboxes are selected
+                    style={{ marginTop: "10px", marginLeft: "10px" }}
+                  >
+                    None of the Above
+                  </Button>
+                </div>
+              )}
+
+              {showOptions && q.options.length <= 2 && (
                 <div>
                   <FormControl>
                     <RadioGroup
@@ -100,12 +164,7 @@ const RepoQuestions = ({ data }) => {
                       onChange={handleChange}
                     >
                       {q.options.map((o) => {
-                        let v
-                        if (o.optional_information) {
-                          v = o.optional_information
-                        } else {
-                          v = "next"
-                        }
+                        let v = o.optional_information || "next"
                         return (
                           <FormControlLabel
                             key={o.yes_no}
@@ -120,17 +179,35 @@ const RepoQuestions = ({ data }) => {
                 </div>
               )}
 
-              {optionalInformation && (
-                <div>
-                  <Markdown>{optionalInformation}</Markdown>
-                  <br></br>
-                  <Button variant="contained" startIcon={<FileDownloadIcon />}>
-                    <CSVLink data={optionalInformation}>
-                      Download Results
-                    </CSVLink>
-                  </Button>
-                </div>
-              )}
+              {showRepositories &&
+                Object.keys(selectedCheckboxes).length > 0 && (
+                  <div>
+                    <br />
+                    {Object.values(selectedCheckboxes).map((info, idx) => (
+                      <div key={`info-${idx}`}>
+                        <Markdown>{info}</Markdown>
+                        <br />
+                      </div>
+                    ))}
+                    <br />
+                    <Button
+                      variant="contained"
+                      startIcon={<FileDownloadIcon />}
+                    >
+                      <CSVLink
+                        data={Object.entries(selectedCheckboxes).map(
+                          ([key, value]) => ({
+                            Repository: key,
+                            Information: value,
+                          })
+                        )}
+                        filename="selected_repositories.csv"
+                      >
+                        Download Results
+                      </CSVLink>
+                    </Button>
+                  </div>
+                )}
 
               {!showOptions && (
                 <Box
