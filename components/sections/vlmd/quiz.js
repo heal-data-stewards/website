@@ -1,6 +1,7 @@
 import React from "react"
 import Markdown from "@/components/elements/markdown"
 import questions from "./questions.json"
+import { Autocomplete, TextField } from "@mui/material"
 
 export function Quiz({ state, dispatch, handleSetSelected }) {
   const [currentQuestionNumber, setCurrentQuestionNumber] = React.useState(0)
@@ -93,18 +94,15 @@ function Question({ number, question, selected, setSelected, disabled }) {
       className="py-4"
       style={disabled ? { opacity: 0.2, userSelect: "none" } : undefined}
     >
-      <p>
-        <Markdown>{`${number ? `${number}: ` : ""}${
-          question.question
-        }`}</Markdown>
-      </p>
-      <p>
-        {question.notes !== null && (
-          <em>
-            <Markdown>{question.notes}</Markdown>
-          </em>
-        )}
-      </p>
+      <Markdown>{`${number ? `${number}: ` : ""}${
+        question.question
+      }`}</Markdown>
+
+      {question.notes !== null && (
+        <em>
+          <Markdown>{question.notes}</Markdown>
+        </em>
+      )}
 
       {question.type === "single-choice" ? (
         <SingleChoice
@@ -114,10 +112,17 @@ function Question({ number, question, selected, setSelected, disabled }) {
           setSelected={setSelected}
           disabled={disabled}
         />
-      ) : (
+      ) : question.type === "multi-choice" ? (
         <MultipleChoice
           answers={question.answers}
           id={question.id}
+          selected={selected}
+          setSelected={setSelected}
+          disabled={disabled}
+        />
+      ) : (
+        <ComboBox
+          answers={question.answers}
           selected={selected}
           setSelected={setSelected}
           disabled={disabled}
@@ -203,7 +208,44 @@ function MultipleChoice({ answers, id, selected, setSelected, disabled }) {
   )
 }
 
+function ComboBox({ answers, selected, setSelected, disabled }) {
+  const options = React.useMemo(
+    () =>
+      answers.map((a) => {
+        let answer, value
+        if (typeof a === "string") {
+          answer = a
+          value = a
+        } else {
+          answer = a.answer
+          value = a.value
+        }
+        return { answer, value }
+      }),
+    [answers]
+  )
+
+  const handleSetSelected = (_, value) => {
+    setSelected(value)
+  }
+
+  return (
+    <Autocomplete
+      options={options}
+      value={selected}
+      onChange={handleSetSelected}
+      disableCloseOnSelect
+      getOptionLabel={(opt) => opt.answer}
+      sx={{ my: 2 }}
+      renderInput={(params) => (
+        <TextField {...params} label="Select all that apply" />
+      )}
+    />
+  )
+}
+
 const isQuestionUnanswered = (state, question) => {
-  if (question.type === "single-choice") return state[question.id] === null
+  if (question.type === "single-choice" || question.type === "combo-box")
+    return state[question.id] === null
   if (question.type === "multi-choice") return state[question.id].length === 0
 }

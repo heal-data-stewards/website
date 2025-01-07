@@ -64,7 +64,7 @@
     "question": "What is the funding NIH Institute or Center?",
     "notes": null,
     "id": "funder",
-    "type": "single-choice",
+    "type": "combo-box",
     "enabledBySpecificStudy": true,
     "answers": [
       { "answer": "Fogarty International Center (FIC)", "value": "FIC" },

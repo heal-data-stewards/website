@@ -1,6 +1,5 @@
 import React from "react"
 import questions from "./questions.json"
-import Markdown from "../../elements/markdown"
 import { StandardTile } from "./standard-tile"
 import { Quiz } from "./quiz"
 import { RequiredIcon } from "./required-icon"
@@ -8,7 +7,7 @@ import { RequiredIcon } from "./required-icon"
 const initialState = questions.reduce(
   (prev, { type, id }) => ({
     ...prev,
-    [id]: type === "single-choice" ? null : [],
+    [id]: type === "single-choice" || type === "combo-box" ? null : [],
   }),
   {}
 )
@@ -29,7 +28,10 @@ function reducer(state, action) {
           .reduce(
             (obj, q) => ({
               ...obj,
-              [q.id]: q.type === "single-choice" ? null : [],
+              [q.id]:
+                q.type === "single-choice" || q.type === "combo-box"
+                  ? null
+                  : [],
             }),
             {}
           ),
@@ -61,21 +63,13 @@ const VariableStandards = () => {
     "NIAAA",
     "NIBIB",
     "NIMH",
-  ].includes(state.funder)
+  ].includes(state.funder?.value)
     ? "1"
     : "0"
 
   const hasDataSharingReq =
     state["award-type-excepts"] === "1" ||
     (dataSharingFunder === "0" && state.funder !== null)
-
-  console.log(
-    "award-type-excepts",
-    state["award-type-excepts"],
-    "dataSharingFunder",
-    dataSharingFunder,
-    hasDataSharingReq
-  )
 
   const standards = [
     {
@@ -226,7 +220,8 @@ const VariableStandards = () => {
         "Brain imaging data structure. A simple and easy to adopt way of organizing neuroimaging and behavioral data.",
       requiredOrRecommended: "recommended",
       isSelected:
-        state["data-type"].includes("Imaging") || state.funder === "NIMH",
+        state["data-type"].includes("Imaging") ||
+        state.funder?.value === "NIMH",
     },
     {
       name: "DICOM",
