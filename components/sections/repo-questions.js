@@ -115,8 +115,8 @@ const RepoQuestions = ({ data }) => {
       {data.repo_question.map((q, i) => {
         if (i + 1 === questionToShow) {
           return (
-            <div className="repo-questions" key={q.question}>
-              <Markdown className="repo-questions">{q.question}</Markdown>
+            <div key={q.question}>
+              <Markdown>{q.question}</Markdown>
               <br />
 
               {q.options.length > 2 && (
