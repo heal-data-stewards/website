@@ -1,20 +1,22 @@
-import Markdown from "../elements/markdown"
 import * as React from "react"
-import { Box } from "@mui/material"
-import Radio from "@mui/material/Radio"
-import RadioGroup from "@mui/material/RadioGroup"
-import FormControlLabel from "@mui/material/FormControlLabel"
-import FormControl from "@mui/material/FormControl"
-import FormGroup from "@mui/material/FormGroup"
-import { Button } from "@mui/material"
-import FileDownloadIcon from "@mui/icons-material/FileDownload"
+import Markdown from "../elements/markdown"
+import {
+  Box,
+  Radio,
+  RadioGroup,
+  FormControlLabel,
+  FormControl,
+  FormGroup,
+  Button,
+  Checkbox,
+  Typography,
+} from "@mui/material"
 import { CSVLink } from "react-csv"
 import {
   KeyboardArrowLeft as BackIcon,
   RestartAlt as StartOverIcon,
+  FileDownload as FileDownloadIcon,
 } from "@mui/icons-material"
-import Checkbox from "@mui/material/Checkbox"
-import Typography from "@mui/material/Typography"
 
 const RepoQuestions = ({ data }) => {
   const [value, setValue] = React.useState("")
@@ -133,7 +135,7 @@ const RepoQuestions = ({ data }) => {
                             onChange={(e) =>
                               handleCheckboxChange(o, e.target.checked)
                             }
-                            checked={!!selectedCheckboxes[o.yes_no]}
+                            checked={selectedCheckboxes[o.yes_no]}
                           />
                         }
                         label={o.yes_no}
@@ -156,8 +158,8 @@ const RepoQuestions = ({ data }) => {
                   </Button>
                   <Button
                     variant="outlined"
-                    onClick={() => handleChange({ target: { value: "next" } })} // Simulate selecting "next"
-                    disabled={Object.keys(selectedCheckboxes).length > 0} // Disable if any checkboxes are selected
+                    onClick={() => handleChange({ target: { value: "next" } })}
+                    disabled={Object.keys(selectedCheckboxes).length > 0}
                     style={{ marginTop: "10px", marginLeft: "10px" }}
                   >
                     None of the Above
