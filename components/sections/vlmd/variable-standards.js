@@ -232,6 +232,24 @@ const VariableStandards = () => {
     },
   ]
 
+  const handleDownloadResouces = () => {
+    const downloadText = standards
+      .filter((s) => s.isSelected)
+      .reduce(
+        (text, curr) =>
+          (text += `${curr.name} (${curr.requiredOrRecommended})\n`),
+        ""
+      )
+
+    const blob = new Blob([downloadText], { type: "text/plain" })
+    const elem = window.document.createElement("a")
+    elem.href = window.URL.createObjectURL(blob)
+    elem.download = "variable-standards-finder-resources.txt"
+    document.body.appendChild(elem)
+    elem.click()
+    document.body.removeChild(elem)
+  }
+
   return (
     <div
       style={{
@@ -245,6 +263,7 @@ const VariableStandards = () => {
           state={state}
           dispatch={dispatch}
           handleSetSelected={handleSetSelected}
+          handleDownloadResouces={handleDownloadResouces}
         />
 
         {/* Divider */}

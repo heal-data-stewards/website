@@ -1,9 +1,15 @@
 import React from "react"
 import Markdown from "@/components/elements/markdown"
 import questions from "./questions.json"
-import { Autocomplete, TextField } from "@mui/material"
+import FileDownloadIcon from "@mui/icons-material/FileDownload"
+import { Autocomplete, Box, Button, TextField } from "@mui/material"
 
-export function Quiz({ state, dispatch, handleSetSelected }) {
+export function Quiz({
+  state,
+  dispatch,
+  handleSetSelected,
+  handleDownloadResouces,
+}) {
   const [currentQuestionNumber, setCurrentQuestionNumber] = React.useState(0)
   const currentRequiredQuestions =
     state["has-specific-study"] === "1"
@@ -62,9 +68,28 @@ export function Quiz({ state, dispatch, handleSetSelected }) {
         </div>
 
         {isFormDone && (
-          <p style={{ margin: "1rem 0" }}>
-            Quiz complete! Please view your required and recommended resources.
-          </p>
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "space-between",
+              alignItems: "flex-start",
+              gap: "1rem",
+              m: "1rem 0",
+            }}
+          >
+            <p>
+              Quiz complete! Please view your required and recommended
+              resources.
+            </p>
+            <Button
+              variant="contained"
+              startIcon={<FileDownloadIcon />}
+              onClick={handleDownloadResouces}
+            >
+              Download list of resources
+            </Button>
+          </Box>
         )}
 
         {!isFormClear && (
@@ -237,9 +262,7 @@ function ComboBox({ answers, selected, setSelected, disabled }) {
       disableCloseOnSelect
       getOptionLabel={(opt) => opt.answer}
       sx={{ my: 2 }}
-      renderInput={(params) => (
-        <TextField {...params} label="Select all that apply" />
-      )}
+      renderInput={(params) => <TextField {...params} label="Select one" />}
     />
   )
 }
