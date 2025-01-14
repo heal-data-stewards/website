@@ -9,7 +9,6 @@ import {
   FormGroup,
   Button,
   Checkbox,
-  Typography,
 } from "@mui/material"
 import { CSVLink } from "react-csv"
 import {
@@ -75,10 +74,6 @@ const RepoQuestions = ({ data }) => {
     })
   }
 
-  const handleSeeRepositories = () => {
-    setShowRepositories(true)
-  }
-
   const BackButton = React.useCallback(
     () => (
       <Button
@@ -119,9 +114,9 @@ const RepoQuestions = ({ data }) => {
         if (i + 1 === questionToShow) {
           return (
             <div key={q.question}>
-              <Typography>
+              <div>
                 {questionToShow}. <Markdown inline>{q.question}</Markdown>
-              </Typography>
+              </div>
               <br />
 
               {q.options.length > 2 && (
@@ -135,7 +130,7 @@ const RepoQuestions = ({ data }) => {
                             onChange={(e) =>
                               handleCheckboxChange(o, e.target.checked)
                             }
-                            checked={selectedCheckboxes[o.yes_no]}
+                            checked={!!selectedCheckboxes[o.yes_no]}
                           />
                         }
                         label={o.yes_no}
@@ -150,7 +145,7 @@ const RepoQuestions = ({ data }) => {
 
                   <Button
                     variant="contained"
-                    onClick={handleSeeRepositories}
+                    onClick={() => setShowRepositories(true)}
                     disabled={Object.keys(selectedCheckboxes).length === 0}
                     style={{ marginTop: "10px", color: "white" }}
                   >
@@ -159,7 +154,7 @@ const RepoQuestions = ({ data }) => {
                   <Button
                     variant="outlined"
                     onClick={() => handleChange({ target: { value: "next" } })}
-                    disabled={Object.keys(selectedCheckboxes).length > 0}
+                    // disabled={Object.keys(selectedCheckboxes).length > 0}
                     style={{ marginTop: "10px", marginLeft: "10px" }}
                   >
                     None of the Above
