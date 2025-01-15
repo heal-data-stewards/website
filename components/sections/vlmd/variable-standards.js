@@ -124,7 +124,10 @@ const VariableStandards = () => {
         "Contact your Data Coordinating Center to determine if they require the use of any specific variable standards.",
       link: null,
       requiredOrRecommended: "required",
-      isSelected: state["has-dcc"] !== "666" && state["has-dcc"] !== "111" && state["has-dcc"] !== null,
+      isSelected:
+        state["has-dcc"] !== "666" &&
+        state["has-dcc"] !== "111" &&
+        state["has-dcc"] !== null,
     },
     {
       name: "DDI Codebook",
@@ -245,7 +248,7 @@ const VariableStandards = () => {
       isSelected:
         state["study-stage"].includes("Basic Research") ||
         state["study-stage"].includes("Clinical Research"),
-    }
+    },
   ]
 
   const handleDownloadResouces = () => {
@@ -253,7 +256,9 @@ const VariableStandards = () => {
       .filter((s) => s.isSelected)
       .reduce(
         (text, curr) =>
-          (text += `${curr.name} (${curr.requiredOrRecommended})${curr.link ? `:\n${curr.link}\n`: '\n'}\n`),
+          (text += `${curr.name} (${curr.requiredOrRecommended})${
+            curr.link ? `:\n${curr.link}\n` : "\n"
+          }\n`),
         ""
       )
 
@@ -305,7 +310,13 @@ const VariableStandards = () => {
           )}
           <div className="vlmd-standards-wrapper">
             {standards.map(
-              ({ name, description, link, requiredOrRecommended, isSelected }) => (
+              ({
+                name,
+                description,
+                link,
+                requiredOrRecommended,
+                isSelected,
+              }) => (
                 <StandardTile
                   active={isSelected}
                   description={description}
@@ -359,13 +370,13 @@ function Legend() {
 
       <div
         style={{
-        display: "flex",
-        gap: "1rem",
-        alignItems: "center",
-        background: "#782c5c",
-        color: "white",
-        padding: "8px 12px",
-        borderRadius: "4px",
+          display: "flex",
+          gap: "1rem",
+          alignItems: "center",
+          background: "#782c5c",
+          color: "white",
+          padding: "8px 12px",
+          borderRadius: "4px",
         }}
       >
         <span style={{ color: "white", "--icon-fill-color": "#462c53" }}>
