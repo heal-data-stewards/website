@@ -259,7 +259,6 @@ function ComboBox({ answers, selected, setSelected, disabled }) {
       options={options}
       value={selected}
       onChange={handleSetSelected}
-      disableCloseOnSelect
       getOptionLabel={(opt) => opt.answer}
       sx={{ my: 2 }}
       renderInput={(params) => <TextField {...params} label="Select one" />}

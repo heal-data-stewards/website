@@ -23,7 +23,8 @@
       { "answer": "New Strategies to Prevent and Treat Opioid Addiction", "value": 4 },
       { "answer": "Novel Therapeutic Options for Opioid Use Disorder and Overdose", "value": 5 },
       { "answer": "Preclinical and Translational Research in Pain Management", "value": 6 },
-      { "answer": "Translation of Research to Practice for the Treatment of Opioid Addiction", "value": 7 }
+      { "answer": "Training the Next Generation of Researchers in HEAL", "value": 7 },
+      { "answer": "Translation of Research to Practice for the Treatment of Opioid Addiction", "value": 8 }
     ]
   },
   {
@@ -39,7 +40,7 @@
   },
   {
     "question": "Is the award associated with any of the following consortium awards?",
-    "notes": null,
+    "notes": "If no, select \"None of the above\".",
     "id": "has-dcc",
     "type": "single-choice",
     "enabledBySpecificStudy": true,
@@ -57,11 +58,12 @@
       { "answer": "Pain Management Effectiveness Research Network (Pain ERN)", "value": 11 },
       { "answer": "PRECISION ", "value": 12 },
       { "answer": "Restoring Joint Health and Function to Reduce Pain (RE-JOIN)", "value": 13 },
-      { "answer": "I don't know ", "value": 666 }
+      { "answer": "I don't know", "value": 666 },
+      { "answer": "None of the above", "value": 111 }
     ]
   },
   {
-    "question": "What is the funding NIH Institute or Center?",
+    "question": "What is the NIH funding Institute or Center?",
     "notes": null,
     "id": "funder",
     "type": "combo-box",

@@ -73,9 +73,20 @@ const VariableStandards = () => {
 
   const standards = [
     {
+      name: "BIDS",
+      description:
+        "Brain imaging data structure. A simple and easy to adopt way of organizing neuroimaging and behavioral data.",
+      link: "https://bids.neuroimaging.io/get_started.html",
+      requiredOrRecommended: "recommended",
+      isSelected:
+        state["data-type"].includes("Imaging") ||
+        state.funder?.value === "NIMH",
+    },
+    {
       name: "CDASH",
       description:
         "A suite of standards used in clinical research for data exchange",
+      link: "https://www.cdisc.org/standards/foundational/cdash",
       requiredOrRecommended: "recommended",
       isSelected:
         state["study-stage"].includes("Pre-Research/Protocol Development") ||
@@ -87,6 +98,7 @@ const VariableStandards = () => {
       name: "ChEBI",
       description:
         "Chemical Entities of Biological Interest (ChEBI) is a dictionary of molecular entities focused on ‘small’ chemical compounds",
+      link: "http://www.ebi.ac.uk/chebi/",
       requiredOrRecommended: "recommended",
       isSelected:
         state["study-subject-type"].includes(
@@ -99,16 +111,26 @@ const VariableStandards = () => {
         state["data-type"].includes("Biophysical"),
     },
     {
+      name: "DICOM",
+      description:
+        "Digital Imaging and COmmunications in Medicine. An international standard for medical images and related information",
+      link: "https://www.dicomstandard.org/",
+      requiredOrRecommended: "recommended",
+      isSelected: state["data-type"].includes("Imaging"),
+    },
+    {
       name: "Data Coordinating Center (DCC) Standards",
       description:
         "Contact your Data Coordinating Center to determine if they require the use of any specific variable standards.",
+      link: null,
       requiredOrRecommended: "required",
-      isSelected: state["has-dcc"] !== "666" && state["has-dcc"] !== null,
+      isSelected: state["has-dcc"] !== "666" && state["has-dcc"] !== "111" && state["has-dcc"] !== null,
     },
     {
       name: "DDI Codebook",
       description:
         "Based on the Data Documentation Initiative standard, the DDI Codebook enables basic descriptive content for variables, files, source material, and study level information. Supports discovery, preservation, and the informed use of data.",
+      link: "https://ddialliance.org/Specification/DDI-Codebook/2.5/",
       requiredOrRecommended: "recommended",
       isSelected:
         state["data-type"].includes("Interview/Focus Group") ||
@@ -120,6 +142,7 @@ const VariableStandards = () => {
       name: "HEAL CDEs",
       description:
         "Nine core pain domains and questionnaires to measure them, designed for studies examining acute pain and chronic pain in adults and pediatric populations",
+      link: "https://heal.nih.gov/data/common-data-elements",
       requiredOrRecommended: "required",
       isSelected:
         state["research-focus-area"] === "1" ||
@@ -129,6 +152,7 @@ const VariableStandards = () => {
       name: "HUPO PSI",
       description:
         "Proteomic Standard Initiative (PSI) provide a consensus annotation system to standardize the meaning, syntax and formalism of proteomics terms",
+      link: "https://www.psidev.info/groups/controlled-vocabularies",
       requiredOrRecommended: "recommended",
       isSelected: state["data-type"].includes("Proteomic"),
     },
@@ -136,6 +160,7 @@ const VariableStandards = () => {
       name: "ICD",
       description:
         "Clinical terms coded with ICD are the main basis for health recording and statistics on disease in primary, secondary and tertiary care, as well as on cause of death certificates",
+      link: "http://www.who.int/classifications/icd/en/",
       requiredOrRecommended: "recommended",
       isSelected:
         state["study-stage"].includes("Clinical Research") ||
@@ -146,6 +171,7 @@ const VariableStandards = () => {
       name: "LOINC",
       description:
         "Logical Observation Identifiers Names, and Codes (LOINC) is used for tests, observations and measurements",
+      link: "https://loinc.org/",
       requiredOrRecommended: "recommended",
       isSelected:
         state["study-stage"].includes("Basic Research") ||
@@ -157,6 +183,7 @@ const VariableStandards = () => {
       name: "MGED",
       description:
         "Concepts, definitions, terms, and resources for standardized description of a microarray experiment in support of MAGE v.1",
+      link: "https://bioportal.bioontology.org/ontologies/MO",
       requiredOrRecommended: "recommended",
       isSelected: state["data-type"].includes("Genomic"),
     },
@@ -164,19 +191,21 @@ const VariableStandards = () => {
       name: "NIH CDEs",
       description:
         "Structured human and machine-readable definitions of data elements that have been recommended or required by NIH Institutes and Centers and other organizations for use in research and for other purposes",
+      link: "https://cde.nlm.nih.gov/home",
       requiredOrRecommended: "recommended",
       isSelected:
         state["research-focus-area"] === "2" ||
         state["research-focus-area"] === "3" ||
         state["research-focus-area"] === "4" ||
         state["research-focus-area"] === "5" ||
-        state["research-focus-area"] === "7" ||
+        state["research-focus-area"] === "8" ||
         state["data-type"].includes("Questionnaire/Survey/Assessment"),
     },
     {
       name: "NIH Funding Institute/Center Standards",
       description:
         "Review your IC's data sharing policies to determine if your IC requires the use of any specific variable standards.",
+      link: null,
       requiredOrRecommended: "required",
       isSelected: dataSharingFunder === "1",
     },
@@ -184,6 +213,7 @@ const VariableStandards = () => {
       name: "OMOP",
       description:
         "Observational Medical Outcomes Partnership (OMOP) Common Data Model (CDM) is an open community data standard, designed to standardize the structure and content of observational data and to enable efficient analyses that can produce reliable evidence. A central component of the OMOP CDM is the OHDSI standardized vocabularies.",
+      link: "https://ohdsi.github.io/CommonDataModel/index.html",
       requiredOrRecommended: "recommended",
       isSelected:
         state["study-stage"].includes("Clinical Research") ||
@@ -196,6 +226,7 @@ const VariableStandards = () => {
       name: "RxNorm",
       description:
         "Provides normalized names for clinical drugs and links its names to many drug vocabularies",
+      link: "https://www.nlm.nih.gov/research/umls/rxnorm/",
       requiredOrRecommended: "recommended",
       isSelected:
         state["study-subject-type"].includes(
@@ -209,27 +240,12 @@ const VariableStandards = () => {
       name: "SNOMED-CT",
       description:
         "One of a suite of designated standards for use in U.S. Federal Government systems for the electronic exchange of clinical health information and is also a required standard in interoperability specifications of the U.S. Healthcare Information Technology Standards Panel.",
+      link: "https://www.nlm.nih.gov/research/umls/Snomed/snomed_main.html",
       requiredOrRecommended: "recommended",
       isSelected:
         state["study-stage"].includes("Basic Research") ||
         state["study-stage"].includes("Clinical Research"),
-    },
-    {
-      name: "BIDS",
-      description:
-        "Brain imaging data structure. A simple and easy to adopt way of organizing neuroimaging and behavioral data.",
-      requiredOrRecommended: "recommended",
-      isSelected:
-        state["data-type"].includes("Imaging") ||
-        state.funder?.value === "NIMH",
-    },
-    {
-      name: "DICOM",
-      description:
-        "Digital Imaging and COmmunications in Medicine. An international standard for medical images and related information",
-      requiredOrRecommended: "recommended",
-      isSelected: state["data-type"].includes("Imaging"),
-    },
+    }
   ]
 
   const handleDownloadResouces = () => {
@@ -237,7 +253,7 @@ const VariableStandards = () => {
       .filter((s) => s.isSelected)
       .reduce(
         (text, curr) =>
-          (text += `${curr.name} (${curr.requiredOrRecommended})\n`),
+          (text += `${curr.name} (${curr.requiredOrRecommended})${curr.link ? `:\n${curr.link}\n`: '\n'}\n`),
         ""
       )
 
@@ -289,10 +305,11 @@ const VariableStandards = () => {
           )}
           <div className="vlmd-standards-wrapper">
             {standards.map(
-              ({ name, description, requiredOrRecommended, isSelected }) => (
+              ({ name, description, link, requiredOrRecommended, isSelected }) => (
                 <StandardTile
                   active={isSelected}
                   description={description}
+                  link={link}
                   title={name}
                   requiredOrRecommended={requiredOrRecommended}
                   key={name}
@@ -316,8 +333,12 @@ function Legend() {
         gap: "2rem",
       }}
     >
-      <span
+      <div
         style={{
+          background: "#462c53",
+          color: "white",
+          padding: "8px 12px",
+          borderRadius: "4px",
           display: "flex",
           gap: "1rem",
           alignItems: "center",
@@ -328,18 +349,30 @@ function Legend() {
             width: "22px",
             height: "22px",
             flex: "0 0 auto",
+            border: "3px solid white",
             borderRadius: "50%",
             backgroundColor: "#782c5c",
           }}
         ></div>
         Recommended Resources
-      </span>
-      <span style={{ display: "flex", gap: "1rem", alignItems: "center" }}>
+      </div>
+
+      <div
+        style={{
+        display: "flex",
+        gap: "1rem",
+        alignItems: "center",
+        background: "#782c5c",
+        color: "white",
+        padding: "8px 12px",
+        borderRadius: "4px",
+        }}
+      >
         <span style={{ color: "white", "--icon-fill-color": "#462c53" }}>
           <RequiredIcon />
         </span>
         Required Resources
-      </span>
+      </div>
     </div>
   )
 }
