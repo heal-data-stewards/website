@@ -41,7 +41,6 @@ const RepoQuestions = ({ data }) => {
       setShowOptions(true)
       setValue("")
       setSelectedCheckboxes({})
-
     } else {
       // otherwise, go back one question
       setQuestionToShow(Math.max(questionToShow - 1, 1))
@@ -49,7 +48,6 @@ const RepoQuestions = ({ data }) => {
       setShowOptions(true)
       setValue("")
       setSelectedCheckboxes({})
-
     }
   }, [questionToShow, optionalInformation, selectedCheckboxes])
 
@@ -59,7 +57,6 @@ const RepoQuestions = ({ data }) => {
     if (selectedValue === "next") {
       setOptionalInformation(false)
       setSelectedCheckboxes({})
-
 
       if (data.repo_question.length > questionToShow) {
         setQuestionToShow(questionToShow + 1)
@@ -124,7 +121,7 @@ const RepoQuestions = ({ data }) => {
         if (i + 1 === questionToShow) {
           return (
             <div key={q.question}>
-              <Markdown inline>{q.question}</Markdown>
+              <Markdown>{q.question}</Markdown>
               <br />
 
               {q.checkbox_type === true && (
