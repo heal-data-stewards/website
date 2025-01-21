@@ -9,6 +9,8 @@ import {
   FormGroup,
   Button,
   Checkbox,
+  Typography,
+  Divider,
 } from "@mui/material"
 import { CSVLink } from "react-csv"
 import {
@@ -23,7 +25,6 @@ const RepoQuestions = ({ data }) => {
   const [optionalInformation, setOptionalInformation] = React.useState(false)
   const [questionToShow, setQuestionToShow] = React.useState(1)
   const [selectedCheckboxes, setSelectedCheckboxes] = React.useState({})
-  const [showRepositories, setShowRepositories] = React.useState(false)
 
   const handleClickStartOver = React.useCallback(() => {
     setQuestionToShow(1)
@@ -31,17 +32,26 @@ const RepoQuestions = ({ data }) => {
     setShowOptions(true)
     setValue("")
     setSelectedCheckboxes({})
-    setShowRepositories(false)
   }, [])
 
   const handleClickBack = React.useCallback(() => {
-    setQuestionToShow(Math.max(questionToShow - 1, 1))
-    setOptionalInformation(false)
-    setShowOptions(true)
-    setValue("")
-    setSelectedCheckboxes({})
-    setShowRepositories(false)
-  }, [questionToShow])
+    if (optionalInformation || Object.keys(selectedCheckboxes).length > 0) {
+      // if optionalInformation is displayed or checkboxes are selected, clear them but stay on the same question
+      setOptionalInformation(false)
+      setShowOptions(true)
+      setValue("")
+      setSelectedCheckboxes({})
+
+    } else {
+      // otherwise, go back one question
+      setQuestionToShow(Math.max(questionToShow - 1, 1))
+      setOptionalInformation(false)
+      setShowOptions(true)
+      setValue("")
+      setSelectedCheckboxes({})
+
+    }
+  }, [questionToShow, optionalInformation, selectedCheckboxes])
 
   const handleChange = (event) => {
     const selectedValue = event.target.value
@@ -49,7 +59,7 @@ const RepoQuestions = ({ data }) => {
     if (selectedValue === "next") {
       setOptionalInformation(false)
       setSelectedCheckboxes({})
-      setShowRepositories(false)
+
 
       if (data.repo_question.length > questionToShow) {
         setQuestionToShow(questionToShow + 1)
@@ -114,12 +124,10 @@ const RepoQuestions = ({ data }) => {
         if (i + 1 === questionToShow) {
           return (
             <div key={q.question}>
-              <div>
-                {questionToShow}. <Markdown inline>{q.question}</Markdown>
-              </div>
+              <Markdown inline>{q.question}</Markdown>
               <br />
 
-              {q.options.length > 2 && (
+              {q.checkbox_type === true && (
                 <div>
                   <FormGroup>
                     {q.options.map((o, index) => (
@@ -142,27 +150,17 @@ const RepoQuestions = ({ data }) => {
                       />
                     ))}
                   </FormGroup>
-
-                  <Button
-                    variant="contained"
-                    onClick={() => setShowRepositories(true)}
-                    disabled={Object.keys(selectedCheckboxes).length === 0}
-                    style={{ marginTop: "10px", color: "white" }}
-                  >
-                    See Repositories
-                  </Button>
                   <Button
                     variant="outlined"
                     onClick={() => handleChange({ target: { value: "next" } })}
-                    // disabled={Object.keys(selectedCheckboxes).length > 0}
-                    style={{ marginTop: "10px", marginLeft: "10px" }}
+                    sx={{ marginTop: "10px", marginLeft: "10px" }}
                   >
                     None of the Above
                   </Button>
                 </div>
               )}
 
-              {showOptions && q.options.length <= 2 && (
+              {showOptions && q.checkbox_type === false && (
                 <div>
                   <FormControl>
                     <RadioGroup
@@ -192,35 +190,34 @@ const RepoQuestions = ({ data }) => {
                 </div>
               )}
 
-              {showRepositories &&
-                Object.keys(selectedCheckboxes).length > 0 && (
-                  <div>
-                    <br />
-                    {Object.values(selectedCheckboxes).map((info, idx) => (
-                      <div key={`info-${idx}`}>
-                        <Markdown>{info}</Markdown>
-                        <br />
-                      </div>
-                    ))}
-                    <br />
-                    <Button
-                      variant="contained"
-                      startIcon={<FileDownloadIcon />}
+              {Object.keys(selectedCheckboxes).length > 0 && (
+                <div>
+                  <Divider sx={{ marginTop: "2rem" }} />
+                  <Typography variant="h3" sx={{ marginBottom: "1rem" }}>
+                    Repository List
+                  </Typography>
+                  {Object.values(selectedCheckboxes).map((info, idx) => (
+                    <div key={`info-${idx}`}>
+                      <Markdown>{info}</Markdown>
+                      <br />
+                    </div>
+                  ))}
+                  <br />
+                  <Button variant="contained" startIcon={<FileDownloadIcon />}>
+                    <CSVLink
+                      data={Object.entries(selectedCheckboxes).map(
+                        ([key, value]) => ({
+                          Repository: key,
+                          Information: value,
+                        })
+                      )}
+                      filename="selected_repositories.csv"
                     >
-                      <CSVLink
-                        data={Object.entries(selectedCheckboxes).map(
-                          ([key, value]) => ({
-                            Repository: key,
-                            Information: value,
-                          })
-                        )}
-                        filename="selected_repositories.csv"
-                      >
-                        Download Results
-                      </CSVLink>
-                    </Button>
-                  </div>
-                )}
+                      Download Results
+                    </CSVLink>
+                  </Button>
+                </div>
+              )}
               {optionalInformation && (
                 <div>
                   <Markdown>{optionalInformation}</Markdown>
