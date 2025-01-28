@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from "react"
-import { Box } from "@mui/material"
-import { DataGrid, GridToolbar } from "@mui/x-data-grid"
+import React from "react"
+import { Box, Typography } from "@mui/material"
+import { DataGrid } from "@mui/x-data-grid"
 import RenderExpandableCell from "./render-expandable-cell"
 import Markdown from "../../elements/markdown"
 
+// Column Definitions
 const columns = [
   { field: "id", hide: true, headerName: "ID", width: 10 },
   {
@@ -24,7 +25,7 @@ const columns = [
     field: "Descriptive Tags",
     headerName: "Descriptive Tags",
     headerClassName: "general-table-header",
-    width: 170,
+    width: 300,
     sortable: false,
     cellClass: "overflow",
     // eslint-disable-next-line react/display-name
@@ -51,7 +52,7 @@ const columns = [
     field: "IC/Program",
     headerName: "IC/Program",
     headerClassName: "general-table-header",
-    width: 130,
+    width: 170,
     sortable: false,
     // eslint-disable-next-line react/display-name
     renderCell: ({ row }) => (
@@ -62,8 +63,8 @@ const columns = [
     ),
   },
   {
-    field: "Get Started Here",
-    headerName: "Get Started Here",
+    field: "Links",
+    headerName: "Links",
     headerClassName: "general-table-header",
     width: 300,
     sortable: true,
@@ -76,51 +77,43 @@ const columns = [
         {row[`Get Started Here Footnote`] && (
           <sup>{row[`Get Started Here Footnote`]}</sup>
         )}
+        <Typography>&nbsp;|&nbsp;</Typography>
+        <Markdown linkTarget="_blank" className="general-table">
+          {row["Overview"]}
+        </Markdown>
       </>
-    ),
-  },
-  {
-    field: "Overview",
-    headerName: "Overview",
-    headerClassName: "general-table-header",
-    width: 155,
-    sortable: false,
-    filterable: false,
-    // eslint-disable-next-line react/display-name
-    renderCell: ({ row }) => (
-      <Markdown linkTarget="_blank" className="general-table">
-        {row.Overview}
-      </Markdown>
     ),
   },
 ]
 
-function createData(id, data) {
-  let row = { ...data }
+// Field-to-Column Mapping
+const columnFieldOrder = [
+  "Repository",
+  "Descriptive Tags",
+  "Organism",
+  "IC/Program",
+  "Get Started Here",
+  "Overview",
+]
 
-  for (const property in row) {
-    let index = Number(property) + 1
-    let newKey = columns[index].field
+function createData(id, columnsArray) {
+  const row = { id }
 
-    row[newKey] = row[property].column_data
-
-    if (row[property].footnote) {
-      row[`${newKey} Footnote`] = row[property].footnote
+  columnsArray.forEach((column, index) => {
+    const fieldName = columnFieldOrder[index]
+    if (fieldName) {
+      row[fieldName] = column.column_data
+      if (column.footnote) {
+        row[`${fieldName} Footnote`] = column.footnote
+      }
     }
-    delete row[property]
-  }
-  row.id = id
+  })
 
   return row
 }
 
-export default function GeneralDataTable(data) {
-  const [param, setParam] = useState(false)
-  const [paramValue, setParamValue] = useState(false)
-
-  let rows = data.data.row.map((row, i) => {
-    return createData(i, row.columns)
-  })
+export default function GeneralDataTable({ data }) {
+  const rows = data.row.map((row) => createData(row.id, row.columns))
 
   return (
     <Box className="container" sx={{ height: 600 }}>
