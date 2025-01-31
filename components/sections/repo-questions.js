@@ -11,6 +11,7 @@ import {
   Checkbox,
   Typography,
   Divider,
+  Stack,
 } from "@mui/material"
 import { CSVLink } from "react-csv"
 import {
@@ -113,7 +114,6 @@ const RepoQuestions = ({ data }) => {
     <div
       className="container pb-4 text-gray-dark"
       style={{
-        padding: "25px 5px 25px 32px",
         marginBottom: "25px",
       }}
     >
@@ -123,38 +123,75 @@ const RepoQuestions = ({ data }) => {
             <div key={q.question}>
               <Markdown>{q.question}</Markdown>
               <br />
-
               {q.checkbox_type === true && (
-                <div>
-                  <FormGroup>
-                    {q.options.map((o, index) => (
-                      <FormControlLabel
-                        key={`checkbox-${index}`}
-                        control={
-                          <Checkbox
-                            onChange={(e) =>
-                              handleCheckboxChange(o, e.target.checked)
-                            }
-                            checked={!!selectedCheckboxes[o.yes_no]}
-                          />
-                        }
-                        label={o.yes_no}
-                        sx={{
-                          "& .MuiFormControlLabel-label": {
-                            marginBottom: 0,
-                          },
-                        }}
-                      />
-                    ))}
-                  </FormGroup>
-                  <Button
-                    variant="outlined"
-                    onClick={() => handleChange({ target: { value: "next" } })}
-                    sx={{ marginTop: "10px", marginLeft: "10px" }}
-                  >
-                    None of the Above
-                  </Button>
-                </div>
+                <Stack
+                  direction={{ sm: "column", md: "row" }}
+                  divider={<Divider orientation="vertical" flexItem />}
+                  spacing={{ sm: 2, md: 4 }}
+                >
+                  <Box sx={{ minWidth: "400px" }}>
+                    <FormGroup>
+                      {q.options.map((o, index) => (
+                        <FormControlLabel
+                          key={`checkbox-${index}`}
+                          control={
+                            <Checkbox
+                              onChange={(e) =>
+                                handleCheckboxChange(o, e.target.checked)
+                              }
+                              checked={!!selectedCheckboxes[o.yes_no]}
+                            />
+                          }
+                          label={o.yes_no}
+                          sx={{
+                            "& .MuiFormControlLabel-label": {
+                              marginBottom: 0,
+                            },
+                          }}
+                        />
+                      ))}
+                    </FormGroup>
+                    <Button
+                      variant="outlined"
+                      onClick={() =>
+                        handleChange({ target: { value: "next" } })
+                      }
+                      sx={{ margin: "1rem 1rem 1rem" }}
+                    >
+                      None of the Above
+                    </Button>
+                  </Box>
+                  {Object.keys(selectedCheckboxes).length > 0 && (
+                    <div>
+                      <Typography variant="h3">Repository List</Typography>
+                      {Object.values(selectedCheckboxes).map((info, idx) => (
+                        <Box
+                          key={`info-${idx}`}
+                          sx={{ marginBottom: "1rem", "& ul": { py: 0 } }}
+                        >
+                          <Markdown>{info}</Markdown>
+                        </Box>
+                      ))}
+                      <br />
+                      <Button
+                        variant="contained"
+                        startIcon={<FileDownloadIcon />}
+                      >
+                        <CSVLink
+                          data={Object.entries(selectedCheckboxes).map(
+                            ([key, value]) => ({
+                              Repository: key,
+                              Information: value,
+                            })
+                          )}
+                          filename="selected_repositories.csv"
+                        >
+                          Download Results
+                        </CSVLink>
+                      </Button>
+                    </div>
+                  )}
+                </Stack>
               )}
 
               {showOptions && q.checkbox_type === false && (
@@ -187,34 +224,6 @@ const RepoQuestions = ({ data }) => {
                 </div>
               )}
 
-              {Object.keys(selectedCheckboxes).length > 0 && (
-                <div>
-                  <Divider sx={{ marginTop: "2rem" }} />
-                  <Typography variant="h3" sx={{ marginBottom: "1rem" }}>
-                    Repository List
-                  </Typography>
-                  {Object.values(selectedCheckboxes).map((info, idx) => (
-                    <div key={`info-${idx}`}>
-                      <Markdown>{info}</Markdown>
-                      <br />
-                    </div>
-                  ))}
-                  <br />
-                  <Button variant="contained" startIcon={<FileDownloadIcon />}>
-                    <CSVLink
-                      data={Object.entries(selectedCheckboxes).map(
-                        ([key, value]) => ({
-                          Repository: key,
-                          Information: value,
-                        })
-                      )}
-                      filename="selected_repositories.csv"
-                    >
-                      Download Results
-                    </CSVLink>
-                  </Button>
-                </div>
-              )}
               {optionalInformation && (
                 <div>
                   <Markdown>{optionalInformation}</Markdown>
