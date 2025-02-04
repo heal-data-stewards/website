@@ -133,7 +133,7 @@ const VariableStandards = () => {
       name: "DDI Codebook",
       description:
         "Based on the Data Documentation Initiative standard, the DDI Codebook enables basic descriptive content for variables, files, source material, and study level information. Supports discovery, preservation, and the informed use of data.",
-      link: "https://ddialliance.org/Specification/DDI-Codebook/2.5/",
+      link: "https://ddialliance.org/ddi-codebook",
       requiredOrRecommended: "recommended",
       isSelected:
         state["data-type"].includes("Interview/Focus Group") ||
@@ -146,7 +146,8 @@ const VariableStandards = () => {
       description:
         "Nine core pain domains and questionnaires to measure them, designed for studies examining acute pain and chronic pain in adults and pediatric populations",
       link: "https://heal.nih.gov/data/common-data-elements",
-      requiredOrRecommended: "required",
+      requiredOrRecommended:
+        state["award-type-excepts"] === "1" ? "recommended" : "required",
       isSelected:
         state["research-focus-area"] === "1" ||
         state["research-focus-area"] === "6",
@@ -209,7 +210,8 @@ const VariableStandards = () => {
       description:
         "Review your IC's data sharing policies to determine if your IC requires the use of any specific variable standards.",
       link: null,
-      requiredOrRecommended: "required",
+      requiredOrRecommended:
+        state["award-type-excepts"] === "1" ? "recommended" : "required",
       isSelected: dataSharingFunder === "1",
     },
     {
