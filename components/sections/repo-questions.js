@@ -1,51 +1,85 @@
-import Markdown from "../elements/markdown"
 import * as React from "react"
-import { Box } from "@mui/material"
-import Radio from "@mui/material/Radio"
-import RadioGroup from "@mui/material/RadioGroup"
-import FormControlLabel from "@mui/material/FormControlLabel"
-import FormControl from "@mui/material/FormControl"
-import { Button } from "@mui/material"
-import FileDownloadIcon from "@mui/icons-material/FileDownload"
-import { CSVLink, CSVDownload } from "react-csv"
+import Markdown from "../elements/markdown"
+import {
+  Box,
+  Radio,
+  RadioGroup,
+  FormControlLabel,
+  FormControl,
+  FormGroup,
+  Button,
+  Checkbox,
+  Typography,
+  Divider,
+  Stack,
+} from "@mui/material"
+import { CSVLink } from "react-csv"
 import {
   KeyboardArrowLeft as BackIcon,
   RestartAlt as StartOverIcon,
+  FileDownload as FileDownloadIcon,
 } from "@mui/icons-material"
 
 const RepoQuestions = ({ data }) => {
-  console.log(data)
   const [value, setValue] = React.useState("")
   const [showOptions, setShowOptions] = React.useState(true)
   const [optionalInformation, setOptionalInformation] = React.useState(false)
   const [questionToShow, setQuestionToShow] = React.useState(1)
+  const [selectedCheckboxes, setSelectedCheckboxes] = React.useState({})
 
   const handleClickStartOver = React.useCallback(() => {
     setQuestionToShow(1)
     setOptionalInformation(false)
     setShowOptions(true)
     setValue("")
+    setSelectedCheckboxes({})
   }, [])
 
   const handleClickBack = React.useCallback(() => {
-    setQuestionToShow(Math.max(questionToShow - 1, 1))
-    setOptionalInformation(false)
-    setShowOptions(true)
-    setValue("")
-  }, [questionToShow])
+    if (optionalInformation || Object.keys(selectedCheckboxes).length > 0) {
+      // if optionalInformation is displayed or checkboxes are selected, clear them but stay on the same question
+      setOptionalInformation(false)
+      setShowOptions(true)
+      setValue("")
+      setSelectedCheckboxes({})
+    } else {
+      // otherwise, go back one question
+      setQuestionToShow(Math.max(questionToShow - 1, 1))
+      setOptionalInformation(false)
+      setShowOptions(true)
+      setValue("")
+      setSelectedCheckboxes({})
+    }
+  }, [questionToShow, optionalInformation, selectedCheckboxes])
 
   const handleChange = (event) => {
-    setValue(event.target.value)
-    if (event.target.value != "next") {
-      setShowOptions(false)
-      setOptionalInformation(event.target.value)
-    } else if (event.target.value == "next") {
+    const selectedValue = event.target.value
+
+    if (selectedValue === "next") {
       setOptionalInformation(false)
+      setSelectedCheckboxes({})
+
       if (data.repo_question.length > questionToShow) {
         setQuestionToShow(questionToShow + 1)
         setValue("")
       }
+    } else {
+      setValue(selectedValue)
+      setShowOptions(false)
+      setOptionalInformation(selectedValue)
     }
+  }
+
+  const handleCheckboxChange = (option, checked) => {
+    setSelectedCheckboxes((prev) => {
+      const updated = { ...prev }
+      if (checked) {
+        updated[option.yes_no] = option.optional_information
+      } else {
+        delete updated[option.yes_no]
+      }
+      return updated
+    })
   }
 
   const BackButton = React.useCallback(
@@ -73,24 +107,94 @@ const RepoQuestions = ({ data }) => {
         Start Over
       </Button>
     ),
-    [optionalInformation, questionToShow]
+    [handleClickStartOver, questionToShow, showOptions]
   )
 
   return (
     <div
       className="container pb-4 text-gray-dark"
       style={{
-        padding: "25px 5px 25px 32px",
         marginBottom: "25px",
       }}
     >
       {data.repo_question.map((q, i) => {
         if (i + 1 === questionToShow) {
           return (
-            <div className="repo-questions" key={q.question}>
-              <Markdown className="repo-questions">{q.question}</Markdown>
-              <br></br>
-              {showOptions && (
+            <div key={q.question}>
+              <Markdown>{q.question}</Markdown>
+              <br />
+              {q.checkbox_type === true && (
+                <Stack
+                  direction={{ sm: "column", md: "row" }}
+                  divider={<Divider orientation="vertical" flexItem />}
+                  spacing={{ sm: 2, md: 4 }}
+                >
+                  <Box sx={{ minWidth: "400px" }}>
+                    <FormGroup>
+                      {q.options.map((o, index) => (
+                        <FormControlLabel
+                          key={`checkbox-${index}`}
+                          control={
+                            <Checkbox
+                              onChange={(e) =>
+                                handleCheckboxChange(o, e.target.checked)
+                              }
+                              checked={!!selectedCheckboxes[o.yes_no]}
+                            />
+                          }
+                          label={o.yes_no}
+                          sx={{
+                            "& .MuiFormControlLabel-label": {
+                              marginBottom: 0,
+                            },
+                          }}
+                        />
+                      ))}
+                    </FormGroup>
+                    <Button
+                      variant="outlined"
+                      onClick={() =>
+                        handleChange({ target: { value: "next" } })
+                      }
+                      sx={{ margin: "1rem 1rem 1rem" }}
+                    >
+                      None of the Above
+                    </Button>
+                  </Box>
+                  {Object.keys(selectedCheckboxes).length > 0 && (
+                    <div>
+                      <Typography variant="h3">Repository List</Typography>
+                      {Object.values(selectedCheckboxes).map((info, idx) => (
+                        <Box
+                          key={`info-${idx}`}
+                          sx={{ marginBottom: "1rem", "& ul": { py: 0 } }}
+                        >
+                          <Markdown>{info}</Markdown>
+                        </Box>
+                      ))}
+                      <br />
+                      <Button
+                        variant="contained"
+                        startIcon={<FileDownloadIcon />}
+                      >
+                        <CSVLink
+                          data={Object.entries(selectedCheckboxes).map(
+                            ([key, value]) => ({
+                              Repository: key,
+                              Information: value,
+                            })
+                          )}
+                          filename="selected_repositories.csv"
+                        >
+                          Download Results
+                        </CSVLink>
+                      </Button>
+                    </div>
+                  )}
+                </Stack>
+              )}
+
+              {showOptions && q.checkbox_type === false && (
                 <div>
                   <FormControl>
                     <RadioGroup
@@ -100,18 +204,18 @@ const RepoQuestions = ({ data }) => {
                       onChange={handleChange}
                     >
                       {q.options.map((o) => {
-                        let v
-                        if (o.optional_information) {
-                          v = o.optional_information
-                        } else {
-                          v = "next"
-                        }
+                        let v = o.optional_information || "next"
                         return (
                           <FormControlLabel
                             key={o.yes_no}
                             value={v}
                             control={<Radio />}
                             label={o.yes_no}
+                            sx={{
+                              "& .MuiFormControlLabel-label": {
+                                marginBottom: 0,
+                              },
+                            }}
                           />
                         )
                       })}
@@ -131,7 +235,6 @@ const RepoQuestions = ({ data }) => {
                   </Button>
                 </div>
               )}
-
               {!showOptions && (
                 <Box
                   sx={{
