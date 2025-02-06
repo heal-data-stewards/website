@@ -12,11 +12,11 @@ import { CustomUnorderedList } from "../elements/lists/unordered-list"
 import { CustomListItem } from "../elements/lists/list-item"
 import Image from "next/image"
 
-const Markdown = ({ children, sensitiveTool, footnote }) => {
+const Markdown = ({ children, sensitiveTool, inline }) => {
   const componentMap = useMemo(
     () => ({
       p: function Anchor({ node, children, ...props }) {
-        return footnote ? (
+        return inline ? (
           <Typography
             variant="body2"
             sx={{ display: "inline", paddingLeft: "2px" }}
@@ -96,7 +96,7 @@ const Markdown = ({ children, sensitiveTool, footnote }) => {
         )
       },
     }),
-    [sensitiveTool]
+    [sensitiveTool, inline]
   )
   return <ReactMarkdown components={componentMap}>{children}</ReactMarkdown>
 }
