@@ -13,7 +13,7 @@ const columns = [
     headerClassName: "general-table-header",
     sortable: false,
     filterable: false,
-    width: 300,
+    width: 375,
     // eslint-disable-next-line react/display-name
     renderCell: ({ row }) => (
       <Markdown linkTarget="_blank" className="general-table">
