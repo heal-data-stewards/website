@@ -7,7 +7,7 @@ const Footnotes = ({ data }) => {
       {data.footnote.map((footnote, index) => (
         <div key={`footnote-${index}`}>
           <sup>{footnote.footnote_number}</sup>
-          <Markdown footnote>{footnote.footnote_text}</Markdown>
+          <Markdown inline>{footnote.footnote_text}</Markdown>
         </div>
       ))}
     </div>
