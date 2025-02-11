@@ -16,9 +16,17 @@ const columns = [
     width: 375,
     // eslint-disable-next-line react/display-name
     renderCell: ({ row }) => (
-      <Markdown linkTarget="_blank" className="general-table">
-        {row.Repository}
-      </Markdown>
+      <Box
+        sx={{
+          whiteSpace: "normal",
+          wordWrap: "break-word",
+          overflow: "visible",
+        }}
+      >
+        <Markdown linkTarget="_blank" className="general-table">
+          {row.Repository}
+        </Markdown>
+      </Box>
     ),
   },
   {
@@ -66,22 +74,40 @@ const columns = [
     field: "Links",
     headerName: "Links",
     headerClassName: "general-table-header",
-    width: 300,
+    width: 200,
     sortable: true,
-    // eslint-disable-next-line react/display-name
     renderCell: ({ row }) => (
-      <>
-        <Markdown linkTarget="_blank" className="general-table">
+      <Box
+        sx={{
+          display: "flex",
+          alignItems: "center",
+          flexWrap: "wrap",
+          whiteSpace: "nowrap",
+          overflow: "visible",
+          "& p": {
+            display: "inline",
+            margin: 0,
+            whiteSpace: "normal",
+          },
+        }}
+      >
+        <Markdown linkTarget="_blank" inline>
           {row["Get Started Here"]}
         </Markdown>
         {row[`Get Started Here Footnote`] && (
           <sup>{row[`Get Started Here Footnote`]}</sup>
         )}
-        <Typography>&nbsp;|&nbsp;</Typography>
-        <Markdown linkTarget="_blank" className="general-table">
-          {row["Overview"]}
-        </Markdown>
-      </>
+        {row["Overview"] && (
+          <>
+            <Typography variant="body2" sx={{ display: "inline" }}>
+              &nbsp;|&nbsp;
+            </Typography>
+            <Markdown linkTarget="_blank" inline>
+              {row["Overview"]}
+            </Markdown>
+          </>
+        )}
+      </Box>
     ),
   },
 ]
