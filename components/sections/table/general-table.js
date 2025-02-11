@@ -13,7 +13,7 @@ const columns = [
     headerClassName: "general-table-header",
     sortable: false,
     filterable: false,
-    width: 375,
+    width: 350,
     // eslint-disable-next-line react/display-name
     renderCell: ({ row }) => (
       <Box
@@ -60,7 +60,7 @@ const columns = [
     field: "IC/Program",
     headerName: "IC/Program",
     headerClassName: "general-table-header",
-    width: 170,
+    width: 160,
     sortable: false,
     // eslint-disable-next-line react/display-name
     renderCell: ({ row }) => (
@@ -74,7 +74,7 @@ const columns = [
     field: "Links",
     headerName: "Links",
     headerClassName: "general-table-header",
-    width: 225,
+    width: 260,
     sortable: true,
     renderCell: ({ row }) => (
       <Box
