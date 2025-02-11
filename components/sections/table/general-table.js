@@ -33,7 +33,7 @@ const columns = [
     field: "Descriptive Tags",
     headerName: "Descriptive Tags",
     headerClassName: "general-table-header",
-    width: 300,
+    width: 275,
     sortable: false,
     cellClass: "overflow",
     // eslint-disable-next-line react/display-name
@@ -74,7 +74,7 @@ const columns = [
     field: "Links",
     headerName: "Links",
     headerClassName: "general-table-header",
-    width: 200,
+    width: 225,
     sortable: true,
     renderCell: ({ row }) => (
       <Box
@@ -84,27 +84,21 @@ const columns = [
           flexWrap: "wrap",
           whiteSpace: "nowrap",
           overflow: "visible",
-          "& p": {
+          "& .MuiTypography-body1": {
             display: "inline",
             margin: 0,
             whiteSpace: "normal",
           },
         }}
       >
-        <Markdown linkTarget="_blank" inline>
-          {row["Get Started Here"]}
-        </Markdown>
+        <Markdown linkTarget="_blank">{row["Get Started Here"]}</Markdown>
         {row[`Get Started Here Footnote`] && (
           <sup>{row[`Get Started Here Footnote`]}</sup>
         )}
         {row["Overview"] && (
           <>
-            <Typography variant="body2" sx={{ display: "inline" }}>
-              &nbsp;|&nbsp;
-            </Typography>
-            <Markdown linkTarget="_blank" inline>
-              {row["Overview"]}
-            </Markdown>
+            <Typography variant="body1">&nbsp;|&nbsp;</Typography>
+            <Markdown linkTarget="_blank">{row["Overview"]}</Markdown>
           </>
         )}
       </Box>
