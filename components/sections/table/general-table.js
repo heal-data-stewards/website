@@ -88,7 +88,7 @@ const columns = [
             display: "inline",
             margin: 0,
             whiteSpace: "normal",
-            fontSize: "0.95rem",
+            fontSize: "0.95rem !important",
           },
         }}
       >
