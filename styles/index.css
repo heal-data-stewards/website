@@ -267,7 +267,7 @@ content: ""
 }
 
 .MuiTypography-body1 {
-  font-size: 1.1rem !important;
+  font-size: 1.1rem;
   font-family: 'Montserrat' !important;
   font-weight: 400 !important;
   line-height: 1.5 !important;
