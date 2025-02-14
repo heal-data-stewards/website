@@ -271,7 +271,7 @@ export default function AppSearch({ data }) {
       const notes =
         status === "green"
           ? "Your data dictionary submission has been received! Variable-level metadata like yours is crucial to enabling data reuse."
-          : "Please send your data dictionary to [healstewards@renci.org](mailto:healstewards@renci.org). Variable-level metadata ensures clarity and usability of your study’s data and is vital for data reuse."
+          : "Please send your data dictionary to [healstewards@renci.org](mailto:healstewards@renci.org). Data dictionaries already submitted may still be processing and not yet reflected in this checklist. Variable-level metadata is vital for supporting data reuse."
       steps.push({ status, step, notes })
     }
 
