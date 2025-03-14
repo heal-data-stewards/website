@@ -399,7 +399,11 @@ const VariableStandards = () => {
           style={{ flex: "0 0 400px" }}
           aria-labelledby="variable-standards"
           role="tabpanel"
-          id={`tabpanel-${toKebabCase(openedStandard.name)}`}
+          id={
+            openedStandard !== null
+              ? `tabpanel-${toKebabCase(openedStandard?.name)}`
+              : undefined
+          }
         >
           {openedStandard === null ? (
             <p style={{ fontStyle: "italic" }}>
