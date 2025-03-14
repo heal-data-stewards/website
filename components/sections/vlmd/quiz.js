@@ -29,7 +29,7 @@ export function Quiz({
     !isQuestionUnanswered(state, currentQuestion)
 
   return (
-    <div style={{ flex: "0 0 500px" }}>
+    <div style={{ flex: "0 0 400px" }}>
       <div style={{ position: "sticky", top: 0 }}>
         <Question
           number={currentQuestionNumber + 1}

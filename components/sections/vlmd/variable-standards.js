@@ -3,6 +3,22 @@ import questions from "./questions.json"
 import { StandardTile } from "./standard-tile"
 import { Quiz } from "./quiz"
 import { RequiredIcon } from "./required-icon"
+import Link from "../../elements/link"
+import { OpenInNew } from "@mui/icons-material"
+import { Box } from "@mui/material"
+import { toKebabCase } from "utils/kebab-case"
+
+const Divider = () => (
+  <div
+    aria-hidden="true"
+    style={{
+      flex: "0 0 auto",
+      backgroundColor: "rgb(76, 51, 89)",
+      width: "3px",
+      height: "100%",
+    }}
+  ></div>
+)
 
 const initialState = questions.reduce(
   (prev, { type, id }) => ({
@@ -48,6 +64,8 @@ function reducer(state, action) {
 
 const VariableStandards = () => {
   const [state, dispatch] = React.useReducer(reducer, initialState)
+  const [openedStandard, setOpenedStandard] = React.useState(null)
+  const tabRefs = React.useRef([])
 
   const handleSetSelected = (id, value) => {
     dispatch({
@@ -206,7 +224,7 @@ const VariableStandards = () => {
         state["data-type"].includes("Questionnaire/Survey/Assessment"),
     },
     {
-      name: "NIH Funding Institute/Center Standards",
+      name: "NIH Funding Institute / Center Standards",
       description:
         "Review your IC's data sharing policies to determine if your IC requires the use of any specific variable standards.",
       link: null,
@@ -253,6 +271,16 @@ const VariableStandards = () => {
     },
   ]
 
+  const getDefaultFocusTab = () => {
+    const index = standards.findIndex(
+      ({ name }) => name === openedStandard?.name
+    )
+    return index > 0 ? index : 0
+  }
+  const [focusedTabIndex, setFocusedTabIndex] = React.useState(
+    getDefaultFocusTab()
+  )
+
   const handleDownloadResouces = () => {
     const downloadText = standards
       .filter((s) => s.isSelected)
@@ -273,6 +301,22 @@ const VariableStandards = () => {
     document.body.removeChild(elem)
   }
 
+  const focusTab = (tabIndex) => {
+    const tabRef = tabRefs.current[tabIndex]
+    if (tabRef) {
+      tabRef.focus()
+      setFocusedTabIndex(tabIndex)
+    }
+  }
+
+  const handleKeyDown = (tabIndex, { key }) => {
+    const { length } = tabRefs.current
+    if (key === "ArrowDown") focusTab((tabIndex + 1) % length)
+    else if (key === "ArrowUp") focusTab((tabIndex - 1 + length) % length)
+    else if (key === "Home") focusTab(0)
+    else if (key === "End") focusTab(length - 1)
+  }
+
   return (
     <div
       style={{
@@ -289,18 +333,13 @@ const VariableStandards = () => {
           handleDownloadResouces={handleDownloadResouces}
         />
 
-        {/* Divider */}
-        <div
-          aria-hidden="true"
-          style={{
-            flex: "0 0 auto",
-            backgroundColor: "rgb(76, 51, 89)",
-            width: "3px",
-            height: "100%",
-          }}
-        ></div>
+        <Divider />
 
-        <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
+        <div
+          style={{ display: "flex", flexDirection: "column", gap: "1rem" }}
+          role="tablist"
+          aria-labelledby="variable-standards"
+        >
           <Legend />
           {hasDataSharingReq && (
             <p style={{ fontStyle: "italic" }}>
@@ -310,26 +349,78 @@ const VariableStandards = () => {
               to verify your award&apos;s exact requirements.
             </p>
           )}
-          <div className="vlmd-standards-wrapper">
-            {standards.map(
-              ({
-                name,
-                description,
-                link,
-                requiredOrRecommended,
-                isSelected,
-              }) => (
-                <StandardTile
-                  active={isSelected}
-                  description={description}
-                  link={link}
-                  title={name}
-                  requiredOrRecommended={requiredOrRecommended}
-                  key={name}
-                />
-              )
-            )}
-          </div>
+          <Box
+            sx={{
+              alignSelf: "flex-start",
+              display: "grid",
+              gap: "1rem",
+              gridTemplateColumns: "repeat(2, 1fr)",
+              gridAutoRows: "1fr",
+            }}
+          >
+            {standards.map((standard, tabIndex) => (
+              <StandardTile
+                onClick={() => {
+                  setOpenedStandard(standard)
+                }}
+                isOpened={standard.name === openedStandard?.name}
+                active={standard.isSelected}
+                title={standard.name}
+                requiredOrRecommended={standard.requiredOrRecommended}
+                key={standard.name}
+                buttonRef={(el) => {
+                  if (el !== null) tabRefs.current[tabIndex] = el
+                }}
+                onKeyDown={(e) => {
+                  if (
+                    e.key === "ArrowDown" ||
+                    e.key === "ArrowUp" ||
+                    e.key === "Home" ||
+                    e.key === "End"
+                  ) {
+                    e.preventDefault()
+                  }
+                  handleKeyDown(tabIndex, e)
+                }}
+                tabIndex={focusedTabIndex === tabIndex ? undefined : -1}
+                aria-controls={`tabpanel-${toKebabCase(standard.name)}`}
+                id={`tab-${toKebabCase(standard.name)}`}
+                aria-selected={
+                  standard.name === openedStandard?.name ? "true" : "false"
+                }
+              />
+            ))}
+          </Box>
+        </div>
+
+        <Divider />
+
+        <div
+          style={{ flex: "0 0 400px" }}
+          aria-labelledby="variable-standards"
+          role="tabpanel"
+          id={`tabpanel-${toKebabCase(openedStandard.name)}`}
+        >
+          {openedStandard === null ? (
+            <p style={{ fontStyle: "italic" }}>
+              Please click on a standard to view more information.
+            </p>
+          ) : (
+            <>
+              <h2 style={{ fontSize: "1.3em", fontWeight: "600" }}>
+                {openedStandard.name}
+              </h2>
+              {openedStandard.link && (
+                <Link to={openedStandard.link}>
+                  Visit website{" "}
+                  <OpenInNew
+                    sx={{ fontSize: "1em", transform: "translateY(-1px)" }}
+                  />
+                </Link>
+              )}
+              <p style={{ marginTop: "1rem" }}>{openedStandard.description}</p>
+            </>
+          )}
         </div>
       </div>
     </div>
@@ -348,7 +439,7 @@ function Legend() {
     >
       <div
         style={{
-          background: "#462c53",
+          background: "#8d7894",
           color: "white",
           padding: "8px 12px",
           borderRadius: "4px",
@@ -364,7 +455,7 @@ function Legend() {
             flex: "0 0 auto",
             border: "3px solid white",
             borderRadius: "50%",
-            backgroundColor: "#782c5c",
+            backgroundColor: "#812c5c",
           }}
         ></div>
         Recommended Resources
@@ -375,13 +466,13 @@ function Legend() {
           display: "flex",
           gap: "1rem",
           alignItems: "center",
-          background: "#782c5c",
+          background: "#984d7a",
           color: "white",
           padding: "8px 12px",
           borderRadius: "4px",
         }}
       >
-        <span style={{ color: "white", "--icon-fill-color": "#462c53" }}>
+        <span style={{ color: "white", "--icon-fill-color": "#492c52" }}>
           <RequiredIcon />
         </span>
         Required Resources
