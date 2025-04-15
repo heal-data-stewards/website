@@ -4,7 +4,7 @@ export function getEvents(token) {
   return new Promise((resolve, reject) => {
     axios
       .get(
-        `https://graph.microsoft.com/v1.0/users/RENCI_healdataca.rmb@ad.unc.edu/calendar/events?$top=50`,
+        `https://graph.microsoft.com/v1.0/users/RENCI_healdataca.rmb@ad.unc.edu/calendar/events?$top=100`,
         {
           headers: {
             Authorization: "Bearer " + token,

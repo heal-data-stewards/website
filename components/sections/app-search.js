@@ -265,6 +265,16 @@ export default function AppSearch({ data }) {
       steps.push({ status, step, notes })
     }
 
+    if ("num_data_dictionaries" in data) {
+      const step = "Submit Variable-Level Metadata"
+      const status = data.num_data_dictionaries > 0 ? "green" : "red"
+      const notes =
+        status === "green"
+          ? "Your data dictionary submission has been received! Variable-level metadata like yours is crucial to enabling data reuse."
+          : "Please send your data dictionary to [healstewards@renci.org](mailto:healstewards@renci.org). Data dictionaries already submitted may still be processing and not yet reflected in this checklist. Variable-level metadata is vital for supporting data reuse."
+      steps.push({ status, step, notes })
+    }
+
     if ("repository_metadata" in data) {
       const step =
         "Submit Data and Metadata to a Repository / Submit Data Link to Platform"
@@ -279,7 +289,7 @@ export default function AppSearch({ data }) {
           dataSubmitted: hasDataLink,
           linkProvided: hasDataLink,
           additionalInformation: hasDataLink
-            ? `Congratulations on submitting your data to ${repo_repository_name}!`
+            ? `Congratulations on submitting your data to ${repo.repository_name}!`
             : `If you've submitted data to ${repo.repository_name}, please submit the corresponding link to the Platform at [heal-support@gen3.org](mailto:heal-support@gen3.org). If you are not ready to submit your data and VLMD to a repository, that's okay\! Revisit this when you're ready, and feel free to reach out to us with any questions or if you need assistance.`,
         })
       }
@@ -551,23 +561,6 @@ export default function AppSearch({ data }) {
                     [heal_cde@hsc.utah.edu](mailto:heal_cde@hsc.utah.edu).
                     Please review the CDEs section of the Checklist for
                     HEAL-Compliant Data for more information.
-                  </Markdown>
-                </td>
-              </tr>
-              <tr>
-                <td>Submit Variable-Level Metadata</td>
-                <td>
-                  <Markdown>
-                    Please submit your variable-level metadata (VLMD) or, data
-                    dictionary, to the HEAL Stewards via email at
-                    [HEALStewards@renci.org](mailto:HEALStewards@renci.org).
-                    Note that we can accept data dictionaries at any point in
-                    your study, even if incomplete! Data dictionaries inherently
-                    should not contain sensitive information such as personal
-                    health information (PHI) or personally identifiable
-                    information (PII). Data dictionaries will be shared publicly
-                    via the HEAL Data Platform and [HEAL Semantic Search
-                    tool](https://www.healdatafair.org/resources/semanticsearch).
                   </Markdown>
                 </td>
               </tr>
