@@ -1,0 +1,147 @@
+[
+  {
+    "question": "Do you have a specific HEAL-funded award in mind?",
+    "notes": null,
+    "id": "has-specific-study",
+    "type": "single-choice",
+    "enabledBySpecificStudy": false,
+    "answers": [
+      { "answer": "Yes", "value": 1 },
+      { "answer": "No", "value": 0 }
+    ]
+  },
+  {
+    "question": "Which HEAL Research Focus Area does the award fall under?",
+    "notes": "If you aren't sure, you can find your award's focus area [here](https://heal.nih.gov/funding/awarded).",
+    "id": "research-focus-area",
+    "type": "single-choice",
+    "enabledBySpecificStudy": true,
+    "answers": [
+      { "answer": "Clinical Research in Pain Management", "value": 1 },
+      { "answer": "Cross-Cutting Research", "value": 2 },
+      { "answer": "Enhanced Outcomes for Infants and Children Exposed to Opioids", "value": 3 },
+      { "answer": "New Strategies to Prevent and Treat Opioid Addiction", "value": 4 },
+      { "answer": "Novel Therapeutic Options for Opioid Use Disorder and Overdose", "value": 5 },
+      { "answer": "Preclinical and Translational Research in Pain Management", "value": 6 },
+      { "answer": "Training the Next Generation of Researchers in HEAL", "value": 7 },
+      { "answer": "Translation of Research to Practice for the Treatment of Opioid Addiction", "value": 8 }
+    ]
+  },
+  {
+    "question": "Is the award a UG3, UH3, Small Business Programs (SBIR/STTR) award, or does it include data about American Indian/Alaska Native (AI/AN) populations?",
+    "notes": "If you aren't sure of the award type, see [\"Deciphering NIH Application / Grant Numbers\"](https://www.era.nih.gov/files/Deciphering_NIH_Application.pdf). [Learn more about NIH's Small Business Programs](https://seed.nih.gov/small-business-funding).",
+    "id": "award-type-excepts",
+    "type": "single-choice",
+    "enabledBySpecificStudy": true,
+    "answers": [
+      { "answer": "Yes", "value": 1 },
+      { "answer": "No", "value": 0 }
+    ]
+  },
+  {
+    "question": "Is the award associated with any of the following consortium awards?",
+    "notes": "If no, select \"None of the above\".",
+    "id": "has-dcc",
+    "type": "single-choice",
+    "enabledBySpecificStudy": true,
+    "answers": [
+      { "answer": "Advancing Clinical Trials in Neonatal Opioid Withdrawal (ACT NOW)", "value": 1 },
+      { "answer": "Back Pain Consortium Research Program (BACPAC)", "value": 2 },
+      { "answer": "Early Phase Pain Investigation Clinical Network (EPPIC-Net)", "value": 3 },
+      { "answer": "Harm Reduction Approaches to Reduce Overdose Death (Harm Reduction)", "value": 4 },
+      { "answer": "HEAL Prevention Cooperative (HPC)", "value": 5 },
+      { "answer": "HEALing Communities (HEALing Communities)", "value": 6 },
+      { "answer": "HEALthy Brain and Child Development Study (HBCD)", "value": 7 },
+      { "answer": "Integrated Approach to Pain and Opioid Use in Hemodialysis Patients (HOPE)", "value": 8 },
+      { "answer": "Integrated Management of Chronic Pain and OUD for Whole Recovery (IMPOWR)", "value": 9 },
+      { "answer": "Justice Community of Opioid Innovation Network (JCOIN)", "value": 10 },
+      { "answer": "Pain Management Effectiveness Research Network (Pain ERN)", "value": 11 },
+      { "answer": "PRECISION ", "value": 12 },
+      { "answer": "Restoring Joint Health and Function to Reduce Pain (RE-JOIN)", "value": 13 },
+      { "answer": "I don't know", "value": 666 },
+      { "answer": "None of the above", "value": 111 }
+    ]
+  },
+  {
+    "question": "What is the NIH funding Institute or Center?",
+    "notes": null,
+    "id": "funder",
+    "type": "combo-box",
+    "enabledBySpecificStudy": true,
+    "answers": [
+      { "answer": "Fogarty International Center (FIC)", "value": "FIC" },
+      { "answer": "National Center for Advancing Translational Sciences (NCATS)", "value": "NCATS" },
+      { "answer": "National Center for Complementary and Integrative Health (NCCIH)", "value": "NCCIH" },
+      { "answer": "National Cancer Institute (NCI)", "value": "NCI" },
+      { "answer": "National Eye Institute (NEI)", "value": "NEI" },
+      { "answer": "National Human Genome Research Institute (NHGRI)", "value": "NHGRI" },
+      { "answer": "National Heart, Lung, and Blood Institute (NHLBI)", "value": "NHLBI" },
+      { "answer": "National Institute on Aging (NIA)", "value": "NIA" },
+      { "answer": "National Institute on Alcohol Abuse and Alcoholism (NIAAA)", "value": "NIAAA" },
+      { "answer": "National Institute of Allergy and Infectious Diseases (NIAID)", "value": "NIAID" },
+      { "answer": "National Institute of Arthritis and Musculoskeletal and Skin Diseases (NIAMS)", "value": "NIAMS" },
+      { "answer": "National Institute of Biomedical Imaging and Bioengineering (NIBIB)", "value": "NIBIB" },
+      { "answer": "Eunice Kennedy Shriver National Institute of Child Health and Human Development (NICHD)", "value": "NICHD" },
+      { "answer": "National Institute on Drug Abuse (NIDA)", "value": "NIDA" },
+      { "answer": "National Institute on Deafness and Other Communication Disorders (NIDCD)", "value": "NIDCD" },
+      { "answer": "National Institute of Dental and Craniofacial Research (NIDCR)", "value": "NIDCR" },
+      { "answer": "National Institute of Diabetes and Digestive and Kidney Diseases (NIDDK)", "value": "NIDDK" },
+      { "answer": "National Institute of Environmental Health Sciences (NIEHS)", "value": "NIEHS" },
+      { "answer": "National Institute of General Medical Sciences (NIGMS)", "value": "NIGMS" },
+      { "answer": "National Institute of Mental Health (NIMH)", "value": "NIMH" },
+      { "answer": "National Institute on Minority Health and Health Disparities (NIMHD)", "value": "NIMHD" },
+      { "answer": "National Institute of Neurological Disorders and Stroke (NINDS)", "value": "NINDS" },
+      { "answer": "National Institute of Nursing Research (NINR)", "value": "NINR" },
+      { "answer": "National Library of Medicine (NLM)", "value": "NLM" },
+      { "answer": "Office of the Director(OD)", "value": "OD" }
+    ]
+  },
+  {
+    "question": "What type of research is it?",
+    "notes": null,
+    "id": "study-stage",
+    "type": "multi-choice",
+    "enabledBySpecificStudy": false,
+    "answers": [
+      "Pre-Research/Protocol Development",
+      "Basic Research",
+      "Pre-Clinical Research",
+      "Clinical Research",
+      "Implementation Research",
+      "Post-market Research",
+      "Business Development",
+      "Epidemiologic Research",
+      "Other"
+    ]
+  },
+  {
+    "question": "What is the study subject type?",
+    "notes": null,
+    "id": "study-subject-type",
+    "type": "multi-choice",
+    "enabledBySpecificStudy": false,
+    "answers": [
+      "Human (including human cell / tissue / tissue model)",
+      "Animal (including animal cell / tissue / tissue model)",
+      "Molecule (e.g. chemical compounds, drugs, protein engineering, protein crystallization, etc)",
+      "Other"
+    ]
+  },
+  {
+    "question": "What is the data type?",
+    "notes": null,
+    "id": "data-type",
+    "type": "multi-choice",
+    "enabledBySpecificStudy": false,
+    "answers": [
+      "Biochemical",
+      "Biophysical",
+      "Clinical/health",
+      "Genomic",
+      "Imaging",
+      "Interview/Focus Group",
+      "Proteomic",
+      "Questionnaire/Survey/Assessment"
+    ]
+  }
+]
