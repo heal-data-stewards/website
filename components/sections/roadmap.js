@@ -63,17 +63,17 @@ export default function RoadMap({ data }) {
     const classes = useStyles()
 
     const stepIcons = {
-      1: <Icon img="1" />,
-      2: <Icon img="2" />,
-      3: <Icon img="3" />,
-      4: <Icon img="4" />,
-      5: <Icon img="5" />,
-      6: <Icon img="6" />,
-      7: <Icon img="7" />,
-      8: <Icon img="8" />,
-      9: <Icon img="9" />,
-      10: <Icon img="10" />,
-      11: <Icon img="11" />,
+      1: <Icon img="ci-award" />,
+      2: <Icon img="ci-clinical-trials" />,
+      3: <Icon img="ci-register" />,
+      4: <Icon img="ci-cedar" />,
+      5: <Icon img="ci-db" />,
+      6: <Icon img="ci-cdes" />,
+      7: <Icon img="ci-vlmd" />,
+      8: <Icon img="ci-submit" />,
+      9: <Icon img="ci-report" />,
+      10: <Icon img="ci-access" />,
+      11: <Icon img="ci-publication" />,
     }
 
     return (
