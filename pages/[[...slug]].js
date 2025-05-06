@@ -6,6 +6,7 @@ import { useRouter } from "next/router"
 import Layout from "@/components/layout"
 import { getLocalizedPaths } from "utils/localize"
 import { getAuthorizationToken } from "utils/msft-graph-api"
+import ChecklistGraphic from "@/components/sections/checklist-graphic"
 
 // The file is called [[...slug]].js because we're using Next's
 // optional catch all routes feature. See the related docs:
@@ -62,6 +63,10 @@ const DynamicPage = ({
     <Layout global={global} pageContext={pageContext}>
       {/* Add meta tags for SEO*/}
       <Seo metadata={metadata} />
+
+      {/* FOR TESTING, REMOVE */}
+      <ChecklistGraphic />
+
       {/* Display content sections */}
       <Sections
         sections={sections}
