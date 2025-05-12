@@ -103,7 +103,7 @@ function Text({ stepNumber, text }) {
     <div
       style={{
         gridArea: `t${stepNumber}`,
-        fontSize: "1.5rem",
+        fontSize: "1.3rem",
         color: "#a082b6",
         lineHeight: "1.2",
         fontWeight: "500",
@@ -194,6 +194,7 @@ export default function ChecklistGraphic() {
         "--line-color": "#dcd2de",
         "--line-width": "10px",
         "--icon-size": "80px",
+        "--gutter-height": "40px",
       }}
     >
       <ChecklistGrid>
@@ -261,9 +262,9 @@ const ChecklistGrid = styled("div")`
     var(--icon-size) 1fr;
   grid-template-rows:
     var(--icon-size)
-    auto 40px
-    auto 40px
-    auto 40px
+    auto var(--gutter-height)
+    auto var(--gutter-height)
+    auto var(--gutter-height)
     auto
     var(--icon-size);
   grid-template-areas:
