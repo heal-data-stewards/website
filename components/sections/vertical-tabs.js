@@ -27,6 +27,7 @@ const VerticalTabs = ({ data }) => {
                 onClick={() => setShownContent(item)}
                 key={i + item.TabTitle}
                 title={item.TabTitle}
+                url={item.TabUrl}
                 index={i}
                 isSelected={item.TabTitle === shownContent.TabTitle}
               />
