@@ -417,7 +417,7 @@ const CloudsGroup = styled("div")`
 const Heading = styled("h2")`
   font-size: 2.5rem;
   font-weight: bold;
-  color: #812d5c;
+  color: #ab3176;
   max-width: 500px;
   margin: 2rem 0 0 0;
 
