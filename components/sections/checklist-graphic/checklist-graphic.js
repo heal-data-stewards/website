@@ -195,14 +195,7 @@ export default function ChecklistGraphic() {
       <Heading>
         Your <span>HEAL</span> Data Sharing <span>Checklist</span>
       </Heading>
-      <div
-        style={{
-          position: "absolute",
-          right: 0,
-          top: 0,
-          isolation: "isolate",
-        }}
-      >
+      <CloudsGroup>
         <PurpleCloud style={{ zIndex: 1 }}>
           <Link href={"/resources/road-map"}>
             <a
@@ -225,7 +218,7 @@ export default function ChecklistGraphic() {
             zIndex: 0,
           }}
         />
-      </div>
+      </CloudsGroup>
       <ChecklistGrid>
         {steps.map(({ icon, text }, index) => (
           <React.Fragment key={icon}>
@@ -315,6 +308,52 @@ const ChecklistGrid = styled("div")`
     "a1  hl1 a2  a5  hl2 a6  .    .  ";
 
   @media (max-width: 1260px) {
+    --line-width: 8px;
+    --icon-size: 70px;
+    --gutter-height: 30px;
+
+    grid-template-columns:
+      var(--icon-size) 1fr var(--icon-size) var(--icon-size)
+      1fr;
+    grid-template-rows:
+      var(--icon-size)
+      repeat(5, auto var(--gutter-height))
+      auto
+      var(--icon-size);
+
+    grid-template-areas:
+      ".   .   a3  a4  .  "
+      "i1  t1  vl6 i7  t7 "
+      "vl1 .   vl6 vl7 .  "
+      "i2  t2  vl6 i8  t8 "
+      "vl2 .   vl6 vl8 .  "
+      "i3  t3  vl6 i9  t9 "
+      "vl3 .   vl6 vl9 .  "
+      "i4  t4  vl6 i10 t10"
+      "vl4 .   vl6 vl10 . "
+      "i5  t5  vl6 i11 t11"
+      "vl5 .   vl6 .   .  "
+      "i6  t6  vl6 .   .  "
+      "a1  hl1 a2  .   .  ";
+
+    /* nth-of-type doesn't select the nth of the class, it's the nth of the tag (div) */
+    /* Find a better way to do this */
+    & .checklist-horizontal-line:nth-of-type(34) {
+      display: none;
+    }
+    & .checklist-arc-line:nth-of-type(39),
+    & .checklist-arc-line:nth-of-type(40),
+    & .checklist-arc-line:nth-of-type(41),
+    & .checklist-arc-line:nth-of-type(42) {
+      display: none !important;
+    }
+
+    & .clouds-group {
+      scale: 0.6;
+    }
+  }
+
+  @media (max-width: 768px) {
     --icon-size: 60px;
     --gutter-height: 20px;
     --line-width: 6px;
@@ -359,6 +398,22 @@ const ChecklistGrid = styled("div")`
   }
 `
 
+const CloudsGroup = styled("div")`
+  position: absolute;
+  right: 0px;
+  top: 0px;
+  isolation: isolate;
+  transform-origin: top right;
+
+  @media (max-width: 1260px) {
+    scale: 0.6;
+  }
+
+  @media (max-width: 768px) {
+    display: none;
+  }
+`
+
 const Heading = styled("h2")`
   font-size: 2.5rem;
   font-weight: bold;
@@ -372,5 +427,10 @@ const Heading = styled("h2")`
 
   & span:nth-child(2) {
     text-decoration: underline;
+  }
+
+  @media (max-width: 768px) {
+    max-width: 100%;
+    margin-bottom: -40px;
   }
 `
