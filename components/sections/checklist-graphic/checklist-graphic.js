@@ -1,6 +1,8 @@
 import { styled } from "@mui/material"
 import Image from "next/image"
 import React from "react"
+import { LightPurpleCloud, PurpleCloud } from "./cloud-graphics"
+import Link from "next/link"
 
 const steps = [
   {
@@ -148,6 +150,7 @@ function ArcLine({ arcNumber, position }) {
 
   return (
     <div
+      className="checklist-arc-line"
       style={{
         gridArea: `a${arcNumber}`,
         display: "flex",
@@ -188,15 +191,41 @@ function ArcLine({ arcNumber, position }) {
 
 export default function ChecklistGraphic() {
   return (
-    <div
-      className="container"
-      style={{
-        "--line-color": "#dcd2de",
-        "--line-width": "10px",
-        "--icon-size": "80px",
-        "--gutter-height": "40px",
-      }}
-    >
+    <div className="container" style={{ position: "relative" }}>
+      <Heading>
+        Your <span>HEAL</span> Data Sharing <span>Checklist</span>
+      </Heading>
+      <div
+        style={{
+          position: "absolute",
+          right: 0,
+          top: 0,
+          isolation: "isolate",
+        }}
+      >
+        <PurpleCloud style={{ zIndex: 1 }}>
+          <Link href={"/resources/road-map"}>
+            <a
+              style={{
+                fontSize: "1.5rem",
+                textDecoration: "underline",
+                textAlign: "center",
+                textWrap: "",
+              }}
+            >
+              Track your study&apos;s progress now
+            </a>
+          </Link>
+        </PurpleCloud>
+        <LightPurpleCloud
+          style={{
+            position: "absolute",
+            top: "-30px",
+            left: "-100px",
+            zIndex: 0,
+          }}
+        />
+      </div>
       <ChecklistGrid>
         {steps.map(({ icon, text }, index) => (
           <React.Fragment key={icon}>
@@ -230,6 +259,7 @@ export default function ChecklistGraphic() {
         {/* 2 horizontal lines to connect pieces */}
         {new Array(2).fill(0).map((_, i) => (
           <div
+            className="checklist-horizontal-line"
             key={i}
             style={{
               backgroundColor: "var(--line-color)",
@@ -255,6 +285,12 @@ export default function ChecklistGraphic() {
 }
 
 const ChecklistGrid = styled("div")`
+  --line-color: #dcd2de;
+  --line-width: 10px;
+  --icon-size: 80px;
+  --gutter-height: 40px;
+
+  position: "absolute";
   display: grid;
   grid-template-columns:
     var(--icon-size) 1fr var(--icon-size)
@@ -277,4 +313,64 @@ const ChecklistGrid = styled("div")`
     "vl3 .   vl4 vl7 .   vl8 vl10 .  "
     "i4  t4  vl4 i8  t8  vl8 i11  t11"
     "a1  hl1 a2  a5  hl2 a6  .    .  ";
+
+  @media (max-width: 1260px) {
+    --icon-size: 60px;
+    --gutter-height: 20px;
+    --line-width: 6px;
+
+    grid-template-columns: auto var(--icon-size) minmax(auto, 400px) auto;
+    grid-template-rows:
+      var(--icon-size)
+      repeat(10, auto var(--gutter-height))
+      auto
+      var(--icon-size);
+    grid-template-areas:
+      ". .    .   ."
+      ". i1   t1  ."
+      ". vl1  .   ."
+      ". i2   t2  ."
+      ". vl2  .   ."
+      ". i3   t3  ."
+      ". vl3  .   ."
+      ". i4   t4  ."
+      ". vl4  .   ."
+      ". i5   t5  ."
+      ". vl5  .   ."
+      ". i6   t6  ."
+      ". vl6  .   ."
+      ". i7   t7  ."
+      ". vl7  .   ."
+      ". i8   t8  ."
+      ". vl8  .   ."
+      ". i9   t9  ."
+      ". vl9  .   ."
+      ". i10  t10 ."
+      ". vl10 .   ."
+      ". i11  t11 ."
+      ". .    .   .";
+
+    & .checklist-horizontal-line {
+      display: none;
+    }
+    & .checklist-arc-line {
+      display: none !important;
+    }
+  }
+`
+
+const Heading = styled("h2")`
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: #812d5c;
+  max-width: 500px;
+  margin: 2rem 0 0 0;
+
+  & span:nth-child(1) {
+    color: #432557;
+  }
+
+  & span:nth-child(2) {
+    text-decoration: underline;
+  }
 `

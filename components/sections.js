@@ -44,7 +44,7 @@ import RepoQuestions from "./sections/repo-questions"
 import FloatingInfoBox from "./sections/floating-info-box"
 import VerticalTabs from "./sections/vertical-tabs"
 import Footnotes from "./sections/footnotes"
-import ChecklistGraphic from "./sections/checklist-graphic"
+import ChecklistGraphic from "./sections/checklist-graphic/checklist-graphic"
 
 // Map Strapi sections to section components
 const sectionComponents = {
