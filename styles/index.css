@@ -85,8 +85,11 @@ html {
 /* Fixes issue with button changing to default material blue on directory page  */
 
 .MuiButton-root{
-  border-radius: 0% !important;
+  font-family: Montserrat !important;
+  letter-spacing: 0.75px !important;
+  font-weight: 500 !important;
 }
+
 .MuiButton-containedPrimary {
   background-color: #532565 !important;
 }
@@ -415,7 +418,7 @@ content: ""
 }
 .MuiStepContent-root {
   border-color: #c0b3c5 !important;
-  border-left-width: 8px !important;
+  border-left-width: 9px !important;
   margin-left: 39px !important;
 }
 .search-link {
