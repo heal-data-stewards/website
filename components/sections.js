@@ -44,6 +44,7 @@ import RepoQuestions from "./sections/repo-questions"
 import FloatingInfoBox from "./sections/floating-info-box"
 import VerticalTabs from "./sections/vertical-tabs"
 import Footnotes from "./sections/footnotes"
+import DataSharingStatus from "./sections/data-sharing-status"
 
 // Map Strapi sections to section components
 const sectionComponents = {
@@ -92,6 +93,7 @@ const sectionComponents = {
   "sections.floating-info-box": FloatingInfoBox,
   "sections.vertical-tabs": VerticalTabs,
   "sections.footnotes": Footnotes,
+  "elements.data-sharing-status": DataSharingStatus,
 }
 
 // Display a section individually
