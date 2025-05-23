@@ -1,8 +1,9 @@
 import { styled } from "@mui/material"
-import Image from "next/image"
 import React from "react"
-import { LightPurpleCloud, PurpleCloud } from "./cloud-graphics"
-import Link from "next/link"
+import { CloudsGroup } from "./cloud-graphics"
+import { Icon } from "./icon"
+import { Text } from "./text"
+import { ArcLine, HorizontalLine, VerticalLine } from "./lines"
 
 const steps = [
   {
@@ -51,174 +52,18 @@ const steps = [
   },
 ]
 
-/**
- * @param {{ stepNumber: number, iconName: string, linePosition: "both" | "top" | "bottom" }}
- */
-function Icon({ stepNumber, iconName, linePosition }) {
-  return (
-    <div
-      style={{
-        width: "100%",
-        height: "100%",
-        gridArea: `i${stepNumber}`,
-        display: "flex",
-        flexDirection: "column",
-        justifyContent: "center",
-        position: "relative",
-      }}
-    >
-      {/* Apply the line around the icon container according to whether it needs to be above or below */}
-      <div
-        style={{
-          backgroundColor: "var(--line-color)",
-          height: linePosition === "both" ? "100%" : "50%",
-          position: "absolute",
-          ...(linePosition === "top" && { top: "0px" }),
-          ...(linePosition === "bottom" && { bottom: "0px" }),
-          left: "calc(var(--icon-size) / 2 - var(--line-width) / 2)",
-          right: "calc(var(--icon-size) / 2 - var(--line-width) / 2)",
-        }}
-      ></div>
-      {/* The images have transparent backgrounds, put this in to hide the line element */}
-      <div
-        style={{
-          position: "absolute",
-          backgroundColor: "white",
-          borderRadius: "50%",
-          width: "calc(var(--icon-size) - 8px)", // 8px padding since some of the icons aren't the same size
-          height: "calc(var(--icon-size) - 8px)",
-        }}
-      ></div>
-      <Image
-        src={`/${iconName}.png`}
-        alt="image for current step"
-        layout="responsive"
-        width={100}
-        height={100}
-      />
-    </div>
-  )
-}
-
-function Text({ stepNumber, text }) {
-  return (
-    <div
-      style={{
-        gridArea: `t${stepNumber}`,
-        fontSize: "1.3rem",
-        color: "#a082b6",
-        lineHeight: "1.2",
-        fontWeight: "500",
-        display: "flex",
-        flexDirection: "column",
-        justifyContent: "center",
-        padding: "0 20px",
-      }}
-    >
-      {text}
-    </div>
-  )
-}
-
-/**
- * @param {{ arcNumber: number, position: "tl" | "tr" | "bl" | "br" }}
- * @help the position is the corner wrapped by the arc segment
- */
-function ArcLine({ arcNumber, position }) {
-  const positionVals = {
-    ...(position === "tl" && {
-      top: "0px",
-      left: "0px",
-      borderBottomRightRadius: "100%",
-    }),
-    ...(position === "tr" && {
-      top: "0px",
-      right: "0px",
-      borderBottomLeftRadius: "100%",
-    }),
-    ...(position === "bl" && {
-      bottom: "0px",
-      left: "0px",
-      borderTopRightRadius: "100%",
-    }),
-    ...(position === "br" && {
-      bottom: "0px",
-      right: "0px",
-      borderTopLeftRadius: "100%",
-    }),
-  }
-
-  return (
-    <div
-      className="checklist-arc-line"
-      style={{
-        gridArea: `a${arcNumber}`,
-        display: "flex",
-        flexDirection: "column",
-        justifyContent: "flex-end",
-      }}
-    >
-      <div
-        style={{
-          width: "var(--icon-size)",
-          height: "var(--icon-size)",
-          position: "relative",
-        }}
-      >
-        <div
-          style={{
-            position: "absolute",
-            backgroundColor: "var(--line-color)",
-            width: "calc((100% + var(--line-width)) / 2)",
-            height: "calc((100% + var(--line-width)) / 2)",
-            ...positionVals,
-          }}
-        >
-          <div
-            style={{
-              backgroundColor: "white",
-              position: "absolute",
-              width: "calc(100% - var(--line-width)",
-              height: "calc(100% - var(--line-width)",
-              ...positionVals,
-            }}
-          ></div>
-        </div>
-      </div>
-    </div>
-  )
-}
-
 export default function ChecklistGraphic() {
   return (
     <div className="container" style={{ position: "relative" }}>
       <Heading>
         Your <span>HEAL</span> Data Sharing <span>Checklist</span>
       </Heading>
-      <CloudsGroup>
-        <PurpleCloud style={{ zIndex: 1 }}>
-          <Link href={"/resources/road-map"}>
-            <a
-              style={{
-                fontSize: "1.5rem",
-                textDecoration: "underline",
-                textAlign: "center",
-                textWrap: "",
-              }}
-            >
-              Track your study&apos;s progress now
-            </a>
-          </Link>
-        </PurpleCloud>
-        <LightPurpleCloud
-          style={{
-            position: "absolute",
-            top: "-30px",
-            left: "-100px",
-            zIndex: 0,
-          }}
-        />
-      </CloudsGroup>
+
+      <CloudsGroup
+        text="Track your study's progress now"
+        href="/resources/road-map"
+      />
+
       <ChecklistGrid>
         {steps.map(({ icon, text }, index) => (
           <React.Fragment key={icon}>
@@ -238,30 +83,11 @@ export default function ChecklistGraphic() {
 
         {/* 10 vertical lines to connect pieces */}
         {new Array(10).fill(0).map((_, i) => (
-          <div
-            key={i}
-            style={{
-              backgroundColor: "var(--line-color)",
-              gridArea: `vl${i + 1}`,
-              margin: "0px auto",
-              height: "100%",
-              width: "var(--line-width)",
-            }}
-          ></div>
+          <VerticalLine key={i} lineNumber={i} />
         ))}
         {/* 2 horizontal lines to connect pieces */}
         {new Array(2).fill(0).map((_, i) => (
-          <div
-            className="checklist-horizontal-line"
-            key={i}
-            style={{
-              backgroundColor: "var(--line-color)",
-              gridArea: `hl${i + 1}`,
-              margin: "auto 0px",
-              width: "100%",
-              height: "var(--line-width)",
-            }}
-          ></div>
+          <HorizontalLine key={i} lineNumber={i} />
         ))}
 
         <ArcLine arcNumber={1} position="tr" />
@@ -395,22 +221,6 @@ const ChecklistGrid = styled("div")`
     & .checklist-arc-line {
       display: none !important;
     }
-  }
-`
-
-const CloudsGroup = styled("div")`
-  position: absolute;
-  right: 0px;
-  top: 0px;
-  isolation: isolate;
-  transform-origin: top right;
-
-  @media (max-width: 1260px) {
-    scale: 0.6;
-  }
-
-  @media (max-width: 768px) {
-    display: none;
   }
 `
 

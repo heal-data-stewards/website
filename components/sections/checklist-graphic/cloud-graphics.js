@@ -1,4 +1,52 @@
-export const LightPurpleCloud = ({ style }) => {
+import { styled } from "@mui/material"
+import Link from "next/link"
+
+export const CloudsGroup = ({ text, href }) => {
+  return (
+    <Wrapper>
+      <PurpleCloud style={{ zIndex: 1 }}>
+        <Link href={href}>
+          <a
+            style={{
+              fontSize: "1.5rem",
+              textDecoration: "underline",
+              textAlign: "center",
+              textWrap: "",
+            }}
+          >
+            {text}
+          </a>
+        </Link>
+      </PurpleCloud>
+      <LightPurpleCloud
+        style={{
+          position: "absolute",
+          top: "-30px",
+          left: "-100px",
+          zIndex: 0,
+        }}
+      />
+    </Wrapper>
+  )
+}
+
+const Wrapper = styled("div")`
+  position: absolute;
+  right: 0px;
+  top: 0px;
+  isolation: isolate;
+  transform-origin: top right;
+
+  @media (max-width: 1260px) {
+    scale: 0.6;
+  }
+
+  @media (max-width: 768px) {
+    display: none;
+  }
+`
+
+const LightPurpleCloud = ({ style }) => {
   return (
     <svg
       style={style}
@@ -16,7 +64,7 @@ export const LightPurpleCloud = ({ style }) => {
   )
 }
 
-export const PurpleCloud = ({ style, children }) => {
+const PurpleCloud = ({ style, children }) => {
   return (
     <div style={{ position: "relative", display: "inline-block", ...style }}>
       <svg
