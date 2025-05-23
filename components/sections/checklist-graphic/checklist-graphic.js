@@ -5,54 +5,24 @@ import { Icon } from "./icon"
 import { Text } from "./text"
 import { ArcLine, HorizontalLine, VerticalLine } from "./lines"
 
-const steps = [
-  {
-    icon: "ci-award",
-    text: "Award Received",
-  },
-  {
-    icon: "ci-clinical-trials",
-    text: "Register Your Study on ClinicalTrials.gov (if appropriate)",
-  },
-  {
-    icon: "ci-register",
-    text: "Register Your Study With the HEAL Data Platform",
-  },
-  {
-    icon: "ci-cedar",
-    text: "Complete Your Study-Level Metadata Form",
-  },
-  {
-    icon: "ci-db",
-    text: "Report Your Repository Selection via the HEAL Data Platform",
-  },
-  {
-    icon: "ci-cdes",
-    text: "Use HEAL Common Data Elements to Collect Your Data",
-  },
-  {
-    icon: "ci-vlmd",
-    text: "Submit Variable-Level Metadata",
-  },
-  {
-    icon: "ci-submit",
-    text: "Submit Data and Metadata to a Repository",
-  },
-  {
-    icon: "ci-report",
-    text: "Submit Data Link to the HEAL Data Platform Team",
-  },
-  {
-    icon: "ci-access",
-    text: "Ensure Public Access to HEAL-funded Publications",
-  },
-  {
-    icon: "ci-publication",
-    text: "Report your Research Publication",
-  },
-]
+export default function ChecklistGraphic({ data }) {
+  const steps = [
+    "ci-award",
+    "ci-clinical-trials",
+    "ci-register",
+    "ci-cedar",
+    "ci-db",
+    "ci-cdes",
+    "ci-vlmd",
+    "ci-submit",
+    "ci-report",
+    "ci-access",
+    "ci-publication",
+  ].map((iconName, index) => ({
+    icon: iconName,
+    text: data[`step${index + 1}`],
+  }))
 
-export default function ChecklistGraphic() {
   return (
     <div className="container" style={{ position: "relative" }}>
       <Heading>
