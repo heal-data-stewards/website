@@ -33,7 +33,7 @@ export const CloudsGroup = ({ text, href }) => {
 const Wrapper = styled("div")`
   position: absolute;
   right: 0px;
-  top: 0px;
+  top: 50px;
   isolation: isolate;
   transform-origin: top right;
 
