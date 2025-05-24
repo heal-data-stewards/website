@@ -45,6 +45,7 @@ import FloatingInfoBox from "./sections/floating-info-box"
 import VerticalTabs from "./sections/vertical-tabs"
 import Footnotes from "./sections/footnotes"
 import ChecklistGraphic from "./sections/checklist-graphic/checklist-graphic"
+import HeroButton from "./sections/hero-button"
 
 // Map Strapi sections to section components
 const sectionComponents = {
@@ -94,6 +95,7 @@ const sectionComponents = {
   "sections.vertical-tabs": VerticalTabs,
   "sections.footnotes": Footnotes,
   "sections.checklist-graphic": ChecklistGraphic,
+  "sections.hero-button": HeroButton,
 }
 
 // Display a section individually
