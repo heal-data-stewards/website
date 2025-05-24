@@ -9,7 +9,11 @@ const InternalLink = React.forwardRef(function InternalLink(
 ) {
   return (
     <NextLink href={ref} passHref {...props}>
-      <MUILink underline="hover" sx={{ fontWeight: "600", color: "#982568" }}>
+      <MUILink
+        underline="hover"
+        sx={{ fontWeight: "600", color: "#982568" }}
+        {...props}
+      >
         {children}
       </MUILink>
     </NextLink>
@@ -50,6 +54,7 @@ const CustomLink = React.forwardRef(function Link(
   const mailtoMatch = mailtoPattern.exec(to)
   const LinkComponent =
     externalUrlMatch || mailtoMatch ? ExternalLink : InternalLink
+
   return (
     <LinkComponent href={to} to={to} ref={ref} {...props}>
       {children}
