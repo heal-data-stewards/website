@@ -18,7 +18,6 @@ const Wrapper = styled("div")`
   display: flex;
   justify-content: center;
   position: relative;
-  overflow-x: hidden;
 
   @media (max-width: 1260px) {
     margin: 2rem auto;
@@ -66,7 +65,7 @@ const DecorativeLine = styled("div")`
   position: absolute;
   background-color: #4d2862;
   top: 50%;
-  left: -5000px;
-  width: 10000px;
+  left: 0px;
+  width: 100vw;
   height: 1px;
 `
