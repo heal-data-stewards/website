@@ -42,9 +42,10 @@ const CustomLink = ({ link, children }) => {
         style={{
           padding: "0.5rem 1rem",
           color: "white",
+          margin: "0.25rem",
         }}
       >
-        <Typography>{children}</Typography>
+        {children}
       </Button>
       // </ThemeProvider>
     )

@@ -11,12 +11,9 @@ import { makeStyles } from "@material-ui/core"
 import clsx from "clsx"
 import Image from "next/image"
 import Markdown from "../elements/markdown"
-import TextField from "@mui/material/TextField"
-import Link from "next/link"
 
 export default function RoadMap({ data }) {
   const [activeStep, setActiveStep] = React.useState(0)
-  const [value, setValue] = React.useState("")
 
   const handleNext = () => {
     setActiveStep((prevActiveStep) => prevActiveStep + 1)
@@ -88,43 +85,8 @@ export default function RoadMap({ data }) {
     )
   }
 
-  let handleTextFieldChange = (e) => {
-    setValue(e.target.value)
-  }
-
   return (
     <div className={"container mb-16"}>
-      <p style={{ marginBottom: "20px", fontSize: "16px" }}>
-        {
-          "Just type in your study's unique application ID, project number, or CTN protocol number (as CTN[number] or CTN-[number]) in the search bar below to see your study's status for steps we can track."
-        }
-      </p>
-      <div style={{ marginBottom: "10px" }}>
-        <TextField
-          id="outlined-basic"
-          label="App / Proj / CTN Number"
-          variant="outlined"
-          onChange={handleTextFieldChange}
-          value={value}
-        />
-        <Button
-          style={{
-            height: "43px",
-            "margin-top": "7.5px",
-            marginLeft: "20px",
-          }}
-          variant="contained"
-        >
-          <Link
-            href={{
-              pathname: "/app-search",
-              query: { data: value }, // the data
-            }}
-          >
-            <a>Check Status</a>
-          </Link>
-        </Button>
-      </div>
       <Box sx={{ maxWidth: 1200 }}>
         <Stepper activeStep={activeStep} orientation="vertical">
           {data.steps.map((step, index) => (
