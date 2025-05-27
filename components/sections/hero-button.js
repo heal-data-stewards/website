@@ -66,6 +66,6 @@ const DecorativeLine = styled("div")`
   background-color: #4d2862;
   top: 50%;
   left: 0px;
-  width: 100vw;
+  width: 100%;
   height: 1px;
 `
