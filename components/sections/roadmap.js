@@ -104,6 +104,11 @@ export default function RoadMap({ data }) {
                 <button
                   onClick={() => handleSelect(index)}
                   className="cursor-pointer"
+                  id={
+                    step.stepID
+                      ? `checklist-step-title-${step.stepID}`
+                      : `checklist-step-title-${index + 1}`
+                  }
                 >
                   <span className={"text-xl text-purple font-bold"}>
                     {step.title}
@@ -123,7 +128,11 @@ export default function RoadMap({ data }) {
                       variant="contained"
                       onClick={handleNext}
                       sx={{ mt: 1, mr: 1 }}
-                      id={`checklist-step-${index + 1}`}
+                      id={
+                        step.stepID
+                          ? `checklist-step-button-${step.stepID}`
+                          : `checklist-step-button-${index + 1}`
+                      }
                     >
                       {index === data.steps.length - 1 ? "Finish" : "Continue"}
                     </Button>
