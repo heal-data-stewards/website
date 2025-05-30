@@ -123,6 +123,7 @@ export default function RoadMap({ data }) {
                       variant="contained"
                       onClick={handleNext}
                       sx={{ mt: 1, mr: 1 }}
+                      id={`checklist-step-${index + 1}`}
                     >
                       {index === data.steps.length - 1 ? "Finish" : "Continue"}
                     </Button>

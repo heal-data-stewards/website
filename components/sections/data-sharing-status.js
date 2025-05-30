@@ -30,6 +30,7 @@ export default function DataSharingStatus({ data }) {
             padding: "1rem 2rem",
           }}
           variant="contained"
+          id="checklist-tracker-tool"
         >
           <Link
             href={{
