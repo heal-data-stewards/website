@@ -396,7 +396,7 @@ const VariableStandards = () => {
         <Divider />
 
         <div
-          style={{ flex: "0 0 400px" }}
+          style={{ flex: "1 1 400px" }}
           aria-labelledby="variable-standards"
           role="tabpanel"
           id={
