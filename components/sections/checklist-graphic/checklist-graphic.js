@@ -1,9 +1,12 @@
-import { styled } from "@mui/material"
+import { Button, styled } from "@mui/material"
 import React from "react"
 import { CloudsGroup } from "./cloud-graphics"
 import { Icon } from "./icon"
 import { Text } from "./text"
 import { ArcLine, HorizontalLine, VerticalLine } from "./lines"
+import Link from "next/link"
+import { Box } from "@material-ui/core"
+import { ArrowForward } from "@mui/icons-material"
 
 export default function ChecklistGraphic({ data }) {
   const steps = [
@@ -70,9 +73,31 @@ export default function ChecklistGraphic({ data }) {
         <ArcLine arcNumber={7} position="br" />
         <ArcLine arcNumber={8} position="bl" />
       </ChecklistGrid>
+
+      <ButtonHider>
+        <Link href={data.cloudGraphicUrl} passHref>
+          <Button
+            endIcon={<ArrowForward />}
+            variant="contained"
+            color="primary"
+          >
+            {data.cloudGraphicButtonText}
+          </Button>
+        </Link>
+      </ButtonHider>
     </div>
   )
 }
+
+const ButtonHider = styled(Box)`
+  margin-bottom: 6rem;
+  margin-top: -4rem;
+  display: none;
+  @media (max-width: 640px) {
+    display: flex;
+    justify-content: center;
+  }
+`
 
 const ChecklistGrid = styled("div")`
   --line-color: #dcd2de;
@@ -199,8 +224,7 @@ const Heading = styled("h2")`
   font-size: 2.5rem;
   font-weight: bold;
   color: #ab3176;
-  max-width: 500px;
-  margin: 2rem 0 0 0;
+  margin: 4rem 0 0 0;
 
   & span {
     color: #432557;
