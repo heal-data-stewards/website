@@ -30,8 +30,9 @@ export default function ChecklistGraphic({ data }) {
       </Heading>
 
       <CloudsGroup
-        text="Track your study's progress now"
-        href="/resources/road-map"
+        text={data.cloudGraphicText}
+        href={data.cloudGraphicUrl}
+        buttonText={data.cloudGraphicButtonText}
       />
 
       <ChecklistGrid>

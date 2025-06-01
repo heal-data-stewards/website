@@ -1,21 +1,30 @@
-import { styled } from "@mui/material"
+import { ArrowForward } from "@mui/icons-material"
+import { Button, styled } from "@mui/material"
 import Link from "next/link"
 
-export const CloudsGroup = ({ text, href }) => {
+export const CloudsGroup = ({ text, href, buttonText }) => {
   return (
     <Wrapper>
-      <PurpleCloud style={{ zIndex: 1 }}>
-        <Link href={href}>
-          <a
-            style={{
-              fontSize: "1.5rem",
-              textDecoration: "underline",
-              textAlign: "center",
-              textWrap: "",
+      <PurpleCloud
+        style={{
+          zIndex: 1,
+          fontSize: "1.5rem",
+          textAlign: "center",
+        }}
+      >
+        {text}
+        <Link href={href} passHref>
+          <LightPurpleButton
+            component={"a"}
+            endIcon={<ArrowForward />}
+            sx={{
+              position: "absolute",
+              bottom: 0,
+              transform: "translateY(50%)",
             }}
           >
-            {text}
-          </a>
+            {buttonText}
+          </LightPurpleButton>
         </Link>
       </PurpleCloud>
       <LightPurpleCloud
@@ -95,3 +104,10 @@ const PurpleCloud = ({ style, children }) => {
     </div>
   )
 }
+
+const LightPurpleButton = styled(Button)(({ theme }) => ({
+  backgroundColor: "#d2c9d7",
+  "&:hover": {
+    backgroundColor: "#bfafc8",
+  },
+}))
