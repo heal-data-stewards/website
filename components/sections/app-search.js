@@ -364,7 +364,7 @@ export default function AppSearch({ data }) {
           type="button"
           onClick={() => router.push("/resources/road-map")}
         >
-          ← Back to Checklist Requirements
+          ← Back to Checklist Guidance
         </button>
       </div>
       {payload && (

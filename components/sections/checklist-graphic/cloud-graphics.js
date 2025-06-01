@@ -1,21 +1,22 @@
-import { styled } from "@mui/material"
+import { ArrowForward } from "@mui/icons-material"
+import { Button, styled } from "@mui/material"
 import Link from "next/link"
 
-export const CloudsGroup = ({ text, href }) => {
+export const CloudsGroup = ({ text, href, buttonText }) => {
   return (
     <Wrapper>
-      <PurpleCloud style={{ zIndex: 1 }}>
-        <Link href={href}>
-          <a
-            style={{
-              fontSize: "1.5rem",
-              textDecoration: "underline",
-              textAlign: "center",
-              textWrap: "",
-            }}
-          >
-            {text}
-          </a>
+      <PurpleCloud
+        style={{
+          zIndex: 1,
+          fontSize: "1.5rem",
+          textAlign: "center",
+        }}
+      >
+        {text}
+        <Link href={href} passHref>
+          <LightPurpleButton component={"a"} endIcon={<ArrowForward />}>
+            {buttonText}
+          </LightPurpleButton>
         </Link>
       </PurpleCloud>
       <LightPurpleCloud
@@ -37,11 +38,33 @@ const Wrapper = styled("div")`
   isolation: isolate;
   transform-origin: top right;
 
+  @media (max-width: 1280px) {
+    & .light-purple-cloud {
+      display: none;
+    }
+  }
+
   @media (max-width: 1260px) {
-    scale: 0.6;
+    scale: 0.7;
+    top: 20px;
+    right: 40px;
+  }
+
+  @media (max-width: 1024px) {
+    top: unset;
+    bottom: 0px;
+    right: 50px;
+    transform-origin: bottom right;
   }
 
   @media (max-width: 768px) {
+    scale: 0.7;
+    right: 20px;
+    top: 100px;
+    transform-origin: top right;
+  }
+
+  @media (max-width: 640px) {
     display: none;
   }
 `
@@ -50,6 +73,7 @@ const LightPurpleCloud = ({ style }) => {
   return (
     <svg
       style={style}
+      className="light-purple-cloud"
       width="217"
       height="140"
       viewBox="0 0 217 140"
@@ -95,3 +119,19 @@ const PurpleCloud = ({ style, children }) => {
     </div>
   )
 }
+
+const LightPurpleButton = styled(Button)(() => ({
+  position: "absolute",
+  bottom: 0,
+  transform: "translateY(50%)",
+
+  backgroundColor: "#d2c9d7",
+  "&:hover": {
+    backgroundColor: "#bfafc8",
+  },
+
+  "@media (max-width: 1260px)": {
+    fontSize: "1.3rem",
+    transform: "translateY(75%)",
+  },
+}))
