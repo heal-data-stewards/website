@@ -26,7 +26,7 @@ export default function ChecklistGraphic({ data }) {
   return (
     <div className="container" style={{ position: "relative" }}>
       <Heading>
-        Your <span>HEAL</span> Data Sharing <span>Checklist</span>
+        Your <span>HEAL</span> Data Sharing Checklist
       </Heading>
 
       <CloudsGroup
@@ -201,12 +201,8 @@ const Heading = styled("h2")`
   max-width: 500px;
   margin: 2rem 0 0 0;
 
-  & span:nth-child(1) {
+  & span {
     color: #432557;
-  }
-
-  & span:nth-child(2) {
-    text-decoration: underline;
   }
 
   @media (max-width: 768px) {
