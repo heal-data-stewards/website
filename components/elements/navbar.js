@@ -92,46 +92,8 @@ const Navbar = ({ navbar, pageContext }) => {
   const [session, loading] = useSession()
   const [mobileMenuIsShown, setMobileMenuIsShown] = useState(false)
   const [loggedIn, setLoggedIn] = useState(false)
-  const [navigationItems, setNavigationItems] = useState([
-    {
-      id: 37,
-      url: "/calendar",
-      newTab: false,
-      text: "CALENDAR",
-    },
-    {
-      id: 27,
-      url: "/resources",
-      newTab: false,
-      text: "RESOURCES",
-    },
-  ])
-
-  // useEffect(() => {
-  //   if (session || loggedIn) {
-  //     setNavigationItems(navbar.links)
-  //   } else {
-  //     setNavigationItems([
-  //       {
-  //         id: 37,
-  //         url: "/calendar",
-  //         newTab: false,
-  //         text: "CALENDAR",
-  //       },
-  //       {
-  //         id: 27,
-  //         url: "/resources",
-  //         newTab: false,
-  //         text: "RESOURCES",
-  //       },
-  //     ])
-  //   }
-  // }, [session, navbar.links, loggedIn])
   const router = useRouter()
-  // const handleLogOut = () => {
-  //   localStorage.setItem("loggedIn", false)
-  //   signOut({ redirect: false })
-  // }
+
   return (
     <div>
       <AppBar
@@ -225,7 +187,7 @@ const Navbar = ({ navbar, pageContext }) => {
                 </a>
               </Link>
             </div>
-            {navigationItems.map((navLink) => (
+            {navbar.links.map((navLink) => (
               <li key={navLink.id}>
                 <CustomLink link={navLink} locale={router.locale}>
                   <ListItem className="hover:text-white hover:bg-magenta text-purple px-2 py-1">
@@ -236,24 +198,6 @@ const Navbar = ({ navbar, pageContext }) => {
                 </CustomLink>
               </li>
             ))}
-            <li key={"dregqfasd342"}>
-              <CustomLink link={{ url: "/about" }} locale={router.locale}>
-                <ListItem className="hover:text-white hover:bg-magenta text-purple px-2 py-1">
-                  <ListItemText>
-                    <span style={{ fontWeight: "bold" }}>ABOUT</span>
-                  </ListItemText>
-                </ListItem>
-              </CustomLink>
-            </li>
-            <li key={"dsnj342"}>
-              <CustomLink link={{ url: "/collective" }} locale={router.locale}>
-                <ListItem className="hover:text-white hover:bg-magenta text-purple px-2 py-1">
-                  <ListItemText>
-                    <span style={{ fontWeight: "bold" }}>COLLECTIVE BOARD</span>
-                  </ListItemText>
-                </ListItem>
-              </CustomLink>
-            </li>
             <Divider />
             <div className="flex">
               {navbar.button && (
