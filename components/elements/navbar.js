@@ -21,6 +21,9 @@ import PopupState, { bindTrigger, bindMenu } from "material-ui-popup-state"
 import Menu from "@mui/material/Menu"
 import MenuItem from "@mui/material/MenuItem"
 import { styled, alpha } from "@mui/material/styles"
+import { ExpandMore } from "@mui/icons-material"
+import { Collapse } from "@mui/material"
+import classNames from "classnames"
 
 const StyledMenu = styled((props) => <Menu elevation={0} {...props} />)(
   ({ theme }) => ({
@@ -91,6 +94,7 @@ const MenuPopupState = (data) => {
 const Navbar = ({ navbar, pageContext }) => {
   const [session, loading] = useSession()
   const [mobileMenuIsShown, setMobileMenuIsShown] = useState(false)
+  const [isMobileAboutMenuOpen, setIsMobileAboutMenuOpen] = useState(false)
   const [loggedIn, setLoggedIn] = useState(false)
   const router = useRouter()
 
@@ -171,7 +175,7 @@ const Navbar = ({ navbar, pageContext }) => {
           open={mobileMenuIsShown}
           onClose={() => setMobileMenuIsShown(false)}
         >
-          <List style={{ width: "230px" }}>
+          <List style={{ width: "275px" }}>
             <div style={{ margin: "10px" }}>
               <Link href="/">
                 <a>
@@ -188,11 +192,49 @@ const Navbar = ({ navbar, pageContext }) => {
               </Link>
             </div>
             <ListItem className="hover:text-white hover:bg-magenta text-purple px-2 py-1">
-              <CustomLink link={{ url: "/about" }} locale={router.locale}>
-                <ListItemText>
-                  <span style={{ fontWeight: "bold" }}>ABOUT</span>
-                </ListItemText>
-              </CustomLink>
+              <button
+                onClick={() => {
+                  setIsMobileAboutMenuOpen((p) => !p)
+                }}
+                className="w-full"
+              >
+                <div className="flex justify-between items-center ">
+                  <ListItemText style={{ textAlign: "left" }}>
+                    <span style={{ fontWeight: "bold" }}>ABOUT</span>
+                  </ListItemText>
+
+                  <span
+                    className={classNames(
+                      "transition-transform",
+                      "duration-300",
+                      { "rotate-180": isMobileAboutMenuOpen }
+                    )}
+                  >
+                    <ExpandMore />
+                  </span>
+                </div>
+
+                <Collapse in={isMobileAboutMenuOpen}>
+                  <List>
+                    <ListItem style={{ fontWeight: "bold" }}>
+                      <CustomLink
+                        link={{ url: "/about" }}
+                        locale={router.locale}
+                      >
+                        HEAL DATA ECOSYSTEM
+                      </CustomLink>
+                    </ListItem>
+                    <ListItem style={{ fontWeight: "bold" }}>
+                      <CustomLink
+                        link={{ url: "/collective" }}
+                        locale={router.locale}
+                      >
+                        COLLECTIVE BOARD
+                      </CustomLink>
+                    </ListItem>
+                  </List>
+                </Collapse>
+              </button>
             </ListItem>
             {navbar.links.map((navLink) => (
               <ListItem
