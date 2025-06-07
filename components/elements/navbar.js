@@ -187,16 +187,24 @@ const Navbar = ({ navbar, pageContext }) => {
                 </a>
               </Link>
             </div>
+            <ListItem className="hover:text-white hover:bg-magenta text-purple px-2 py-1">
+              <CustomLink link={{ url: "/about" }} locale={router.locale}>
+                <ListItemText>
+                  <span style={{ fontWeight: "bold" }}>ABOUT</span>
+                </ListItemText>
+              </CustomLink>
+            </ListItem>
             {navbar.links.map((navLink) => (
-              <li key={navLink.id}>
+              <ListItem
+                key={navLink.id}
+                className="hover:text-white hover:bg-magenta text-purple px-2 py-1"
+              >
                 <CustomLink link={navLink} locale={router.locale}>
-                  <ListItem className="hover:text-white hover:bg-magenta text-purple px-2 py-1">
-                    <ListItemText>
-                      <span style={{ fontWeight: "bold" }}>{navLink.text}</span>
-                    </ListItemText>
-                  </ListItem>
+                  <ListItemText>
+                    <span style={{ fontWeight: "bold" }}>{navLink.text}</span>
+                  </ListItemText>
                 </CustomLink>
-              </li>
+              </ListItem>
             ))}
             <Divider />
             <div className="flex">
