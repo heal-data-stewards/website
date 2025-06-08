@@ -21,6 +21,9 @@ import PopupState, { bindTrigger, bindMenu } from "material-ui-popup-state"
 import Menu from "@mui/material/Menu"
 import MenuItem from "@mui/material/MenuItem"
 import { styled, alpha } from "@mui/material/styles"
+import { ExpandMore } from "@mui/icons-material"
+import { Collapse } from "@mui/material"
+import classNames from "classnames"
 
 const StyledMenu = styled((props) => <Menu elevation={0} {...props} />)(
   ({ theme }) => ({
@@ -91,47 +94,10 @@ const MenuPopupState = (data) => {
 const Navbar = ({ navbar, pageContext }) => {
   const [session, loading] = useSession()
   const [mobileMenuIsShown, setMobileMenuIsShown] = useState(false)
+  const [isMobileAboutMenuOpen, setIsMobileAboutMenuOpen] = useState(false)
   const [loggedIn, setLoggedIn] = useState(false)
-  const [navigationItems, setNavigationItems] = useState([
-    {
-      id: 37,
-      url: "/calendar",
-      newTab: false,
-      text: "CALENDAR",
-    },
-    {
-      id: 27,
-      url: "/resources",
-      newTab: false,
-      text: "RESOURCES",
-    },
-  ])
-
-  // useEffect(() => {
-  //   if (session || loggedIn) {
-  //     setNavigationItems(navbar.links)
-  //   } else {
-  //     setNavigationItems([
-  //       {
-  //         id: 37,
-  //         url: "/calendar",
-  //         newTab: false,
-  //         text: "CALENDAR",
-  //       },
-  //       {
-  //         id: 27,
-  //         url: "/resources",
-  //         newTab: false,
-  //         text: "RESOURCES",
-  //       },
-  //     ])
-  //   }
-  // }, [session, navbar.links, loggedIn])
   const router = useRouter()
-  // const handleLogOut = () => {
-  //   localStorage.setItem("loggedIn", false)
-  //   signOut({ redirect: false })
-  // }
+
   return (
     <div>
       <AppBar
@@ -209,7 +175,7 @@ const Navbar = ({ navbar, pageContext }) => {
           open={mobileMenuIsShown}
           onClose={() => setMobileMenuIsShown(false)}
         >
-          <List style={{ width: "230px" }}>
+          <List style={{ width: "275px" }}>
             <div style={{ margin: "10px" }}>
               <Link href="/">
                 <a>
@@ -225,35 +191,68 @@ const Navbar = ({ navbar, pageContext }) => {
                 </a>
               </Link>
             </div>
-            {navigationItems.map((navLink) => (
-              <li key={navLink.id}>
-                <CustomLink link={navLink} locale={router.locale}>
-                  <ListItem className="hover:text-white hover:bg-magenta text-purple px-2 py-1">
-                    <ListItemText>
-                      <span style={{ fontWeight: "bold" }}>{navLink.text}</span>
-                    </ListItemText>
-                  </ListItem>
-                </CustomLink>
-              </li>
-            ))}
-            <li key={"dregqfasd342"}>
-              <CustomLink link={{ url: "/about" }} locale={router.locale}>
-                <ListItem className="hover:text-white hover:bg-magenta text-purple px-2 py-1">
-                  <ListItemText>
+            <ListItem className="hover:text-white hover:bg-magenta text-purple px-2 py-1">
+              <div className="w-full">
+                <button
+                  onClick={() => {
+                    setIsMobileAboutMenuOpen((p) => !p)
+                  }}
+                  className="w-full flex justify-between items-center "
+                >
+                  <ListItemText style={{ textAlign: "left" }}>
                     <span style={{ fontWeight: "bold" }}>ABOUT</span>
                   </ListItemText>
-                </ListItem>
-              </CustomLink>
-            </li>
-            <li key={"dsnj342"}>
-              <CustomLink link={{ url: "/collective" }} locale={router.locale}>
-                <ListItem className="hover:text-white hover:bg-magenta text-purple px-2 py-1">
+
+                  <span
+                    className={classNames(
+                      "transition-transform",
+                      "duration-300",
+                      { "rotate-180": isMobileAboutMenuOpen }
+                    )}
+                  >
+                    <ExpandMore />
+                  </span>
+                </button>
+
+                <Collapse in={isMobileAboutMenuOpen}>
+                  <List>
+                    <ListItem style={{ fontWeight: "bold" }}>
+                      <CustomLink
+                        link={{
+                          url: "/about",
+                          id: "about",
+                          newTab: false,
+                          text: "HEAL DATA ECOSYSTEM",
+                        }}
+                        locale={router.locale}
+                      >
+                        HEAL DATA ECOSYSTEM
+                      </CustomLink>
+                    </ListItem>
+                    <ListItem style={{ fontWeight: "bold" }}>
+                      <CustomLink
+                        link={{ url: "/collective" }}
+                        locale={router.locale}
+                      >
+                        COLLECTIVE BOARD
+                      </CustomLink>
+                    </ListItem>
+                  </List>
+                </Collapse>
+              </div>
+            </ListItem>
+            {navbar.links.map((navLink) => (
+              <ListItem
+                key={navLink.id}
+                className="hover:text-white hover:bg-magenta text-purple px-2 py-1"
+              >
+                <CustomLink link={navLink} locale={router.locale}>
                   <ListItemText>
-                    <span style={{ fontWeight: "bold" }}>COLLECTIVE BOARD</span>
+                    <span style={{ fontWeight: "bold" }}>{navLink.text}</span>
                   </ListItemText>
-                </ListItem>
-              </CustomLink>
-            </li>
+                </CustomLink>
+              </ListItem>
+            ))}
             <Divider />
             <div className="flex">
               {navbar.button && (
