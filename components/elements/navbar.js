@@ -192,13 +192,13 @@ const Navbar = ({ navbar, pageContext }) => {
               </Link>
             </div>
             <ListItem className="hover:text-white hover:bg-magenta text-purple px-2 py-1">
-              <button
-                onClick={() => {
-                  setIsMobileAboutMenuOpen((p) => !p)
-                }}
-                className="w-full"
-              >
-                <div className="flex justify-between items-center ">
+              <div className="w-full">
+                <button
+                  onClick={() => {
+                    setIsMobileAboutMenuOpen((p) => !p)
+                  }}
+                  className="w-full flex justify-between items-center "
+                >
                   <ListItemText style={{ textAlign: "left" }}>
                     <span style={{ fontWeight: "bold" }}>ABOUT</span>
                   </ListItemText>
@@ -212,13 +212,18 @@ const Navbar = ({ navbar, pageContext }) => {
                   >
                     <ExpandMore />
                   </span>
-                </div>
+                </button>
 
                 <Collapse in={isMobileAboutMenuOpen}>
                   <List>
                     <ListItem style={{ fontWeight: "bold" }}>
                       <CustomLink
-                        link={{ url: "/about" }}
+                        link={{
+                          url: "/about",
+                          id: "about",
+                          newTab: false,
+                          text: "HEAL DATA ECOSYSTEM",
+                        }}
                         locale={router.locale}
                       >
                         HEAL DATA ECOSYSTEM
@@ -234,7 +239,7 @@ const Navbar = ({ navbar, pageContext }) => {
                     </ListItem>
                   </List>
                 </Collapse>
-              </button>
+              </div>
             </ListItem>
             {navbar.links.map((navLink) => (
               <ListItem
