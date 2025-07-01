@@ -113,14 +113,14 @@ const Navbar = ({ navbar, pageContext }) => {
           style={{ height: "100%" }}
         >
           {/* Content aligned to the left */}
-          <div className="flex flex-row items-center">
+          <div className="flex flex-row items-center justify-between w-full">
             <Link href="/">
               <a className="h-8" style={{ height: "100%", width: "17rem" }}>
                 <NextImage media={navbar.logo} />
               </a>
             </Link>
             {/* List of links on desktop */}
-            <ul className="hidden list-none lg:flex flex-row gap-4 items-baseline ml-10 mr-10">
+            <ul className="hidden list-none lg:flex flex-row gap-1 items-baseline ml-10 mr-10">
               <li>
                 <MenuPopupState />
               </li>
@@ -129,7 +129,7 @@ const Navbar = ({ navbar, pageContext }) => {
                   <CustomLink link={navLink} locale={router.locale}>
                     <div
                       style={{ fontSize: "18px", fontWeight: "bold" }}
-                      className="hover:text-magenta text-purple px-2 py-1"
+                      className="hover:text-magenta text-purple px-2 py-1 whitespace-nowrap overflow-hidden overflow-ellipsis"
                     >
                       {navLink.text}
                     </div>
