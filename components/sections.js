@@ -47,6 +47,7 @@ import Footnotes from "./sections/footnotes"
 import ChecklistGraphic from "./sections/checklist-graphic/checklist-graphic"
 import HeroButton from "./sections/hero-button"
 import DataSharingStatus from "./sections/data-sharing-status"
+import SemanticSearch from "./sections/semantic-search/semantic-search"
 
 // Map Strapi sections to section components
 const sectionComponents = {
@@ -84,6 +85,7 @@ const sectionComponents = {
   "sections.rich-text-modal": RichTextModal,
   "sections.sensitive-data": SensitiveData,
   "sections.dug-search": DugSearch,
+  "sections.semantic-search": SemanticSearch,
   "sections.di-page-table": DiTable,
   "sections.di-boxes": DiBoxes,
   "sections.feedback": Widget,
