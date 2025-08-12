@@ -51,7 +51,7 @@ export const AccordionSummary = styled((props) => (
 // the wrap styles below ensure that long urls don't cause the accordion
 // container to extend past the edge of the page container
 export const AccordionDetails = styled(MuiAccordionDetails)(({ theme }) => ({
-  border: "none",
+  border: "1px solid #e5e0e7",
   color: "#532565",
   wordWrap: "break-word",
   overflowWrap: "break-word",
@@ -59,4 +59,5 @@ export const AccordionDetails = styled(MuiAccordionDetails)(({ theme }) => ({
   p: {
     fontSize: "0.95rem",
   },
+  backgroundColor: "#fff",
 }))
