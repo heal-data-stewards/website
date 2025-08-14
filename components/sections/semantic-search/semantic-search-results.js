@@ -1,10 +1,11 @@
-const SemanticSearchResults = () => {
+import { QueryCacheProvider } from "utils/use-query"
+import { Results } from "./results"
+
+const SemanticSearchResults = ({ data }) => {
   return (
-    <div>
-      <h1>Semantic Search Results</h1>
-      <p>This is where the search results will be displayed.</p>
-      {/* Add your search results component here */}
-    </div>
+    <QueryCacheProvider>
+      <Results queryParam={data.query_param} />
+    </QueryCacheProvider>
   )
 }
 

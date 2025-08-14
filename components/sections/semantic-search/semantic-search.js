@@ -5,6 +5,7 @@ import { Results } from "./results"
 import { QueryCacheProvider } from "utils/use-query"
 import { Refresh } from "@mui/icons-material"
 import { useCallback } from "react"
+import { useRouter } from "next/router"
 
 const SUGGESTIONS = [
   "addiction treatment",
@@ -41,11 +42,19 @@ const SearchButton = styled(Button)(() => ({
 }))
 
 export default function SemanticSearch({ data }) {
+  const router = useRouter()
+
   const [searchInputValue, setSearchInputValue] = useState("")
-  const [searchTerm, setSearchTerm] = useState(null)
   const [selectedSuggestions, setSelectedSuggestions] = useState(
     getRandomSuggestions(3)
   )
+
+  const searchTermHandler = (term) => {
+    router.push({
+      pathname: "/resources/semanticsearch/results",
+      query: { [data.redirect_query_param]: term },
+    })
+  }
 
   const changeRandomSuggestions = useCallback(() => {
     setSelectedSuggestions(getRandomSuggestions(3))
@@ -68,7 +77,7 @@ export default function SemanticSearch({ data }) {
             <SearchButton
               variant="contained"
               onClick={() => {
-                setSearchTerm(searchInputValue)
+                searchTermHandler(searchInputValue)
               }}
             >
               {data?.button_text}
@@ -82,7 +91,7 @@ export default function SemanticSearch({ data }) {
                   variant="contained"
                   key={term}
                   onClick={() => {
-                    setSearchTerm(term)
+                    searchTermHandler(term)
                     setSearchInputValue(term)
                   }}
                 >
@@ -96,9 +105,6 @@ export default function SemanticSearch({ data }) {
           </div>
         </div>
       </div>
-      {searchTerm !== null && searchTerm !== "" && (
-        <Results searchTerm={searchTerm} />
-      )}
     </QueryCacheProvider>
   )
 }

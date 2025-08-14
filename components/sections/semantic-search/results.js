@@ -2,13 +2,16 @@ import { Chip, CircularProgress, Tab, Tabs } from "@mui/material"
 import { useState } from "react"
 import Accordion from "./accordion"
 import { useQuery } from "utils/use-query"
+import { useQueryParams } from "utils/use-query-params"
 
-export const Results = ({ searchTerm }) => {
+export const Results = ({ queryParam = "q" }) => {
   const [currentTabIndex, setCurrentTabIndex] = useState(0)
   const [excludedStudies, setExcludedStudies] = useState([])
+  const [searchTerm] = useQueryParams(null, queryParam)
 
   const studiesQuery = useQuery({
     queryFn: async () => {
+      if (!searchTerm) return null
       setExcludedStudies([]) // Reset excluded studies on new search
       const res = await fetch("https://heal.renci.org/search-api/search_var", {
         method: "POST",
@@ -45,10 +48,20 @@ export const Results = ({ searchTerm }) => {
     )
   }
 
+  if (studiesQuery.data === null) {
+    return null
+  }
+
+  const numResults = Object.entries(studiesQuery.data.result).reduce(
+    (sum, [, list]) => sum + list.length,
+    0
+  )
+
   return (
     <div className="container">
       <h2 className="text-2xl font-bold text-[#532565]">
-        Results for &ldquo;{"Chronic Pain"}&rdquo;
+        {numResults} result{numResults === 1 ? "" : "s"} for &ldquo;
+        {searchTerm}&rdquo;
       </h2>
 
       <div className="my-8">
