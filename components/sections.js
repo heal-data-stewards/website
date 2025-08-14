@@ -48,6 +48,7 @@ import ChecklistGraphic from "./sections/checklist-graphic/checklist-graphic"
 import HeroButton from "./sections/hero-button"
 import DataSharingStatus from "./sections/data-sharing-status"
 import SemanticSearch from "./sections/semantic-search/semantic-search"
+import SemanticSearchResults from "./sections/semantic-search/semantic-search-results"
 import WorkflowGraphic from "./sections/workflow-graphic"
 
 // Map Strapi sections to section components
@@ -87,6 +88,7 @@ const sectionComponents = {
   "sections.sensitive-data": SensitiveData,
   "sections.dug-search": DugSearch,
   "sections.semantic-search": SemanticSearch,
+  "sections.semantic-search-results": SemanticSearchResults,
   "sections.di-page-table": DiTable,
   "sections.di-boxes": DiBoxes,
   "sections.feedback": Widget,
