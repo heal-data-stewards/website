@@ -5,8 +5,14 @@ import MuiAccordionSummary from "@mui/material/AccordionSummary"
 import MuiAccordionDetails from "@mui/material/AccordionDetails"
 import ArrowForwardIosSharpIcon from "@mui/icons-material/ArrowForwardIosSharp"
 
-export const Accordion = styled((props) => (
-  <MuiAccordion disableGutters elevation={0} square {...props} />
+export const Accordion = styled(({ onChange, ...props }) => (
+  <MuiAccordion
+    disableGutters
+    elevation={0}
+    square
+    onChange={(event, expanded) => onChange?.(event, expanded)}
+    {...props}
+  />
 ))(({ theme }) => ({
   "&:not(:last-child)": {
     borderBottom: 0,
