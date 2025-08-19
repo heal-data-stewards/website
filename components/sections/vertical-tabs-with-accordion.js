@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react"
+import React, { useState, useEffect, useMemo } from "react"
 import Markdown from "../elements/markdown"
 import { Typography, Divider, Box, Button } from "@mui/material"
 import {
@@ -13,9 +13,14 @@ import {
 } from "../elements/side-tab-menu"
 
 const VerticalTabsWithAccordion = ({ data }) => {
-  const [shownContent, setShownContent] = useState(data.TabItemWithAccordion[0])
+  const [shownContent, setShownContent] = useState(
+    () => data.TabItemWithAccordion[0]
+  )
 
-  const sections = parseMarkdownToSections(shownContent.TabContent)
+  const sections = useMemo(
+    () => parseMarkdownToSections(shownContent.TabContent),
+    [shownContent.TabContent]
+  )
 
   const [expandedStates, setExpandedStates] = useState([])
 
@@ -135,17 +140,16 @@ export default VerticalTabsWithAccordion
 
 function parseMarkdownToSections(markdown) {
   const lines = markdown.split("\n")
-  if (!lines[0].match(/^# /)) {
-    return [{ type: "text", content: markdown.trim() }]
-  }
-
   const sections = []
+
   let currentTitle = ""
   let currentContent = []
+  let foundFirstHeading = false
 
   for (const line of lines) {
     const h1Match = line.match(/^# (.*)/)
     if (h1Match) {
+      foundFirstHeading = true
       if (currentTitle) {
         sections.push({
           type: "accordion",
@@ -164,6 +168,11 @@ function parseMarkdownToSections(markdown) {
     sections.push({
       type: "accordion",
       title: currentTitle,
+      content: currentContent.join("\n").trim(),
+    })
+  } else if (currentContent.length && !foundFirstHeading) {
+    sections.push({
+      type: "text",
       content: currentContent.join("\n").trim(),
     })
   }

@@ -5,26 +5,33 @@ import MuiAccordionSummary from "@mui/material/AccordionSummary"
 import MuiAccordionDetails from "@mui/material/AccordionDetails"
 import ArrowForwardIosSharpIcon from "@mui/icons-material/ArrowForwardIosSharp"
 
-export const Accordion = styled(({ onChange, ...props }) => (
-  <MuiAccordion
-    disableGutters
-    elevation={0}
-    square
-    onChange={(event, expanded) => onChange?.(event, expanded)}
-    {...props}
-  />
-))(({ theme }) => ({
-  "&:not(:last-child)": {
-    borderBottom: 0,
-  },
-  background: "linear-gradient(315deg, transparent 17px, #e5e0e7 0)",
-  marginBottom: "1rem",
-  "& .MuiAccordionSummary-root": {
-    padding: "0.25rem 1rem",
-    display: "flex",
-    justifyContent: "space-between",
-  },
-}))
+export const Accordion = React.memo(
+  styled(
+    React.forwardRef(function AccordionFwd(props, ref) {
+      console.log("[Accordion render]", props.expanded) // see which ones re-render
+      return (
+        <MuiAccordion
+          ref={ref}
+          disableGutters
+          elevation={0}
+          square
+          {...props}
+        />
+      )
+    })
+  )(({ theme }) => ({
+    "&:not(:last-child)": {
+      borderBottom: 0,
+    },
+    background: "linear-gradient(315deg, transparent 17px, #e5e0e7 0)",
+    marginBottom: "1rem",
+    "& .MuiAccordionSummary-root": {
+      padding: "0.25rem 1rem",
+      display: "flex",
+      justifyContent: "space-between",
+    },
+  }))
+)
 
 export const AccordionSummary = styled((props) => (
   <MuiAccordionSummary
@@ -54,8 +61,6 @@ export const AccordionSummary = styled((props) => (
   },
 }))
 
-// the wrap styles below ensure that long urls don't cause the accordion
-// container to extend past the edge of the page container
 export const AccordionDetails = styled(MuiAccordionDetails)(({ theme }) => ({
   border: "1px solid #e5e0e7",
   color: "#532565",
