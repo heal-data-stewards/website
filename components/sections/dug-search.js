@@ -13,7 +13,7 @@ const FeedbackLine = ({ message }) => {
   )
 }
 
-const DugSearch = ({ data }) => {
+const DugSearch = () => {
   const inputField = useRef()
   const [errorMessage, setErrorMessage] = useState("")
 
@@ -39,12 +39,7 @@ const DugSearch = ({ data }) => {
       return
     }
 
-    //this only sends you to the heal-dug page with your trimmed version of the search term
-    if (data.newTab === true) {
-      window.open(`https://heal.renci.org/?q=${trimmedString}`, "_blank")
-    } else {
-      window.location = `https://heal.renci.org/?q=${trimmedString}`
-    }
+    window.open(`https://heal.renci.org/?q=${trimmedString}`, "_blank")
     setErrorMessage("")
   }
 
@@ -62,7 +57,7 @@ const DugSearch = ({ data }) => {
           gutterBottom
           sx={{ color: "#982568", fontSize: "1.5rem" }}
         >
-          {data.title}
+          Enter a term to search for related concepts and studies
         </Typography>
         <Paper
           component="form"
@@ -78,8 +73,6 @@ const DugSearch = ({ data }) => {
         >
           <InputBase
             sx={{ p: "0.5rem 1rem", ml: 1, flex: 1, fontFamily: "Montserrat" }}
-            placeholder={data.placeholder}
-            inputProps={{ "aria-label": `${data.placeholder}` }}
             inputRef={inputField}
             autoFocus
           />
@@ -90,7 +83,7 @@ const DugSearch = ({ data }) => {
             }}
             variant="contained"
           >
-            {data.buttonText}
+            Search
           </Button>
         </Paper>
         <FeedbackLine message={errorMessage} />
