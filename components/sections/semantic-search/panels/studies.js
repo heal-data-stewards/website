@@ -1,6 +1,7 @@
 import { Chip, CircularProgress } from "@mui/material"
 import Accordion from "../accordion"
 import { useQuery } from "utils/use-query"
+import { Details } from "@mui/icons-material"
 
 export const StudiesPanel = ({
   searchTerm,
@@ -50,6 +51,16 @@ export const StudiesPanel = ({
     return null
   }
 
+  const flattenedStudies = Object.entries(studiesQuery.data.result).reduce(
+    (acc, [type, items]) => {
+      if (!excludedStudies.includes(type)) {
+        acc.push(...items.map((item) => ({ ...item, type })))
+      }
+      return acc
+    },
+    []
+  )
+
   return (
     <>
       <div
@@ -83,8 +94,32 @@ export const StudiesPanel = ({
         ))}
       </div>
       <Accordion
-        studies={studiesQuery.data.result}
-        selectedStudyFilters={excludedStudies}
+        items={flattenedStudies.map((study, index) => ({
+          key: study.c_name,
+          summary: (
+            <div className="flex flex-1" key={index}>
+              <div className="flex flex-col flex-1">
+                <span>{study.c_name}</span>
+                <div>
+                  <Chip variant="outlined" size="small" label={study.type} />
+                  <a
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    href={study.c_link}
+                    className="ml-2 text-blue-600 hover:underline"
+                  >
+                    {study.c_id}
+                  </a>
+                </div>
+              </div>
+              <span className="text-gray-500">
+                {study.elements.length}{" "}
+                {study.elements.length > 1 ? "elements" : "element"}
+              </span>
+            </div>
+          ),
+          details: <pre>{JSON.stringify(study.elements, null, 2)}</pre>,
+        }))}
       />
     </>
   )

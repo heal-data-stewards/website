@@ -53,28 +53,21 @@ const AccordionDetails = styled(MuiAccordionDetails)(({ theme }) => ({
   overflow: "auto",
 }))
 
-export default function SSAccordion({ studies, selectedStudyFilters }) {
+/**
+ * @param {{ items: Array<{ key: string, summary: React.ReactNode, details: React.ReactNode }> }} props
+ */
+export default function StyledAccordion({ items }) {
   const [expanded, setExpanded] = useState(null)
 
   const handleChange = (panel) => (_, newExpanded) => {
     setExpanded(newExpanded ? panel : false)
   }
 
-  const flattenedStudies = Object.entries(studies).reduce(
-    (acc, [type, items]) => {
-      if (!selectedStudyFilters.includes(type)) {
-        acc.push(...items.map((item) => ({ ...item, type })))
-      }
-      return acc
-    },
-    []
-  )
-
   return (
     <div>
-      {flattenedStudies.map((study, index) => (
+      {items.map((item, index) => (
         <Accordion
-          key={`${study.c_title}-${study.c_id}`}
+          key={`${item.key}-${index}`}
           expanded={expanded === `panel${index}`}
           onChange={handleChange(`panel${index}`)}
         >
@@ -82,30 +75,9 @@ export default function SSAccordion({ studies, selectedStudyFilters }) {
             aria-controls={`panel${index}d-content`}
             id={`panel${index}d-header`}
           >
-            <div className="flex flex-1">
-              <div className="flex flex-col flex-1">
-                <span>{study.c_name}</span>
-                <div>
-                  <Chip variant="outlined" size="small" label={study.type} />
-                  <a
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    href={study.c_link}
-                    className="ml-2 text-blue-600 hover:underline"
-                  >
-                    {study.c_id}
-                  </a>
-                </div>
-              </div>
-              <span className="text-gray-500">
-                {study.elements.length}{" "}
-                {study.elements.length > 1 ? "elements" : "element"}
-              </span>
-            </div>
+            {item.summary}
           </AccordionSummary>
-          <AccordionDetails>
-            <pre>{JSON.stringify(study.elements, null, 2)}</pre>
-          </AccordionDetails>
+          <AccordionDetails>{item.details}</AccordionDetails>
         </Accordion>
       ))}
     </div>
