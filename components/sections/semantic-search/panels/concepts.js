@@ -1,6 +1,7 @@
-import { CircularProgress } from "@mui/material"
+import { Chip, CircularProgress } from "@mui/material"
 import { useQuery } from "utils/use-query"
 import { fetchConcepts } from "../data/concepts"
+import Accordion from "../accordion"
 
 export const ConceptsPanel = ({ searchTerm }) => {
   const conceptsQuery = useQuery({
@@ -39,8 +40,73 @@ export const ConceptsPanel = ({ searchTerm }) => {
           borderLeft: "1px solid rgba(0, 0, 0, .125)",
           borderRight: "1px solid rgba(0, 0, 0, .125)",
         }}
-      ></div>
-      <pre>{JSON.stringify(conceptsQuery.data, null, 2)}</pre>
+      >
+        {conceptsQuery.data.results.length}{" "}
+        {conceptsQuery.data.results.length === 1 ? "concept" : "concepts"}{" "}
+        found.
+      </div>
+      <Accordion
+        items={conceptsQuery.data.results.map((concept, index) => ({
+          key: concept.id,
+          summary: (
+            <div className="flex flex-1" key={index}>
+              <div className="flex flex-col flex-1">
+                <span>
+                  {concept.name}{" "}
+                  <Chip
+                    key={concept.id}
+                    variant="outlined"
+                    size="small"
+                    label={concept.id}
+                  />
+                </span>
+              </div>
+              <span className="text-gray-500">
+                {concept.search_terms.length}{" "}
+                {concept.search_terms.length > 1 ? "terms" : "term"}
+              </span>
+            </div>
+          ),
+          details: (
+            <div>
+              <h3 className="text-lg font-bold text-[#532565] mb-2">
+                {concept.name}
+              </h3>
+              <p className="italic">{concept.description}</p>
+
+              <hr className="my-4" />
+
+              <h3 className="text-lg font-bold text-[#532565] mb-2">
+                Search Terms
+              </h3>
+              <ul>
+                {concept.search_terms.map((term) => (
+                  <li key={term}>{term}</li>
+                ))}
+              </ul>
+
+              <hr className="my-4" />
+
+              <h3 className="text-lg font-bold text-[#532565] mb-2">
+                Identifiers
+              </h3>
+              <ul>
+                {concept.identifiers.map((identifier) => (
+                  <li key={identifier.id} className="flex gap-1">
+                    {identifier.label}
+                    <Chip
+                      key={identifier.id}
+                      variant="outlined"
+                      size="small"
+                      label={identifier.id}
+                    />
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ),
+        }))}
+      />
     </>
   )
 }
