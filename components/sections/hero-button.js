@@ -5,7 +5,7 @@ export default function HeroButton({ data }) {
   return (
     <Wrapper>
       <DecorativeLine />
-      <Link to={data.href} underline="none">
+      <Link to={data.url} underline="none">
         <Button>{data.text}</Button>
       </Link>
     </Wrapper>
