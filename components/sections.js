@@ -83,6 +83,7 @@ const sectionComponents = {
   "sections.collective-events": CollectiveEvents,
   "sections.rich-text-modal": RichTextModal,
   "sections.sensitive-data": SensitiveData,
+  "sections.semantic-search": DugSearch, // TODO: Remove once new semantic search is implemented
   "sections.dug-search": DugSearch,
   "sections.di-page-table": DiTable,
   "sections.di-boxes": DiBoxes,
