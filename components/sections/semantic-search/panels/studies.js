@@ -1,5 +1,5 @@
 import { Chip, CircularProgress } from "@mui/material"
-import Accordion from "./accordion"
+import Accordion from "../accordion"
 import { useQuery } from "utils/use-query"
 
 export const StudiesPanel = ({

@@ -1,7 +1,10 @@
 import { Tab, Tabs } from "@mui/material"
 import { useState } from "react"
 import { useQueryParams } from "utils/use-query-params"
-import { StudiesPanel } from "./studies-panel"
+import { StudiesPanel } from "./panels/studies"
+import { VariablesPanel } from "./panels/variables"
+import { CDEsPanel } from "./panels/cdes"
+import { ConceptsPanel } from "./panels/concepts"
 
 export const Results = ({ queryParam = "q" }) => {
   const [currentTabIndex, setCurrentTabIndex] = useState(0)
@@ -11,7 +14,7 @@ export const Results = ({ queryParam = "q" }) => {
   return (
     <div className="container">
       <h2 className="text-2xl font-bold text-[#532565]">
-        Results for &ldquo;{searchTerm}&rdquo;
+        Results for &ldquo;{searchTerm}&rdquo;:
       </h2>
 
       <div className="my-8">
@@ -37,13 +40,13 @@ export const Results = ({ queryParam = "q" }) => {
           />
         </TabPanel>
         <TabPanel currentTabIndex={currentTabIndex} index={1}>
-          CDEs.
+          <CDEsPanel searchTerm={searchTerm} />
         </TabPanel>
         <TabPanel currentTabIndex={currentTabIndex} index={2}>
-          Concepts.
+          <ConceptsPanel searchTerm={searchTerm} />
         </TabPanel>
         <TabPanel currentTabIndex={currentTabIndex} index={3}>
-          Variables.
+          <VariablesPanel searchTerm={searchTerm} />
         </TabPanel>
       </div>
     </div>
