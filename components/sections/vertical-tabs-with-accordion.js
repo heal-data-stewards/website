@@ -128,7 +128,9 @@ const VerticalTabsWithAccordion = ({ data }) => {
               </div>
             </>
           ) : (
-            <Markdown>{sections[0]?.content}</Markdown>
+            <div style={{ color: "#532565" }}>
+              <Markdown>{sections[0]?.content}</Markdown>
+            </div>
           )}
         </PanelContainer>
       </div>
