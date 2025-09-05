@@ -8,7 +8,9 @@ import {
   useMediaQuery,
   MenuItem,
   Select,
+  Fab,
 } from "@mui/material"
+import { KeyboardArrowUp } from "@mui/icons-material"
 import {
   Accordion,
   AccordionSummary,
@@ -28,13 +30,13 @@ const VerticalTabsWithAccordion = ({ data }) => {
   const [shownContent, setShownContent] = useState(
     () => data.TabItemWithAccordion[0]
   )
+  const [expandedStates, setExpandedStates] = useState([])
+  const [showBackToTop, setShowBackToTop] = useState(false)
 
   const sections = useMemo(
     () => parseMarkdownToSections(shownContent.TabContent),
     [shownContent.TabContent]
   )
-
-  const [expandedStates, setExpandedStates] = useState([])
 
   useEffect(() => {
     setExpandedStates(
@@ -44,13 +46,17 @@ const VerticalTabsWithAccordion = ({ data }) => {
     )
   }, [shownContent, sections])
 
-  const handleExpandAll = () => {
-    setExpandedStates(Array(sections.length).fill(true))
-  }
+  // Scroll listener for Back to Top button
+  useEffect(() => {
+    const handleScroll = () => setShowBackToTop(window.scrollY > 200)
+    window.addEventListener("scroll", handleScroll)
+    return () => window.removeEventListener("scroll", handleScroll)
+  }, [])
 
-  const handleCollapseAll = () => {
+  const handleExpandAll = () =>
+    setExpandedStates(Array(sections.length).fill(true))
+  const handleCollapseAll = () =>
     setExpandedStates(Array(sections.length).fill(false))
-  }
 
   const handleToggle = (index, isExpanded) => {
     setExpandedStates((prev) => {
@@ -196,6 +202,17 @@ const VerticalTabsWithAccordion = ({ data }) => {
           )}
         </PanelContainer>
       </div>
+
+      {showBackToTop && (
+        <Fab
+          color="primary"
+          size="medium"
+          onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+          sx={{ position: "fixed", bottom: 16, right: 16, zIndex: 1000 }}
+        >
+          <KeyboardArrowUp />
+        </Fab>
+      )}
     </div>
   )
 }
