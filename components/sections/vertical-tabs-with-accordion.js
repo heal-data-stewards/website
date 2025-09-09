@@ -4,18 +4,13 @@ import {
   Typography,
   Divider,
   Box,
-  Button,
   useMediaQuery,
   MenuItem,
   Select,
   Fab,
 } from "@mui/material"
 import { KeyboardArrowUp, KeyboardArrowDown } from "@mui/icons-material"
-import {
-  Accordion,
-  AccordionSummary,
-  AccordionDetails,
-} from "../elements/accordion"
+import { AccordionControls, AccordionList } from "../elements/accordion"
 import {
   Block,
   ButtonBlockContainer,
@@ -165,62 +160,16 @@ const VerticalTabsWithAccordion = ({ data }) => {
 
           {sections[0]?.type === "accordion" ? (
             <>
-              <Box
-                sx={{
-                  display: "flex",
-                  gap: 1,
-                  marginBottom: "1rem",
-                  justifyContent: "flex-end",
-                  flexWrap: "wrap",
-                }}
-              >
-                <Button
-                  variant="outlined"
-                  size="medium"
-                  sx={{ minHeight: 40 }}
-                  onClick={handleExpandAll}
-                  disabled={expandedStates.every(Boolean)}
-                >
-                  Expand All
-                </Button>
-                <Button
-                  variant="outlined"
-                  size="medium"
-                  sx={{ minHeight: 40 }}
-                  onClick={handleCollapseAll}
-                  disabled={expandedStates.every((state) => !state)}
-                >
-                  Collapse All
-                </Button>
-              </Box>
-
-              <div>
-                {sections.map((section, index) => (
-                  <Accordion
-                    key={index}
-                    id={`accordion-${index}`}
-                    expanded={!!expandedStates[index]}
-                    onChange={(e, isExpanded) =>
-                      handleToggle(index, isExpanded)
-                    }
-                    sx={{ width: "100%", marginBottom: 1 }}
-                  >
-                    <AccordionSummary>
-                      <Typography
-                        variant="h3"
-                        sx={{
-                          fontSize: { xs: "1rem", sm: "1.25rem", md: "1.5rem" },
-                        }}
-                      >
-                        {section.title}
-                      </Typography>
-                    </AccordionSummary>
-                    <AccordionDetails>
-                      <Markdown>{section.content}</Markdown>
-                    </AccordionDetails>
-                  </Accordion>
-                ))}
-              </div>
+              <AccordionControls
+                expandedStates={expandedStates}
+                onExpandAll={handleExpandAll}
+                onCollapseAll={handleCollapseAll}
+              />
+              <AccordionList
+                sections={sections}
+                expandedStates={expandedStates}
+                handleToggle={handleToggle}
+              />
             </>
           ) : (
             <div style={{ color: "#532565" }}>
