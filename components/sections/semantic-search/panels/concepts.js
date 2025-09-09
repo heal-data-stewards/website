@@ -1,15 +1,23 @@
-import { Chip, CircularProgress } from "@mui/material"
+import { BookmarkBorder, OpenInNew } from "@mui/icons-material"
+import { CircularProgress, IconButton } from "@mui/material"
 import { useQuery } from "utils/use-query"
+import Link from "../../../elements/link"
 import { fetchConcepts } from "../data/concepts"
-import Accordion from "../accordion"
+import { useState } from "react"
 
 export const ConceptsPanel = ({ searchTerm }) => {
+  const [activeSidebarItem, setActiveSidebarItem] = useState(0)
+
+  const payload = {
+    query: searchTerm,
+  }
+
   const conceptsQuery = useQuery({
-    queryFn: async () => {
+    queryFn: () => {
       if (!searchTerm) return null
-      return await fetchConcepts({ query: searchTerm, conceptTypes: ["cde"] })
+      return fetchConcepts(payload)
     },
-    queryKey: `concepts-${searchTerm}`,
+    queryKey: `concepts-${JSON.stringify(payload)}`,
   })
 
   if (conceptsQuery.isLoading) {
@@ -32,81 +40,106 @@ export const ConceptsPanel = ({ searchTerm }) => {
     return null
   }
 
+  const concepts = conceptsQuery.data.results
+  if (concepts.length < 1) return "No concepts found"
+  const activeConcept = concepts[activeSidebarItem]
+
   return (
-    <>
-      <div
-        className="p-3 flex flex-wrap gap-2"
-        style={{
-          borderLeft: "1px solid rgba(0, 0, 0, .125)",
-          borderRight: "1px solid rgba(0, 0, 0, .125)",
-        }}
-      >
-        {conceptsQuery.data.results.length}{" "}
-        {conceptsQuery.data.results.length === 1 ? "concept" : "concepts"}{" "}
-        found.
+    <div className="flex flex-row max-h-full">
+      <div className="min-w-[200px] max-w-[400px] flex flex-col min-h-0 overflow-auto">
+        {concepts.map((concept, index) => (
+          <SidebarItem
+            key={concept.id}
+            name={concept.name}
+            description={concept.description}
+            parentStudies={concept.parents.length}
+            onClick={() => setActiveSidebarItem(index)}
+            active={activeSidebarItem === index}
+          />
+        ))}
       </div>
-      <Accordion
-        items={conceptsQuery.data.results.map((concept, index) => ({
-          key: concept.id,
-          summary: (
-            <div className="flex flex-1" key={index}>
-              <div className="flex flex-col flex-1">
-                <span>
-                  {concept.name}{" "}
-                  <Chip
-                    key={concept.id}
-                    variant="outlined"
-                    size="small"
-                    label={concept.id}
-                  />
-                </span>
-              </div>
-              <span className="text-gray-500">
-                {concept.search_terms.length}{" "}
-                {concept.search_terms.length > 1 ? "terms" : "term"}
-              </span>
-            </div>
-          ),
-          details: (
-            <div>
-              <h3 className="text-lg font-bold text-[#532565] mb-2">
-                {concept.name}
-              </h3>
-              <p className="italic">{concept.description}</p>
+      <div className="flex-1 p-4 min-h-0 overflow-auto">
+        <div className="flex w-full justify-between gap-2">
+          <h2 className="text-2xl font-semibold leading-relaxed mb-2 text-[#592963]">
+            {activeConcept.name}{" "}
+            <span className="text-lg text-gray-500 font-normal">
+              {activeConcept.id}
+            </span>
+          </h2>
+          <IconButton sx={{ flexShrink: 0 }} size="medium">
+            <BookmarkBorder fontSize="medium" />
+          </IconButton>
+        </div>
+        <p className="">{activeConcept.description}</p>
 
-              <hr className="my-4" />
+        <hr className="my-4" />
 
-              <h3 className="text-lg font-bold text-[#532565] mb-2">
-                Search Terms
-              </h3>
-              <ul>
-                {concept.search_terms.map((term) => (
-                  <li key={term}>{term}</li>
-                ))}
-              </ul>
+        <div className="flex gap-4 flex-wrap w-full">
+          <div className="flex-1 mb-6">
+            <h3 className="text-xl font-semibold mb-1">Search Terms</h3>
+            <ul className="max-h-80 h-full overflow-auto bg-gray-50 p-2 rounded-lg">
+              {activeConcept.search_terms.map((st) => (
+                <li key={st}>{st}</li>
+              ))}
+            </ul>
+          </div>
+          <div className="flex-1 mb-6">
+            <h3 className="text-xl font-semibold mb-1">Identifiers</h3>
+            <ul className="max-h-80 h-full overflow-auto bg-gray-50 p-2 rounded-lg">
+              {activeConcept.identifiers.map((id) => (
+                <li key={id.id}>
+                  {id.label}{" "}
+                  <span className="text-gray-500 text-xs font-bold">
+                    {id.id}
+                  </span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
 
-              <hr className="my-4" />
+        <h3 className="text-xl font-semibold mt-6 mb-1">Parent Studies</h3>
+        {activeConcept.parents.length === 0 ? (
+          <p className="text-gray-400 italic">
+            No parents studies found for this concept
+          </p>
+        ) : (
+          <ul>
+            {activeConcept.parents.map((parent, i) => (
+              <li key={i}>
+                <pre>{JSON.stringify(parent, null, 2)}</pre>
+              </li>
+            ))}
+          </ul>
+        )}
+      </div>
+    </div>
+  )
+}
 
-              <h3 className="text-lg font-bold text-[#532565] mb-2">
-                Identifiers
-              </h3>
-              <ul>
-                {concept.identifiers.map((identifier) => (
-                  <li key={identifier.id} className="flex gap-1">
-                    {identifier.label}
-                    <Chip
-                      key={identifier.id}
-                      variant="outlined"
-                      size="small"
-                      label={identifier.id}
-                    />
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ),
-        }))}
-      />
-    </>
+function SidebarItem({ name, description, parentStudies, onClick, active }) {
+  return (
+    <button
+      onClick={onClick}
+      className={
+        `p-4 border-b border-gray-200 cursor-pointer text-left` +
+        (active ? " bg-[#eeecf0]" : "")
+      }
+    >
+      <div className="flex gap-2 items-start justify-between">
+        <h4 className="font-semibold">{name}</h4>
+        <IconButton
+          size="small"
+          sx={{ p: 0 }}
+          onClick={(e) => e.stopPropagation()}
+        >
+          <BookmarkBorder fontSize="small" />
+        </IconButton>
+      </div>
+      <p className="text-sm text-gray-500">{description}</p>
+      <p className="text-sm text-right">{`${parentStudies} ${
+        parentStudies === 1 ? "study" : "studies"
+      }`}</p>
+    </button>
   )
 }

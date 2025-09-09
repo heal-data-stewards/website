@@ -10,9 +10,10 @@ export const fetchConcepts = async ({
     method: "POST",
     headers: { "Content-Type": "application/json", Accept: "application/json" },
     body: JSON.stringify({
-      query,
-      conceptTypes,
-      limit,
+      ...(typeof query === "string" && query !== "" && { query }),
+      ...(conceptTypes &&
+        conceptTypes.length > 0 && { concept_types: conceptTypes }),
+      size: limit,
       offset,
     }),
   })

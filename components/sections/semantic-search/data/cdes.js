@@ -1,6 +1,13 @@
 import { DUG_API_URL } from "./config"
 
-export const fetchCDEs = async ({ query, limit = 100, offset = 0 }) => {
+export const fetchCDEs = async ({
+  query,
+  parentIds,
+  elementIds,
+  concept,
+  limit = 100,
+  offset = 0,
+}) => {
   const res = await fetch(`${DUG_API_URL}/cdes`, {
     method: "POST",
     headers: {
@@ -8,15 +15,18 @@ export const fetchCDEs = async ({ query, limit = 100, offset = 0 }) => {
       Accept: "application/json",
     },
     body: JSON.stringify({
-      query,
-      limit,
+      ...(typeof query === "string" && query !== "" && { query }),
+      ...(parentIds && parentIds.length > 0 && { parent_ids: parentIds }),
+      ...(elementIds && elementIds.length > 0 && { element_ids: elementIds }),
+      ...(typeof concept === "string" && concept !== "" && { concept }),
+      size: limit,
       offset,
     }),
   })
 
   if (!res.ok) {
     throw new Error(
-      `Failed to fetch CDEs, issue with HTTP request: ${res.statusText}`
+      `Failed to fetch studies, issue with HTTP request: ${res.statusText}`
     )
   }
 
