@@ -267,11 +267,11 @@ export default function AppSearch({ data }) {
 
     if ("num_data_dictionaries" in data) {
       const step = "Submit Variable-Level Metadata"
-      const status = data.num_data_dictionaries > 0 ? "green" : "red"
+      const status = data.num_data_dictionaries > 0 ? "green" : "yellow"
       const notes =
         status === "green"
           ? "Your data dictionary submission has been received! Variable-level metadata like yours is crucial to enabling data reuse."
-          : "Please send your data dictionary to [healstewards@renci.org](mailto:healstewards@renci.org). Data dictionaries already submitted may still be processing and not yet reflected in this checklist. Variable-level metadata is vital for supporting data reuse."
+          : "Valid Variable-Level Metadata (VLMD) is not yet available for your study. Variable-Level metadata is vital for supporting data reuse. Files already submitted may still be processing and not yet reflected in this checklist. If you have not yet done so, please send your data dictionary/codebook or other study VLMD documentation to [healstewards@renci.org](mailto:healstewards@renci.org). If your study will not have VLMD, please skip this step. If you have any questions about creating your VLMD file(s), please contact the Stewards at [healstewards@renci.org](mailto:healstewards@renci.org)."
       steps.push({ status, step, notes })
     }
 
@@ -364,7 +364,7 @@ export default function AppSearch({ data }) {
           type="button"
           onClick={() => router.push("/resources/road-map")}
         >
-          ← Back to Checklist Requirements
+          ← Back to Checklist Guidance
         </button>
       </div>
       {payload && (

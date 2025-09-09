@@ -60,17 +60,17 @@ export default function RoadMap({ data }) {
     const classes = useStyles()
 
     const stepIcons = {
-      1: <Icon img="1" />,
-      2: <Icon img="2" />,
-      3: <Icon img="3" />,
-      4: <Icon img="4" />,
-      5: <Icon img="5" />,
-      6: <Icon img="6" />,
-      7: <Icon img="7" />,
-      8: <Icon img="8" />,
-      9: <Icon img="9" />,
-      10: <Icon img="10" />,
-      11: <Icon img="11" />,
+      1: <Icon img="ci-award" />,
+      2: <Icon img="ci-clinical-trials" />,
+      3: <Icon img="ci-register" />,
+      4: <Icon img="ci-cedar" />,
+      5: <Icon img="ci-db" />,
+      6: <Icon img="ci-cdes" />,
+      7: <Icon img="ci-vlmd" />,
+      8: <Icon img="ci-submit" />,
+      9: <Icon img="ci-report" />,
+      10: <Icon img="ci-access" />,
+      11: <Icon img="ci-publication" />,
     }
 
     return (
@@ -104,6 +104,11 @@ export default function RoadMap({ data }) {
                 <button
                   onClick={() => handleSelect(index)}
                   className="cursor-pointer"
+                  id={
+                    step.stepID
+                      ? `checklist-step-title-${step.stepID}`
+                      : `checklist-step-title-${index + 1}`
+                  }
                 >
                   <span className={"text-xl text-purple font-bold"}>
                     {step.title}
@@ -123,6 +128,11 @@ export default function RoadMap({ data }) {
                       variant="contained"
                       onClick={handleNext}
                       sx={{ mt: 1, mr: 1 }}
+                      id={
+                        step.stepID
+                          ? `checklist-step-button-${step.stepID}`
+                          : `checklist-step-button-${index + 1}`
+                      }
                     >
                       {index === data.steps.length - 1 ? "Finish" : "Continue"}
                     </Button>

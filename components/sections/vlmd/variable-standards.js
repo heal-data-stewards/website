@@ -396,7 +396,7 @@ const VariableStandards = () => {
         <Divider />
 
         <div
-          style={{ flex: "0 0 400px" }}
+          style={{ flex: "1 1 400px", position: "relative" }}
           aria-labelledby="variable-standards"
           role="tabpanel"
           id={
@@ -405,26 +405,30 @@ const VariableStandards = () => {
               : undefined
           }
         >
-          {openedStandard === null ? (
-            <p style={{ fontStyle: "italic" }}>
-              Please click on a standard to view more information.
-            </p>
-          ) : (
-            <>
-              <h2 style={{ fontSize: "1.3em", fontWeight: "600" }}>
-                {openedStandard.name}
-              </h2>
-              {openedStandard.link && (
-                <Link to={openedStandard.link}>
-                  Visit website{" "}
-                  <OpenInNew
-                    sx={{ fontSize: "1em", transform: "translateY(-1px)" }}
-                  />
-                </Link>
-              )}
-              <p style={{ marginTop: "1rem" }}>{openedStandard.description}</p>
-            </>
-          )}
+          <div className="py-4 sticky top-0">
+            {openedStandard === null ? (
+              <p style={{ fontStyle: "italic" }}>
+                Please click on a standard to view more information.
+              </p>
+            ) : (
+              <>
+                <h2 style={{ fontSize: "1.3em", fontWeight: "600" }}>
+                  {openedStandard.name}
+                </h2>
+                {openedStandard.link && (
+                  <Link to={openedStandard.link}>
+                    Visit website{" "}
+                    <OpenInNew
+                      sx={{ fontSize: "1em", transform: "translateY(-1px)" }}
+                    />
+                  </Link>
+                )}
+                <p style={{ marginTop: "1rem" }}>
+                  {openedStandard.description}
+                </p>
+              </>
+            )}
+          </div>
         </div>
       </div>
     </div>
