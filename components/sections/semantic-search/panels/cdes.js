@@ -83,7 +83,7 @@ export const CDEsPanel = ({ searchTerm }) => {
           <div className="flex flex-col gap-5">
             {activeCde.metadata.urls.map((url) => (
               <DownloadCard
-                className="p-4 flex gap-1 shadow-md transition-all duration-150 rounded-md border-[1px] border-gray-200 hover:text-red-600"
+                className="p-4 flex gap-1 shadow-md transition-all duration-150 rounded-md border-[1px] border-gray-200"
                 key={url.filename}
                 href={url.url}
                 target="_blank"
