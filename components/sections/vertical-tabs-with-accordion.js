@@ -204,7 +204,7 @@ function parseMarkdownToSections(markdown) {
   let foundFirstHeading = false
 
   for (const line of lines) {
-    const h1Match = line.match(/^# (.*)/)
+    const h1Match = line.match(/^\s{0,3}# (.+?)(?:\s+#+)?$/)
     if (h1Match) {
       foundFirstHeading = true
       if (currentTitle) {
