@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from "react"
+import React, { useState, useEffect, useMemo, Fragment } from "react"
 import Markdown from "../elements/markdown"
 import {
   Typography,
@@ -10,7 +10,7 @@ import {
   Select,
   Fab,
 } from "@mui/material"
-import { KeyboardArrowUp } from "@mui/icons-material"
+import { KeyboardArrowUp, KeyboardArrowDown } from "@mui/icons-material"
 import {
   Accordion,
   AccordionSummary,
@@ -87,10 +87,31 @@ const VerticalTabsWithAccordion = ({ data }) => {
                 )
                 setShownContent(selected)
               }}
+              IconComponent={KeyboardArrowDown}
+              renderValue={(selected) => (
+                <Typography
+                  variant="h2"
+                  color="primary"
+                  sx={{
+                    fontWeight: 600,
+                    paddingBottom: "0 !important",
+                  }}
+                >
+                  {selected}
+                </Typography>
+              )}
+              sx={{
+                border: "1px solid #982568",
+                "& .MuiSelect-icon": {
+                  color: "#532565",
+                  right: "1rem",
+                  fontSize: "3rem",
+                },
+              }}
             >
               {data.TabItemWithAccordion.map((item) => (
                 <MenuItem key={item.TabTitle} value={item.TabTitle}>
-                  {item.TabTitle}
+                  <Typography variant="body1">{item.TabTitle}</Typography>
                 </MenuItem>
               ))}
             </Select>
@@ -123,18 +144,24 @@ const VerticalTabsWithAccordion = ({ data }) => {
             marginTop: isMobile ? 2 : 0,
           }}
         >
-          <Typography
-            variant="h2"
-            color="primary"
-            sx={{
-              fontWeight: 600,
-              paddingTop: 0,
-              fontSize: { xs: "1.5rem", sm: "2rem", md: "2.5rem" },
-            }}
-          >
-            {shownContent.TabTitle}
-          </Typography>
-          <Divider sx={{ backgroundColor: "#982568", marginBottom: "1rem" }} />
+          {!isMobile && (
+            <Fragment>
+              <Typography
+                variant="h2"
+                color="primary"
+                sx={{
+                  fontWeight: 600,
+                  paddingTop: 0,
+                  fontSize: { xs: "1.5rem", sm: "2rem", md: "2.5rem" },
+                }}
+              >
+                {shownContent.TabTitle}
+              </Typography>
+              <Divider
+                sx={{ backgroundColor: "#982568", marginBottom: "1rem" }}
+              />
+            </Fragment>
+          )}
 
           {sections[0]?.type === "accordion" ? (
             <>
