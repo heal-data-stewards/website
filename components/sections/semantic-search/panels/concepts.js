@@ -74,30 +74,6 @@ export const ConceptsPanel = ({ searchTerm }) => {
 
         <hr className="my-4" />
 
-        <div className="flex gap-4 flex-wrap w-full">
-          <div className="flex-1 mb-6">
-            <h3 className="text-xl font-semibold mb-1">Search Terms</h3>
-            <ul className="max-h-80 h-full overflow-auto bg-gray-50 p-2 rounded-lg">
-              {activeConcept.search_terms.map((st) => (
-                <li key={st}>{st}</li>
-              ))}
-            </ul>
-          </div>
-          <div className="flex-1 mb-6">
-            <h3 className="text-xl font-semibold mb-1">Identifiers</h3>
-            <ul className="max-h-80 h-full overflow-auto bg-gray-50 p-2 rounded-lg">
-              {activeConcept.identifiers.map((id) => (
-                <li key={id.id}>
-                  {id.label}{" "}
-                  <span className="text-gray-500 text-xs font-bold">
-                    {id.id}
-                  </span>
-                </li>
-              ))}
-            </ul>
-          </div>
-        </div>
-
         <h3 className="text-xl font-semibold mt-6 mb-1">Parent Studies</h3>
         {activeConcept.parents.length === 0 ? (
           <p className="text-gray-400 italic">

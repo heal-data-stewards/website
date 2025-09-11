@@ -1,11 +1,9 @@
-import { BookmarkBorder, Download, OpenInNew } from "@mui/icons-material"
+import { BookmarkBorder, Download } from "@mui/icons-material"
 import { CircularProgress, IconButton, styled } from "@mui/material"
-import { format, isValid, parseISO } from "date-fns"
 import { useState } from "react"
 import { useQuery } from "utils/use-query"
-import Link from "../../../elements/link"
-import { fetchCDEs } from "../data/cdes"
 import { VariableQuestionDisplay } from "../components/VariableQuestionDisplay"
+import { fetchCDEs } from "../data/cdes"
 
 export const CDEsPanel = ({ searchTerm }) => {
   const payload = {
@@ -76,9 +74,11 @@ export const CDEsPanel = ({ searchTerm }) => {
 
         <hr className="my-4" />
 
-        <h3 className="text-xl font-semibold mt-6 mb-2">Metadata</h3>
+        <h3 className="text-xl font-semibold mt-6 mb-2">Downloads</h3>
         {activeCde.metadata.urls.length === 0 ? (
-          <p className="text-gray-400 italic">No metadata found for this CDE</p>
+          <p className="text-gray-400 italic">
+            No downloads found for this CDE
+          </p>
         ) : (
           <div className="flex flex-col gap-5">
             {activeCde.metadata.urls.map((url) => (
@@ -102,18 +102,7 @@ export const CDEsPanel = ({ searchTerm }) => {
         )}
 
         <h3 className="text-xl font-semibold mt-6 mb-1">Variables</h3>
-        {activeCde.variable_list.length === 0 ? (
-          <p className="text-gray-400 italic">
-            No variables found for this CDE
-          </p>
-        ) : (
-          // <ul>
-          //   {activeCde.variable_list.map((v) => (
-          //     <li key={v}>{v}</li>
-          //   ))}
-          // </ul>
-          <VariableQuestionDisplay variableList={activeCde.variable_list} />
-        )}
+        <VariableQuestionDisplay variableList={activeCde.variable_list} />
       </div>
     </div>
   )

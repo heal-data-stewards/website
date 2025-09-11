@@ -33,7 +33,8 @@ export function VariableQuestionDisplay({ variableList }) {
 
   const variables = variablesQuery.data.results
 
-  if (variables.length === 0) return "No variables found for this CDE"
+  if (variables.length === 0)
+    return <p className="text-gray-400 italic">VLMD not yet available.</p>
 
   return (
     <div className="my-2 flex flex-col gap-4">

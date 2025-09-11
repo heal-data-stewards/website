@@ -6,6 +6,7 @@ import Link from "../../../elements/link"
 import { BookmarkBorder, OpenInNew } from "@mui/icons-material"
 import { format, isValid, parseISO } from "date-fns"
 import { VariablesList } from "../components/VariablesList"
+import { CDEDisplay } from "../components/CDEDisplay"
 
 export const StudiesPanel = ({ searchTerm }) => {
   const payload = {
@@ -94,6 +95,8 @@ export const StudiesPanel = ({ searchTerm }) => {
         </table>
 
         <VariablesList study={activeStudy} searchTerm={searchTerm} />
+
+        <CDEDisplay studyId={activeStudy.id} />
       </div>
     </div>
   )

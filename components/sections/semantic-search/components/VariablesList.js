@@ -48,7 +48,7 @@ export function VariablesList({ study, searchTerm }) {
       </h3>
       {variables.length === 0 ? (
         <p className="text-gray-400 italic">
-          No variables found for this study
+          VLMD not yet available.
         </p>
       ) : (
         <ul className="flex flex-col gap-2">
