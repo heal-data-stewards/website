@@ -47,9 +47,7 @@ export function VariablesList({ study, searchTerm }) {
         {variables.length > 0 && ` (${variables.length.toLocaleString()})`}
       </h3>
       {variables.length === 0 ? (
-        <p className="text-gray-400 italic">
-          VLMD not yet available.
-        </p>
+        <p className="text-gray-400 italic">VLMD not yet available.</p>
       ) : (
         <ul className="flex flex-col gap-2">
           {variables.map((variable) => (
