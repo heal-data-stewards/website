@@ -17,6 +17,7 @@ import {
   PanelContainer,
 } from "../elements/side-tab-menu"
 import { useTheme } from "@mui/material/styles"
+import parseMarkdownToSections from "../../utils/parse-markdown-to-sections"
 
 const VerticalTabsWithAccordion = ({ data }) => {
   const theme = useTheme()
@@ -42,6 +43,7 @@ const VerticalTabsWithAccordion = ({ data }) => {
   }, [shownContent, sections])
 
   // Scroll listener for Back to Top button
+  // To Do: add this to page layout component to implement site-wide
   useEffect(() => {
     const handleScroll = () => setShowBackToTop(window.scrollY > 200)
     window.addEventListener("scroll", handleScroll)
@@ -194,45 +196,3 @@ const VerticalTabsWithAccordion = ({ data }) => {
 }
 
 export default VerticalTabsWithAccordion
-
-function parseMarkdownToSections(markdown) {
-  const lines = markdown.split("\n")
-  const sections = []
-
-  let currentTitle = ""
-  let currentContent = []
-  let foundFirstHeading = false
-
-  for (const line of lines) {
-    const h1Match = line.match(/^\s{0,3}# (.+?)(?:\s+#+)?$/)
-    if (h1Match) {
-      foundFirstHeading = true
-      if (currentTitle) {
-        sections.push({
-          type: "accordion",
-          title: currentTitle,
-          content: currentContent.join("\n").trim(),
-        })
-        currentContent = []
-      }
-      currentTitle = h1Match[1].trim()
-    } else {
-      currentContent.push(line)
-    }
-  }
-
-  if (currentTitle) {
-    sections.push({
-      type: "accordion",
-      title: currentTitle,
-      content: currentContent.join("\n").trim(),
-    })
-  } else if (currentContent.length && !foundFirstHeading) {
-    sections.push({
-      type: "text",
-      content: currentContent.join("\n").trim(),
-    })
-  }
-
-  return sections
-}
