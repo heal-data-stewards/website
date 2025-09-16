@@ -8,7 +8,6 @@ import ArrowForwardIosSharpIcon from "@mui/icons-material/ArrowForwardIosSharp"
 export const Accordion = React.memo(
   styled(
     React.forwardRef(function AccordionFwd(props, ref) {
-      console.log("[Accordion render]", props.expanded)
       return (
         <MuiAccordion
           ref={ref}
