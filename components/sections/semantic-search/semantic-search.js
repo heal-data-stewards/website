@@ -56,7 +56,7 @@ export default function SemanticSearch({ data }) {
 
   const searchTermHandler = (term) => {
     router.push({
-      pathname: "/resources/semanticsearch/results",
+      pathname: data.redirect_url,
       query: { [data.redirect_query_param]: term },
     })
   }

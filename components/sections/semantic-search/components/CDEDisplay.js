@@ -1,10 +1,12 @@
 import { CircularProgress } from "@mui/material"
 import { useQuery } from "utils/use-query"
 import { fetchCDEs } from "../data/cdes"
+import Link from "../../../elements/link"
+import { Download } from "@mui/icons-material"
 
 export function CDEDisplay({ studyId }) {
   const payload = {
-    query: "remove this parameter if IDs are sent",
+    query: "",
     parentIds: [studyId],
   }
 
@@ -42,7 +44,30 @@ export function CDEDisplay({ studyId }) {
       {cdes.length === 0 ? (
         <p className="text-gray-400 italic">No CDEs found for this study.</p>
       ) : (
-        <pre>{JSON.stringify(cdes, null, 2)}</pre>
+        <div className="flex flex-col gap-6">
+          {cdes.map((cde) => (
+            <div
+              key={cde.id}
+              className="pl-4 border-l-4 border-solid border-[#8c2f66]"
+            >
+              <div></div>
+              <h4 className="text-lg mb-1">
+                {cde.name}{" "}
+                <span className="text-sm text-gray-500">{cde.id}</span>
+              </h4>
+              <Link href={cde.action}>
+                {cde.action}
+                <Download fontSize="small" />
+              </Link>
+              <p className="mt-1">{cde.description}</p>
+              <ul className="list-disc list-inside mt-2">
+                {cde.variable_list.map((variable) => (
+                  <li key={variable}>{variable}</li>
+                ))}
+              </ul>
+            </div>
+          ))}
+        </div>
       )}
     </>
   )
