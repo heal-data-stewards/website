@@ -4,6 +4,13 @@ import { useQuery } from "utils/use-query"
 import Link from "../../../elements/link"
 import { fetchConcepts } from "../data/concepts"
 import { useState } from "react"
+import { ParentStudiesDisplay } from "../components/ParentStudiesDisplay"
+
+function removeLastColon(str) {
+  const lastColonIndex = str.lastIndexOf(":")
+  if (lastColonIndex === -1) return str
+  return str.slice(0, lastColonIndex)
+}
 
 export const ConceptsPanel = ({ searchTerm }) => {
   const [activeSidebarItem, setActiveSidebarItem] = useState(0)
@@ -74,20 +81,9 @@ export const ConceptsPanel = ({ searchTerm }) => {
 
         <hr className="my-4" />
 
-        <h3 className="text-xl font-semibold mt-6 mb-1">Parent Studies</h3>
-        {activeConcept.parents.length === 0 ? (
-          <p className="text-gray-400 italic">
-            No parents studies found for this concept
-          </p>
-        ) : (
-          <ul>
-            {activeConcept.parents.map((parent, i) => (
-              <li key={i}>
-                <pre>{JSON.stringify(parent, null, 2)}</pre>
-              </li>
-            ))}
-          </ul>
-        )}
+        <ParentStudiesDisplay
+          studyIds={activeConcept.parents.map(removeLastColon)}
+        />
       </div>
     </div>
   )
