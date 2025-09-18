@@ -12,7 +12,7 @@ export const fetchVariables = async ({
     method: "POST",
     headers: { "Content-Type": "application/json", Accept: "application/json" },
     body: JSON.stringify({
-      ...(typeof query === "string" && query !== "" && { query }),
+      ...(typeof query === "string" && { query }),
       ...(parentIds && parentIds.length > 0 && { parent_ids: parentIds }),
       ...(elementIds && elementIds.length > 0 && { element_ids: elementIds }),
       ...(typeof concept === "string" && concept !== "" && { concept }),

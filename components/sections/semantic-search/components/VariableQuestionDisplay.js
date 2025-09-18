@@ -4,7 +4,7 @@ import { fetchVariables } from "../data/variables"
 
 export function VariableQuestionDisplay({ variableList }) {
   const payload = {
-    query: "remove this parameter if IDs are sent",
+    query: "",
     elementIds: variableList,
   }
 
