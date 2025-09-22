@@ -62,15 +62,6 @@ export function ParentStudiesDisplay({ studyIds }) {
                   {study.action} <OpenInNew fontSize="small" />
                 </Link>
                 <p className="mt-1">{study.description}</p>
-
-                <h5 className="uppercase mt-4 font-bold">Variables</h5>
-                <div className="mt-2">
-                  <ul className="list-disc list-inside">
-                    {study.variable_list.map((variable) => (
-                      <li key={variable}>{variable}</li>
-                    ))}
-                  </ul>
-                </div>
               </div>
             ),
           }))}
