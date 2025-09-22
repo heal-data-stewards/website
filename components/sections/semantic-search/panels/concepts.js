@@ -1,16 +1,10 @@
-import { BookmarkBorder, OpenInNew } from "@mui/icons-material"
+import { BookmarkBorder } from "@mui/icons-material"
 import { CircularProgress, IconButton } from "@mui/material"
-import { useQuery } from "utils/use-query"
-import Link from "../../../elements/link"
-import { fetchConcepts } from "../data/concepts"
 import { useState } from "react"
+import { useQuery } from "utils/use-query"
 import { ParentStudiesDisplay } from "../components/ParentStudiesDisplay"
-
-function removeLastColon(str) {
-  const lastColonIndex = str.lastIndexOf(":")
-  if (lastColonIndex === -1) return str
-  return str.slice(0, lastColonIndex)
-}
+import { fetchConcepts } from "../data/concepts"
+import { CDEDisplay } from "../components/CDEDisplay"
 
 export const ConceptsPanel = ({ searchTerm }) => {
   const [activeSidebarItem, setActiveSidebarItem] = useState(0)
@@ -47,7 +41,22 @@ export const ConceptsPanel = ({ searchTerm }) => {
     return null
   }
 
-  const concepts = conceptsQuery.data.results
+  const concepts = conceptsQuery.data.results.map((concept) => ({
+    ...concept,
+    parentStudies: Array.from(
+      new Set(
+        concept.parents
+          .map((str) => {
+            const match = str.match(/^(HEALDATAPLATFORM:[^:]+):[^:]+$/)
+            return match ? match[1] : null
+          })
+          .filter(Boolean)
+      )
+    ),
+    parentCdes: Array.from(
+      new Set(concept.parents.filter((str) => /^HEALCDE:[^:]+$/.test(str)))
+    ),
+  }))
   if (concepts.length < 1) return "No concepts found"
   const activeConcept = concepts[activeSidebarItem]
 
@@ -59,7 +68,8 @@ export const ConceptsPanel = ({ searchTerm }) => {
             key={concept.id}
             name={concept.name}
             description={concept.description}
-            parentStudies={concept.parents.length}
+            parentStudies={concept.parentStudies}
+            parentCdes={concept.parentCdes}
             onClick={() => setActiveSidebarItem(index)}
             active={activeSidebarItem === index}
           />
@@ -81,15 +91,26 @@ export const ConceptsPanel = ({ searchTerm }) => {
 
         <hr className="my-4" />
 
-        <ParentStudiesDisplay
-          studyIds={activeConcept.parents.map(removeLastColon)}
-        />
+        {activeConcept.parentStudies.length > 0 && (
+          <ParentStudiesDisplay studyIds={activeConcept.parentStudies} />
+        )}
+
+        {activeConcept.parentCdes.length > 0 && (
+          <CDEDisplay elementIds={activeConcept.parentCdes} />
+        )}
       </div>
     </div>
   )
 }
 
-function SidebarItem({ name, description, parentStudies, onClick, active }) {
+function SidebarItem({
+  name,
+  description,
+  parentStudies,
+  parentCdes,
+  onClick,
+  active,
+}) {
   return (
     <button
       onClick={onClick}
@@ -109,9 +130,18 @@ function SidebarItem({ name, description, parentStudies, onClick, active }) {
         </IconButton>
       </div>
       <p className="text-sm text-gray-500">{description}</p>
-      <p className="text-sm text-right">{`${parentStudies} ${
-        parentStudies === 1 ? "study" : "studies"
-      }`}</p>
+      <p className="text-sm text-right">
+        {[
+          parentStudies.length > 0 &&
+            `${parentStudies.length} ${
+              parentStudies.length === 1 ? "study" : "studies"
+            }`,
+          parentCdes.length > 0 &&
+            `${parentCdes.length} ${parentCdes.length === 1 ? "CDE" : "CDEs"}`,
+        ]
+          .filter(Boolean)
+          .join(", ")}
+      </p>
     </button>
   )
 }
