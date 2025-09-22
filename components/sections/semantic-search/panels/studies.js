@@ -56,6 +56,7 @@ export const StudiesPanel = ({ searchTerm }) => {
             key={study.id}
             name={study.name}
             id={study.id}
+            variables={study.variable_list}
             onClick={() => setActiveSidebarItem(index)}
             active={activeSidebarItem === index}
           />
@@ -108,7 +109,7 @@ function formatStringIfDate(str) {
   return format(resultDate, "M/dd/yyyy")
 }
 
-function SidebarItem({ name, id, onClick, active }) {
+function SidebarItem({ name, id, variables, onClick, active }) {
   return (
     <button
       onClick={onClick}
@@ -124,41 +125,9 @@ function SidebarItem({ name, id, onClick, active }) {
         </IconButton>
       </div>
       <p className="text-sm mt-2 text-gray-500">{id}</p>
+      <p className="text-right text-sm mt-2 text-gray-500">{`${
+        variables.length
+      } related ${variables.length !== 1 ? "variables" : "variable"}`}</p>
     </button>
   )
-}
-
-{
-  /*
-
-  <Accordion
-    items={flattenedStudies.map((study, index) => ({
-      key: study.c_name,
-      summary: (
-        <div className="flex flex-1" key={index}>
-          <div className="flex flex-col flex-1">
-            <span>{study.c_name}</span>
-            <div>
-              <Chip variant="outlined" size="small" label={study.type} />
-              <a
-                target="_blank"
-                rel="noopener noreferrer"
-                href={study.c_link}
-                className="ml-2 text-blue-600 hover:underline"
-              >
-                {study.c_id}
-              </a>
-            </div>
-          </div>
-          <span className="text-gray-500">
-            {study.elements.length}{" "}
-            {study.elements.length > 1 ? "elements" : "element"}
-          </span>
-        </div>
-      ),
-      details: <pre>{JSON.stringify(study.elements, null, 2)}</pre>,
-    }))}
-  />
-
-*/
 }
