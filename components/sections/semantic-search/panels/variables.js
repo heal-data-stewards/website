@@ -64,7 +64,9 @@ export const VariablesPanel = ({ searchTerm }) => {
         <div className="flex gap-2">
           <div className="flex-1">
             <h2 className="flex-1 text-2xl font-semibold leading-relaxed mb-2 text-[#592963]">
-              {activeVariable.name}
+              {activeVariable.name === "None"
+                ? activeVariable.id
+                : activeVariable.name}
             </h2>
             <p className="text-lg text-gray-500 font-normal">
               {activeVariable.id}
@@ -82,7 +84,13 @@ export const VariablesPanel = ({ searchTerm }) => {
         {activeVariable.metadata.references && (
           <>
             <h3 className="text-xl font-semibold mt-6 mb-1">References</h3>
-            <p>{activeVariable.metadata.references}</p>
+            {activeVariable.metadata.references === "None" ? (
+              <p className="text-gray-400 italic">
+                No references found for this study.
+              </p>
+            ) : (
+              <p>{activeVariable.metadata.references}</p>
+            )}
           </>
         )}
 
