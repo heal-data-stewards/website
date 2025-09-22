@@ -1,11 +1,10 @@
-import { BookmarkBorder, OpenInNew } from "@mui/icons-material"
+import { BookmarkBorder } from "@mui/icons-material"
 import { CircularProgress, IconButton } from "@mui/material"
-import { format, isValid, parseISO } from "date-fns"
 import { useState } from "react"
 import { useQuery } from "utils/use-query"
-import Link from "../../../elements/link"
-import { fetchStudies } from "../data/studies"
 import { fetchVariables } from "../data/variables"
+import { CDEDisplay } from "../components/CDEDisplay"
+import { ParentStudiesDisplay } from "../components/ParentStudiesDisplay"
 
 export const VariablesPanel = ({ searchTerm }) => {
   const payload = {
@@ -85,6 +84,12 @@ export const VariablesPanel = ({ searchTerm }) => {
             <h3 className="text-xl font-semibold mt-6 mb-1">References</h3>
             <p>{activeVariable.metadata.references}</p>
           </>
+        )}
+
+        {activeVariable.is_cde ? (
+          <CDEDisplay elementIds={activeVariable.parents} />
+        ) : (
+          <ParentStudiesDisplay studyIds={activeVariable.parents} />
         )}
 
         <h3 className="text-xl font-semibold mt-6 mb-1">

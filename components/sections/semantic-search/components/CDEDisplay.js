@@ -4,10 +4,11 @@ import { fetchCDEs } from "../data/cdes"
 import Link from "../../../elements/link"
 import { Download } from "@mui/icons-material"
 
-export function CDEDisplay({ studyId }) {
+export function CDEDisplay({ studyId, elementIds }) {
   const payload = {
     query: "",
-    parentIds: [studyId],
+    ...(studyId && { parentIds: [studyId] }),
+    ...(elementIds && { elementIds: elementIds }),
   }
 
   const cdesQuery = useQuery({
