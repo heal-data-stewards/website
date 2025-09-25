@@ -46,7 +46,7 @@ export function VariablesList({ study, searchTerm }) {
   return (
     <>
       <h3 className="text-xl font-semibold mt-6 mb-1">
-        Related Measures
+        Related Variables
         {variables.length > 0 && ` (${variables.length.toLocaleString()})`}
       </h3>
       {variables.length === 0 ? (

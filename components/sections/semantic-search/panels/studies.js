@@ -50,7 +50,7 @@ export const StudiesPanel = ({ searchTerm }) => {
   if (studies.length < 1)
     return (
       <div className="w-full h-full flex items-center justify-center p-2">
-        <span className="italic">No studies found</span>
+        <span className="italic">No results for the requested query.</span>
       </div>
     )
   const activeStudy = studies[activeSidebarItem]
