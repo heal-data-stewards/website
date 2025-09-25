@@ -21,7 +21,7 @@ export const StudiesPanel = ({ searchTerm }) => {
     queryKey: `studies-${JSON.stringify(payload)}`,
   })
 
-  const [activeSidebarItem, setActiveSidebarItem] = useState(-1)
+  const [activeSidebarItem, setActiveSidebarItem] = useState(0)
 
   if (studiesQuery.isLoading) {
     return (
