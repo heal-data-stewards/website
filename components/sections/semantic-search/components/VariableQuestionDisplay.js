@@ -1,8 +1,12 @@
-import { CircularProgress } from "@mui/material"
+import { Button, CircularProgress, Collapse } from "@mui/material"
 import { useQuery } from "utils/use-query"
 import { fetchVariables } from "../data/variables"
+import { useState } from "react"
+import { ChevronRight, ExpandMore } from "@mui/icons-material"
 
 export function VariableQuestionDisplay({ variableList }) {
+  const [expanded, setExpanded] = useState(false)
+
   const payload = {
     query: "",
     elementIds: variableList,
@@ -39,28 +43,37 @@ export function VariableQuestionDisplay({ variableList }) {
 
   return (
     <div className="my-2 flex flex-col gap-4">
-      {variables.map((v) => (
-        <div key={v.id}>
-          <h4 className="text-lg text-primary font-semibold mt-2">{v.id}</h4>
-          {v.name !== "None" && <p>{v.name}</p>}
-          {v.description !== "None" && (
-            <p className="italic text-sm">{v.description}</p>
-          )}
+      <Button
+        className="self-start"
+        onClick={() => setExpanded((e) => !e)}
+        startIcon={expanded ? <ExpandMore /> : <ChevronRight />}
+      >
+        {expanded ? "Collapse" : "Expand"}
+      </Button>
+      <Collapse in={expanded}>
+        {variables.map((v) => (
+          <div key={v.id}>
+            <h4 className="text-lg text-primary font-semibold mt-2">{v.id}</h4>
+            {v.name !== "None" && <p>{v.name}</p>}
+            {v.description !== "None" && (
+              <p className="italic text-sm">{v.description}</p>
+            )}
 
-          <ul className="flex gap-1 my-2">
-            {v.metadata.permissible_values.map((pv) => (
-              <li
-                className="odd:bg-gray-200 flex-1 px-2 py-1 rounded-md flex flex-col"
-                key={pv.value}
-              >
-                <span className={!pv.description && "text-gray-500"}>
-                  {pv.description ? pv.description : pv.value}
-                </span>
-              </li>
-            ))}
-          </ul>
-        </div>
-      ))}
+            <ul className="flex gap-1 my-2">
+              {v.metadata.permissible_values.map((pv) => (
+                <li
+                  className="odd:bg-gray-200 flex-1 px-2 py-1 rounded-md flex flex-col"
+                  key={pv.value}
+                >
+                  <span className={!pv.description && "text-gray-500"}>
+                    {pv.description ? pv.description : pv.value}
+                  </span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))}
+      </Collapse>
     </div>
   )
 }
