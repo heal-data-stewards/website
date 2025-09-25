@@ -44,7 +44,7 @@ const SemanticSearchResults = ({ data }) => {
           </div>
           <div className="min-w-[150px] max-w-[300px] flex flex-col justify-between gap-4 pt-[48px]">
             <Collection />
-            <RelatedSearches />
+            <RelatedSearches searchTerm={searchTerm} />
           </div>
         </div>
       </Container>

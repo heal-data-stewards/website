@@ -1,11 +1,44 @@
 import { SearchRounded } from "@mui/icons-material"
-import { useRouter } from "next/router"
 import Link from "../../../elements/link"
+import { CircularProgress } from "@mui/material"
+import { useQuery } from "utils/use-query"
+import { fetchConcepts } from "../data/concepts"
 
-const RELATED = ["Chronic Pain", "Migraine", "Headache"]
+export function RelatedSearches({ searchTerm }) {
+  const payload = {
+    query: searchTerm,
+    limit: 3,
+  }
 
-export function RelatedSearches({ queryParam }) {
-  const router = useRouter()
+  const conceptsQuery = useQuery({
+    queryFn: () => {
+      if (!searchTerm) return null
+      return fetchConcepts(payload)
+    },
+    queryKey: `concepts-${JSON.stringify(payload)}`,
+  })
+
+  if (conceptsQuery.isLoading) {
+    return (
+      <div className="h-40 flex items-center justify-center">
+        <CircularProgress />
+      </div>
+    )
+  }
+
+  if (conceptsQuery.error) {
+    return (
+      <div className="h-40 flex items-center justify-center rounded-lg bg-red-50 p-4 font-bold text-lg">
+        <span className="text-red-600">Error loading related concepts</span>
+      </div>
+    )
+  }
+
+  if (conceptsQuery.data === null) return null
+
+  const concepts = conceptsQuery.data.results
+
+  if (concepts.length === 0) return null
 
   return (
     <div className="border-solid border-[1px] border-gray-200 shadow-md p-4 rounded-md">
@@ -15,14 +48,14 @@ export function RelatedSearches({ queryParam }) {
       </div>
       <hr className="my-4" />
       <div className="flex flex-col">
-        {RELATED.map((term) => (
+        {concepts.map((term) => (
           <Link
-            to={`/resources/semanticsearch/results?${new URLSearchParams({
-              q: term,
+            to={`/resources/semantic-search/results?${new URLSearchParams({
+              q: term.name,
             })}`}
-            key={term}
+            key={term.id}
           >
-            {term}
+            {term.name}
           </Link>
         ))}
       </div>
