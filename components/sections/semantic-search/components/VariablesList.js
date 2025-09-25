@@ -52,8 +52,8 @@ export function VariablesList({ study, searchTerm }) {
       {variables.length === 0 ? (
         <p className="text-gray-400 italic">
           {study.variable_list.length === 0
-            ? "No related measures found."
-            : "VLMD not yet available."}
+            ? "VLMD not yet available."
+            : "No related measures found."}
         </p>
       ) : (
         <ul className="flex flex-col gap-2">
