@@ -42,7 +42,12 @@ export const CDEsPanel = ({ searchTerm }) => {
   }
 
   const cdes = cdesQuery.data.results
-  if (cdes.length < 1) return "No CDEs found"
+  if (cdes.length < 1)
+    return (
+      <div className="w-full h-full flex items-center justify-center p-2">
+        <span className="italic">No CDEs found</span>
+      </div>
+    )
   const activeCde = cdes[activeSidebarItem]
 
   return (
@@ -75,10 +80,10 @@ export const CDEsPanel = ({ searchTerm }) => {
 
         <hr className="my-4" />
 
+        <ParentStudiesDisplay studyIds={activeCde.parents} />
+
         <h3 className="text-xl font-semibold mt-6 mb-1">Measures</h3>
         <VariableQuestionDisplay variableList={activeCde.variable_list} />
-
-        <ParentStudiesDisplay studyIds={activeCde.parents} />
 
         <h3 className="text-xl font-semibold mt-6 mb-2">Downloads</h3>
         {activeCde.metadata.urls.length === 0 ? (

@@ -42,7 +42,12 @@ export const VariablesPanel = ({ searchTerm }) => {
   }
 
   const variables = variablesQuery.data.results
-  if (variables.length === 0) return "VLMD not yet available."
+  if (variables.length === 0)
+    return (
+      <div className="w-full h-full flex items-center justify-center p-2">
+        <span className="italic">No variables found</span>
+      </div>
+    )
   const activeVariable = variables[activeSidebarItem]
 
   return (

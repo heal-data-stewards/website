@@ -21,7 +21,7 @@ export const StudiesPanel = ({ searchTerm }) => {
     queryKey: `studies-${JSON.stringify(payload)}`,
   })
 
-  const [activeSidebarItem, setActiveSidebarItem] = useState(0)
+  const [activeSidebarItem, setActiveSidebarItem] = useState(-1)
 
   if (studiesQuery.isLoading) {
     return (
@@ -43,9 +43,13 @@ export const StudiesPanel = ({ searchTerm }) => {
     return null
   }
 
-  const {
-    data: { results: studies },
-  } = studiesQuery
+  const studies = studiesQuery.data.results
+  if (studies.length < 1)
+    return (
+      <div className="w-full h-full flex items-center justify-center p-2">
+        <span className="italic">No studies found</span>
+      </div>
+    )
   const activeStudy = studies[activeSidebarItem]
 
   return (

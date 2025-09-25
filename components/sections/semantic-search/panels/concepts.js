@@ -57,7 +57,12 @@ export const ConceptsPanel = ({ searchTerm }) => {
       new Set(concept.parents.filter((str) => /^HEALCDE:[^:]+$/.test(str)))
     ),
   }))
-  if (concepts.length < 1) return "No concepts found"
+  if (concepts.length < 1)
+    return (
+      <div className="w-full h-full flex items-center justify-center p-2">
+        <span className="italic">No concepts found</span>
+      </div>
+    )
   const activeConcept = concepts[activeSidebarItem]
 
   return (
