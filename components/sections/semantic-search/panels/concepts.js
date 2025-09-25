@@ -92,7 +92,15 @@ export const ConceptsPanel = ({ searchTerm }) => {
         <hr className="my-4" />
 
         {activeConcept.parentStudies.length > 0 && (
-          <ParentStudiesDisplay studyIds={activeConcept.parentStudies} />
+          <ParentStudiesDisplay
+            studyIds={activeConcept.parentStudies}
+            titleFormatter={(numOfStudies) => (
+              <>
+                Studies
+                {numOfStudies > 0 && ` (${numOfStudies.toLocaleString()})`}
+              </>
+            )}
+          />
         )}
 
         {activeConcept.parentCdes.length > 0 && (

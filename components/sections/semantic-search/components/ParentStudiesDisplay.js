@@ -5,7 +5,7 @@ import Link from "../../../elements/link"
 import { OpenInNew } from "@mui/icons-material"
 import StyledAccordion from "../accordion"
 
-export function ParentStudiesDisplay({ studyIds }) {
+export function ParentStudiesDisplay({ studyIds, titleFormatter }) {
   const payload = {
     query: "",
     elementIds: studyIds,
@@ -39,8 +39,14 @@ export function ParentStudiesDisplay({ studyIds }) {
   return (
     <>
       <h3 className="text-xl font-semibold mt-6 mb-1">
-        Parent Studies
-        {studies.length > 0 && ` (${studies.length.toLocaleString()})`}
+        {titleFormatter ? (
+          titleFormatter(studies.length)
+        ) : (
+          <>
+            Parent Studies
+            {studies.length > 0 && ` (${studies.length.toLocaleString()})`}
+          </>
+        )}
       </h3>
       {studies.length === 0 ? (
         <p className="text-gray-400 italic">No parents found for this study.</p>

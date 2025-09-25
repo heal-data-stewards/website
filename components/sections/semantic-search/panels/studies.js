@@ -129,9 +129,9 @@ function SidebarItem({ name, id, variables, onClick, active }) {
         </IconButton>
       </div>
       <p className="text-sm mt-2 text-gray-500">{id}</p>
-      <p className="text-right text-sm mt-2 text-gray-500">{`${
-        variables.length
-      } related ${variables.length !== 1 ? "variables" : "variable"}`}</p>
+      <p className="text-sm mt-1 text-gray-500">
+        {variables.length} {variables.length !== 1 ? "measures" : "measure"}
+      </p>
     </button>
   )
 }

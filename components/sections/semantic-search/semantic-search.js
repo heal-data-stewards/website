@@ -2,6 +2,7 @@ import { Refresh } from "@mui/icons-material"
 import { Button, IconButton, OutlinedInput, styled } from "@mui/material"
 import { useRouter } from "next/router"
 import { useCallback, useState } from "react"
+import { backgroundColor } from "tailwindcss/defaultTheme"
 import { QueryCacheProvider } from "utils/use-query"
 
 const SUGGESTIONS = [
@@ -36,6 +37,11 @@ const SearchBar = styled(OutlinedInput)(() => ({
 const SearchButton = styled(Button)(() => ({
   borderTopLeftRadius: "0",
   borderBottomLeftRadius: "0",
+
+  ["&.Mui-disabled"]: {
+    color: "#f4f4f4",
+    backgroundColor: "#bdbbbe !important",
+  },
 }))
 
 function getQueryParam(param) {
@@ -85,7 +91,11 @@ export default function SemanticSearch({ data }) {
                 setSearchInputValue(e.target.value)
               }}
             />
-            <SearchButton variant="contained" type="submit">
+            <SearchButton
+              variant="contained"
+              type="submit"
+              disabled={searchInputValue === ""}
+            >
               {data?.button_text}
             </SearchButton>
           </form>
