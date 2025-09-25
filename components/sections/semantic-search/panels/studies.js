@@ -3,12 +3,15 @@ import { useQuery } from "utils/use-query"
 import { fetchStudies } from "../data/studies"
 import { useState } from "react"
 import Link from "../../../elements/link"
-import { BookmarkBorder, OpenInNew } from "@mui/icons-material"
+import { Bookmark, BookmarkBorder, OpenInNew } from "@mui/icons-material"
 import { format, isValid, parseISO } from "date-fns"
 import { VariablesList } from "../components/VariablesList"
 import { CDEDisplay } from "../components/CDEDisplay"
+import { useCollectionContext } from "../context/collection"
 
 export const StudiesPanel = ({ searchTerm }) => {
+  const collection = useCollectionContext()
+
   const payload = {
     query: searchTerm,
   }
@@ -57,6 +60,7 @@ export const StudiesPanel = ({ searchTerm }) => {
       <div className="min-w-[200px] max-w-[400px] flex flex-col min-h-0 overflow-auto">
         {studies.map((study, index) => (
           <SidebarItem
+            study={study}
             key={study.id}
             name={study.name}
             id={study.id}
@@ -71,8 +75,17 @@ export const StudiesPanel = ({ searchTerm }) => {
           <h2 className="text-2xl font-semibold leading-relaxed mb-2 text-[#592963]">
             {activeStudy.name}
           </h2>
-          <IconButton size="large">
-            <BookmarkBorder fontSize="large" />
+          <IconButton
+            size="large"
+            onClick={() => {
+              collection.studies.toggle(activeStudy)
+            }}
+          >
+            {collection.studies.has(activeStudy) ? (
+              <Bookmark fontSize="large" sx={{ color: "#4d2862" }} />
+            ) : (
+              <BookmarkBorder fontSize="large" sx={{ color: "#4d2862" }} />
+            )}
           </IconButton>
         </div>
         <Link to={activeStudy.action}>
@@ -117,7 +130,9 @@ function formatStringIfDate(str) {
   return format(resultDate, "M/dd/yyyy")
 }
 
-function SidebarItem({ name, id, variables, onClick, active }) {
+function SidebarItem({ study, name, id, variables, onClick, active }) {
+  const collection = useCollectionContext()
+
   return (
     <button
       onClick={onClick}
@@ -128,8 +143,18 @@ function SidebarItem({ name, id, variables, onClick, active }) {
     >
       <div className="flex gap-2 items-start justify-between">
         <h4 className="font-semibold">{name}</h4>
-        <IconButton size="small" onClick={(e) => e.stopPropagation()}>
-          <BookmarkBorder fontSize="small" />
+        <IconButton
+          size="small"
+          onClick={(e) => {
+            e.stopPropagation()
+            collection.studies.toggle(study)
+          }}
+        >
+          {collection.studies.has(study) ? (
+            <Bookmark fontSize="small" sx={{ color: "#4d2862" }} />
+          ) : (
+            <BookmarkBorder fontSize="small" sx={{ color: "#4d2862" }} />
+          )}
         </IconButton>
       </div>
       <p className="text-sm mt-2 text-gray-500">{id}</p>

@@ -1,9 +1,12 @@
-import { BookmarkBorder } from "@mui/icons-material"
+import { Bookmark, BookmarkBorder } from "@mui/icons-material"
 import { CircularProgress, IconButton } from "@mui/material"
 import { fetchVariables } from "../data/variables"
 import { useQuery } from "utils/use-query"
+import { useCollectionContext } from "../context/collection"
 
 export function VariablesList({ study, searchTerm }) {
+  const collection = useCollectionContext()
+
   const payload = {
     query: searchTerm,
     parentIds: [study.id],
@@ -59,9 +62,16 @@ export function VariablesList({ study, searchTerm }) {
               <IconButton
                 className="flex-shrink-0"
                 size="small"
-                onClick={(e) => e.stopPropagation()}
+                onClick={(e) => {
+                  e.stopPropagation()
+                  collection.variables.toggle(variable)
+                }}
               >
-                <BookmarkBorder fontSize="small" />
+                {collection.variables.has(variable) ? (
+                  <Bookmark fontSize="small" sx={{ color: "#4d2862" }} />
+                ) : (
+                  <BookmarkBorder fontSize="small" sx={{ color: "#4d2862" }} />
+                )}
               </IconButton>
               <div className="flex flex-col">
                 <span>{variable.name}</span>

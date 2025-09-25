@@ -1,4 +1,4 @@
-import { BookmarkBorder, Download } from "@mui/icons-material"
+import { Download } from "@mui/icons-material"
 import { CircularProgress, IconButton, styled } from "@mui/material"
 import { useState } from "react"
 import { useQuery } from "utils/use-query"
@@ -72,9 +72,6 @@ export const CDEsPanel = ({ searchTerm }) => {
             </h2>
             <p className="text-lg text-gray-500 font-normal">{activeCde.id}</p>
           </div>
-          <IconButton size="large">
-            <BookmarkBorder fontSize="large" />
-          </IconButton>
         </div>
         <p className="mt-4">{activeCde.description}</p>
 
@@ -136,13 +133,6 @@ function SidebarItem({ name, description, onClick, active }) {
     >
       <div className="flex gap-2 items-start justify-between">
         <h4 className="font-semibold">{name}</h4>
-        <IconButton
-          size="small"
-          sx={{ p: 0 }}
-          onClick={(e) => e.stopPropagation()}
-        >
-          <BookmarkBorder fontSize="small" />
-        </IconButton>
       </div>
       <p className="text-sm text-gray-500">{description}</p>
     </button>

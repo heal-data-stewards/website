@@ -10,6 +10,7 @@ import { StudiesPanel } from "./panels/studies"
 import { CDEsPanel } from "./panels/cdes"
 import { ConceptsPanel } from "./panels/concepts"
 import { VariablesPanel } from "./panels/variables"
+import { CollectionContextProvider } from "./context/collection"
 
 const SemanticSearchResults = ({ data }) => {
   const [searchTerm] = useQueryParams(null, "q")
@@ -17,37 +18,39 @@ const SemanticSearchResults = ({ data }) => {
 
   return (
     <QueryCacheProvider>
-      <Container>
-        <h2 className="text-2xl font-bold text-[#532565] my-2 sm:ml-0 ml-4">
-          Results for &ldquo;{searchTerm}&rdquo;:
-        </h2>
-        <div className="flex-1 flex w-full max-h-full gap-4 min-h-0">
-          <div className="flex-1 flex flex-col min-w-0">
-            <SemanticSearchTabs
-              currentTabIndex={currentTabIndex}
-              setCurrentTabIndex={setCurrentTabIndex}
-            />
-            <div className="flex-1 border-solid border-[1px] border-t-[3px] border-gray-200 rounded-md rounded-tl-none shadow-md flex min-h-0">
-              <TabPanel currentTabIndex={currentTabIndex} index={0}>
-                <StudiesPanel searchTerm={searchTerm} />
-              </TabPanel>
-              <TabPanel currentTabIndex={currentTabIndex} index={1}>
-                <CDEsPanel searchTerm={searchTerm} />
-              </TabPanel>
-              <TabPanel currentTabIndex={currentTabIndex} index={2}>
-                <ConceptsPanel searchTerm={searchTerm} />
-              </TabPanel>
-              <TabPanel currentTabIndex={currentTabIndex} index={3}>
-                <VariablesPanel searchTerm={searchTerm} />
-              </TabPanel>
+      <CollectionContextProvider>
+        <Container>
+          <h2 className="text-2xl font-bold text-[#532565] my-2 sm:ml-0 ml-4">
+            Results for &ldquo;{searchTerm}&rdquo;:
+          </h2>
+          <div className="flex-1 flex w-full max-h-full gap-4 min-h-0">
+            <div className="flex-1 flex flex-col min-w-0">
+              <SemanticSearchTabs
+                currentTabIndex={currentTabIndex}
+                setCurrentTabIndex={setCurrentTabIndex}
+              />
+              <div className="flex-1 border-solid border-[1px] border-t-[3px] border-gray-200 rounded-md rounded-tl-none shadow-md flex min-h-0">
+                <TabPanel currentTabIndex={currentTabIndex} index={0}>
+                  <StudiesPanel searchTerm={searchTerm} />
+                </TabPanel>
+                <TabPanel currentTabIndex={currentTabIndex} index={1}>
+                  <CDEsPanel searchTerm={searchTerm} />
+                </TabPanel>
+                <TabPanel currentTabIndex={currentTabIndex} index={2}>
+                  <ConceptsPanel searchTerm={searchTerm} />
+                </TabPanel>
+                <TabPanel currentTabIndex={currentTabIndex} index={3}>
+                  <VariablesPanel searchTerm={searchTerm} />
+                </TabPanel>
+              </div>
+            </div>
+            <div className="min-w-[150px] max-w-[300px] flex flex-col justify-between gap-4 pt-[48px]">
+              <Collection />
+              <RelatedSearches searchTerm={searchTerm} />
             </div>
           </div>
-          <div className="min-w-[150px] max-w-[300px] flex flex-col justify-between gap-4 pt-[48px]">
-            <Collection />
-            <RelatedSearches searchTerm={searchTerm} />
-          </div>
-        </div>
-      </Container>
+        </Container>
+      </CollectionContextProvider>
     </QueryCacheProvider>
   )
 }

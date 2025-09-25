@@ -1,12 +1,15 @@
-import { BookmarkBorder } from "@mui/icons-material"
+import { Bookmark, BookmarkBorder } from "@mui/icons-material"
 import { CircularProgress, IconButton } from "@mui/material"
 import { useState } from "react"
 import { useQuery } from "utils/use-query"
 import { fetchVariables } from "../data/variables"
 import { CDEDisplay } from "../components/CDEDisplay"
 import { ParentStudiesDisplay } from "../components/ParentStudiesDisplay"
+import { useCollectionContext } from "../context/collection"
 
 export const VariablesPanel = ({ searchTerm }) => {
+  const collection = useCollectionContext()
+
   const payload = {
     query: searchTerm,
   }
@@ -55,6 +58,7 @@ export const VariablesPanel = ({ searchTerm }) => {
       <div className="min-w-[200px] max-w-[400px] flex flex-col min-h-0 overflow-auto">
         {variables.map((variable, index) => (
           <SidebarItem
+            variable={variable}
             key={variable.id}
             name={variable.id}
             numValues={
@@ -77,8 +81,18 @@ export const VariablesPanel = ({ searchTerm }) => {
               {activeVariable.id}
             </p>
           </div>
-          <IconButton size="large">
-            <BookmarkBorder fontSize="large" />
+          <IconButton
+            size="large"
+            sx={{ flexShrink: 0 }}
+            onClick={() => {
+              collection.variables.toggle(activeVariable)
+            }}
+          >
+            {collection.variables.has(activeVariable) ? (
+              <Bookmark fontSize="large" sx={{ color: "#4d2862" }} />
+            ) : (
+              <BookmarkBorder fontSize="large" sx={{ color: "#4d2862" }} />
+            )}
           </IconButton>
         </div>
 
@@ -136,7 +150,9 @@ export const VariablesPanel = ({ searchTerm }) => {
   )
 }
 
-function SidebarItem({ name, numValues, onClick, active }) {
+function SidebarItem({ variable, name, numValues, onClick, active }) {
+  const collection = useCollectionContext()
+
   return (
     <button
       onClick={onClick}
@@ -150,9 +166,16 @@ function SidebarItem({ name, numValues, onClick, active }) {
         <IconButton
           size="small"
           sx={{ p: 0 }}
-          onClick={(e) => e.stopPropagation()}
+          onClick={(e) => {
+            e.stopPropagation()
+            collection.variables.toggle(variable)
+          }}
         >
-          <BookmarkBorder fontSize="small" />
+          {collection.variables.has(variable) ? (
+            <Bookmark fontSize="small" sx={{ color: "#4d2862" }} />
+          ) : (
+            <BookmarkBorder fontSize="small" sx={{ color: "#4d2862" }} />
+          )}
         </IconButton>
       </div>
       <span className="text-sm text-gray-500">

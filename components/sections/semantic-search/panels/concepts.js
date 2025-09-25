@@ -1,12 +1,15 @@
-import { BookmarkBorder } from "@mui/icons-material"
+import { Bookmark, BookmarkBorder } from "@mui/icons-material"
 import { CircularProgress, IconButton } from "@mui/material"
 import { useState } from "react"
 import { useQuery } from "utils/use-query"
 import { ParentStudiesDisplay } from "../components/ParentStudiesDisplay"
 import { fetchConcepts } from "../data/concepts"
 import { CDEDisplay } from "../components/CDEDisplay"
+import { useCollectionContext } from "../context/collection"
 
 export const ConceptsPanel = ({ searchTerm }) => {
+  const collection = useCollectionContext()
+
   const [activeSidebarItem, setActiveSidebarItem] = useState(0)
 
   const payload = {
@@ -70,6 +73,7 @@ export const ConceptsPanel = ({ searchTerm }) => {
       <div className="min-w-[200px] max-w-[400px] flex flex-col min-h-0 overflow-auto">
         {concepts.map((concept, index) => (
           <SidebarItem
+            concept={concept}
             key={concept.id}
             name={concept.name}
             description={concept.description}
@@ -88,8 +92,18 @@ export const ConceptsPanel = ({ searchTerm }) => {
               {activeConcept.id}
             </span>
           </h2>
-          <IconButton sx={{ flexShrink: 0 }} size="medium">
-            <BookmarkBorder fontSize="medium" />
+          <IconButton
+            size="large"
+            sx={{ flexShrink: 0 }}
+            onClick={() => {
+              collection.concepts.toggle(activeConcept)
+            }}
+          >
+            {collection.concepts.has(activeConcept) ? (
+              <Bookmark fontSize="large" sx={{ color: "#4d2862" }} />
+            ) : (
+              <BookmarkBorder fontSize="large" sx={{ color: "#4d2862" }} />
+            )}
           </IconButton>
         </div>
         <p className="">{activeConcept.description}</p>
@@ -117,6 +131,7 @@ export const ConceptsPanel = ({ searchTerm }) => {
 }
 
 function SidebarItem({
+  concept,
   name,
   description,
   parentStudies,
@@ -124,6 +139,8 @@ function SidebarItem({
   onClick,
   active,
 }) {
+  const collection = useCollectionContext()
+
   return (
     <button
       onClick={onClick}
@@ -136,10 +153,16 @@ function SidebarItem({
         <h4 className="font-semibold">{name}</h4>
         <IconButton
           size="small"
-          sx={{ p: 0 }}
-          onClick={(e) => e.stopPropagation()}
+          onClick={(e) => {
+            e.stopPropagation()
+            collection.concepts.toggle(concept)
+          }}
         >
-          <BookmarkBorder fontSize="small" />
+          {collection.concepts.has(concept) ? (
+            <Bookmark fontSize="small" sx={{ color: "#4d2862" }} />
+          ) : (
+            <BookmarkBorder fontSize="small" sx={{ color: "#4d2862" }} />
+          )}
         </IconButton>
       </div>
       <p className="text-sm text-gray-500">{description}</p>
