@@ -56,6 +56,17 @@ export const CollectionContextProvider = ({ children }) => {
           a.click()
           URL.revokeObjectURL(url)
         },
+        clearAll() {
+          setStudies([])
+          setConcepts([])
+          setCdes([])
+          setVariables([])
+        },
+        hasItems:
+          studies.length > 0 ||
+          concepts.length > 0 ||
+          cdes.length > 0 ||
+          variables.length > 0,
       }}
     >
       {children}
