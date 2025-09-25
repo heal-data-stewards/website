@@ -89,7 +89,11 @@ export const StudiesPanel = ({ searchTerm }) => {
             {Object.entries(activeStudy.metadata).map(([key, value]) => (
               <tr key={key}>
                 <td className="py-1 pr-4">{key}</td>
-                <td className="py-1">{formatStringIfDate(value)}</td>
+                <td className="py-1">
+                  {Array.isArray(value)
+                    ? value.join(", ")
+                    : formatStringIfDate(value)}
+                </td>
               </tr>
             ))}
           </tbody>

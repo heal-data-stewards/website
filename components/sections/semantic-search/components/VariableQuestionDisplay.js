@@ -6,6 +6,7 @@ export function VariableQuestionDisplay({ variableList }) {
   const payload = {
     query: "",
     elementIds: variableList,
+    limit: 1000,
   }
 
   const variablesQuery = useQuery({
@@ -26,7 +27,7 @@ export function VariableQuestionDisplay({ variableList }) {
   if (variablesQuery.error) {
     return (
       <div className="h-56 flex items-center justify-center rounded-lg bg-red-50 p-4 font-bold text-lg">
-        <span className="text-red-600">Error loading variables</span>
+        <span className="text-red-600">Error loading measures</span>
       </div>
     )
   }
