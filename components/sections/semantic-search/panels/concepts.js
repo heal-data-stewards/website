@@ -110,35 +110,24 @@ export const ConceptsPanel = ({ searchTerm }) => {
 
         <hr className="my-4" />
 
-        {activeConcept.parentStudies.length > 0 && (
-          <ParentStudiesDisplay
-            studyIds={activeConcept.parentStudies}
-            titleFormatter={(numOfStudies) => (
-              <>
-                Studies
-                {numOfStudies > 0 && ` (${numOfStudies.toLocaleString()})`}
-              </>
-            )}
-          />
-        )}
+        <ParentStudiesDisplay
+          conceptId={activeConcept.id}
+          searchTerm={searchTerm}
+          titleFormatter={(numOfStudies) => (
+            <>
+              Studies
+              {numOfStudies > 0 && ` (${numOfStudies.toLocaleString()})`}
+            </>
+          )}
+        />
 
-        {activeConcept.parentCdes.length > 0 && (
-          <CDEDisplay elementIds={activeConcept.parentCdes} />
-        )}
+        <CDEDisplay searchTerm={searchTerm} conceptId={activeConcept.id} />
       </div>
     </div>
   )
 }
 
-function SidebarItem({
-  concept,
-  name,
-  description,
-  parentStudies,
-  parentCdes,
-  onClick,
-  active,
-}) {
+function SidebarItem({ concept, name, description, onClick, active }) {
   const collection = useCollectionContext()
 
   return (
@@ -166,18 +155,6 @@ function SidebarItem({
         </IconButton>
       </div>
       <p className="text-sm text-gray-500">{description}</p>
-      <p className="text-sm text-right">
-        {[
-          parentStudies.length > 0 &&
-            `${parentStudies.length} ${
-              parentStudies.length === 1 ? "study" : "studies"
-            }`,
-          parentCdes.length > 0 &&
-            `${parentCdes.length} ${parentCdes.length === 1 ? "CDE" : "CDEs"}`,
-        ]
-          .filter(Boolean)
-          .join(", ")}
-      </p>
     </button>
   )
 }

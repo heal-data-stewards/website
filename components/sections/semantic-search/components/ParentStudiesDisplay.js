@@ -5,11 +5,21 @@ import Link from "../../../elements/link"
 import { OpenInNew } from "@mui/icons-material"
 import StyledAccordion from "../accordion"
 
-export function ParentStudiesDisplay({ studyIds, titleFormatter }) {
-  const payload = {
-    query: "",
-    elementIds: studyIds,
-  }
+export function ParentStudiesDisplay({
+  studyIds,
+  titleFormatter,
+  conceptId,
+  searchTerm,
+}) {
+  const payload = conceptId
+    ? {
+        query: searchTerm,
+        concept: conceptId,
+      }
+    : {
+        query: "",
+        elementIds: studyIds,
+      }
 
   const studiesQuery = useQuery({
     queryFn: () => {
