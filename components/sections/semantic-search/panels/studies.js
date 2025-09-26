@@ -71,7 +71,7 @@ export const StudiesPanel = ({ searchTerm }) => {
         ))}
       </div>
       <div className="flex-1 p-4 min-h-0 overflow-auto">
-        <div className="flex gap-2">
+        <div className="flex gap-2 justify-between">
           <h2 className="text-2xl font-semibold leading-relaxed mb-2 text-[#592963]">
             {activeStudy.name}
           </h2>
@@ -91,6 +91,13 @@ export const StudiesPanel = ({ searchTerm }) => {
         <Link to={activeStudy.action}>
           {activeStudy.id} <OpenInNew fontSize="small" />
         </Link>
+        <div className="flex flex-col gap-1 mt-2">
+          {activeStudy.programs.map((prog) => (
+            <p key={prog} className="uppercase text-gray-500 text-sm">
+              {prog}
+            </p>
+          ))}
+        </div>
         <hr className="my-4" />
         <p className="">{activeStudy.description}</p>
 
