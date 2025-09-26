@@ -42,14 +42,16 @@ export function VariableQuestionDisplay({ variableList }) {
     return <p className="text-gray-400 italic">VLMD not yet available.</p>
 
   return (
-    <div className="my-2 flex flex-col gap-4">
-      <Button
-        className="self-start"
-        onClick={() => setExpanded((e) => !e)}
-        startIcon={expanded ? <ExpandMore /> : <ChevronRight />}
+    <div className="my-2">
+      <CollapsibleHeading
+        expanded={expanded}
+        setExpanded={setExpanded}
+        numItems={variables.length}
       >
-        {expanded ? "Collapse" : "Expand"}
-      </Button>
+        <h3 className="text-xl font-semibold">
+          Measures ({variables.length ?? 0})
+        </h3>
+      </CollapsibleHeading>
       <Collapse in={expanded}>
         {variables.map((v) => (
           <div key={v.id}>
@@ -75,5 +77,28 @@ export function VariableQuestionDisplay({ variableList }) {
         ))}
       </Collapse>
     </div>
+  )
+}
+
+function CollapsibleHeading({ expanded, setExpanded, numItems, children }) {
+  if (numItems === 0) return children
+
+  return (
+    <button
+      className="flex align-center gap-1"
+      onClick={() => {
+        setExpanded((e) => !e)
+      }}
+    >
+      <ChevronRight
+        sx={{
+          transform: `${
+            expanded ? "rotate(90deg)" : "rotate(0deg)"
+          } translateY(1px)`,
+          transition: "transform 300ms ease-in-out",
+        }}
+      />
+      {children}
+    </button>
   )
 }

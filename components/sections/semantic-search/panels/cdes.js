@@ -77,7 +77,6 @@ export const CDEsPanel = ({ searchTerm }) => {
 
         <hr className="my-4" />
 
-        <h3 className="text-xl font-semibold mt-6 mb-1">Measures</h3>
         <VariableQuestionDisplay variableList={activeCde.variable_list} />
 
         <ParentStudiesDisplay studyIds={activeCde.parents} />

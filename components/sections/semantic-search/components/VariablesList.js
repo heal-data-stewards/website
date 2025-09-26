@@ -47,25 +47,18 @@ export function VariablesList({ study, searchTerm }) {
 
   return (
     <>
-      <button
-        className="mt-6 mb-1 flex align-center gap-1"
-        onClick={() => {
-          setExpanded((e) => !e)
-        }}
-      >
-        <ChevronRight
-          sx={{
-            transform: `${
-              expanded ? "rotate(90deg)" : "rotate(0deg)"
-            } translateY(1px)`,
-            transition: "transform 300ms ease-in-out",
-          }}
-        />
-        <h3 className="text-xl font-semibold">
-          Related Variables
-          {variables.length > 0 && ` (${variables.length.toLocaleString()})`}
-        </h3>
-      </button>
+      <div className="mt-6 mb-1">
+        <CollapsibleHeading
+          expanded={expanded}
+          setExpanded={setExpanded}
+          numItems={variables.length}
+        >
+          <h3 className="text-xl font-semibold">
+            Related Variables
+            {variables.length > 0 && ` (${variables.length.toLocaleString()})`}
+          </h3>
+        </CollapsibleHeading>
+      </div>
       {variables.length === 0 ? (
         <p className="text-gray-400 italic">
           {study.variable_list.length === 0
@@ -106,5 +99,28 @@ export function VariablesList({ study, searchTerm }) {
         </Collapse>
       )}
     </>
+  )
+}
+
+function CollapsibleHeading({ expanded, setExpanded, numItems, children }) {
+  if (numItems === 0) return children
+
+  return (
+    <button
+      className="flex align-center gap-1"
+      onClick={() => {
+        setExpanded((e) => !e)
+      }}
+    >
+      <ChevronRight
+        sx={{
+          transform: `${
+            expanded ? "rotate(90deg)" : "rotate(0deg)"
+          } translateY(1px)`,
+          transition: "transform 300ms ease-in-out",
+        }}
+      />
+      {children}
+    </button>
   )
 }
