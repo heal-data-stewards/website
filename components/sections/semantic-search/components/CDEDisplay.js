@@ -5,11 +5,12 @@ import Link from "../../../elements/link"
 import { Download } from "@mui/icons-material"
 import StyledAccordion from "../accordion"
 
-export function CDEDisplay({ studyId, elementIds }) {
+export function CDEDisplay({ studyId, elementIds, conceptId, searchTerm }) {
   const payload = {
-    query: "",
+    query: searchTerm ?? "",
     ...(studyId && { parentIds: [studyId] }),
     ...(elementIds && { elementIds: elementIds }),
+    ...(conceptId && { concept: conceptId }),
   }
 
   const cdesQuery = useQuery({

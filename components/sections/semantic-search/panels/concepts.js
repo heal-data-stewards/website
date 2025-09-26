@@ -88,9 +88,6 @@ export const ConceptsPanel = ({ searchTerm }) => {
         <div className="flex w-full justify-between gap-2">
           <h2 className="text-2xl font-semibold leading-relaxed mb-2 text-[#592963]">
             {activeConcept.name}{" "}
-            <span className="text-lg text-gray-500 font-normal">
-              {activeConcept.id}
-            </span>
           </h2>
           <IconButton
             size="large"
@@ -105,6 +102,14 @@ export const ConceptsPanel = ({ searchTerm }) => {
               <BookmarkBorder fontSize="large" sx={{ color: "#4d2862" }} />
             )}
           </IconButton>
+        </div>
+        <div className="mb-2 flex gap-2 flex-wrap">
+          <p className="text-gray-600 bg-gray-100 border-[1px] border-gray-200 border-solid px-2 py-1 rounded-lg shadow-sm">
+            {activeConcept.id}
+          </p>
+          <p className="text-gray-600 bg-gray-100 border-[1px] border-gray-200 border-solid px-2 py-1 rounded-lg shadow-sm">
+            {activeConcept.concept_type}
+          </p>
         </div>
         <p className="">{activeConcept.description}</p>
 
