@@ -1,11 +1,13 @@
-import { Bookmark, BookmarkBorder } from "@mui/icons-material"
-import { CircularProgress, IconButton } from "@mui/material"
+import { Bookmark, BookmarkBorder, ChevronRight } from "@mui/icons-material"
+import { CircularProgress, Collapse, IconButton } from "@mui/material"
 import { fetchVariables } from "../data/variables"
 import { useQuery } from "utils/use-query"
 import { useCollectionContext } from "../context/collection"
+import { useState } from "react"
 
 export function VariablesList({ study, searchTerm }) {
   const collection = useCollectionContext()
+  const [expanded, setExpanded] = useState()
 
   const payload = {
     query: searchTerm,
@@ -45,10 +47,25 @@ export function VariablesList({ study, searchTerm }) {
 
   return (
     <>
-      <h3 className="text-xl font-semibold mt-6 mb-1">
-        Related Variables
-        {variables.length > 0 && ` (${variables.length.toLocaleString()})`}
-      </h3>
+      <button
+        className="mt-6 mb-1 flex align-center gap-1"
+        onClick={() => {
+          setExpanded((e) => !e)
+        }}
+      >
+        <ChevronRight
+          sx={{
+            transform: `${
+              expanded ? "rotate(90deg)" : "rotate(0deg)"
+            } translateY(1px)`,
+            transition: "transform 300ms ease-in-out",
+          }}
+        />
+        <h3 className="text-xl font-semibold">
+          Related Variables
+          {variables.length > 0 && ` (${variables.length.toLocaleString()})`}
+        </h3>
+      </button>
       {variables.length === 0 ? (
         <p className="text-gray-400 italic">
           {study.variable_list.length === 0
@@ -56,32 +73,37 @@ export function VariablesList({ study, searchTerm }) {
             : "No related measures found."}
         </p>
       ) : (
-        <ul className="flex flex-col gap-2">
-          {variables.map((variable) => (
-            <li key={variable.id} className="flex">
-              <IconButton
-                className="flex-shrink-0"
-                size="small"
-                onClick={(e) => {
-                  e.stopPropagation()
-                  collection.variables.toggle(variable)
-                }}
-              >
-                {collection.variables.has(variable) ? (
-                  <Bookmark fontSize="small" sx={{ color: "#4d2862" }} />
-                ) : (
-                  <BookmarkBorder fontSize="small" sx={{ color: "#4d2862" }} />
-                )}
-              </IconButton>
-              <div className="flex flex-col">
-                <span>{variable.name}</span>
-                <span className="text-sm text-gray-400">
-                  {variable.description}
-                </span>
-              </div>
-            </li>
-          ))}
-        </ul>
+        <Collapse in={expanded}>
+          <ul className="flex flex-col gap-2">
+            {variables.map((variable) => (
+              <li key={variable.id} className="flex">
+                <IconButton
+                  className="flex-shrink-0"
+                  size="small"
+                  onClick={(e) => {
+                    e.stopPropagation()
+                    collection.variables.toggle(variable)
+                  }}
+                >
+                  {collection.variables.has(variable) ? (
+                    <Bookmark fontSize="small" sx={{ color: "#4d2862" }} />
+                  ) : (
+                    <BookmarkBorder
+                      fontSize="small"
+                      sx={{ color: "#4d2862" }}
+                    />
+                  )}
+                </IconButton>
+                <div className="flex flex-col">
+                  <span>{variable.name}</span>
+                  <span className="text-sm text-gray-400">
+                    {variable.description}
+                  </span>
+                </div>
+              </li>
+            ))}
+          </ul>
+        </Collapse>
       )}
     </>
   )
