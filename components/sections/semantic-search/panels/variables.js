@@ -61,9 +61,7 @@ export const VariablesPanel = ({ searchTerm }) => {
             variable={variable}
             key={variable.id}
             name={variable.id}
-            numValues={
-              Array.from(variable.metadata.permissible_values ?? []).length
-            }
+            description={variable.description ?? ""}
             onClick={() => setActiveSidebarItem(index)}
             active={activeSidebarItem === index}
           />
@@ -150,7 +148,7 @@ export const VariablesPanel = ({ searchTerm }) => {
   )
 }
 
-function SidebarItem({ variable, name, numValues, onClick, active }) {
+function SidebarItem({ variable, name, description, onClick, active }) {
   const collection = useCollectionContext()
 
   return (
@@ -178,9 +176,7 @@ function SidebarItem({ variable, name, numValues, onClick, active }) {
           )}
         </IconButton>
       </div>
-      <span className="text-sm text-gray-500">
-        {`${numValues} ${numValues === 1 ? "value" : "values"}`}
-      </span>
+      <p className="text-sm text-gray-500">{description}</p>
     </button>
   )
 }
