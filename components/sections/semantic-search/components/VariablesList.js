@@ -62,7 +62,7 @@ export function VariablesList({ study, searchTerm }) {
       {variables.length === 0 ? (
         <p className="text-gray-400 italic">
           {study.variable_list.length === 0
-            ? "VLMD not yet available."
+            ? "Variable Level Metadata not yet available."
             : "No related measures found."}
         </p>
       ) : (
