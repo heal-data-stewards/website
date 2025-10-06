@@ -63,7 +63,7 @@ export const StudiesPanel = ({ searchTerm }) => {
             study={study}
             key={study.id}
             name={study.name}
-            id={study.id}
+            id={study.id.split(":")?.[1] ?? study.id}
             variables={study.variable_list}
             onClick={() => setActiveSidebarItem(index)}
             active={activeSidebarItem === index}
@@ -89,7 +89,8 @@ export const StudiesPanel = ({ searchTerm }) => {
           </IconButton>
         </div>
         <Link to={activeStudy.action}>
-          {activeStudy.id} <OpenInNew fontSize="small" />
+          {activeStudy.id.split(":")?.[1] ?? activeStudy.id}{" "}
+          <OpenInNew fontSize="small" />
         </Link>
         <div className="flex flex-col gap-1 mt-2">
           {activeStudy.programs.map((prog) => (
