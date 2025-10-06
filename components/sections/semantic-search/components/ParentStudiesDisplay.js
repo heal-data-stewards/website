@@ -8,6 +8,7 @@ import StyledAccordion from "../accordion"
 export function ParentStudiesDisplay({
   studyIds,
   titleFormatter,
+  notFoundText,
   conceptId,
   searchTerm,
 }) {
@@ -59,7 +60,9 @@ export function ParentStudiesDisplay({
         )}
       </h3>
       {studies.length === 0 ? (
-        <p className="text-gray-400 italic">No parents found for this study.</p>
+        <p className="text-gray-400 italic">
+          {notFoundText ?? "No parents found for this study."}
+        </p>
       ) : (
         <StyledAccordion
           items={studies.map((study) => ({

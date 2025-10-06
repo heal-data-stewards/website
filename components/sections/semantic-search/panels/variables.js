@@ -114,7 +114,10 @@ export const VariablesPanel = ({ searchTerm }) => {
         {activeVariable.is_cde ? (
           <CDEDisplay elementIds={activeVariable.parents} />
         ) : (
-          <ParentStudiesDisplay studyIds={activeVariable.parents} />
+          <ParentStudiesDisplay
+            studyIds={activeVariable.parents}
+            notFoundText={"No studies found for this variable."}
+          />
         )}
 
         <h3 className="text-xl font-semibold mt-6 mb-1">

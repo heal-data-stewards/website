@@ -118,6 +118,7 @@ export const ConceptsPanel = ({ searchTerm }) => {
         <ParentStudiesDisplay
           conceptId={activeConcept.id}
           searchTerm={searchTerm}
+          notFoundText={"No studies found for this concept."}
           titleFormatter={(numOfStudies) => (
             <>
               Studies

@@ -79,7 +79,13 @@ export const CDEsPanel = ({ searchTerm }) => {
 
         <VariableQuestionDisplay variableList={activeCde.variable_list} />
 
-        <ParentStudiesDisplay studyIds={activeCde.parents} />
+        <ParentStudiesDisplay
+          studyIds={activeCde.parents}
+          titleFormatter={(n) =>
+            `Studies ${n > 0 ? ` (${n.toLocaleString()})` : ""}`
+          }
+          notFoundText={"No studies found for this CDE."}
+        />
 
         <h3 className="text-xl font-semibold mt-6 mb-2">Downloads</h3>
         {activeCde.metadata.urls.length === 0 ? (
