@@ -1,12 +1,15 @@
-import { Download } from "@mui/icons-material"
+import { Bookmark, Download, BookmarkBorder } from "@mui/icons-material"
 import { CircularProgress, IconButton, styled } from "@mui/material"
 import { useState } from "react"
 import { useQuery } from "utils/use-query"
 import { VariableQuestionDisplay } from "../components/VariableQuestionDisplay"
 import { fetchCDEs } from "../data/cdes"
 import { ParentStudiesDisplay } from "../components/ParentStudiesDisplay"
+import { useCollectionContext } from "../context/collection"
 
 export const CDEsPanel = ({ searchTerm }) => {
+  const collection = useCollectionContext()
+
   const payload = {
     query: searchTerm,
   }
@@ -55,6 +58,7 @@ export const CDEsPanel = ({ searchTerm }) => {
       <div className="min-w-[200px] max-w-[400px] flex flex-col min-h-0 overflow-auto">
         {cdes.map((cde, index) => (
           <SidebarItem
+            cde={cde}
             key={cde.id}
             name={cde.name}
             id={cde.id}
@@ -72,6 +76,18 @@ export const CDEsPanel = ({ searchTerm }) => {
             </h2>
             <p className="text-lg text-gray-500 font-normal">{activeCde.id}</p>
           </div>
+          <IconButton
+            size="large"
+            onClick={() => {
+              collection.cdes.toggle(activeCde)
+            }}
+          >
+            {collection.cdes.has(activeCde) ? (
+              <Bookmark fontSize="large" sx={{ color: "#4d2862" }} />
+            ) : (
+              <BookmarkBorder fontSize="large" sx={{ color: "#4d2862" }} />
+            )}
+          </IconButton>
         </div>
         <p className="mt-4">{activeCde.description}</p>
 
@@ -127,7 +143,9 @@ const DownloadCard = styled("a")`
   }
 `
 
-function SidebarItem({ name, description, onClick, active }) {
+function SidebarItem({ cde, name, description, onClick, active }) {
+  const collection = useCollectionContext()
+
   return (
     <button
       onClick={onClick}
@@ -138,6 +156,19 @@ function SidebarItem({ name, description, onClick, active }) {
     >
       <div className="flex gap-2 items-start justify-between">
         <h4 className="font-semibold">{name}</h4>
+        <IconButton
+          size="small"
+          onClick={(e) => {
+            e.stopPropagation()
+            collection.cdes.toggle(cde)
+          }}
+        >
+          {collection.cdes.has(cde) ? (
+            <Bookmark fontSize="small" sx={{ color: "#4d2862" }} />
+          ) : (
+            <BookmarkBorder fontSize="small" sx={{ color: "#4d2862" }} />
+          )}
+        </IconButton>
       </div>
       <p className="text-sm text-gray-500">{description}</p>
     </button>

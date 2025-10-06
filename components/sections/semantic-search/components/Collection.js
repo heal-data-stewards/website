@@ -22,6 +22,12 @@ export function Collection() {
           <CollectionList collection={collection.studies} />
         </div>
         <div>
+          <h4 className="mb-2 text-sm font-medium text-gray-500">
+            CDEs ({collection.cdes.list.length})
+          </h4>
+          <CollectionList collection={collection.cdes} />
+        </div>
+        <div>
           <h4 className="mb-2 uppercase text-sm font-medium text-gray-500">
             Concepts ({collection.concepts.list.length})
           </h4>
