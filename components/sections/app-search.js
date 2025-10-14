@@ -165,13 +165,20 @@ export default function AppSearch({ data }) {
 
   React.useEffect(() => {
     if (params.data) {
-      let regExp = /[a-zA-Z]/g
       let param
 
-      if (regExp.test(params.data)) {
-        param = "proj_num="
-      } else {
+      if (/^\d+$/.test(data)) {
+        // all digits → application ID
         param = "appl_id="
+      } else if (/^[a-zA-Z]+$/.test(data)) {
+        // all letters → PI name
+        param = "pi_name="
+      } else if (/^HDP/i.test(data)) {
+        // starts with 'HDP' (case-insensitive)
+      param = "hdp_id="
+      } else {
+        // everything else → project number
+        param = "proj_num="
       }
 
       axios
