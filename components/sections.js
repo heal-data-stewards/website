@@ -48,6 +48,7 @@ import ChecklistGraphic from "./sections/checklist-graphic/checklist-graphic"
 import HeroButton from "./sections/hero-button"
 import DataSharingStatus from "./sections/data-sharing-status"
 import VerticalTabsWithAccordion from "./sections/vertical-tabs-with-accordion"
+import InfoTable from "./sections/info-table"
 
 // Map Strapi sections to section components
 const sectionComponents = {
@@ -101,6 +102,7 @@ const sectionComponents = {
   "sections.hero-button": HeroButton,
   "elements.data-sharing-status": DataSharingStatus,
   "sections.vertical-tabs-with-accordion": VerticalTabsWithAccordion,
+  "sections.info-table": InfoTable,
 }
 
 // Display a section individually
