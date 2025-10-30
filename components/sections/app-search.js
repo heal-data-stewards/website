@@ -142,6 +142,26 @@ const columns = [
   },
 ]
 
+const getParamKey = (data) => {
+  let param
+
+  if (/^\d+$/.test(data)) {
+    // all digits → application ID
+    param = "appl_id="
+  } else if (/^[a-zA-Z -']+$/.test(data)) {
+    // all letters or space → PI name
+    param = "pi_name="
+  } else if (/^HDP/i.test(data)) {
+    // starts with 'HDP' (case-insensitive)
+    param = "hdp_id="
+  } else {
+    // everything else → project number
+    param = "proj_num="
+  }
+
+  return param
+}
+
 export default function AppSearch({ data }) {
   const [value, setValue] = React.useState("")
   const [payload, setPayload] = React.useState(false)
@@ -165,25 +185,11 @@ export default function AppSearch({ data }) {
 
   React.useEffect(() => {
     if (params.data) {
-      let param
-
-      if (/^\d+$/.test(data)) {
-        // all digits → application ID
-        param = "appl_id="
-      } else if (/^[a-zA-Z]+$/.test(data)) {
-        // all letters → PI name
-        param = "pi_name="
-      } else if (/^HDP/i.test(data)) {
-        // starts with 'HDP' (case-insensitive)
-      param = "hdp_id="
-      } else {
-        // everything else → project number
-        param = "proj_num="
-      }
+      const paramKey = getParamKey(params.data)
 
       axios
         .get(
-          `https://k18san0v73.execute-api.us-east-1.amazonaws.com/prod/progresstracker?${param}${params.data}`
+          `https://k18san0v73.execute-api.us-east-1.amazonaws.com/prod/progresstracker?${paramKey}${params.data}`
         )
         .then((response) => {
           const filteredStudies = response.data.filter(
@@ -331,18 +337,11 @@ export default function AppSearch({ data }) {
 
     setPayload(false)
 
-    let regExp = /[a-zA-Z]/g
-    let param
-
-    if (regExp.test(value)) {
-      param = "proj_num="
-    } else {
-      param = "appl_id="
-    }
+    const paramKey = getParamKey(value)
 
     axios
       .get(
-        `https://k18san0v73.execute-api.us-east-1.amazonaws.com/prod/progresstracker?${param}${value}`
+        `https://k18san0v73.execute-api.us-east-1.amazonaws.com/prod/progresstracker?${paramKey}${value}`
       )
       .then((response) => {
         const filteredStudies = response.data.filter(
@@ -396,7 +395,7 @@ export default function AppSearch({ data }) {
           >
             <TextField
               id="outlined-basic"
-              label="App / Proj / CTN Number"
+              label="Identifier"
               variant="outlined"
               onChange={handleTextFieldChange}
               value={value}
@@ -476,9 +475,9 @@ export default function AppSearch({ data }) {
             </span>
           ) : (
             <span className="text-xl">
-              We could not locate a study with an application ID or project
-              number of {sentParam}. Please verify that you input the correct
-              information, or contact{" "}
+              We could not locate a study with an application ID, HDP ID,
+              project number, or PI name of {sentParam}. Please verify that you
+              input the correct information, or contact{" "}
               <a
                 style={{ color: "blue" }}
                 target="_blank"
