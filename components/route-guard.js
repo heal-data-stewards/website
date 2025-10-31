@@ -63,6 +63,8 @@ function RouteGuard({ children }) {
       "/repository-decision-tree",
       "/resources/sensitive-data",
       "/resources/data-sharing-success",
+      "/resources/test-page",
+      "/test-side-tab-page",
       // The following used to be private pages only exposed to signed in guests
       // "/directory",
       // "/collaboration",
