@@ -49,6 +49,7 @@ import HeroButton from "./sections/hero-button"
 import DataSharingStatus from "./sections/data-sharing-status"
 import VerticalTabsWithAccordion from "./sections/vertical-tabs-with-accordion"
 import InfoTable from "./sections/info-table"
+import FeaturedResourceBlocks from "./sections/featured-resource-blocks"
 
 // Map Strapi sections to section components
 const sectionComponents = {
@@ -103,6 +104,7 @@ const sectionComponents = {
   "elements.data-sharing-status": DataSharingStatus,
   "sections.vertical-tabs-with-accordion": VerticalTabsWithAccordion,
   "sections.info-table": InfoTable,
+  "sections.featured-resource-card": FeaturedResourceBlocks,
 }
 
 // Display a section individually
