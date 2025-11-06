@@ -1,9 +1,10 @@
-import { CircularProgress } from "@mui/material"
+import { CircularProgress, IconButton, Tooltip } from "@mui/material"
 import { useQuery } from "utils/use-query"
 import { fetchStudies } from "../data/studies"
 import Link from "../../../elements/link"
-import { OpenInNew } from "@mui/icons-material"
+import { Bookmark, OpenInNew, BookmarkBorder } from "@mui/icons-material"
 import StyledAccordion from "../accordion"
+import { useCollectionContext } from "../context/collection"
 
 export function ParentStudiesDisplay({
   studyIds,
@@ -12,6 +13,8 @@ export function ParentStudiesDisplay({
   conceptId,
   searchTerm,
 }) {
+  const collection = useCollectionContext()
+
   const payload = conceptId
     ? {
         query: searchTerm,
@@ -68,18 +71,40 @@ export function ParentStudiesDisplay({
           items={studies.map((study) => ({
             key: study.key,
             summary: (
-              <div>
-                <h4>
-                  {study.name}{" "}
-                  <span className="text-sm text-gray-500">{study.id}</span>
-                </h4>
+              <div className="flex justify-between items-center w-full">
+                <h4>{study.name}</h4>
+                <IconButton
+                  size="small"
+                  onClick={(e) => {
+                    e.stopPropagation()
+                    collection.studies.toggle(study)
+                  }}
+                >
+                  {collection.studies.has(study) ? (
+                    <Bookmark fontSize="small" sx={{ color: "#4d2862" }} />
+                  ) : (
+                    <BookmarkBorder
+                      fontSize="small"
+                      sx={{ color: "#4d2862" }}
+                    />
+                  )}
+                </IconButton>
               </div>
             ),
             details: (
               <div>
-                <Link href={study.action}>
-                  {study.action} <OpenInNew fontSize="small" />
-                </Link>
+                <p>
+                  Study ID:{" "}
+                  <Link href={study.action}>
+                    <Tooltip
+                      title="Open study in the HEAL Data Platform"
+                      placement="right"
+                    >
+                      {study.id.split(":")?.[1] ?? study.id}{" "}
+                      <OpenInNew fontSize="small" />
+                    </Tooltip>
+                  </Link>
+                </p>
                 <p className="mt-1">{study.description}</p>
               </div>
             ),

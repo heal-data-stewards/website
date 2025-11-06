@@ -1,4 +1,4 @@
-import { CircularProgress, IconButton } from "@mui/material"
+import { CircularProgress, IconButton, Tooltip } from "@mui/material"
 import { useQuery } from "utils/use-query"
 import { fetchStudies } from "../data/studies"
 import { useState } from "react"
@@ -49,7 +49,7 @@ export const StudiesPanel = ({ searchTerm }) => {
   const studies = studiesQuery.data.results
   if (studies.length < 1)
     return (
-      <div className="w-full h-full flex items-center justify-center p-2">
+      <div className="w-full h-24 flex items-center justify-center p-2">
         <span className="italic">No results for the requested query.</span>
       </div>
     )
@@ -58,6 +58,9 @@ export const StudiesPanel = ({ searchTerm }) => {
   return (
     <div className="flex flex-row max-h-full">
       <div className="min-w-[200px] max-w-[400px] flex flex-col min-h-0 overflow-auto">
+        <div className="px-4 py-2 italic text-gray-500 border-b border-gray-200 sticky top-0 bg-white isolate z-10">
+          {studies.length} {studies.length !== 1 ? "studies" : "study"} found.
+        </div>
         {studies.map((study, index) => (
           <SidebarItem
             study={study}
@@ -88,10 +91,18 @@ export const StudiesPanel = ({ searchTerm }) => {
             )}
           </IconButton>
         </div>
-        <Link to={activeStudy.action}>
-          {activeStudy.id.split(":")?.[1] ?? activeStudy.id}{" "}
-          <OpenInNew fontSize="small" />
-        </Link>
+        <span>
+          Study ID:{" "}
+          <Link to={activeStudy.action}>
+            <Tooltip
+              title="Open study in the HEAL Data Platform"
+              placement="right"
+            >
+              {activeStudy.id.split(":")?.[1] ?? activeStudy.id}{" "}
+              <OpenInNew fontSize="small" />
+            </Tooltip>
+          </Link>
+        </span>
         <div className="flex flex-col gap-1 mt-2">
           {activeStudy.programs.map((prog) => (
             <p key={prog} className="uppercase text-gray-500 text-sm">
@@ -166,9 +177,11 @@ function SidebarItem({ study, name, id, variables, onClick, active }) {
         </IconButton>
       </div>
       <p className="text-sm mt-2 text-gray-500">{id}</p>
-      <p className="text-sm mt-1 text-gray-500">
-        {variables.length} {variables.length !== 1 ? "measures" : "measure"}
-      </p>
+      {Boolean(variables.length) && (
+        <p className="text-sm mt-1 text-gray-500">
+          {variables.length} {variables.length !== 1 ? "measures" : "measure"}
+        </p>
+      )}
     </button>
   )
 }

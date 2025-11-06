@@ -1,11 +1,14 @@
-import { CircularProgress } from "@mui/material"
+import { CircularProgress, IconButton } from "@mui/material"
 import { useQuery } from "utils/use-query"
 import { fetchCDEs } from "../data/cdes"
 import Link from "../../../elements/link"
-import { Download } from "@mui/icons-material"
+import { Bookmark, Download, BookmarkBorder } from "@mui/icons-material"
 import StyledAccordion from "../accordion"
+import { useCollectionContext } from "../context/collection"
 
 export function CDEDisplay({ studyId, elementIds, conceptId, searchTerm }) {
+  const collection = useCollectionContext()
+
   const payload = {
     query: searchTerm ?? "",
     ...(studyId && { parentIds: [studyId] }),
@@ -51,16 +54,32 @@ export function CDEDisplay({ studyId, elementIds, conceptId, searchTerm }) {
           items={cdes.map((cde) => ({
             key: cde.id,
             summary: (
-              <div>
+              <div className="flex justify-between items-center w-full">
                 <h4>
                   {cde.name}{" "}
                   <span className="text-sm text-gray-500">{cde.id}</span>
                 </h4>
+                <IconButton
+                  size="small"
+                  onClick={(e) => {
+                    e.stopPropagation()
+                    collection.cdes.toggle(cde)
+                  }}
+                >
+                  {collection.cdes.has(cde) ? (
+                    <Bookmark fontSize="small" sx={{ color: "#4d2862" }} />
+                  ) : (
+                    <BookmarkBorder
+                      fontSize="small"
+                      sx={{ color: "#4d2862" }}
+                    />
+                  )}
+                </IconButton>
               </div>
             ),
             details: (
               <div>
-                <Link href={cde.action}>
+                <Link to={cde.action}>
                   {cde.action} <Download fontSize="small" />
                 </Link>
                 <p className="mt-1">{cde.description}</p>

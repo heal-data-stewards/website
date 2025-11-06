@@ -47,7 +47,7 @@ export const CDEsPanel = ({ searchTerm }) => {
   const cdes = cdesQuery.data.results
   if (cdes.length < 1)
     return (
-      <div className="w-full h-full flex items-center justify-center p-2">
+      <div className="w-full h-24 flex items-center justify-center p-2">
         <span className="italic">No CDEs found</span>
       </div>
     )
@@ -56,6 +56,9 @@ export const CDEsPanel = ({ searchTerm }) => {
   return (
     <div className="flex flex-row max-h-full">
       <div className="min-w-[200px] max-w-[400px] flex flex-col min-h-0 overflow-auto">
+        <div className="px-4 py-2 italic text-gray-500 border-b border-gray-200 sticky top-0 bg-white isolate z-10">
+          {cdes.length} {cdes.length !== 1 ? "CDEs" : "CDE"} found.
+        </div>
         {cdes.map((cde, index) => (
           <SidebarItem
             cde={cde}
@@ -98,7 +101,7 @@ export const CDEsPanel = ({ searchTerm }) => {
         <ParentStudiesDisplay
           studyIds={activeCde.parents}
           titleFormatter={(n) =>
-            `Studies ${n > 0 ? ` (${n.toLocaleString()})` : ""}`
+            `Studies using this CDE ${n > 0 ? ` (${n.toLocaleString()})` : ""}`
           }
           notFoundText={"No studies found for this CDE."}
         />

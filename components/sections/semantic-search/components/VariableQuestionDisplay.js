@@ -67,7 +67,9 @@ export function VariableQuestionDisplay({ variableList }) {
                   className="odd:bg-gray-200 flex-1 px-2 py-1 rounded-md flex flex-col"
                   key={pv.value}
                 >
-                  <span className={!pv.description && "text-gray-500"}>
+                  <span
+                    className={!pv.description ? "text-gray-500" : undefined}
+                  >
                     {pv.description ? pv.description : pv.value}
                   </span>
                 </li>

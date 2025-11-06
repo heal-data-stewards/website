@@ -47,7 +47,7 @@ export const VariablesPanel = ({ searchTerm }) => {
   const variables = variablesQuery.data.results
   if (variables.length === 0)
     return (
-      <div className="w-full h-full flex items-center justify-center p-2">
+      <div className="w-full h-24 flex items-center justify-center p-2">
         <span className="italic">No variables found</span>
       </div>
     )
@@ -56,6 +56,10 @@ export const VariablesPanel = ({ searchTerm }) => {
   return (
     <div className="flex flex-row max-h-full">
       <div className="min-w-[200px] max-w-[400px] flex flex-col min-h-0 overflow-auto">
+        <div className="px-4 py-2 italic text-gray-500 border-b border-gray-200 sticky top-0 bg-white isolate z-10">
+          {variables.length} {variables.length !== 1 ? "variables" : "variable"}{" "}
+          found.
+        </div>
         {variables.map((variable, index) => (
           <SidebarItem
             variable={variable}

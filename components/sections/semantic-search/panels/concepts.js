@@ -1,11 +1,12 @@
-import { Bookmark, BookmarkBorder } from "@mui/icons-material"
-import { CircularProgress, IconButton } from "@mui/material"
+import { Bookmark, BookmarkBorder, Search } from "@mui/icons-material"
+import { CircularProgress, IconButton, Tooltip } from "@mui/material"
 import { useState } from "react"
 import { useQuery } from "utils/use-query"
 import { ParentStudiesDisplay } from "../components/ParentStudiesDisplay"
 import { fetchConcepts } from "../data/concepts"
 import { CDEDisplay } from "../components/CDEDisplay"
 import { useCollectionContext } from "../context/collection"
+import Link from "next/link"
 
 export const ConceptsPanel = ({ searchTerm }) => {
   const collection = useCollectionContext()
@@ -62,7 +63,7 @@ export const ConceptsPanel = ({ searchTerm }) => {
   }))
   if (concepts.length < 1)
     return (
-      <div className="w-full h-full flex items-center justify-center p-2">
+      <div className="w-full h-24 flex items-center justify-center p-2">
         <span className="italic">No concepts found</span>
       </div>
     )
@@ -71,6 +72,10 @@ export const ConceptsPanel = ({ searchTerm }) => {
   return (
     <div className="flex flex-row max-h-full">
       <div className="min-w-[200px] max-w-[400px] flex flex-col min-h-0 overflow-auto">
+        <div className="px-4 py-2 italic text-gray-500 border-b border-gray-200 sticky top-0 bg-white isolate z-10">
+          {concepts.length} {concepts.length !== 1 ? "concepts" : "concept"}{" "}
+          found.
+        </div>
         {concepts.map((concept, index) => (
           <SidebarItem
             concept={concept}
@@ -85,10 +90,31 @@ export const ConceptsPanel = ({ searchTerm }) => {
         ))}
       </div>
       <div className="flex-1 p-4 min-h-0 overflow-auto">
-        <div className="flex w-full justify-between gap-2">
-          <h2 className="text-2xl font-semibold leading-relaxed mb-2 text-[#592963]">
-            {activeConcept.name}{" "}
-          </h2>
+        <div className="flex w-full justify-between gap-2 mb-2">
+          <div className="flex gap-1 items-center">
+            <h2 className="text-2xl font-semibold leading-relaxed text-[#592963]">
+              {activeConcept.name}{" "}
+            </h2>
+            <Link
+              href={(() => {
+                const url = new URL(window.location.href)
+                url.searchParams.set("q", activeConcept.name)
+                return url
+              })()}
+              passHref
+            >
+              <Tooltip title="Search for this concept" placement="top">
+                <IconButton
+                  size="large"
+                  component={"a"}
+                  onClick={(e) => e.stopPropagation()}
+                >
+                  <Search fontSize="large" sx={{ color: "#4d2862" }} />
+                </IconButton>
+              </Tooltip>
+            </Link>
+          </div>
+
           <IconButton
             size="large"
             sx={{ flexShrink: 0 }}
@@ -119,12 +145,11 @@ export const ConceptsPanel = ({ searchTerm }) => {
           conceptId={activeConcept.id}
           searchTerm={searchTerm}
           notFoundText={"No studies found for this concept."}
-          titleFormatter={(numOfStudies) => (
-            <>
-              Studies
-              {numOfStudies > 0 && ` (${numOfStudies.toLocaleString()})`}
-            </>
-          )}
+          titleFormatter={(n) =>
+            `Studies Referencing this Concept ${
+              n > 0 ? ` (${n.toLocaleString()})` : ""
+            }`
+          }
         />
 
         <CDEDisplay searchTerm={searchTerm} conceptId={activeConcept.id} />
@@ -145,7 +170,27 @@ function SidebarItem({ concept, name, description, onClick, active }) {
       }
     >
       <div className="flex gap-2 items-start justify-between">
-        <h4 className="font-semibold">{name}</h4>
+        <div className="flex gap-1 items-center">
+          <h4 className="font-semibold">{name}</h4>
+          <Link
+            href={(() => {
+              const url = new URL(window.location.href)
+              url.searchParams.set("q", name)
+              return url
+            })()}
+            passHref
+          >
+            <Tooltip title="Search for this concept" placement="top">
+              <IconButton
+                size="small"
+                component={"a"}
+                onClick={(e) => e.stopPropagation()}
+              >
+                <Search fontSize="small" sx={{ color: "#4d2862" }} />
+              </IconButton>
+            </Tooltip>
+          </Link>
+        </div>
         <IconButton
           size="small"
           onClick={(e) => {
