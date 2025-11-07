@@ -395,11 +395,14 @@ export default function AppSearch({ data }) {
           >
             <TextField
               id="outlined-basic"
-              label="Identifier"
+              label="Project # / CTN # / PI Name / Appl ID"
               variant="outlined"
               onChange={handleTextFieldChange}
               value={value}
-              sx={{ "& .MuiInputBase-root": { borderRadius: "4px 0 0 4px" } }}
+              sx={{
+                width: 350,
+                "& .MuiInputBase-root": { borderRadius: "4px 0 0 4px" },
+              }}
             />
             <Button
               variant="contained"
