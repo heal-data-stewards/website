@@ -1,4 +1,9 @@
-import { Bookmark, BookmarkBorder, Search } from "@mui/icons-material"
+import {
+  Bookmark,
+  BookmarkBorder,
+  OpenInNew,
+  Search,
+} from "@mui/icons-material"
 import { CircularProgress, IconButton, Tooltip } from "@mui/material"
 import { useState } from "react"
 import { useQuery } from "utils/use-query"
@@ -6,7 +11,7 @@ import { ParentStudiesDisplay } from "../components/ParentStudiesDisplay"
 import { fetchConcepts } from "../data/concepts"
 import { CDEDisplay } from "../components/CDEDisplay"
 import { useCollectionContext } from "../context/collection"
-import Link from "next/link"
+import Link from "../../../elements/link"
 
 export const ConceptsPanel = ({ searchTerm }) => {
   const collection = useCollectionContext()
@@ -131,7 +136,23 @@ export const ConceptsPanel = ({ searchTerm }) => {
         </div>
         <div className="mb-2 flex gap-2 flex-wrap">
           <p className="text-gray-600 bg-gray-100 border-[1px] border-gray-200 border-solid px-2 py-1 rounded-lg shadow-sm">
-            {activeConcept.id}
+            {activeConcept.action ? (
+              <Link
+                to={activeConcept.action ?? ""}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <Tooltip
+                  title="Open concept in the HEAL Data Platform"
+                  placement="top"
+                >
+                  {activeConcept.id}
+                  <OpenInNew fontSize="small" />
+                </Tooltip>
+              </Link>
+            ) : (
+              activeConcept.id
+            )}
           </p>
           <p className="text-gray-600 bg-gray-100 border-[1px] border-gray-200 border-solid px-2 py-1 rounded-lg shadow-sm">
             {activeConcept.concept_type}
