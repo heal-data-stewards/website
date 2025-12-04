@@ -13,6 +13,7 @@ export function InfiniteScrollList({
   getCountDisplay,
   onFilteredItemsChange,
   renderFilters,
+  panelId,
 }) {
   const [allLoadedItems, setAllLoadedItems] = useState([])
   const [currentOffset, setCurrentOffset] = useState(0)
@@ -24,16 +25,12 @@ export function InfiniteScrollList({
   const sentinelRef = useRef(null)
   const initialLoadDone = useRef(false)
 
-  const fetchFunctionKey = useMemo(() => {
-    return fetchFunction.toString()
-  }, [fetchFunction])
-
   const initialQuery = useQuery({
     queryFn: () => {
       if (!searchTerm) return null
       return fetchFunction({ query: searchTerm, offset: 0, limit: 100 })
     },
-    queryKey: `initial-${fetchFunctionKey}-${searchTerm}-0`,
+    queryKey: `initial-${panelId}-${searchTerm}-0`,
   })
 
   useEffect(() => {
@@ -55,7 +52,7 @@ export function InfiniteScrollList({
     setHasMorePages(true)
     setFullApiResponse(null)
     initialLoadDone.current = false
-  }, [searchTerm, fetchFunctionKey])
+  }, [searchTerm, panelId])
 
   const filteredItems = useMemo(() => {
     if (!filterFunction || !filters) return allLoadedItems
@@ -119,6 +116,7 @@ export function InfiniteScrollList({
 
     return () => {
       if (sentinelRef.current) {
+        // eslint-disable-next-line react-hooks/exhaustive-deps
         observer.unobserve(sentinelRef.current)
       }
     }

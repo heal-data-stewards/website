@@ -115,6 +115,7 @@ export const CDEsPanel = ({ searchTerm }) => {
   return (
     <div className="flex flex-row max-h-full h-full">
       <InfiniteScrollList
+        panelId="cdes"
         fetchFunction={fetchCDEs}
         searchTerm={searchTerm}
         renderItem={renderItem}

@@ -43,7 +43,16 @@ export const VariablesPanel = ({ searchTerm }) => {
         type: "multiselect",
         key: "dataTypes",
         label: "Data Type",
-        options: ["text", "integer", "string"],
+        options: [
+          "boolean",
+          "string",
+          "datetime",
+          "time",
+          "integer",
+          "number",
+          "enum",
+          "date",
+        ],
       },
     ],
     []
@@ -126,6 +135,7 @@ export const VariablesPanel = ({ searchTerm }) => {
   return (
     <div className="flex flex-row max-h-full">
       <InfiniteScrollList
+        panelId="variables"
         fetchFunction={fetchVariables}
         searchTerm={searchTerm}
         renderItem={renderItem}

@@ -100,9 +100,8 @@ export const StudiesPanel = ({ searchTerm }) => {
         key: "dataAvailability",
         label: "Data Availability",
         options: [
-          { value: "all", label: "All Available" },
-          { value: "some", label: "Some Available" },
-          { value: "none", label: "None Available" },
+          { value: "available", label: "Available" },
+          { value: "not_available", label: "Not Available" },
         ],
       },
     ],
@@ -136,20 +135,15 @@ export const StudiesPanel = ({ searchTerm }) => {
 
     if (currentFilters.dataAvailability) {
       const availability = study.metadata?.data_availability
-      if (currentFilters.dataAvailability === "all" && availability !== "all") {
-        return false
+      if (currentFilters.dataAvailability === "available") {
+        if (availability !== "all" && availability !== "some") {
+          return false
+        }
       }
-      if (
-        currentFilters.dataAvailability === "some" &&
-        availability !== "some"
-      ) {
-        return false
-      }
-      if (
-        currentFilters.dataAvailability === "none" &&
-        availability !== "none"
-      ) {
-        return false
+      if (currentFilters.dataAvailability === "not_available") {
+        if (availability !== "none") {
+          return false
+        }
       }
     }
 
@@ -218,6 +212,7 @@ export const StudiesPanel = ({ searchTerm }) => {
   return (
     <div className="flex flex-row max-h-full h-full">
       <InfiniteScrollList
+        panelId="studies"
         fetchFunction={fetchStudies}
         searchTerm={searchTerm}
         renderItem={renderItem}
@@ -271,26 +266,7 @@ export const StudiesPanel = ({ searchTerm }) => {
           <p className="">{activeStudy.description}</p>
 
           <h3 className="text-xl font-semibold mt-6 mb-1">Information</h3>
-          <table className="w-full table-auto border-collapse">
-            <thead className="border-b border-gray-200 mb-2">
-              <tr>
-                <th className="text-left font-semibold py-1 pr-4">Field</th>
-                <th className="text-left font-semibold py-1 ">Value</th>
-              </tr>
-            </thead>
-            <tbody>
-              {Object.entries(activeStudy.metadata).map(([key, value]) => (
-                <tr key={key}>
-                  <td className="py-1 pr-4">{key}</td>
-                  <td className="py-1">
-                    {Array.isArray(value)
-                      ? value.join(", ")
-                      : formatStringIfDate(value)}
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+          <NestedTable object={activeStudy.metadata} />
 
           <VariablesList study={activeStudy} searchTerm={searchTerm} />
 
@@ -307,10 +283,81 @@ export const StudiesPanel = ({ searchTerm }) => {
   )
 }
 
+// do not put anything circular in here...
+function NestedTable({ object, showHeader = true, showBorders = false }) {
+  return (
+    <table className={`w-full table-auto border-collapse align-top`}>
+      {showHeader && (
+        <thead className="border-b border-gray-200 mb-2">
+          <tr>
+            <th className="text-left font-semibold py-1 pr-4">Field</th>
+            <th className="text-left font-semibold py-1 ">Value</th>
+          </tr>
+        </thead>
+      )}
+      <tbody>
+        {Object.entries(object).map(([key, value]) => {
+          console.log("key,value", key, value)
+
+          let cell = null
+
+          if (typeof value === "string") {
+            cell = formatStringIfDate(value)
+          } else if (Array.isArray(value)) {
+            if (value.length === 0) {
+              cell = <span className="italic text-gray-500">No values</span>
+            } else if (
+              value.every((v) => typeof v === "object" && v !== null)
+            ) {
+              cell = value.map((obj, idx) => (
+                <div
+                  key={idx}
+                  className="-m-2 p-2 rounded-md bg-[#f4f1f5] bg-opacity-30 mb-2"
+                >
+                  <NestedTable
+                    object={obj}
+                    showHeader={false}
+                    showBorders={true}
+                  />
+                </div>
+              ))
+            } else {
+              cell = value.filter((v) => typeof v === "string").join(", ")
+            }
+          }
+
+          return (
+            <tr
+              key={key}
+              className={
+                showBorders
+                  ? "border-b border-gray-200 last:border-0"
+                  : undefined
+              }
+            >
+              <td className="py-1 pr-4 align-top">
+                {formatSnakeCaseToTitleCase(key)}
+              </td>
+              <td className="py-1 align-top">{cell}</td>
+            </tr>
+          )
+        })}
+      </tbody>
+    </table>
+  )
+}
+
 function formatStringIfDate(str) {
   const resultDate = parseISO(str)
   if (!isValid(resultDate)) return str
   return format(resultDate, "M/dd/yyyy")
+}
+
+function formatSnakeCaseToTitleCase(str) {
+  return str
+    .split("_")
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(" ")
 }
 
 function SidebarItem({ study, name, id, variables, onClick, active }) {
