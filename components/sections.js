@@ -32,7 +32,6 @@ import Topics from "./sections/topics"
 import CollectiveEvents from "./elements/webinar/collective"
 import RichTextModal from "./sections/rich-text-modal"
 import SensitiveData from "./sections/sensitive-data"
-import DugSearch from "./sections/dug-search"
 import DiTable from "./sections/table/di-table"
 import DiBoxes from "./sections/di-boxes"
 import { Widget } from "./sections/Widget"
@@ -86,7 +85,6 @@ const sectionComponents = {
   "sections.collective-events": CollectiveEvents,
   "sections.rich-text-modal": RichTextModal,
   "sections.sensitive-data": SensitiveData,
-  "sections.dug-search": DugSearch,
   "sections.semantic-search": SemanticSearch,
   "sections.semantic-search-results": SemanticSearchResults,
   "sections.di-page-table": DiTable,

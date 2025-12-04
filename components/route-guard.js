@@ -55,7 +55,6 @@ function RouteGuard({ children }) {
       "/resources/heal-stewards-guidance",
       "/resources/semantic-search/help",
       "/sensitive-data",
-      "/resources/semanticsearch",
       "/resources/semantic-search",
       "/resources/semantic-search/results",
       "/resources/dmsps",
