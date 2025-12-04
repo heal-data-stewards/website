@@ -9,7 +9,7 @@ export function Collection() {
     <div className="border-solid border-[1px] border-gray-200 shadow-md p-4 rounded-md flex flex-col min-h-0">
       <div className="flex items-center gap-2 text-[#4d2862]">
         <Bookmarks fontSize="medium" />
-        <h3 className="text-lg font-semibold">Collection</h3>
+        <h3 className="text-lg font-semibold">Bookmarks</h3>
       </div>
 
       <hr className="my-4" />
@@ -51,7 +51,7 @@ export function Collection() {
           endIcon={<Delete />}
           onClick={() => collection.clearAll()}
         >
-          Clear Collection
+          Clear Bookmarks
         </Button>
       )}
       <Button
