@@ -1,144 +1,308 @@
-import { CircularProgress, IconButton, Tooltip } from "@mui/material"
-import { useQuery } from "utils/use-query"
+import { IconButton, Tooltip } from "@mui/material"
 import { fetchStudies } from "../data/studies"
-import { useState } from "react"
+import { useCallback, useEffect, useMemo, useState } from "react"
 import Link from "../../../elements/link"
 import { Bookmark, BookmarkBorder, OpenInNew } from "@mui/icons-material"
 import { format, isValid, parseISO } from "date-fns"
 import { VariablesList } from "../components/VariablesList"
 import { CDEDisplay } from "../components/CDEDisplay"
 import { useCollectionContext } from "../context/collection"
+import { InfiniteScrollList } from "../components/InfiniteScrollList"
+import { FiltersPanel } from "../components/FiltersPanel"
+
+const RESEARCH_NETWORKS = [
+  {
+    key: "HEAL Research Program",
+    doc_count: 850,
+  },
+  {
+    key: "HEAL Studies",
+    doc_count: 150,
+  },
+  {
+    key: "Small Business Programs",
+    doc_count: 150,
+  },
+  {
+    key: "Focusing Medication Development to Prevent and Treat Opioid Use Disorder and Overdose",
+    doc_count: 139,
+  },
+  {
+    key: "Discovery and Validation of Novel Targets for Safe and Effective Treatment of Pain",
+    doc_count: 83,
+  },
+  {
+    key: "Training the Next Generation of Researchers in HEAL",
+    doc_count: 49,
+  },
+  {
+    key: "Preventing Opioid Use Disorder",
+    doc_count: 46,
+  },
+  {
+    key: "Development and Optimization of Non-Addictive Therapies to Treat Pain",
+    doc_count: 43,
+  },
+  {
+    key: "Clinical Trials Network",
+    doc_count: 41,
+  },
+  {
+    key: "Translating Discoveries into Effective Devices to Treat Pain",
+    doc_count: 31,
+  },
+]
 
 export const StudiesPanel = ({ searchTerm }) => {
   const collection = useCollectionContext()
 
-  const payload = {
-    query: searchTerm,
-  }
-
-  const studiesQuery = useQuery({
-    queryFn: () => {
-      if (!searchTerm) return null
-      return fetchStudies(payload)
-    },
-    queryKey: `studies-${JSON.stringify(payload)}`,
+  const [filters, setFilters] = useState({
+    researchNetworks: [],
+    vlmdAvailability: "",
+    dataAvailability: "",
   })
 
   const [activeSidebarItem, setActiveSidebarItem] = useState(0)
+  const [filteredStudies, setFilteredStudies] = useState([])
 
-  if (studiesQuery.isLoading) {
+  useEffect(() => {
+    setActiveSidebarItem(0)
+  }, [searchTerm])
+
+  useEffect(() => {
+    if (
+      filteredStudies.length > 0 &&
+      activeSidebarItem >= filteredStudies.length
+    ) {
+      setActiveSidebarItem(0)
+    }
+  }, [filteredStudies, activeSidebarItem])
+
+  const filterConfigs = useMemo(
+    () => [
+      {
+        type: "multiselect",
+        key: "researchNetworks",
+        label: "Research Networks",
+        options: RESEARCH_NETWORKS.map((network) => network.key),
+      },
+      {
+        type: "select",
+        key: "vlmdAvailability",
+        label: "VLMD Availability",
+        options: [
+          { value: "available", label: "Available" },
+          { value: "not_available", label: "Not Available" },
+        ],
+      },
+      {
+        type: "select",
+        key: "dataAvailability",
+        label: "Data Availability",
+        options: [
+          { value: "all", label: "All Available" },
+          { value: "some", label: "Some Available" },
+          { value: "none", label: "None Available" },
+        ],
+      },
+    ],
+    []
+  )
+
+  const filterFunction = useCallback((study, currentFilters) => {
+    if (
+      currentFilters.researchNetworks &&
+      currentFilters.researchNetworks.length > 0
+    ) {
+      const hasMatchingNetwork = currentFilters.researchNetworks.some(
+        (network) => study.programs.includes(network)
+      )
+      if (!hasMatchingNetwork) {
+        return false
+      }
+    }
+
+    if (currentFilters.vlmdAvailability) {
+      if (currentFilters.vlmdAvailability === "available") {
+        if (study.variable_list.length === 0) {
+          return false
+        }
+      } else if (currentFilters.vlmdAvailability === "not_available") {
+        if (study.variable_list.length > 0) {
+          return false
+        }
+      }
+    }
+
+    if (currentFilters.dataAvailability) {
+      const availability = study.metadata?.data_availability
+      if (currentFilters.dataAvailability === "all" && availability !== "all") {
+        return false
+      }
+      if (
+        currentFilters.dataAvailability === "some" &&
+        availability !== "some"
+      ) {
+        return false
+      }
+      if (
+        currentFilters.dataAvailability === "none" &&
+        availability !== "none"
+      ) {
+        return false
+      }
+    }
+
+    return true
+  }, [])
+
+  const handleFilterChange = useCallback((filterKey, newValue) => {
+    setFilters((prev) => ({
+      ...prev,
+      [filterKey]: newValue,
+    }))
+  }, [])
+
+  const getCountDisplay = useCallback(
+    (filteredCount, loadedCount, totalCount, hasMore, hasFilters) => {
+      if (!hasFilters) {
+        if (hasMore) {
+          return `${loadedCount}+ studies found`
+        }
+        return `${totalCount || loadedCount} ${
+          totalCount !== 1 ? "studies" : "study"
+        } found`
+      } else {
+        const loaded = hasMore
+          ? `${loadedCount}+`
+          : `${totalCount || loadedCount}`
+        return `Found ${filteredCount} of ${loaded} ${
+          totalCount !== 1 ? "studies" : "study"
+        } matching filters`
+      }
+    },
+    []
+  )
+
+  const renderItem = useCallback((study, key, isActive, onClick) => {
     return (
-      <div className="h-full flex items-center justify-center">
-        <CircularProgress />
-      </div>
+      <SidebarItem
+        key={key}
+        study={study}
+        name={study.name}
+        id={study.id.split(":")?.[1] ?? study.id}
+        variables={study.variable_list}
+        onClick={onClick}
+        active={isActive}
+      />
     )
-  }
+  }, [])
 
-  if (studiesQuery.error) {
-    return (
-      <div className="h-full flex items-center justify-center rounded-lg bg-red-50 p-4 font-bold text-lg">
-        <span className="text-red-600">Error loading results</span>
-      </div>
-    )
-  }
+  const handleFilteredItemsChange = useCallback((items, fullResponse) => {
+    setFilteredStudies(items)
+  }, [])
 
-  if (studiesQuery.data === null) {
-    return null
-  }
+  const renderFilters = useCallback(
+    () => (
+      <FiltersPanel
+        filterConfigs={filterConfigs}
+        filterValues={filters}
+        onFilterChange={handleFilterChange}
+      />
+    ),
+    [filterConfigs, filters, handleFilterChange]
+  )
 
-  const studies = studiesQuery.data.results
-  if (studies.length < 1)
-    return (
-      <div className="w-full h-24 flex items-center justify-center p-2">
-        <span className="italic">No results for the requested query.</span>
-      </div>
-    )
-  const activeStudy = studies[activeSidebarItem]
+  const activeStudy = filteredStudies[activeSidebarItem]
 
   return (
-    <div className="flex flex-row max-h-full">
-      <div className="min-w-[200px] max-w-[400px] flex flex-col min-h-0 overflow-auto">
-        <div className="px-4 py-2 italic text-gray-500 border-b border-gray-200 sticky top-0 bg-white isolate z-10">
-          {studies.length} {studies.length !== 1 ? "studies" : "study"} found.
-        </div>
-        {studies.map((study, index) => (
-          <SidebarItem
-            study={study}
-            key={study.id}
-            name={study.name}
-            id={study.id.split(":")?.[1] ?? study.id}
-            variables={study.variable_list}
-            onClick={() => setActiveSidebarItem(index)}
-            active={activeSidebarItem === index}
-          />
-        ))}
-      </div>
-      <div className="flex-1 p-4 min-h-0 overflow-auto">
-        <div className="flex gap-2 justify-between">
-          <h2 className="text-2xl font-semibold leading-relaxed mb-2 text-[#592963]">
-            {activeStudy.name}
-          </h2>
-          <IconButton
-            size="large"
-            onClick={() => {
-              collection.studies.toggle(activeStudy)
-            }}
-          >
-            {collection.studies.has(activeStudy) ? (
-              <Bookmark fontSize="large" sx={{ color: "#4d2862" }} />
-            ) : (
-              <BookmarkBorder fontSize="large" sx={{ color: "#4d2862" }} />
-            )}
-          </IconButton>
-        </div>
-        <span>
-          Study ID:{" "}
-          <Link to={activeStudy.action}>
-            <Tooltip
-              title="Open study in the HEAL Data Platform"
-              placement="right"
+    <div className="flex flex-row max-h-full h-full">
+      <InfiniteScrollList
+        fetchFunction={fetchStudies}
+        searchTerm={searchTerm}
+        renderItem={renderItem}
+        filterFunction={filterFunction}
+        filters={filters}
+        activeItemIndex={activeSidebarItem}
+        onActiveItemChange={setActiveSidebarItem}
+        getCountDisplay={getCountDisplay}
+        onFilteredItemsChange={handleFilteredItemsChange}
+        renderFilters={renderFilters}
+      />
+      {activeStudy ? (
+        <div className="flex-1 p-4 min-h-0 overflow-auto">
+          <div className="flex gap-2 justify-between">
+            <h2 className="text-2xl font-semibold leading-relaxed mb-2 text-[#592963]">
+              {activeStudy.name}
+            </h2>
+            <IconButton
+              size="large"
+              onClick={() => {
+                collection.studies.toggle(activeStudy)
+              }}
             >
-              {activeStudy.id.split(":")?.[1] ?? activeStudy.id}{" "}
-              <OpenInNew fontSize="small" />
-            </Tooltip>
-          </Link>
-        </span>
-        <div className="flex flex-col gap-1 mt-2">
-          {activeStudy.programs.map((prog) => (
-            <p key={prog} className="uppercase text-gray-500 text-sm">
-              {prog}
-            </p>
-          ))}
-        </div>
-        <hr className="my-4" />
-        <p className="">{activeStudy.description}</p>
-
-        <h3 className="text-xl font-semibold mt-6 mb-1">Information</h3>
-        <table className="w-full table-auto border-collapse">
-          <thead className="border-b border-gray-200 mb-2">
-            <tr>
-              <th className="text-left font-semibold py-1 pr-4">Field</th>
-              <th className="text-left font-semibold py-1 ">Value</th>
-            </tr>
-          </thead>
-          <tbody>
-            {Object.entries(activeStudy.metadata).map(([key, value]) => (
-              <tr key={key}>
-                <td className="py-1 pr-4">{key}</td>
-                <td className="py-1">
-                  {Array.isArray(value)
-                    ? value.join(", ")
-                    : formatStringIfDate(value)}
-                </td>
-              </tr>
+              {collection.studies.has(activeStudy) ? (
+                <Bookmark fontSize="large" sx={{ color: "#4d2862" }} />
+              ) : (
+                <BookmarkBorder fontSize="large" sx={{ color: "#4d2862" }} />
+              )}
+            </IconButton>
+          </div>
+          <span>
+            Study ID:{" "}
+            <Link to={activeStudy.action}>
+              <Tooltip
+                title="Open study in the HEAL Data Platform"
+                placement="right"
+              >
+                {activeStudy.id.split(":")?.[1] ?? activeStudy.id}{" "}
+                <OpenInNew fontSize="small" />
+              </Tooltip>
+            </Link>
+          </span>
+          <div className="flex flex-col gap-1 mt-2">
+            {activeStudy.programs.map((prog) => (
+              <p key={prog} className="uppercase text-gray-500 text-sm">
+                {prog}
+              </p>
             ))}
-          </tbody>
-        </table>
+          </div>
+          <hr className="my-4" />
+          <p className="">{activeStudy.description}</p>
 
-        <VariablesList study={activeStudy} searchTerm={searchTerm} />
+          <h3 className="text-xl font-semibold mt-6 mb-1">Information</h3>
+          <table className="w-full table-auto border-collapse">
+            <thead className="border-b border-gray-200 mb-2">
+              <tr>
+                <th className="text-left font-semibold py-1 pr-4">Field</th>
+                <th className="text-left font-semibold py-1 ">Value</th>
+              </tr>
+            </thead>
+            <tbody>
+              {Object.entries(activeStudy.metadata).map(([key, value]) => (
+                <tr key={key}>
+                  <td className="py-1 pr-4">{key}</td>
+                  <td className="py-1">
+                    {Array.isArray(value)
+                      ? value.join(", ")
+                      : formatStringIfDate(value)}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
 
-        <CDEDisplay studyId={activeStudy.id} />
-      </div>
+          <VariablesList study={activeStudy} searchTerm={searchTerm} />
+
+          <CDEDisplay studyId={activeStudy.id} />
+        </div>
+      ) : (
+        <div className="flex-1 p-4 min-h-0 overflow-auto flex items-center justify-center">
+          <span className="text-gray-400 italic">
+            Select a study to view details
+          </span>
+        </div>
+      )}
     </div>
   )
 }

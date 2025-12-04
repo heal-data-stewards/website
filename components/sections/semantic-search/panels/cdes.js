@@ -1,138 +1,205 @@
 import { Bookmark, Download, BookmarkBorder } from "@mui/icons-material"
-import { CircularProgress, IconButton, styled } from "@mui/material"
-import { useState } from "react"
-import { useQuery } from "utils/use-query"
+import { IconButton, styled } from "@mui/material"
+import { useCallback, useEffect, useMemo, useState } from "react"
 import { VariableQuestionDisplay } from "../components/VariableQuestionDisplay"
 import { fetchCDEs } from "../data/cdes"
 import { ParentStudiesDisplay } from "../components/ParentStudiesDisplay"
 import { useCollectionContext } from "../context/collection"
+import { InfiniteScrollList } from "../components/InfiniteScrollList"
+import { FiltersPanel } from "../components/FiltersPanel"
 
 export const CDEsPanel = ({ searchTerm }) => {
   const collection = useCollectionContext()
 
-  const payload = {
-    query: searchTerm,
-  }
-
-  const cdesQuery = useQuery({
-    queryFn: () => {
-      if (!searchTerm) return null
-      return fetchCDEs(payload)
-    },
-    queryKey: `cdes-${JSON.stringify(payload)}`,
+  const [filters, setFilters] = useState({
+    cdeTypes: [],
   })
 
   const [activeSidebarItem, setActiveSidebarItem] = useState(0)
+  const [filteredCdes, setFilteredCdes] = useState([])
 
-  if (cdesQuery.isLoading) {
+  useEffect(() => {
+    setActiveSidebarItem(0)
+  }, [searchTerm])
+
+  useEffect(() => {
+    if (filteredCdes.length > 0 && activeSidebarItem >= filteredCdes.length) {
+      setActiveSidebarItem(0)
+    }
+  }, [filteredCdes, activeSidebarItem])
+
+  const filterConfigs = useMemo(
+    () => [
+      {
+        type: "multiselect",
+        key: "cdeTypes",
+        label: "CDE Type",
+        options: ["Supplemental", "All Core"],
+      },
+    ],
+    []
+  )
+
+  const filterFunction = useCallback((cde, currentFilters) => {
+    if (currentFilters.cdeTypes && currentFilters.cdeTypes.length > 0) {
+      const categories = cde.metadata?.categories || []
+      const hasMatchingType = currentFilters.cdeTypes.some((type) =>
+        categories.includes(type)
+      )
+      if (!hasMatchingType) {
+        return false
+      }
+    }
+
+    return true
+  }, [])
+
+  const handleFilterChange = useCallback((filterKey, newValue) => {
+    setFilters((prev) => ({
+      ...prev,
+      [filterKey]: newValue,
+    }))
+  }, [])
+
+  const getCountDisplay = useCallback(
+    (filteredCount, loadedCount, totalCount, hasMore, hasFilters) => {
+      if (!hasFilters) {
+        if (hasMore) {
+          return `${loadedCount}+ CDEs found`
+        }
+        return `${totalCount || loadedCount} CDE${
+          totalCount !== 1 ? "s" : ""
+        } found`
+      } else {
+        const loaded = hasMore
+          ? `${loadedCount}+`
+          : `${totalCount || loadedCount}`
+        return `Found ${filteredCount} of ${loaded} CDE${
+          totalCount !== 1 ? "s" : ""
+        } matching filters`
+      }
+    },
+    []
+  )
+
+  const renderItem = useCallback((cde, key, isActive, onClick) => {
     return (
-      <div className="h-full flex items-center justify-center">
-        <CircularProgress />
-      </div>
+      <SidebarItem
+        key={key}
+        cde={cde}
+        name={cde.name}
+        description={cde.description}
+        onClick={onClick}
+        active={isActive}
+      />
     )
-  }
+  }, [])
 
-  if (cdesQuery.error) {
-    return (
-      <div className="h-full flex items-center justify-center rounded-lg bg-red-50 p-4 font-bold text-lg">
-        <span className="text-red-600">Error loading results</span>
-      </div>
-    )
-  }
+  const handleFilteredItemsChange = useCallback((items, fullResponse) => {
+    setFilteredCdes(items)
+  }, [])
 
-  if (cdesQuery.data === null) {
-    return null
-  }
+  const renderFilters = useCallback(
+    () => (
+      <FiltersPanel
+        filterConfigs={filterConfigs}
+        filterValues={filters}
+        onFilterChange={handleFilterChange}
+      />
+    ),
+    [filterConfigs, filters, handleFilterChange]
+  )
 
-  const cdes = cdesQuery.data.results
-  if (cdes.length < 1)
-    return (
-      <div className="w-full h-24 flex items-center justify-center p-2">
-        <span className="italic">No CDEs found</span>
-      </div>
-    )
-  const activeCde = cdes[activeSidebarItem]
+  const activeCde = filteredCdes[activeSidebarItem]
 
   return (
-    <div className="flex flex-row max-h-full">
-      <div className="min-w-[200px] max-w-[400px] flex flex-col min-h-0 overflow-auto">
-        <div className="px-4 py-2 italic text-gray-500 border-b border-gray-200 sticky top-0 bg-white isolate z-10">
-          {cdes.length} {cdes.length !== 1 ? "CDEs" : "CDE"} found.
-        </div>
-        {cdes.map((cde, index) => (
-          <SidebarItem
-            cde={cde}
-            key={cde.id}
-            name={cde.name}
-            id={cde.id}
-            description={cde.description}
-            onClick={() => setActiveSidebarItem(index)}
-            active={activeSidebarItem === index}
+    <div className="flex flex-row max-h-full h-full">
+      <InfiniteScrollList
+        fetchFunction={fetchCDEs}
+        searchTerm={searchTerm}
+        renderItem={renderItem}
+        filterFunction={filterFunction}
+        filters={filters}
+        activeItemIndex={activeSidebarItem}
+        onActiveItemChange={setActiveSidebarItem}
+        getCountDisplay={getCountDisplay}
+        onFilteredItemsChange={handleFilteredItemsChange}
+        renderFilters={renderFilters}
+      />
+      {activeCde ? (
+        <div className="flex-1 p-4 min-h-0 overflow-auto">
+          <div className="flex gap-2">
+            <div className="flex-1">
+              <h2 className="text-2xl font-semibold leading-relaxed text-[#592963]">
+                {activeCde.name}{" "}
+              </h2>
+              <p className="text-lg text-gray-500 font-normal">
+                {activeCde.id}
+              </p>
+            </div>
+            <IconButton
+              size="large"
+              onClick={() => {
+                collection.cdes.toggle(activeCde)
+              }}
+            >
+              {collection.cdes.has(activeCde) ? (
+                <Bookmark fontSize="large" sx={{ color: "#4d2862" }} />
+              ) : (
+                <BookmarkBorder fontSize="large" sx={{ color: "#4d2862" }} />
+              )}
+            </IconButton>
+          </div>
+          <p className="mt-4">{activeCde.description}</p>
+
+          <hr className="my-4" />
+
+          <VariableQuestionDisplay variableList={activeCde.variable_list} />
+
+          <ParentStudiesDisplay
+            studyIds={activeCde.parents}
+            titleFormatter={(n) =>
+              `Studies using this CDE ${
+                n > 0 ? ` (${n.toLocaleString()})` : ""
+              }`
+            }
+            notFoundText={"No studies found for this CDE."}
           />
-        ))}
-      </div>
-      <div className="flex-1 p-4 min-h-0 overflow-auto">
-        <div className="flex gap-2">
-          <div className="flex-1">
-            <h2 className="text-2xl font-semibold leading-relaxed text-[#592963]">
-              {activeCde.name}{" "}
-            </h2>
-            <p className="text-lg text-gray-500 font-normal">{activeCde.id}</p>
-          </div>
-          <IconButton
-            size="large"
-            onClick={() => {
-              collection.cdes.toggle(activeCde)
-            }}
-          >
-            {collection.cdes.has(activeCde) ? (
-              <Bookmark fontSize="large" sx={{ color: "#4d2862" }} />
-            ) : (
-              <BookmarkBorder fontSize="large" sx={{ color: "#4d2862" }} />
-            )}
-          </IconButton>
+
+          <h3 className="text-xl font-semibold mt-6 mb-2">Downloads</h3>
+          {activeCde.metadata?.urls?.length === 0 ? (
+            <p className="text-gray-400 italic">
+              No downloads found for this CDE
+            </p>
+          ) : (
+            <div className="flex flex-col gap-5">
+              {activeCde.metadata?.urls?.map((url) => (
+                <DownloadCard
+                  className="p-4 flex gap-1 shadow-md transition-all duration-150 rounded-md border-[1px] border-gray-200"
+                  key={url.filename}
+                  href={url.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <div className="flex-1">
+                    <p className="text-sm font-bold text-gray-500 mb-1">
+                      {url.filename}
+                    </p>
+                    <p>{url.description}</p>
+                  </div>
+                  <Download />
+                </DownloadCard>
+              ))}
+            </div>
+          )}
         </div>
-        <p className="mt-4">{activeCde.description}</p>
-
-        <hr className="my-4" />
-
-        <VariableQuestionDisplay variableList={activeCde.variable_list} />
-
-        <ParentStudiesDisplay
-          studyIds={activeCde.parents}
-          titleFormatter={(n) =>
-            `Studies using this CDE ${n > 0 ? ` (${n.toLocaleString()})` : ""}`
-          }
-          notFoundText={"No studies found for this CDE."}
-        />
-
-        <h3 className="text-xl font-semibold mt-6 mb-2">Downloads</h3>
-        {activeCde.metadata.urls.length === 0 ? (
-          <p className="text-gray-400 italic">
-            No downloads found for this CDE
-          </p>
-        ) : (
-          <div className="flex flex-col gap-5">
-            {activeCde.metadata.urls.map((url) => (
-              <DownloadCard
-                className="p-4 flex gap-1 shadow-md transition-all duration-150 rounded-md border-[1px] border-gray-200"
-                key={url.filename}
-                href={url.url}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <div className="flex-1">
-                  <p className="text-sm font-bold text-gray-500 mb-1">
-                    {url.filename}
-                  </p>
-                  <p>{url.description}</p>
-                </div>
-                <Download />
-              </DownloadCard>
-            ))}
-          </div>
-        )}
-      </div>
+      ) : (
+        <div className="flex-1 p-4 min-h-0 overflow-auto flex items-center justify-center">
+          <span className="text-gray-400 italic">
+            Select a CDE to view details
+          </span>
+        </div>
+      )}
     </div>
   )
 }
