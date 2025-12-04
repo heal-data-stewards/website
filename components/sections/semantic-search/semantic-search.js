@@ -4,6 +4,7 @@ import { useRouter } from "next/router"
 import { useCallback, useState } from "react"
 import { backgroundColor } from "tailwindcss/defaultTheme"
 import { QueryCacheProvider } from "utils/use-query"
+import { sendCustomEvent } from "utils/analytics"
 
 const SUGGESTIONS = [
   "addiction treatment",
@@ -82,6 +83,9 @@ export default function SemanticSearch({ data }) {
             onSubmit={(e) => {
               e.preventDefault()
               searchTermHandler(searchInputValue)
+              sendCustomEvent("hss_search_submitted", {
+                search_term: searchInputValue,
+              })
             }}
           >
             <SearchBar
