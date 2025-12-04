@@ -43,7 +43,16 @@ export const VariablesPanel = ({ searchTerm }) => {
         type: "multiselect",
         key: "dataTypes",
         label: "Data Type",
-        options: ["text", "integer", "string"],
+        options: [
+          "boolean",
+          "string",
+          "datetime",
+          "time",
+          "integer",
+          "number",
+          "enum",
+          "date",
+        ],
       },
     ],
     []
