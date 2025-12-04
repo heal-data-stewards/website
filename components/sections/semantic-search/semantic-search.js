@@ -115,6 +115,9 @@ export default function SemanticSearch({ data }) {
                     onClick={() => {
                       searchTermHandler(term)
                       setSearchInputValue(term)
+                      sendCustomEvent("hss_example_term_selected", {
+                        search_term: term,
+                      })
                     }}
                   >
                     {term}
