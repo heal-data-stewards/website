@@ -47,7 +47,7 @@ function RouteGuard({ children }) {
       "/faqs",
       "/glossary",
       "/webinar",
-      "/search",
+      // "/search",
       "/collective/meetings",
       "/resources/metadata",
       "/resources/repositories",
@@ -64,6 +64,7 @@ function RouteGuard({ children }) {
       "/resources/metadata/finder",
       "/repository-decision-tree",
       "/resources/sensitive-data",
+      "/resources/data-sharing-success",
       // The following used to be private pages only exposed to signed in guests
       // "/directory",
       // "/collaboration",

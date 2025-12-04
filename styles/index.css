@@ -43,6 +43,10 @@ html {
   }
 }
 
+strong {
+  font-weight: 600;
+}
+
 .sensitive-data-blocks:hover {
   background: linear-gradient(315deg, transparent 17px, rgba(83, 37, 101, 1) 0) !important;
   color: white !important;

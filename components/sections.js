@@ -46,6 +46,8 @@ import Footnotes from "./sections/footnotes"
 import ChecklistGraphic from "./sections/checklist-graphic/checklist-graphic"
 import HeroButton from "./sections/hero-button"
 import DataSharingStatus from "./sections/data-sharing-status"
+import VerticalTabsWithAccordion from "./sections/vertical-tabs-with-accordion"
+import InfoTable from "./sections/info-table"
 import SemanticSearch from "./sections/semantic-search/semantic-search"
 import SemanticSearchResults from "./sections/semantic-search/semantic-search-results"
 import WorkflowGraphic from "./sections/workflow-graphic"
@@ -102,6 +104,8 @@ const sectionComponents = {
   "sections.hero-button": HeroButton,
   "sections.workflow-graphic": WorkflowGraphic,
   "elements.data-sharing-status": DataSharingStatus,
+  "sections.vertical-tabs-with-accordion": VerticalTabsWithAccordion,
+  "sections.info-table": InfoTable,
 }
 
 // Display a section individually
