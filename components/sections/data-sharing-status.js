@@ -43,21 +43,7 @@ export default function DataSharingStatus({ data }) {
             <a>{data.buttonText}</a>
           </Link>
         </Button>
-        <LightTooltip
-          title={
-            <Markdown>
-              To locate your HEAL Data Platform ID: 1) search for your study on
-              the [HEAL Data Platform Discovery
-              page](https://healdata.org/portal/discovery), then 2) click on the
-              Study Name in the search results to open the study page on the
-              right; the HDP ID will be in gray letters under the study title
-              (ex: HDP00258). If you have your study’s permalink, your HDP ID
-              will be the number at the end of the URL. If you need assistance,
-              contact the HEAL Platform Team at
-              [heal-support@gen3.org](mailto:heal-support@gen3.org).
-            </Markdown>
-          }
-        >
+        <LightTooltip title={<Markdown>{data.tooltip}</Markdown>}>
           <InfoIcon sx={{ color: "#cacaca" }} />
         </LightTooltip>
       </Box>
