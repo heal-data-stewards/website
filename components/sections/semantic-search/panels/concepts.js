@@ -205,10 +205,7 @@ export const ConceptsPanel = ({ searchTerm }) => {
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  <Tooltip
-                    title="Open concept in the HEAL Data Platform"
-                    placement="top"
-                  >
+                  <Tooltip title="Concept lookup in Ontology" placement="top">
                     {activeConcept.id}
                     <OpenInNew fontSize="small" />
                   </Tooltip>
