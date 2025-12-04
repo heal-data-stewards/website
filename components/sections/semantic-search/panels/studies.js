@@ -100,9 +100,8 @@ export const StudiesPanel = ({ searchTerm }) => {
         key: "dataAvailability",
         label: "Data Availability",
         options: [
-          { value: "all", label: "All Available" },
-          { value: "some", label: "Some Available" },
-          { value: "none", label: "None Available" },
+          { value: "available", label: "Available" },
+          { value: "not_available", label: "Not Available" },
         ],
       },
     ],
@@ -136,20 +135,15 @@ export const StudiesPanel = ({ searchTerm }) => {
 
     if (currentFilters.dataAvailability) {
       const availability = study.metadata?.data_availability
-      if (currentFilters.dataAvailability === "all" && availability !== "all") {
-        return false
+      if (currentFilters.dataAvailability === "available") {
+        if (availability !== "all" && availability !== "some") {
+          return false
+        }
       }
-      if (
-        currentFilters.dataAvailability === "some" &&
-        availability !== "some"
-      ) {
-        return false
-      }
-      if (
-        currentFilters.dataAvailability === "none" &&
-        availability !== "none"
-      ) {
-        return false
+      if (currentFilters.dataAvailability === "not_available") {
+        if (availability !== "none") {
+          return false
+        }
       }
     }
 
