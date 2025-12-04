@@ -32,7 +32,6 @@ import Topics from "./sections/topics"
 import CollectiveEvents from "./elements/webinar/collective"
 import RichTextModal from "./sections/rich-text-modal"
 import SensitiveData from "./sections/sensitive-data"
-import DugSearch from "./sections/dug-search"
 import DiTable from "./sections/table/di-table"
 import DiBoxes from "./sections/di-boxes"
 import { Widget } from "./sections/Widget"
@@ -49,6 +48,9 @@ import HeroButton from "./sections/hero-button"
 import DataSharingStatus from "./sections/data-sharing-status"
 import VerticalTabsWithAccordion from "./sections/vertical-tabs-with-accordion"
 import InfoTable from "./sections/info-table"
+import SemanticSearch from "./sections/semantic-search/semantic-search"
+import SemanticSearchResults from "./sections/semantic-search/semantic-search-results"
+import WorkflowGraphic from "./sections/workflow-graphic"
 
 // Map Strapi sections to section components
 const sectionComponents = {
@@ -85,8 +87,8 @@ const sectionComponents = {
   "sections.collective-events": CollectiveEvents,
   "sections.rich-text-modal": RichTextModal,
   "sections.sensitive-data": SensitiveData,
-  "sections.semantic-search": DugSearch, // TODO: Remove once new semantic search is implemented
-  "sections.dug-search": DugSearch,
+  "sections.semantic-search": SemanticSearch,
+  "sections.semantic-search-results": SemanticSearchResults,
   "sections.di-page-table": DiTable,
   "sections.di-boxes": DiBoxes,
   "sections.feedback": Widget,
@@ -100,6 +102,7 @@ const sectionComponents = {
   "sections.footnotes": Footnotes,
   "sections.checklist-graphic": ChecklistGraphic,
   "sections.hero-button": HeroButton,
+  "sections.workflow-graphic": WorkflowGraphic,
   "elements.data-sharing-status": DataSharingStatus,
   "sections.vertical-tabs-with-accordion": VerticalTabsWithAccordion,
   "sections.info-table": InfoTable,
