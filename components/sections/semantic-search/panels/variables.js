@@ -126,6 +126,7 @@ export const VariablesPanel = ({ searchTerm }) => {
   return (
     <div className="flex flex-row max-h-full">
       <InfiniteScrollList
+        panelId="variables"
         fetchFunction={fetchVariables}
         searchTerm={searchTerm}
         renderItem={renderItem}
