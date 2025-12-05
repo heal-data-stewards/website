@@ -1,3 +1,5 @@
+// TODO: refactor to store nav items in an array and map through them
+
 import React, { useState, useEffect } from "react"
 import PropTypes from "prop-types"
 import Link from "next/link"
@@ -24,6 +26,7 @@ import { styled, alpha } from "@mui/material/styles"
 import { ExpandMore } from "@mui/icons-material"
 import { Collapse } from "@mui/material"
 import classNames from "classnames"
+import { sendCustomEvent } from "utils/analytics"
 
 const StyledMenu = styled((props) => <Menu elevation={0} {...props} />)(
   ({ theme }) => ({
@@ -70,14 +73,32 @@ const MenuPopupState = (data) => {
             </div>
           </button>
           <StyledMenu {...bindMenu(popupState)}>
-            <MenuItem onClick={popupState.close}>
+            <MenuItem
+              onClick={() => {
+                popupState.close()
+                sendCustomEvent("nav_bar_click", {
+                  nav_link_title: "HEAL Data Ecosystem",
+                  nav_link_url: "/about",
+                  nav_menu_type: "desktop",
+                })
+              }}
+            >
               <Link href="/[[...slug]]" as={"/about"}>
                 <a style={{ fontSize: "14px", fontWeight: "bold" }}>
                   HEAL DATA ECOSYSTEM
                 </a>
               </Link>
             </MenuItem>
-            <MenuItem onClick={popupState.close}>
+            <MenuItem
+              onClick={() => {
+                popupState.close()
+                sendCustomEvent("nav_bar_click", {
+                  nav_link_title: "Collective Board",
+                  nav_link_url: "/collective",
+                  nav_menu_type: "desktop",
+                })
+              }}
+            >
               <Link href="/[[...slug]]" as={"/collective"}>
                 <a style={{ fontSize: "14px", fontWeight: "bold" }}>
                   COLLECTIVE BOARD
@@ -126,9 +147,23 @@ const Navbar = ({ navbar, pageContext }) => {
               </li>
               {navbar.links.map((navLink) => (
                 <li key={navLink.id}>
-                  <CustomLink link={navLink} locale={router.locale}>
+                  <CustomLink
+                    link={navLink}
+                    locale={router.locale}
+                    onClick={() =>
+                      sendCustomEvent("nav_bar_click", {
+                        nav_link_title: navLink.text,
+                        nav_link_url: navLink.url,
+                        nav_menu_type: "desktop",
+                      })
+                    }
+                  >
                     <div
-                      style={{ fontSize: "18px", fontWeight: "bold" }}
+                      style={{
+                        fontSize: "18px",
+                        fontWeight: "bold",
+                        textTransform: "uppercase",
+                      }}
                       className="hover:text-magenta text-purple px-2 py-1 whitespace-nowrap overflow-hidden overflow-ellipsis"
                     >
                       {navLink.text}
@@ -225,6 +260,13 @@ const Navbar = ({ navbar, pageContext }) => {
                           text: "HEAL DATA ECOSYSTEM",
                         }}
                         locale={router.locale}
+                        onClick={() =>
+                          sendCustomEvent("nav_bar_click", {
+                            nav_link_title: "HEAL Data Ecosystem",
+                            nav_link_url: "/about",
+                            nav_menu_type: "mobile",
+                          })
+                        }
                       >
                         HEAL DATA ECOSYSTEM
                       </CustomLink>
@@ -233,6 +275,13 @@ const Navbar = ({ navbar, pageContext }) => {
                       <CustomLink
                         link={{ url: "/collective" }}
                         locale={router.locale}
+                        onClick={() =>
+                          sendCustomEvent("nav_bar_click", {
+                            nav_link_title: "Collective Board",
+                            nav_link_url: "/collective",
+                            nav_menu_type: "mobile",
+                          })
+                        }
                       >
                         COLLECTIVE BOARD
                       </CustomLink>
@@ -246,9 +295,23 @@ const Navbar = ({ navbar, pageContext }) => {
                 key={navLink.id}
                 className="hover:text-white hover:bg-magenta text-purple px-2 py-1"
               >
-                <CustomLink link={navLink} locale={router.locale}>
+                <CustomLink
+                  link={navLink}
+                  locale={router.locale}
+                  onClick={() =>
+                    sendCustomEvent("nav_bar_click", {
+                      nav_link_title: navLink.text,
+                      nav_link_url: navLink.url,
+                      nav_menu_type: "mobile",
+                    })
+                  }
+                >
                   <ListItemText>
-                    <span style={{ fontWeight: "bold" }}>{navLink.text}</span>
+                    <span
+                      style={{ fontWeight: "bold", textTransform: "uppercase" }}
+                    >
+                      {navLink.text}
+                    </span>
                   </ListItemText>
                 </CustomLink>
               </ListItem>
