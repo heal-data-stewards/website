@@ -1,12 +1,19 @@
 import React from "react"
 import Link from "next/link"
 import Typography from "@mui/material/Typography"
+import { sendCustomEvent } from "utils/analytics"
 
 export default function ResourceBlock({ data }) {
   return (
     <Link href={`/${data.url || "coming-soon"}`} passHref>
       <div
         className="resource-block"
+        onClick={() =>
+          sendCustomEvent("resource_box_click", {
+            resource_title: data.title,
+            resource_url: data.url || "",
+          })
+        }
         style={{
           position: "relative",
           backgroundImage: `url(${data.img.url})`,
