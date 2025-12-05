@@ -6,25 +6,31 @@ import { DefaultSeo } from "next-seo"
 import { getStrapiMedia } from "utils/media"
 import { getGlobalData } from "utils/api"
 import { Provider } from "next-auth/client"
-// import { useEffect } from "react"
+import { useEffect } from "react"
 import { RouteGuard } from "@/components/route-guard"
 import { ThemeProvider } from "@emotion/react"
 import { theme } from "../styles/theme"
+import Script from "next/script"
+
 import "@/styles/index.css"
 
 const MyApp = ({ Component, pageProps }) => {
-  // const router = useRouter()
-  // useEffect(() => {
-  //   const handleRouteChange = (url) => {
-  //     window.gtag("config", process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS, {
-  //       page_path: url,
-  //     })
-  //   }
-  //   router.events.on("routeChangeComplete", handleRouteChange)
-  //   return () => {
-  //     router.events.off("routeChangeComplete", handleRouteChange)
-  //   }
-  // }, [router.events])
+  const router = useRouter()
+
+  useEffect(() => {
+    const handleRouteChange = (url) => {
+      if (window.gtag) {
+        window.gtag("config", process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS, {
+          page_path: url,
+          debug_mode: true,
+        })
+      }
+    }
+    router.events.on("routeChangeComplete", handleRouteChange)
+    return () => {
+      router.events.off("routeChangeComplete", handleRouteChange)
+    }
+  }, [router.events])
   // Extract the data we need
   const { global } = pageProps
   if (global == null) {
@@ -39,6 +45,25 @@ const MyApp = ({ Component, pageProps }) => {
       <Head>
         <link rel="shortcut icon" href={getStrapiMedia(global.favicon.url)} />
       </Head>
+      {/* Google Analytics */}
+      <Script
+        strategy="afterInteractive"
+        src={`https://www.googletagmanager.com/gtag/js?id=${process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS}`}
+      />
+      <Script
+        id="gtag-init"
+        strategy="afterInteractive"
+        dangerouslySetInnerHTML={{
+          __html: `
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', '${process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS}', {
+          debug_mode: ${process.env.NODE_ENV === "development"}
+        });
+      `,
+        }}
+      />
       {/* Global site metadata */}
       <DefaultSeo
         titleTemplate={`%s | ${global.metaTitleSuffix}`}

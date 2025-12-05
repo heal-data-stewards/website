@@ -17,14 +17,14 @@ const theme = createTheme({
   },
 })
 
-const CustomLink = ({ link, children }) => {
+const CustomLink = ({ link, children, onClick }) => {
   const isInternalLink = link.url.startsWith("/")
 
   // For internal links, use the Next.js Link component
   if (isInternalLink) {
     return (
       <Link href="/[[...slug]]" as={link.url}>
-        <a>{children}</a>
+        <a onClick={onClick}>{children}</a>
       </Link>
     )
   }
@@ -39,6 +39,7 @@ const CustomLink = ({ link, children }) => {
         href={link.url}
         target="_blank"
         rel="noopener noreferrer"
+        onClick={onClick}
         style={{
           padding: "0.5rem 1rem",
           color: "white",
@@ -52,7 +53,7 @@ const CustomLink = ({ link, children }) => {
   }
 
   return (
-    <a href={link.url} target="_self">
+    <a href={link.url} target="_self" onClick={onClick}>
       {children}
     </a>
   )
