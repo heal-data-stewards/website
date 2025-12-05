@@ -54,15 +54,15 @@ function getQueryParam(param) {
 export default function SemanticSearch({ data }) {
   const router = useRouter()
 
-  const path = typeof window !== "undefined" ? window.location.pathname : "";
+  const path = typeof window !== "undefined" ? window.location.pathname : ""
   const searchLocation =
     path === "/resources/semantic-search"
       ? "HSS Landing Page"
       : path.startsWith("/resources/semantic-search/results")
       ? "HSS Results Page"
-      : undefined;
+      : undefined
 
-      const [searchInputValue, setSearchInputValue] = useState(
+  const [searchInputValue, setSearchInputValue] = useState(
     getQueryParam(data.redirect_query_param) ?? ""
   )
   const [selectedSuggestions, setSelectedSuggestions] = useState(
