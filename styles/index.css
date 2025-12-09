@@ -255,7 +255,7 @@ content: ""
 
 .MuiTypography-h3 {
     margin: 1.75rem 0px 0px;
-    font-size: 1.5rem !important;
+    font-size: 1.55rem !important;
     font-weight: 600 !important;
     padding-bottom: 0.5rem !important;
     line-height: 1.35 !important;
@@ -265,12 +265,23 @@ content: ""
 
 .MuiTypography-h4 {
   margin: 0px !important;
-  font-size: 1.25rem !important;
+  font-size: 1.4rem !important;
   font-weight: 600 !important;
-  padding-bottom: 0.5rem !important;
+  padding-bottom: 0.25rem !important;
   line-height: 1.35 !important;
   color: rgb(83, 37, 101) !important;
   font-family: Montserrat !important;
+  padding-top: 0.75rem !important;
+}
+.MuiTypography-h5 {
+  margin: 0px !important;
+  font-size: 1.1rem !important;
+  font-weight: 600 !important;
+  padding-bottom: 0.25rem !important;
+  line-height: 1.35 !important;
+  color: rgb(83, 37, 101) !important;
+  font-family: Montserrat !important;
+  padding-top: 0.75rem !important;
 }
 
 .MuiTypography-body1 {
