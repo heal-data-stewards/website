@@ -8,6 +8,7 @@ import {
   MenuItem,
   Select,
   Fab,
+  TextField,
 } from "@mui/material"
 import { KeyboardArrowUp, KeyboardArrowDown } from "@mui/icons-material"
 import { AccordionControls, AccordionList } from "../elements/accordion"
@@ -88,11 +89,12 @@ const VerticalTabsWithAccordion = ({ data }) => {
               IconComponent={KeyboardArrowDown}
               renderValue={(selected) => (
                 <Typography
-                  variant="body2"
+                  variant="h2"
                   color="primary"
                   sx={{
                     fontWeight: 600,
-                    paddingBottom: "0 !important",
+                    whiteSpace: "normal",
+                    lineHeight: 1.2,
                   }}
                 >
                   {selected}
@@ -100,6 +102,11 @@ const VerticalTabsWithAccordion = ({ data }) => {
               )}
               sx={{
                 border: "1px solid #982568",
+                "& .MuiSelect-select": {
+                  whiteSpace: "normal",
+                  display: "block",
+                  lineHeight: 1.3,
+                },
                 "& .MuiSelect-icon": {
                   color: "#532565",
                   right: "1rem",
@@ -108,18 +115,15 @@ const VerticalTabsWithAccordion = ({ data }) => {
               }}
             >
               {data.TabItemWithAccordion.map((item) => (
-                <MenuItem key={item.TabTitle} value={item.TabTitle}>
-                  {item.TabURL ? (
-                    <a
-                      href={item.TabURL}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      {item.TabTitle} <OpenInNew />
-                    </a>
-                  ) : (
-                    <Typography variant="body1">{item.TabTitle}</Typography>
-                  )}
+                <MenuItem
+                  key={item.TabTitle}
+                  value={item.TabTitle}
+                  sx={{
+                    whiteSpace: "normal",
+                    lineHeight: 1.3,
+                  }}
+                >
+                  <Typography variant="body1">{item.TabTitle}</Typography>
                 </MenuItem>
               ))}
             </Select>
