@@ -69,6 +69,9 @@ const Markdown = ({ children, sensitiveTool, inline }) => {
       h4: function Anchor({ node, children, ...props }) {
         return <Typography variant="h4">{children}</Typography>
       },
+      h5: function Anchor({ node, children, ...props }) {
+        return <Typography variant="h5">{children}</Typography>
+      },
       img: function Anchor({ node, src, title, alt, ...props }) {
         return (
           <figure>
