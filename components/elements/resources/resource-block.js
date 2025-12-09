@@ -1,99 +1,106 @@
-// src/components/resources/resource-block.js
 import React from "react"
 import Link from "next/link"
-import Tooltip from "@mui/material/Tooltip"
-import Typography from "@mui/material/Typography"
 import { styled } from "@mui/material/styles"
 import Markdown from "../../elements/markdown"
 
-const Block = styled("a")(({ img }) => ({
-  width: "calc((100% - 50px) / 3)",
+const Card = styled("a")(({ theme }) => ({
   position: "relative",
-  overflow: "hidden",
+  display: "block",
   height: 300,
+  width: "calc((100% - 50px) / 3)",
   marginBottom: "2.5rem",
   cursor: "pointer",
-  display: "block",
-  backgroundImage: `url(${img})`,
-  backgroundSize: "cover",
-  backgroundPosition: "center",
-
-  "&:before": {
-    content: '""',
-    backgroundColor: "#532565",
-    opacity: 0.8,
-    display: "block",
-    height: "100%",
-    position: "absolute",
+  overflow: "hidden",
+  color: "white",
+  textDecoration: "none",
+  clipPath:
+    "polygon(0px 0px, 100% 0px,100% calc(100%  - 48px),calc(100% - 48px) 100%, 0px 100%)",
+  [theme.breakpoints.down(1024)]: {
+    width: "calc((100% - 25px) / 2)",
+  },
+  [theme.breakpoints.down(700)]: {
     width: "100%",
-    transition: "opacity 0.25s ease",
   },
-
-  "&:hover:before": {
-    backgroundColor: "#250033",
-    opacity: 0.9,
-  },
-
-  "&:after": {
-    content: '""',
-    position: "absolute",
-    bottom: 0,
-    right: -50,
-    width: 100,
-    height: 100,
-    background: "white",
-    transform: "rotate(45deg) translate(50px, 50px)",
-  },
-
-  "&:focus": {
-    outline: "3px solid #0044B3",
-    outlineOffset: 3,
+  "&:focus-visible": {
+    outline: "2px solid #ffffff",
+    outlineOffset: 4,
   },
 }))
 
-const Title = styled("h1")({
+const VisualLayer = styled("div")(({ img }) => ({
   position: "absolute",
-  zIndex: 2,
+  inset: 0,
+  backgroundImage: `url(${img})`,
+  backgroundSize: "cover",
+  backgroundPosition: "center",
+  transition: "opacity 0.3s ease",
+  "&::before": {
+    content: '""',
+    position: "absolute",
+    inset: 0,
+    backgroundColor: "#532565",
+    opacity: 0.8,
+    transition: "opacity 0.3s ease, background-color 0.3s ease",
+  },
+}))
+
+const PreviewBaseLayer = styled("div")({
+  position: "absolute",
+  inset: 0,
+  backgroundColor: "#250033",
   color: "white",
-  fontSize: "2.25rem",
-  padding: "2rem",
-  wordBreak: "break-word",
-  margin: 0,
+  padding: "1rem",
+  overflowY: "auto",
+  zIndex: 0,
+  "& h3": {
+    marginTop: 0,
+    fontWeight: 600,
+    fontSize: "1.5rem",
+  },
+  "& li": {
+    fontSize: "1.1rem",
+    lineHeight: 1.1,
+    paddingBottom: "0.25rem",
+  },
 })
 
+const CardContainer = styled(Card)(({ hasTooltip }) => ({
+  "&:hover .visual, &:focus .visual": hasTooltip
+    ? { opacity: 0 }
+    : {
+        "&::before": {
+          backgroundColor: "#250033",
+          opacity: 0.9,
+        },
+      },
+}))
+
 export function ResourceBlock({ data }) {
+  const hasTooltip = Boolean(data.tooltip)
+
   return (
     <Link href={`/${data.url || "coming-soon"}`} passHref legacyBehavior>
-      {data.tooltip ? (
-        <Tooltip
-          placement="top"
-          arrow
-          disableInteractive
-          title={<Markdown>{data.tooltip}</Markdown>}
-          componentsProps={{
-            tooltip: {
-              sx: {
-                fontSize: "1rem",
-                padding: "8px 12px",
-                bgcolor: "primary.main",
-                color: "primary.contrastText",
-                "& .MuiTooltip-arrow": {
-                  color: "primary.main",
-                },
-                minWidth: "500px",
-              },
-            },
-          }}
-        >
-          <Block img={data.img.url} aria-label={data.title}>
-            <Title>{data.title}</Title>
-          </Block>
-        </Tooltip>
-      ) : (
-        <Block img={data.img.url} aria-label={data.title}>
-          <Title>{data.title}</Title>
-        </Block>
-      )}
+      <CardContainer aria-label={data.title} hasTooltip={hasTooltip}>
+        <PreviewBaseLayer>
+          <h3>{data.title}</h3>
+          {hasTooltip && <Markdown>{data.tooltip}</Markdown>}
+        </PreviewBaseLayer>
+
+        <VisualLayer img={data.img.url} className="visual">
+          <h3
+            style={{
+              position: "absolute",
+              top: "1rem",
+              left: "1rem",
+              margin: 0,
+              zIndex: 2,
+              fontSize: "2.25rem",
+            }}
+          >
+            {data.title}
+          </h3>
+        </VisualLayer>
+      </CardContainer>
     </Link>
   )
 }

@@ -152,34 +152,6 @@ strong {
   background-color: #e3dce4 !important;
 } */
 
-@media (max-width: 1280px){
-  .resource-block {
-    width: 47%
-  }
-  .featured-resource-block {
-    width: 47%
-  }
-}
-
-@media (max-width: 900px){
-  .resource-block {
-    height: 300px !important
-  }
-  .featured-resource-block {
-    height: 300px !important
-  }
-}
-
-@media (max-width: 600px){
-  .resource-block {
-    height: 400px !important;
-    width: 100%;
-  }
-  .featured-resource-block {
-    height: 400px !important;
-    width: 100%;
-  }
-}
 
 .FAIRiswheel {
 height: 300px;
