@@ -247,7 +247,16 @@ function SidebarItem({ cde, name, description, onClick, active }) {
           size="small"
           onClick={(e) => {
             e.stopPropagation()
+            const isBookmarked = collection.cdes.has(cde)
+
             collection.cdes.toggle(cde)
+            trackBookmarkClick({
+              action: isBookmarked ? "remove" : "add",
+              entity: cde,
+              panelLocation: PANEL_LOCATIONS.CDES,
+              uiSurface: UI_SURFACES.CDE_ACCORDION_ROW,
+              referringSearchTerm: searchTerm,
+            })
           }}
         >
           {collection.cdes.has(cde) ? (
