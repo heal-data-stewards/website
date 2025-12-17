@@ -7,7 +7,7 @@ export const PANEL_LOCATIONS = {
 
 export const UI_SURFACES = {
   LEFT_LIST: "left_list",
-  RIGHT_DETAIL: "right_detail",
+  RIGHT_DETAIL: "right_detail_title",
   CDE_ACCORDION_ROW: "CDE_accordion_row",
   VARIABLES_LIST: "variables_list",
 }

@@ -412,7 +412,7 @@ function SidebarItem({
               action: isBookmarked ? "remove" : "add",
               entity: study,
               panelLocation: PANEL_LOCATIONS.STUDIES,
-              uiSurface: UI_SURFACES.RIGHT_DETAIL,
+              uiSurface: UI_SURFACES.LEFT_LIST,
               referringSearchTerm: searchTerm,
             })
           }}
