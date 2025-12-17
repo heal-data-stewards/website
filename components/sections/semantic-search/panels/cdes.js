@@ -7,6 +7,7 @@ import { ParentStudiesDisplay } from "../components/ParentStudiesDisplay"
 import { useCollectionContext } from "../context/collection"
 import { InfiniteScrollList } from "../components/InfiniteScrollList"
 import { FiltersPanel } from "../components/FiltersPanel"
+import { trackBookmarkClick, PANEL_LOCATIONS, UI_SURFACES } from "../analytics"
 
 export const CDEsPanel = ({ searchTerm }) => {
   const collection = useCollectionContext()
@@ -82,18 +83,22 @@ export const CDEsPanel = ({ searchTerm }) => {
     []
   )
 
-  const renderItem = useCallback((cde, key, isActive, onClick) => {
-    return (
-      <SidebarItem
-        key={key}
-        cde={cde}
-        name={cde.name}
-        description={cde.description}
-        onClick={onClick}
-        active={isActive}
-      />
-    )
-  }, [])
+  const renderItem = useCallback(
+    (cde, key, isActive, onClick) => {
+      return (
+        <SidebarItem
+          key={key}
+          cde={cde}
+          name={cde.name}
+          description={cde.description}
+          onClick={onClick}
+          active={isActive}
+          searchTerm={searchTerm}
+        />
+      )
+    },
+    [searchTerm]
+  )
 
   const handleFilteredItemsChange = useCallback((items, fullResponse) => {
     setFilteredCdes(items)
@@ -141,7 +146,15 @@ export const CDEsPanel = ({ searchTerm }) => {
             <IconButton
               size="large"
               onClick={() => {
+                const isBookmarked = collection.cdes.has(activeCde)
                 collection.cdes.toggle(activeCde)
+                trackBookmarkClick({
+                  action: isBookmarked ? "remove" : "add",
+                  entity: activeCde,
+                  panelLocation: PANEL_LOCATIONS.CDES,
+                  uiSurface: UI_SURFACES.RIGHT_DETAIL,
+                  referringSearchTerm: searchTerm,
+                })
               }}
             >
               {collection.cdes.has(activeCde) ? (
@@ -159,6 +172,8 @@ export const CDEsPanel = ({ searchTerm }) => {
 
           <ParentStudiesDisplay
             studyIds={activeCde.parents}
+            searchTerm={searchTerm}
+            panelLocation={PANEL_LOCATIONS.CDES}
             titleFormatter={(n) =>
               `Studies using this CDE ${
                 n > 0 ? ` (${n.toLocaleString()})` : ""
@@ -182,6 +197,7 @@ export const CDEsPanel = ({ searchTerm }) => {
                   target="_blank"
                   rel="noopener noreferrer"
                 >
+                  {/* TODO: ADD METRICS HERE */}
                   <div className="flex-1">
                     <p className="text-sm font-bold text-gray-500 mb-1">
                       {url.filename}

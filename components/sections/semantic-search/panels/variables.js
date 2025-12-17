@@ -7,6 +7,7 @@ import { ParentStudiesDisplay } from "../components/ParentStudiesDisplay"
 import { useCollectionContext } from "../context/collection"
 import { InfiniteScrollList } from "../components/InfiniteScrollList"
 import { FiltersPanel } from "../components/FiltersPanel"
+import { trackBookmarkClick, PANEL_LOCATIONS, UI_SURFACES } from "../analytics"
 
 export const VariablesPanel = ({ searchTerm }) => {
   const collection = useCollectionContext()
@@ -102,18 +103,22 @@ export const VariablesPanel = ({ searchTerm }) => {
     []
   )
 
-  const renderItem = useCallback((variable, key, isActive, onClick) => {
-    return (
-      <SidebarItem
-        key={key}
-        variable={variable}
-        name={variable.id}
-        description={variable.description ?? ""}
-        onClick={onClick}
-        active={isActive}
-      />
-    )
-  }, [])
+  const renderItem = useCallback(
+    (variable, key, isActive, onClick) => {
+      return (
+        <SidebarItem
+          key={key}
+          variable={variable}
+          name={variable.id}
+          description={variable.description ?? ""}
+          onClick={onClick}
+          active={isActive}
+          searchTerm={searchTerm}
+        />
+      )
+    },
+    [searchTerm]
+  )
 
   const handleFilteredItemsChange = useCallback((items, fullResponse) => {
     setFilteredVariables(items)
@@ -164,7 +169,15 @@ export const VariablesPanel = ({ searchTerm }) => {
               size="large"
               sx={{ flexShrink: 0 }}
               onClick={() => {
+                const isBookmarked = collection.variables.has(activeVariable)
                 collection.variables.toggle(activeVariable)
+                trackBookmarkClick({
+                  action: isBookmarked ? "remove" : "add",
+                  entity: activeVariable,
+                  panelLocation: PANEL_LOCATIONS.VARIABLES,
+                  uiSurface: UI_SURFACES.RIGHT_DETAIL,
+                  referringSearchTerm: searchTerm,
+                })
               }}
             >
               {collection.variables.has(activeVariable) ? (
@@ -193,11 +206,17 @@ export const VariablesPanel = ({ searchTerm }) => {
           )}
 
           {activeVariable.is_cde ? (
-            <CDEDisplay elementIds={activeVariable.parents} />
+            <CDEDisplay
+              elementIds={activeVariable.parents}
+              searchTerm={searchTerm}
+              panelLocation={PANEL_LOCATIONS.VARIABLES}
+            />
           ) : (
             <ParentStudiesDisplay
               studyIds={activeVariable.parents}
               notFoundText={"No studies found for this variable."}
+              searchTerm={searchTerm}
+              panelLocation={PANEL_LOCATIONS.VARIABLES}
             />
           )}
 
@@ -239,7 +258,14 @@ export const VariablesPanel = ({ searchTerm }) => {
   )
 }
 
-function SidebarItem({ variable, name, description, onClick, active }) {
+function SidebarItem({
+  variable,
+  name,
+  description,
+  onClick,
+  active,
+  searchTerm,
+}) {
   const collection = useCollectionContext()
 
   return (
@@ -257,7 +283,15 @@ function SidebarItem({ variable, name, description, onClick, active }) {
           sx={{ p: 0 }}
           onClick={(e) => {
             e.stopPropagation()
+            const isBookmarked = collection.variables.has(variable)
             collection.variables.toggle(variable)
+            trackBookmarkClick({
+              action: isBookmarked ? "remove" : "add",
+              entity: variable,
+              panelLocation: PANEL_LOCATIONS.VARIABLES,
+              uiSurface: UI_SURFACES.LEFT_LIST,
+              referringSearchTerm: searchTerm,
+            })
           }}
         >
           {collection.variables.has(variable) ? (

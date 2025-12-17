@@ -5,8 +5,15 @@ import Link from "../../../elements/link"
 import { Bookmark, Download, BookmarkBorder } from "@mui/icons-material"
 import StyledAccordion from "../accordion"
 import { useCollectionContext } from "../context/collection"
+import { trackBookmarkClick, UI_SURFACES } from "../analytics"
 
-export function CDEDisplay({ studyId, elementIds, conceptId, searchTerm }) {
+export function CDEDisplay({
+  studyId,
+  elementIds,
+  conceptId,
+  searchTerm,
+  panelLocation,
+}) {
   const collection = useCollectionContext()
 
   const payload = {
@@ -63,7 +70,15 @@ export function CDEDisplay({ studyId, elementIds, conceptId, searchTerm }) {
                   size="small"
                   onClick={(e) => {
                     e.stopPropagation()
+                    const isBookmarked = collection.cdes.has(cde)
                     collection.cdes.toggle(cde)
+                    trackBookmarkClick({
+                      action: isBookmarked ? "remove" : "add",
+                      entity: cde,
+                      panelLocation,
+                      uiSurface: UI_SURFACES.CDE_ACCORDION_ROW,
+                      referringSearchTerm: searchTerm,
+                    })
                   }}
                 >
                   {collection.cdes.has(cde) ? (

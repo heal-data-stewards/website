@@ -5,6 +5,7 @@ import Link from "../../../elements/link"
 import { Bookmark, OpenInNew, BookmarkBorder } from "@mui/icons-material"
 import StyledAccordion from "../accordion"
 import { useCollectionContext } from "../context/collection"
+import { trackBookmarkClick, PANEL_LOCATIONS } from "../analytics"
 
 export function ParentStudiesDisplay({
   studyIds,
@@ -12,6 +13,7 @@ export function ParentStudiesDisplay({
   notFoundText,
   conceptId,
   searchTerm,
+  panelLocation,
 }) {
   const collection = useCollectionContext()
 
@@ -77,7 +79,16 @@ export function ParentStudiesDisplay({
                   size="small"
                   onClick={(e) => {
                     e.stopPropagation()
+                    const isBookmarked = collection.studies.has(study)
                     collection.studies.toggle(study)
+                    trackBookmarkClick({
+                      action: isBookmarked ? "remove" : "add",
+                      entity: study,
+                      panelLocation:
+                        panelLocation ?? PANEL_LOCATIONS.PARENT_STUDIES,
+                      uiSurface: UI_SURFACES.RIGHT_DETAIL,
+                      referringSearchTerm: searchTerm,
+                    })
                   }}
                 >
                   {collection.studies.has(study) ? (

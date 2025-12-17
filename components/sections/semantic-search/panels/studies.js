@@ -9,6 +9,7 @@ import { CDEDisplay } from "../components/CDEDisplay"
 import { useCollectionContext } from "../context/collection"
 import { InfiniteScrollList } from "../components/InfiniteScrollList"
 import { FiltersPanel } from "../components/FiltersPanel"
+import { trackBookmarkClick, PANEL_LOCATIONS, UI_SURFACES } from "../analytics"
 
 const RESEARCH_NETWORKS = [
   {
@@ -178,19 +179,23 @@ export const StudiesPanel = ({ searchTerm }) => {
     []
   )
 
-  const renderItem = useCallback((study, key, isActive, onClick) => {
-    return (
-      <SidebarItem
-        key={key}
-        study={study}
-        name={study.name}
-        id={study.id.split(":")?.[1] ?? study.id}
-        variables={study.variable_list}
-        onClick={onClick}
-        active={isActive}
-      />
-    )
-  }, [])
+  const renderItem = useCallback(
+    (study, key, isActive, onClick) => {
+      return (
+        <SidebarItem
+          key={key}
+          study={study}
+          name={study.name}
+          id={study.id.split(":")?.[1] ?? study.id}
+          variables={study.variable_list}
+          onClick={onClick}
+          active={isActive}
+          searchTerm={searchTerm}
+        />
+      )
+    },
+    [searchTerm]
+  )
 
   const handleFilteredItemsChange = useCallback((items, fullResponse) => {
     setFilteredStudies(items)
@@ -233,7 +238,17 @@ export const StudiesPanel = ({ searchTerm }) => {
             <IconButton
               size="large"
               onClick={() => {
+                const isBookmarked = collection.studies.has(activeStudy)
+
                 collection.studies.toggle(activeStudy)
+
+                trackBookmarkClick({
+                  action: isBookmarked ? "remove" : "add",
+                  entity: activeStudy,
+                  panelLocation: PANEL_LOCATIONS.STUDIES,
+                  uiSurface: UI_SURFACES.RIGHT_DETAIL,
+                  referringSearchTerm: searchTerm,
+                })
               }}
             >
               {collection.studies.has(activeStudy) ? (
@@ -268,9 +283,17 @@ export const StudiesPanel = ({ searchTerm }) => {
           <h3 className="text-xl font-semibold mt-6 mb-1">Information</h3>
           <NestedTable object={activeStudy.metadata} />
 
-          <VariablesList study={activeStudy} searchTerm={searchTerm} />
+          <VariablesList
+            study={activeStudy}
+            searchTerm={searchTerm}
+            panelLocation={PANEL_LOCATIONS.STUDIES}
+          />
 
-          <CDEDisplay studyId={activeStudy.id} />
+          <CDEDisplay
+            studyId={activeStudy.id}
+            searchTerm={searchTerm}
+            panelLocation={PANEL_LOCATIONS.STUDIES}
+          />
         </div>
       ) : (
         <div className="flex-1 p-4 min-h-0 overflow-auto flex items-center justify-center">
@@ -297,8 +320,6 @@ function NestedTable({ object, showHeader = true, showBorders = false }) {
       )}
       <tbody>
         {Object.entries(object).map(([key, value]) => {
-          console.log("key,value", key, value)
-
           let cell = null
 
           if (typeof value === "string") {
@@ -360,7 +381,15 @@ function formatSnakeCaseToTitleCase(str) {
     .join(" ")
 }
 
-function SidebarItem({ study, name, id, variables, onClick, active }) {
+function SidebarItem({
+  study,
+  name,
+  id,
+  variables,
+  onClick,
+  active,
+  searchTerm,
+}) {
   const collection = useCollectionContext()
 
   return (
@@ -377,7 +406,15 @@ function SidebarItem({ study, name, id, variables, onClick, active }) {
           size="small"
           onClick={(e) => {
             e.stopPropagation()
+            const isBookmarked = collection.studies.has(study)
             collection.studies.toggle(study)
+            trackBookmarkClick({
+              action: isBookmarked ? "remove" : "add",
+              entity: study,
+              panelLocation: PANEL_LOCATIONS.STUDIES,
+              uiSurface: UI_SURFACES.RIGHT_DETAIL,
+              referringSearchTerm: searchTerm,
+            })
           }}
         >
           {collection.studies.has(study) ? (

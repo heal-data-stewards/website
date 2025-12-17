@@ -13,6 +13,7 @@ import { useCollectionContext } from "../context/collection"
 import Link from "../../../elements/link"
 import { InfiniteScrollList } from "../components/InfiniteScrollList"
 import { FiltersPanel } from "../components/FiltersPanel"
+import { trackBookmarkClick, PANEL_LOCATIONS, UI_SURFACES } from "../analytics"
 
 export const ConceptsPanel = ({ searchTerm }) => {
   const collection = useCollectionContext()
@@ -92,18 +93,22 @@ export const ConceptsPanel = ({ searchTerm }) => {
     []
   )
 
-  const renderItem = useCallback((concept, key, isActive, onClick) => {
-    return (
-      <SidebarItem
-        key={key}
-        concept={concept}
-        name={concept.name}
-        description={concept.description}
-        onClick={onClick}
-        active={isActive}
-      />
-    )
-  }, [])
+  const renderItem = useCallback(
+    (concept, key, isActive, onClick) => {
+      return (
+        <SidebarItem
+          key={key}
+          concept={concept}
+          name={concept.name}
+          description={concept.description}
+          onClick={onClick}
+          active={isActive}
+          searchTerm={searchTerm}
+        />
+      )
+    },
+    [searchTerm]
+  )
 
   const handleFilteredItemsChange = useCallback((items, fullResponse) => {
     const enhancedConcepts = items.map((concept) => ({
@@ -188,7 +193,15 @@ export const ConceptsPanel = ({ searchTerm }) => {
               size="large"
               sx={{ flexShrink: 0 }}
               onClick={() => {
+                const isBookmarked = collection.concepts.has(activeConcept)
                 collection.concepts.toggle(activeConcept)
+                trackBookmarkClick({
+                  action: isBookmarked ? "remove" : "add",
+                  entity: activeConcept,
+                  panelLocation: PANEL_LOCATIONS.CONCEPTS,
+                  uiSurface: UI_SURFACES.RIGHT_DETAIL,
+                  referringSearchTerm: searchTerm,
+                })
               }}
             >
               {collection.concepts.has(activeConcept) ? (
@@ -226,6 +239,7 @@ export const ConceptsPanel = ({ searchTerm }) => {
           <ParentStudiesDisplay
             conceptId={activeConcept.id}
             searchTerm={searchTerm}
+            panelLocation={PANEL_LOCATIONS.CONCEPTS}
             notFoundText={"No studies found for this concept."}
             titleFormatter={(n) =>
               `Studies Referencing this Concept ${
@@ -234,7 +248,11 @@ export const ConceptsPanel = ({ searchTerm }) => {
             }
           />
 
-          <CDEDisplay searchTerm={searchTerm} conceptId={activeConcept.id} />
+          <CDEDisplay
+            searchTerm={searchTerm}
+            conceptId={activeConcept.id}
+            panelLocation={PANEL_LOCATIONS.CONCEPTS}
+          />
         </div>
       ) : (
         <div className="flex-1 p-4 min-h-0 overflow-auto flex items-center justify-center">
@@ -284,7 +302,16 @@ function SidebarItem({ concept, name, description, onClick, active }) {
           size="small"
           onClick={(e) => {
             e.stopPropagation()
+            const isBookmarked = collection.concepts.has(concept)
             collection.concepts.toggle(concept)
+
+            trackBookmarkClick({
+              action: isBookmarked ? "remove" : "add",
+              entity: concept,
+              panelLocation: PANEL_LOCATIONS.CONCEPTS,
+              uiSurface: UI_SURFACES.LEFT_LIST,
+              referringSearchTerm: searchTerm,
+            })
           }}
         >
           {collection.concepts.has(concept) ? (
