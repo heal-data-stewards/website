@@ -1,4 +1,5 @@
 import { styled, Tab, Tabs } from "@mui/material"
+import { sendCustomEvent } from "utils/analytics"
 
 export function SemanticSearchTabs({ currentTabIndex, setCurrentTabIndex }) {
   return (
@@ -7,10 +8,42 @@ export function SemanticSearchTabs({ currentTabIndex, setCurrentTabIndex }) {
       onChange={(_, i) => setCurrentTabIndex(i)}
       aria-label="Results tabs"
     >
-      <StyledTab label="Studies" {...a11yProps(0)} />
-      <StyledTab label="CDEs" {...a11yProps(1)} />
-      <StyledTab label="Related Concepts" {...a11yProps(2)} />
-      <StyledTab label="Variables" {...a11yProps(3)} />
+      <StyledTab
+        label="Studies"
+        {...a11yProps(0)}
+        onClick={() => {
+          sendCustomEvent("hss_panel_selected", {
+            panel_index: "Studies",
+          })
+        }}
+      />
+      <StyledTab
+        label="CDEs"
+        {...a11yProps(1)}
+        onClick={() => {
+          sendCustomEvent("hss_panel_selected", {
+            panel_index: "CDEs",
+          })
+        }}
+      />
+      <StyledTab
+        label="Related Concepts"
+        {...a11yProps(2)}
+        onClick={() => {
+          sendCustomEvent("hss_panel_selected", {
+            panel_index: "Related Concepts",
+          })
+        }}
+      />
+      <StyledTab
+        label="Variables"
+        {...a11yProps(3)}
+        onClick={() => {
+          sendCustomEvent("hss_panel_selected", {
+            panel_index: "Variables",
+          })
+        }}
+      />
     </StyledTabs>
   )
 }
