@@ -3,6 +3,7 @@ import Link from "../../../elements/link"
 import { CircularProgress } from "@mui/material"
 import { useQuery } from "utils/use-query"
 import { fetchConcepts } from "../data/concepts"
+import { sendCustomEvent } from "utils/analytics"
 
 export function RelatedSearches({ searchTerm }) {
   const payload = {
@@ -54,6 +55,12 @@ export function RelatedSearches({ searchTerm }) {
               q: term.name,
             })}`}
             key={term.id}
+            onClick={() => {
+              sendCustomEvent("hss_related_search_clicked", {
+                referring_search_term: searchTerm,
+                related_search_term: term.name,
+              })
+            }}
           >
             {term.name}
           </Link>
