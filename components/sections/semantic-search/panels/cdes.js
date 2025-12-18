@@ -230,7 +230,7 @@ const DownloadCard = styled("a")`
   }
 `
 
-function SidebarItem({ cde, name, description, onClick, active }) {
+function SidebarItem({ cde, name, description, onClick, active, searchTerm }) {
   const collection = useCollectionContext()
 
   return (

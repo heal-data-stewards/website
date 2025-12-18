@@ -5,7 +5,7 @@ import Link from "../../../elements/link"
 import { Bookmark, OpenInNew, BookmarkBorder } from "@mui/icons-material"
 import StyledAccordion from "../accordion"
 import { useCollectionContext } from "../context/collection"
-import { trackBookmarkClick, PANEL_LOCATIONS } from "../analytics"
+import { trackBookmarkClick, PANEL_LOCATIONS, UI_SURFACES } from "../analytics"
 
 export function ParentStudiesDisplay({
   studyIds,
