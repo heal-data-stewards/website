@@ -9,7 +9,12 @@ import { CDEDisplay } from "../components/CDEDisplay"
 import { useCollectionContext } from "../context/collection"
 import { InfiniteScrollList } from "../components/InfiniteScrollList"
 import { FiltersPanel } from "../components/FiltersPanel"
-import { trackBookmarkClick, PANEL_LOCATIONS, UI_SURFACES } from "../analytics"
+import {
+  trackBookmarkClick,
+  trackHdpLinkClick,
+  PANEL_LOCATIONS,
+  UI_SURFACES,
+} from "../analytics"
 
 const RESEARCH_NETWORKS = [
   {
@@ -260,7 +265,19 @@ export const StudiesPanel = ({ searchTerm }) => {
           </div>
           <span>
             Study ID:{" "}
-            <Link to={activeStudy.action}>
+            <Link
+              to={activeStudy.action}
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={() =>
+                trackHdpLinkClick({
+                  study: activeStudy,
+                  panelLocation: PANEL_LOCATIONS.STUDIES,
+                  uiSurface: UI_SURFACES.RIGHT_DETAIL,
+                  referringSearchTerm: searchTerm,
+                })
+              }
+            >
               <Tooltip
                 title="Open study in the HEAL Data Platform"
                 placement="right"

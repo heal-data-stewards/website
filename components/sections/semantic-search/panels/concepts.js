@@ -13,7 +13,12 @@ import { useCollectionContext } from "../context/collection"
 import Link from "../../../elements/link"
 import { InfiniteScrollList } from "../components/InfiniteScrollList"
 import { FiltersPanel } from "../components/FiltersPanel"
-import { trackBookmarkClick, PANEL_LOCATIONS, UI_SURFACES } from "../analytics"
+import {
+  trackBookmarkClick,
+  trackOntologyLinkClick,
+  PANEL_LOCATIONS,
+  UI_SURFACES,
+} from "../analytics"
 
 export const ConceptsPanel = ({ searchTerm }) => {
   const collection = useCollectionContext()
@@ -218,6 +223,14 @@ export const ConceptsPanel = ({ searchTerm }) => {
                   to={activeConcept.action ?? ""}
                   target="_blank"
                   rel="noopener noreferrer"
+                  onClick={() =>
+                    trackOntologyLinkClick({
+                      concept: activeConcept,
+                      panelLocation: PANEL_LOCATIONS.CONCEPTS,
+                      uiSurface: UI_SURFACES.RIGHT_DETAIL,
+                      referringSearchTerm: searchTerm,
+                    })
+                  }
                 >
                   <Tooltip title="Concept lookup in Ontology" placement="top">
                     {activeConcept.id}
