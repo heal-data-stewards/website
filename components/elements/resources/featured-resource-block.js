@@ -80,7 +80,7 @@ const CardContainer = styled(Card)(({ hasBlurb }) => ({
 
 export function FeaturedResourceBlock({ data }) {
   const hasBlurb = Boolean(data.blurb)
-  const href = `/${data.url || "coming-soon"}`
+  const href = `/${data.link || "/"}`
 
   return (
     <Link href={href} passHref legacyBehavior>
