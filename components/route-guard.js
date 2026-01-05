@@ -68,6 +68,10 @@ function RouteGuard({ children }) {
       "/resources/test-page",
       "/resources/data-packaging-guidance",
       "/resources/data-packaging-examples",
+      "/resources/sharing-data-draft",
+      "/resources/HSS-draft",
+      "/resources/dmsps-draft",
+      "/about-draft",
       // The following used to be private pages only exposed to signed in guests
       // "/directory",
       // "/collaboration",
