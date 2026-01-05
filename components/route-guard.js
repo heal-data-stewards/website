@@ -64,7 +64,8 @@ function RouteGuard({ children }) {
       "/resources/sensitive-data",
       "/resources/data-sharing-success",
       "/resources/test-page",
-      "/test-side-tab-page",
+      "/resources/data-packaging-guidance",
+      "/resources/data-packaging-examples",
       // The following used to be private pages only exposed to signed in guests
       // "/directory",
       // "/collaboration",
