@@ -9,10 +9,23 @@ import InfoIcon from "@mui/icons-material/Info"
 
 export default function DataSharingStatus({ data }) {
   const [value, setValue] = React.useState("")
+  const [isInvalidInput, setIsInvalidInput] = React.useState(false)
 
   let handleTextFieldChange = (e) => {
-    setValue(e.target.value)
+    const v = e.target.value
+    setValue(v)
+    if (v.trim()) setIsInvalidInput(false)
   }
+
+  const handleButtonClick = (e) => {
+    if (!value.trim()) {
+      // prevent action when empty and show error
+      e.preventDefault()
+      setIsInvalidInput(true)
+    }
+  }
+
+  const hasValue = value.trim().length > 0
 
   return (
     <div className={"container mb-16"}>
@@ -23,7 +36,7 @@ export default function DataSharingStatus({ data }) {
           variant="outlined"
           onChange={handleTextFieldChange}
           value={value}
-          sx={{ minWidth: "300px", marginTop: "0.5rem" }}
+          sx={{ width: "450px", marginTop: "0.5rem" }}
         />
         <Button
           style={{
@@ -33,20 +46,38 @@ export default function DataSharingStatus({ data }) {
           }}
           variant="contained"
           id="checklist-tracker-tool"
+          onClick={handleButtonClick}
         >
-          <Link
-            href={{
-              pathname: "/app-search",
-              query: { data: value }, // the data
-            }}
-          >
-            <a>{data.buttonText}</a>
-          </Link>
+          {hasValue ? (
+            <Link
+              href={{
+                pathname: "/app-search",
+                query: { data: value }, // the data
+              }}
+            >
+              <a style={{ color: "inherit", textDecoration: "none" }}>
+                {data.buttonText}
+              </a>
+            </Link>
+          ) : (
+            <span style={{ color: "inherit" }}>{data.buttonText}</span>
+          )}
         </Button>
         <LightTooltip title={<Markdown>{data.tooltip}</Markdown>}>
           <InfoIcon sx={{ color: "#cacaca" }} />
         </LightTooltip>
       </Box>
+
+      {isInvalidInput && (
+        <div
+          style={{
+            fontSize: "0.875rem",
+            color: "#af0000",
+          }}
+        >
+          Please enter a valid value to search.
+        </div>
+      )}
     </div>
   )
 }
