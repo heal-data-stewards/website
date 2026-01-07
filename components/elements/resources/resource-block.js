@@ -34,6 +34,7 @@ const VisualLayer = styled("div")(({ img }) => ({
   backgroundSize: "cover",
   backgroundPosition: "center",
   transition: "opacity 0.3s ease",
+  zIndex: 0,
   "&::before": {
     content: '""',
     position: "absolute",
@@ -51,7 +52,9 @@ const PreviewBaseLayer = styled("div")({
   color: "white",
   padding: "1rem",
   overflowY: "auto",
-  zIndex: 0,
+  zIndex: 1,
+  opacity: 0,
+  transition: "opacity 0.3s ease",
   "& h3": {
     marginTop: 0,
     fontWeight: 600,
@@ -65,6 +68,9 @@ const PreviewBaseLayer = styled("div")({
 })
 
 const CardContainer = styled(Card)(({ hasTooltip }) => ({
+  "&:hover .preview, &:focus .preview": {
+    opacity: 1,
+  },
   "&:hover .visual, &:focus .visual": hasTooltip
     ? { opacity: 0 }
     : {
@@ -81,7 +87,7 @@ export function ResourceBlock({ data }) {
   return (
     <Link href={`/${data.url || "coming-soon"}`} passHref legacyBehavior>
       <CardContainer aria-label={data.title} hasTooltip={hasTooltip}>
-        <PreviewBaseLayer>
+        <PreviewBaseLayer className="preview">
           <h3>{data.title}</h3>
           {hasTooltip && <Markdown>{data.tooltip}</Markdown>}
         </PreviewBaseLayer>
