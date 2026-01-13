@@ -2,6 +2,7 @@ import React from "react"
 import Link from "next/link"
 import { styled } from "@mui/material/styles"
 import Markdown from "../../elements/markdown"
+import { sendCustomEvent } from "utils/analytics"
 
 const Card = styled("a")(({ theme }) => ({
   position: "relative",
@@ -86,11 +87,22 @@ export function ResourceBlock({ data }) {
 
   return (
     <Link href={`/${data.url || "coming-soon"}`} passHref legacyBehavior>
-      <CardContainer aria-label={data.title} hasTooltip={hasTooltip}>
-        <PreviewBaseLayer className="preview">
-          <h3>{data.title}</h3>
-          {hasTooltip && <Markdown>{data.tooltip}</Markdown>}
-        </PreviewBaseLayer>
+      <CardContainer
+        aria-label={data.title}
+        hasTooltip={hasTooltip}
+        onClick={() =>
+          sendCustomEvent("resource_box_click", {
+            resource_title: data.title,
+            resource_url: data.url || "",
+          })
+        }
+      >
+        {hasTooltip && (
+          <PreviewBaseLayer className="preview">
+            <h3>{data.title}</h3>
+            <Markdown>{data.tooltip}</Markdown>
+          </PreviewBaseLayer>
+        )}
 
         <VisualLayer img={data.img.url} className="visual">
           <h3
