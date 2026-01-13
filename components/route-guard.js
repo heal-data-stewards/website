@@ -65,7 +65,6 @@ function RouteGuard({ children }) {
       "/repository-decision-tree",
       "/resources/sensitive-data",
       "/resources/data-sharing-success",
-      "/resources/test-page", // TODO: remove before merging to production
       "/resources/data-packaging-guidance",
       "/resources/data-packaging-examples",
       "/resources/sharing-data",
