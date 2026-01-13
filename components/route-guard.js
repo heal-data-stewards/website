@@ -65,12 +65,11 @@ function RouteGuard({ children }) {
       "/repository-decision-tree",
       "/resources/sensitive-data",
       "/resources/data-sharing-success",
-      "/resources/test-page",
+      "/resources/test-page", // TODO: remove before merging to production
       "/resources/data-packaging-guidance",
       "/resources/data-packaging-examples",
-      "/resources/sharing-data-draft",
-      "/resources/HSS-draft",
-      "/resources/dmsps-draft",
+      "/resources/sharing-data",
+      "/resources/HSS",
       "/about-draft",
       // The following used to be private pages only exposed to signed in guests
       // "/directory",
