@@ -95,11 +95,12 @@ export function FeaturedResourceBlock({ data }) {
           })
         }
       >
-        <PreviewLayer className="preview">
-          <h3>{data.title}</h3>
-          {hasBlurb && <Markdown>{data.blurb}</Markdown>}
-        </PreviewLayer>
-
+        {hasBlurb && (
+          <PreviewLayer className="preview">
+            <h3>{data.title}</h3>
+            <Markdown>{data.blurb}</Markdown>
+          </PreviewLayer>
+        )}
         <VisualLayer img={data.img.url} className="visual">
           <h3
             style={{
