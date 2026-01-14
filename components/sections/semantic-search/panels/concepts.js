@@ -4,7 +4,7 @@ import {
   OpenInNew,
   Search,
 } from "@mui/icons-material"
-import { IconButton, Tooltip } from "@mui/material"
+import { IconButton, Tab, Tooltip } from "@mui/material"
 import { useCallback, useEffect, useMemo, useState } from "react"
 import { ParentStudiesDisplay } from "../components/ParentStudiesDisplay"
 import { fetchConcepts } from "../data/concepts"
@@ -13,6 +13,7 @@ import { useCollectionContext } from "../context/collection"
 import Link from "../../../elements/link"
 import { InfiniteScrollList } from "../components/InfiniteScrollList"
 import { FiltersPanel } from "../components/FiltersPanel"
+import { a11yProps, PillTabs, TabPanel } from "../components/Tabs"
 
 export const ConceptsPanel = ({ searchTerm }) => {
   const collection = useCollectionContext()
@@ -24,9 +25,11 @@ export const ConceptsPanel = ({ searchTerm }) => {
   const [activeSidebarItem, setActiveSidebarItem] = useState(0)
   const [filteredConcepts, setFilteredConcepts] = useState([])
   const [conceptTypesFromApi, setConceptTypesFromApi] = useState({})
+  const [currentConceptTabIndex, setCurrentConceptTabIndex] = useState(0)
 
   useEffect(() => {
     setActiveSidebarItem(0)
+    setCurrentConceptTabIndex(0)
   }, [searchTerm])
 
   useEffect(() => {
@@ -35,6 +38,7 @@ export const ConceptsPanel = ({ searchTerm }) => {
       activeSidebarItem >= filteredConcepts.length
     ) {
       setActiveSidebarItem(0)
+      setCurrentConceptTabIndex(0)
     }
   }, [filteredConcepts, activeSidebarItem])
 
@@ -159,7 +163,7 @@ export const ConceptsPanel = ({ searchTerm }) => {
       />
       {activeConcept ? (
         <div className="flex-1 p-4 min-h-0 overflow-auto">
-          <div className="flex w-full justify-between gap-2 mb-2">
+          <div className="flex w-full justify-between gap-2">
             <div className="flex gap-1 items-center">
               <h2 className="text-2xl font-semibold leading-relaxed text-[#592963]">
                 {activeConcept.name}{" "}
@@ -221,20 +225,33 @@ export const ConceptsPanel = ({ searchTerm }) => {
           </div>
           <p className="">{activeConcept.description}</p>
 
-          <hr className="my-4" />
+          <div className="mt-4">
+            <PillTabs
+              value={currentConceptTabIndex}
+              onChange={(e, value) => setCurrentConceptTabIndex(value)}
+              aria-label="Concept tabs"
+            >
+              <Tab label="Related Studies" {...a11yProps(0)} />
+              <Tab label="Related CDEs" {...a11yProps(1)} />
+            </PillTabs>
+          </div>
+          <div className="p-2">
+            <TabPanel currentTabIndex={currentConceptTabIndex} index={0}>
+              <ParentStudiesDisplay
+                conceptId={activeConcept.id}
+                searchTerm={searchTerm}
+                notFoundText="No studies found for this concept."
+              />
+            </TabPanel>
+            <TabPanel currentTabIndex={currentConceptTabIndex} index={1}>
+              <CDEDisplay
+                searchTerm={searchTerm}
+                conceptId={activeConcept.id}
+                emptyText="No CDEs found for this concept."
+              />
+            </TabPanel>
+          </div>
 
-          <ParentStudiesDisplay
-            conceptId={activeConcept.id}
-            searchTerm={searchTerm}
-            notFoundText={"No studies found for this concept."}
-            titleFormatter={(n) =>
-              `Studies Referencing this Concept ${
-                n > 0 ? ` (${n.toLocaleString()})` : ""
-              }`
-            }
-          />
-
-          <CDEDisplay searchTerm={searchTerm} conceptId={activeConcept.id} />
         </div>
       ) : (
         <div className="flex-1 p-4 min-h-0 overflow-auto flex items-center justify-center">

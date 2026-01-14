@@ -1,4 +1,9 @@
-import { Bookmark, Download, BookmarkBorder, FileDownloadOff } from "@mui/icons-material"
+import {
+  Bookmark,
+  Download,
+  BookmarkBorder,
+  FileDownloadOff,
+} from "@mui/icons-material"
 import { IconButton, styled, Tab } from "@mui/material"
 import { useCallback, useEffect, useMemo, useState } from "react"
 import { VariableQuestionDisplay } from "../components/VariableQuestionDisplay"
@@ -208,7 +213,6 @@ export const CDEsPanel = ({ searchTerm }) => {
               )}
             </TabPanel>
           </div>
-
         </div>
       ) : (
         <div className="flex-1 p-4 min-h-0 overflow-auto flex items-center justify-center">
