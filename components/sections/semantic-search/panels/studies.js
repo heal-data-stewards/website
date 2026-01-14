@@ -1,4 +1,4 @@
-import { IconButton, Tooltip } from "@mui/material"
+import { IconButton, Tooltip, Tabs, Tab } from "@mui/material"
 import { fetchStudies } from "../data/studies"
 import { useCallback, useEffect, useMemo, useState } from "react"
 import Link from "../../../elements/link"
@@ -9,6 +9,7 @@ import { CDEDisplay } from "../components/CDEDisplay"
 import { useCollectionContext } from "../context/collection"
 import { InfiniteScrollList } from "../components/InfiniteScrollList"
 import { FiltersPanel } from "../components/FiltersPanel"
+import { a11yProps, TabPanel } from "../components/Tabs"
 
 const RESEARCH_NETWORKS = [
   {
@@ -64,9 +65,11 @@ export const StudiesPanel = ({ searchTerm }) => {
 
   const [activeSidebarItem, setActiveSidebarItem] = useState(0)
   const [filteredStudies, setFilteredStudies] = useState([])
+  const [currentStudyTabIndex, setCurrentStudyTabIndex] = useState(0)
 
   useEffect(() => {
     setActiveSidebarItem(0)
+    setCurrentStudyTabIndex(0)
   }, [searchTerm])
 
   useEffect(() => {
@@ -75,6 +78,7 @@ export const StudiesPanel = ({ searchTerm }) => {
       activeSidebarItem >= filteredStudies.length
     ) {
       setActiveSidebarItem(0)
+      setCurrentStudyTabIndex(0)
     }
   }, [filteredStudies, activeSidebarItem])
 
@@ -267,34 +271,54 @@ export const StudiesPanel = ({ searchTerm }) => {
               </p>
             ))}
           </div>
-          <hr className="my-4" />
-          <p className="">{activeStudy.description}</p>
-
-          <h3 className="text-xl font-semibold mt-6 mb-1">Information</h3>
-          <table className="w-full table-auto border-collapse">
-            <thead className="border-b border-gray-200 mb-2">
-              <tr>
-                <th className="text-left font-semibold py-1 pr-4">Field</th>
-                <th className="text-left font-semibold py-1 ">Value</th>
-              </tr>
-            </thead>
-            <tbody>
-              {Object.entries(activeStudy.metadata).map(([key, value]) => (
-                <tr key={key}>
-                  <td className="py-1 pr-4">{key}</td>
-                  <td className="py-1">
-                    {Array.isArray(value)
-                      ? value.join(", ")
-                      : formatStringIfDate(value)}
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-
-          <VariablesList study={activeStudy} searchTerm={searchTerm} />
-
-          <CDEDisplay studyId={activeStudy.id} />
+          <div className="mt-2">
+            <Tabs
+              value={currentStudyTabIndex}
+              onChange={(e, value) => setCurrentStudyTabIndex(value)}
+              aria-label="Study tabs"
+            >
+              <Tab label="Description" {...a11yProps(0)} />
+              <Tab label="Information" {...a11yProps(1)} />
+              <Tab label="Related variables" {...a11yProps(2)} />
+              <Tab label="CDEs" {...a11yProps(3)} />
+            </Tabs>
+          </div>
+          <div className="py-3">
+            <TabPanel currentTabIndex={currentStudyTabIndex} index={0}>
+              <p className="">{activeStudy.description}</p>
+            </TabPanel>
+            <TabPanel currentTabIndex={currentStudyTabIndex} index={1}>
+              <table className="w-full table-auto border-collapse">
+                <thead className="border-b border-gray-200 mb-2">
+                  <tr>
+                    <th className="text-left font-semibold py-1 pr-4">Field</th>
+                    <th className="text-left font-semibold py-1 ">Value</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {Object.entries(activeStudy.metadata).map(([key, value]) => (
+                    <tr key={key}>
+                      <td className="py-1 pr-4">{key}</td>
+                      <td className="py-1">
+                        {Array.isArray(value)
+                          ? value.join(", ")
+                          : formatStringIfDate(value)}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </TabPanel>
+            <TabPanel currentTabIndex={currentStudyTabIndex} index={2}>
+              <VariablesList study={activeStudy} searchTerm={searchTerm} />
+            </TabPanel>
+            <TabPanel currentTabIndex={currentStudyTabIndex} index={3}>
+              <CDEDisplay
+                studyId={activeStudy.id}
+                emptyText="No CDEs found for this study."
+              />
+            </TabPanel>
+          </div>
         </div>
       ) : (
         <div className="flex-1 p-4 min-h-0 overflow-auto flex items-center justify-center">

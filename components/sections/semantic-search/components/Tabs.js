@@ -49,7 +49,20 @@ const StyledTab = styled((props) => <Tab {...props} />)(({ theme }) => ({
   },
 }))
 
-function a11yProps(index) {
+export function TabPanel({ children, currentTabIndex, index }) {
+  return (
+    <div
+      role="tabpanel"
+      hidden={currentTabIndex !== index}
+      id={`results-tabpanel-${index}`}
+      aria-labelledby={`results-tab-${index}`}
+    >
+      {currentTabIndex === index && <div>{children}</div>}
+    </div>
+  )
+}
+
+export function a11yProps(index) {
   return {
     id: `results-tab-${index}`,
     "aria-controls": `results-tabpanel-${index}`,

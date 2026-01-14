@@ -2,11 +2,23 @@ import { CircularProgress, IconButton } from "@mui/material"
 import { useQuery } from "utils/use-query"
 import { fetchCDEs } from "../data/cdes"
 import Link from "../../../elements/link"
-import { Bookmark, Download, BookmarkBorder } from "@mui/icons-material"
+import {
+  Bookmark,
+  Download,
+  BookmarkBorder,
+  SearchOff,
+} from "@mui/icons-material"
 import StyledAccordion from "../accordion"
 import { useCollectionContext } from "../context/collection"
+import { Empty } from "./Empty"
 
-export function CDEDisplay({ studyId, elementIds, conceptId, searchTerm }) {
+export function CDEDisplay({
+  studyId,
+  elementIds,
+  conceptId,
+  searchTerm,
+  emptyText = "No CDEs match your search.",
+}) {
   const collection = useCollectionContext()
 
   const payload = {
@@ -41,53 +53,43 @@ export function CDEDisplay({ studyId, elementIds, conceptId, searchTerm }) {
 
   const cdes = cdesQuery.data.results
 
+  if (cdes.length === 0) {
+    return <Empty icon={<SearchOff />} text={emptyText} />
+  }
   return (
-    <>
-      <h3 className="text-xl font-semibold mt-6 mb-1">
-        CDEs
-        {cdes.length > 0 && ` (${cdes.length.toLocaleString()})`}
-      </h3>
-      {cdes.length === 0 ? (
-        <p className="text-gray-400 italic">No CDEs found for this study.</p>
-      ) : (
-        <StyledAccordion
-          items={cdes.map((cde) => ({
-            key: cde.id,
-            summary: (
-              <div className="flex justify-between items-center w-full">
-                <h4>
-                  {cde.name}{" "}
-                  <span className="text-sm text-gray-500">{cde.id}</span>
-                </h4>
-                <IconButton
-                  size="small"
-                  onClick={(e) => {
-                    e.stopPropagation()
-                    collection.cdes.toggle(cde)
-                  }}
-                >
-                  {collection.cdes.has(cde) ? (
-                    <Bookmark fontSize="small" sx={{ color: "#4d2862" }} />
-                  ) : (
-                    <BookmarkBorder
-                      fontSize="small"
-                      sx={{ color: "#4d2862" }}
-                    />
-                  )}
-                </IconButton>
-              </div>
-            ),
-            details: (
-              <div>
-                <Link to={cde.action}>
-                  {cde.action} <Download fontSize="small" />
-                </Link>
-                <p className="mt-1">{cde.description}</p>
-              </div>
-            ),
-          }))}
-        />
-      )}
-    </>
+    <StyledAccordion
+      items={cdes.map((cde) => ({
+        key: cde.id,
+        summary: (
+          <div className="flex justify-between items-center w-full">
+            <h4>
+              {cde.name}&nbsp;
+              <span className="text-sm text-gray-500">{cde.id}</span>
+            </h4>
+            <IconButton
+              size="small"
+              onClick={(e) => {
+                e.stopPropagation()
+                collection.cdes.toggle(cde)
+              }}
+            >
+              {collection.cdes.has(cde) ? (
+                <Bookmark fontSize="small" sx={{ color: "#4d2862" }} />
+              ) : (
+                <BookmarkBorder fontSize="small" sx={{ color: "#4d2862" }} />
+              )}
+            </IconButton>
+          </div>
+        ),
+        details: (
+          <div>
+            <Link to={cde.action}>
+              {cde.action} <Download fontSize="small" />
+            </Link>
+            <p className="mt-1">{cde.description}</p>
+          </div>
+        ),
+      }))}
+    />
   )
 }
