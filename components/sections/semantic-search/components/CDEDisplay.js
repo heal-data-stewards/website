@@ -18,6 +18,7 @@ export function CDEDisplay({
   conceptId,
   searchTerm,
   emptyText = "No CDEs match your search.",
+  emptyIcon = <SearchOff />,
 }) {
   const collection = useCollectionContext()
 
@@ -54,7 +55,7 @@ export function CDEDisplay({
   const cdes = cdesQuery.data.results
 
   if (cdes.length === 0) {
-    return <Empty icon={<SearchOff />} text={emptyText} />
+    return <Empty icon={emptyIcon} text={emptyText} />
   }
   return (
     <StyledAccordion

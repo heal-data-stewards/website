@@ -280,7 +280,7 @@ export const StudiesPanel = ({ searchTerm }) => {
           </div>
           <div className="p-2">
             <TabPanel currentTabIndex={currentStudyTabIndex} index={0}>
-              <p className="">{activeStudy.description}</p>
+              <p>{activeStudy.description}</p>
             </TabPanel>
             <TabPanel currentTabIndex={currentStudyTabIndex} index={1}>
               <NestedTable object={activeStudy.metadata} />

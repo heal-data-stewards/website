@@ -24,7 +24,7 @@ const StyledPillTabs = styled((props) => (
     {...props}
     TabIndicatorProps={{ children: <span className="MuiTabs-indicatorSpan" /> }}
   />
-))(({ theme }) => ({
+))(({ theme, fullWidth = true }) => ({
   "& .MuiTabs-indicator": {
     display: "none",
   },
@@ -38,7 +38,7 @@ const StyledPillTabs = styled((props) => (
   borderRadius: theme.shape.borderRadius * 2,
   padding: theme.spacing(0.5),
   display: "inline-flex",
-  width: "auto",
+  width: fullWidth ? "100%" : "auto",
   minHeight: "auto",
 
   // Styled tab children

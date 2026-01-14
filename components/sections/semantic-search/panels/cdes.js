@@ -1,5 +1,5 @@
-import { Bookmark, Download, BookmarkBorder } from "@mui/icons-material"
-import { IconButton, styled } from "@mui/material"
+import { Bookmark, Download, BookmarkBorder, FileDownloadOff } from "@mui/icons-material"
+import { IconButton, styled, Tab } from "@mui/material"
 import { useCallback, useEffect, useMemo, useState } from "react"
 import { VariableQuestionDisplay } from "../components/VariableQuestionDisplay"
 import { fetchCDEs } from "../data/cdes"
@@ -7,6 +7,8 @@ import { ParentStudiesDisplay } from "../components/ParentStudiesDisplay"
 import { useCollectionContext } from "../context/collection"
 import { InfiniteScrollList } from "../components/InfiniteScrollList"
 import { FiltersPanel } from "../components/FiltersPanel"
+import { a11yProps, PillTabs, TabPanel } from "../components/Tabs"
+import { Empty } from "../components/Empty"
 
 export const CDEsPanel = ({ searchTerm }) => {
   const collection = useCollectionContext()
@@ -17,14 +19,17 @@ export const CDEsPanel = ({ searchTerm }) => {
 
   const [activeSidebarItem, setActiveSidebarItem] = useState(0)
   const [filteredCdes, setFilteredCdes] = useState([])
+  const [currentCdeTabIndex, setCurrentCdeTabIndex] = useState(0)
 
   useEffect(() => {
     setActiveSidebarItem(0)
+    setCurrentCdeTabIndex(0)
   }, [searchTerm])
 
   useEffect(() => {
     if (filteredCdes.length > 0 && activeSidebarItem >= filteredCdes.length) {
       setActiveSidebarItem(0)
+      setCurrentCdeTabIndex(0)
     }
   }, [filteredCdes, activeSidebarItem])
 
@@ -153,46 +158,57 @@ export const CDEsPanel = ({ searchTerm }) => {
           </div>
           <p className="mt-4">{activeCde.description}</p>
 
-          <hr className="my-4" />
+          <div className="mt-4">
+            <PillTabs
+              value={currentCdeTabIndex}
+              onChange={(e, value) => setCurrentCdeTabIndex(value)}
+              aria-label="CDE tabs"
+            >
+              <Tab label="Measures" {...a11yProps(0)} />
+              <Tab label="Usage In Studies" {...a11yProps(1)} />
+              <Tab label="Downloads" {...a11yProps(2)} />
+            </PillTabs>
+          </div>
+          <div className="p-2">
+            <TabPanel currentTabIndex={currentCdeTabIndex} index={0}>
+              <VariableQuestionDisplay variableList={activeCde.variable_list} />
+            </TabPanel>
+            <TabPanel currentTabIndex={currentCdeTabIndex} index={1}>
+              <ParentStudiesDisplay
+                studyIds={activeCde.parents}
+                notFoundText="No studies found using this CDE."
+              />
+            </TabPanel>
+            <TabPanel currentTabIndex={currentCdeTabIndex} index={2}>
+              {activeCde.metadata?.urls?.length === 0 ? (
+                <Empty
+                  icon={<FileDownloadOff />}
+                  text="No downloads found for this CDE."
+                />
+              ) : (
+                <div className="flex flex-col gap-5">
+                  {activeCde.metadata?.urls?.map((url) => (
+                    <DownloadCard
+                      className="p-4 flex gap-1 shadow-md transition-all duration-150 rounded-md border-[1px] border-gray-200"
+                      key={url.filename}
+                      href={url.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      <div className="flex-1">
+                        <p className="text-sm font-bold text-gray-500 mb-1">
+                          {url.filename}
+                        </p>
+                        <p>{url.description}</p>
+                      </div>
+                      <Download />
+                    </DownloadCard>
+                  ))}
+                </div>
+              )}
+            </TabPanel>
+          </div>
 
-          <VariableQuestionDisplay variableList={activeCde.variable_list} />
-
-          <ParentStudiesDisplay
-            studyIds={activeCde.parents}
-            titleFormatter={(n) =>
-              `Studies using this CDE ${
-                n > 0 ? ` (${n.toLocaleString()})` : ""
-              }`
-            }
-            notFoundText={"No studies found for this CDE."}
-          />
-
-          <h3 className="text-xl font-semibold mt-6 mb-2">Downloads</h3>
-          {activeCde.metadata?.urls?.length === 0 ? (
-            <p className="text-gray-400 italic">
-              No downloads found for this CDE
-            </p>
-          ) : (
-            <div className="flex flex-col gap-5">
-              {activeCde.metadata?.urls?.map((url) => (
-                <DownloadCard
-                  className="p-4 flex gap-1 shadow-md transition-all duration-150 rounded-md border-[1px] border-gray-200"
-                  key={url.filename}
-                  href={url.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <div className="flex-1">
-                    <p className="text-sm font-bold text-gray-500 mb-1">
-                      {url.filename}
-                    </p>
-                    <p>{url.description}</p>
-                  </div>
-                  <Download />
-                </DownloadCard>
-              ))}
-            </div>
-          )}
         </div>
       ) : (
         <div className="flex-1 p-4 min-h-0 overflow-auto flex items-center justify-center">

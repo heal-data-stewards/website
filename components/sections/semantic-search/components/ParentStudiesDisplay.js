@@ -2,16 +2,22 @@ import { CircularProgress, IconButton, Tooltip } from "@mui/material"
 import { useQuery } from "utils/use-query"
 import { fetchStudies } from "../data/studies"
 import Link from "../../../elements/link"
-import { Bookmark, OpenInNew, BookmarkBorder } from "@mui/icons-material"
+import {
+  Bookmark,
+  OpenInNew,
+  BookmarkBorder,
+  SearchOff,
+} from "@mui/icons-material"
 import StyledAccordion from "../accordion"
 import { useCollectionContext } from "../context/collection"
+import { Empty } from "./Empty"
 
 export function ParentStudiesDisplay({
   studyIds,
-  titleFormatter,
-  notFoundText,
   conceptId,
   searchTerm,
+  notFoundText = "No parents found for this study.",
+  notFoundIcon = <SearchOff />,
 }) {
   const collection = useCollectionContext()
 
@@ -50,67 +56,49 @@ export function ParentStudiesDisplay({
 
   const studies = studiesQuery.data.results
 
+  if (studies.length === 0) {
+    return <Empty icon={notFoundIcon} text={notFoundText} />
+  }
   return (
-    <>
-      <h3 className="text-xl font-semibold mt-6 mb-1">
-        {titleFormatter ? (
-          titleFormatter(studies.length)
-        ) : (
-          <>
-            Parent Studies
-            {studies.length > 0 && ` (${studies.length.toLocaleString()})`}
-          </>
-        )}
-      </h3>
-      {studies.length === 0 ? (
-        <p className="text-gray-400 italic">
-          {notFoundText ?? "No parents found for this study."}
-        </p>
-      ) : (
-        <StyledAccordion
-          items={studies.map((study) => ({
-            key: study.key,
-            summary: (
-              <div className="flex justify-between items-center w-full">
-                <h4>{study.name}</h4>
-                <IconButton
-                  size="small"
-                  onClick={(e) => {
-                    e.stopPropagation()
-                    collection.studies.toggle(study)
-                  }}
+    <StyledAccordion
+      items={studies.map((study) => ({
+        key: study.key,
+        summary: (
+          <div className="flex justify-between items-center w-full">
+            <h4>{study.name}</h4>
+            <IconButton
+              size="small"
+              onClick={(e) => {
+                e.stopPropagation()
+                collection.studies.toggle(study)
+              }}
+            >
+              {collection.studies.has(study) ? (
+                <Bookmark fontSize="small" sx={{ color: "#4d2862" }} />
+              ) : (
+                <BookmarkBorder fontSize="small" sx={{ color: "#4d2862" }} />
+              )}
+            </IconButton>
+          </div>
+        ),
+        details: (
+          <div>
+            <p>
+              Study ID:{" "}
+              <Link href={study.action}>
+                <Tooltip
+                  title="Open study in the HEAL Data Platform"
+                  placement="right"
                 >
-                  {collection.studies.has(study) ? (
-                    <Bookmark fontSize="small" sx={{ color: "#4d2862" }} />
-                  ) : (
-                    <BookmarkBorder
-                      fontSize="small"
-                      sx={{ color: "#4d2862" }}
-                    />
-                  )}
-                </IconButton>
-              </div>
-            ),
-            details: (
-              <div>
-                <p>
-                  Study ID:{" "}
-                  <Link href={study.action}>
-                    <Tooltip
-                      title="Open study in the HEAL Data Platform"
-                      placement="right"
-                    >
-                      {study.id.split(":")?.[1] ?? study.id}{" "}
-                      <OpenInNew fontSize="small" />
-                    </Tooltip>
-                  </Link>
-                </p>
-                <p className="mt-1">{study.description}</p>
-              </div>
-            ),
-          }))}
-        />
-      )}
-    </>
+                  {study.id.split(":")?.[1] ?? study.id}{" "}
+                  <OpenInNew fontSize="small" />
+                </Tooltip>
+              </Link>
+            </p>
+            <p className="mt-1">{study.description}</p>
+          </div>
+        ),
+      }))}
+    />
   )
 }
