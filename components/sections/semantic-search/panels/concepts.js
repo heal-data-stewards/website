@@ -145,6 +145,7 @@ export const ConceptsPanel = ({ searchTerm }) => {
   return (
     <div className="flex flex-row max-h-full h-full">
       <InfiniteScrollList
+        panelId="concepts"
         fetchFunction={fetchConcepts}
         searchTerm={searchTerm}
         renderItem={renderItem}

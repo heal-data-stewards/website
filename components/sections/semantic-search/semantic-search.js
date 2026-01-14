@@ -4,6 +4,7 @@ import { useRouter } from "next/router"
 import { useCallback, useState } from "react"
 import { backgroundColor } from "tailwindcss/defaultTheme"
 import { QueryCacheProvider } from "utils/use-query"
+import { sendCustomEvent } from "utils/analytics"
 
 const SUGGESTIONS = [
   "addiction treatment",
@@ -53,6 +54,14 @@ function getQueryParam(param) {
 export default function SemanticSearch({ data }) {
   const router = useRouter()
 
+  const path = typeof window !== "undefined" ? window.location.pathname : ""
+  const searchLocation =
+    path === "/resources/semantic-search"
+      ? "HSS Landing Page"
+      : path.startsWith("/resources/semantic-search/results")
+      ? "HSS Results Page"
+      : undefined
+
   const [searchInputValue, setSearchInputValue] = useState(
     getQueryParam(data.redirect_query_param) ?? ""
   )
@@ -82,6 +91,10 @@ export default function SemanticSearch({ data }) {
             onSubmit={(e) => {
               e.preventDefault()
               searchTermHandler(searchInputValue)
+              sendCustomEvent("hss_search_submitted", {
+                search_term: searchInputValue,
+                search_location: searchLocation,
+              })
             }}
           >
             <SearchBar
@@ -111,6 +124,10 @@ export default function SemanticSearch({ data }) {
                     onClick={() => {
                       searchTermHandler(term)
                       setSearchInputValue(term)
+                      sendCustomEvent("hss_example_term_selected", {
+                        search_term: term,
+                        search_location: searchLocation,
+                      })
                     }}
                   >
                     {term}

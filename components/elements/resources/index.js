@@ -1,3 +1,2 @@
-import ResourceBlock from "./resource-block"
-
-export { ResourceBlock }
+export * from "./resource-block"
+export * from "./featured-resource-block"

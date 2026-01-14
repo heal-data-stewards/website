@@ -10,7 +10,6 @@ import List from "@mui/material/List"
 // from Strapi with that of content built here by Nextjs.
 import { CustomUnorderedList } from "../elements/lists/unordered-list"
 import { CustomListItem } from "../elements/lists/list-item"
-import Image from "next/image"
 
 const Markdown = ({ children, sensitiveTool, inline }) => {
   const componentMap = useMemo(
@@ -69,16 +68,23 @@ const Markdown = ({ children, sensitiveTool, inline }) => {
       h4: function Anchor({ node, children, ...props }) {
         return <Typography variant="h4">{children}</Typography>
       },
+      h5: function Anchor({ node, children, ...props }) {
+        return <Typography variant="h5">{children}</Typography>
+      },
       img: function Anchor({ node, src, title, alt, ...props }) {
         return (
           <figure>
             <Link to={src}>
-              <Image
-                width="800px"
-                height="500px"
-                layout="intrinsic"
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
                 src={src}
                 alt={alt}
+                style={{
+                  width: "auto%",
+                  height: "auto",
+                  display: "block",
+                  margin: "0 auto",
+                }}
               />
             </Link>
             {title && (

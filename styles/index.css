@@ -152,42 +152,6 @@ strong {
   background-color: #e3dce4 !important;
 } */
 
-.resource-block {
-  width: 380px
-}
-
-.resource-block::before {
-  background-color: #532565;
-  opacity: 80%;
-  content: '';
-  display: block;
-  height: 100%;
-  position: absolute;
-  width: 100%;
-}
-
-.resource-block:hover::before {
-  background-color: #250033;
-}
-
-@media (max-width: 1280px){
-  .resource-block {
-    width: 47%
-  }
-}
-
-@media (max-width: 900px){
-  .resource-block {
-    height: 300px !important
-  }
-}
-
-@media (max-width: 600px){
-  .resource-block {
-    height: 400px !important;
-    width: 100%;
-  }
-}
 
 .FAIRiswheel {
 height: 300px;
@@ -255,7 +219,7 @@ content: ""
 
 .MuiTypography-h3 {
     margin: 1.75rem 0px 0px;
-    font-size: 1.5rem !important;
+    font-size: 1.55rem !important;
     font-weight: 600 !important;
     padding-bottom: 0.5rem !important;
     line-height: 1.35 !important;
@@ -265,12 +229,23 @@ content: ""
 
 .MuiTypography-h4 {
   margin: 0px !important;
-  font-size: 1.25rem !important;
+  font-size: 1.4rem !important;
   font-weight: 600 !important;
-  padding-bottom: 0.5rem !important;
+  padding-bottom: 0.25rem !important;
   line-height: 1.35 !important;
   color: rgb(83, 37, 101) !important;
   font-family: Montserrat !important;
+  padding-top: 0.75rem !important;
+}
+.MuiTypography-h5 {
+  margin: 0px !important;
+  font-size: 1.1rem !important;
+  font-weight: 600 !important;
+  padding-bottom: 0.25rem !important;
+  line-height: 1.35 !important;
+  color: rgb(83, 37, 101) !important;
+  font-family: Montserrat !important;
+  padding-top: 0.75rem !important;
 }
 
 .MuiTypography-body1 {

@@ -1,25 +1,22 @@
 import React from "react"
 import Link from "next/link"
-import { styled } from "@mui/material/styles"
 import Markdown from "../../elements/markdown"
+import { styled } from "@mui/material/styles"
 import { sendCustomEvent } from "utils/analytics"
 
 const Card = styled("a")(({ theme }) => ({
   position: "relative",
   display: "block",
-  height: 300,
-  width: "calc((100% - 50px) / 3)",
+  height: 250,
+  width: "calc((100% - 25px) / 2)",
   marginBottom: "2.5rem",
   cursor: "pointer",
-  overflow: "hidden",
-  color: "white",
-  textDecoration: "none",
   clipPath:
-    "polygon(0px 0px, 100% 0px,100% calc(100%  - 48px),calc(100% - 48px) 100%, 0px 100%)",
+    "polygon(0px 0px, 100% 0px,100% calc(100% - 48px),calc(100% - 48px) 100%, 0px 100%)",
+  overflow: "hidden",
+  textDecoration: "none",
+  color: "white",
   [theme.breakpoints.down(1024)]: {
-    width: "calc((100% - 25px) / 2)",
-  },
-  [theme.breakpoints.down(700)]: {
     width: "100%",
   },
   "&:focus-visible": {
@@ -34,22 +31,22 @@ const VisualLayer = styled("div")(({ img }) => ({
   backgroundImage: `url(${img})`,
   backgroundSize: "cover",
   backgroundPosition: "center",
-  transition: "opacity 0.3s ease",
   zIndex: 0,
+  transition: "opacity 0.3s ease",
   "&::before": {
     content: '""',
     position: "absolute",
     inset: 0,
-    backgroundColor: "#532565",
+    backgroundColor: "#982568",
     opacity: 0.8,
     transition: "opacity 0.3s ease, background-color 0.3s ease",
   },
 }))
 
-const PreviewBaseLayer = styled("div")({
+const PreviewLayer = styled("div")({
   position: "absolute",
   inset: 0,
-  backgroundColor: "#250033",
+  backgroundColor: "#420F2C",
   color: "white",
   padding: "1rem",
   overflowY: "auto",
@@ -68,42 +65,42 @@ const PreviewBaseLayer = styled("div")({
   },
 })
 
-const CardContainer = styled(Card)(({ hasTooltip }) => ({
+const CardContainer = styled(Card)(({ hasBlurb }) => ({
   "&:hover .preview, &:focus .preview": {
     opacity: 1,
   },
-  "&:hover .visual, &:focus .visual": hasTooltip
+  "&:hover .visual, &:focus .visual": hasBlurb
     ? { opacity: 0 }
     : {
         "&::before": {
-          backgroundColor: "#250033",
+          backgroundColor: "#420F2C",
           opacity: 0.9,
         },
       },
 }))
 
-export function ResourceBlock({ data }) {
-  const hasTooltip = Boolean(data.tooltip)
+export function FeaturedResourceBlock({ data }) {
+  const hasBlurb = Boolean(data.blurb)
+  const href = `/${data.link || "/"}`
 
   return (
-    <Link href={`/${data.url || "coming-soon"}`} passHref legacyBehavior>
+    <Link href={href} passHref legacyBehavior>
       <CardContainer
         aria-label={data.title}
-        hasTooltip={hasTooltip}
+        hasBlurb={hasBlurb}
         onClick={() =>
-          sendCustomEvent("resource_box_click", {
+          sendCustomEvent("featured_resource_box_click", {
             resource_title: data.title,
-            resource_url: data.url || "",
+            resource_url: data.link || "",
           })
         }
       >
-        {hasTooltip && (
-          <PreviewBaseLayer className="preview">
+        {hasBlurb && (
+          <PreviewLayer className="preview">
             <h3>{data.title}</h3>
-            <Markdown>{data.tooltip}</Markdown>
-          </PreviewBaseLayer>
+            <Markdown>{data.blurb}</Markdown>
+          </PreviewLayer>
         )}
-
         <VisualLayer img={data.img.url} className="visual">
           <h3
             style={{
@@ -112,7 +109,7 @@ export function ResourceBlock({ data }) {
               left: "1rem",
               margin: 0,
               zIndex: 2,
-              fontSize: "2.25rem",
+              fontSize: "2rem",
             }}
           >
             {data.title}
@@ -122,3 +119,5 @@ export function ResourceBlock({ data }) {
     </Link>
   )
 }
+
+export default FeaturedResourceBlock
