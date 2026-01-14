@@ -9,7 +9,7 @@ import { CDEDisplay } from "../components/CDEDisplay"
 import { useCollectionContext } from "../context/collection"
 import { InfiniteScrollList } from "../components/InfiniteScrollList"
 import { FiltersPanel } from "../components/FiltersPanel"
-import { a11yProps, TabPanel } from "../components/Tabs"
+import { a11yProps, PillTabs, TabPanel } from "../components/Tabs"
 
 const RESEARCH_NETWORKS = [
   {
@@ -266,8 +266,8 @@ export const StudiesPanel = ({ searchTerm }) => {
               </p>
             ))}
           </div>
-          <div className="mt-2">
-            <Tabs
+          <div className="mt-4">
+            <PillTabs
               value={currentStudyTabIndex}
               onChange={(e, value) => setCurrentStudyTabIndex(value)}
               aria-label="Study tabs"
@@ -276,9 +276,9 @@ export const StudiesPanel = ({ searchTerm }) => {
               <Tab label="Information" {...a11yProps(1)} />
               <Tab label="Related variables" {...a11yProps(2)} />
               <Tab label="CDEs" {...a11yProps(3)} />
-            </Tabs>
+            </PillTabs>
           </div>
-          <div className="py-3">
+          <div className="p-2">
             <TabPanel currentTabIndex={currentStudyTabIndex} index={0}>
               <p className="">{activeStudy.description}</p>
             </TabPanel>

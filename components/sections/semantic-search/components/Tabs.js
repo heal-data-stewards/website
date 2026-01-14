@@ -1,4 +1,4 @@
-import { styled, Tab, Tabs } from "@mui/material"
+import { alpha, styled, Tab, Tabs } from "@mui/material"
 
 export function SemanticSearchTabs({ currentTabIndex, setCurrentTabIndex }) {
   return (
@@ -14,6 +14,63 @@ export function SemanticSearchTabs({ currentTabIndex, setCurrentTabIndex }) {
     </StyledTabs>
   )
 }
+
+export function PillTabs({ children, ...props }) {
+  return <StyledPillTabs {...props}>{children}</StyledPillTabs>
+}
+
+const StyledPillTabs = styled((props) => (
+  <Tabs
+    {...props}
+    TabIndicatorProps={{ children: <span className="MuiTabs-indicatorSpan" /> }}
+  />
+))(({ theme }) => ({
+  "& .MuiTabs-indicator": {
+    display: "none",
+  },
+  "& .MuiTabs-flexContainer": {
+    gap: theme.spacing(1),
+  },
+  backgroundColor:
+    theme.palette.mode === "dark"
+      ? alpha(theme.palette.common.white, 0.05)
+      : theme.palette.grey[100],
+  borderRadius: theme.shape.borderRadius * 2,
+  padding: theme.spacing(0.5),
+  display: "inline-flex",
+  width: "auto",
+  minHeight: "auto",
+
+  // Styled tab children
+  "& .MuiTab-root": {
+    textTransform: "none",
+    fontWeight: theme.typography.fontWeightMedium,
+    fontSize: theme.typography.pxToRem(14),
+    minHeight: "auto",
+    minWidth: "auto",
+    padding: theme.spacing(1, 2),
+    borderRadius: theme.shape.borderRadius,
+    color: theme.palette.text.secondary,
+    transition: theme.transitions.create(["background-color", "color"], {
+      duration: theme.transitions.duration.short,
+    }),
+
+    "&:hover": {
+      backgroundColor: alpha(theme.palette.primary.main, 0.1),
+      color: theme.palette.primary.main,
+    },
+
+    "&.Mui-selected": {
+      color: theme.palette.primary.contrastText,
+      backgroundColor: theme.palette.primary.main,
+      boxShadow: theme.shadows[1],
+    },
+
+    "&.Mui-focusVisible": {
+      backgroundColor: alpha(theme.palette.primary.main, 0.2),
+    },
+  },
+}))
 
 const StyledTabs = styled((props) => (
   <Tabs
