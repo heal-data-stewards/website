@@ -7,6 +7,8 @@ export const fetchStudies = async ({
   concept,
   limit = 100,
   offset = 0,
+  filters = [],
+  aggs = {},
 }) => {
   const res = await fetch(`${DUG_API_URL}/studies`, {
     method: "POST",
@@ -19,6 +21,8 @@ export const fetchStudies = async ({
       ...(parentIds && parentIds.length > 0 && { parent_ids: parentIds }),
       ...(elementIds && elementIds.length > 0 && { element_ids: elementIds }),
       ...(typeof concept === "string" && { concept }),
+      ...(filters.length > 0 && { filters }),
+      ...(Object.keys(aggs).length > 0 && { aggs }),
       size: limit,
       offset,
     }),
