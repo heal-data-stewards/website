@@ -7,6 +7,7 @@ import {
 } from "@mui/icons-material"
 import {
   Badge,
+  Button,
   CircularProgress,
   Collapse,
   IconButton,
@@ -22,7 +23,11 @@ import { ParentStudiesDisplay } from "../components/ParentStudiesDisplay"
 import { useCollectionContext } from "../context/collection"
 import { fetchConcepts } from "../data/concepts"
 
-const PAGE_SIZE = 10
+const PAGE_SIZE = 50
+
+function lowercaseFirstLetters(str) {
+  return str.replace(/\b\w/g, (char) => char.toLowerCase())
+}
 
 export const ConceptsPanel = ({ searchTerm }) => {
   const collection = useCollectionContext()
@@ -135,19 +140,24 @@ export const ConceptsPanel = ({ searchTerm }) => {
           <div className="border-b border-gray-200 sticky top-0 bg-white isolate z-10">
             <div className="px-4 py-2 flex items-center justify-between">
               <span className="italic text-gray-500">0 concepts found.</span>
-              <IconButton
+              <Button
+                variant="text"
                 size="small"
                 onClick={() => setFiltersOpen((prev) => !prev)}
+                endIcon={
+                  <Badge
+                    color="primary"
+                    variant="dot"
+                    invisible={!hasActiveFilters}
+                    sx={{ "& .MuiBadge-badge": { backgroundColor: "#4d2862" } }}
+                  >
+                    <Tune fontSize="small" />
+                  </Badge>
+                }
+                sx={{ color: "#4d2862" }}
               >
-                <Badge
-                  color="primary"
-                  variant="dot"
-                  invisible={!hasActiveFilters}
-                  sx={{ "& .MuiBadge-badge": { backgroundColor: "#4d2862" } }}
-                >
-                  <Tune fontSize="small" sx={{ color: "#4d2862" }} />
-                </Badge>
-              </IconButton>
+                Filters
+              </Button>
             </div>
             <Collapse in={filtersOpen}>
               <div className="px-4 pb-3">
@@ -176,19 +186,24 @@ export const ConceptsPanel = ({ searchTerm }) => {
               <span className="italic text-gray-500">
                 {totalCount} {totalCount !== 1 ? "concepts" : "concept"} found.
               </span>
-              <IconButton
+              <Button
+                variant="text"
                 size="small"
                 onClick={() => setFiltersOpen((prev) => !prev)}
+                endIcon={
+                  <Badge
+                    color="primary"
+                    variant="dot"
+                    invisible={!hasActiveFilters}
+                    sx={{ "& .MuiBadge-badge": { backgroundColor: "#4d2862" } }}
+                  >
+                    <Tune fontSize="small" />
+                  </Badge>
+                }
+                sx={{ color: "#4d2862" }}
               >
-                <Badge
-                  color="primary"
-                  variant="dot"
-                  invisible={!hasActiveFilters}
-                  sx={{ "& .MuiBadge-badge": { backgroundColor: "#4d2862" } }}
-                >
-                  <Tune fontSize="small" sx={{ color: "#4d2862" }} />
-                </Badge>
-              </IconButton>
+                Filters
+              </Button>
             </div>
             <Collapse in={filtersOpen}>
               <div className="px-4 pb-3">
@@ -204,7 +219,7 @@ export const ConceptsPanel = ({ searchTerm }) => {
             <SidebarItem
               concept={concept}
               key={concept.id}
-              name={concept.name}
+              name={lowercaseFirstLetters(concept.name)}
               description={concept.description}
               parentStudies={concept.parentStudies}
               parentCdes={concept.parentCdes}
@@ -240,7 +255,7 @@ export const ConceptsPanel = ({ searchTerm }) => {
           <div className="flex w-full justify-between gap-2 mb-2">
             <div className="flex gap-1 items-center">
               <h2 className="text-2xl font-semibold leading-relaxed text-[#592963]">
-                {activeConcept.name}{" "}
+                {lowercaseFirstLetters(activeConcept.name)}{" "}
               </h2>
               <Link
                 href={(() => {

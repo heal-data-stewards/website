@@ -1,6 +1,7 @@
 import { Bookmark, BookmarkBorder, OpenInNew, Tune } from "@mui/icons-material"
 import {
   Badge,
+  Button,
   CircularProgress,
   Collapse,
   IconButton,
@@ -17,7 +18,7 @@ import { VariablesList } from "../components/VariablesList"
 import { useCollectionContext } from "../context/collection"
 import { fetchStudies } from "../data/studies"
 
-const PAGE_SIZE = 10
+const PAGE_SIZE = 50
 
 export const StudiesPanel = ({ searchTerm }) => {
   const collection = useCollectionContext()
@@ -28,6 +29,7 @@ export const StudiesPanel = ({ searchTerm }) => {
     researchNetworks: [],
     vlmdAvailable: "",
     dataAvailability: "",
+    cdesUsed: "",
   })
 
   const apiFilters = useMemo(() => {
@@ -68,6 +70,20 @@ export const StudiesPanel = ({ searchTerm }) => {
       })
     }
 
+    if (filterValues.cdesUsed === "used") {
+      filters.push({
+        field: "section_list",
+        operator: "size_gt",
+        value: 0,
+      })
+    } else if (filterValues.cdesUsed === "not_used") {
+      filters.push({
+        field: "section_list",
+        operator: "size_eq",
+        value: 0,
+      })
+    }
+
     return filters
   }, [filterValues])
 
@@ -90,7 +106,8 @@ export const StudiesPanel = ({ searchTerm }) => {
   const hasActiveFilters =
     filterValues.researchNetworks.length > 0 ||
     filterValues.vlmdAvailable !== "" ||
-    filterValues.dataAvailability !== ""
+    filterValues.dataAvailability !== "" ||
+    filterValues.cdesUsed !== ""
 
   const filterConfigs = useMemo(() => {
     const researchNetworkOptions =
@@ -121,6 +138,15 @@ export const StudiesPanel = ({ searchTerm }) => {
         options: [
           { value: "available", label: "Available" },
           { value: "not_available", label: "Not Available" },
+        ],
+      },
+      {
+        key: "cdesUsed",
+        label: "CDEs Used",
+        type: "select",
+        options: [
+          { value: "used", label: "Used" },
+          { value: "not_used", label: "Not Used" },
         ],
       },
     ]
@@ -165,19 +191,24 @@ export const StudiesPanel = ({ searchTerm }) => {
           <div className="border-b border-gray-200 sticky top-0 bg-white isolate z-10">
             <div className="px-4 py-2 flex items-center justify-between">
               <span className="italic text-gray-500">0 studies found.</span>
-              <IconButton
+              <Button
+                variant="text"
                 size="small"
                 onClick={() => setFiltersOpen((prev) => !prev)}
+                endIcon={
+                  <Badge
+                    color="primary"
+                    variant="dot"
+                    invisible={!hasActiveFilters}
+                    sx={{ "& .MuiBadge-badge": { backgroundColor: "#4d2862" } }}
+                  >
+                    <Tune fontSize="small" />
+                  </Badge>
+                }
+                sx={{ color: "#4d2862" }}
               >
-                <Badge
-                  color="primary"
-                  variant="dot"
-                  invisible={!hasActiveFilters}
-                  sx={{ "& .MuiBadge-badge": { backgroundColor: "#4d2862" } }}
-                >
-                  <Tune fontSize="small" sx={{ color: "#4d2862" }} />
-                </Badge>
-              </IconButton>
+                Filters
+              </Button>
             </div>
             <Collapse in={filtersOpen}>
               <div className="px-4 pb-3">
@@ -206,19 +237,24 @@ export const StudiesPanel = ({ searchTerm }) => {
               <span className="italic text-gray-500">
                 {totalCount} {totalCount !== 1 ? "studies" : "study"} found.
               </span>
-              <IconButton
+              <Button
+                variant="text"
                 size="small"
                 onClick={() => setFiltersOpen((prev) => !prev)}
+                endIcon={
+                  <Badge
+                    color="primary"
+                    variant="dot"
+                    invisible={!hasActiveFilters}
+                    sx={{ "& .MuiBadge-badge": { backgroundColor: "#4d2862" } }}
+                  >
+                    <Tune fontSize="small" />
+                  </Badge>
+                }
+                sx={{ color: "#4d2862" }}
               >
-                <Badge
-                  color="primary"
-                  variant="dot"
-                  invisible={!hasActiveFilters}
-                  sx={{ "& .MuiBadge-badge": { backgroundColor: "#4d2862" } }}
-                >
-                  <Tune fontSize="small" sx={{ color: "#4d2862" }} />
-                </Badge>
-              </IconButton>
+                Filters
+              </Button>
             </div>
             <Collapse in={filtersOpen}>
               <div className="px-4 pb-3">
@@ -237,6 +273,7 @@ export const StudiesPanel = ({ searchTerm }) => {
               name={study.name}
               id={study.id.split(":")?.[1] ?? study.id}
               variables={study.variable_list}
+              sections={study.section_list}
               onClick={() => setActiveSidebarItem(index)}
               active={activeSidebarItem === index}
             />
@@ -397,8 +434,29 @@ function formatSnakeCaseToTitleCase(str) {
     .join(" ")
 }
 
-function SidebarItem({ study, name, id, variables, onClick, active }) {
+function SidebarItem({
+  study,
+  name,
+  id,
+  variables,
+  sections,
+  onClick,
+  active,
+}) {
   const collection = useCollectionContext()
+
+  const measuresCount = variables?.length || 0
+  const cdesCount = sections?.length || 0
+
+  const statsText = []
+  if (measuresCount > 0) {
+    statsText.push(
+      `${measuresCount} ${measuresCount !== 1 ? "measures" : "measure"}`
+    )
+  }
+  if (cdesCount > 0) {
+    statsText.push(`${cdesCount} ${cdesCount !== 1 ? "CDEs" : "CDE"}`)
+  }
 
   return (
     <button
@@ -425,10 +483,8 @@ function SidebarItem({ study, name, id, variables, onClick, active }) {
         </IconButton>
       </div>
       <p className="text-sm mt-2 text-gray-500">{id}</p>
-      {Boolean(variables.length) && (
-        <p className="text-sm mt-1 text-gray-500">
-          {variables.length} {variables.length !== 1 ? "measures" : "measure"}
-        </p>
+      {statsText.length > 0 && (
+        <p className="text-sm mt-1 text-gray-500">{statsText.join(", ")}</p>
       )}
     </button>
   )
