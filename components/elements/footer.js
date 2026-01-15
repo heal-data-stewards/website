@@ -86,7 +86,7 @@ const Footer = ({ footer, pageContext }) => {
 const StyledFooter = styled("footer")(({ isFullscreen, isOpen }) => ({
   backgroundColor: "#e5e0e7",
   ...(isFullscreen && {
-    zIndex: 10000,
+    zIndex: 1000,
     position: "absolute",
     bottom: "0px",
     left: "0px",

@@ -1,8 +1,40 @@
-import { Help } from "@mui/icons-material"
-import { Button, styled, Tab, Tabs } from "@mui/material"
-import { forwardRef } from "react"
+import { Close, Help } from "@mui/icons-material"
+import {
+  Box,
+  Button,
+  IconButton,
+  Modal,
+  styled,
+  Tab,
+  Tabs,
+} from "@mui/material"
+import { forwardRef, useState } from "react"
+import Markdown from "../../../elements/markdown"
+
+const HELP_CONTENT = `
+**Studies Tab**  
+This tab allows users to find HEAL studies and study-specific variables and CDEs associated with the related concepts. 
+
+
+**CDEs (Common Data Elements) Tab**  
+A CDE is a standardized question with a specific set of allowable responses used across different studies or clinical trials to ensure consistent data collection. The [HEAL CDE program](https://heal.nih.gov/data/common-data-elements) provides further information.
+
+
+**Related Concepts Tab**  
+This tab allows users to explore concepts related to their search, then find HEAL studies and CDEs connected to the related concepts. [Click here](https://docs.google.com/document/d/1FUlknVECgQwzPzyFVSQKfu2VOtNX7bC98p9SsZ1J_7c/edit?tab=t.0#bookmark=id.vpbv0x57cxgs) to learn more about how HSS makes connections between concepts.
+
+
+**Variables Tab**  
+This tab allows users to explore HEAL variables and measures (individual items from a CDE) associated with the search term.
+
+
+**Need More Help?**  
+Read the [User Guide](https://docs.google.com/document/d/1FUlknVECgQwzPzyFVSQKfu2VOtNX7bC98p9SsZ1J_7c/edit?usp=sharing), access the [Help Desk](https://renci.atlassian.net/servicedesk/customer/portal/3), or view other useful information on the [HSS Resources page](/resources/semantic-search/help).
+`
 
 export function SemanticSearchTabs({ currentTabIndex, setCurrentTabIndex }) {
+  const [helpModalOpen, setHelpModalOpen] = useState(false)
+
   return (
     <StyledTabs
       value={currentTabIndex}
@@ -17,9 +49,45 @@ export function SemanticSearchTabs({ currentTabIndex, setCurrentTabIndex }) {
         variant="text"
         startIcon={<Help />}
         style={{ textTransform: "none", marginLeft: "auto", color: "#4d2862" }}
+        onClick={() => setHelpModalOpen(true)}
       >
         Need help?
       </Button>
+      <Modal
+        open={helpModalOpen}
+        onClose={() => setHelpModalOpen(false)}
+        aria-labelledby="help-modal-title"
+      >
+        <Box
+          sx={{
+            position: "absolute",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+            width: "90%",
+            maxWidth: 700,
+            maxHeight: "80vh",
+            bgcolor: "background.paper",
+            borderRadius: 2,
+            boxShadow: 24,
+            p: 4,
+            overflow: "auto",
+          }}
+        >
+          <IconButton
+            onClick={() => setHelpModalOpen(false)}
+            sx={{
+              position: "absolute",
+              top: 8,
+              right: 8,
+              color: "#4d2862",
+            }}
+          >
+            <Close />
+          </IconButton>
+          <Markdown>{HELP_CONTENT}</Markdown>
+        </Box>
+      </Modal>
     </StyledTabs>
   )
 }
