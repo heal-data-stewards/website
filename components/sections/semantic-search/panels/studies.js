@@ -273,6 +273,7 @@ export const StudiesPanel = ({ searchTerm }) => {
               name={study.name}
               id={study.id.split(":")?.[1] ?? study.id}
               variables={study.variable_list}
+              sections={study.section_list}
               onClick={() => setActiveSidebarItem(index)}
               active={activeSidebarItem === index}
             />
@@ -433,8 +434,29 @@ function formatSnakeCaseToTitleCase(str) {
     .join(" ")
 }
 
-function SidebarItem({ study, name, id, variables, onClick, active }) {
+function SidebarItem({
+  study,
+  name,
+  id,
+  variables,
+  sections,
+  onClick,
+  active,
+}) {
   const collection = useCollectionContext()
+
+  const measuresCount = variables?.length || 0
+  const cdesCount = sections?.length || 0
+
+  const statsText = []
+  if (measuresCount > 0) {
+    statsText.push(
+      `${measuresCount} ${measuresCount !== 1 ? "measures" : "measure"}`
+    )
+  }
+  if (cdesCount > 0) {
+    statsText.push(`${cdesCount} ${cdesCount !== 1 ? "CDEs" : "CDE"}`)
+  }
 
   return (
     <button
@@ -461,10 +483,8 @@ function SidebarItem({ study, name, id, variables, onClick, active }) {
         </IconButton>
       </div>
       <p className="text-sm mt-2 text-gray-500">{id}</p>
-      {Boolean(variables.length) && (
-        <p className="text-sm mt-1 text-gray-500">
-          {variables.length} {variables.length !== 1 ? "measures" : "measure"}
-        </p>
+      {statsText.length > 0 && (
+        <p className="text-sm mt-1 text-gray-500">{statsText.join(", ")}</p>
       )}
     </button>
   )
