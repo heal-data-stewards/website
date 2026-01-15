@@ -1,4 +1,5 @@
 import PropTypes from "prop-types"
+import { useState } from "react"
 import { linkPropTypes, mediaPropTypes } from "utils/types"
 import NextImage from "./image"
 import Image from "next/image"
@@ -7,15 +8,22 @@ import { styled } from "@material-ui/core/styles"
 import { ExpandLess } from "@mui/icons-material"
 
 const Footer = ({ footer, pageContext }) => {
+  const [isOpen, setIsOpen] = useState(false)
+
   return (
-    <StyledFooter isFullscreen={pageContext.isFullscreen}>
+    <StyledFooter isFullscreen={pageContext.isFullscreen} isOpen={isOpen}>
       {pageContext.isFullscreen && (
-        <div className="flex flex-col items-center justify-center text-purple border-b-[1px] border-[#4d286273] p-1 h-[32px] cursor-pointer">
+        <button
+          className="w-full flex flex-col items-center justify-center text-purple border-b-[1px] border-[#4d286273] p-1 h-[32px] cursor-pointer bg-transparent"
+          onClick={() => setIsOpen((prev) => !prev)}
+        >
           <div className="flex gap-1 items-center">
             <ExpandLess fontSize="small" />
-            <span className="font-semibold text-base">Show footer</span>
+            <span className="font-semibold text-base">
+              {isOpen ? "Hide footer" : "Show footer"}
+            </span>
           </div>
-        </div>
+        </button>
       )}
       <div className="pt-12 container flex flex-col lg:flex-row lg:justify-between">
         <div>
@@ -75,7 +83,7 @@ const Footer = ({ footer, pageContext }) => {
   )
 }
 
-const StyledFooter = styled("footer")(({ isFullscreen }) => ({
+const StyledFooter = styled("footer")(({ isFullscreen, isOpen }) => ({
   backgroundColor: "#e5e0e7",
   ...(isFullscreen && {
     zIndex: 10000,
@@ -84,16 +92,10 @@ const StyledFooter = styled("footer")(({ isFullscreen }) => ({
     left: "0px",
     right: "0px",
     transition: "transform 400ms ease-in-out",
-    transform: "translateY(calc(100% - 32px))",
-    "&:hover": {
-      transform: "none",
-      "& .MuiSvgIcon-root": {
-        transform: "rotate(180deg)",
-        transition: "transform 400ms ease-in-out",
-      },
-    },
+    transform: isOpen ? "none" : "translateY(calc(100% - 32px))",
     "& .MuiSvgIcon-root": {
       transition: "transform 400ms ease-in-out",
+      transform: isOpen ? "rotate(180deg)" : "none",
     },
   }),
 }))
