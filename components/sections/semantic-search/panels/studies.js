@@ -1,6 +1,7 @@
 import { Bookmark, BookmarkBorder, OpenInNew, Tune } from "@mui/icons-material"
 import {
   Badge,
+  Button,
   CircularProgress,
   Collapse,
   IconButton,
@@ -190,19 +191,24 @@ export const StudiesPanel = ({ searchTerm }) => {
           <div className="border-b border-gray-200 sticky top-0 bg-white isolate z-10">
             <div className="px-4 py-2 flex items-center justify-between">
               <span className="italic text-gray-500">0 studies found.</span>
-              <IconButton
+              <Button
+                variant="text"
                 size="small"
                 onClick={() => setFiltersOpen((prev) => !prev)}
+                endIcon={
+                  <Badge
+                    color="primary"
+                    variant="dot"
+                    invisible={!hasActiveFilters}
+                    sx={{ "& .MuiBadge-badge": { backgroundColor: "#4d2862" } }}
+                  >
+                    <Tune fontSize="small" />
+                  </Badge>
+                }
+                sx={{ color: "#4d2862" }}
               >
-                <Badge
-                  color="primary"
-                  variant="dot"
-                  invisible={!hasActiveFilters}
-                  sx={{ "& .MuiBadge-badge": { backgroundColor: "#4d2862" } }}
-                >
-                  <Tune fontSize="small" sx={{ color: "#4d2862" }} />
-                </Badge>
-              </IconButton>
+                Filters
+              </Button>
             </div>
             <Collapse in={filtersOpen}>
               <div className="px-4 pb-3">
@@ -231,19 +237,24 @@ export const StudiesPanel = ({ searchTerm }) => {
               <span className="italic text-gray-500">
                 {totalCount} {totalCount !== 1 ? "studies" : "study"} found.
               </span>
-              <IconButton
+              <Button
+                variant="text"
                 size="small"
                 onClick={() => setFiltersOpen((prev) => !prev)}
+                endIcon={
+                  <Badge
+                    color="primary"
+                    variant="dot"
+                    invisible={!hasActiveFilters}
+                    sx={{ "& .MuiBadge-badge": { backgroundColor: "#4d2862" } }}
+                  >
+                    <Tune fontSize="small" />
+                  </Badge>
+                }
+                sx={{ color: "#4d2862" }}
               >
-                <Badge
-                  color="primary"
-                  variant="dot"
-                  invisible={!hasActiveFilters}
-                  sx={{ "& .MuiBadge-badge": { backgroundColor: "#4d2862" } }}
-                >
-                  <Tune fontSize="small" sx={{ color: "#4d2862" }} />
-                </Badge>
-              </IconButton>
+                Filters
+              </Button>
             </div>
             <Collapse in={filtersOpen}>
               <div className="px-4 pb-3">
