@@ -17,7 +17,7 @@ import { VariablesList } from "../components/VariablesList"
 import { useCollectionContext } from "../context/collection"
 import { fetchStudies } from "../data/studies"
 
-const PAGE_SIZE = 10
+const PAGE_SIZE = 50
 
 export const StudiesPanel = ({ searchTerm }) => {
   const collection = useCollectionContext()

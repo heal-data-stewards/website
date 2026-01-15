@@ -13,7 +13,7 @@ const Footer = ({ footer, pageContext }) => {
         <div className="flex flex-col items-center justify-center text-purple border-b-[1px] border-[#4d286273] p-1 h-[32px] cursor-pointer">
           <div className="flex gap-1 items-center">
             <ExpandLess fontSize="small" />
-            <span className="font-semibold text-base">Footer</span>
+            <span className="font-semibold text-base">Show footer</span>
           </div>
         </div>
       )}

@@ -14,7 +14,7 @@ import { ParentStudiesDisplay } from "../components/ParentStudiesDisplay"
 import { useCollectionContext } from "../context/collection"
 import { fetchVariables } from "../data/variables"
 
-const PAGE_SIZE = 10
+const PAGE_SIZE = 50
 
 const DATA_TYPE_OPTIONS = [
   "boolean",

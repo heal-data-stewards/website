@@ -1,4 +1,5 @@
-import { styled, Tab, Tabs, Tooltip } from "@mui/material"
+import { Help } from "@mui/icons-material"
+import { Button, styled, Tab, Tabs } from "@mui/material"
 import { forwardRef } from "react"
 
 export function SemanticSearchTabs({ currentTabIndex, setCurrentTabIndex }) {
@@ -8,34 +9,17 @@ export function SemanticSearchTabs({ currentTabIndex, setCurrentTabIndex }) {
       onChange={(_, i) => setCurrentTabIndex(i)}
       aria-label="Results tabs"
     >
-      <Tooltip
-        title="The Studies tab displays HEAL studies related to your search term. By default, the Studies tab shows all studies associated with the search term. Users can filter studies by using the filters box."
-        placement="top"
-        arrow
+      <StyledTab label="Studies" {...a11yProps(0)} />
+      <StyledTab label="CDEs" {...a11yProps(1)} />
+      <StyledTab label="Related Concepts" {...a11yProps(2)} />
+      <StyledTab label="Variables" {...a11yProps(3)} />
+      <Button
+        variant="text"
+        startIcon={<Help />}
+        style={{ textTransform: "none", marginLeft: "auto", color: "#4d2862" }}
       >
-        <StyledTab label="Studies" {...a11yProps(0)} />
-      </Tooltip>
-      <Tooltip
-        title="The CDEs tab displays HEAL-approved Common Data Elements (CDEs) associated with the search term. A CDE is a standardized question with a specific set of allowable responses used across different studies or clinical trials to ensure consistent data collection. The HEAL CDE program provides further information."
-        placement="top"
-        arrow
-      >
-        <StyledTab label="CDEs" {...a11yProps(1)} />
-      </Tooltip>
-      <Tooltip
-        title="The Related Concepts tab displays biomedical concepts associated with the search term. This tab allows users to explore concepts related to their search, then find HEAL studies and CDEs connected to the related concepts."
-        placement="top"
-        arrow
-      >
-        <StyledTab label="Related Concepts" {...a11yProps(2)} />
-      </Tooltip>
-      <Tooltip
-        title="The Variables tab displays variables and measures (individual items from a CDE) associated with the search term."
-        placement="top"
-        arrow
-      >
-        <StyledTab label="Variables" {...a11yProps(3)} />
-      </Tooltip>
+        Need help?
+      </Button>
     </StyledTabs>
   )
 }

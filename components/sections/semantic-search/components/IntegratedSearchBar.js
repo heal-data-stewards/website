@@ -140,7 +140,7 @@ export function IntegratedSearchBar({
 
               return i === selectedSuggestions.length - 1
                 ? [...arr, link]
-                : [...arr, link, <span key={term}>, </span>]
+                : [...arr, link, <span key={term}> | </span>]
             }, [])}
           </span>
         </div>

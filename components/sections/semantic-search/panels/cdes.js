@@ -15,7 +15,7 @@ import { VariableQuestionDisplay } from "../components/VariableQuestionDisplay"
 import { useCollectionContext } from "../context/collection"
 import { fetchCDEs } from "../data/cdes"
 
-const PAGE_SIZE = 10
+const PAGE_SIZE = 50
 
 export const CDEsPanel = ({ searchTerm }) => {
   const collection = useCollectionContext()
