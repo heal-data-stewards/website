@@ -25,6 +25,10 @@ import { fetchConcepts } from "../data/concepts"
 
 const PAGE_SIZE = 50
 
+function lowercaseFirstLetters(str) {
+  return str.replace(/\b\w/g, (char) => char.toLowerCase())
+}
+
 export const ConceptsPanel = ({ searchTerm }) => {
   const collection = useCollectionContext()
   const [activeSidebarItem, setActiveSidebarItem] = useState(0)
@@ -215,7 +219,7 @@ export const ConceptsPanel = ({ searchTerm }) => {
             <SidebarItem
               concept={concept}
               key={concept.id}
-              name={concept.name.toLowerCase()}
+              name={lowercaseFirstLetters(concept.name)}
               description={concept.description}
               parentStudies={concept.parentStudies}
               parentCdes={concept.parentCdes}
@@ -251,7 +255,7 @@ export const ConceptsPanel = ({ searchTerm }) => {
           <div className="flex w-full justify-between gap-2 mb-2">
             <div className="flex gap-1 items-center">
               <h2 className="text-2xl font-semibold leading-relaxed text-[#592963]">
-                {activeConcept.name.toLowerCase()}{" "}
+                {lowercaseFirstLetters(activeConcept.name)}{" "}
               </h2>
               <Link
                 href={(() => {
