@@ -7,6 +7,7 @@ import StyledAccordion from "../accordion"
 import { useCollectionContext } from "../context/collection"
 import {
   trackBookmarkClick,
+  trackStudiesAccordionToggle,
   trackHdpLinkClick,
   PANEL_LOCATIONS,
   UI_SURFACES,
@@ -75,8 +76,16 @@ export function ParentStudiesDisplay({
         </p>
       ) : (
         <StyledAccordion
+          onToggle={({ item, isExpanded }) => {
+            trackStudiesAccordionToggle({
+              action: isExpanded ? "open" : "close",
+              study: item,
+              panelLocation,
+              referringSearchTerm: searchTerm,
+            })
+          }}
           items={studies.map((study) => ({
-            key: study.key,
+            key: study.id,
             summary: (
               <div className="flex justify-between items-center w-full">
                 <h4>{study.name}</h4>

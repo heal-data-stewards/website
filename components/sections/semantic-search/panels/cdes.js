@@ -198,7 +198,7 @@ export const CDEsPanel = ({ searchTerm }) => {
                 <DownloadCard
                   className="p-4 flex gap-1 shadow-md transition-all duration-150 rounded-md border-[1px] border-gray-200"
                   key={url.filename}
-                  // href={url.url}
+                  href={url.url}
                   target="_blank"
                   rel="noopener noreferrer"
                   onClick={() => {

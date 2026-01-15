@@ -117,7 +117,6 @@ export function CDEDisplay({
                       uiSurface: UI_SURFACES.CDE_ACCORDION_ROW,
                       referringSearchTerm: searchTerm,
                     })
-                    console.log(cde)
                   }}
                 >
                   {cde.action} <Download fontSize="small" />
