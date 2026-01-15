@@ -16,6 +16,7 @@ import { FiltersPanel } from "../components/FiltersPanel"
 import {
   trackBookmarkClick,
   trackOntologyLinkClick,
+  trackNewConceptSearched,
   PANEL_LOCATIONS,
   UI_SURFACES,
 } from "../analytics"
@@ -185,8 +186,17 @@ export const ConceptsPanel = ({ searchTerm }) => {
                 <Tooltip title="Search for this concept" placement="top">
                   <IconButton
                     size="large"
-                    component={"a"}
-                    onClick={(e) => e.stopPropagation()}
+                    component="a"
+                    onClick={(e) => {
+                      e.stopPropagation()
+
+                      trackNewConceptSearched({
+                        concept: activeConcept,
+                        panelLocation: PANEL_LOCATIONS.CONCEPTS,
+                        uiSurface: UI_SURFACES.RIGHT_DETAIL,
+                        referringSearchTerm: searchTerm,
+                      })
+                    }}
                   >
                     <Search fontSize="large" sx={{ color: "#4d2862" }} />
                   </IconButton>
@@ -309,11 +319,20 @@ function SidebarItem({
           >
             <Tooltip title="Search for this concept" placement="top">
               <IconButton
-                size="small"
-                component={"a"}
-                onClick={(e) => e.stopPropagation()}
+                size="large"
+                component="a"
+                onClick={(e) => {
+                  e.stopPropagation()
+
+                  trackNewConceptSearched({
+                    concept: concept,
+                    panelLocation: PANEL_LOCATIONS.CONCEPTS,
+                    uiSurface: UI_SURFACES.LEFT_LIST,
+                    referringSearchTerm: searchTerm,
+                  })
+                }}
               >
-                <Search fontSize="small" sx={{ color: "#4d2862" }} />
+                <Search fontSize="large" sx={{ color: "#4d2862" }} />
               </IconButton>
             </Tooltip>
           </Link>
