@@ -1,31 +1,16 @@
 import { Refresh } from "@mui/icons-material"
-import { Button, IconButton, OutlinedInput, styled } from "@mui/material"
+import {
+  Button,
+  IconButton,
+  OutlinedInput,
+  styled,
+  Tooltip,
+} from "@mui/material"
 import { useRouter } from "next/router"
 import { useCallback, useState } from "react"
-import { backgroundColor } from "tailwindcss/defaultTheme"
 import { QueryCacheProvider } from "utils/use-query"
 import { sendCustomEvent } from "utils/analytics"
-
-const SUGGESTIONS = [
-  "addiction treatment",
-  "buprenorphine",
-  "chronic pain",
-  "cognitive behavioral therapy",
-  "depression",
-  "fibromyalgia",
-  "GAD 7",
-  "lower back pain",
-  "migraine",
-  "naloxone",
-  "neuropathic pain",
-  "osteoarthritis",
-  "opioid use disorder",
-  "pain management",
-  "physical therapy",
-]
-
-const getRandomSuggestions = (count) =>
-  SUGGESTIONS.sort(() => 0.5 - Math.random()).slice(0, count)
+import { getRandomSuggestions } from "./data/search-suggestions"
 
 const SearchBar = styled(OutlinedInput)(() => ({
   marginBottom: "0",
@@ -115,6 +100,14 @@ export default function SemanticSearch({ data }) {
           <div className="flex flex-col lg:flex-row gap-2 items-start lg:items-center max-w-full">
             <span>Example terms to search for:</span>
             <div className="flex gap-2 max-w-full overflow-auto">
+              <Tooltip
+                title="Generate new example search terms."
+                placement="bottom"
+              >
+                <IconButton onClick={changeRandomSuggestions}>
+                  <Refresh />
+                </IconButton>
+              </Tooltip>
               <div className="flex gap-4 text-white">
                 {selectedSuggestions.map((term) => (
                   <Button
@@ -134,9 +127,6 @@ export default function SemanticSearch({ data }) {
                   </Button>
                 ))}
               </div>
-              <IconButton onClick={changeRandomSuggestions}>
-                <Refresh />
-              </IconButton>
             </div>
           </div>
         </div>

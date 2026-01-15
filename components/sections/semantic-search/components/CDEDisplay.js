@@ -6,7 +6,13 @@ import { Bookmark, Download, BookmarkBorder } from "@mui/icons-material"
 import StyledAccordion from "../accordion"
 import { useCollectionContext } from "../context/collection"
 
-export function CDEDisplay({ studyId, elementIds, conceptId, searchTerm }) {
+export function CDEDisplay({
+  studyId,
+  elementIds,
+  conceptId,
+  searchTerm,
+  notFoundText,
+}) {
   const collection = useCollectionContext()
 
   const payload = {
@@ -48,7 +54,9 @@ export function CDEDisplay({ studyId, elementIds, conceptId, searchTerm }) {
         {cdes.length > 0 && ` (${cdes.length.toLocaleString()})`}
       </h3>
       {cdes.length === 0 ? (
-        <p className="text-gray-400 italic">No CDEs found for this study.</p>
+        <p className="text-gray-400 italic">
+          {notFoundText ?? "No CDEs found for this study."}
+        </p>
       ) : (
         <StyledAccordion
           items={cdes.map((cde) => ({

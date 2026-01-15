@@ -143,7 +143,8 @@ export async function getStaticProps(context) {
   }
 
   // We have the required page data, pass it to the page component
-  const { contentSections, metadata, localizations, slug } = pageData
+  const { contentSections, metadata, localizations, slug, isFullscreen } =
+    pageData
 
   const pageContext = {
     locale: pageData.locale,
@@ -152,6 +153,7 @@ export async function getStaticProps(context) {
     slug,
     localizations,
     token: eventData.token || null,
+    isFullscreen,
   }
 
   const localizedPaths = getLocalizedPaths(pageContext)

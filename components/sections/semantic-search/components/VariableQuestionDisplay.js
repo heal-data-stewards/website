@@ -62,10 +62,10 @@ export function VariableQuestionDisplay({ variableList }) {
             )}
 
             <ul className="flex gap-1 my-2">
-              {v.metadata.permissible_values.map((pv) => (
+              {v.metadata.permissible_values.map((pv, i) => (
                 <li
                   className="odd:bg-gray-200 flex-1 px-2 py-1 rounded-md flex flex-col"
-                  key={pv.value}
+                  key={`${pv.value}-${i}`}
                 >
                   <span
                     className={!pv.description ? "text-gray-500" : undefined}

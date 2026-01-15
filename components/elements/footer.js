@@ -3,11 +3,21 @@ import { linkPropTypes, mediaPropTypes } from "utils/types"
 import NextImage from "./image"
 import Image from "next/image"
 import CustomLink from "./custom-link"
+import { styled } from "@material-ui/core/styles"
+import { ExpandLess } from "@mui/icons-material"
 
-const Footer = ({ footer }) => {
+const Footer = ({ footer, pageContext }) => {
   return (
-    <footer className="pt-12 bg-gray-100" style={{ background: "#c0b3c569" }}>
-      <div className="container flex flex-col lg:flex-row lg:justify-between">
+    <StyledFooter isFullscreen={pageContext.isFullscreen}>
+      {pageContext.isFullscreen && (
+        <div className="flex flex-col items-center justify-center text-purple border-b-[1px] border-[#4d286273] p-1 h-[32px] cursor-pointer">
+          <div className="flex gap-1 items-center">
+            <ExpandLess fontSize="small" />
+            <span className="font-semibold text-base">Footer</span>
+          </div>
+        </div>
+      )}
+      <div className="pt-12 container flex flex-col lg:flex-row lg:justify-between">
         <div>
           {footer.logo && (
             <div>
@@ -61,9 +71,32 @@ const Footer = ({ footer }) => {
       <div className="text-sm bg-purple py-6 text-white">
         <div className="container">{footer.smallText}</div>
       </div>
-    </footer>
+    </StyledFooter>
   )
 }
+
+const StyledFooter = styled("footer")(({ isFullscreen }) => ({
+  backgroundColor: "#e5e0e7",
+  ...(isFullscreen && {
+    zIndex: 10000,
+    position: "absolute",
+    bottom: "0px",
+    left: "0px",
+    right: "0px",
+    transition: "transform 400ms ease-in-out",
+    transform: "translateY(calc(100% - 32px))",
+    "&:hover": {
+      transform: "none",
+      "& .MuiSvgIcon-root": {
+        transform: "rotate(180deg)",
+        transition: "transform 400ms ease-in-out",
+      },
+    },
+    "& .MuiSvgIcon-root": {
+      transition: "transform 400ms ease-in-out",
+    },
+  }),
+}))
 
 Footer.propTypes = {
   footer: PropTypes.shape({
