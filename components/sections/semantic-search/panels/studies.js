@@ -28,6 +28,7 @@ export const StudiesPanel = ({ searchTerm }) => {
     researchNetworks: [],
     vlmdAvailable: "",
     dataAvailability: "",
+    cdesUsed: "",
   })
 
   const apiFilters = useMemo(() => {
@@ -68,6 +69,20 @@ export const StudiesPanel = ({ searchTerm }) => {
       })
     }
 
+    if (filterValues.cdesUsed === "used") {
+      filters.push({
+        field: "section_list",
+        operator: "size_gt",
+        value: 0,
+      })
+    } else if (filterValues.cdesUsed === "not_used") {
+      filters.push({
+        field: "section_list",
+        operator: "size_eq",
+        value: 0,
+      })
+    }
+
     return filters
   }, [filterValues])
 
@@ -90,7 +105,8 @@ export const StudiesPanel = ({ searchTerm }) => {
   const hasActiveFilters =
     filterValues.researchNetworks.length > 0 ||
     filterValues.vlmdAvailable !== "" ||
-    filterValues.dataAvailability !== ""
+    filterValues.dataAvailability !== "" ||
+    filterValues.cdesUsed !== ""
 
   const filterConfigs = useMemo(() => {
     const researchNetworkOptions =
@@ -121,6 +137,15 @@ export const StudiesPanel = ({ searchTerm }) => {
         options: [
           { value: "available", label: "Available" },
           { value: "not_available", label: "Not Available" },
+        ],
+      },
+      {
+        key: "cdesUsed",
+        label: "CDEs Used",
+        type: "select",
+        options: [
+          { value: "used", label: "Used" },
+          { value: "not_used", label: "Not Used" },
         ],
       },
     ]
