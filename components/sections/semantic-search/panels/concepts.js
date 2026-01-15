@@ -215,7 +215,7 @@ export const ConceptsPanel = ({ searchTerm }) => {
             <SidebarItem
               concept={concept}
               key={concept.id}
-              name={concept.name}
+              name={concept.name.toLowerCase()}
               description={concept.description}
               parentStudies={concept.parentStudies}
               parentCdes={concept.parentCdes}
@@ -251,7 +251,7 @@ export const ConceptsPanel = ({ searchTerm }) => {
           <div className="flex w-full justify-between gap-2 mb-2">
             <div className="flex gap-1 items-center">
               <h2 className="text-2xl font-semibold leading-relaxed text-[#592963]">
-                {activeConcept.name}{" "}
+                {activeConcept.name.toLowerCase()}{" "}
               </h2>
               <Link
                 href={(() => {
