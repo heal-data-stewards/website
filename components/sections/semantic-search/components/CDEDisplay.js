@@ -5,7 +5,12 @@ import Link from "../../../elements/link"
 import { Bookmark, Download, BookmarkBorder } from "@mui/icons-material"
 import StyledAccordion from "../accordion"
 import { useCollectionContext } from "../context/collection"
-import { trackBookmarkClick, UI_SURFACES } from "../analytics"
+import {
+  trackBookmarkClick,
+  trackCdeAccordionToggle,
+  trackCdeDownloadClick,
+  UI_SURFACES,
+} from "../analytics"
 
 export function CDEDisplay({
   studyId,
@@ -58,6 +63,14 @@ export function CDEDisplay({
         <p className="text-gray-400 italic">No CDEs found for this study.</p>
       ) : (
         <StyledAccordion
+          onToggle={({ item, isExpanded }) => {
+            trackCdeAccordionToggle({
+              action: isExpanded ? "open" : "close",
+              cde: item, // item.key === cde.id, and item has full object
+              panelLocation,
+              referringSearchTerm: searchTerm,
+            })
+          }}
           items={cdes.map((cde) => ({
             key: cde.id,
             summary: (
@@ -94,7 +107,19 @@ export function CDEDisplay({
             ),
             details: (
               <div>
-                <Link to={cde.action}>
+                <Link
+                  to="null"
+                  target="_blank"
+                  onClick={() => {
+                    trackCdeDownloadClick({
+                      cde,
+                      panelLocation,
+                      uiSurface: UI_SURFACES.CDE_ACCORDION_ROW,
+                      referringSearchTerm: searchTerm,
+                    })
+                    console.log(cde)
+                  }}
+                >
                   {cde.action} <Download fontSize="small" />
                 </Link>
                 <p className="mt-1">{cde.description}</p>

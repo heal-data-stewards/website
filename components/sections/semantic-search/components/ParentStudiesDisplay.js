@@ -5,7 +5,12 @@ import Link from "../../../elements/link"
 import { Bookmark, OpenInNew, BookmarkBorder } from "@mui/icons-material"
 import StyledAccordion from "../accordion"
 import { useCollectionContext } from "../context/collection"
-import { trackBookmarkClick, PANEL_LOCATIONS, UI_SURFACES } from "../analytics"
+import {
+  trackBookmarkClick,
+  trackHdpLinkClick,
+  PANEL_LOCATIONS,
+  UI_SURFACES,
+} from "../analytics"
 
 export function ParentStudiesDisplay({
   studyIds,
@@ -106,7 +111,20 @@ export function ParentStudiesDisplay({
               <div>
                 <p>
                   Study ID:{" "}
-                  <Link href={study.action}>
+                  <Link
+                    to={study.action}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    onClick={() =>
+                      trackHdpLinkClick({
+                        study: study,
+                        panelLocation:
+                          panelLocation ?? PANEL_LOCATIONS.PARENT_STUDIES,
+                        uiSurface: UI_SURFACES.RIGHT_DETAIL,
+                        referringSearchTerm: searchTerm,
+                      })
+                    }
+                  >
                     <Tooltip
                       title="Open study in the HEAL Data Platform"
                       placement="right"

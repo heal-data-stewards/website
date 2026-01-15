@@ -7,7 +7,12 @@ import { ParentStudiesDisplay } from "../components/ParentStudiesDisplay"
 import { useCollectionContext } from "../context/collection"
 import { InfiniteScrollList } from "../components/InfiniteScrollList"
 import { FiltersPanel } from "../components/FiltersPanel"
-import { trackBookmarkClick, PANEL_LOCATIONS, UI_SURFACES } from "../analytics"
+import {
+  trackBookmarkClick,
+  trackCdeDownloadClick,
+  PANEL_LOCATIONS,
+  UI_SURFACES,
+} from "../analytics"
 
 export const CDEsPanel = ({ searchTerm }) => {
   const collection = useCollectionContext()
@@ -193,11 +198,19 @@ export const CDEsPanel = ({ searchTerm }) => {
                 <DownloadCard
                   className="p-4 flex gap-1 shadow-md transition-all duration-150 rounded-md border-[1px] border-gray-200"
                   key={url.filename}
-                  href={url.url}
+                  // href={url.url}
                   target="_blank"
                   rel="noopener noreferrer"
+                  onClick={() => {
+                    trackCdeDownloadClick({
+                      cde: activeCde,
+                      file: url,
+                      panelLocation: PANEL_LOCATIONS.CDES,
+                      uiSurface: UI_SURFACES.CDE_DOWNLOAD_CARD,
+                      referringSearchTerm: searchTerm,
+                    })
+                  }}
                 >
-                  {/* TODO: ADD METRICS HERE */}
                   <div className="flex-1">
                     <p className="text-sm font-bold text-gray-500 mb-1">
                       {url.filename}

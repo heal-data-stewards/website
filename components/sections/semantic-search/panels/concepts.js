@@ -278,7 +278,14 @@ export const ConceptsPanel = ({ searchTerm }) => {
   )
 }
 
-function SidebarItem({ concept, name, description, onClick, active }) {
+function SidebarItem({
+  concept,
+  name,
+  description,
+  onClick,
+  active,
+  searchTerm,
+}) {
   const collection = useCollectionContext()
 
   return (

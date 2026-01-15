@@ -10,7 +10,9 @@ export function trackBookmarkClick({
   sendCustomEvent("hss_bookmark_clicked", {
     action,
     entity_type:
-      entity.element_type === "section" ? "CDE" : entity.element_type,
+      entity.element_type === "section"
+        ? "CDE"
+        : entity.element_type || entity.type,
     entity_id: entity.id,
     entity_label: entity.name,
     panel_location: panelLocation,
