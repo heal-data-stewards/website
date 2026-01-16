@@ -309,11 +309,11 @@ export const VariablesPanel = ({ searchTerm }) => {
           )}
 
           {activeVariable.metadata?.permissible_values?.length > 0 && (
-            <ul className="flex flex-col my-4">
+            <ul className="flex my-4 border-[#bfb9c5] border-[1px] rounded-md overflow-auto">
               {activeVariable.metadata.permissible_values.map((pv) => (
                 <li
                   key={pv.value}
-                  className="px-3 py-2 rounded-md odd:bg-gray-100"
+                  className="px-3 py-2 rounded-md odd:bg-[#f1eff3] flex-1"
                 >
                   <div className="flex flex-col">
                     <span>{pv.value}</span>
