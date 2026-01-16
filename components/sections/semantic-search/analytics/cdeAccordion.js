@@ -11,8 +11,8 @@ export function trackCdeAccordionToggle({
     entity_type: "cde",
     entity_id: cde.key,
     entity_label: cde.summary.props.children[0].props.children[0], // cde.summary.props.children[0]
-    panel_location: panelLocation,
-    ui_surface: "cde_accordion",
+    panel_location: `${panelLocation} panel`,
+    ui_surface: `${panelLocation}_panel_cde_accordion`,
     referring_search_term: referringSearchTerm,
   })
 }

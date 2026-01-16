@@ -11,7 +11,7 @@ export function trackHdpLinkClick({
     entity_id: study.id,
     entity_label: study.name,
 
-    panel_location: panelLocation,
+    panel_location: `${panelLocation} panel`,
     ui_surface: uiSurface,
 
     referring_search_term: referringSearchTerm,

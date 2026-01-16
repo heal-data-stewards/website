@@ -8,7 +8,7 @@ export function trackVariableAccordionToggle({
   sendCustomEvent("hss_variable_list_toggled", {
     action, // "open" | "close"
     entity_type: "related_variables",
-    panel_location: panelLocation,
+    panel_location: `${panelLocation} panel`,
     ui_surface: "related_variables_toggle",
     referring_search_term: referringSearchTerm,
   })

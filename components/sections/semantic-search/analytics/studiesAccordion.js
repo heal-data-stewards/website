@@ -11,7 +11,7 @@ export function trackStudiesAccordionToggle({
     entity_type: "study",
     entity_id: study.key,
     entity_label: study.summary.props.children[0].props.children,
-    panel_location: panelLocation,
+    panel_location: `${panelLocation} panel`,
     ui_surface: "studies_accordion",
     referring_search_term: referringSearchTerm,
   })
