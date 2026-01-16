@@ -1,152 +1,248 @@
-import { Bookmark, BookmarkBorder } from "@mui/icons-material"
-import { IconButton } from "@mui/material"
-import { useCallback, useEffect, useMemo, useState } from "react"
-import { fetchVariables } from "../data/variables"
+import { Bookmark, BookmarkBorder, Tune } from "@mui/icons-material"
+import {
+  Badge,
+  Button,
+  CircularProgress,
+  Collapse,
+  IconButton,
+  Pagination,
+} from "@mui/material"
+import { useMemo, useState } from "react"
+import { useQuery } from "utils/use-query"
 import { CDEDisplay } from "../components/CDEDisplay"
+import { FiltersPanel } from "../components/FiltersPanel"
 import { ParentStudiesDisplay } from "../components/ParentStudiesDisplay"
 import { useCollectionContext } from "../context/collection"
-import { InfiniteScrollList } from "../components/InfiniteScrollList"
-import { FiltersPanel } from "../components/FiltersPanel"
+import { trackBookmarkClick, PANEL_LOCATIONS, UI_SURFACES } from "../analytics"
+import { fetchVariables } from "../data/variables"
+
+const PAGE_SIZE = 50
+
+const DATA_TYPE_OPTIONS = [
+  "boolean",
+  "string",
+  "datetime",
+  "time",
+  "integer",
+  "number",
+  "enum",
+  "date",
+  "text",
+]
 
 export const VariablesPanel = ({ searchTerm }) => {
   const collection = useCollectionContext()
-
-  const [filters, setFilters] = useState({
-    isCde: false,
+  const [activeSidebarItem, setActiveSidebarItem] = useState(0)
+  const [filtersOpen, setFiltersOpen] = useState(false)
+  const [page, setPage] = useState(1)
+  const [filterValues, setFilterValues] = useState({
+    cdeOnly: false,
     dataTypes: [],
   })
 
-  const [activeSidebarItem, setActiveSidebarItem] = useState(0)
-  const [filteredVariables, setFilteredVariables] = useState([])
+  const apiFilters = useMemo(() => {
+    const filters = []
 
-  useEffect(() => {
-    setActiveSidebarItem(0)
-  }, [searchTerm])
-
-  useEffect(() => {
-    if (
-      filteredVariables.length > 0 &&
-      activeSidebarItem >= filteredVariables.length
-    ) {
-      setActiveSidebarItem(0)
-    }
-  }, [filteredVariables, activeSidebarItem])
-
-  const filterConfigs = useMemo(
-    () => [
-      {
-        type: "checkbox",
-        key: "isCde",
-        label: "CDE only",
-      },
-      {
-        type: "multiselect",
-        key: "dataTypes",
-        label: "Data Type",
-        options: [
-          "boolean",
-          "string",
-          "datetime",
-          "time",
-          "integer",
-          "number",
-          "enum",
-          "date",
-        ],
-      },
-    ],
-    []
-  )
-
-  const filterFunction = useCallback((variable, currentFilters) => {
-    if (currentFilters.isCde && !variable.is_cde) {
-      return false
+    if (filterValues.cdeOnly) {
+      filters.push({
+        field: "is_cde",
+        operator: "eq",
+        value: true,
+      })
     }
 
-    if (
-      currentFilters.dataTypes &&
-      currentFilters.dataTypes.length > 0 &&
-      !currentFilters.dataTypes.includes(variable.data_type)
-    ) {
-      return false
+    if (filterValues.dataTypes.length > 0) {
+      filters.push({
+        field: "data_type",
+        operator: "in",
+        value: filterValues.dataTypes,
+      })
     }
 
-    return true
-  }, [])
+    return filters
+  }, [filterValues])
 
-  const handleFilterChange = useCallback((filterKey, newValue) => {
-    setFilters((prev) => ({
-      ...prev,
-      [filterKey]: newValue,
-    }))
-  }, [])
+  const payload = {
+    query: searchTerm,
+    limit: PAGE_SIZE,
+    offset: (page - 1) * PAGE_SIZE,
+    filters: apiFilters,
+  }
 
-  const getCountDisplay = useCallback(
-    (filteredCount, loadedCount, totalCount, hasMore, hasFilters) => {
-      if (!hasFilters) {
-        if (hasMore) {
-          return `${loadedCount}+ variables found`
-        }
-        return `${totalCount || loadedCount} variable${
-          totalCount !== 1 ? "s" : ""
-        } found`
-      } else {
-        const loaded = hasMore
-          ? `${loadedCount}+`
-          : `${totalCount || loadedCount}`
-        return `Found ${filteredCount} of ${loaded} variable${
-          totalCount !== 1 ? "s" : ""
-        } matching filters`
-      }
+  const variablesQuery = useQuery({
+    queryFn: () => {
+      if (!searchTerm) return null
+      return fetchVariables(payload)
     },
-    []
-  )
+    queryKey: `variables-${JSON.stringify(payload)}`,
+  })
 
-  const renderItem = useCallback((variable, key, isActive, onClick) => {
+  const hasActiveFilters =
+    filterValues.cdeOnly || filterValues.dataTypes.length > 0
+
+  const filterConfigs = [
+    {
+      key: "cdeOnly",
+      label: "CDE Only",
+      type: "checkbox",
+    },
+    {
+      key: "dataTypes",
+      label: "Data Type",
+      type: "multiselect",
+      options: DATA_TYPE_OPTIONS,
+    },
+  ]
+
+  const handleFilterChange = (key, value) => {
+    setFilterValues((prev) => ({ ...prev, [key]: value }))
+    setPage(1)
+    setActiveSidebarItem(0)
+  }
+
+  const handlePageChange = (event, newPage) => {
+    setPage(newPage)
+    setActiveSidebarItem(0)
+  }
+  if (variablesQuery.isLoading) {
     return (
-      <SidebarItem
-        key={key}
-        variable={variable}
-        name={variable.id}
-        description={variable.description ?? ""}
-        onClick={onClick}
-        active={isActive}
-      />
+      <div className="h-full flex items-center justify-center">
+        <CircularProgress />
+      </div>
     )
-  }, [])
+  }
+  if (variablesQuery.error) {
+    return (
+      <div className="h-full flex items-center justify-center rounded-lg bg-red-50 p-4 font-bold text-lg">
+        <span className="text-red-600">Error loading results</span>
+      </div>
+    )
+  }
+  if (variablesQuery.data === null) {
+    return null
+  }
+  const variables = variablesQuery.data.results
+  const totalCount =
+    variablesQuery.data.metadata?.total_count ?? variables.length
+  const totalPages = Math.ceil(totalCount / PAGE_SIZE)
 
-  const handleFilteredItemsChange = useCallback((items, fullResponse) => {
-    setFilteredVariables(items)
-  }, [])
-
-  const renderFilters = useCallback(
-    () => (
-      <FiltersPanel
-        filterConfigs={filterConfigs}
-        filterValues={filters}
-        onFilterChange={handleFilterChange}
-      />
-    ),
-    [filterConfigs, filters, handleFilterChange]
-  )
-
-  const activeVariable = filteredVariables[activeSidebarItem]
+  if (variables.length === 0)
+    return (
+      <div className="flex flex-row max-h-full h-full">
+        <div className="min-w-[200px] max-w-[400px] flex flex-col min-h-0 overflow-auto border-r border-gray-200">
+          <div className="border-b border-gray-200 sticky top-0 bg-white isolate z-10">
+            <div className="px-4 py-2 flex items-center justify-between">
+              <span className="italic text-gray-500">0 variables found.</span>
+              <Button
+                variant="text"
+                size="small"
+                onClick={() => setFiltersOpen((prev) => !prev)}
+                endIcon={
+                  <Badge
+                    color="primary"
+                    variant="dot"
+                    invisible={!hasActiveFilters}
+                    sx={{ "& .MuiBadge-badge": { backgroundColor: "#4d2862" } }}
+                  >
+                    <Tune fontSize="small" />
+                  </Badge>
+                }
+                sx={{ color: "#4d2862" }}
+              >
+                Filters
+              </Button>
+            </div>
+            <Collapse in={filtersOpen}>
+              <div className="px-4 pb-3">
+                <FiltersPanel
+                  filterConfigs={filterConfigs}
+                  filterValues={filterValues}
+                  onFilterChange={handleFilterChange}
+                />
+              </div>
+            </Collapse>
+          </div>
+          <div className="w-full h-24 flex items-center justify-center p-2">
+            <span className="italic">No results for the requested query.</span>
+          </div>
+        </div>
+      </div>
+    )
+  const activeVariable = variables[activeSidebarItem]
 
   return (
-    <div className="flex flex-row max-h-full">
-      <InfiniteScrollList
-        panelId="variables"
-        fetchFunction={fetchVariables}
-        searchTerm={searchTerm}
-        renderItem={renderItem}
-        filterFunction={filterFunction}
-        filters={filters}
-        activeItemIndex={activeSidebarItem}
-        onActiveItemChange={setActiveSidebarItem}
-        getCountDisplay={getCountDisplay}
-        onFilteredItemsChange={handleFilteredItemsChange}
-        renderFilters={renderFilters}
-      />
+    <div className="flex flex-row max-h-full h-full">
+      <div className="min-w-[200px] max-w-[400px] flex flex-col min-h-0 border-r border-gray-200">
+        <div className="flex-1 overflow-auto min-h-0">
+          <div className="border-b border-gray-200 sticky top-0 bg-white isolate z-10">
+            <div className="px-4 py-2 flex items-center justify-between">
+              <span className="italic text-gray-500">
+                {totalCount} {totalCount !== 1 ? "variables" : "variable"}{" "}
+                found.
+              </span>
+              <Button
+                variant="text"
+                size="small"
+                onClick={() => setFiltersOpen((prev) => !prev)}
+                endIcon={
+                  <Badge
+                    color="primary"
+                    variant="dot"
+                    invisible={!hasActiveFilters}
+                    sx={{ "& .MuiBadge-badge": { backgroundColor: "#4d2862" } }}
+                  >
+                    <Tune fontSize="small" />
+                  </Badge>
+                }
+                sx={{ color: "#4d2862" }}
+              >
+                Filters
+              </Button>
+            </div>
+            <Collapse in={filtersOpen}>
+              <div className="px-4 pb-3">
+                <FiltersPanel
+                  filterConfigs={filterConfigs}
+                  filterValues={filterValues}
+                  onFilterChange={handleFilterChange}
+                />
+              </div>
+            </Collapse>
+          </div>
+          {variables.map((variable, index) => (
+            <SidebarItem
+              variable={variable}
+              key={variable.id}
+              name={variable.id}
+              description={variable.description ?? ""}
+              onClick={() => setActiveSidebarItem(index)}
+              active={activeSidebarItem === index}
+              searchTerm={searchTerm}
+            />
+          ))}
+        </div>
+        {totalPages > 1 && (
+          <div className="border-t border-gray-200 bg-white py-2 flex justify-center flex-shrink-0">
+            <Pagination
+              count={totalPages}
+              page={page}
+              onChange={handlePageChange}
+              size="small"
+              sx={{
+                "& .MuiPaginationItem-root": {
+                  "&.Mui-selected": {
+                    backgroundColor: "#4d2862",
+                    color: "white",
+                    "&:hover": {
+                      backgroundColor: "#3d1e4e",
+                    },
+                  },
+                },
+              }}
+            />
+          </div>
+        )}
+      </div>
       {activeVariable ? (
         <div className="flex-1 p-4 min-h-0 overflow-auto">
           <div className="flex gap-2">
@@ -164,7 +260,15 @@ export const VariablesPanel = ({ searchTerm }) => {
               size="large"
               sx={{ flexShrink: 0 }}
               onClick={() => {
+                const isBookmarked = collection.variables.has(activeVariable)
                 collection.variables.toggle(activeVariable)
+                trackBookmarkClick({
+                  action: isBookmarked ? "remove" : "add",
+                  entity: activeVariable,
+                  panelLocation: PANEL_LOCATIONS.VARIABLES,
+                  uiSurface: UI_SURFACES.RIGHT_DETAIL,
+                  referringSearchTerm: searchTerm,
+                })
               }}
             >
               {collection.variables.has(activeVariable) ? (
@@ -179,25 +283,35 @@ export const VariablesPanel = ({ searchTerm }) => {
 
           <p className="italic">{activeVariable.description}</p>
 
-          {activeVariable.metadata?.references && (
-            <>
-              <h3 className="text-xl font-semibold mt-6 mb-1">References</h3>
-              {activeVariable.metadata.references === "None" ? (
-                <p className="text-gray-400 italic">
-                  No references found for this study.
-                </p>
-              ) : (
+          {activeVariable.metadata?.references &&
+            activeVariable.metadata.references !== "None" && (
+              <>
+                <h3 className="text-xl font-semibold mt-6 mb-1">References</h3>
                 <p>{activeVariable.metadata.references}</p>
-              )}
-            </>
-          )}
+              </>
+            )}
 
           {activeVariable.is_cde ? (
-            <CDEDisplay elementIds={activeVariable.parents} />
+            <CDEDisplay
+              searchTerm={searchTerm}
+              panelLocation={PANEL_LOCATIONS.VARIABLES}
+              notFoundText={"No CDEs found for this variable."}
+              elementIds={activeVariable.parents.map((p) =>
+                p.replace("HEALCDE:", "")
+              )}
+            />
           ) : (
             <ParentStudiesDisplay
+              titleFormatter={(count) => (
+                <>
+                  Studies that collect this variable
+                  {count > 0 && ` (${count.toLocaleString()})`}
+                </>
+              )}
               studyIds={activeVariable.parents}
               notFoundText={"No studies found for this variable."}
+              searchTerm={searchTerm}
+              panelLocation={PANEL_LOCATIONS.VARIABLES}
             />
           )}
 
@@ -209,11 +323,11 @@ export const VariablesPanel = ({ searchTerm }) => {
           )}
 
           {activeVariable.metadata?.permissible_values?.length > 0 && (
-            <ul className="flex flex-col my-4">
+            <ul className="flex my-4 border-[#bfb9c5] border-[1px] rounded-md overflow-auto">
               {activeVariable.metadata.permissible_values.map((pv) => (
                 <li
                   key={pv.value}
-                  className="px-3 py-2 rounded-md odd:bg-gray-100"
+                  className="px-3 py-2 rounded-md odd:bg-[#f1eff3] flex-1"
                 >
                   <div className="flex flex-col">
                     <span>{pv.value}</span>
@@ -239,14 +353,21 @@ export const VariablesPanel = ({ searchTerm }) => {
   )
 }
 
-function SidebarItem({ variable, name, description, onClick, active }) {
+function SidebarItem({
+  variable,
+  name,
+  description,
+  onClick,
+  active,
+  searchTerm,
+}) {
   const collection = useCollectionContext()
 
   return (
     <button
       onClick={onClick}
       className={
-        `p-4 border-b border-gray-200 cursor-pointer text-left` +
+        `w-full p-4 border-b border-gray-200 cursor-pointer text-left` +
         (active ? " bg-[#eeecf0]" : "")
       }
     >
@@ -257,7 +378,15 @@ function SidebarItem({ variable, name, description, onClick, active }) {
           sx={{ p: 0 }}
           onClick={(e) => {
             e.stopPropagation()
+            const isBookmarked = collection.variables.has(variable)
             collection.variables.toggle(variable)
+            trackBookmarkClick({
+              action: isBookmarked ? "remove" : "add",
+              entity: variable,
+              panelLocation: PANEL_LOCATIONS.VARIABLES,
+              uiSurface: UI_SURFACES.LEFT_LIST,
+              referringSearchTerm: searchTerm,
+            })
           }}
         >
           {collection.variables.has(variable) ? (

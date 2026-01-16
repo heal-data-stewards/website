@@ -50,11 +50,19 @@ const AccordionDetails = styled(MuiAccordionDetails)(({ theme }) => ({
 /**
  * @param {{ items: Array<{ key: string, summary: React.ReactNode, details: React.ReactNode }> }} props
  */
-export default function StyledAccordion({ items }) {
+export default function StyledAccordion({ items, onToggle }) {
   const [expanded, setExpanded] = useState(null)
 
-  const handleChange = (panel) => (_, newExpanded) => {
+  const handleChange = (panel, item) => (_, newExpanded) => {
     setExpanded(newExpanded ? panel : false)
+
+    if (onToggle) {
+      onToggle({
+        key: item.key,
+        item,
+        isExpanded: newExpanded,
+      })
+    }
   }
 
   return (
@@ -63,7 +71,7 @@ export default function StyledAccordion({ items }) {
         <Accordion
           key={`${item.key}-${index}`}
           expanded={expanded === `panel${index}`}
-          onChange={handleChange(`panel${index}`)}
+          onChange={handleChange(`panel${index}`, item)}
         >
           <AccordionSummary
             aria-controls={`panel${index}d-content`}

@@ -3,166 +3,267 @@ import {
   BookmarkBorder,
   OpenInNew,
   Search,
+  Tune,
 } from "@mui/icons-material"
-import { IconButton, Tooltip } from "@mui/material"
-import { useCallback, useEffect, useMemo, useState } from "react"
-import { ParentStudiesDisplay } from "../components/ParentStudiesDisplay"
-import { fetchConcepts } from "../data/concepts"
-import { CDEDisplay } from "../components/CDEDisplay"
-import { useCollectionContext } from "../context/collection"
+import {
+  Badge,
+  Button,
+  CircularProgress,
+  Collapse,
+  IconButton,
+  Pagination,
+  Tooltip,
+} from "@mui/material"
+import { useMemo, useState } from "react"
+import { useQuery } from "utils/use-query"
 import Link from "../../../elements/link"
-import { InfiniteScrollList } from "../components/InfiniteScrollList"
+import { CDEDisplay } from "../components/CDEDisplay"
 import { FiltersPanel } from "../components/FiltersPanel"
+import {
+  trackBookmarkClick,
+  trackOntologyLinkClick,
+  trackNewConceptSearched,
+  PANEL_LOCATIONS,
+  UI_SURFACES,
+} from "../analytics"
+import { ParentStudiesDisplay } from "../components/ParentStudiesDisplay"
+import { useCollectionContext } from "../context/collection"
+import { fetchConcepts } from "../data/concepts"
+
+const PAGE_SIZE = 50
+
+function lowercaseFirstLetters(str) {
+  return str.replace(/\b\w/g, (char) => char.toLowerCase())
+}
 
 export const ConceptsPanel = ({ searchTerm }) => {
   const collection = useCollectionContext()
-
-  const [filters, setFilters] = useState({
-    conceptType: "",
+  const [activeSidebarItem, setActiveSidebarItem] = useState(0)
+  const [filtersOpen, setFiltersOpen] = useState(false)
+  const [page, setPage] = useState(1)
+  const [filterValues, setFilterValues] = useState({
+    conceptTypes: [],
   })
 
-  const [activeSidebarItem, setActiveSidebarItem] = useState(0)
-  const [filteredConcepts, setFilteredConcepts] = useState([])
-  const [conceptTypesFromApi, setConceptTypesFromApi] = useState({})
+  const apiFilters = useMemo(() => {
+    const filters = []
 
-  useEffect(() => {
-    setActiveSidebarItem(0)
-  }, [searchTerm])
-
-  useEffect(() => {
-    if (
-      filteredConcepts.length > 0 &&
-      activeSidebarItem >= filteredConcepts.length
-    ) {
-      setActiveSidebarItem(0)
-    }
-  }, [filteredConcepts, activeSidebarItem])
-
-  const filterConfigs = useMemo(
-    () => [
-      {
-        type: "select",
-        key: "conceptType",
-        label: "Concept Type",
-        options: Object.entries(conceptTypesFromApi).map(([type, count]) => ({
-          value: type,
-          label: `${type} (${count})`,
-        })),
-      },
-    ],
-    [conceptTypesFromApi]
-  )
-
-  const filterFunction = useCallback((concept, currentFilters) => {
-    if (
-      currentFilters.conceptType &&
-      concept.concept_type !== currentFilters.conceptType
-    ) {
-      return false
+    if (filterValues.conceptTypes.length > 0) {
+      filters.push({
+        field: "concept_type",
+        operator: "in",
+        value: filterValues.conceptTypes,
+      })
     }
 
-    return true
-  }, [])
+    return filters
+  }, [filterValues])
 
-  const handleFilterChange = useCallback((filterKey, newValue) => {
-    setFilters((prev) => ({
-      ...prev,
-      [filterKey]: newValue,
-    }))
-  }, [])
+  const payload = {
+    query: searchTerm,
+    limit: PAGE_SIZE,
+    offset: (page - 1) * PAGE_SIZE,
+    filters: apiFilters,
+    aggs: { concept_type: 25 },
+  }
 
-  const getCountDisplay = useCallback(
-    (filteredCount, loadedCount, totalCount, hasMore, hasFilters) => {
-      if (!hasFilters) {
-        if (hasMore) {
-          return `${loadedCount}+ concepts found`
-        }
-        return `${totalCount || loadedCount} concept${
-          totalCount !== 1 ? "s" : ""
-        } found`
-      } else {
-        const loaded = hasMore
-          ? `${loadedCount}+`
-          : `${totalCount || loadedCount}`
-        return `Found ${filteredCount} of ${loaded} concept${
-          totalCount !== 1 ? "s" : ""
-        } matching filters`
-      }
+  const conceptsQuery = useQuery({
+    queryFn: () => {
+      if (!searchTerm) return null
+      return fetchConcepts(payload)
     },
-    []
-  )
+    queryKey: `concepts-${JSON.stringify(payload)}`,
+  })
 
-  const renderItem = useCallback((concept, key, isActive, onClick) => {
+  const hasActiveFilters = filterValues.conceptTypes.length > 0
+
+  const filterConfigs = useMemo(() => {
+    const conceptTypeOptions =
+      conceptsQuery.data?.aggregations?.["concept_type"]?.map((bucket) => ({
+        value: bucket.key,
+        label: `${bucket.key} (${bucket.count.toLocaleString()})`,
+      })) || []
+
+    return [
+      {
+        key: "conceptTypes",
+        label: "Concept Type",
+        type: "multiselect",
+        options: conceptTypeOptions,
+      },
+    ]
+  }, [conceptsQuery.data?.aggregations])
+
+  const handleFilterChange = (key, value) => {
+    setFilterValues((prev) => ({ ...prev, [key]: value }))
+    setPage(1)
+    setActiveSidebarItem(0)
+  }
+
+  const handlePageChange = (event, newPage) => {
+    setPage(newPage)
+    setActiveSidebarItem(0)
+  }
+  if (conceptsQuery.isLoading) {
     return (
-      <SidebarItem
-        key={key}
-        concept={concept}
-        name={concept.name}
-        description={concept.description}
-        onClick={onClick}
-        active={isActive}
-      />
+      <div className="h-96 flex items-center justify-center">
+        <CircularProgress />
+      </div>
     )
-  }, [])
-
-  const handleFilteredItemsChange = useCallback((items, fullResponse) => {
-    const enhancedConcepts = items.map((concept) => ({
-      ...concept,
-      parentStudies: Array.from(
-        new Set(
-          concept.parents
-            .map((str) => {
-              const match = str.match(/^(HEALDATAPLATFORM:[^:]+):[^:]+$/)
-              return match ? match[1] : null
-            })
-            .filter(Boolean)
-        )
-      ),
-      parentCdes: Array.from(
-        new Set(concept.parents.filter((str) => /^HEALCDE:[^:]+$/.test(str)))
-      ),
-    }))
-    setFilteredConcepts(enhancedConcepts)
-
-    if (fullResponse?.concept_types) {
-      setConceptTypesFromApi(fullResponse.concept_types)
-    }
-  }, [])
-
-  const renderFilters = useCallback(
-    () => (
-      <FiltersPanel
-        filterConfigs={filterConfigs}
-        filterValues={filters}
-        onFilterChange={handleFilterChange}
-      />
+  }
+  if (conceptsQuery.error) {
+    return (
+      <div className="h-96 flex items-center justify-center rounded-lg bg-red-50 p-4 font-bold text-lg">
+        <span className="text-red-600">Error loading results</span>
+      </div>
+    )
+  }
+  if (conceptsQuery.data === null) {
+    return null
+  }
+  const concepts = conceptsQuery.data.results.map((concept) => ({
+    ...concept,
+    parentStudies: Array.from(
+      new Set(
+        concept.parents
+          .map((str) => {
+            const match = str.match(/^(HEALDATAPLATFORM:[^:]+):[^:]+$/)
+            return match ? match[1] : null
+          })
+          .filter(Boolean)
+      )
     ),
-    [filterConfigs, filters, handleFilterChange]
-  )
+    parentCdes: Array.from(
+      new Set(concept.parents.filter((str) => /^HEALCDE:[^:]+$/.test(str)))
+    ),
+  }))
+  const totalCount = conceptsQuery.data.metadata?.total_count ?? concepts.length
+  const totalPages = Math.ceil(totalCount / PAGE_SIZE)
 
-  const activeConcept = filteredConcepts[activeSidebarItem]
+  if (concepts.length < 1)
+    return (
+      <div className="flex flex-row max-h-full h-full">
+        <div className="min-w-[200px] max-w-[400px] flex flex-col min-h-0 border-r border-gray-200 overflow-auto">
+          <div className="border-b border-gray-200 sticky top-0 bg-white isolate z-10">
+            <div className="px-4 py-2 flex items-center justify-between">
+              <span className="italic text-gray-500">0 concepts found.</span>
+              <Button
+                variant="text"
+                size="small"
+                onClick={() => setFiltersOpen((prev) => !prev)}
+                endIcon={
+                  <Badge
+                    color="primary"
+                    variant="dot"
+                    invisible={!hasActiveFilters}
+                    sx={{ "& .MuiBadge-badge": { backgroundColor: "#4d2862" } }}
+                  >
+                    <Tune fontSize="small" />
+                  </Badge>
+                }
+                sx={{ color: "#4d2862" }}
+              >
+                Filters
+              </Button>
+            </div>
+            <Collapse in={filtersOpen}>
+              <div className="px-4 pb-3">
+                <FiltersPanel
+                  filterConfigs={filterConfigs}
+                  filterValues={filterValues}
+                  onFilterChange={handleFilterChange}
+                />
+              </div>
+            </Collapse>
+          </div>
+          <div className="w-full h-24 flex items-center justify-center p-2">
+            <span className="italic">No results for the requested query.</span>
+          </div>
+        </div>
+      </div>
+    )
+  const activeConcept = concepts[activeSidebarItem]
 
   return (
     <div className="flex flex-row max-h-full h-full">
-      <InfiniteScrollList
-        panelId="concepts"
-        fetchFunction={fetchConcepts}
-        searchTerm={searchTerm}
-        renderItem={renderItem}
-        filterFunction={filterFunction}
-        filters={filters}
-        activeItemIndex={activeSidebarItem}
-        onActiveItemChange={setActiveSidebarItem}
-        getCountDisplay={getCountDisplay}
-        onFilteredItemsChange={handleFilteredItemsChange}
-        renderFilters={renderFilters}
-      />
+      <div className="min-w-[200px] max-w-[400px] flex flex-col min-h-0 border-r border-gray-200">
+        <div className="flex-1 overflow-auto min-h-0">
+          <div className="border-b border-gray-200 sticky top-0 bg-white isolate z-10">
+            <div className="px-4 py-2 flex items-center justify-between">
+              <span className="italic text-gray-500">
+                {totalCount} {totalCount !== 1 ? "concepts" : "concept"} found.
+              </span>
+              <Button
+                variant="text"
+                size="small"
+                onClick={() => setFiltersOpen((prev) => !prev)}
+                endIcon={
+                  <Badge
+                    color="primary"
+                    variant="dot"
+                    invisible={!hasActiveFilters}
+                    sx={{ "& .MuiBadge-badge": { backgroundColor: "#4d2862" } }}
+                  >
+                    <Tune fontSize="small" />
+                  </Badge>
+                }
+                sx={{ color: "#4d2862" }}
+              >
+                Filters
+              </Button>
+            </div>
+            <Collapse in={filtersOpen}>
+              <div className="px-4 pb-3">
+                <FiltersPanel
+                  filterConfigs={filterConfigs}
+                  filterValues={filterValues}
+                  onFilterChange={handleFilterChange}
+                />
+              </div>
+            </Collapse>
+          </div>
+          {concepts.map((concept, index) => (
+            <SidebarItem
+              concept={concept}
+              key={concept.id}
+              name={lowercaseFirstLetters(concept.name)}
+              description={concept.description}
+              parentStudies={concept.parentStudies}
+              parentCdes={concept.parentCdes}
+              onClick={() => setActiveSidebarItem(index)}
+              active={activeSidebarItem === index}
+              searchTerm={searchTerm}
+            />
+          ))}
+        </div>
+        {totalPages > 1 && (
+          <div className="border-t border-gray-200 bg-white py-2 flex justify-center flex-shrink-0">
+            <Pagination
+              count={totalPages}
+              page={page}
+              onChange={handlePageChange}
+              size="small"
+              sx={{
+                "& .MuiPaginationItem-root": {
+                  "&.Mui-selected": {
+                    backgroundColor: "#4d2862",
+                    color: "white",
+                    "&:hover": {
+                      backgroundColor: "#3d1e4e",
+                    },
+                  },
+                },
+              }}
+            />
+          </div>
+        )}
+      </div>
       {activeConcept ? (
         <div className="flex-1 p-4 min-h-0 overflow-auto">
           <div className="flex w-full justify-between gap-2 mb-2">
             <div className="flex gap-1 items-center">
               <h2 className="text-2xl font-semibold leading-relaxed text-[#592963]">
-                {activeConcept.name}{" "}
+                {lowercaseFirstLetters(activeConcept.name)}{" "}
               </h2>
               <Link
                 href={(() => {
@@ -175,8 +276,17 @@ export const ConceptsPanel = ({ searchTerm }) => {
                 <Tooltip title="Search for this concept" placement="top">
                   <IconButton
                     size="large"
-                    component={"a"}
-                    onClick={(e) => e.stopPropagation()}
+                    component="a"
+                    onClick={(e) => {
+                      e.stopPropagation()
+
+                      trackNewConceptSearched({
+                        concept: activeConcept,
+                        panelLocation: PANEL_LOCATIONS.CONCEPTS,
+                        uiSurface: UI_SURFACES.RIGHT_DETAIL,
+                        referringSearchTerm: searchTerm,
+                      })
+                    }}
                   >
                     <Search fontSize="large" sx={{ color: "#4d2862" }} />
                   </IconButton>
@@ -188,7 +298,15 @@ export const ConceptsPanel = ({ searchTerm }) => {
               size="large"
               sx={{ flexShrink: 0 }}
               onClick={() => {
+                const isBookmarked = collection.concepts.has(activeConcept)
                 collection.concepts.toggle(activeConcept)
+                trackBookmarkClick({
+                  action: isBookmarked ? "remove" : "add",
+                  entity: activeConcept,
+                  panelLocation: PANEL_LOCATIONS.CONCEPTS,
+                  uiSurface: UI_SURFACES.RIGHT_DETAIL,
+                  referringSearchTerm: searchTerm,
+                })
               }}
             >
               {collection.concepts.has(activeConcept) ? (
@@ -205,6 +323,14 @@ export const ConceptsPanel = ({ searchTerm }) => {
                   to={activeConcept.action ?? ""}
                   target="_blank"
                   rel="noopener noreferrer"
+                  onClick={() =>
+                    trackOntologyLinkClick({
+                      concept: activeConcept,
+                      panelLocation: PANEL_LOCATIONS.CONCEPTS,
+                      uiSurface: UI_SURFACES.RIGHT_DETAIL,
+                      referringSearchTerm: searchTerm,
+                    })
+                  }
                 >
                   <Tooltip title="Concept lookup in Ontology" placement="top">
                     {activeConcept.id}
@@ -226,6 +352,7 @@ export const ConceptsPanel = ({ searchTerm }) => {
           <ParentStudiesDisplay
             conceptId={activeConcept.id}
             searchTerm={searchTerm}
+            panelLocation={PANEL_LOCATIONS.CONCEPTS}
             notFoundText={"No studies found for this concept."}
             titleFormatter={(n) =>
               `Studies Referencing this Concept ${
@@ -234,7 +361,11 @@ export const ConceptsPanel = ({ searchTerm }) => {
             }
           />
 
-          <CDEDisplay searchTerm={searchTerm} conceptId={activeConcept.id} />
+          <CDEDisplay
+            searchTerm={`"${activeConcept.name}"`}
+            notFoundText={"No CDEs found for this concept."}
+            panelLocation={PANEL_LOCATIONS.CONCEPTS}
+          />
         </div>
       ) : (
         <div className="flex-1 p-4 min-h-0 overflow-auto flex items-center justify-center">
@@ -247,14 +378,21 @@ export const ConceptsPanel = ({ searchTerm }) => {
   )
 }
 
-function SidebarItem({ concept, name, description, onClick, active }) {
+function SidebarItem({
+  concept,
+  name,
+  description,
+  onClick,
+  active,
+  searchTerm,
+}) {
   const collection = useCollectionContext()
 
   return (
     <button
       onClick={onClick}
       className={
-        `p-4 border-b border-gray-200 cursor-pointer text-left` +
+        `w-full p-4 border-b border-gray-200 cursor-pointer text-left` +
         (active ? " bg-[#eeecf0]" : "")
       }
     >
@@ -272,8 +410,17 @@ function SidebarItem({ concept, name, description, onClick, active }) {
             <Tooltip title="Search for this concept" placement="top">
               <IconButton
                 size="small"
-                component={"a"}
-                onClick={(e) => e.stopPropagation()}
+                component="a"
+                onClick={(e) => {
+                  e.stopPropagation()
+
+                  trackNewConceptSearched({
+                    concept: concept,
+                    panelLocation: PANEL_LOCATIONS.CONCEPTS,
+                    uiSurface: UI_SURFACES.LEFT_LIST,
+                    referringSearchTerm: searchTerm,
+                  })
+                }}
               >
                 <Search fontSize="small" sx={{ color: "#4d2862" }} />
               </IconButton>
@@ -284,7 +431,16 @@ function SidebarItem({ concept, name, description, onClick, active }) {
           size="small"
           onClick={(e) => {
             e.stopPropagation()
+            const isBookmarked = collection.concepts.has(concept)
             collection.concepts.toggle(concept)
+
+            trackBookmarkClick({
+              action: isBookmarked ? "remove" : "add",
+              entity: concept,
+              panelLocation: PANEL_LOCATIONS.CONCEPTS,
+              uiSurface: UI_SURFACES.LEFT_LIST,
+              referringSearchTerm: searchTerm,
+            })
           }}
         >
           {collection.concepts.has(concept) ? (

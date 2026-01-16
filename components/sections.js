@@ -153,7 +153,7 @@ const PreviewModeBanner = () => {
 // Display the list of sections
 const Sections = ({ sections, preview, eventData, token, glossary }) => {
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col w-full">
       {/* Show a banner if preview mode is on */}
       {preview && <PreviewModeBanner />}
       {/* Show the actual sections */}

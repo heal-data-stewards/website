@@ -4,8 +4,13 @@ import { fetchVariables } from "../data/variables"
 import { useQuery } from "utils/use-query"
 import { useCollectionContext } from "../context/collection"
 import { useState } from "react"
+import {
+  trackBookmarkClick,
+  trackVariableAccordionToggle,
+  UI_SURFACES,
+} from "../analytics"
 
-export function VariablesList({ study, searchTerm }) {
+export function VariablesList({ study, searchTerm, panelLocation }) {
   const collection = useCollectionContext()
   const [expanded, setExpanded] = useState()
 
@@ -52,6 +57,7 @@ export function VariablesList({ study, searchTerm }) {
           expanded={expanded}
           setExpanded={setExpanded}
           numItems={variables.length}
+          referringSearchTerm={searchTerm}
         >
           <h3 className="text-xl font-semibold">
             Related Variables
@@ -75,7 +81,15 @@ export function VariablesList({ study, searchTerm }) {
                   size="small"
                   onClick={(e) => {
                     e.stopPropagation()
+                    const isBookmarked = collection.variables.has(variable)
                     collection.variables.toggle(variable)
+                    trackBookmarkClick({
+                      action: isBookmarked ? "remove" : "add",
+                      entity: variable,
+                      panelLocation,
+                      uiSurface: UI_SURFACES.VARIABLES_LIST,
+                      referringSearchTerm: searchTerm,
+                    })
                   }}
                 >
                   {collection.variables.has(variable) ? (
@@ -102,7 +116,13 @@ export function VariablesList({ study, searchTerm }) {
   )
 }
 
-function CollapsibleHeading({ expanded, setExpanded, numItems, children }) {
+function CollapsibleHeading({
+  expanded,
+  setExpanded,
+  numItems,
+  referringSearchTerm,
+  children,
+}) {
   if (numItems === 0) return children
 
   return (
@@ -110,6 +130,11 @@ function CollapsibleHeading({ expanded, setExpanded, numItems, children }) {
       className="flex align-center gap-1"
       onClick={() => {
         setExpanded((e) => !e)
+        trackVariableAccordionToggle({
+          action: expanded ? "close" : "open",
+          panelLocation: "variables_list",
+          referringSearchTerm: referringSearchTerm,
+        })
       }}
     >
       <ChevronRight

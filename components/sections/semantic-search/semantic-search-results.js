@@ -11,6 +11,7 @@ import { CDEsPanel } from "./panels/cdes"
 import { ConceptsPanel } from "./panels/concepts"
 import { VariablesPanel } from "./panels/variables"
 import { CollectionContextProvider } from "./context/collection"
+import { IntegratedSearchBar } from "./components/IntegratedSearchBar"
 
 const SemanticSearchResults = ({ data }) => {
   const [searchTerm] = useQueryParams(null, "q")
@@ -20,10 +21,18 @@ const SemanticSearchResults = ({ data }) => {
     <QueryCacheProvider>
       <CollectionContextProvider>
         <Container>
-          <h2 className="text-2xl font-bold text-[#532565] my-2 sm:ml-0 ml-4">
+          <IntegratedSearchBar
+            buttonText={data.button_text}
+            redirectUrl={data.redirect_url}
+            redirectQueryParam={data.query_param}
+            guideText={data.guide_text}
+          />
+
+          {/* <h2 className="text-2xl font-bold text-[#532565] sm:ml-0 ml-4">
             Results for &ldquo;{searchTerm}&rdquo;:
-          </h2>
-          <div className="flex-1 flex w-full max-h-full gap-4 min-h-0">
+          </h2> */}
+
+          <div className="flex-1 flex w-full max-h-full gap-4 min-h-0 p-4">
             <div className="flex-1 flex flex-col min-w-0">
               <SemanticSearchTabs
                 currentTabIndex={currentTabIndex}
@@ -44,6 +53,7 @@ const SemanticSearchResults = ({ data }) => {
                 </TabPanel>
               </div>
             </div>
+
             <div className="min-w-[150px] max-w-[300px] flex flex-col gap-4 pt-[48px]">
               <RelatedSearches searchTerm={searchTerm} />
               <Collection />
@@ -70,20 +80,12 @@ function TabPanel({ children, currentTabIndex, index }) {
 }
 
 const Container = styled("div")`
-  margin: 0 auto;
-  margin-bottom: 3rem;
   width: 100%;
-  max-width: 1700px;
-  height: calc(100dvh - 150px);
-  max-height: calc(100dvh - 150px);
-  padding: 0rem 1rem;
+  height: 100%;
+  max-height: 100%;
 
   display: flex;
   flex-direction: column;
-
-  @media (max-width: 639px) {
-    padding: 0;
-  }
 `
 
 export default SemanticSearchResults
