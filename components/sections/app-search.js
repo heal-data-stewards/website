@@ -18,6 +18,7 @@ import {
   Select,
   Tooltip,
   tooltipClasses,
+  Typography,
 } from "@mui/material"
 import { formatList } from "utils/format-list"
 import styled from "styled-components"
@@ -168,6 +169,7 @@ export default function AppSearch({ data }) {
   const [selectedHdpId, setSelectedHdpId] = React.useState("")
   const [sentParam, setStoreSentParam] = React.useState()
   const [showSupport, setShowSupport] = React.useState(false)
+  const [isInvalidInput, setIsInvalidInput] = React.useState(false)
 
   const router = useRouter()
   const params = router.query
@@ -335,6 +337,13 @@ export default function AppSearch({ data }) {
   const getAppId = (e) => {
     e.preventDefault()
 
+    if (value.trim() === "") {
+      setIsInvalidInput(true)
+      return
+    } else {
+      setIsInvalidInput(false)
+    }
+
     setPayload(false)
 
     const paramKey = getParamKey(value)
@@ -386,51 +395,62 @@ export default function AppSearch({ data }) {
             gap: "1rem",
           }}
         >
-          <Box sx={{ display: "flex", alignItems: "center", gap: "1rem" }}>
-            <Box
-              sx={{
-                display: "flex",
-                flexDirection: "row",
-                "& .MuiInputBase-root": { mb: 0 },
-              }}
-            >
-              <TextField
-                id="outlined-basic"
-                label="Project # / CTN # / PI Name / Appl ID"
-                variant="outlined"
-                onChange={handleTextFieldChange}
-                value={value}
+          <Box sx={{ display: "flex", flexDirection: "column", gap: "0.5rem" }}>
+            <Box sx={{ display: "flex", alignItems: "center", gap: "1rem" }}>
+              <Box
                 sx={{
-                  width: 350,
-                  "& .MuiInputBase-root": { borderRadius: "4px 0 0 4px" },
+                  display: "flex",
+                  flexDirection: "row",
+                  "& .MuiInputBase-root": { mb: 0 },
                 }}
-              />
-              <Button
-                variant="contained"
-                type="submit"
-                sx={{ borderRadius: "0 4px 4px 0 !important" }}
               >
-                Check Status
-              </Button>
+                <TextField
+                  id="outlined-basic"
+                  label="PI Name / Project # / CTN # / Appl ID / HDP ID"
+                  variant="outlined"
+                  onChange={handleTextFieldChange}
+                  value={value}
+                  sx={{
+                    width: 450,
+                    "& .MuiInputBase-root": { borderRadius: "4px 0 0 4px" },
+                  }}
+                />
+                <Button
+                  variant="contained"
+                  type="submit"
+                  sx={{ borderRadius: "0 4px 4px 0 !important" }}
+                >
+                  Check Status
+                </Button>
+              </Box>
+
+              <LightTooltip
+                title={
+                  <Markdown>
+                    To locate your HEAL Data Platform ID: 1) search for your
+                    study on the [HEAL Data Platform Discovery
+                    page](https://healdata.org/portal/discovery), then 2) click
+                    on the Study Name in the search results to open the study
+                    page on the right; the HDP ID will be in gray letters under
+                    the study title (ex: HDP00258). If you have your study’s
+                    permalink, your HDP ID will be the number at the end of the
+                    URL. If you need assistance, contact the HEAL Platform Team
+                    at [heal-support@gen3.org](mailto:heal-support@gen3.org).
+                  </Markdown>
+                }
+              >
+                <InfoIcon sx={{ color: "#cacaca" }} />
+              </LightTooltip>
             </Box>
 
-            <LightTooltip
-              title={
-                <Markdown>
-                  To locate your HEAL Data Platform ID: 1) search for your study
-                  on the [HEAL Data Platform Discovery
-                  page](https://healdata.org/portal/discovery), then 2) click on
-                  the Study Name in the search results to open the study page on
-                  the right; the HDP ID will be in gray letters under the study
-                  title (ex: HDP00258). If you have your study’s permalink, your
-                  HDP ID will be the number at the end of the URL. If you need
-                  assistance, contact the HEAL Platform Team at
-                  [heal-support@gen3.org](mailto:heal-support@gen3.org).
-                </Markdown>
-              }
-            >
-              <InfoIcon sx={{ color: "#cacaca" }} />
-            </LightTooltip>
+            {isInvalidInput && (
+              <Typography
+                variant="caption"
+                sx={{ fontSize: "0.875rem", color: "#af0000" }}
+              >
+                Please enter a valid value to search.
+              </Typography>
+            )}
           </Box>
           {payload.length <= 1 ? (
             <span>HEAL Data Platform ID: {selectedHdpId}</span>
@@ -528,10 +548,6 @@ export default function AppSearch({ data }) {
                   return <div key={i + name}>{name}</div>
                 }) ?? ""}
               </div>
-            </div>
-            <div className="w-96 pr-[20px]">
-              <h2 className="font-bold text-xl">Research Area</h2>
-              <p className="text-l">{selectedStudy.project_title}</p>
             </div>
             <div className="w-96">
               <h2 className="font-bold text-xl">Award Year</h2>

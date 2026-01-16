@@ -18,6 +18,7 @@ export function CDEDisplay({
   conceptId,
   searchTerm,
   panelLocation,
+  notFoundText,
 }) {
   const collection = useCollectionContext()
 
@@ -60,7 +61,9 @@ export function CDEDisplay({
         {cdes.length > 0 && ` (${cdes.length.toLocaleString()})`}
       </h3>
       {cdes.length === 0 ? (
-        <p className="text-gray-400 italic">No CDEs found for this study.</p>
+        <p className="text-gray-400 italic">
+          {notFoundText ?? "No CDEs found for this study."}
+        </p>
       ) : (
         <StyledAccordion
           onToggle={({ item, isExpanded }) => {

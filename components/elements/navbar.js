@@ -125,8 +125,12 @@ const Navbar = ({ navbar, pageContext }) => {
         position="sticky"
         style={{
           background: "#fff",
-          height: "100px",
+          height: pageContext.isFullscreen ? "75px" : "100px",
           color: "#373a3c",
+          ...(pageContext.isFullscreen && {
+            boxShadow: "none",
+          }),
+          borderBottom: "1px solid #f4f1f5",
         }}
       >
         <Toolbar
@@ -136,7 +140,13 @@ const Navbar = ({ navbar, pageContext }) => {
           {/* Content aligned to the left */}
           <div className="flex flex-row items-center justify-between w-full">
             <Link href="/">
-              <a className="h-8" style={{ height: "100%", width: "17rem" }}>
+              <a
+                className="h-8"
+                style={{
+                  height: "100%",
+                  width: pageContext.isFullscreen ? "13rem" : "17rem",
+                }}
+              >
                 <NextImage media={navbar.logo} />
               </a>
             </Link>

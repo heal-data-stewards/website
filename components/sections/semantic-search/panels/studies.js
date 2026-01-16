@@ -1,239 +1,314 @@
-import { IconButton, Tooltip } from "@mui/material"
-import { fetchStudies } from "../data/studies"
-import { useCallback, useEffect, useMemo, useState } from "react"
-import Link from "../../../elements/link"
-import { Bookmark, BookmarkBorder, OpenInNew } from "@mui/icons-material"
+import { Bookmark, BookmarkBorder, OpenInNew, Tune } from "@mui/icons-material"
+import {
+  Badge,
+  Button,
+  CircularProgress,
+  Collapse,
+  IconButton,
+  Pagination,
+  Tooltip,
+} from "@mui/material"
 import { format, isValid, parseISO } from "date-fns"
-import { VariablesList } from "../components/VariablesList"
+import { useMemo, useState } from "react"
+import { FiltersPanel } from "../components/FiltersPanel"
+import { useQuery } from "utils/use-query"
+import Link from "../../../elements/link"
 import { CDEDisplay } from "../components/CDEDisplay"
+import { VariablesList } from "../components/VariablesList"
 import { useCollectionContext } from "../context/collection"
 import { InfiniteScrollList } from "../components/InfiniteScrollList"
-import { FiltersPanel } from "../components/FiltersPanel"
 import {
   trackBookmarkClick,
   trackHdpLinkClick,
   PANEL_LOCATIONS,
   UI_SURFACES,
 } from "../analytics"
+import { fetchStudies } from "../data/studies"
 
-const RESEARCH_NETWORKS = [
-  {
-    key: "HEAL Research Program",
-    doc_count: 850,
-  },
-  {
-    key: "HEAL Studies",
-    doc_count: 150,
-  },
-  {
-    key: "Small Business Programs",
-    doc_count: 150,
-  },
-  {
-    key: "Focusing Medication Development to Prevent and Treat Opioid Use Disorder and Overdose",
-    doc_count: 139,
-  },
-  {
-    key: "Discovery and Validation of Novel Targets for Safe and Effective Treatment of Pain",
-    doc_count: 83,
-  },
-  {
-    key: "Training the Next Generation of Researchers in HEAL",
-    doc_count: 49,
-  },
-  {
-    key: "Preventing Opioid Use Disorder",
-    doc_count: 46,
-  },
-  {
-    key: "Development and Optimization of Non-Addictive Therapies to Treat Pain",
-    doc_count: 43,
-  },
-  {
-    key: "Clinical Trials Network",
-    doc_count: 41,
-  },
-  {
-    key: "Translating Discoveries into Effective Devices to Treat Pain",
-    doc_count: 31,
-  },
-]
+const PAGE_SIZE = 50
 
 export const StudiesPanel = ({ searchTerm }) => {
   const collection = useCollectionContext()
-
-  const [filters, setFilters] = useState({
+  const [activeSidebarItem, setActiveSidebarItem] = useState(0)
+  const [filtersOpen, setFiltersOpen] = useState(false)
+  const [page, setPage] = useState(1)
+  const [filterValues, setFilterValues] = useState({
     researchNetworks: [],
-    vlmdAvailability: "",
+    vlmdAvailable: "",
     dataAvailability: "",
+    cdesUsed: "",
   })
 
-  const [activeSidebarItem, setActiveSidebarItem] = useState(0)
-  const [filteredStudies, setFilteredStudies] = useState([])
+  const apiFilters = useMemo(() => {
+    const filters = []
 
-  useEffect(() => {
-    setActiveSidebarItem(0)
-  }, [searchTerm])
-
-  useEffect(() => {
-    if (
-      filteredStudies.length > 0 &&
-      activeSidebarItem >= filteredStudies.length
-    ) {
-      setActiveSidebarItem(0)
+    if (filterValues.researchNetworks.length > 0) {
+      filters.push({
+        field: "programs.keyword",
+        operator: "in",
+        value: filterValues.researchNetworks,
+      })
     }
-  }, [filteredStudies, activeSidebarItem])
 
-  const filterConfigs = useMemo(
-    () => [
+    if (filterValues.vlmdAvailable === "available") {
+      filters.push({
+        field: "variable_list",
+        operator: "size_gt",
+        value: 0,
+      })
+    } else if (filterValues.vlmdAvailable === "not_available") {
+      filters.push({
+        field: "variable_list",
+        operator: "size_eq",
+        value: 0,
+      })
+    }
+
+    if (filterValues.dataAvailability === "available") {
+      filters.push({
+        field: "metadata.Data Availability.keyword",
+        operator: "eq",
+        value: "available",
+      })
+    } else if (filterValues.dataAvailability === "not_available") {
+      filters.push({
+        field: "metadata.Data Availability.keyword",
+        operator: "missing",
+      })
+    }
+
+    if (filterValues.cdesUsed === "used") {
+      filters.push({
+        field: "section_list",
+        operator: "size_gt",
+        value: 0,
+      })
+    } else if (filterValues.cdesUsed === "not_used") {
+      filters.push({
+        field: "section_list",
+        operator: "size_eq",
+        value: 0,
+      })
+    }
+
+    return filters
+  }, [filterValues])
+
+  const payload = {
+    query: searchTerm,
+    limit: PAGE_SIZE,
+    offset: (page - 1) * PAGE_SIZE,
+    filters: apiFilters,
+    aggs: { "programs.keyword": 50 },
+  }
+
+  const studiesQuery = useQuery({
+    queryFn: () => {
+      if (!searchTerm) return null
+      return fetchStudies(payload)
+    },
+    queryKey: `studies-${JSON.stringify(payload)}`,
+  })
+
+  const hasActiveFilters =
+    filterValues.researchNetworks.length > 0 ||
+    filterValues.vlmdAvailable !== "" ||
+    filterValues.dataAvailability !== "" ||
+    filterValues.cdesUsed !== ""
+
+  const filterConfigs = useMemo(() => {
+    const researchNetworkOptions =
+      studiesQuery.data?.aggregations?.["programs.keyword"]?.map(
+        (bucket) => bucket.key
+      ) || []
+
+    return [
       {
-        type: "multiselect",
         key: "researchNetworks",
         label: "Research Networks",
-        options: RESEARCH_NETWORKS.map((network) => network.key),
+        type: "multiselect",
+        options: researchNetworkOptions,
       },
       {
+        key: "vlmdAvailable",
+        label: "VLMD Available",
         type: "select",
-        key: "vlmdAvailability",
-        label: "VLMD Availability",
         options: [
           { value: "available", label: "Available" },
           { value: "not_available", label: "Not Available" },
         ],
       },
       {
-        type: "select",
         key: "dataAvailability",
         label: "Data Availability",
+        type: "select",
         options: [
           { value: "available", label: "Available" },
           { value: "not_available", label: "Not Available" },
         ],
       },
-    ],
-    []
-  )
+      {
+        key: "cdesUsed",
+        label: "CDEs Used",
+        type: "select",
+        options: [
+          { value: "used", label: "Used" },
+          { value: "not_used", label: "Not Used" },
+        ],
+      },
+    ]
+  }, [studiesQuery.data?.aggregations])
 
-  const filterFunction = useCallback((study, currentFilters) => {
-    if (
-      currentFilters.researchNetworks &&
-      currentFilters.researchNetworks.length > 0
-    ) {
-      const hasMatchingNetwork = currentFilters.researchNetworks.some(
-        (network) => study.programs.includes(network)
-      )
-      if (!hasMatchingNetwork) {
-        return false
-      }
-    }
+  const handleFilterChange = (key, value) => {
+    setFilterValues((prev) => ({ ...prev, [key]: value }))
+    setPage(1)
+    setActiveSidebarItem(0)
+  }
 
-    if (currentFilters.vlmdAvailability) {
-      if (currentFilters.vlmdAvailability === "available") {
-        if (study.variable_list.length === 0) {
-          return false
-        }
-      } else if (currentFilters.vlmdAvailability === "not_available") {
-        if (study.variable_list.length > 0) {
-          return false
-        }
-      }
-    }
+  const handlePageChange = (event, newPage) => {
+    setPage(newPage)
+    setActiveSidebarItem(0)
+  }
 
-    if (currentFilters.dataAvailability) {
-      const availability = study.metadata?.data_availability
-      if (currentFilters.dataAvailability === "available") {
-        if (availability !== "all" && availability !== "some") {
-          return false
-        }
-      }
-      if (currentFilters.dataAvailability === "not_available") {
-        if (availability !== "none") {
-          return false
-        }
-      }
-    }
+  if (studiesQuery.isLoading) {
+    return (
+      <div className="h-full flex items-center justify-center">
+        <CircularProgress />
+      </div>
+    )
+  }
+  if (studiesQuery.error) {
+    return (
+      <div className="h-full flex items-center justify-center rounded-lg bg-red-50 p-4 font-bold text-lg">
+        <span className="text-red-600">Error loading results</span>
+      </div>
+    )
+  }
+  if (studiesQuery.data === null) {
+    return null
+  }
+  const studies = studiesQuery.data.results
+  const totalCount = studiesQuery.data.metadata?.total_count ?? studies.length
+  const totalPages = Math.ceil(totalCount / PAGE_SIZE)
 
-    return true
-  }, [])
-
-  const handleFilterChange = useCallback((filterKey, newValue) => {
-    setFilters((prev) => ({
-      ...prev,
-      [filterKey]: newValue,
-    }))
-  }, [])
-
-  const getCountDisplay = useCallback(
-    (filteredCount, loadedCount, totalCount, hasMore, hasFilters) => {
-      if (!hasFilters) {
-        if (hasMore) {
-          return `${loadedCount}+ studies found`
-        }
-        return `${totalCount || loadedCount} ${
-          totalCount !== 1 ? "studies" : "study"
-        } found`
-      } else {
-        const loaded = hasMore
-          ? `${loadedCount}+`
-          : `${totalCount || loadedCount}`
-        return `Found ${filteredCount} of ${loaded} ${
-          totalCount !== 1 ? "studies" : "study"
-        } matching filters`
-      }
-    },
-    []
-  )
-
-  const renderItem = useCallback(
-    (study, key, isActive, onClick) => {
-      return (
-        <SidebarItem
-          key={key}
-          study={study}
-          name={study.name}
-          id={study.id.split(":")?.[1] ?? study.id}
-          variables={study.variable_list}
-          onClick={onClick}
-          active={isActive}
-          searchTerm={searchTerm}
-        />
-      )
-    },
-    [searchTerm]
-  )
-
-  const handleFilteredItemsChange = useCallback((items, fullResponse) => {
-    setFilteredStudies(items)
-  }, [])
-
-  const renderFilters = useCallback(
-    () => (
-      <FiltersPanel
-        filterConfigs={filterConfigs}
-        filterValues={filters}
-        onFilterChange={handleFilterChange}
-      />
-    ),
-    [filterConfigs, filters, handleFilterChange]
-  )
-
-  const activeStudy = filteredStudies[activeSidebarItem]
+  if (studies.length < 1)
+    return (
+      <div className="flex flex-row max-h-full h-full">
+        <div className="min-w-[200px] max-w-[400px] flex flex-col min-h-0 border-r border-gray-200 overflow-auto">
+          <div className="border-b border-gray-200 sticky top-0 bg-white isolate z-10">
+            <div className="px-4 py-2 flex items-center justify-between">
+              <span className="italic text-gray-500">0 studies found.</span>
+              <Button
+                variant="text"
+                size="small"
+                onClick={() => setFiltersOpen((prev) => !prev)}
+                endIcon={
+                  <Badge
+                    color="primary"
+                    variant="dot"
+                    invisible={!hasActiveFilters}
+                    sx={{ "& .MuiBadge-badge": { backgroundColor: "#4d2862" } }}
+                  >
+                    <Tune fontSize="small" />
+                  </Badge>
+                }
+                sx={{ color: "#4d2862" }}
+              >
+                Filters
+              </Button>
+            </div>
+            <Collapse in={filtersOpen}>
+              <div className="px-4 pb-3">
+                <FiltersPanel
+                  filterConfigs={filterConfigs}
+                  filterValues={filterValues}
+                  onFilterChange={handleFilterChange}
+                />
+              </div>
+            </Collapse>
+          </div>
+          <div className="w-full h-24 flex items-center justify-center p-2">
+            <span className="italic">No results for the requested query.</span>
+          </div>
+        </div>
+      </div>
+    )
+  const activeStudy = studies[activeSidebarItem]
 
   return (
     <div className="flex flex-row max-h-full h-full">
-      <InfiniteScrollList
-        panelId="studies"
-        fetchFunction={fetchStudies}
-        searchTerm={searchTerm}
-        renderItem={renderItem}
-        filterFunction={filterFunction}
-        filters={filters}
-        activeItemIndex={activeSidebarItem}
-        onActiveItemChange={setActiveSidebarItem}
-        getCountDisplay={getCountDisplay}
-        onFilteredItemsChange={handleFilteredItemsChange}
-        renderFilters={renderFilters}
-      />
+      <div className="min-w-[200px] max-w-[400px] flex flex-col min-h-0 border-r border-gray-200">
+        <div className="flex-1 overflow-auto min-h-0">
+          <div className="border-b border-gray-200 sticky top-0 bg-white isolate z-10">
+            <div className="px-4 py-2 flex items-center justify-between">
+              <span className="italic text-gray-500">
+                {totalCount} {totalCount !== 1 ? "studies" : "study"} found.
+              </span>
+              <Button
+                variant="text"
+                size="small"
+                onClick={() => setFiltersOpen((prev) => !prev)}
+                endIcon={
+                  <Badge
+                    color="primary"
+                    variant="dot"
+                    invisible={!hasActiveFilters}
+                    sx={{ "& .MuiBadge-badge": { backgroundColor: "#4d2862" } }}
+                  >
+                    <Tune fontSize="small" />
+                  </Badge>
+                }
+                sx={{ color: "#4d2862" }}
+              >
+                Filters
+              </Button>
+            </div>
+            <Collapse in={filtersOpen}>
+              <div className="px-4 pb-3">
+                <FiltersPanel
+                  filterConfigs={filterConfigs}
+                  filterValues={filterValues}
+                  onFilterChange={handleFilterChange}
+                />
+              </div>
+            </Collapse>
+          </div>
+          {studies.map((study, index) => (
+            <SidebarItem
+              study={study}
+              key={study.id}
+              name={study.name}
+              id={study.id.split(":")?.[1] ?? study.id}
+              variables={study.variable_list}
+              sections={study.section_list}
+              onClick={() => setActiveSidebarItem(index)}
+              active={activeSidebarItem === index}
+              searchTerm={searchTerm}
+            />
+          ))}
+        </div>
+        {totalPages > 1 && (
+          <div className="border-t border-gray-200 bg-white py-2 flex justify-center flex-shrink-0">
+            <Pagination
+              count={totalPages}
+              page={page}
+              onChange={handlePageChange}
+              size="small"
+              sx={{
+                "& .MuiPaginationItem-root": {
+                  "&.Mui-selected": {
+                    backgroundColor: "#4d2862",
+                    color: "white",
+                    "&:hover": {
+                      backgroundColor: "#3d1e4e",
+                    },
+                  },
+                },
+              }}
+            />
+          </div>
+        )}
+      </div>
       {activeStudy ? (
         <div className="flex-1 p-4 min-h-0 overflow-auto">
           <div className="flex gap-2 justify-between">
@@ -323,7 +398,6 @@ export const StudiesPanel = ({ searchTerm }) => {
   )
 }
 
-// do not put anything circular in here...
 function NestedTable({ object, showHeader = true, showBorders = false }) {
   return (
     <table className={`w-full table-auto border-collapse align-top`}>
@@ -406,14 +480,28 @@ function SidebarItem({
   onClick,
   active,
   searchTerm,
+  sections,
 }) {
   const collection = useCollectionContext()
+
+  const measuresCount = variables?.length || 0
+  const cdesCount = sections?.length || 0
+
+  const statsText = []
+  if (measuresCount > 0) {
+    statsText.push(
+      `${measuresCount} ${measuresCount !== 1 ? "measures" : "measure"}`
+    )
+  }
+  if (cdesCount > 0) {
+    statsText.push(`${cdesCount} ${cdesCount !== 1 ? "CDEs" : "CDE"}`)
+  }
 
   return (
     <button
       onClick={onClick}
       className={
-        `p-4 border-b border-gray-200 cursor-pointer text-left` +
+        `w-full p-4 border-b border-gray-200 cursor-pointer text-left` +
         (active ? " bg-[#eeecf0]" : "")
       }
     >
@@ -442,10 +530,8 @@ function SidebarItem({
         </IconButton>
       </div>
       <p className="text-sm mt-2 text-gray-500">{id}</p>
-      {Boolean(variables.length) && (
-        <p className="text-sm mt-1 text-gray-500">
-          {variables.length} {variables.length !== 1 ? "measures" : "measure"}
-        </p>
+      {statsText.length > 0 && (
+        <p className="text-sm mt-1 text-gray-500">{statsText.join(", ")}</p>
       )}
     </button>
   )

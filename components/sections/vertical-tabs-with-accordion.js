@@ -18,6 +18,7 @@ import {
 } from "../elements/side-tab-menu"
 import { useTheme } from "@mui/material/styles"
 import parseMarkdownToSections from "../../utils/parse-markdown-to-sections"
+import { OpenInNew } from "@mui/icons-material"
 
 const VerticalTabsWithAccordion = ({ data }) => {
   const theme = useTheme()
@@ -87,7 +88,7 @@ const VerticalTabsWithAccordion = ({ data }) => {
               IconComponent={KeyboardArrowDown}
               renderValue={(selected) => (
                 <Typography
-                  variant="h2"
+                  variant="body2"
                   color="primary"
                   sx={{
                     fontWeight: 600,
@@ -108,7 +109,17 @@ const VerticalTabsWithAccordion = ({ data }) => {
             >
               {data.TabItemWithAccordion.map((item) => (
                 <MenuItem key={item.TabTitle} value={item.TabTitle}>
-                  <Typography variant="body1">{item.TabTitle}</Typography>
+                  {item.TabURL ? (
+                    <a
+                      href={item.TabURL}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      {item.TabTitle} <OpenInNew />
+                    </a>
+                  ) : (
+                    <Typography variant="body1">{item.TabTitle}</Typography>
+                  )}
                 </MenuItem>
               ))}
             </Select>
@@ -127,6 +138,7 @@ const VerticalTabsWithAccordion = ({ data }) => {
                 onClick={() => setShownContent(item)}
                 key={i + item.TabTitle}
                 title={item.TabTitle}
+                url={item.TabURL}
                 index={i}
                 isSelected={item.TabTitle === shownContent.TabTitle}
               />

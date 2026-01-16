@@ -51,6 +51,7 @@ import InfoTable from "./sections/info-table"
 import SemanticSearch from "./sections/semantic-search/semantic-search"
 import SemanticSearchResults from "./sections/semantic-search/semantic-search-results"
 import WorkflowGraphic from "./sections/workflow-graphic"
+import FeaturedResourceBlocks from "./sections/featured-resource-blocks"
 
 // Map Strapi sections to section components
 const sectionComponents = {
@@ -106,6 +107,7 @@ const sectionComponents = {
   "elements.data-sharing-status": DataSharingStatus,
   "sections.vertical-tabs-with-accordion": VerticalTabsWithAccordion,
   "sections.info-table": InfoTable,
+  "sections.featured-resource-card": FeaturedResourceBlocks,
 }
 
 // Display a section individually
@@ -151,7 +153,7 @@ const PreviewModeBanner = () => {
 // Display the list of sections
 const Sections = ({ sections, preview, eventData, token, glossary }) => {
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col w-full">
       {/* Show a banner if preview mode is on */}
       {preview && <PreviewModeBanner />}
       {/* Show the actual sections */}

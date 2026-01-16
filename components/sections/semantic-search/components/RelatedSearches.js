@@ -45,7 +45,7 @@ export function RelatedSearches({ searchTerm }) {
     <div className="border-solid border-[1px] border-gray-200 shadow-md p-4 rounded-md">
       <div className="flex items-center gap-2 text-[#4d2862]">
         <SearchRounded fontSize="medium" />
-        <h3 className="text-lg font-semibold">People also searched for</h3>
+        <h3 className="text-lg font-semibold">Related Concepts</h3>
       </div>
       <hr className="my-4" />
       <div className="flex flex-col">

@@ -1,13 +1,31 @@
 import PropTypes from "prop-types"
+import { useState } from "react"
 import { linkPropTypes, mediaPropTypes } from "utils/types"
 import NextImage from "./image"
 import Image from "next/image"
 import CustomLink from "./custom-link"
+import { styled } from "@material-ui/core/styles"
+import { ExpandLess } from "@mui/icons-material"
 
-const Footer = ({ footer }) => {
+const Footer = ({ footer, pageContext }) => {
+  const [isOpen, setIsOpen] = useState(false)
+
   return (
-    <footer className="pt-12 bg-gray-100" style={{ background: "#c0b3c569" }}>
-      <div className="container flex flex-col lg:flex-row lg:justify-between">
+    <StyledFooter isFullscreen={pageContext.isFullscreen} isOpen={isOpen}>
+      {pageContext.isFullscreen && (
+        <button
+          className="w-full flex flex-col items-center justify-center text-purple border-b-[1px] border-[#4d286273] p-1 h-[32px] cursor-pointer bg-transparent"
+          onClick={() => setIsOpen((prev) => !prev)}
+        >
+          <div className="flex gap-1 items-center">
+            <ExpandLess fontSize="small" />
+            <span className="font-semibold text-base">
+              {isOpen ? "Hide footer" : "Show footer"}
+            </span>
+          </div>
+        </button>
+      )}
+      <div className="pt-12 container flex flex-col lg:flex-row lg:justify-between">
         <div>
           {footer.logo && (
             <div>
@@ -61,9 +79,26 @@ const Footer = ({ footer }) => {
       <div className="text-sm bg-purple py-6 text-white">
         <div className="container">{footer.smallText}</div>
       </div>
-    </footer>
+    </StyledFooter>
   )
 }
+
+const StyledFooter = styled("footer")(({ isFullscreen, isOpen }) => ({
+  backgroundColor: "#e5e0e7",
+  ...(isFullscreen && {
+    zIndex: 1000,
+    position: "absolute",
+    bottom: "0px",
+    left: "0px",
+    right: "0px",
+    transition: "transform 400ms ease-in-out",
+    transform: isOpen ? "none" : "translateY(calc(100% - 32px))",
+    "& .MuiSvgIcon-root": {
+      transition: "transform 400ms ease-in-out",
+      transform: isOpen ? "rotate(180deg)" : "none",
+    },
+  }),
+}))
 
 Footer.propTypes = {
   footer: PropTypes.shape({
