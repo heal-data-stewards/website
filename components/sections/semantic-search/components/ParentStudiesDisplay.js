@@ -5,6 +5,13 @@ import Link from "../../../elements/link"
 import { Bookmark, OpenInNew, BookmarkBorder } from "@mui/icons-material"
 import StyledAccordion from "../accordion"
 import { useCollectionContext } from "../context/collection"
+import {
+  trackBookmarkClick,
+  trackStudiesAccordionToggle,
+  trackHdpLinkClick,
+  PANEL_LOCATIONS,
+  UI_SURFACES,
+} from "../analytics"
 
 export function ParentStudiesDisplay({
   studyIds,
@@ -12,6 +19,7 @@ export function ParentStudiesDisplay({
   notFoundText,
   conceptId,
   searchTerm,
+  panelLocation,
 }) {
   const collection = useCollectionContext()
 
@@ -68,8 +76,16 @@ export function ParentStudiesDisplay({
         </p>
       ) : (
         <StyledAccordion
+          onToggle={({ item, isExpanded }) => {
+            trackStudiesAccordionToggle({
+              action: isExpanded ? "open" : "close",
+              study: item,
+              panelLocation,
+              referringSearchTerm: searchTerm,
+            })
+          }}
           items={studies.map((study) => ({
-            key: study.key,
+            key: study.id,
             summary: (
               <div className="flex justify-between items-center w-full">
                 <h4>{study.name}</h4>
@@ -77,7 +93,16 @@ export function ParentStudiesDisplay({
                   size="small"
                   onClick={(e) => {
                     e.stopPropagation()
+                    const isBookmarked = collection.studies.has(study)
                     collection.studies.toggle(study)
+                    trackBookmarkClick({
+                      action: isBookmarked ? "remove" : "add",
+                      entity: study,
+                      panelLocation:
+                        panelLocation ?? PANEL_LOCATIONS.PARENT_STUDIES,
+                      uiSurface: UI_SURFACES.RIGHT_DETAIL,
+                      referringSearchTerm: searchTerm,
+                    })
                   }}
                 >
                   {collection.studies.has(study) ? (
@@ -96,9 +121,18 @@ export function ParentStudiesDisplay({
                 <p>
                   Study ID:{" "}
                   <Link
-                    href={study.action}
+                    to={study.action}
                     target="_blank"
                     rel="noopener noreferrer"
+                    onClick={() =>
+                      trackHdpLinkClick({
+                        study: study,
+                        panelLocation:
+                          panelLocation ?? PANEL_LOCATIONS.PARENT_STUDIES,
+                        uiSurface: UI_SURFACES.RIGHT_DETAIL,
+                        referringSearchTerm: searchTerm,
+                      })
+                    }
                   >
                     <Tooltip
                       title="Open study in the HEAL Data Platform"

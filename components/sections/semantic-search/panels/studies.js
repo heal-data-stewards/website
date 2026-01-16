@@ -16,6 +16,12 @@ import Link from "../../../elements/link"
 import { CDEDisplay } from "../components/CDEDisplay"
 import { VariablesList } from "../components/VariablesList"
 import { useCollectionContext } from "../context/collection"
+import {
+  trackBookmarkClick,
+  trackHdpLinkClick,
+  PANEL_LOCATIONS,
+  UI_SURFACES,
+} from "../analytics"
 import { fetchStudies } from "../data/studies"
 
 const PAGE_SIZE = 50
@@ -276,6 +282,7 @@ export const StudiesPanel = ({ searchTerm }) => {
               sections={study.section_list}
               onClick={() => setActiveSidebarItem(index)}
               active={activeSidebarItem === index}
+              searchTerm={searchTerm}
             />
           ))}
         </div>
@@ -310,7 +317,17 @@ export const StudiesPanel = ({ searchTerm }) => {
             <IconButton
               size="large"
               onClick={() => {
+                const isBookmarked = collection.studies.has(activeStudy)
+
                 collection.studies.toggle(activeStudy)
+
+                trackBookmarkClick({
+                  action: isBookmarked ? "remove" : "add",
+                  entity: activeStudy,
+                  panelLocation: PANEL_LOCATIONS.STUDIES,
+                  uiSurface: UI_SURFACES.RIGHT_DETAIL,
+                  referringSearchTerm: searchTerm,
+                })
               }}
             >
               {collection.studies.has(activeStudy) ? (
@@ -322,7 +339,19 @@ export const StudiesPanel = ({ searchTerm }) => {
           </div>
           <span>
             Study ID:{" "}
-            <Link to={activeStudy.action}>
+            <Link
+              to={activeStudy.action}
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={() =>
+                trackHdpLinkClick({
+                  study: activeStudy,
+                  panelLocation: PANEL_LOCATIONS.STUDIES,
+                  uiSurface: UI_SURFACES.RIGHT_DETAIL,
+                  referringSearchTerm: searchTerm,
+                })
+              }
+            >
               <Tooltip
                 title="Open study in the HEAL Data Platform"
                 placement="right"
@@ -345,9 +374,17 @@ export const StudiesPanel = ({ searchTerm }) => {
           <h3 className="text-xl font-semibold mt-6 mb-1">Information</h3>
           <NestedTable object={activeStudy.metadata} />
 
-          <VariablesList study={activeStudy} searchTerm={searchTerm} />
+          <VariablesList
+            study={activeStudy}
+            searchTerm={searchTerm}
+            panelLocation={PANEL_LOCATIONS.STUDIES}
+          />
 
-          <CDEDisplay studyId={activeStudy.id} />
+          <CDEDisplay
+            studyId={activeStudy.id}
+            searchTerm={searchTerm}
+            panelLocation={PANEL_LOCATIONS.STUDIES}
+          />
         </div>
       ) : (
         <div className="flex-1 p-4 min-h-0 overflow-auto flex items-center justify-center">
@@ -467,9 +504,10 @@ function SidebarItem({
   name,
   id,
   variables,
-  sections,
   onClick,
   active,
+  searchTerm,
+  sections,
 }) {
   const collection = useCollectionContext()
 
@@ -500,7 +538,15 @@ function SidebarItem({
           size="small"
           onClick={(e) => {
             e.stopPropagation()
+            const isBookmarked = collection.studies.has(study)
             collection.studies.toggle(study)
+            trackBookmarkClick({
+              action: isBookmarked ? "remove" : "add",
+              entity: study,
+              panelLocation: PANEL_LOCATIONS.STUDIES,
+              uiSurface: UI_SURFACES.LEFT_LIST,
+              referringSearchTerm: searchTerm,
+            })
           }}
         >
           {collection.studies.has(study) ? (
