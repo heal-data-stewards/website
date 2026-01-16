@@ -14,8 +14,6 @@ import { FiltersPanel } from "../components/FiltersPanel"
 import { ParentStudiesDisplay } from "../components/ParentStudiesDisplay"
 import { VariableQuestionDisplay } from "../components/VariableQuestionDisplay"
 import { useCollectionContext } from "../context/collection"
-import { InfiniteScrollList } from "../components/InfiniteScrollList"
-import { FiltersPanel } from "../components/FiltersPanel"
 import {
   trackBookmarkClick,
   trackCdeDownloadClick,
@@ -386,7 +384,7 @@ function SidebarItem({ cde, name, description, onClick, active, searchTerm }) {
               action: isBookmarked ? "remove" : "add",
               entity: cde,
               panelLocation: PANEL_LOCATIONS.CDES,
-              uiSurface: UI_SURFACES.CDE_ACCORDION_ROW,
+              uiSurface: UI_SURFACES.LEFT_LIST,
               referringSearchTerm: searchTerm,
             })
           }}

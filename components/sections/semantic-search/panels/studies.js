@@ -16,7 +16,6 @@ import Link from "../../../elements/link"
 import { CDEDisplay } from "../components/CDEDisplay"
 import { VariablesList } from "../components/VariablesList"
 import { useCollectionContext } from "../context/collection"
-import { InfiniteScrollList } from "../components/InfiniteScrollList"
 import {
   trackBookmarkClick,
   trackHdpLinkClick,

@@ -13,7 +13,6 @@ import { CDEDisplay } from "../components/CDEDisplay"
 import { FiltersPanel } from "../components/FiltersPanel"
 import { ParentStudiesDisplay } from "../components/ParentStudiesDisplay"
 import { useCollectionContext } from "../context/collection"
-import { InfiniteScrollList } from "../components/InfiniteScrollList"
 import { trackBookmarkClick, PANEL_LOCATIONS, UI_SURFACES } from "../analytics"
 import { fetchVariables } from "../data/variables"
 
