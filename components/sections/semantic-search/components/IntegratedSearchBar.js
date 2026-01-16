@@ -52,7 +52,7 @@ export function IntegratedSearchBar({
       ? "HSS Landing Page"
       : path.startsWith("/resources/semantic-search/results")
       ? "HSS Results Page"
-      : undefined
+      : "Unknown"
 
   const [searchInputValue, setSearchInputValue] = useState(
     getQueryParam(redirectQueryParam) ?? ""
@@ -117,24 +117,18 @@ export function IntegratedSearchBar({
             Example terms to search for:{" "}
             {selectedSuggestions.reduce((arr, term, i) => {
               const link = (
-                <span className="cursor-pointer text-[#982568] hover:underline font-semibold">
-                  <Link
-                    href={{
-                      pathname: redirectUrl,
-                      query: { [redirectQueryParam]: term },
-                    }}
-                    onClick={(e) => {
-                      e.preventDefault()
-                      searchTermHandler(term)
-                      setSearchInputValue(term)
-                      sendCustomEvent("hss_example_term_selected", {
-                        search_term: term,
-                        search_location: searchLocation,
-                      })
-                    }}
-                  >
-                    {term}
-                  </Link>
+                <span
+                  className="cursor-pointer text-[#982568] hover:underline font-semibold"
+                  onClick={() => {
+                    sendCustomEvent("hss_example_term_selected", {
+                      search_term: term,
+                      search_location: searchLocation,
+                    })
+                    searchTermHandler(term)
+                    setSearchInputValue(term)
+                  }}
+                >
+                  {term}
                 </span>
               )
 
