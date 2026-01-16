@@ -409,7 +409,7 @@ function SidebarItem({
           >
             <Tooltip title="Search for this concept" placement="top">
               <IconButton
-                size="large"
+                size="small"
                 component="a"
                 onClick={(e) => {
                   e.stopPropagation()
@@ -422,7 +422,7 @@ function SidebarItem({
                   })
                 }}
               >
-                <Search fontSize="large" sx={{ color: "#4d2862" }} />
+                <Search fontSize="small" sx={{ color: "#4d2862" }} />
               </IconButton>
             </Tooltip>
           </Link>
