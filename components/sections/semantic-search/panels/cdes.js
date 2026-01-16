@@ -14,6 +14,12 @@ import { FiltersPanel } from "../components/FiltersPanel"
 import { ParentStudiesDisplay } from "../components/ParentStudiesDisplay"
 import { VariableQuestionDisplay } from "../components/VariableQuestionDisplay"
 import { useCollectionContext } from "../context/collection"
+import {
+  trackBookmarkClick,
+  trackCdeDownloadClick,
+  PANEL_LOCATIONS,
+  UI_SURFACES,
+} from "../analytics"
 import { fetchCDEs } from "../data/cdes"
 
 const PAGE_SIZE = 50
@@ -222,6 +228,7 @@ export const CDEsPanel = ({ searchTerm }) => {
               description={cde.description}
               onClick={() => setActiveSidebarItem(index)}
               active={activeSidebarItem === index}
+              searchTerm={searchTerm}
             />
           ))}
         </div>
@@ -261,7 +268,15 @@ export const CDEsPanel = ({ searchTerm }) => {
             <IconButton
               size="large"
               onClick={() => {
+                const isBookmarked = collection.cdes.has(activeCde)
                 collection.cdes.toggle(activeCde)
+                trackBookmarkClick({
+                  action: isBookmarked ? "remove" : "add",
+                  entity: activeCde,
+                  panelLocation: PANEL_LOCATIONS.CDES,
+                  uiSurface: UI_SURFACES.RIGHT_DETAIL,
+                  referringSearchTerm: searchTerm,
+                })
               }}
             >
               {collection.cdes.has(activeCde) ? (
@@ -279,6 +294,8 @@ export const CDEsPanel = ({ searchTerm }) => {
 
           <ParentStudiesDisplay
             studyIds={activeCde.parents}
+            searchTerm={searchTerm}
+            panelLocation={PANEL_LOCATIONS.CDES}
             titleFormatter={(n) =>
               `Studies using this CDE ${
                 n > 0 ? ` (${n.toLocaleString()})` : ""
@@ -301,6 +318,15 @@ export const CDEsPanel = ({ searchTerm }) => {
                   href={url.url}
                   target="_blank"
                   rel="noopener noreferrer"
+                  onClick={() => {
+                    trackCdeDownloadClick({
+                      cde: activeCde,
+                      file: url,
+                      panelLocation: PANEL_LOCATIONS.CDES,
+                      uiSurface: UI_SURFACES.CDE_DOWNLOAD_CARD,
+                      referringSearchTerm: searchTerm,
+                    })
+                  }}
                 >
                   <div className="flex-1">
                     <p className="text-sm font-bold text-gray-500 mb-1">
@@ -334,7 +360,7 @@ const DownloadCard = styled("a")`
   }
 `
 
-function SidebarItem({ cde, name, description, onClick, active }) {
+function SidebarItem({ cde, name, description, onClick, active, searchTerm }) {
   const collection = useCollectionContext()
 
   return (
@@ -351,7 +377,16 @@ function SidebarItem({ cde, name, description, onClick, active }) {
           size="small"
           onClick={(e) => {
             e.stopPropagation()
+            const isBookmarked = collection.cdes.has(cde)
+
             collection.cdes.toggle(cde)
+            trackBookmarkClick({
+              action: isBookmarked ? "remove" : "add",
+              entity: cde,
+              panelLocation: PANEL_LOCATIONS.CDES,
+              uiSurface: UI_SURFACES.LEFT_LIST,
+              referringSearchTerm: searchTerm,
+            })
           }}
         >
           {collection.cdes.has(cde) ? (
