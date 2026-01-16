@@ -382,7 +382,6 @@ export const StudiesPanel = ({ searchTerm }) => {
 
           <CDEDisplay
             studyId={activeStudy.id}
-            searchTerm={searchTerm}
             panelLocation={PANEL_LOCATIONS.STUDIES}
           />
         </div>
