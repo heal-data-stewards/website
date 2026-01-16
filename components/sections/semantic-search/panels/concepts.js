@@ -362,8 +362,8 @@ export const ConceptsPanel = ({ searchTerm }) => {
           />
 
           <CDEDisplay
-            searchTerm={searchTerm}
-            conceptId={activeConcept.id}
+            searchTerm={`"${activeConcept.name}"`}
+            notFoundText={"No CDEs found for this concept."}
             panelLocation={PANEL_LOCATIONS.CONCEPTS}
           />
         </div>

@@ -413,7 +413,7 @@ function NestedTable({ object, showHeader = true, showBorders = false }) {
           let cell = null
 
           if (typeof value === "string") {
-            cell = formatStringIfDate(value)
+            cell = formatString(value)
           } else if (Array.isArray(value)) {
             if (value.length === 0) {
               cell = <span className="italic text-gray-500">No values</span>
@@ -433,7 +433,10 @@ function NestedTable({ object, showHeader = true, showBorders = false }) {
                 </div>
               ))
             } else {
-              cell = value.filter((v) => typeof v === "string").join(", ")
+              cell = value
+                .filter((v) => typeof v === "string")
+                .map(formatString)
+                .reduce((prev, curr) => [prev, ", ", curr])
             }
           }
 
@@ -458,10 +461,35 @@ function NestedTable({ object, showHeader = true, showBorders = false }) {
   )
 }
 
-function formatStringIfDate(str) {
+function formatString(str) {
   const resultDate = parseISO(str)
-  if (!isValid(resultDate)) return str
-  return format(resultDate, "M/dd/yyyy")
+  if (isValid(resultDate)) {
+    return format(resultDate, "M/dd/yyyy")
+  }
+
+  const urlRegex = /(https?:\/\/\S+\.\S+)/gi
+  const parts = str.split(urlRegex)
+
+  if (parts.length === 1) {
+    return str
+  }
+
+  return parts.map((part, index) => {
+    if (part.match(/^https?:\/\//i)) {
+      return (
+        <a
+          key={index}
+          href={part}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-[#982568] font-semibold hover:underline"
+        >
+          {part}
+        </a>
+      )
+    }
+    return part
+  })
 }
 
 function formatSnakeCaseToTitleCase(str) {

@@ -62,7 +62,7 @@ export function VariableQuestionDisplay({ variableList }) {
             )}
 
             {v.metadata.permissible_values.length > 0 && (
-              <ul className="flex gap-1 my-2 border-[#bfb9c5] border-[1px] rounded-md">
+              <ul className="flex gap-1 my-2 border-[#bfb9c5] border-[1px] rounded-md overflow-auto">
                 {v.metadata.permissible_values.map((pv, i) => (
                   <li
                     className="odd:bg-[#f1eff3] flex-1 px-2 py-1 rounded-md flex flex-col"
