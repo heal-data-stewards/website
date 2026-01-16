@@ -4,7 +4,5 @@ export function sendCustomEvent(eventName, params = {}) {
     return;
   }
   
- console.log("Sending custom event:", eventName, params);
-
-  // window.gtag("event", eventName, params);
+  window.gtag("event", eventName, params);
 }
