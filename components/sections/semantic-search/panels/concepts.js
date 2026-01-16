@@ -19,6 +19,13 @@ import { useQuery } from "utils/use-query"
 import Link from "../../../elements/link"
 import { CDEDisplay } from "../components/CDEDisplay"
 import { FiltersPanel } from "../components/FiltersPanel"
+import {
+  trackBookmarkClick,
+  trackOntologyLinkClick,
+  trackNewConceptSearched,
+  PANEL_LOCATIONS,
+  UI_SURFACES,
+} from "../analytics"
 import { ParentStudiesDisplay } from "../components/ParentStudiesDisplay"
 import { useCollectionContext } from "../context/collection"
 import { fetchConcepts } from "../data/concepts"
@@ -225,6 +232,7 @@ export const ConceptsPanel = ({ searchTerm }) => {
               parentCdes={concept.parentCdes}
               onClick={() => setActiveSidebarItem(index)}
               active={activeSidebarItem === index}
+              searchTerm={searchTerm}
             />
           ))}
         </div>
@@ -268,8 +276,17 @@ export const ConceptsPanel = ({ searchTerm }) => {
                 <Tooltip title="Search for this concept" placement="top">
                   <IconButton
                     size="large"
-                    component={"a"}
-                    onClick={(e) => e.stopPropagation()}
+                    component="a"
+                    onClick={(e) => {
+                      e.stopPropagation()
+
+                      trackNewConceptSearched({
+                        concept: activeConcept,
+                        panelLocation: PANEL_LOCATIONS.CONCEPTS,
+                        uiSurface: UI_SURFACES.RIGHT_DETAIL,
+                        referringSearchTerm: searchTerm,
+                      })
+                    }}
                   >
                     <Search fontSize="large" sx={{ color: "#4d2862" }} />
                   </IconButton>
@@ -281,7 +298,15 @@ export const ConceptsPanel = ({ searchTerm }) => {
               size="large"
               sx={{ flexShrink: 0 }}
               onClick={() => {
+                const isBookmarked = collection.concepts.has(activeConcept)
                 collection.concepts.toggle(activeConcept)
+                trackBookmarkClick({
+                  action: isBookmarked ? "remove" : "add",
+                  entity: activeConcept,
+                  panelLocation: PANEL_LOCATIONS.CONCEPTS,
+                  uiSurface: UI_SURFACES.RIGHT_DETAIL,
+                  referringSearchTerm: searchTerm,
+                })
               }}
             >
               {collection.concepts.has(activeConcept) ? (
@@ -298,6 +323,14 @@ export const ConceptsPanel = ({ searchTerm }) => {
                   to={activeConcept.action ?? ""}
                   target="_blank"
                   rel="noopener noreferrer"
+                  onClick={() =>
+                    trackOntologyLinkClick({
+                      concept: activeConcept,
+                      panelLocation: PANEL_LOCATIONS.CONCEPTS,
+                      uiSurface: UI_SURFACES.RIGHT_DETAIL,
+                      referringSearchTerm: searchTerm,
+                    })
+                  }
                 >
                   <Tooltip title="Concept lookup in Ontology" placement="top">
                     {activeConcept.id}
@@ -319,6 +352,7 @@ export const ConceptsPanel = ({ searchTerm }) => {
           <ParentStudiesDisplay
             conceptId={activeConcept.id}
             searchTerm={searchTerm}
+            panelLocation={PANEL_LOCATIONS.CONCEPTS}
             notFoundText={"No studies found for this concept."}
             titleFormatter={(n) =>
               `Studies Referencing this Concept ${
@@ -327,7 +361,11 @@ export const ConceptsPanel = ({ searchTerm }) => {
             }
           />
 
-          <CDEDisplay searchTerm={searchTerm} conceptId={activeConcept.id} />
+          <CDEDisplay
+            searchTerm={searchTerm}
+            conceptId={activeConcept.id}
+            panelLocation={PANEL_LOCATIONS.CONCEPTS}
+          />
         </div>
       ) : (
         <div className="flex-1 p-4 min-h-0 overflow-auto flex items-center justify-center">
@@ -340,7 +378,14 @@ export const ConceptsPanel = ({ searchTerm }) => {
   )
 }
 
-function SidebarItem({ concept, name, description, onClick, active }) {
+function SidebarItem({
+  concept,
+  name,
+  description,
+  onClick,
+  active,
+  searchTerm,
+}) {
   const collection = useCollectionContext()
 
   return (
@@ -364,11 +409,20 @@ function SidebarItem({ concept, name, description, onClick, active }) {
           >
             <Tooltip title="Search for this concept" placement="top">
               <IconButton
-                size="small"
-                component={"a"}
-                onClick={(e) => e.stopPropagation()}
+                size="large"
+                component="a"
+                onClick={(e) => {
+                  e.stopPropagation()
+
+                  trackNewConceptSearched({
+                    concept: concept,
+                    panelLocation: PANEL_LOCATIONS.CONCEPTS,
+                    uiSurface: UI_SURFACES.LEFT_LIST,
+                    referringSearchTerm: searchTerm,
+                  })
+                }}
               >
-                <Search fontSize="small" sx={{ color: "#4d2862" }} />
+                <Search fontSize="large" sx={{ color: "#4d2862" }} />
               </IconButton>
             </Tooltip>
           </Link>
@@ -377,7 +431,16 @@ function SidebarItem({ concept, name, description, onClick, active }) {
           size="small"
           onClick={(e) => {
             e.stopPropagation()
+            const isBookmarked = collection.concepts.has(concept)
             collection.concepts.toggle(concept)
+
+            trackBookmarkClick({
+              action: isBookmarked ? "remove" : "add",
+              entity: concept,
+              panelLocation: PANEL_LOCATIONS.CONCEPTS,
+              uiSurface: UI_SURFACES.LEFT_LIST,
+              referringSearchTerm: searchTerm,
+            })
           }}
         >
           {collection.concepts.has(concept) ? (

@@ -1,9 +1,30 @@
 import { Bookmarks, Close, Delete, Download } from "@mui/icons-material"
 import { Button, IconButton } from "@mui/material"
 import { useCollectionContext } from "../context/collection"
+import {
+  trackCollectionDownloadClick,
+  trackCollectionClearedClick,
+} from "../analytics"
 
 export function Collection() {
   const collection = useCollectionContext()
+
+  const getEntityAnalytics = (list) => ({
+    ids: list.map((item) => item.id),
+    labels: list.map((item) => item.name),
+    count: list.length,
+  })
+
+  const studies = getEntityAnalytics(collection.studies.list)
+  const cdes = getEntityAnalytics(collection.cdes.list)
+  const concepts = getEntityAnalytics(collection.concepts.list)
+  const variables = getEntityAnalytics(collection.variables.list)
+
+  const totalCount =
+    studies.ids.length +
+    cdes.ids.length +
+    concepts.ids.length +
+    variables.ids.length
 
   return (
     <div className="border-solid border-[1px] border-gray-200 shadow-md p-4 rounded-md flex flex-col min-h-0">
@@ -49,7 +70,17 @@ export function Collection() {
           fullWidth
           sx={{ mb: 2 }}
           endIcon={<Delete />}
-          onClick={() => collection.clearAll()}
+          onClick={() => {
+            trackCollectionClearedClick({
+              totalCount,
+              studiesCount: collection.studies.list.length,
+              cdesCount: collection.cdes.list.length,
+              conceptsCount: collection.concepts.list.length,
+              variablesCount: collection.variables.list.length,
+            })
+
+            collection.clearAll()
+          }}
         >
           Clear Bookmarks
         </Button>
@@ -58,7 +89,16 @@ export function Collection() {
         variant="contained"
         fullWidth
         endIcon={<Download />}
-        onClick={collection.downloadAll}
+        onClick={() => {
+          trackCollectionDownloadClick({
+            studies,
+            cdes,
+            concepts,
+            variables,
+          })
+
+          collection.downloadAll()
+        }}
       >
         Download JSON
       </Button>

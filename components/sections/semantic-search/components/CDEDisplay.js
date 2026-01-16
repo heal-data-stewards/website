@@ -5,12 +5,19 @@ import Link from "../../../elements/link"
 import { Bookmark, Download, BookmarkBorder } from "@mui/icons-material"
 import StyledAccordion from "../accordion"
 import { useCollectionContext } from "../context/collection"
+import {
+  trackBookmarkClick,
+  trackCdeAccordionToggle,
+  trackCdeDownloadClick,
+  UI_SURFACES,
+} from "../analytics"
 
 export function CDEDisplay({
   studyId,
   elementIds,
   conceptId,
   searchTerm,
+  panelLocation,
   notFoundText,
 }) {
   const collection = useCollectionContext()
@@ -59,6 +66,14 @@ export function CDEDisplay({
         </p>
       ) : (
         <StyledAccordion
+          onToggle={({ item, isExpanded }) => {
+            trackCdeAccordionToggle({
+              action: isExpanded ? "open" : "close",
+              cde: item, // item.key === cde.id, and item has full object
+              panelLocation,
+              referringSearchTerm: searchTerm,
+            })
+          }}
           items={cdes.map((cde) => ({
             key: cde.id,
             summary: (
@@ -71,7 +86,15 @@ export function CDEDisplay({
                   size="small"
                   onClick={(e) => {
                     e.stopPropagation()
+                    const isBookmarked = collection.cdes.has(cde)
                     collection.cdes.toggle(cde)
+                    trackBookmarkClick({
+                      action: isBookmarked ? "remove" : "add",
+                      entity: cde,
+                      panelLocation,
+                      uiSurface: UI_SURFACES.CDE_ACCORDION_ROW,
+                      referringSearchTerm: searchTerm,
+                    })
                   }}
                 >
                   {collection.cdes.has(cde) ? (
@@ -87,7 +110,18 @@ export function CDEDisplay({
             ),
             details: (
               <div>
-                <Link to={cde.action}>
+                <Link
+                  to="null"
+                  target="_blank"
+                  onClick={() => {
+                    trackCdeDownloadClick({
+                      cde,
+                      panelLocation,
+                      uiSurface: UI_SURFACES.CDE_ACCORDION_ROW,
+                      referringSearchTerm: searchTerm,
+                    })
+                  }}
+                >
                   {cde.action} <Download fontSize="small" />
                 </Link>
                 <p className="mt-1">{cde.description}</p>

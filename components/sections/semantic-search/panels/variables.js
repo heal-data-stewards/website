@@ -13,6 +13,7 @@ import { CDEDisplay } from "../components/CDEDisplay"
 import { FiltersPanel } from "../components/FiltersPanel"
 import { ParentStudiesDisplay } from "../components/ParentStudiesDisplay"
 import { useCollectionContext } from "../context/collection"
+import { trackBookmarkClick, PANEL_LOCATIONS, UI_SURFACES } from "../analytics"
 import { fetchVariables } from "../data/variables"
 
 const PAGE_SIZE = 50
@@ -216,6 +217,7 @@ export const VariablesPanel = ({ searchTerm }) => {
               description={variable.description ?? ""}
               onClick={() => setActiveSidebarItem(index)}
               active={activeSidebarItem === index}
+              searchTerm={searchTerm}
             />
           ))}
         </div>
@@ -258,7 +260,15 @@ export const VariablesPanel = ({ searchTerm }) => {
               size="large"
               sx={{ flexShrink: 0 }}
               onClick={() => {
+                const isBookmarked = collection.variables.has(activeVariable)
                 collection.variables.toggle(activeVariable)
+                trackBookmarkClick({
+                  action: isBookmarked ? "remove" : "add",
+                  entity: activeVariable,
+                  panelLocation: PANEL_LOCATIONS.VARIABLES,
+                  uiSurface: UI_SURFACES.RIGHT_DETAIL,
+                  referringSearchTerm: searchTerm,
+                })
               }}
             >
               {collection.variables.has(activeVariable) ? (
@@ -283,6 +293,8 @@ export const VariablesPanel = ({ searchTerm }) => {
 
           {activeVariable.is_cde ? (
             <CDEDisplay
+              searchTerm={searchTerm}
+              panelLocation={PANEL_LOCATIONS.VARIABLES}
               notFoundText={"No CDEs found for this variable."}
               elementIds={activeVariable.parents.map((p) =>
                 p.replace("HEALCDE:", "")
@@ -298,6 +310,8 @@ export const VariablesPanel = ({ searchTerm }) => {
               )}
               studyIds={activeVariable.parents}
               notFoundText={"No studies found for this variable."}
+              searchTerm={searchTerm}
+              panelLocation={PANEL_LOCATIONS.VARIABLES}
             />
           )}
 
@@ -339,7 +353,14 @@ export const VariablesPanel = ({ searchTerm }) => {
   )
 }
 
-function SidebarItem({ variable, name, description, onClick, active }) {
+function SidebarItem({
+  variable,
+  name,
+  description,
+  onClick,
+  active,
+  searchTerm,
+}) {
   const collection = useCollectionContext()
 
   return (
@@ -357,7 +378,15 @@ function SidebarItem({ variable, name, description, onClick, active }) {
           sx={{ p: 0 }}
           onClick={(e) => {
             e.stopPropagation()
+            const isBookmarked = collection.variables.has(variable)
             collection.variables.toggle(variable)
+            trackBookmarkClick({
+              action: isBookmarked ? "remove" : "add",
+              entity: variable,
+              panelLocation: PANEL_LOCATIONS.VARIABLES,
+              uiSurface: UI_SURFACES.LEFT_LIST,
+              referringSearchTerm: searchTerm,
+            })
           }}
         >
           {collection.variables.has(variable) ? (
