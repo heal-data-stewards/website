@@ -327,7 +327,10 @@ export const ConceptsPanel = ({ searchTerm }) => {
             }
           />
 
-          <CDEDisplay searchTerm={searchTerm} conceptId={activeConcept.id} />
+          <CDEDisplay
+            searchTerm={`"${activeConcept.name}"`}
+            notFoundText={"No CDEs found for this concept."}
+          />
         </div>
       ) : (
         <div className="flex-1 p-4 min-h-0 overflow-auto flex items-center justify-center">
