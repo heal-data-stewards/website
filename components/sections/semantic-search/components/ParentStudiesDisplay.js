@@ -95,7 +95,11 @@ export function ParentStudiesDisplay({
               <div>
                 <p>
                   Study ID:{" "}
-                  <Link href={study.action}>
+                  <Link
+                    href={study.action}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
                     <Tooltip
                       title="Open study in the HEAL Data Platform"
                       placement="right"
