@@ -111,8 +111,7 @@ export function CDEDisplay({
             details: (
               <div>
                 <Link
-                  to="null"
-                  target="_blank"
+                  to={cde.action}
                   onClick={() => {
                     trackCdeDownloadClick({
                       cde,
