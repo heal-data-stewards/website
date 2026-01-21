@@ -293,7 +293,7 @@ export const CDEsPanel = ({ searchTerm }) => {
               )}
             </IconButton>
           </div>
-          <p className="mt-4">{activeCde.description}</p>
+          <p className="mt-3">{activeCde.description}</p>
 
           <div className="mt-4">
             <PillTabs
@@ -355,7 +355,6 @@ export const CDEsPanel = ({ searchTerm }) => {
               )}
             </TabPanel>
           </div>
-
         </div>
       ) : (
         <div className="flex-1 p-4 min-h-0 overflow-auto flex items-center justify-center">
