@@ -11,6 +11,12 @@ import {
 import StyledAccordion from "../accordion"
 import { useCollectionContext } from "../context/collection"
 import { Empty } from "./Empty"
+import {
+  trackBookmarkClick,
+  trackCdeAccordionToggle,
+  trackCdeDownloadClick,
+  UI_SURFACES,
+} from "../analytics"
 
 export function CDEDisplay({
   studyId,
@@ -19,6 +25,7 @@ export function CDEDisplay({
   searchTerm,
   emptyText = "No CDEs match your search.",
   emptyIcon = <SearchOff />,
+  panelLocation,
 }) {
   const collection = useCollectionContext()
 
@@ -59,6 +66,14 @@ export function CDEDisplay({
   }
   return (
     <StyledAccordion
+      onToggle={({ item, isExpanded }) => {
+        trackCdeAccordionToggle({
+          action: isExpanded ? "open" : "close",
+          cde: item, // item.key === cde.id, and item has full object
+          panelLocation,
+          referringSearchTerm: searchTerm,
+        })
+      }}
       items={cdes.map((cde) => ({
         key: cde.id,
         summary: (
@@ -71,7 +86,15 @@ export function CDEDisplay({
               size="small"
               onClick={(e) => {
                 e.stopPropagation()
+                const isBookmarked = collection.cdes.has(cde)
                 collection.cdes.toggle(cde)
+                trackBookmarkClick({
+                  action: isBookmarked ? "remove" : "add",
+                  entity: cde,
+                  panelLocation,
+                  uiSurface: UI_SURFACES.CDE_ACCORDION_ROW,
+                  referringSearchTerm: searchTerm,
+                })
               }}
             >
               {collection.cdes.has(cde) ? (
@@ -84,7 +107,17 @@ export function CDEDisplay({
         ),
         details: (
           <div>
-            <Link to={cde.action}>
+            <Link
+              to={cde.action}
+              onClick={() => {
+                trackCdeDownloadClick({
+                  cde,
+                  panelLocation,
+                  uiSurface: UI_SURFACES.CDE_ACCORDION_ROW,
+                  referringSearchTerm: searchTerm,
+                })
+              }}
+            >
               {cde.action} <Download fontSize="small" />
             </Link>
             <p className="mt-1">{cde.description}</p>

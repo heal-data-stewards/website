@@ -123,6 +123,11 @@ function MultiSelectFilter({ config, value, onChange }) {
     onChange(typeof newValue === "string" ? newValue.split(",") : newValue)
   }
 
+  const getOptionValue = (option) =>
+    typeof option === "string" ? option : option.value
+  const getOptionLabel = (option) =>
+    typeof option === "string" ? option : option.label
+
   return (
     <FormControl fullWidth size="small">
       <InputLabel id={`${config.key}-label`}>{config.label}</InputLabel>
@@ -157,12 +162,12 @@ function MultiSelectFilter({ config, value, onChange }) {
       >
         {config.options.map((option) => (
           <MenuItem
-            key={option}
-            value={option}
+            key={getOptionValue(option)}
+            value={getOptionValue(option)}
             sx={{ whiteSpace: "normal", wordBreak: "break-word" }}
           >
             <Checkbox
-              checked={value.indexOf(option) > -1}
+              checked={value.indexOf(getOptionValue(option)) > -1}
               sx={{
                 color: "#4d2862",
                 "&.Mui-checked": {
@@ -170,7 +175,7 @@ function MultiSelectFilter({ config, value, onChange }) {
                 },
               }}
             />
-            {option}
+            {getOptionLabel(option)}
           </MenuItem>
         ))}
       </Select>

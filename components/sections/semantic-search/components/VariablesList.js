@@ -11,8 +11,14 @@ import { fetchVariables } from "../data/variables"
 import { useQuery } from "utils/use-query"
 import { useCollectionContext } from "../context/collection"
 import { Empty } from "./Empty"
+import { useState } from "react"
+import {
+  trackBookmarkClick,
+  trackVariableAccordionToggle,
+  UI_SURFACES,
+} from "../analytics"
 
-export function VariablesList({ study, searchTerm }) {
+export function VariablesList({ study, searchTerm, panelLocation }) {
   const collection = useCollectionContext()
 
   const payload = {
@@ -72,7 +78,15 @@ export function VariablesList({ study, searchTerm }) {
             size="small"
             onClick={(e) => {
               e.stopPropagation()
+              const isBookmarked = collection.variables.has(variable)
               collection.variables.toggle(variable)
+              trackBookmarkClick({
+                action: isBookmarked ? "remove" : "add",
+                entity: variable,
+                panelLocation,
+                uiSurface: UI_SURFACES.VARIABLES_LIST,
+                referringSearchTerm: searchTerm,
+              })
             }}
           >
             {collection.variables.has(variable) ? (

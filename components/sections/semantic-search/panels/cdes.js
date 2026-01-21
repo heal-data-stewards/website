@@ -1,142 +1,266 @@
+import { Bookmark, BookmarkBorder, Download, Tune } from "@mui/icons-material"
 import {
-  Bookmark,
-  Download,
-  BookmarkBorder,
-  FileDownloadOff,
-} from "@mui/icons-material"
-import { IconButton, styled, Tab } from "@mui/material"
-import { useCallback, useEffect, useMemo, useState } from "react"
-import { VariableQuestionDisplay } from "../components/VariableQuestionDisplay"
-import { fetchCDEs } from "../data/cdes"
-import { ParentStudiesDisplay } from "../components/ParentStudiesDisplay"
-import { useCollectionContext } from "../context/collection"
-import { InfiniteScrollList } from "../components/InfiniteScrollList"
+  Badge,
+  Button,
+  CircularProgress,
+  Collapse,
+  IconButton,
+  Pagination,
+  styled,
+  Tab,
+} from "@mui/material"
+import { useEffect, useMemo, useState } from "react"
+import { useQuery } from "utils/use-query"
 import { FiltersPanel } from "../components/FiltersPanel"
+import { ParentStudiesDisplay } from "../components/ParentStudiesDisplay"
+import { VariableQuestionDisplay } from "../components/VariableQuestionDisplay"
+import { useCollectionContext } from "../context/collection"
+import {
+  trackBookmarkClick,
+  trackCdeDownloadClick,
+  PANEL_LOCATIONS,
+  UI_SURFACES,
+} from "../analytics"
+import { fetchCDEs } from "../data/cdes"
 import { a11yProps, PillTabs, TabPanel } from "../components/Tabs"
-import { Empty } from "../components/Empty"
+
+const PAGE_SIZE = 50
 
 export const CDEsPanel = ({ searchTerm }) => {
   const collection = useCollectionContext()
-
-  const [filters, setFilters] = useState({
+  const [activeSidebarItem, setActiveSidebarItem] = useState(0)
+  const [currentTabIndex, setCurrentTabIndex] = useState(0)
+  const [filtersOpen, setFiltersOpen] = useState(false)
+  const [page, setPage] = useState(1)
+  const [filterValues, setFilterValues] = useState({
     cdeTypes: [],
+    usedByStudies: "",
   })
 
-  const [activeSidebarItem, setActiveSidebarItem] = useState(0)
-  const [filteredCdes, setFilteredCdes] = useState([])
-  const [currentCdeTabIndex, setCurrentCdeTabIndex] = useState(0)
+  const apiFilters = useMemo(() => {
+    const filters = []
 
-  useEffect(() => {
-    setActiveSidebarItem(0)
-    setCurrentCdeTabIndex(0)
-  }, [searchTerm])
-
-  useEffect(() => {
-    if (filteredCdes.length > 0 && activeSidebarItem >= filteredCdes.length) {
-      setActiveSidebarItem(0)
-      setCurrentCdeTabIndex(0)
+    if (filterValues.cdeTypes.length > 0) {
+      filters.push({
+        field: "metadata.categories.keyword",
+        operator: "in",
+        value: filterValues.cdeTypes,
+      })
     }
-  }, [filteredCdes, activeSidebarItem])
 
-  const filterConfigs = useMemo(
-    () => [
+    if (filterValues.usedByStudies === "used") {
+      filters.push({
+        field: "metadata.study_mappings",
+        operator: "size_gt",
+        value: 0,
+      })
+    } else if (filterValues.usedByStudies === "not_used") {
+      filters.push({
+        field: "metadata.study_mappings",
+        operator: "size_eq",
+        value: 0,
+      })
+    }
+
+    return filters
+  }, [filterValues])
+
+  const payload = {
+    query: searchTerm,
+    limit: PAGE_SIZE,
+    offset: (page - 1) * PAGE_SIZE,
+    filters: apiFilters,
+    aggs: { "metadata.categories.keyword": 25 },
+  }
+
+  const cdesQuery = useQuery({
+    queryFn: () => {
+      if (!searchTerm) return null
+      return fetchCDEs(payload)
+    },
+    queryKey: `cdes-${JSON.stringify(payload)}`,
+  })
+
+  const hasActiveFilters =
+    filterValues.cdeTypes.length > 0 || filterValues.usedByStudies !== ""
+
+  const filterConfigs = useMemo(() => {
+    const cdeTypeOptions =
+      cdesQuery.data?.aggregations?.["metadata.categories.keyword"]?.map(
+        (bucket) => bucket.key
+      ) || []
+
+    return [
       {
-        type: "multiselect",
         key: "cdeTypes",
         label: "CDE Type",
-        options: ["Supplemental", "All Core"],
+        type: "multiselect",
+        options: cdeTypeOptions,
       },
-    ],
-    []
-  )
+      {
+        key: "usedByStudies",
+        label: "Used by Studies",
+        type: "select",
+        options: [
+          { value: "used", label: "Used by studies" },
+          { value: "not_used", label: "Not used by studies" },
+        ],
+      },
+    ]
+  }, [cdesQuery.data?.aggregations])
 
-  const filterFunction = useCallback((cde, currentFilters) => {
-    if (currentFilters.cdeTypes && currentFilters.cdeTypes.length > 0) {
-      const categories = cde.metadata?.categories || []
-      const hasMatchingType = currentFilters.cdeTypes.some((type) =>
-        categories.includes(type)
-      )
-      if (!hasMatchingType) {
-        return false
-      }
-    }
+  useEffect(() => {
+    setCurrentTabIndex(0)
+  }, [activeSidebarItem])
 
-    return true
-  }, [])
+  const handleFilterChange = (key, value) => {
+    setFilterValues((prev) => ({ ...prev, [key]: value }))
+    setPage(1)
+    setActiveSidebarItem(0)
+  }
 
-  const handleFilterChange = useCallback((filterKey, newValue) => {
-    setFilters((prev) => ({
-      ...prev,
-      [filterKey]: newValue,
-    }))
-  }, [])
-
-  const getCountDisplay = useCallback(
-    (filteredCount, loadedCount, totalCount, hasMore, hasFilters) => {
-      if (!hasFilters) {
-        if (hasMore) {
-          return `${loadedCount}+ CDEs found`
-        }
-        return `${totalCount || loadedCount} CDE${
-          totalCount !== 1 ? "s" : ""
-        } found`
-      } else {
-        const loaded = hasMore
-          ? `${loadedCount}+`
-          : `${totalCount || loadedCount}`
-        return `Found ${filteredCount} of ${loaded} CDE${
-          totalCount !== 1 ? "s" : ""
-        } matching filters`
-      }
-    },
-    []
-  )
-
-  const renderItem = useCallback((cde, key, isActive, onClick) => {
+  const handlePageChange = (event, newPage) => {
+    setPage(newPage)
+    setActiveSidebarItem(0)
+  }
+  if (cdesQuery.isLoading) {
     return (
-      <SidebarItem
-        key={key}
-        cde={cde}
-        name={cde.name}
-        description={cde.description}
-        onClick={onClick}
-        active={isActive}
-      />
+      <div className="h-full flex items-center justify-center">
+        <CircularProgress />
+      </div>
     )
-  }, [])
+  }
+  if (cdesQuery.error) {
+    return (
+      <div className="h-full flex items-center justify-center rounded-lg bg-red-50 p-4 font-bold text-lg">
+        <span className="text-red-600">Error loading results</span>
+      </div>
+    )
+  }
+  if (cdesQuery.data === null) {
+    return null
+  }
+  const cdes = cdesQuery.data.results
+  const totalCount = cdesQuery.data.metadata?.total_count ?? cdes.length
+  const totalPages = Math.ceil(totalCount / PAGE_SIZE)
 
-  const handleFilteredItemsChange = useCallback((items, fullResponse) => {
-    setFilteredCdes(items)
-  }, [])
-
-  const renderFilters = useCallback(
-    () => (
-      <FiltersPanel
-        filterConfigs={filterConfigs}
-        filterValues={filters}
-        onFilterChange={handleFilterChange}
-      />
-    ),
-    [filterConfigs, filters, handleFilterChange]
-  )
-
-  const activeCde = filteredCdes[activeSidebarItem]
+  if (cdes.length < 1)
+    return (
+      <div className="flex flex-row max-h-full h-full">
+        <div className="min-w-[200px] max-w-[400px] flex flex-col min-h-0 border-r border-gray-200 overflow-auto">
+          <div className="border-b border-gray-200 sticky top-0 bg-white isolate z-10">
+            <div className="px-4 py-2 flex items-center justify-between">
+              <span className="italic text-gray-500">0 CDEs found.</span>
+              <Button
+                variant="text"
+                size="small"
+                onClick={() => setFiltersOpen((prev) => !prev)}
+                endIcon={
+                  <Badge
+                    color="primary"
+                    variant="dot"
+                    invisible={!hasActiveFilters}
+                    sx={{ "& .MuiBadge-badge": { backgroundColor: "#4d2862" } }}
+                  >
+                    <Tune fontSize="small" />
+                  </Badge>
+                }
+                sx={{ color: "#4d2862" }}
+              >
+                Filters
+              </Button>
+            </div>
+            <Collapse in={filtersOpen}>
+              <div className="px-4 pb-3">
+                <FiltersPanel
+                  filterConfigs={filterConfigs}
+                  filterValues={filterValues}
+                  onFilterChange={handleFilterChange}
+                />
+              </div>
+            </Collapse>
+          </div>
+          <div className="w-full h-24 flex items-center justify-center p-2">
+            <span className="italic">No results for the requested query.</span>
+          </div>
+        </div>
+      </div>
+    )
+  const activeCde = cdes[activeSidebarItem]
 
   return (
     <div className="flex flex-row max-h-full h-full">
-      <InfiniteScrollList
-        panelId="cdes"
-        fetchFunction={fetchCDEs}
-        searchTerm={searchTerm}
-        renderItem={renderItem}
-        filterFunction={filterFunction}
-        filters={filters}
-        activeItemIndex={activeSidebarItem}
-        onActiveItemChange={setActiveSidebarItem}
-        getCountDisplay={getCountDisplay}
-        onFilteredItemsChange={handleFilteredItemsChange}
-        renderFilters={renderFilters}
-      />
+      <div className="min-w-[200px] max-w-[400px] flex flex-col min-h-0 border-r border-gray-200">
+        <div className="flex-1 overflow-auto min-h-0">
+          <div className="border-b border-gray-200 sticky top-0 bg-white isolate z-10">
+            <div className="px-4 py-2 flex items-center justify-between">
+              <span className="italic text-gray-500">
+                {totalCount} {totalCount !== 1 ? "CDEs" : "CDE"} found.
+              </span>
+              <Button
+                variant="text"
+                size="small"
+                onClick={() => setFiltersOpen((prev) => !prev)}
+                endIcon={
+                  <Badge
+                    color="primary"
+                    variant="dot"
+                    invisible={!hasActiveFilters}
+                    sx={{ "& .MuiBadge-badge": { backgroundColor: "#4d2862" } }}
+                  >
+                    <Tune fontSize="small" />
+                  </Badge>
+                }
+                sx={{ color: "#4d2862" }}
+              >
+                Filters
+              </Button>
+            </div>
+            <Collapse in={filtersOpen}>
+              <div className="px-4 pb-3">
+                <FiltersPanel
+                  filterConfigs={filterConfigs}
+                  filterValues={filterValues}
+                  onFilterChange={handleFilterChange}
+                />
+              </div>
+            </Collapse>
+          </div>
+          {cdes.map((cde, index) => (
+            <SidebarItem
+              cde={cde}
+              key={cde.id}
+              name={cde.name}
+              id={cde.id}
+              description={cde.description}
+              onClick={() => setActiveSidebarItem(index)}
+              active={activeSidebarItem === index}
+              searchTerm={searchTerm}
+            />
+          ))}
+        </div>
+        {totalPages > 1 && (
+          <div className="border-t border-gray-200 bg-white py-2 flex justify-center flex-shrink-0">
+            <Pagination
+              count={totalPages}
+              page={page}
+              onChange={handlePageChange}
+              size="small"
+              sx={{
+                "& .MuiPaginationItem-root": {
+                  "&.Mui-selected": {
+                    backgroundColor: "#4d2862",
+                    color: "white",
+                    "&:hover": {
+                      backgroundColor: "#3d1e4e",
+                    },
+                  },
+                },
+              }}
+            />
+          </div>
+        )}
+      </div>
       {activeCde ? (
         <div className="flex-1 p-4 min-h-0 overflow-auto">
           <div className="flex gap-2">
@@ -151,7 +275,15 @@ export const CDEsPanel = ({ searchTerm }) => {
             <IconButton
               size="large"
               onClick={() => {
+                const isBookmarked = collection.cdes.has(activeCde)
                 collection.cdes.toggle(activeCde)
+                trackBookmarkClick({
+                  action: isBookmarked ? "remove" : "add",
+                  entity: activeCde,
+                  panelLocation: PANEL_LOCATIONS.CDES,
+                  uiSurface: UI_SURFACES.RIGHT_DETAIL,
+                  referringSearchTerm: searchTerm,
+                })
               }}
             >
               {collection.cdes.has(activeCde) ? (
@@ -165,8 +297,8 @@ export const CDEsPanel = ({ searchTerm }) => {
 
           <div className="mt-4">
             <PillTabs
-              value={currentCdeTabIndex}
-              onChange={(e, value) => setCurrentCdeTabIndex(value)}
+              value={currentTabIndex}
+              onChange={(e, value) => setCurrentTabIndex(value)}
               aria-label="CDE tabs"
             >
               <Tab label="Measures" {...a11yProps(0)} />
@@ -175,21 +307,22 @@ export const CDEsPanel = ({ searchTerm }) => {
             </PillTabs>
           </div>
           <div className="p-2">
-            <TabPanel currentTabIndex={currentCdeTabIndex} index={0}>
+            <TabPanel currentTabIndex={currentTabIndex} index={0}>
               <VariableQuestionDisplay variableList={activeCde.variable_list} />
             </TabPanel>
-            <TabPanel currentTabIndex={currentCdeTabIndex} index={1}>
+            <TabPanel currentTabIndex={currentTabIndex} index={1}>
               <ParentStudiesDisplay
                 studyIds={activeCde.parents}
-                notFoundText="No studies found using this CDE."
+                searchTerm={searchTerm}
+                panelLocation={PANEL_LOCATIONS.CDES}
+                notFoundText={"No studies found for this CDE."}
               />
             </TabPanel>
-            <TabPanel currentTabIndex={currentCdeTabIndex} index={2}>
+            <TabPanel currentTabIndex={currentTabIndex} index={2}>
               {activeCde.metadata?.urls?.length === 0 ? (
-                <Empty
-                  icon={<FileDownloadOff />}
-                  text="No downloads found for this CDE."
-                />
+                <p className="text-gray-400 italic">
+                  No downloads found for this CDE
+                </p>
               ) : (
                 <div className="flex flex-col gap-5">
                   {activeCde.metadata?.urls?.map((url) => (
@@ -199,6 +332,15 @@ export const CDEsPanel = ({ searchTerm }) => {
                       href={url.url}
                       target="_blank"
                       rel="noopener noreferrer"
+                      onClick={() => {
+                        trackCdeDownloadClick({
+                          cde: activeCde,
+                          file: url,
+                          panelLocation: PANEL_LOCATIONS.CDES,
+                          uiSurface: UI_SURFACES.CDE_DOWNLOAD_CARD,
+                          referringSearchTerm: searchTerm,
+                        })
+                      }}
                     >
                       <div className="flex-1">
                         <p className="text-sm font-bold text-gray-500 mb-1">
@@ -213,6 +355,7 @@ export const CDEsPanel = ({ searchTerm }) => {
               )}
             </TabPanel>
           </div>
+
         </div>
       ) : (
         <div className="flex-1 p-4 min-h-0 overflow-auto flex items-center justify-center">
@@ -234,14 +377,14 @@ const DownloadCard = styled("a")`
   }
 `
 
-function SidebarItem({ cde, name, description, onClick, active }) {
+function SidebarItem({ cde, name, description, onClick, active, searchTerm }) {
   const collection = useCollectionContext()
 
   return (
     <button
       onClick={onClick}
       className={
-        `p-4 border-b border-gray-200 cursor-pointer text-left` +
+        `w-full p-4 border-b border-gray-200 cursor-pointer text-left` +
         (active ? " bg-[#eeecf0]" : "")
       }
     >
@@ -251,7 +394,16 @@ function SidebarItem({ cde, name, description, onClick, active }) {
           size="small"
           onClick={(e) => {
             e.stopPropagation()
+            const isBookmarked = collection.cdes.has(cde)
+
             collection.cdes.toggle(cde)
+            trackBookmarkClick({
+              action: isBookmarked ? "remove" : "add",
+              entity: cde,
+              panelLocation: PANEL_LOCATIONS.CDES,
+              uiSurface: UI_SURFACES.LEFT_LIST,
+              referringSearchTerm: searchTerm,
+            })
           }}
         >
           {collection.cdes.has(cde) ? (

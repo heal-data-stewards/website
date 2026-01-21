@@ -57,20 +57,22 @@ export function VariableQuestionDisplay({ variableList }) {
               <p className="italic text-sm text-gray-500">{v.description}</p>
             )}
 
-            <ul className="flex gap-1 my-2">
-              {v.metadata.permissible_values.map((pv) => (
-                <li
-                  className="odd:bg-gray-200 flex-1 px-2 py-1 rounded-md flex flex-col"
-                  key={pv.value}
-                >
-                  <span
-                    className={!pv.description ? "text-gray-500" : undefined}
+            {v.metadata.permissible_values.length > 0 && (
+              <ul className="flex gap-1 my-2 border-[#bfb9c5] border-[1px] rounded-md overflow-auto">
+                {v.metadata.permissible_values.map((pv, i) => (
+                  <li
+                    className="odd:bg-[#f1eff3] flex-1 px-2 py-1 rounded-md flex flex-col"
+                    key={`${pv.value}-${i}`}
                   >
-                    {pv.description ? pv.description : pv.value}
-                  </span>
-                </li>
-              ))}
-            </ul>
+                    <span
+                      className={!pv.description ? "text-gray-500" : undefined}
+                    >
+                      {pv.description ? pv.description : pv.value}
+                    </span>
+                  </li>
+                ))}
+              </ul>
+            )}
           </div>
           {i < variables.length - 1 && <hr className="my-4" />}
         </>

@@ -1,6 +1,7 @@
 import { styled } from "@mui/material/styles"
 import { Box } from "@mui/material"
 import { OpenInNew } from "@mui/icons-material"
+import trackTabClick from "./analytics/track-tab-click"
 
 const getBlockStyles = ({ isSelected }) => ({
   fontSize: "1.1rem",
@@ -29,13 +30,17 @@ export const Block = ({ title, url, onClick, isSelected, index }) => {
 }
 
 const Tab = ({ title, onClick, isSelected, index }) => {
+  const handleClick = () => {
+    trackTabClick({ title, isMobile: false })
+    onClick?.()
+  }
   return (
     <button
       role="tab"
       aria-controls={`tabpanel-${index}`}
       style={getBlockStyles({ isSelected })}
       className={"sensitive-data-blocks"}
-      onClick={onClick}
+      onClick={handleClick}
     >
       {title}
     </button>
@@ -43,6 +48,9 @@ const Tab = ({ title, onClick, isSelected, index }) => {
 }
 
 const LinkTab = ({ title, url }) => {
+  const handleClick = () => {
+    trackTabClick({ title, url, isMobile: false })
+  }
   return (
     <a
       style={{
@@ -53,6 +61,7 @@ const LinkTab = ({ title, url }) => {
       href={url}
       target="_blank"
       rel="noopener noreferrer"
+      onClick={handleClick}
     >
       {title}
       <OpenInNew />
