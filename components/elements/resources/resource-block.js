@@ -90,7 +90,7 @@ export function ResourceBlock({ data }) {
       <CardContainer
         aria-label={data.title}
         hasTooltip={hasTooltip}
-        onClick={() =>
+        onMouseDown={() =>
           sendCustomEvent("resource_box_click", {
             resource_title: data.title,
             resource_url: data.url || "",

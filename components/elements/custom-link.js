@@ -18,13 +18,14 @@ const theme = createTheme({
 })
 
 const CustomLink = ({ link, children, onClick }) => {
-  const isInternalLink = link.url.startsWith("/")
+  const isInternalLink =
+    typeof link.url === "string" && link.url.startsWith("/")
 
   // For internal links, use the Next.js Link component
   if (isInternalLink) {
     return (
       <Link href="/[[...slug]]" as={link.url}>
-        <a onClick={onClick}>{children}</a>
+        <a onMouseDown={onClick}>{children}</a>
       </Link>
     )
   }
@@ -39,7 +40,7 @@ const CustomLink = ({ link, children, onClick }) => {
         href={link.url}
         target="_blank"
         rel="noopener noreferrer"
-        onClick={onClick}
+        onMouseDown={onClick}
         style={{
           padding: "0.5rem 1rem",
           color: "white",
@@ -53,7 +54,7 @@ const CustomLink = ({ link, children, onClick }) => {
   }
 
   return (
-    <a href={link.url} target="_self" onClick={onClick}>
+    <a href={link.url} target="_self" onMouseDown={onClick}>
       {children}
     </a>
   )
