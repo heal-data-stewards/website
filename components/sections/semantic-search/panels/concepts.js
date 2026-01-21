@@ -163,29 +163,11 @@ export const ConceptsPanel = ({ searchTerm }) => {
       />
       {activeConcept ? (
         <div className="flex-1 p-4 min-h-0 overflow-auto">
-          <div className="flex w-full justify-between gap-2">
-            <div className="flex gap-1 items-center">
+          <div className="flex w-full gap-2">
+            <div className="flex gap-1 items-center" style={{ flexGrow: 1 }}>
               <h2 className="text-2xl font-semibold leading-relaxed text-[#592963]">
                 {activeConcept.name}{" "}
               </h2>
-              <Link
-                href={(() => {
-                  const url = new URL(window.location.href)
-                  url.searchParams.set("q", activeConcept.name)
-                  return url
-                })()}
-                passHref
-              >
-                <Tooltip title="Search for this concept" placement="top">
-                  <IconButton
-                    size="large"
-                    component={"a"}
-                    onClick={(e) => e.stopPropagation()}
-                  >
-                    <Search fontSize="large" sx={{ color: "#4d2862" }} />
-                  </IconButton>
-                </Tooltip>
-              </Link>
             </div>
 
             <IconButton
@@ -201,6 +183,24 @@ export const ConceptsPanel = ({ searchTerm }) => {
                 <BookmarkBorder fontSize="large" sx={{ color: "#4d2862" }} />
               )}
             </IconButton>
+            <Link
+              href={(() => {
+                const url = new URL(window.location.href)
+                url.searchParams.set("q", activeConcept.name)
+                return url
+              })()}
+              passHref
+            >
+              <Tooltip title="Search for this concept" placement="top">
+                <IconButton
+                  size="large"
+                  component={"a"}
+                  onClick={(e) => e.stopPropagation()}
+                >
+                  <Search fontSize="large" sx={{ color: "#4d2862" }} />
+                </IconButton>
+              </Tooltip>
+            </Link>
           </div>
           <div className="mb-2 flex gap-2 flex-wrap">
             <p className="text-gray-600 bg-gray-100 border-[1px] border-gray-200 border-solid px-2 py-1 rounded-lg shadow-sm">
@@ -251,7 +251,6 @@ export const ConceptsPanel = ({ searchTerm }) => {
               />
             </TabPanel>
           </div>
-
         </div>
       ) : (
         <div className="flex-1 p-4 min-h-0 overflow-auto flex items-center justify-center">
