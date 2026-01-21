@@ -48,10 +48,13 @@ const AccordionDetails = styled(MuiAccordionDetails)(({ theme }) => ({
 }))
 
 /**
- * @param {{ items: Array<{ key: string, summary: React.ReactNode, details: React.ReactNode }> }} props
+ * @param {{ items: Array<{ key: string, summary: React.ReactNode, details: React.ReactNode, defaultExpanded?: boolean }> }} props
  */
 export default function StyledAccordion({ items, onToggle }) {
-  const [expanded, setExpanded] = useState(null)
+  const [expanded, setExpanded] = useState(() => {
+    const defaultIndex = items.findIndex((item) => item.defaultExpanded)
+    return defaultIndex !== -1 ? `panel${defaultIndex}` : false
+  })
 
   const handleChange = (panel, item) => (_, newExpanded) => {
     setExpanded(newExpanded ? panel : false)
