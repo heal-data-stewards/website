@@ -61,7 +61,25 @@ export function IntegratedSearchBar({
     getRandomSuggestions(3)
   )
 
+  // Fire analytics BEFORE navigation
   const searchTermHandler = (term) => {
+    sendCustomEvent("hss_example_term_selected", {
+      search_term: term,
+      search_location: searchLocation,
+    })
+
+    router.push({
+      pathname: redirectUrl,
+      query: { [redirectQueryParam]: term },
+    })
+  }
+
+  const submitSearch = (term) => {
+    sendCustomEvent("hss_search_submitted", {
+      search_term: term,
+      search_location: searchLocation,
+    })
+
     router.push({
       pathname: redirectUrl,
       query: { [redirectQueryParam]: term },
@@ -73,72 +91,67 @@ export function IntegratedSearchBar({
   }, [setSelectedSuggestions])
 
   return (
-    <div className="bg-[#f2eff3] p-4">
-      <div className="container flex flex-col gap-1">
-        <form
-          className="flex"
-          onSubmit={(e) => {
-            e.preventDefault()
-            searchTermHandler(searchInputValue)
-            sendCustomEvent("hss_search_submitted", {
-              search_term: searchInputValue,
-              search_location: searchLocation,
-            })
-          }}
-        >
-          <SearchBar
-            id="search-bar"
-            value={searchInputValue}
-            placeholder={guideText}
-            size="small"
-            onChange={(e) => {
-              setSearchInputValue(e.target.value)
+    <QueryCacheProvider>
+      <div className="bg-[#f2eff3] p-4">
+        <div className="container flex flex-col gap-1">
+          <form
+            className="flex"
+            onSubmit={(e) => {
+              e.preventDefault()
+              submitSearch(searchInputValue)
             }}
-          />
-          <SearchButton
-            variant="contained"
-            type="submit"
-            disabled={searchInputValue === ""}
           >
-            {buttonText}
-          </SearchButton>
-        </form>
+            <SearchBar
+              id="search-bar"
+              value={searchInputValue}
+              placeholder={guideText}
+              size="small"
+              onChange={(e) => {
+                setSearchInputValue(e.target.value)
+              }}
+            />
+            <SearchButton
+              variant="contained"
+              type="submit"
+              disabled={searchInputValue === ""}
+            >
+              {buttonText}
+            </SearchButton>
+          </form>
 
-        <div className="flex items-center gap-1">
-          <Tooltip
-            title="Generate new example search terms."
-            placement="bottom"
-          >
-            <IconButton onClick={changeRandomSuggestions} size="small">
-              <Refresh fontSize="small" />
-            </IconButton>
-          </Tooltip>
-          <span>
-            Example terms to search for:{" "}
-            {selectedSuggestions.reduce((arr, term, i) => {
-              const link = (
-                <span
-                  className="cursor-pointer text-[#982568] hover:underline font-semibold"
-                  onClick={() => {
-                    sendCustomEvent("hss_example_term_selected", {
-                      search_term: term,
-                      search_location: searchLocation,
-                    })
-                    searchTermHandler(term)
-                    setSearchInputValue(term)
-                  }}
-                >
-                  {term}
-                </span>
-              )
+          <div className="flex items-center gap-1">
+            <Tooltip
+              title="Generate new example search terms."
+              placement="bottom"
+            >
+              <IconButton onClick={changeRandomSuggestions} size="small">
+                <Refresh fontSize="small" />
+              </IconButton>
+            </Tooltip>
+            <span>
+              Example terms to search for:{" "}
+              {selectedSuggestions.reduce((arr, term, i) => {
+                const link = (
+                  <span
+                    key={term}
+                    className="cursor-pointer text-[#982568] hover:underline font-semibold"
+                    onClick={() => {
+                      setSearchInputValue(term)
+                      searchTermHandler(term) // analytics before navigation
+                    }}
+                  >
+                    {term}
+                  </span>
+                )
 
-              return i === selectedSuggestions.length - 1
-                ? [...arr, link]
-                : [...arr, link, <span key={term}> | </span>]
-            }, [])}
-          </span>
+                return i === selectedSuggestions.length - 1
+                  ? [...arr, link]
+                  : [...arr, link, <span key={`sep-${i}`}> | </span>]
+              }, [])}
+            </span>
+          </div>
         </div>
       </div>
-    </div>
+    </QueryCacheProvider>
   )
 }
