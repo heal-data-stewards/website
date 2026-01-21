@@ -356,6 +356,7 @@ export const VariablesPanel = ({ searchTerm }) => {
                     <CDEDisplay
                       searchTerm={searchTerm}
                       panelLocation={PANEL_LOCATIONS.VARIABLES}
+                      expandFirstItem
                       emptyText={"No CDEs found for this variable."}
                       elementIds={activeVariable.parents.map((p) =>
                         p.replace("HEALCDE:", "")
@@ -366,6 +367,7 @@ export const VariablesPanel = ({ searchTerm }) => {
                       studyIds={activeVariable.parents}
                       notFoundText={"No studies found for this variable."}
                       searchTerm={searchTerm}
+                      expandFirstItem
                       panelLocation={PANEL_LOCATIONS.VARIABLES}
                     />
                   ))}

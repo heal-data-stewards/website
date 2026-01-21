@@ -26,6 +26,7 @@ export function CDEDisplay({
   emptyText = "No CDEs match your search.",
   emptyIcon = <SearchOff />,
   panelLocation,
+  expandFirstItem = false,
 }) {
   const collection = useCollectionContext()
 
@@ -74,7 +75,7 @@ export function CDEDisplay({
           referringSearchTerm: searchTerm,
         })
       }}
-      items={cdes.map((cde) => ({
+      items={cdes.map((cde, index) => ({
         key: cde.id,
         summary: (
           <div className="flex justify-between items-center w-full">
@@ -123,6 +124,7 @@ export function CDEDisplay({
             <p className="mt-1">{cde.description}</p>
           </div>
         ),
+        defaultExpanded: expandFirstItem && index === 0,
       }))}
     />
   )

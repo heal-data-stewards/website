@@ -26,6 +26,7 @@ export function ParentStudiesDisplay({
   notFoundText = "No parents found for this study.",
   notFoundIcon = <SearchOff />,
   panelLocation,
+  expandFirstItem = false,
 }) {
   const collection = useCollectionContext()
 
@@ -77,7 +78,7 @@ export function ParentStudiesDisplay({
           referringSearchTerm: searchTerm,
         })
       }}
-      items={studies.map((study) => ({
+      items={studies.map((study, index) => ({
         key: study.id,
         summary: (
           <div className="flex justify-between items-center w-full">
@@ -136,6 +137,7 @@ export function ParentStudiesDisplay({
             <p className="mt-1">{study.description}</p>
           </div>
         ),
+        defaultExpanded: expandFirstItem && index === 0,
       }))}
     />
   )
