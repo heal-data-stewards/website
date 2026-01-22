@@ -25,7 +25,16 @@ const CustomLink = ({ link, children, onClick }) => {
   if (isInternalLink) {
     return (
       <Link href="/[[...slug]]" as={link.url}>
-        <a onMouseDown={onClick}>{children}</a>
+        <a
+          onMouseDown={onClick}
+          onKeyDown={(e) => {
+            if (e.key === "Enter" || e.key === " ") {
+              onClick()
+            }
+          }}
+        >
+          {children}
+        </a>
       </Link>
     )
   }
@@ -41,6 +50,11 @@ const CustomLink = ({ link, children, onClick }) => {
         target="_blank"
         rel="noopener noreferrer"
         onMouseDown={onClick}
+        onKeyDown={(e) => {
+          if (e.key === "Enter" || e.key === " ") {
+            onClick()
+          }
+        }}
         style={{
           padding: "0.5rem 1rem",
           color: "white",
@@ -54,7 +68,16 @@ const CustomLink = ({ link, children, onClick }) => {
   }
 
   return (
-    <a href={link.url} target="_self" onMouseDown={onClick}>
+    <a
+      href={link.url}
+      target="_self"
+      onMouseDown={onClick}
+      onKeyDown={(e) => {
+        if (e.key === "Enter" || e.key === " ") {
+          onClick()
+        }
+      }}
+    >
       {children}
     </a>
   )
