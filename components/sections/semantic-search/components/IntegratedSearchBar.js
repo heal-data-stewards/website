@@ -135,9 +135,16 @@ export function IntegratedSearchBar({
                   <span
                     key={term}
                     className="cursor-pointer text-[#982568] hover:underline font-semibold"
-                    onClick={() => {
+                    onMouseDown={() => {
                       setSearchInputValue(term)
-                      searchTermHandler(term) // analytics before navigation
+                      searchTermHandler(term)
+                    }}
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter" || e.key === " ") {
+                        e.preventDefault()
+                        setSearchInputValue(term)
+                        searchTermHandler(term)
+                      }
                     }}
                   >
                     {term}

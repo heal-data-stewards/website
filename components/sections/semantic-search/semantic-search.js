@@ -129,9 +129,15 @@ export default function SemanticSearch({ data }) {
                     variant="contained"
                     key={term}
                     sx={{ whiteSpace: "nowrap" }}
-                    onClick={() => {
+                    onMouseDown={() => {
                       setSearchInputValue(term)
                       searchTermHandler(term)
+                    }}
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter" || e.key === " ") {
+                        setSearchInputValue(term)
+                        searchTermHandler(term)
+                      }
                     }}
                   >
                     {term}
