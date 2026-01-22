@@ -96,6 +96,14 @@ export function ResourceBlock({ data }) {
             resource_url: data.url || "",
           })
         }
+        onKeyDown={(e) => {
+          if (e.key === "Enter" || e.key === " ") {
+            sendCustomEvent("resource_box_click", {
+              resource_title: data.title,
+              resource_url: data.url || "",
+            })
+          }
+        }}
       >
         {hasTooltip && (
           <PreviewBaseLayer className="preview">
