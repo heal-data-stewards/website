@@ -41,6 +41,11 @@ const Tab = ({ title, onClick, isSelected, index }) => {
       style={getBlockStyles({ isSelected })}
       className={"sensitive-data-blocks"}
       onMouseDown={handleClick}
+      onKeyDown={(e) => {
+        if (e.key === "Enter" || e.key === " ") {
+          handleClick()
+        }
+      }}
     >
       {title}
     </button>
@@ -66,6 +71,11 @@ const LinkTab = ({ title, url }) => {
       target="_blank"
       rel="noopener noreferrer"
       onMouseDown={handleClick}
+      onKeyDown={(e) => {
+        if (e.key === "Enter" || e.key === " ") {
+          handleClick()
+        }
+      }}
     >
       {title}
       <OpenInNew />

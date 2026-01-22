@@ -30,6 +30,11 @@ const VerticalTabs = ({ data }) => {
             return (
               <Block
                 onMouseDown={() => handleTabClick(item)}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter" || e.key === " ") {
+                    handleTabClick(item)
+                  }
+                }}
                 key={i + item.TabTitle}
                 title={item.TabTitle}
                 url={item.TabUrl}

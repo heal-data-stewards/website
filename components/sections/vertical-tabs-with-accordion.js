@@ -131,6 +131,15 @@ const VerticalTabsWithAccordion = ({ data }) => {
                       isMobile: true,
                     })
                   }
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter" || e.key === " ") {
+                      trackTabClick({
+                        title: item.TabTitle,
+                        url: item.TabURL,
+                        isMobile: true,
+                      })
+                    }
+                  }}
                   sx={{
                     alignItems: "flex-start",
                     whiteSpace: "normal",
