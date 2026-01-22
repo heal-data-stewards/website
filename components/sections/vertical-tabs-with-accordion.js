@@ -19,6 +19,7 @@ import {
 import { useTheme } from "@mui/material/styles"
 import parseMarkdownToSections from "../../utils/parse-markdown-to-sections"
 import { OpenInNew } from "@mui/icons-material"
+import trackTabClick from "../elements/side-tab-menu/analytics/track-tab-click"
 
 const VerticalTabsWithAccordion = ({ data }) => {
   const theme = useTheme()
@@ -30,10 +31,10 @@ const VerticalTabsWithAccordion = ({ data }) => {
   const [expandedStates, setExpandedStates] = useState([])
   const [showBackToTop, setShowBackToTop] = useState(false)
 
-  const sections = useMemo(
-    () => parseMarkdownToSections(shownContent.TabContent),
-    [shownContent.TabContent]
-  )
+  const sections = useMemo(() => {
+    if (!shownContent?.TabContent) return []
+    return parseMarkdownToSections(shownContent.TabContent)
+  }, [shownContent?.TabContent])
 
   useEffect(() => {
     setExpandedStates(
@@ -83,6 +84,12 @@ const VerticalTabsWithAccordion = ({ data }) => {
                 const selected = data.TabItemWithAccordion.find(
                   (item) => item.TabTitle === e.target.value
                 )
+
+                if (selected?.TabURL) {
+                  window.open(selected.TabURL, "_blank", "noopener,noreferrer")
+                  return
+                }
+
                 setShownContent(selected)
               }}
               IconComponent={KeyboardArrowDown}
@@ -92,7 +99,13 @@ const VerticalTabsWithAccordion = ({ data }) => {
                   color="primary"
                   sx={{
                     fontWeight: 600,
+                    whiteSpace: "normal",
+                    wordBreak: "break-word",
+                    overflowWrap: "anywhere",
+                    lineHeight: 1.4,
+                    flex: 1,
                     paddingBottom: "0 !important",
+                    paddingRight: "2rem !important",
                   }}
                 >
                   {selected}
@@ -108,17 +121,48 @@ const VerticalTabsWithAccordion = ({ data }) => {
               }}
             >
               {data.TabItemWithAccordion.map((item) => (
-                <MenuItem key={item.TabTitle} value={item.TabTitle}>
-                  {item.TabURL ? (
-                    <a
-                      href={item.TabURL}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      {item.TabTitle} <OpenInNew />
-                    </a>
-                  ) : (
-                    <Typography variant="body1">{item.TabTitle}</Typography>
+                <MenuItem
+                  key={item.TabTitle}
+                  value={item.TabTitle}
+                  onMouseDown={() =>
+                    trackTabClick({
+                      title: item.TabTitle,
+                      url: item.TabURL,
+                      isMobile: true,
+                    })
+                  }
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter" || e.key === " ") {
+                      trackTabClick({
+                        title: item.TabTitle,
+                        url: item.TabURL,
+                        isMobile: true,
+                      })
+                    }
+                  }}
+                  sx={{
+                    alignItems: "flex-start",
+                    whiteSpace: "normal",
+                  }}
+                >
+                  <Typography
+                    variant="body1"
+                    sx={{
+                      whiteSpace: "normal",
+                      wordBreak: "break-word",
+                      overflowWrap: "anywhere",
+                      lineHeight: 1.4,
+                      flex: 1,
+                    }}
+                  >
+                    {item.TabTitle}
+                  </Typography>
+
+                  {item.TabURL && (
+                    <OpenInNew
+                      fontSize="small"
+                      sx={{ ml: 1, mt: "2px", flexShrink: 0 }}
+                    />
                   )}
                 </MenuItem>
               ))}
@@ -135,8 +179,8 @@ const VerticalTabsWithAccordion = ({ data }) => {
           >
             {data.TabItemWithAccordion.map((item, i) => (
               <Block
-                onClick={() => setShownContent(item)}
                 key={i + item.TabTitle}
+                onClick={() => setShownContent(item)}
                 title={item.TabTitle}
                 url={item.TabURL}
                 index={i}

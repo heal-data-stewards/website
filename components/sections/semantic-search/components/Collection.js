@@ -89,14 +89,25 @@ export function Collection() {
         variant="contained"
         fullWidth
         endIcon={<Download />}
-        onClick={() => {
+        onMouseDown={() => {
           trackCollectionDownloadClick({
             studies,
             cdes,
             concepts,
             variables,
           })
-
+        }}
+        onKeyDown={(e) => {
+          if (e.key === "Enter" || e.key === " ") {
+            trackCollectionDownloadClick({
+              studies,
+              cdes,
+              concepts,
+              variables,
+            })
+          }
+        }}
+        onClick={() => {
           collection.downloadAll()
         }}
       >

@@ -277,7 +277,7 @@ export const ConceptsPanel = ({ searchTerm }) => {
                   <IconButton
                     size="large"
                     component="a"
-                    onClick={(e) => {
+                    onMouseDown={(e) => {
                       e.stopPropagation()
 
                       trackNewConceptSearched({
@@ -286,6 +286,17 @@ export const ConceptsPanel = ({ searchTerm }) => {
                         uiSurface: UI_SURFACES.RIGHT_DETAIL,
                         referringSearchTerm: searchTerm,
                       })
+                    }}
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter" || e.key === " ") {
+                        e.preventDefault()
+                        trackNewConceptSearched({
+                          concept: activeConcept,
+                          panelLocation: PANEL_LOCATIONS.CONCEPTS,
+                          uiSurface: UI_SURFACES.RIGHT_DETAIL,
+                          referringSearchTerm: searchTerm,
+                        })
+                      }
                     }}
                   >
                     <Search fontSize="large" sx={{ color: "#4d2862" }} />
@@ -323,7 +334,7 @@ export const ConceptsPanel = ({ searchTerm }) => {
                   to={activeConcept.action ?? ""}
                   target="_blank"
                   rel="noopener noreferrer"
-                  onClick={() =>
+                  onMouseDown={() =>
                     trackOntologyLinkClick({
                       concept: activeConcept,
                       panelLocation: PANEL_LOCATIONS.CONCEPTS,
@@ -331,6 +342,16 @@ export const ConceptsPanel = ({ searchTerm }) => {
                       referringSearchTerm: searchTerm,
                     })
                   }
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter" || e.key === " ") {
+                      trackOntologyLinkClick({
+                        concept: activeConcept,
+                        panelLocation: PANEL_LOCATIONS.CONCEPTS,
+                        uiSurface: UI_SURFACES.RIGHT_DETAIL,
+                        referringSearchTerm: searchTerm,
+                      })
+                    }
+                  }}
                 >
                   <Tooltip title="Concept lookup in Ontology" placement="top">
                     {activeConcept.id}
@@ -411,7 +432,7 @@ function SidebarItem({
               <IconButton
                 size="small"
                 component="a"
-                onClick={(e) => {
+                onMouseDown={(e) => {
                   e.stopPropagation()
 
                   trackNewConceptSearched({
@@ -420,6 +441,17 @@ function SidebarItem({
                     uiSurface: UI_SURFACES.LEFT_LIST,
                     referringSearchTerm: searchTerm,
                   })
+                }}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter" || e.key === " ") {
+                    e.preventDefault()
+                    trackNewConceptSearched({
+                      concept: concept,
+                      panelLocation: PANEL_LOCATIONS.CONCEPTS,
+                      uiSurface: UI_SURFACES.LEFT_LIST,
+                      referringSearchTerm: searchTerm,
+                    })
+                  }
                 }}
               >
                 <Search fontSize="small" sx={{ color: "#4d2862" }} />

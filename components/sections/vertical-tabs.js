@@ -7,9 +7,14 @@ import {
   ButtonBlockContainer,
   PanelContainer,
 } from "../elements/side-tab-menu"
+import trackTabClick from "../elements/side-tab-menu/analytics/track-tab-click"
 
 const VerticalTabs = ({ data }) => {
   const [shownContent, setShownContent] = useState(data.TabItem[0])
+  const handleTabClick = (item) => {
+    trackTabClick({ title: item.TabTitle, url: item.TabUrl })
+    setShownContent(item)
+  }
   return (
     <div className="container pb-12">
       <div style={{ display: "flex", justifyContent: "space-between" }}>
@@ -24,7 +29,12 @@ const VerticalTabs = ({ data }) => {
           {data.TabItem.map((item, i) => {
             return (
               <Block
-                onClick={() => setShownContent(item)}
+                onMouseDown={() => handleTabClick(item)}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter" || e.key === " ") {
+                    handleTabClick(item)
+                  }
+                }}
                 key={i + item.TabTitle}
                 title={item.TabTitle}
                 url={item.TabUrl}

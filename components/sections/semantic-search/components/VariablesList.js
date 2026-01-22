@@ -5,6 +5,7 @@ import { useQuery } from "utils/use-query"
 import { useCollectionContext } from "../context/collection"
 import { useState } from "react"
 import {
+  PANEL_LOCATIONS,
   trackBookmarkClick,
   trackVariableAccordionToggle,
   UI_SURFACES,
@@ -57,6 +58,7 @@ export function VariablesList({ study, searchTerm, panelLocation }) {
           expanded={expanded}
           setExpanded={setExpanded}
           numItems={variables.length}
+          panelLocation={panelLocation}
           referringSearchTerm={searchTerm}
         >
           <h3 className="text-xl font-semibold">
@@ -79,7 +81,7 @@ export function VariablesList({ study, searchTerm, panelLocation }) {
                 <IconButton
                   className="flex-shrink-0"
                   size="small"
-                  onClick={(e) => {
+                  onMouseDown={(e) => {
                     e.stopPropagation()
                     const isBookmarked = collection.variables.has(variable)
                     collection.variables.toggle(variable)
@@ -90,6 +92,20 @@ export function VariablesList({ study, searchTerm, panelLocation }) {
                       uiSurface: UI_SURFACES.VARIABLES_LIST,
                       referringSearchTerm: searchTerm,
                     })
+                  }}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter" || e.key === " ") {
+                      e.stopPropagation()
+                      const isBookmarked = collection.variables.has(variable)
+                      collection.variables.toggle(variable)
+                      trackBookmarkClick({
+                        action: isBookmarked ? "remove" : "add",
+                        entity: variable,
+                        panelLocation,
+                        uiSurface: UI_SURFACES.VARIABLES_LIST,
+                        referringSearchTerm: searchTerm,
+                      })
+                    }
                   }}
                 >
                   {collection.variables.has(variable) ? (
@@ -120,6 +136,7 @@ function CollapsibleHeading({
   expanded,
   setExpanded,
   numItems,
+  panelLocation,
   referringSearchTerm,
   children,
 }) {
@@ -132,9 +149,19 @@ function CollapsibleHeading({
         setExpanded((e) => !e)
         trackVariableAccordionToggle({
           action: expanded ? "close" : "open",
-          panelLocation: "variables_list",
+          panelLocation: panelLocation,
           referringSearchTerm: referringSearchTerm,
         })
+      }}
+      onKeyDown={(e) => {
+        if (e.key === "Enter" || e.key === " ") {
+          setExpanded((prev) => !prev)
+          trackVariableAccordionToggle({
+            action: expanded ? "close" : "open",
+            panelLocation: panelLocation,
+            referringSearchTerm: referringSearchTerm,
+          })
+        }
       }}
     >
       <ChevronRight

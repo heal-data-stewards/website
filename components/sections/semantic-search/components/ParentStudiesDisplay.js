@@ -124,15 +124,26 @@ export function ParentStudiesDisplay({
                     to={study.action}
                     target="_blank"
                     rel="noopener noreferrer"
-                    onClick={() =>
+                    onMouseDown={() => {
                       trackHdpLinkClick({
-                        study: study,
+                        study,
                         panelLocation:
                           panelLocation ?? PANEL_LOCATIONS.PARENT_STUDIES,
                         uiSurface: UI_SURFACES.RIGHT_DETAIL,
                         referringSearchTerm: searchTerm,
                       })
-                    }
+                    }}
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter" || e.key === " ") {
+                        trackHdpLinkClick({
+                          study,
+                          panelLocation:
+                            panelLocation ?? PANEL_LOCATIONS.PARENT_STUDIES,
+                          uiSurface: UI_SURFACES.RIGHT_DETAIL,
+                          referringSearchTerm: searchTerm,
+                        })
+                      }
+                    }}
                   >
                     <Tooltip
                       title="Open study in the HEAL Data Platform"

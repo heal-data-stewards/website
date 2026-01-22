@@ -88,12 +88,20 @@ export function FeaturedResourceBlock({ data }) {
       <CardContainer
         aria-label={data.title}
         hasBlurb={hasBlurb}
-        onClick={() =>
+        onMouseDown={() =>
           sendCustomEvent("featured_resource_box_click", {
             resource_title: data.title,
-            resource_url: data.link || "",
+            resource_url: data.link,
           })
         }
+        onKeyDown={(e) => {
+          if (e.key === "Enter" || e.key === " ") {
+            sendCustomEvent("featured_resource_box_click", {
+              resource_title: data.title,
+              resource_url: data.link,
+            })
+          }
+        }}
       >
         {hasBlurb && (
           <PreviewLayer className="preview">
