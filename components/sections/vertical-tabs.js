@@ -29,7 +29,12 @@ const VerticalTabs = ({ data }) => {
           {data.TabItem.map((item, i) => {
             return (
               <Block
-                onClick={() => handleTabClick(item)}
+                onMouseDown={() => handleTabClick(item)}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter" || e.key === " ") {
+                    handleTabClick(item)
+                  }
+                }}
                 key={i + item.TabTitle}
                 title={item.TabTitle}
                 url={item.TabUrl}

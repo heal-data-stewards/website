@@ -55,11 +55,19 @@ export function RelatedSearches({ searchTerm }) {
               q: term.name,
             })}`}
             key={term.id}
-            onClick={() => {
+            onMouseDown={() => {
               sendCustomEvent("hss_related_search_clicked", {
                 referring_search_term: searchTerm,
                 related_search_term: term.name,
               })
+            }}
+            onKeyDown={(e) => {
+              if (e.key === "Enter" || e.key === " ") {
+                sendCustomEvent("hss_related_search_clicked", {
+                  referring_search_term: searchTerm,
+                  related_search_term: term.name,
+                })
+              }
             }}
           >
             {term.name}

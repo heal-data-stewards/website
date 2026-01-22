@@ -45,7 +45,7 @@ export default function SemanticSearch({ data }) {
       ? "HSS Landing Page"
       : path.startsWith("/resources/semantic-search/results")
       ? "HSS Results Page"
-      : undefined
+      : "unknown"
 
   const [searchInputValue, setSearchInputValue] = useState(
     getQueryParam(data.redirect_query_param) ?? ""
@@ -54,7 +54,25 @@ export default function SemanticSearch({ data }) {
     getRandomSuggestions(3)
   )
 
+  // Fire event BEFORE navigation
   const searchTermHandler = (term) => {
+    sendCustomEvent("hss_example_term_selected", {
+      search_term: term,
+      search_location: searchLocation,
+    })
+
+    router.push({
+      pathname: data.redirect_url,
+      query: { [data.redirect_query_param]: term },
+    })
+  }
+
+  const submitSearch = (term) => {
+    sendCustomEvent("hss_search_submitted", {
+      search_term: term,
+      search_location: searchLocation,
+    })
+
     router.push({
       pathname: data.redirect_url,
       query: { [data.redirect_query_param]: term },
@@ -75,11 +93,7 @@ export default function SemanticSearch({ data }) {
             className="flex"
             onSubmit={(e) => {
               e.preventDefault()
-              searchTermHandler(searchInputValue)
-              sendCustomEvent("hss_search_submitted", {
-                search_term: searchInputValue,
-                search_location: searchLocation,
-              })
+              submitSearch(searchInputValue)
             }}
           >
             <SearchBar
@@ -97,6 +111,7 @@ export default function SemanticSearch({ data }) {
               {data?.button_text}
             </SearchButton>
           </form>
+
           <div className="flex flex-col lg:flex-row gap-2 items-start lg:items-center max-w-full">
             <span>Example terms to search for:</span>
             <div className="flex gap-2 max-w-full overflow-auto">
@@ -114,13 +129,15 @@ export default function SemanticSearch({ data }) {
                     variant="contained"
                     key={term}
                     sx={{ whiteSpace: "nowrap" }}
-                    onClick={() => {
-                      searchTermHandler(term)
+                    onMouseDown={() => {
                       setSearchInputValue(term)
-                      sendCustomEvent("hss_example_term_selected", {
-                        search_term: term,
-                        search_location: searchLocation,
-                      })
+                      searchTermHandler(term)
+                    }}
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter" || e.key === " ") {
+                        setSearchInputValue(term)
+                        searchTermHandler(term)
+                      }
                     }}
                   >
                     {term}

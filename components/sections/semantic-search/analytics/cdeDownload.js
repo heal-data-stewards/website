@@ -11,7 +11,7 @@ export function trackCdeDownloadClick({
     entity_type:
       cde.element_type === "section" ? "cde" : cde.element_type || cde.type,
     entity_id: cde.id,
-    entity_name: cde.name,
+    entity_label: cde.name,
 
     file_name: file?.filename ?? cde?.name ?? "unknown_file",
     file_url: file?.url ?? cde?.action ?? "unknown_url",

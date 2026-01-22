@@ -85,23 +85,10 @@ const VerticalTabsWithAccordion = ({ data }) => {
                   (item) => item.TabTitle === e.target.value
                 )
 
-                if (selected.TabURL) {
-                  trackTabClick({
-                    title: selected.TabTitle,
-                    url: selected.TabURL,
-                    isMobile: true,
-                    isExternal: true,
-                  })
-
+                if (selected?.TabURL) {
                   window.open(selected.TabURL, "_blank", "noopener,noreferrer")
                   return
                 }
-
-                trackTabClick({
-                  title: selected.TabTitle,
-                  url: selected.TabURL,
-                  isMobile: true,
-                })
 
                 setShownContent(selected)
               }}
@@ -137,6 +124,22 @@ const VerticalTabsWithAccordion = ({ data }) => {
                 <MenuItem
                   key={item.TabTitle}
                   value={item.TabTitle}
+                  onMouseDown={() =>
+                    trackTabClick({
+                      title: item.TabTitle,
+                      url: item.TabURL,
+                      isMobile: true,
+                    })
+                  }
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter" || e.key === " ") {
+                      trackTabClick({
+                        title: item.TabTitle,
+                        url: item.TabURL,
+                        isMobile: true,
+                      })
+                    }
+                  }}
                   sx={{
                     alignItems: "flex-start",
                     whiteSpace: "normal",
@@ -176,8 +179,8 @@ const VerticalTabsWithAccordion = ({ data }) => {
           >
             {data.TabItemWithAccordion.map((item, i) => (
               <Block
-                onClick={() => setShownContent(item)}
                 key={i + item.TabTitle}
+                onClick={() => setShownContent(item)}
                 title={item.TabTitle}
                 url={item.TabURL}
                 index={i}
