@@ -107,7 +107,7 @@ export function IntegratedSearchBar({
             className="flex"
             onSubmit={(e) => {
               e.preventDefault()
-              submitSearch(searchInputValue)
+              submitSearch(searchInputValue || "*")
             }}
           >
             <SearchBar
@@ -119,11 +119,7 @@ export function IntegratedSearchBar({
                 setSearchInputValue(e.target.value)
               }}
             />
-            <SearchButton
-              variant="contained"
-              type="submit"
-              disabled={searchInputValue === ""}
-            >
+            <SearchButton variant="contained" type="submit">
               {buttonText}
             </SearchButton>
           </form>
