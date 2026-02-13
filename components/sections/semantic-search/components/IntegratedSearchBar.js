@@ -38,6 +38,15 @@ function getQueryParam(param) {
   return urlParams.get(param)
 }
 
+function getCurrentQueryParams() {
+  if (typeof window === "undefined") return {}
+  const params = {}
+  new URLSearchParams(window.location.search).forEach((value, key) => {
+    params[key] = value
+  })
+  return params
+}
+
 export function IntegratedSearchBar({
   redirectUrl,
   redirectQueryParam,
@@ -70,7 +79,7 @@ export function IntegratedSearchBar({
 
     router.push({
       pathname: redirectUrl,
-      query: { [redirectQueryParam]: term },
+      query: { ...getCurrentQueryParams(), [redirectQueryParam]: term },
     })
   }
 
@@ -82,7 +91,7 @@ export function IntegratedSearchBar({
 
     router.push({
       pathname: redirectUrl,
-      query: { [redirectQueryParam]: term },
+      query: { ...getCurrentQueryParams(), [redirectQueryParam]: term },
     })
   }
 
