@@ -1,7 +1,6 @@
 import { styled } from "@mui/material"
 import { QueryCacheProvider } from "utils/use-query"
-import { useQueryParams } from "utils/use-query-params"
-import { useState } from "react"
+import { useQueryParam } from "utils/use-query-params"
 import { SemanticSearchTabs } from "./components/Tabs"
 import { Collection } from "./components/Collection"
 import { RelatedSearches } from "./components/RelatedSearches"
@@ -13,9 +12,14 @@ import { VariablesPanel } from "./panels/variables"
 import { CollectionContextProvider } from "./context/collection"
 import { IntegratedSearchBar } from "./components/IntegratedSearchBar"
 
+const TAB_NAMES = ["studies", "cdes", "concepts", "variables"]
+
 const SemanticSearchResults = ({ data }) => {
-  const [searchTerm] = useQueryParams(null, "q")
-  const [currentTabIndex, setCurrentTabIndex] = useState(0)
+  const [searchTerm] = useQueryParam(null, "q")
+  const [currentTab, setCurrentTab] = useQueryParam("studies", "tab")
+
+  const currentTabIndex = Math.max(0, TAB_NAMES.indexOf(currentTab))
+  const setCurrentTabIndex = (index) => setCurrentTab(TAB_NAMES[index])
 
   return (
     <QueryCacheProvider>

@@ -93,7 +93,7 @@ export default function SemanticSearch({ data }) {
             className="flex"
             onSubmit={(e) => {
               e.preventDefault()
-              submitSearch(searchInputValue)
+              submitSearch(searchInputValue || "*")
             }}
           >
             <SearchBar
@@ -103,11 +103,7 @@ export default function SemanticSearch({ data }) {
                 setSearchInputValue(e.target.value)
               }}
             />
-            <SearchButton
-              variant="contained"
-              type="submit"
-              disabled={searchInputValue === ""}
-            >
+            <SearchButton variant="contained" type="submit">
               {data?.button_text}
             </SearchButton>
           </form>
