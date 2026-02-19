@@ -350,7 +350,7 @@ export const StudiesPanel = ({ searchTerm }) => {
               to={activeStudy.action}
               target="_blank"
               rel="noopener noreferrer"
-              onClick={() =>
+              onMouseDown={() =>
                 trackHdpLinkClick({
                   study: activeStudy,
                   panelLocation: PANEL_LOCATIONS.STUDIES,
@@ -358,6 +358,16 @@ export const StudiesPanel = ({ searchTerm }) => {
                   referringSearchTerm: searchTerm,
                 })
               }
+              onKeyDown={(e) => {
+                if (e.key === "Enter" || e.key === " ") {
+                  trackHdpLinkClick({
+                    study: activeStudy,
+                    panelLocation: PANEL_LOCATIONS.STUDIES,
+                    uiSurface: UI_SURFACES.RIGHT_DETAIL,
+                    referringSearchTerm: searchTerm,
+                  })
+                }
+              }}
             >
               <Tooltip
                 title="Open study in the HEAL Data Platform"

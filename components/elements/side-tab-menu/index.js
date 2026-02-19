@@ -40,7 +40,12 @@ const Tab = ({ title, onClick, isSelected, index }) => {
       aria-controls={`tabpanel-${index}`}
       style={getBlockStyles({ isSelected })}
       className={"sensitive-data-blocks"}
-      onClick={handleClick}
+      onMouseDown={handleClick}
+      onKeyDown={(e) => {
+        if (e.key === "Enter" || e.key === " ") {
+          handleClick()
+        }
+      }}
     >
       {title}
     </button>
@@ -49,7 +54,11 @@ const Tab = ({ title, onClick, isSelected, index }) => {
 
 const LinkTab = ({ title, url }) => {
   const handleClick = () => {
-    trackTabClick({ title, url, isMobile: false })
+    trackTabClick({
+      title,
+      url,
+      isMobile: false,
+    })
   }
   return (
     <a
@@ -61,7 +70,12 @@ const LinkTab = ({ title, url }) => {
       href={url}
       target="_blank"
       rel="noopener noreferrer"
-      onClick={handleClick}
+      onMouseDown={handleClick}
+      onKeyDown={(e) => {
+        if (e.key === "Enter" || e.key === " ") {
+          handleClick()
+        }
+      }}
     >
       {title}
       <OpenInNew />

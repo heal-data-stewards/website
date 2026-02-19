@@ -70,7 +70,7 @@ export function CDEDisplay({
       onToggle={({ item, isExpanded }) => {
         trackCdeAccordionToggle({
           action: isExpanded ? "open" : "close",
-          cde: item, // item.key === cde.id, and item has full object
+          cde: item,
           panelLocation,
           referringSearchTerm: searchTerm,
         })
@@ -110,13 +110,23 @@ export function CDEDisplay({
           <div>
             <Link
               to={cde.action}
-              onClick={() => {
+              onMouseDown={() => {
                 trackCdeDownloadClick({
                   cde,
                   panelLocation,
                   uiSurface: UI_SURFACES.CDE_ACCORDION_ROW,
                   referringSearchTerm: searchTerm,
                 })
+              }}
+              onKeyDown={(e) => {
+                if (e.key === "Enter" || e.key === " ") {
+                  trackCdeDownloadClick({
+                    cde,
+                    panelLocation,
+                    uiSurface: UI_SURFACES.CDE_ACCORDION_ROW,
+                    referringSearchTerm: searchTerm,
+                  })
+                }
               }}
             >
               {cde.action} <Download fontSize="small" />

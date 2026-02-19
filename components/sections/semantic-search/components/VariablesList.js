@@ -11,12 +11,7 @@ import { fetchVariables } from "../data/variables"
 import { useQuery } from "utils/use-query"
 import { useCollectionContext } from "../context/collection"
 import { Empty } from "./Empty"
-import { useState } from "react"
-import {
-  trackBookmarkClick,
-  trackVariableAccordionToggle,
-  UI_SURFACES,
-} from "../analytics"
+import { trackBookmarkClick, UI_SURFACES } from "../analytics"
 
 export function VariablesList({ study, searchTerm, panelLocation }) {
   const collection = useCollectionContext()
@@ -76,7 +71,7 @@ export function VariablesList({ study, searchTerm, panelLocation }) {
           <IconButton
             className="flex-shrink-0"
             size="small"
-            onClick={(e) => {
+            onMouseDown={(e) => {
               e.stopPropagation()
               const isBookmarked = collection.variables.has(variable)
               collection.variables.toggle(variable)
@@ -87,6 +82,20 @@ export function VariablesList({ study, searchTerm, panelLocation }) {
                 uiSurface: UI_SURFACES.VARIABLES_LIST,
                 referringSearchTerm: searchTerm,
               })
+            }}
+            onKeyDown={(e) => {
+              if (e.key === "Enter" || e.key === " ") {
+                e.stopPropagation()
+                const isBookmarked = collection.variables.has(variable)
+                collection.variables.toggle(variable)
+                trackBookmarkClick({
+                  action: isBookmarked ? "remove" : "add",
+                  entity: variable,
+                  panelLocation,
+                  uiSurface: UI_SURFACES.VARIABLES_LIST,
+                  referringSearchTerm: searchTerm,
+                })
+              }
             }}
           >
             {collection.variables.has(variable) ? (
