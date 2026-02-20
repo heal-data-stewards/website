@@ -44,6 +44,7 @@
     "next-test-api-route-handler": "^2.2.1",
     "phosphor-react": "^1.4.1",
     "postcss-import": "^14.0.2",
+    "posthog-js": "^1.318.2",
     "prop-types": "^15.7.2",
     "qs": "^6.11.2",
     "react": "^17.0.0",
