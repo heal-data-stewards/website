@@ -2,9 +2,15 @@ import { CircularProgress, IconButton } from "@mui/material"
 import { useQuery } from "utils/use-query"
 import { fetchCDEs } from "../data/cdes"
 import Link from "../../../elements/link"
-import { Bookmark, Download, BookmarkBorder } from "@mui/icons-material"
+import {
+  Bookmark,
+  Download,
+  BookmarkBorder,
+  SearchOff,
+} from "@mui/icons-material"
 import StyledAccordion from "../accordion"
 import { useCollectionContext } from "../context/collection"
+import { Empty } from "./Empty"
 import {
   trackBookmarkClick,
   trackCdeAccordionToggle,
@@ -17,8 +23,10 @@ export function CDEDisplay({
   elementIds,
   conceptId,
   searchTerm,
+  emptyText = "No CDEs match your search.",
+  emptyIcon = <SearchOff />,
   panelLocation,
-  notFoundText,
+  expandFirstItem = false,
 }) {
   const collection = useCollectionContext()
 
@@ -54,91 +62,80 @@ export function CDEDisplay({
 
   const cdes = cdesQuery.data.results
 
+  if (cdes.length === 0) {
+    return <Empty icon={emptyIcon} text={emptyText} />
+  }
   return (
-    <>
-      <h3 className="text-xl font-semibold mt-6 mb-1">
-        CDEs
-        {cdes.length > 0 && ` (${cdes.length.toLocaleString()})`}
-      </h3>
-      {cdes.length === 0 ? (
-        <p className="text-gray-400 italic">
-          {notFoundText ?? "No CDEs found for this study."}
-        </p>
-      ) : (
-        <StyledAccordion
-          onToggle={({ item, isExpanded }) => {
-            trackCdeAccordionToggle({
-              action: isExpanded ? "open" : "close",
-              cde: item,
-              panelLocation,
-              referringSearchTerm: searchTerm,
-            })
-          }}
-          items={cdes.map((cde) => ({
-            key: cde.id,
-            summary: (
-              <div className="flex justify-between items-center w-full">
-                <h4>
-                  {cde.name}{" "}
-                  <span className="text-sm text-gray-500">{cde.id}</span>
-                </h4>
-                <IconButton
-                  size="small"
-                  onClick={(e) => {
-                    e.stopPropagation()
-                    const isBookmarked = collection.cdes.has(cde)
-                    collection.cdes.toggle(cde)
-                    trackBookmarkClick({
-                      action: isBookmarked ? "remove" : "add",
-                      entity: cde,
-                      panelLocation,
-                      uiSurface: UI_SURFACES.CDE_ACCORDION_ROW,
-                      referringSearchTerm: searchTerm,
-                    })
-                  }}
-                >
-                  {collection.cdes.has(cde) ? (
-                    <Bookmark fontSize="small" sx={{ color: "#4d2862" }} />
-                  ) : (
-                    <BookmarkBorder
-                      fontSize="small"
-                      sx={{ color: "#4d2862" }}
-                    />
-                  )}
-                </IconButton>
-              </div>
-            ),
-            details: (
-              <div>
-                <Link
-                  to={cde.action}
-                  onMouseDown={() => {
-                    trackCdeDownloadClick({
-                      cde,
-                      panelLocation,
-                      uiSurface: UI_SURFACES.CDE_ACCORDION_ROW,
-                      referringSearchTerm: searchTerm,
-                    })
-                  }}
-                  onKeyDown={(e) => {
-                    if (e.key === "Enter" || e.key === " ") {
-                      trackCdeDownloadClick({
-                        cde,
-                        panelLocation,
-                        uiSurface: UI_SURFACES.CDE_ACCORDION_ROW,
-                        referringSearchTerm: searchTerm,
-                      })
-                    }
-                  }}
-                >
-                  {cde.action} <Download fontSize="small" />
-                </Link>
-                <p className="mt-1">{cde.description}</p>
-              </div>
-            ),
-          }))}
-        />
-      )}
-    </>
+    <StyledAccordion
+      onToggle={({ item, isExpanded }) => {
+        trackCdeAccordionToggle({
+          action: isExpanded ? "open" : "close",
+          cde: item,
+          panelLocation,
+          referringSearchTerm: searchTerm,
+        })
+      }}
+      items={cdes.map((cde, index) => ({
+        key: cde.id,
+        summary: (
+          <div className="flex justify-between items-center w-full">
+            <h4>
+              {cde.name}&nbsp;
+              <span className="text-sm text-gray-500">{cde.id}</span>
+            </h4>
+            <IconButton
+              size="small"
+              onClick={(e) => {
+                e.stopPropagation()
+                const isBookmarked = collection.cdes.has(cde)
+                collection.cdes.toggle(cde)
+                trackBookmarkClick({
+                  action: isBookmarked ? "remove" : "add",
+                  entity: cde,
+                  panelLocation,
+                  uiSurface: UI_SURFACES.CDE_ACCORDION_ROW,
+                  referringSearchTerm: searchTerm,
+                })
+              }}
+            >
+              {collection.cdes.has(cde) ? (
+                <Bookmark fontSize="small" sx={{ color: "#4d2862" }} />
+              ) : (
+                <BookmarkBorder fontSize="small" sx={{ color: "#4d2862" }} />
+              )}
+            </IconButton>
+          </div>
+        ),
+        details: (
+          <div>
+            <Link
+              to={cde.action}
+              onMouseDown={() => {
+                trackCdeDownloadClick({
+                  cde,
+                  panelLocation,
+                  uiSurface: UI_SURFACES.CDE_ACCORDION_ROW,
+                  referringSearchTerm: searchTerm,
+                })
+              }}
+              onKeyDown={(e) => {
+                if (e.key === "Enter" || e.key === " ") {
+                  trackCdeDownloadClick({
+                    cde,
+                    panelLocation,
+                    uiSurface: UI_SURFACES.CDE_ACCORDION_ROW,
+                    referringSearchTerm: searchTerm,
+                  })
+                }
+              }}
+            >
+              {cde.action} <Download fontSize="small" />
+            </Link>
+            <p className="mt-1">{cde.description}</p>
+          </div>
+        ),
+        defaultExpanded: expandFirstItem && index === 0,
+      }))}
+    />
   )
 }

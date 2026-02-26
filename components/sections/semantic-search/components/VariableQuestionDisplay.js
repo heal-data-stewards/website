@@ -3,10 +3,9 @@ import { useQuery } from "utils/use-query"
 import { fetchVariables } from "../data/variables"
 import { useState } from "react"
 import { ChevronRight, ExpandMore } from "@mui/icons-material"
+import classNames from "classnames"
 
 export function VariableQuestionDisplay({ variableList }) {
-  const [expanded, setExpanded] = useState(false)
-
   const payload = {
     query: "",
     elementIds: variableList,
@@ -42,23 +41,20 @@ export function VariableQuestionDisplay({ variableList }) {
     return <p className="text-gray-400 italic">VLMD not yet available.</p>
 
   return (
-    <div className="my-2">
-      <CollapsibleHeading
-        expanded={expanded}
-        setExpanded={setExpanded}
-        numItems={variables.length}
-      >
-        <h3 className="text-xl font-semibold">
-          Measures ({variables.length ?? 0})
-        </h3>
-      </CollapsibleHeading>
-      <Collapse in={expanded}>
-        {variables.map((v) => (
+    <div>
+      {variables.map((v, i) => (
+        <>
           <div key={v.id}>
-            <h4 className="text-lg text-primary font-semibold mt-2">{v.id}</h4>
+            <h4
+              className={classNames("text-lg text-primary font-semibold", {
+                "": i > 0,
+              })}
+            >
+              {v.id}
+            </h4>
             {v.name !== "None" && <p>{v.name}</p>}
             {v.description !== "None" && (
-              <p className="italic text-sm">{v.description}</p>
+              <p className="italic text-sm text-gray-500">{v.description}</p>
             )}
 
             {v.metadata.permissible_values.length > 0 && (
@@ -78,8 +74,9 @@ export function VariableQuestionDisplay({ variableList }) {
               </ul>
             )}
           </div>
-        ))}
-      </Collapse>
+          {i < variables.length - 1 && <hr className="my-4" />}
+        </>
+      ))}
     </div>
   )
 }

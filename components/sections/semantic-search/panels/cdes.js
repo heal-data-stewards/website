@@ -7,8 +7,9 @@ import {
   IconButton,
   Pagination,
   styled,
+  Tab,
 } from "@mui/material"
-import { useMemo, useState } from "react"
+import { useEffect, useMemo, useState } from "react"
 import { useQuery } from "utils/use-query"
 import { FiltersPanel } from "../components/FiltersPanel"
 import { ParentStudiesDisplay } from "../components/ParentStudiesDisplay"
@@ -21,12 +22,14 @@ import {
   UI_SURFACES,
 } from "../analytics"
 import { fetchCDEs } from "../data/cdes"
+import { a11yProps, PillTabs, TabPanel } from "../components/Tabs"
 
 const PAGE_SIZE = 50
 
 export const CDEsPanel = ({ searchTerm }) => {
   const collection = useCollectionContext()
   const [activeSidebarItem, setActiveSidebarItem] = useState(0)
+  const [currentTabIndex, setCurrentTabIndex] = useState(0)
   const [filtersOpen, setFiltersOpen] = useState(false)
   const [page, setPage] = useState(1)
   const [filterValues, setFilterValues] = useState({
@@ -105,6 +108,10 @@ export const CDEsPanel = ({ searchTerm }) => {
       },
     ]
   }, [cdesQuery.data?.aggregations])
+
+  useEffect(() => {
+    setCurrentTabIndex(0)
+  }, [activeSidebarItem])
 
   const handleFilterChange = (key, value) => {
     setFilterValues((prev) => ({ ...prev, [key]: value }))
@@ -286,68 +293,77 @@ export const CDEsPanel = ({ searchTerm }) => {
               )}
             </IconButton>
           </div>
-          <p className="mt-4">{activeCde.description}</p>
+          <p className="mt-3">{activeCde.description}</p>
 
-          <hr className="my-4" />
+          <div className="mt-4">
+            <PillTabs
+              value={currentTabIndex}
+              onChange={(e, value) => setCurrentTabIndex(value)}
+              aria-label="CDE tabs"
+            >
+              <Tab label="Measures" {...a11yProps(0)} />
+              <Tab label="Usage In Studies" {...a11yProps(1)} />
+              <Tab label="Downloads" {...a11yProps(2)} />
+            </PillTabs>
+          </div>
+          <div className="p-2">
+            <TabPanel currentTabIndex={currentTabIndex} index={0}>
+              <VariableQuestionDisplay variableList={activeCde.variable_list} />
+            </TabPanel>
+            <TabPanel currentTabIndex={currentTabIndex} index={1}>
+              <ParentStudiesDisplay
+                studyIds={activeCde.parents}
+                searchTerm={searchTerm}
+                panelLocation={PANEL_LOCATIONS.CDES}
+                notFoundText={"No studies found for this CDE."}
+              />
+            </TabPanel>
+            <TabPanel currentTabIndex={currentTabIndex} index={2}>
+              {activeCde.metadata?.urls?.length === 0 ? (
+                <p className="text-gray-400 italic">
+                  No downloads found for this CDE
+                </p>
+              ) : (
+                <div className="flex flex-col gap-5">
+                  {activeCde.metadata?.urls?.map((url) => {
+                    const handleDownload = () => {
+                      trackCdeDownloadClick({
+                        cde: activeCde,
+                        file: url,
+                        panelLocation: PANEL_LOCATIONS.CDES,
+                        uiSurface: UI_SURFACES.CDE_DOWNLOAD_CARD,
+                        referringSearchTerm: searchTerm,
+                      })
+                    }
 
-          <VariableQuestionDisplay variableList={activeCde.variable_list} />
-
-          <ParentStudiesDisplay
-            studyIds={activeCde.parents}
-            searchTerm={searchTerm}
-            panelLocation={PANEL_LOCATIONS.CDES}
-            titleFormatter={(n) =>
-              `Studies using this CDE ${
-                n > 0 ? ` (${n.toLocaleString()})` : ""
-              }`
-            }
-            notFoundText={"No studies found for this CDE."}
-          />
-
-          <h3 className="text-xl font-semibold mt-6 mb-2">Downloads</h3>
-          {activeCde.metadata?.urls?.length === 0 ? (
-            <p className="text-gray-400 italic">
-              No downloads found for this CDE
-            </p>
-          ) : (
-            <div className="flex flex-col gap-5">
-              {activeCde.metadata?.urls?.map((url) => {
-                const handleDownload = () => {
-                  trackCdeDownloadClick({
-                    cde: activeCde,
-                    file: url,
-                    panelLocation: PANEL_LOCATIONS.CDES,
-                    uiSurface: UI_SURFACES.CDE_DOWNLOAD_CARD,
-                    referringSearchTerm: searchTerm,
-                  })
-                }
-
-                return (
-                  <DownloadCard
-                    className="p-4 flex gap-1 shadow-md transition-all duration-150 rounded-md border-[1px] border-gray-200"
-                    key={url.filename}
-                    href={url.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    onMouseDown={handleDownload}
-                    onKeyDown={(e) => {
-                      if (e.key === "Enter" || e.key === " ") {
-                        handleDownload()
-                      }
-                    }}
-                  >
-                    <div className="flex-1">
-                      <p className="text-sm font-bold text-gray-500 mb-1">
-                        {url.filename}
-                      </p>
-                      <p>{url.description}</p>
-                    </div>
-                    <Download />
-                  </DownloadCard>
-                )
-              })}
-            </div>
-          )}
+                    return (
+                      <DownloadCard
+                        className="p-4 flex gap-1 shadow-md transition-all duration-150 rounded-md border-[1px] border-gray-200"
+                        key={url.filename}
+                        href={url.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        onMouseDown={handleDownload}
+                        onKeyDown={(e) => {
+                          if (e.key === "Enter" || e.key === " ") {
+                            handleDownload()
+                          }
+                        }}
+                      >
+                        <div className="flex-1">
+                          <p className="text-sm font-bold text-gray-500 mb-1">
+                            {url.filename}
+                          </p>
+                          <p>{url.description}</p>
+                        </div>
+                        <Download />
+                      </DownloadCard>
+                    )
+                  })}
+                </div>
+              )}
+            </TabPanel>
+          </div>
         </div>
       ) : (
         <div className="flex-1 p-4 min-h-0 overflow-auto flex items-center justify-center">
