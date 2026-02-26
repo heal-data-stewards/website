@@ -128,7 +128,7 @@ export const StudiesPanel = ({ searchTerm }) => {
     return [
       {
         key: "researchNetworks",
-        label: "Research Networks",
+        label: "Research Programs",
         type: "multiselect",
         options: researchNetworkOptions,
       },
