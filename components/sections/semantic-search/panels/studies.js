@@ -6,11 +6,13 @@ import {
   Collapse,
   IconButton,
   Pagination,
+  Tab,
   Tooltip,
 } from "@mui/material"
 import { format, isValid, parseISO } from "date-fns"
-import { useMemo, useState } from "react"
+import { useEffect, useMemo, useState } from "react"
 import { FiltersPanel } from "../components/FiltersPanel"
+import { a11yProps, PillTabs, TabPanel } from "../components/Tabs"
 import { useQuery } from "utils/use-query"
 import Link from "../../../elements/link"
 import { CDEDisplay } from "../components/CDEDisplay"
@@ -29,6 +31,7 @@ const PAGE_SIZE = 50
 export const StudiesPanel = ({ searchTerm }) => {
   const collection = useCollectionContext()
   const [activeSidebarItem, setActiveSidebarItem] = useState(0)
+  const [currentTabIndex, setCurrentTabIndex] = useState(0)
   const [filtersOpen, setFiltersOpen] = useState(false)
   const [page, setPage] = useState(1)
   const [filterValues, setFilterValues] = useState({
@@ -157,6 +160,10 @@ export const StudiesPanel = ({ searchTerm }) => {
       },
     ]
   }, [studiesQuery.data?.aggregations])
+
+  useEffect(() => {
+    setCurrentTabIndex(0)
+  }, [activeSidebarItem])
 
   const handleFilterChange = (key, value) => {
     setFilterValues((prev) => ({ ...prev, [key]: value }))
@@ -378,22 +385,40 @@ export const StudiesPanel = ({ searchTerm }) => {
               </p>
             ))}
           </div>
-          <hr className="my-4" />
-          <p className="">{activeStudy.description}</p>
-
-          <h3 className="text-xl font-semibold mt-6 mb-1">Information</h3>
-          <NestedTable object={activeStudy.metadata} />
-
-          <VariablesList
-            study={activeStudy}
-            searchTerm={searchTerm}
-            panelLocation={PANEL_LOCATIONS.STUDIES}
-          />
-
-          <CDEDisplay
-            studyId={activeStudy.id}
-            panelLocation={PANEL_LOCATIONS.STUDIES}
-          />
+          <div className="mt-4">
+            <PillTabs
+              value={currentTabIndex}
+              onChange={(e, value) => setCurrentTabIndex(value)}
+              aria-label="Study tabs"
+            >
+              <Tab label="Description" {...a11yProps(0)} />
+              <Tab label="Information" {...a11yProps(1)} />
+              <Tab label="Related Variables" {...a11yProps(2)} />
+              <Tab label="CDEs" {...a11yProps(3)} />
+            </PillTabs>
+          </div>
+          <div className="p-2">
+            <TabPanel currentTabIndex={currentTabIndex} index={0}>
+              <p>{activeStudy.description}</p>
+            </TabPanel>
+            <TabPanel currentTabIndex={currentTabIndex} index={1}>
+              <NestedTable object={activeStudy.metadata} />
+            </TabPanel>
+            <TabPanel currentTabIndex={currentTabIndex} index={2}>
+              <VariablesList
+                study={activeStudy}
+                searchTerm={searchTerm}
+                panelLocation={PANEL_LOCATIONS.STUDIES}
+              />
+            </TabPanel>
+            <TabPanel currentTabIndex={currentTabIndex} index={3}>
+              <CDEDisplay
+                studyId={activeStudy.id}
+                panelLocation={PANEL_LOCATIONS.STUDIES}
+                emptyText="No CDEs found for this study."
+              />
+            </TabPanel>
+          </div>
         </div>
       ) : (
         <div className="flex-1 p-4 min-h-0 overflow-auto flex items-center justify-center">

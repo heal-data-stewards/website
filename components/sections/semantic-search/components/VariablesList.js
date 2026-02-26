@@ -1,19 +1,20 @@
-import { Bookmark, BookmarkBorder, ChevronRight } from "@mui/icons-material"
-import { CircularProgress, Collapse, IconButton } from "@mui/material"
+import {
+  Assessment,
+  Bookmark,
+  BookmarkBorder,
+  ChevronRight,
+  PendingActions,
+  SearchOff,
+} from "@mui/icons-material"
+import { CircularProgress, IconButton } from "@mui/material"
 import { fetchVariables } from "../data/variables"
 import { useQuery } from "utils/use-query"
 import { useCollectionContext } from "../context/collection"
-import { useState } from "react"
-import {
-  PANEL_LOCATIONS,
-  trackBookmarkClick,
-  trackVariableAccordionToggle,
-  UI_SURFACES,
-} from "../analytics"
+import { Empty } from "./Empty"
+import { trackBookmarkClick, UI_SURFACES } from "../analytics"
 
 export function VariablesList({ study, searchTerm, panelLocation }) {
   const collection = useCollectionContext()
-  const [expanded, setExpanded] = useState()
 
   const payload = {
     query: searchTerm,
@@ -51,128 +52,66 @@ export function VariablesList({ study, searchTerm, panelLocation }) {
 
   const variables = variablesQuery.data.results
 
+  if (variables.length === 0) {
+    if (study.variable_list.length === 0) {
+      return (
+        <Empty
+          icon={<PendingActions />}
+          text="Variable Level Metadata not yet available."
+        />
+      )
+    } else {
+      return <Empty icon={<Assessment />} text="No related measures found." />
+    }
+  }
   return (
-    <>
-      <div className="mt-6 mb-1">
-        <CollapsibleHeading
-          expanded={expanded}
-          setExpanded={setExpanded}
-          numItems={variables.length}
-          panelLocation={panelLocation}
-          referringSearchTerm={searchTerm}
-        >
-          <h3 className="text-xl font-semibold">
-            Related Variables
-            {variables.length > 0 && ` (${variables.length.toLocaleString()})`}
-          </h3>
-        </CollapsibleHeading>
-      </div>
-      {variables.length === 0 ? (
-        <p className="text-gray-400 italic">
-          {study.variable_list.length === 0
-            ? "Variable Level Metadata not yet available."
-            : "No related measures found."}
-        </p>
-      ) : (
-        <Collapse in={expanded}>
-          <ul className="flex flex-col gap-2">
-            {variables.map((variable) => (
-              <li key={variable.id} className="flex">
-                <IconButton
-                  className="flex-shrink-0"
-                  size="small"
-                  onMouseDown={(e) => {
-                    e.stopPropagation()
-                    const isBookmarked = collection.variables.has(variable)
-                    collection.variables.toggle(variable)
-                    trackBookmarkClick({
-                      action: isBookmarked ? "remove" : "add",
-                      entity: variable,
-                      panelLocation,
-                      uiSurface: UI_SURFACES.VARIABLES_LIST,
-                      referringSearchTerm: searchTerm,
-                    })
-                  }}
-                  onKeyDown={(e) => {
-                    if (e.key === "Enter" || e.key === " ") {
-                      e.stopPropagation()
-                      const isBookmarked = collection.variables.has(variable)
-                      collection.variables.toggle(variable)
-                      trackBookmarkClick({
-                        action: isBookmarked ? "remove" : "add",
-                        entity: variable,
-                        panelLocation,
-                        uiSurface: UI_SURFACES.VARIABLES_LIST,
-                        referringSearchTerm: searchTerm,
-                      })
-                    }
-                  }}
-                >
-                  {collection.variables.has(variable) ? (
-                    <Bookmark fontSize="small" sx={{ color: "#4d2862" }} />
-                  ) : (
-                    <BookmarkBorder
-                      fontSize="small"
-                      sx={{ color: "#4d2862" }}
-                    />
-                  )}
-                </IconButton>
-                <div className="flex flex-col">
-                  <span>{variable.name}</span>
-                  <span className="text-sm text-gray-400">
-                    {variable.description}
-                  </span>
-                </div>
-              </li>
-            ))}
-          </ul>
-        </Collapse>
-      )}
-    </>
-  )
-}
-
-function CollapsibleHeading({
-  expanded,
-  setExpanded,
-  numItems,
-  panelLocation,
-  referringSearchTerm,
-  children,
-}) {
-  if (numItems === 0) return children
-
-  return (
-    <button
-      className="flex align-center gap-1"
-      onClick={() => {
-        setExpanded((e) => !e)
-        trackVariableAccordionToggle({
-          action: expanded ? "close" : "open",
-          panelLocation: panelLocation,
-          referringSearchTerm: referringSearchTerm,
-        })
-      }}
-      onKeyDown={(e) => {
-        if (e.key === "Enter" || e.key === " ") {
-          setExpanded((prev) => !prev)
-          trackVariableAccordionToggle({
-            action: expanded ? "close" : "open",
-            panelLocation: panelLocation,
-            referringSearchTerm: referringSearchTerm,
-          })
-        }
-      }}
-    >
-      <ChevronRight
-        sx={{
-          transform: `${
-            expanded ? "rotate(90deg)" : "rotate(0deg)"
-          } translateY(1px)`,
-          transition: "transform 300ms ease-in-out",
-        }}
-      />
-      {children}
-    </button>
+    <ul className="flex flex-col gap-2">
+      {variables.map((variable) => (
+        <li key={variable.id} className="flex">
+          <IconButton
+            className="flex-shrink-0"
+            size="small"
+            onMouseDown={(e) => {
+              e.stopPropagation()
+              const isBookmarked = collection.variables.has(variable)
+              collection.variables.toggle(variable)
+              trackBookmarkClick({
+                action: isBookmarked ? "remove" : "add",
+                entity: variable,
+                panelLocation,
+                uiSurface: UI_SURFACES.VARIABLES_LIST,
+                referringSearchTerm: searchTerm,
+              })
+            }}
+            onKeyDown={(e) => {
+              if (e.key === "Enter" || e.key === " ") {
+                e.stopPropagation()
+                const isBookmarked = collection.variables.has(variable)
+                collection.variables.toggle(variable)
+                trackBookmarkClick({
+                  action: isBookmarked ? "remove" : "add",
+                  entity: variable,
+                  panelLocation,
+                  uiSurface: UI_SURFACES.VARIABLES_LIST,
+                  referringSearchTerm: searchTerm,
+                })
+              }
+            }}
+          >
+            {collection.variables.has(variable) ? (
+              <Bookmark fontSize="small" sx={{ color: "#4d2862" }} />
+            ) : (
+              <BookmarkBorder fontSize="small" sx={{ color: "#4d2862" }} />
+            )}
+          </IconButton>
+          <div className="flex flex-col ml-2">
+            <span>{variable.name}</span>
+            <span className="text-sm text-gray-400">
+              {variable.description}
+            </span>
+          </div>
+        </li>
+      ))}
+    </ul>
   )
 }

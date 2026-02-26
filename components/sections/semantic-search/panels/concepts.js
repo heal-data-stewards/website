@@ -12,13 +12,15 @@ import {
   Collapse,
   IconButton,
   Pagination,
+  Tab,
   Tooltip,
 } from "@mui/material"
-import { useMemo, useState } from "react"
+import { useEffect, useMemo, useState } from "react"
 import { useQuery } from "utils/use-query"
 import Link from "../../../elements/link"
 import { CDEDisplay } from "../components/CDEDisplay"
 import { FiltersPanel } from "../components/FiltersPanel"
+import { a11yProps, PillTabs, TabPanel } from "../components/Tabs"
 import {
   trackBookmarkClick,
   trackOntologyLinkClick,
@@ -39,6 +41,7 @@ function lowercaseFirstLetters(str) {
 export const ConceptsPanel = ({ searchTerm }) => {
   const collection = useCollectionContext()
   const [activeSidebarItem, setActiveSidebarItem] = useState(0)
+  const [currentTabIndex, setCurrentTabIndex] = useState(0)
   const [filtersOpen, setFiltersOpen] = useState(false)
   const [page, setPage] = useState(1)
   const [filterValues, setFilterValues] = useState({
@@ -93,6 +96,10 @@ export const ConceptsPanel = ({ searchTerm }) => {
       },
     ]
   }, [conceptsQuery.data?.aggregations])
+
+  useEffect(() => {
+    setCurrentTabIndex(0)
+  }, [activeSidebarItem])
 
   const handleFilterChange = (key, value) => {
     setFilterValues((prev) => ({ ...prev, [key]: value }))
@@ -260,8 +267,8 @@ export const ConceptsPanel = ({ searchTerm }) => {
       </div>
       {activeConcept ? (
         <div className="flex-1 p-4 min-h-0 overflow-auto">
-          <div className="flex w-full justify-between gap-2 mb-2">
-            <div className="flex gap-1 items-center">
+          <div className="flex w-full gap-2">
+            <div className="flex gap-1 items-center" style={{ flexGrow: 1 }}>
               <h2 className="text-2xl font-semibold leading-relaxed text-[#592963]">
                 {lowercaseFirstLetters(activeConcept.name)}{" "}
               </h2>
@@ -326,6 +333,24 @@ export const ConceptsPanel = ({ searchTerm }) => {
                 <BookmarkBorder fontSize="large" sx={{ color: "#4d2862" }} />
               )}
             </IconButton>
+            <Link
+              href={(() => {
+                const url = new URL(window.location.href)
+                url.searchParams.set("q", activeConcept.name)
+                return url
+              })()}
+              passHref
+            >
+              <Tooltip title="Search for this concept" placement="top">
+                <IconButton
+                  size="large"
+                  component={"a"}
+                  onClick={(e) => e.stopPropagation()}
+                >
+                  <Search fontSize="large" sx={{ color: "#4d2862" }} />
+                </IconButton>
+              </Tooltip>
+            </Link>
           </div>
           <div className="mb-2 flex gap-2 flex-wrap">
             <p className="text-gray-600 bg-gray-100 border-[1px] border-gray-200 border-solid px-2 py-1 rounded-lg shadow-sm">
@@ -368,25 +393,34 @@ export const ConceptsPanel = ({ searchTerm }) => {
           </div>
           <p className="">{activeConcept.description}</p>
 
-          <hr className="my-4" />
-
-          <ParentStudiesDisplay
-            conceptId={activeConcept.id}
-            searchTerm={searchTerm}
-            panelLocation={PANEL_LOCATIONS.CONCEPTS}
-            notFoundText={"No studies found for this concept."}
-            titleFormatter={(n) =>
-              `Studies Referencing this Concept ${
-                n > 0 ? ` (${n.toLocaleString()})` : ""
-              }`
-            }
-          />
-
-          <CDEDisplay
-            searchTerm={`"${activeConcept.name}"`}
-            notFoundText={"No CDEs found for this concept."}
-            panelLocation={PANEL_LOCATIONS.CONCEPTS}
-          />
+          <div className="mt-4">
+            <PillTabs
+              value={currentTabIndex}
+              onChange={(e, value) => setCurrentTabIndex(value)}
+              aria-label="Concept tabs"
+            >
+              <Tab label="Related Studies" {...a11yProps(0)} />
+              <Tab label="Related CDEs" {...a11yProps(1)} />
+            </PillTabs>
+          </div>
+          <div className="p-2">
+            <TabPanel currentTabIndex={currentTabIndex} index={0}>
+              <ParentStudiesDisplay
+                conceptId={activeConcept.id}
+                searchTerm={searchTerm}
+                panelLocation={PANEL_LOCATIONS.CONCEPTS}
+                notFoundText="No studies found for this concept."
+              />
+            </TabPanel>
+            <TabPanel currentTabIndex={currentTabIndex} index={1}>
+              <CDEDisplay
+                searchTerm={searchTerm}
+                conceptId={activeConcept.id}
+                panelLocation={PANEL_LOCATIONS.CONCEPTS}
+                emptyText="No CDEs found for this concept."
+              />
+            </TabPanel>
+          </div>
         </div>
       ) : (
         <div className="flex-1 p-4 min-h-0 overflow-auto flex items-center justify-center">

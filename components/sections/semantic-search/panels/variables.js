@@ -1,4 +1,4 @@
-import { Bookmark, BookmarkBorder, Tune } from "@mui/icons-material"
+import { Bookmark, BookmarkBorder, MenuBook, Tune } from "@mui/icons-material"
 import {
   Badge,
   Button,
@@ -6,8 +6,9 @@ import {
   Collapse,
   IconButton,
   Pagination,
+  Tab,
 } from "@mui/material"
-import { useMemo, useState } from "react"
+import { useEffect, useMemo, useState } from "react"
 import { useQuery } from "utils/use-query"
 import { CDEDisplay } from "../components/CDEDisplay"
 import { FiltersPanel } from "../components/FiltersPanel"
@@ -15,6 +16,8 @@ import { ParentStudiesDisplay } from "../components/ParentStudiesDisplay"
 import { useCollectionContext } from "../context/collection"
 import { trackBookmarkClick, PANEL_LOCATIONS, UI_SURFACES } from "../analytics"
 import { fetchVariables } from "../data/variables"
+import { a11yProps, PillTabs, TabPanel } from "../components/Tabs"
+import { Empty } from "../components/Empty"
 
 const PAGE_SIZE = 50
 
@@ -33,6 +36,7 @@ const DATA_TYPE_OPTIONS = [
 export const VariablesPanel = ({ searchTerm }) => {
   const collection = useCollectionContext()
   const [activeSidebarItem, setActiveSidebarItem] = useState(0)
+  const [currentTabIndex, setCurrentTabIndex] = useState(0)
   const [filtersOpen, setFiltersOpen] = useState(false)
   const [page, setPage] = useState(1)
   const [filterValues, setFilterValues] = useState({
@@ -93,6 +97,10 @@ export const VariablesPanel = ({ searchTerm }) => {
       options: DATA_TYPE_OPTIONS,
     },
   ]
+
+  useEffect(() => {
+    setCurrentTabIndex(0)
+  }, [activeSidebarItem])
 
   const handleFilterChange = (key, value) => {
     setFilterValues((prev) => ({ ...prev, [key]: value }))
@@ -169,6 +177,19 @@ export const VariablesPanel = ({ searchTerm }) => {
       </div>
     )
   const activeVariable = variables[activeSidebarItem]
+  const variableHasPermissibleValues =
+    activeVariable.metadata?.permissible_values?.length > 0
+
+  const tabs = [
+    ...(variableHasPermissibleValues
+      ? [{ label: "Permissible Values", key: "permissible_values" }]
+      : []),
+    {
+      label: activeVariable?.is_cde ? "CDEs" : "Usage In Studies",
+      key: "usage",
+    },
+    { label: "References", key: "references" },
+  ]
 
   return (
     <div className="flex flex-row max-h-full h-full">
@@ -247,7 +268,7 @@ export const VariablesPanel = ({ searchTerm }) => {
         <div className="flex-1 p-4 min-h-0 overflow-auto">
           <div className="flex gap-2">
             <div className="flex-1">
-              <h2 className="flex-1 text-2xl font-semibold leading-relaxed mb-2 text-[#592963]">
+              <h2 className="flex-1 text-2xl font-semibold leading-relaxed text-[#592963]">
                 {activeVariable.name === "None"
                   ? activeVariable.id
                   : activeVariable.name}
@@ -278,69 +299,92 @@ export const VariablesPanel = ({ searchTerm }) => {
               )}
             </IconButton>
           </div>
+          <p className="mt-3">{activeVariable.description}</p>
 
-          <hr className="my-4" />
-
-          <p className="italic">{activeVariable.description}</p>
-
-          {activeVariable.metadata?.references &&
-            activeVariable.metadata.references !== "None" && (
-              <>
-                <h3 className="text-xl font-semibold mt-6 mb-1">References</h3>
-                <p>{activeVariable.metadata.references}</p>
-              </>
-            )}
-
-          {activeVariable.is_cde ? (
-            <CDEDisplay
-              searchTerm={searchTerm}
-              panelLocation={PANEL_LOCATIONS.VARIABLES}
-              notFoundText={"No CDEs found for this variable."}
-              elementIds={activeVariable.parents.map((p) =>
-                p.replace("HEALCDE:", "")
-              )}
-            />
-          ) : (
-            <ParentStudiesDisplay
-              titleFormatter={(count) => (
-                <>
-                  Studies that collect this variable
-                  {count > 0 && ` (${count.toLocaleString()})`}
-                </>
-              )}
-              studyIds={activeVariable.parents}
-              notFoundText={"No studies found for this variable."}
-              searchTerm={searchTerm}
-              panelLocation={PANEL_LOCATIONS.VARIABLES}
-            />
-          )}
-
-          <h3 className="text-xl font-semibold mt-6 mb-1">
-            {activeVariable.metadata?.crf_name}
-          </h3>
-          {activeVariable.metadata?.question_text !== "None" && (
-            <p>{activeVariable.metadata.question_text}</p>
-          )}
-
-          {activeVariable.metadata?.permissible_values?.length > 0 && (
-            <ul className="flex my-4 border-[#bfb9c5] border-[1px] rounded-md overflow-auto">
-              {activeVariable.metadata.permissible_values.map((pv) => (
-                <li
-                  key={pv.value}
-                  className="px-3 py-2 rounded-md odd:bg-[#f1eff3] flex-1"
-                >
-                  <div className="flex flex-col">
-                    <span>{pv.value}</span>
-                    {pv.description && (
-                      <span className="text-gray-500 text-sm">
-                        {pv.description}
-                      </span>
-                    )}
-                  </div>
-                </li>
+          <div className="mt-4">
+            <PillTabs
+              value={currentTabIndex}
+              onChange={(e, value) => setCurrentTabIndex(value)}
+              aria-label="Variable tabs"
+            >
+              {tabs.map((tab, index) => (
+                <Tab key={tab.key} label={tab.label} {...a11yProps(index)} />
               ))}
-            </ul>
-          )}
+            </PillTabs>
+          </div>
+          <div className="p-2">
+            {tabs.map((tab, index) => (
+              <TabPanel
+                key={tab.key}
+                currentTabIndex={currentTabIndex}
+                index={index}
+              >
+                {tab.key === "permissible_values" && (
+                  <>
+                    <h3 className="text-l font-semibold mt-1 mb-1">
+                      {activeVariable.metadata?.crf_name}
+                    </h3>
+                    {activeVariable.metadata?.question_text !== "None" && (
+                      <p>{activeVariable.metadata.question_text}</p>
+                    )}
+
+                    {variableHasPermissibleValues && (
+                      <ul className="flex my-4 border-[#bfb9c5] border-[1px] rounded-md overflow-auto">
+                        {activeVariable.metadata.permissible_values.map(
+                          (pv) => (
+                            <li
+                              key={pv.value}
+                              className="px-3 py-2 rounded-md odd:bg-[#f1eff3] flex-1"
+                            >
+                              <div className="flex flex-col">
+                                <span>{pv.value}</span>
+                                {pv.description && (
+                                  <span className="text-gray-500 text-sm">
+                                    {pv.description}
+                                  </span>
+                                )}
+                              </div>
+                            </li>
+                          )
+                        )}
+                      </ul>
+                    )}
+                  </>
+                )}
+                {tab.key === "usage" &&
+                  (activeVariable.is_cde ? (
+                    <CDEDisplay
+                      searchTerm={searchTerm}
+                      panelLocation={PANEL_LOCATIONS.VARIABLES}
+                      expandFirstItem
+                      emptyText={"No CDEs found for this variable."}
+                      elementIds={activeVariable.parents.map((p) =>
+                        p.replace("HEALCDE:", "")
+                      )}
+                    />
+                  ) : (
+                    <ParentStudiesDisplay
+                      studyIds={activeVariable.parents}
+                      notFoundText={"No studies found for this variable."}
+                      searchTerm={searchTerm}
+                      expandFirstItem
+                      panelLocation={PANEL_LOCATIONS.VARIABLES}
+                    />
+                  ))}
+                {tab.key === "references" ? (
+                  activeVariable.metadata?.references &&
+                  activeVariable.metadata.references !== "None" ? (
+                    <p>{activeVariable.metadata.references}</p>
+                  ) : (
+                    <Empty
+                      icon={<MenuBook />}
+                      text="No references found for this variable."
+                    />
+                  )
+                ) : null}
+              </TabPanel>
+            ))}
+          </div>
         </div>
       ) : (
         <div className="flex-1 p-4 min-h-0 overflow-auto flex items-center justify-center">
