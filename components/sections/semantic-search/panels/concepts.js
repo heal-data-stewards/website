@@ -25,6 +25,7 @@ import {
   trackBookmarkClick,
   trackOntologyLinkClick,
   trackNewConceptSearched,
+  trackLeftListClick,
   PANEL_LOCATIONS,
   UI_SURFACES,
 } from "../analytics"
@@ -445,7 +446,16 @@ function SidebarItem({
 
   return (
     <button
-      onClick={onClick}
+      onClick={() => {
+        trackLeftListClick({
+          entity: concept,
+          panelLocation: PANEL_LOCATIONS.CONCEPTS,
+          referringSearchTerm: searchTerm,
+          uiSurface: UI_SURFACES.LEFT_LIST,
+        })
+
+        onClick()
+      }}
       className={
         `w-full p-4 border-b border-gray-200 cursor-pointer text-left` +
         (active ? " bg-[#eeecf0]" : "")

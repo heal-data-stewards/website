@@ -18,6 +18,7 @@ import { useCollectionContext } from "../context/collection"
 import {
   trackBookmarkClick,
   trackCdeDownloadClick,
+  trackLeftListClick,
   PANEL_LOCATIONS,
   UI_SURFACES,
 } from "../analytics"
@@ -390,7 +391,16 @@ function SidebarItem({ cde, name, description, onClick, active, searchTerm }) {
 
   return (
     <button
-      onClick={onClick}
+      onClick={() => {
+        trackLeftListClick({
+          entity: cde,
+          panelLocation: PANEL_LOCATIONS.CDES,
+          referringSearchTerm: searchTerm,
+          uiSurface: UI_SURFACES.LEFT_LIST,
+        })
+
+        onClick()
+      }}
       className={
         `w-full p-4 border-b border-gray-200 cursor-pointer text-left` +
         (active ? " bg-[#eeecf0]" : "")
