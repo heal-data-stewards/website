@@ -14,7 +14,12 @@ import { CDEDisplay } from "../components/CDEDisplay"
 import { FiltersPanel } from "../components/FiltersPanel"
 import { ParentStudiesDisplay } from "../components/ParentStudiesDisplay"
 import { useCollectionContext } from "../context/collection"
-import { trackBookmarkClick, PANEL_LOCATIONS, UI_SURFACES } from "../analytics"
+import {
+  trackBookmarkClick,
+  trackLeftListClick,
+  PANEL_LOCATIONS,
+  UI_SURFACES,
+} from "../analytics"
 import { fetchVariables } from "../data/variables"
 import { a11yProps, PillTabs, TabPanel } from "../components/Tabs"
 import { Empty } from "../components/Empty"
@@ -409,7 +414,16 @@ function SidebarItem({
 
   return (
     <button
-      onClick={onClick}
+      onClick={() => {
+        trackLeftListClick({
+          entity: variable,
+          panelLocation: PANEL_LOCATIONS.VARIABLES,
+          referringSearchTerm: searchTerm,
+          uiSurface: UI_SURFACES.LEFT_LIST,
+        })
+
+        onClick()
+      }}
       className={
         `w-full p-4 border-b border-gray-200 cursor-pointer text-left` +
         (active ? " bg-[#eeecf0]" : "")
