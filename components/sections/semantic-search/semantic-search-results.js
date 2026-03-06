@@ -78,7 +78,7 @@ function TabPanel({ children, currentTabIndex, index }) {
       id={`results-tabpanel-${index}`}
       aria-labelledby={`results-tab-${index}`}
     >
-      {currentTabIndex === index && children}
+      {children}
     </div>
   )
 }
