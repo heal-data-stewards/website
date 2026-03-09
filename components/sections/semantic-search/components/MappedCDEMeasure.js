@@ -37,7 +37,7 @@ export function MappedCDEMeasure({ variableId }) {
     !cdeMapping.data.results[0].metadata.cde_mapping.measure ||
     !cdeMapping.data.results[0].metadata.cde_mapping.cde
   ) {
-    return "No mapped CDE measure found for this variable."
+    return "No mapped CDE found for this measure."
   }
 
   const cdeMeasureMapping = cdeMapping.data.results[0].metadata.cde_mapping
