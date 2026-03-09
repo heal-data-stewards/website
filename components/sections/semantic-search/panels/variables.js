@@ -18,6 +18,7 @@ import { trackBookmarkClick, PANEL_LOCATIONS, UI_SURFACES } from "../analytics"
 import { fetchVariables } from "../data/variables"
 import { a11yProps, PillTabs, TabPanel } from "../components/Tabs"
 import { Empty } from "../components/Empty"
+import { MappedCDEMeasure } from "../components/MappedCDEMeasure"
 
 const PAGE_SIZE = 50
 
@@ -188,6 +189,7 @@ export const VariablesPanel = ({ searchTerm }) => {
       label: activeVariable?.is_cde ? "CDEs" : "Usage In Studies",
       key: "usage",
     },
+    { label: "Mapped CDE Measure", key: "mapped_cde_measure" },
     { label: "References", key: "references" },
   ]
 
@@ -371,6 +373,9 @@ export const VariablesPanel = ({ searchTerm }) => {
                       panelLocation={PANEL_LOCATIONS.VARIABLES}
                     />
                   ))}
+                {tab.key === "mapped_cde_measure" ? (
+                  <MappedCDEMeasure variableId={activeVariable.id} />
+                ) : null}
                 {tab.key === "references" ? (
                   activeVariable.metadata?.references &&
                   activeVariable.metadata.references !== "None" ? (

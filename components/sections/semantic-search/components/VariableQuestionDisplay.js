@@ -40,8 +40,6 @@ export function VariableQuestionDisplay({ variableList }) {
   if (variables.length === 0)
     return <p className="text-gray-400 italic">VLMD not yet available.</p>
 
-  console.log(variables)
-
   return (
     <div>
       {variables.map((v, i) => (
