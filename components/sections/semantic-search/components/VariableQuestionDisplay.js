@@ -40,6 +40,8 @@ export function VariableQuestionDisplay({ variableList }) {
   if (variables.length === 0)
     return <p className="text-gray-400 italic">VLMD not yet available.</p>
 
+  console.log(variables)
+
   return (
     <div>
       {variables.map((v, i) => (
@@ -57,22 +59,22 @@ export function VariableQuestionDisplay({ variableList }) {
               <p className="italic text-sm text-gray-500">{v.description}</p>
             )}
 
-            {v.metadata.permissible_values.length > 0 && (
-              <ul className="flex gap-1 my-2 border-[#bfb9c5] border-[1px] rounded-md overflow-auto">
-                {v.metadata.permissible_values.map((pv, i) => (
-                  <li
-                    className="odd:bg-[#f1eff3] flex-1 px-2 py-1 rounded-md flex flex-col"
-                    key={`${pv.value}-${i}`}
-                  >
-                    <span
-                      className={!pv.description ? "text-gray-500" : undefined}
-                    >
-                      {pv.description ? pv.description : pv.value}
-                    </span>
-                  </li>
-                ))}
-              </ul>
-            )}
+            {v.metadata.permissible_values &&
+              Object.entries(v.metadata.permissible_values).length > 0 && (
+                <ul className="flex gap-1 my-2 border-[#bfb9c5] border-[1px] rounded-md overflow-auto">
+                  {Object.entries(v.metadata.permissible_values).map(
+                    ([description, value], i) => (
+                      <li
+                        className="odd:bg-[#f1eff3] flex-1 px-2 py-1 rounded-md flex flex-col"
+                        key={`${value}-${i}`}
+                      >
+                        <span>{description}</span>
+                        <span className="text-xs text-gray-400">({value})</span>
+                      </li>
+                    )
+                  )}
+                </ul>
+              )}
           </div>
           {i < variables.length - 1 && <hr className="my-4" />}
         </>
