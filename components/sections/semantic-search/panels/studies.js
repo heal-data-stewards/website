@@ -120,15 +120,16 @@ export const StudiesPanel = ({ searchTerm }) => {
     filterValues.cdesUsed !== ""
 
   const filterConfigs = useMemo(() => {
-    const researchNetworkOptions =
+    const researchNetworkOptions = (
       studiesQuery.data?.aggregations?.["programs.keyword"]?.map(
         (bucket) => bucket.key
       ) || []
+    ).sort()
 
     return [
       {
         key: "researchNetworks",
-        label: "Research Networks",
+        label: "Research Programs",
         type: "multiselect",
         options: researchNetworkOptions,
       },
