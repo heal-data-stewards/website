@@ -217,7 +217,10 @@ export function VariablesList({ study, searchTerm, panelLocation }) {
                   {collection.variables.has(variable) ? (
                     <Bookmark fontSize="small" sx={{ color: "#4d2862" }} />
                   ) : (
-                    <BookmarkBorder fontSize="small" sx={{ color: "#4d2862" }} />
+                    <BookmarkBorder
+                      fontSize="small"
+                      sx={{ color: "#4d2862" }}
+                    />
                   )}
                 </IconButton>
                 <div className="flex flex-col ml-2">

@@ -312,6 +312,9 @@ function MainContent({ activeVariable, searchTerm }) {
   const collection = useCollectionContext()
   const [currentTabIndex, setCurrentTabIndex] = useState(0)
 
+  const studyMappings = activeVariable.metadata?.study_variable_mappings
+  const cdeMappings = activeVariable.metadata?.cde_mapping
+
   const variableHasPermissibleValues =
     activeVariable.metadata?.permissible_values?.length > 0
 
@@ -323,8 +326,17 @@ function MainContent({ activeVariable, searchTerm }) {
       label: activeVariable?.is_cde ? "CDEs" : "Usage In Studies",
       key: "usage",
     },
-    { label: "Mapped CDE Measure", key: "mapped_cde_measure" },
-    { label: "Studies Using This Measure", key: "study_variable_mappings" },
+    ...(cdeMappings
+      ? [{ label: "Mapped CDE Measure", key: "mapped_cde_measure" }]
+      : []),
+    ...(studyMappings
+      ? [
+          {
+            label: "Studies Using This Measure",
+            key: "study_variable_mappings",
+          },
+        ]
+      : []),
     { label: "References", key: "references" },
   ]
 
@@ -437,7 +449,7 @@ function MainContent({ activeVariable, searchTerm }) {
               <MappedCDEMeasure variableId={activeVariable.id} />
             ) : null}
             {tab.key === "study_variable_mappings" ? (
-              <StudyVariableMappings variableId={activeVariable.id} />
+              <StudyVariableMappings studyMappings={studyMappings} />
             ) : null}
             {tab.key === "references" ? (
               activeVariable.metadata?.references &&

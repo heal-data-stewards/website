@@ -1,29 +1,33 @@
 import { useQuery } from "utils/use-query"
-import { fetchVariables } from "../data/variables"
-import { CircularProgress } from "@mui/material"
+import { CircularProgress, IconButton, Tooltip } from "@mui/material"
 import StyledAccordion from "../accordion"
+import { fetchStudies } from "../data/studies"
+import { Bookmark, BookmarkBorder, OpenInNew } from "@mui/icons-material"
+import Link from "../../../elements/link"
+import { useCollectionContext } from "../context/collection"
 
-export function StudyVariableMappings({ variableId }) {
+export function StudyVariableMappings({ studyMappings }) {
+  const collection = useCollectionContext()
+
   const payload = {
     query: "",
-    elementIds: [variableId],
+    elementIds: Object.keys(studyMappings),
   }
-
-  const studyVariableMappings = useQuery({
+  const studies = useQuery({
     queryFn: () => {
-      return fetchVariables(payload)
+      return fetchStudies(payload)
     },
     queryKey: `study-variable-mappings-${JSON.stringify(payload)}`,
   })
 
-  if (studyVariableMappings.isLoading) {
+  if (studies.isLoading) {
     return (
       <div className="h-full flex items-center justify-center">
         <CircularProgress />
       </div>
     )
   }
-  if (studyVariableMappings.error) {
+  if (studies.error || !Array.isArray(studies.data?.results)) {
     return (
       <div className="h-full flex items-center justify-center rounded-lg bg-red-50 p-4 font-bold text-lg">
         <span className="text-red-600">Error loading results</span>
@@ -31,34 +35,51 @@ export function StudyVariableMappings({ variableId }) {
     )
   }
 
-  if (
-    !Array.isArray(studyVariableMappings.data?.results) ||
-    !studyVariableMappings.data.results.length > 0 ||
-    !studyVariableMappings.data.results[0]?.metadata?.study_variable_mappings
-  ) {
-    return "No studies found using this measure."
-  }
-
-  const studyVariables =
-    studyVariableMappings.data.results[0].metadata.study_variable_mappings
-
   return (
     <StyledAccordion
-      items={Object.entries(studyVariables).map(
-        ([study, variables], index) => ({
-          key: study,
-          summary: (
-            <div className="flex justify-between items-center w-full">
-              <h4>{study}</h4>
-            </div>
-          ),
-          details: (
-            <div>
-              <p className="mt-1">{variables.join(", ")}</p>
-            </div>
-          ),
-        })
-      )}
+      items={studies.data.results.map((study) => ({
+        key: study.id,
+        summary: (
+          <div className="flex justify-between items-center w-full">
+            <h4>
+              {study.name}{" "}
+              <span className="text-sm text-gray-500">
+                {studyMappings[study.id].join(", ")}
+              </span>
+            </h4>
+            <IconButton
+              size="small"
+              onClick={(e) => {
+                e.stopPropagation()
+                collection.studies.toggle(study)
+              }}
+            >
+              {collection.studies.has(study) ? (
+                <Bookmark fontSize="small" sx={{ color: "#4d2862" }} />
+              ) : (
+                <BookmarkBorder fontSize="small" sx={{ color: "#4d2862" }} />
+              )}
+            </IconButton>
+          </div>
+        ),
+        details: (
+          <div>
+            <p>
+              Study ID:{" "}
+              <Link to={study.action} target="_blank" rel="noopener noreferrer">
+                <Tooltip
+                  title="Open study in the HEAL Data Platform"
+                  placement="right"
+                >
+                  {study.id.split(":")?.[1] ?? study.id}{" "}
+                  <OpenInNew fontSize="small" />
+                </Tooltip>
+              </Link>
+            </p>
+            <p className="mt-1">{study.description}</p>
+          </div>
+        ),
+      }))}
     />
   )
 }
