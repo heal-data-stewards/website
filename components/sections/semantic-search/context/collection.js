@@ -1,10 +1,11 @@
 import { useLocalStorage } from "utils/use-local-storage"
+import { generateStudiesCsv } from "./csv/studies"
 
 const { createContext, useContext } = require("react")
 
 const CollectionContext = createContext({})
 
-function createCollectionFns(items, setItems) {
+function createCollectionFns(items, setItems, generateCsv) {
   return {
     list: items,
     add(item) {
@@ -22,6 +23,19 @@ function createCollectionFns(items, setItems) {
         return exists ? prev.filter((s) => s.id !== item.id) : [...prev, item]
       })
     },
+    downloadCsv(filename) {
+      const csvContent = generateCsv(this.list)
+      const blob = new Blob([csvContent], {
+        type: "text/csv",
+      })
+      const url = URL.createObjectURL(blob)
+
+      const a = document.createElement("a")
+      a.href = url
+      a.download = `${filename}.csv`
+      a.click()
+      URL.revokeObjectURL(url)
+    },
   }
 }
 
@@ -34,7 +48,7 @@ export const CollectionContextProvider = ({ children }) => {
   return (
     <CollectionContext.Provider
       value={{
-        studies: createCollectionFns(studies, setStudies),
+        studies: createCollectionFns(studies, setStudies, generateStudiesCsv),
         concepts: createCollectionFns(concepts, setConcepts),
         cdes: createCollectionFns(cdes, setCdes),
         variables: createCollectionFns(variables, setVariables),
