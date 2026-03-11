@@ -1,6 +1,7 @@
 import { useLocalStorage } from "utils/use-local-storage"
 import { generateStudiesCsv } from "./csv/studies"
 import { generateVariablesCsv } from "./csv/variables"
+import { generateConceptsCsv } from "./csv/concepts"
 
 const { createContext, useContext } = require("react")
 
@@ -50,7 +51,11 @@ export const CollectionContextProvider = ({ children }) => {
     <CollectionContext.Provider
       value={{
         studies: createCollectionFns(studies, setStudies, generateStudiesCsv),
-        concepts: createCollectionFns(concepts, setConcepts),
+        concepts: createCollectionFns(
+          concepts,
+          setConcepts,
+          generateConceptsCsv
+        ),
         cdes: createCollectionFns(cdes, setCdes),
         variables: createCollectionFns(
           variables,
