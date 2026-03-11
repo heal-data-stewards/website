@@ -446,7 +446,7 @@ function MainContent({ activeVariable, searchTerm }) {
                 />
               ))}
             {tab.key === "mapped_cde_measure" ? (
-              <MappedCDEMeasure variableId={activeVariable.id} />
+              <MappedCDEMeasure cdeMappings={cdeMappings} />
             ) : null}
             {tab.key === "study_variable_mappings" ? (
               <StudyVariableMappings studyMappings={studyMappings} />
