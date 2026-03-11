@@ -35,31 +35,33 @@ export function Collection() {
 
       <hr className="my-4" />
 
-      <div className="flex flex-col gap-2 overflow-auto flex-1 min-h-0">
-        <div>
-          <h4 className="mb-2 uppercase text-sm font-medium text-gray-500">
-            Studies ({collection.studies.list.length})
-          </h4>
-          <CollectionList collection={collection.studies} />
-        </div>
-        <div>
-          <h4 className="mb-2 text-sm font-medium text-gray-500">
-            CDEs ({collection.cdes.list.length})
-          </h4>
-          <CollectionList collection={collection.cdes} />
-        </div>
-        <div>
-          <h4 className="mb-2 uppercase text-sm font-medium text-gray-500">
-            Concepts ({collection.concepts.list.length})
-          </h4>
-          <CollectionList collection={collection.concepts} />
-        </div>
-        <div>
-          <h4 className="mb-2 uppercase text-sm font-medium text-gray-500">
-            Variables ({collection.variables.list.length})
-          </h4>
-          <CollectionList collection={collection.variables} />
-        </div>
+      <div className="flex flex-col gap-3 overflow-auto flex-1 min-h-0">
+        {[
+          { title: "Studies", c: collection.studies },
+          { title: "CDEs", c: collection.cdes },
+          { title: "Concepts", c: collection.concepts },
+          { title: "Variables", c: collection.variables },
+        ].map(({ title, c }) => (
+          <div key={title}>
+            <div className="flex justify-between mb-1 items-center">
+              <h4 className="uppercase text-sm font-medium text-gray-500">
+                {title} ({c.list.length})
+              </h4>
+              {c.list.length > 0 && (
+                <button
+                  className="text-sm text-[#4d2862] hover:text-[#982568] transition-colors duration-75 flex items-center gap-1"
+                  onClick={() => {
+                    c.downloadCsv(title)
+                  }}
+                >
+                  CSV
+                  <Download fontSize="small" />
+                </button>
+              )}
+            </div>
+            <CollectionList collection={c} />
+          </div>
+        ))}
       </div>
 
       <hr className="my-4" />
