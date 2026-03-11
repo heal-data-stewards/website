@@ -1,28 +1,36 @@
 import { useQuery } from "utils/use-query"
-import { fetchVariables } from "../data/variables"
-import { CircularProgress } from "@mui/material"
+import { CircularProgress, IconButton } from "@mui/material"
+import { fetchCDEs } from "../data/cdes"
+import { useCollectionContext } from "../context/collection"
+import { Bookmark, BookmarkBorder } from "@mui/icons-material"
 
-export function MappedCDEMeasure({ variableId }) {
+export function MappedCDEMeasure({ cdeMappings }) {
+  const collection = useCollectionContext()
+
   const payload = {
     query: "",
-    elementIds: [variableId],
+    elementIds: [cdeMappings.cde],
   }
 
-  const cdeMapping = useQuery({
+  const cdeQuery = useQuery({
     queryFn: () => {
-      return fetchVariables(payload)
+      return fetchCDEs(payload)
     },
     queryKey: `mapped-cde-measure-${JSON.stringify(payload)}`,
   })
 
-  if (cdeMapping.isLoading) {
+  if (cdeQuery.isLoading) {
     return (
       <div className="h-full flex items-center justify-center">
         <CircularProgress />
       </div>
     )
   }
-  if (cdeMapping.error) {
+  if (
+    cdeQuery.error ||
+    !Array.isArray(cdeQuery.data?.results) ||
+    cdeQuery.data.results.length === 0
+  ) {
     return (
       <div className="h-full flex items-center justify-center rounded-lg bg-red-50 p-4 font-bold text-lg">
         <span className="text-red-600">Error loading results</span>
@@ -30,26 +38,31 @@ export function MappedCDEMeasure({ variableId }) {
     )
   }
 
-  if (
-    !Array.isArray(cdeMapping.data?.results) ||
-    !cdeMapping.data.results.length > 0 ||
-    !cdeMapping.data.results[0]?.metadata?.cde_mapping ||
-    !cdeMapping.data.results[0].metadata.cde_mapping.measure ||
-    !cdeMapping.data.results[0].metadata.cde_mapping.cde
-  ) {
-    return "No mapped CDE found for this measure."
-  }
-
-  const cdeMeasureMapping = cdeMapping.data.results[0].metadata.cde_mapping
+  const cde = cdeQuery.data.results[0]
 
   return (
-    <div className="flex">
+    <div className="flex justify-between items-center">
       <div>
         <h3 className="font-semibold leading-relaxed text-[#592963]">
-          {cdeMeasureMapping.measure}
+          {cdeMappings.measure}
         </h3>
-        <p>{cdeMeasureMapping.cde}</p>
+        <p>{cde.name}</p>
+        <p className="text-sm mt-2 text-gray-600">{cde.description}</p>
       </div>
+
+      <IconButton
+        size="small"
+        onClick={(e) => {
+          e.stopPropagation()
+          collection.cdes.toggle(cde)
+        }}
+      >
+        {collection.cdes.has(cde) ? (
+          <Bookmark fontSize="small" sx={{ color: "#4d2862" }} />
+        ) : (
+          <BookmarkBorder fontSize="small" sx={{ color: "#4d2862" }} />
+        )}
+      </IconButton>
     </div>
   )
 }
