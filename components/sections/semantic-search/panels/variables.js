@@ -323,7 +323,7 @@ function MainContent({ activeVariable, searchTerm }) {
       ? [{ label: "Permissible Values", key: "permissible_values" }]
       : []),
     {
-      label: activeVariable?.is_cde ? "CDEs" : "Usage In Studies",
+      label: activeVariable?.is_cde ? "CDEs" : "Parent Study",
       key: "usage",
     },
     ...(cdeMappings
