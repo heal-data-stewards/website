@@ -41,13 +41,20 @@ export function MappedCDEMeasure({ cdeMappings }) {
   const cde = cdeQuery.data.results[0]
 
   return (
-    <div className="flex justify-between items-center">
+    <div className="flex justify-between items-start">
       <div>
-        <h3 className="font-semibold leading-relaxed text-[#592963]">
-          {cdeMappings.measure}
+        <h3 className="mt-2 uppercase text-gray-500 font-semibold">
+          Corresponding CDE Measure:
         </h3>
-        <p>{cde.name}</p>
-        <p className="text-sm mt-2 text-gray-600">{cde.description}</p>
+        <p className="font-semibold ml-4 text-[#592963]">
+          {cdeMappings.measure}
+        </p>
+
+        <h3 className="mt-4 uppercase text-gray-500 font-semibold">
+          CDE Details:
+        </h3>
+        <p className="ml-4">{cde.name}</p>
+        <p className="ml-4 text-sm text-gray-600">{cde.description}</p>
       </div>
 
       <IconButton
