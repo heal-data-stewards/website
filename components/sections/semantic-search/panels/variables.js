@@ -316,7 +316,7 @@ function MainContent({ activeVariable, searchTerm }) {
   const cdeMappings = activeVariable.metadata?.cde_mapping
 
   const variableHasPermissibleValues =
-    activeVariable.metadata?.permissible_values?.length > 0
+    Object.entries(activeVariable.metadata?.permissible_values || {}).length > 0
 
   const tabs = [
     ...(variableHasPermissibleValues
@@ -406,17 +406,17 @@ function MainContent({ activeVariable, searchTerm }) {
 
                 {variableHasPermissibleValues && (
                   <ul className="flex my-4 border-[#bfb9c5] border-[1px] rounded-md overflow-auto">
-                    {activeVariable.metadata.permissible_values.map((pv) => (
+                    {Object.entries(
+                      activeVariable.metadata.permissible_values || {}
+                    ).map(([key, pv]) => (
                       <li
-                        key={pv.value}
+                        key={key}
                         className="px-3 py-2 rounded-md odd:bg-[#f1eff3] flex-1"
                       >
                         <div className="flex flex-col">
-                          <span>{pv.value}</span>
-                          {pv.description && (
-                            <span className="text-gray-500 text-sm">
-                              {pv.description}
-                            </span>
+                          <span>{key}</span>
+                          {pv && (
+                            <span className="text-gray-500 text-sm">{pv}</span>
                           )}
                         </div>
                       </li>
