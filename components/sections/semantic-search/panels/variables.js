@@ -42,6 +42,7 @@ export const VariablesPanel = ({ searchTerm }) => {
   const [filterValues, setFilterValues] = useState({
     cdeOnly: false,
     dataTypes: [],
+    measureMapping: "",
   })
 
   const apiFilters = useMemo(() => {
@@ -60,6 +61,22 @@ export const VariablesPanel = ({ searchTerm }) => {
         field: "data_type",
         operator: "in",
         value: filterValues.dataTypes,
+      })
+    }
+
+    if (filterValues.measureMapping === "has_cde_mapping") {
+      filters.push({
+        field: "metadata.cde_mapping",
+        operator: "size_gt",
+        value: 0,
+      })
+    }
+
+    if (filterValues.measureMapping === "used_by_studies") {
+      filters.push({
+        field: "metadata.study_variable_mappings",
+        operator: "size_gt",
+        value: 0,
       })
     }
 
@@ -82,7 +99,9 @@ export const VariablesPanel = ({ searchTerm }) => {
   })
 
   const hasActiveFilters =
-    filterValues.cdeOnly || filterValues.dataTypes.length > 0
+    filterValues.cdeOnly ||
+    filterValues.dataTypes.length > 0 ||
+    !!filterValues.measureMapping
 
   const filterConfigs = [
     {
@@ -95,6 +114,15 @@ export const VariablesPanel = ({ searchTerm }) => {
       label: "Data Type",
       type: "multiselect",
       options: DATA_TYPE_OPTIONS,
+    },
+    {
+      key: "measureMapping",
+      label: "Measure Mapping",
+      type: "select",
+      options: [
+        { value: "has_cde_mapping", label: "Has mapped CDE" },
+        { value: "used_by_studies", label: "CDE measures used by studies" },
+      ],
     },
   ]
 

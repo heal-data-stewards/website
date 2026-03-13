@@ -44,7 +44,7 @@ export function StudyVariableMappings({ studyMappings }) {
             <h4>
               {study.name}{" "}
               <span className="text-sm text-gray-500">
-                {studyMappings[study.id].join(", ")}
+                {studyMappings[study.id]?.join(", ") ?? "No mapped variables"}
               </span>
             </h4>
             <IconButton
