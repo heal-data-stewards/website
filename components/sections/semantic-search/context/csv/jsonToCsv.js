@@ -7,10 +7,8 @@ export function jsonToCsv(data) {
     if (value === null || value === undefined) return ""
     const str = String(value)
 
-    // Escape quotes
     const escaped = str.replace(/"/g, '""')
 
-    // Wrap in quotes if needed
     if (/[",\n]/.test(escaped)) {
       return `"${escaped}"`
     }
