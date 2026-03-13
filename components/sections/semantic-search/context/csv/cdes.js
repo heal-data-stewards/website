@@ -4,9 +4,9 @@ export function generateCdesCsv(cdes) {
   const obj = cdes.map((cde) => ({
     ["CDE Name"]: cde.name,
     ["CDE Description"]: cde.description || "",
-    // ["CDE Type"]: // Not sure where this data is
+    ["CDE Type"]: cde?.metadata?.categories?.join("; ") || "",
     ["CDE URL"]: cde.action || "",
-    // ["Number of measures"]: // This would require additional data fetching
+    ["Measures"]: cde?.variable_list?.join("; ") || "",
   }))
 
   return jsonToCsv(obj)
