@@ -3,8 +3,9 @@ import { CircularProgress, IconButton } from "@mui/material"
 import { fetchCDEs } from "../data/cdes"
 import { useCollectionContext } from "../context/collection"
 import { Bookmark, BookmarkBorder } from "@mui/icons-material"
+import { ParentStudiesDisplay } from "./ParentStudiesDisplay"
 
-export function MappedCDEMeasure({ cdeMappings }) {
+export function MappedCDEMeasure({ cdeMappings, searchTerm }) {
   const collection = useCollectionContext()
 
   const payload = {
@@ -55,6 +56,15 @@ export function MappedCDEMeasure({ cdeMappings }) {
         </h3>
         <p className="ml-4">{cde.name}</p>
         <p className="ml-4 text-sm text-gray-600">{cde.description}</p>
+
+        <h3 className="mt-4 uppercase text-gray-500 font-semibold">
+          Studies using this CDE:
+        </h3>
+        <ParentStudiesDisplay
+          studyIds={cde.parents}
+          searchTerm={searchTerm}
+          notFoundText={"No studies found for this CDE."}
+        />
       </div>
 
       <IconButton

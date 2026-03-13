@@ -1,6 +1,7 @@
 import { jsonToCsv } from "./jsonToCsv"
 
 export function generateStudiesCsv(studies) {
+  console.log(studies)
   const obj = studies.map((study) => ({
     ["Study Title"]: study.name,
     ["Study Abstract"]: study.description,
@@ -11,7 +12,7 @@ export function generateStudiesCsv(studies) {
     ["Data Package Links"]:
       study.metadata["Data Package Links"]?.join("; ") || "",
     ["Data Availability"]: study.metadata["Data Availability"] || "",
-    // ["List of CDEs"]: // This would require additional data fetching to get the list of CDEs associated with the study.,
+    ["List of CDEs"]: study?.section_list?.join("; ") || "",
     ["VLMD available"]:
       study.variable_list && study.variable_list.length > 0 ? "Yes" : "No",
     ["Research Program"]: study.programs ? study.programs.join("; ") : "",
