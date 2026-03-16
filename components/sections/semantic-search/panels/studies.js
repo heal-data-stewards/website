@@ -4,6 +4,7 @@ import {
   Button,
   CircularProgress,
   Collapse,
+  Divider,
   IconButton,
   Pagination,
   Tab,
@@ -318,7 +319,10 @@ export const StudiesPanel = ({ searchTerm }) => {
         )}
       </div>
       {activeStudy ? (
-        <div className="flex-1 p-4 min-h-0 overflow-auto">
+        <div
+          className="flex-1 p-4 min-h-0 overflow-auto"
+          id="studyScrollContainer" // for variable tab infinite scroll
+        >
           <div className="flex gap-2 justify-between">
             <h2 className="text-2xl font-semibold leading-relaxed mb-2 text-[#592963]">
               {activeStudy.name}
@@ -393,27 +397,25 @@ export const StudiesPanel = ({ searchTerm }) => {
               onChange={(e, value) => setCurrentTabIndex(value)}
               aria-label="Study tabs"
             >
-              <Tab label="Description" {...a11yProps(0)} />
-              <Tab label="Information" {...a11yProps(1)} />
-              <Tab label="Related Variables" {...a11yProps(2)} />
-              <Tab label="CDEs" {...a11yProps(3)} />
+              <Tab label="Details" {...a11yProps(0)} />
+              <Tab label="Variables" {...a11yProps(1)} />
+              <Tab label="CDEs" {...a11yProps(2)} />
             </PillTabs>
           </div>
           <div className="p-2">
             <TabPanel currentTabIndex={currentTabIndex} index={0}>
               <p>{activeStudy.description}</p>
+              <Divider sx={{ my: 2 }} />
+              <NestedTable object={activeStudy.metadata} showHeader={false} />
             </TabPanel>
             <TabPanel currentTabIndex={currentTabIndex} index={1}>
-              <NestedTable object={activeStudy.metadata} />
-            </TabPanel>
-            <TabPanel currentTabIndex={currentTabIndex} index={2}>
               <VariablesList
                 study={activeStudy}
                 searchTerm={searchTerm}
                 panelLocation={PANEL_LOCATIONS.STUDIES}
               />
             </TabPanel>
-            <TabPanel currentTabIndex={currentTabIndex} index={3}>
+            <TabPanel currentTabIndex={currentTabIndex} index={2}>
               <CDEDisplay
                 studyId={activeStudy.id}
                 panelLocation={PANEL_LOCATIONS.STUDIES}
@@ -485,7 +487,7 @@ function NestedTable({ object, showHeader = true, showBorders = false }) {
                   : undefined
               }
             >
-              <td className="py-1 pr-4 align-top">
+              <td className="py-1 pr-4 align-top text-primary font-bold">
                 {formatSnakeCaseToTitleCase(key)}
               </td>
               <td className="py-1 align-top">{cell}</td>
