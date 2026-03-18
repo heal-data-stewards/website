@@ -11,7 +11,6 @@ import { RouteGuard } from "@/components/route-guard"
 import { ThemeProvider } from "@emotion/react"
 import { theme } from "../styles/theme"
 import "@/styles/index.css"
-import { PostHogProvider } from "posthog-js/react"
 
 const options = {
   api_host: process.env.NEXT_PUBLIC_POSTHOG_HOST,
@@ -19,18 +18,6 @@ const options = {
 }
 
 const MyApp = ({ Component, pageProps }) => {
-  // const router = useRouter()
-  // useEffect(() => {
-  //   const handleRouteChange = (url) => {
-  //     window.gtag("config", process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS, {
-  //       page_path: url,
-  //     })
-  //   }
-  //   router.events.on("routeChangeComplete", handleRouteChange)
-  //   return () => {
-  //     router.events.off("routeChangeComplete", handleRouteChange)
-  //   }
-  // }, [router.events])
   // Extract the data we need
   const { global } = pageProps
   if (global == null) {
@@ -41,40 +28,34 @@ const MyApp = ({ Component, pageProps }) => {
 
   return (
     <Provider session={pageProps.session}>
-      <PostHogProvider
-        apiKey={process.env.NEXT_PUBLIC_POSTHOG_KEY}
-        options={options}
-      >
-        {/* Favicon */}
-        <Head>
-          <link rel="shortcut icon" href={getStrapiMedia(global.favicon.url)} />
-        </Head>
-        {/* Global site metadata */}
-        <DefaultSeo
-          titleTemplate={`%s | ${global.metaTitleSuffix}`}
-          title="Page"
-          description={metadata.metaDescription}
-          openGraph={{
-            images: Object.values(metadata.shareImage.formats).map((image) => {
-              return {
-                url: getStrapiMedia(image.url),
-                width: image.width,
-                height: image.height,
-              }
-            }),
-          }}
-          twitter={{
-            cardType: metadata.twitterCardType,
-            handle: metadata.twitterUsername,
-          }}
-        />
-        {/* Display the content */}
-        <RouteGuard>
-          <ThemeProvider theme={theme}>
-            <Component {...pageProps} />
-          </ThemeProvider>
-        </RouteGuard>
-      </PostHogProvider>
+      <Head>
+        <link rel="shortcut icon" href={getStrapiMedia(global.favicon.url)} />
+      </Head>
+      {/* Global site metadata */}
+      <DefaultSeo
+        titleTemplate={`%s | ${global.metaTitleSuffix}`}
+        title="Page"
+        description={metadata.metaDescription}
+        openGraph={{
+          images: Object.values(metadata.shareImage.formats).map((image) => {
+            return {
+              url: getStrapiMedia(image.url),
+              width: image.width,
+              height: image.height,
+            }
+          }),
+        }}
+        twitter={{
+          cardType: metadata.twitterCardType,
+          handle: metadata.twitterUsername,
+        }}
+      />
+      {/* Display the content */}
+      <RouteGuard>
+        <ThemeProvider theme={theme}>
+          <Component {...pageProps} />
+        </ThemeProvider>
+      </RouteGuard>
     </Provider>
   )
 }
