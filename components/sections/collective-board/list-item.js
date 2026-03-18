@@ -1,7 +1,7 @@
 import * as React from "react"
 import Typography from "@mui/material/Typography"
 // import Link from "next/link";
-import Image from "next/image"
+import Image from "next/legacy/image"
 import LinkedInIcon from "@mui/icons-material/LinkedIn"
 import Markdown from "../../elements/markdown"
 

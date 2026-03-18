@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from "react"
 import { useEmblaCarousel } from "embla-carousel/react"
 import { useRecursiveTimeout } from "./carousel/useRecursiveTimeout"
-import Image from "next/image"
+import Image from "next/legacy/image"
 import Card from "@material-ui/core/Card"
 import CardMedia from "@material-ui/core/CardMedia"
 import CardActionArea from "@material-ui/core/CardActionArea"

@@ -1,5 +1,5 @@
 import React, { useState } from "react"
-import Image from "next/image"
+import Image from "next/legacy/image"
 import Divider from "@mui/material/Divider"
 import Markdown from "../../elements/markdown"
 import Typography from "@mui/material/Typography"
