@@ -597,7 +597,7 @@ export default function AppSearch({ data }) {
                 <td>Ensure Public Access to HEAL-funded publications</td>
                 <td>
                   <Markdown>
-                    We cannot confirm whether or not your research publicatons
+                    We cannot confirm whether or not your research publications
                     are publicly accessible. NIH HEAL Initiative funded
                     investigators are required to make any publications
                     associated with their study publicly accessible immediately

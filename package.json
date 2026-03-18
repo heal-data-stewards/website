@@ -36,6 +36,7 @@
     "formik": "^2.2.6",
     "formik-material-ui": "^3.0.1",
     "js-cookie": "3.0.0-rc.4",
+    "lunr": "^2.3.9",
     "material-react-table": "^1.14.0",
     "material-ui-popup-state": "^2.0.0",
     "next": "^11.0.0",
@@ -50,12 +51,15 @@
     "react": "^17.0.0",
     "react-csv": "^2.2.2",
     "react-dom": "^17.0.0",
+    "react-highlight-words": "^0.21.0",
     "react-icons": "^3.10.0",
+    "react-infinite-scroll-component": "^6.1.1",
     "react-instantsearch-dom": "^6.39.0",
     "react-markdown": "^6.0.3",
     "react-string-replace": "^1.0.0",
     "styled-components": "^5.3.1",
     "tailwindcss": "2.2.19",
+    "use-debounce": "^10.1.0",
     "yup": "^0.32.8"
   },
   "devDependencies": {

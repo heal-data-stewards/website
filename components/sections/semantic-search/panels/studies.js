@@ -4,13 +4,16 @@ import {
   Button,
   CircularProgress,
   Collapse,
+  Divider,
   IconButton,
   Pagination,
+  Tab,
   Tooltip,
 } from "@mui/material"
 import { format, isValid, parseISO } from "date-fns"
-import { useMemo, useState } from "react"
+import { useEffect, useMemo, useState } from "react"
 import { FiltersPanel } from "../components/FiltersPanel"
+import { a11yProps, PillTabs, TabPanel } from "../components/Tabs"
 import { useQuery } from "utils/use-query"
 import Link from "../../../elements/link"
 import { CDEDisplay } from "../components/CDEDisplay"
@@ -19,6 +22,7 @@ import { useCollectionContext } from "../context/collection"
 import {
   trackBookmarkClick,
   trackHdpLinkClick,
+  trackLeftListClick,
   PANEL_LOCATIONS,
   UI_SURFACES,
 } from "../analytics"
@@ -29,6 +33,7 @@ const PAGE_SIZE = 50
 export const StudiesPanel = ({ searchTerm }) => {
   const collection = useCollectionContext()
   const [activeSidebarItem, setActiveSidebarItem] = useState(0)
+  const [currentTabIndex, setCurrentTabIndex] = useState(0)
   const [filtersOpen, setFiltersOpen] = useState(false)
   const [page, setPage] = useState(1)
   const [filterValues, setFilterValues] = useState({
@@ -116,15 +121,16 @@ export const StudiesPanel = ({ searchTerm }) => {
     filterValues.cdesUsed !== ""
 
   const filterConfigs = useMemo(() => {
-    const researchNetworkOptions =
+    const researchNetworkOptions = (
       studiesQuery.data?.aggregations?.["programs.keyword"]?.map(
         (bucket) => bucket.key
       ) || []
+    ).sort()
 
     return [
       {
         key: "researchNetworks",
-        label: "Research Networks",
+        label: "Research Programs",
         type: "multiselect",
         options: researchNetworkOptions,
       },
@@ -157,6 +163,10 @@ export const StudiesPanel = ({ searchTerm }) => {
       },
     ]
   }, [studiesQuery.data?.aggregations])
+
+  useEffect(() => {
+    setCurrentTabIndex(0)
+  }, [activeSidebarItem])
 
   const handleFilterChange = (key, value) => {
     setFilterValues((prev) => ({ ...prev, [key]: value }))
@@ -309,7 +319,10 @@ export const StudiesPanel = ({ searchTerm }) => {
         )}
       </div>
       {activeStudy ? (
-        <div className="flex-1 p-4 min-h-0 overflow-auto">
+        <div
+          className="flex-1 p-4 min-h-0 overflow-auto"
+          id="studyScrollContainer" // for variable tab infinite scroll
+        >
           <div className="flex gap-2 justify-between">
             <h2 className="text-2xl font-semibold leading-relaxed mb-2 text-[#592963]">
               {activeStudy.name}
@@ -378,22 +391,38 @@ export const StudiesPanel = ({ searchTerm }) => {
               </p>
             ))}
           </div>
-          <hr className="my-4" />
-          <p className="">{activeStudy.description}</p>
-
-          <h3 className="text-xl font-semibold mt-6 mb-1">Information</h3>
-          <NestedTable object={activeStudy.metadata} />
-
-          <VariablesList
-            study={activeStudy}
-            searchTerm={searchTerm}
-            panelLocation={PANEL_LOCATIONS.STUDIES}
-          />
-
-          <CDEDisplay
-            studyId={activeStudy.id}
-            panelLocation={PANEL_LOCATIONS.STUDIES}
-          />
+          <div className="mt-4">
+            <PillTabs
+              value={currentTabIndex}
+              onChange={(e, value) => setCurrentTabIndex(value)}
+              aria-label="Study tabs"
+            >
+              <Tab label="Details" {...a11yProps(0)} />
+              <Tab label="Variables" {...a11yProps(1)} />
+              <Tab label="CDEs" {...a11yProps(2)} />
+            </PillTabs>
+          </div>
+          <div className="p-2">
+            <TabPanel currentTabIndex={currentTabIndex} index={0}>
+              <p>{activeStudy.description}</p>
+              <Divider sx={{ my: 2 }} />
+              <NestedTable object={activeStudy.metadata} showHeader={false} />
+            </TabPanel>
+            <TabPanel currentTabIndex={currentTabIndex} index={1}>
+              <VariablesList
+                study={activeStudy}
+                searchTerm={searchTerm}
+                panelLocation={PANEL_LOCATIONS.STUDIES}
+              />
+            </TabPanel>
+            <TabPanel currentTabIndex={currentTabIndex} index={2}>
+              <CDEDisplay
+                studyId={activeStudy.id}
+                panelLocation={PANEL_LOCATIONS.STUDIES}
+                emptyText="No CDEs found for this study."
+              />
+            </TabPanel>
+          </div>
         </div>
       ) : (
         <div className="flex-1 p-4 min-h-0 overflow-auto flex items-center justify-center">
@@ -458,7 +487,7 @@ function NestedTable({ object, showHeader = true, showBorders = false }) {
                   : undefined
               }
             >
-              <td className="py-1 pr-4 align-top">
+              <td className="py-1 pr-4 align-top text-primary font-bold">
                 {formatSnakeCaseToTitleCase(key)}
               </td>
               <td className="py-1 align-top">{cell}</td>
@@ -535,7 +564,16 @@ function SidebarItem({
 
   return (
     <button
-      onClick={onClick}
+      onClick={() => {
+        trackLeftListClick({
+          entity: study,
+          panelLocation: PANEL_LOCATIONS.STUDIES,
+          referringSearchTerm: searchTerm,
+          uiSurface: UI_SURFACES.LEFT_LIST,
+        })
+
+        onClick()
+      }}
       className={
         `w-full p-4 border-b border-gray-200 cursor-pointer text-left` +
         (active ? " bg-[#eeecf0]" : "")

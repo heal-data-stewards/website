@@ -91,6 +91,7 @@ function SelectFilter({ config, value, onChange }) {
         value={value}
         onChange={handleChange}
         input={<OutlinedInput label={config.label} />}
+        MenuProps={{ PaperProps: { sx: { maxWidth: 360, width: "100%" } } }}
         sx={{
           "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
             borderColor: "#4d2862",
@@ -101,7 +102,11 @@ function SelectFilter({ config, value, onChange }) {
           <em>All</em>
         </MenuItem>
         {config.options.map((option) => (
-          <MenuItem key={option.value} value={option.value}>
+          <MenuItem
+            key={option.value}
+            value={option.value}
+            sx={{ whiteSpace: "normal", wordBreak: "break-word" }}
+          >
             {option.label}
           </MenuItem>
         ))}
@@ -148,6 +153,7 @@ function MultiSelectFilter({ config, value, onChange }) {
             ))}
           </div>
         )}
+        MenuProps={{ PaperProps: { sx: { maxWidth: 360, width: "100%" } } }}
         sx={{
           "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
             borderColor: "#4d2862",
@@ -155,7 +161,11 @@ function MultiSelectFilter({ config, value, onChange }) {
         }}
       >
         {config.options.map((option) => (
-          <MenuItem key={getOptionValue(option)} value={getOptionValue(option)}>
+          <MenuItem
+            key={getOptionValue(option)}
+            value={getOptionValue(option)}
+            sx={{ whiteSpace: "normal", wordBreak: "break-word" }}
+          >
             <Checkbox
               checked={value.indexOf(getOptionValue(option)) > -1}
               sx={{

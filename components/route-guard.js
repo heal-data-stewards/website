@@ -69,7 +69,7 @@ function RouteGuard({ children }) {
       "/resources/data-packaging-examples",
       "/resources/sharing-data",
       "/resources/HSS",
-      "/about-draft",
+      "/resources/dmsps-overview",
       // The following used to be private pages only exposed to signed in guests
       // "/directory",
       // "/collaboration",

@@ -1,15 +1,16 @@
 import { Tab, Tabs } from "@mui/material"
 import { useState } from "react"
-import { useQueryParams } from "utils/use-query-params"
+import { useQueryParam } from "utils/use-query-params"
 import { StudiesPanel } from "./panels/studies"
 import { VariablesPanel } from "./panels/variables"
 import { CDEsPanel } from "./panels/cdes"
 import { ConceptsPanel } from "./panels/concepts"
+import { TabPanel, a11yProps } from "./components/Tabs"
 
 export const Results = ({ queryParam = "q" }) => {
   const [currentTabIndex, setCurrentTabIndex] = useState(0)
   const [excludedStudies, setExcludedStudies] = useState([])
-  const [searchTerm] = useQueryParams(null, queryParam)
+  const [searchTerm] = useQueryParam(null, queryParam)
 
   return (
     <div className="container">
@@ -51,24 +52,4 @@ export const Results = ({ queryParam = "q" }) => {
       </div>
     </div>
   )
-}
-
-function TabPanel({ children, currentTabIndex, index }) {
-  return (
-    <div
-      role="tabpanel"
-      hidden={currentTabIndex !== index}
-      id={`results-tabpanel-${index}`}
-      aria-labelledby={`results-tab-${index}`}
-    >
-      {currentTabIndex === index && <div>{children}</div>}
-    </div>
-  )
-}
-
-function a11yProps(index) {
-  return {
-    id: `results-tab-${index}`,
-    "aria-controls": `results-tabpanel-${index}`,
-  }
 }
