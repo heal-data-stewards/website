@@ -13,7 +13,7 @@ export const CloudsGroup = ({ text, href, buttonText }) => {
         }}
       >
         {text}
-        <Link href={href} passHref>
+        <Link href={href}>
           <LightPurpleButton component={"a"} endIcon={<ArrowForward />}>
             {buttonText}
           </LightPurpleButton>

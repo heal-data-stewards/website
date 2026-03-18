@@ -84,7 +84,7 @@ export function FeaturedResourceBlock({ data }) {
   const href = `/${data.link || "/"}`
 
   return (
-    <Link href={href} passHref legacyBehavior>
+    <Link href={href} legacyBehavior passHref>
       <CardContainer
         aria-label={data.title}
         hasBlurb={hasBlurb}

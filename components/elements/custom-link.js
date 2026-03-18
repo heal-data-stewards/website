@@ -24,17 +24,17 @@ const CustomLink = ({ link, children, onClick }) => {
   // For internal links, use the Next.js Link component
   if (isInternalLink) {
     return (
-      <Link href="/[[...slug]]" as={link.url}>
-        <a
-          onMouseDown={onClick}
-          onKeyDown={(e) => {
-            if (e.key === "Enter" || e.key === " ") {
-              onClick()
-            }
-          }}
-        >
-          {children}
-        </a>
+      <Link
+        href="/[[...slug]]"
+        as={link.url}
+        onMouseDown={onClick}
+        onKeyDown={(e) => {
+          if (e.key === "Enter" || e.key === " ") {
+            onClick()
+          }
+        }}
+      >
+        {children}
       </Link>
     )
   }
@@ -43,6 +43,7 @@ const CustomLink = ({ link, children, onClick }) => {
   if (link.newTab) {
     return (
       // <ThemeProvider theme={theme}>
+      // </ThemeProvider>
       <Button
         variant="contained"
         color="primary"
@@ -63,7 +64,6 @@ const CustomLink = ({ link, children, onClick }) => {
       >
         {children}
       </Button>
-      // </ThemeProvider>
     )
   }
 

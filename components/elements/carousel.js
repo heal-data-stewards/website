@@ -217,7 +217,7 @@ export const EmblaCarousel = ({ data }) => {
                     making data FAIR. We understand that each study has unique
                     needs and is at different stages of conducting
                     investigation. We will be publishing a{" "}
-                    <Link href={"/resources"} passHref>
+                    <Link href={"/resources"}>
                       <BlueLink>series of general recommendations</BlueLink>
                     </Link>{" "}
                     this Fall that are intended to provide support to HEAL

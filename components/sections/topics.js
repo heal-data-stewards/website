@@ -146,10 +146,11 @@ export default function Topics({ data }) {
                 style={{ width: "50%" }}
                 key={topic.title + i}
               >
-                <Link href={`/${topic.slug || "coming-soon"}`} passHref>
-                  <a className="text-2xl text-magenta font-bold mb-4">
-                    {topic.shortName}
-                  </a>
+                <Link
+                  href={`/${topic.slug || "coming-soon"}`}
+                  className="text-2xl text-magenta font-bold mb-4"
+                >
+                  {topic.shortName}
                 </Link>
                 <Markdown linkTarget="_blank">
                   {topic.short_description}

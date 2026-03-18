@@ -83,10 +83,12 @@ const MenuPopupState = (data) => {
                 })
               }}
             >
-              <Link href="/[[...slug]]" as={"/about"}>
-                <a style={{ fontSize: "14px", fontWeight: "bold" }}>
-                  HEAL DATA ECOSYSTEM
-                </a>
+              <Link
+                href="/[[...slug]]"
+                as={"/about"}
+                style={{ fontSize: "14px", fontWeight: "bold" }}
+              >
+                HEAL DATA ECOSYSTEM
               </Link>
             </MenuItem>
             <MenuItem
@@ -99,10 +101,12 @@ const MenuPopupState = (data) => {
                 })
               }}
             >
-              <Link href="/[[...slug]]" as={"/collective"}>
-                <a style={{ fontSize: "14px", fontWeight: "bold" }}>
-                  COLLECTIVE BOARD
-                </a>
+              <Link
+                href="/[[...slug]]"
+                as={"/collective"}
+                style={{ fontSize: "14px", fontWeight: "bold" }}
+              >
+                COLLECTIVE BOARD
               </Link>
             </MenuItem>
           </StyledMenu>
@@ -139,16 +143,15 @@ const Navbar = ({ navbar, pageContext }) => {
         >
           {/* Content aligned to the left */}
           <div className="flex flex-row items-center justify-between w-full">
-            <Link href="/">
-              <a
-                className="h-8"
-                style={{
-                  height: "100%",
-                  width: pageContext.isFullscreen ? "13rem" : "17rem",
-                }}
-              >
-                <NextImage media={navbar.logo} />
-              </a>
+            <Link
+              href="/"
+              className="h-8"
+              style={{
+                height: "100%",
+                width: pageContext.isFullscreen ? "13rem" : "17rem",
+              }}
+            >
+              <NextImage media={navbar.logo} />
             </Link>
             {/* List of links on desktop */}
             <ul className="hidden list-none lg:flex flex-row gap-1 items-baseline ml-10 mr-10">
@@ -212,7 +215,6 @@ const Navbar = ({ navbar, pageContext }) => {
           </div>
         </Toolbar>
       </AppBar>
-
       {/* Mobile navigation menu panel */}
       {mobileMenuIsShown && (
         <Drawer
@@ -223,17 +225,15 @@ const Navbar = ({ navbar, pageContext }) => {
           <List style={{ width: "275px" }}>
             <div style={{ margin: "10px" }}>
               <Link href="/">
-                <a>
-                  <Image
-                    src={`${navbar.logo.url}`}
-                    style={{ margin: "7px" }}
-                    width="180"
-                    height="54"
-                    priority={true}
-                    layout="intrinsic"
-                    alt={`${navbar.logo.alternativeText || ""}`}
-                  />
-                </a>
+                <Image
+                  src={`${navbar.logo.url}`}
+                  style={{ margin: "7px" }}
+                  width="180"
+                  height="54"
+                  priority={true}
+                  layout="intrinsic"
+                  alt={`${navbar.logo.alternativeText || ""}`}
+                />
               </Link>
             </div>
             <ListItem className="hover:text-white hover:bg-magenta text-purple px-2 py-1">

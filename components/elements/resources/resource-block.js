@@ -86,7 +86,7 @@ export function ResourceBlock({ data }) {
   const hasTooltip = Boolean(data.tooltip)
 
   return (
-    <Link href={`/${data.url || "coming-soon"}`} passHref legacyBehavior>
+    <Link href={`/${data.url || "coming-soon"}`} legacyBehavior passHref>
       <CardContainer
         aria-label={data.title}
         hasTooltip={hasTooltip}
