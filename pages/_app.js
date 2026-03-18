@@ -11,6 +11,12 @@ import { RouteGuard } from "@/components/route-guard"
 import { ThemeProvider } from "@emotion/react"
 import { theme } from "../styles/theme"
 import "@/styles/index.css"
+import { PostHogProvider } from "posthog-js/react"
+
+const options = {
+  api_host: process.env.NEXT_PUBLIC_POSTHOG_HOST,
+  defaults: "2025-11-30",
+}
 
 const MyApp = ({ Component, pageProps }) => {
   // const router = useRouter()
@@ -35,35 +41,40 @@ const MyApp = ({ Component, pageProps }) => {
 
   return (
     <Provider session={pageProps.session}>
-      {/* Favicon */}
-      <Head>
-        <link rel="shortcut icon" href={getStrapiMedia(global.favicon.url)} />
-      </Head>
-      {/* Global site metadata */}
-      <DefaultSeo
-        titleTemplate={`%s | ${global.metaTitleSuffix}`}
-        title="Page"
-        description={metadata.metaDescription}
-        openGraph={{
-          images: Object.values(metadata.shareImage.formats).map((image) => {
-            return {
-              url: getStrapiMedia(image.url),
-              width: image.width,
-              height: image.height,
-            }
-          }),
-        }}
-        twitter={{
-          cardType: metadata.twitterCardType,
-          handle: metadata.twitterUsername,
-        }}
-      />
-      {/* Display the content */}
-      <RouteGuard>
-        <ThemeProvider theme={theme}>
-          <Component {...pageProps} />
-        </ThemeProvider>
-      </RouteGuard>
+      <PostHogProvider
+        apiKey={process.env.NEXT_PUBLIC_POSTHOG_KEY}
+        options={options}
+      >
+        {/* Favicon */}
+        <Head>
+          <link rel="shortcut icon" href={getStrapiMedia(global.favicon.url)} />
+        </Head>
+        {/* Global site metadata */}
+        <DefaultSeo
+          titleTemplate={`%s | ${global.metaTitleSuffix}`}
+          title="Page"
+          description={metadata.metaDescription}
+          openGraph={{
+            images: Object.values(metadata.shareImage.formats).map((image) => {
+              return {
+                url: getStrapiMedia(image.url),
+                width: image.width,
+                height: image.height,
+              }
+            }),
+          }}
+          twitter={{
+            cardType: metadata.twitterCardType,
+            handle: metadata.twitterUsername,
+          }}
+        />
+        {/* Display the content */}
+        <RouteGuard>
+          <ThemeProvider theme={theme}>
+            <Component {...pageProps} />
+          </ThemeProvider>
+        </RouteGuard>
+      </PostHogProvider>
     </Provider>
   )
 }
