@@ -1,11 +1,11 @@
 import React from "react"
 import PropTypes from "prop-types"
-import Grid from "@material-ui/core/Grid"
-import { withStyles } from "@material-ui/core/styles"
-import AppBar from "@material-ui/core/AppBar"
-import Toolbar from "@material-ui/core/AppBar"
-import SearchIcon from "@material-ui/icons/Search"
-import TextField from "@material-ui/core/TextField"
+import Grid from "@mui/material/Grid"
+import { withStyles } from "@mui/styles"
+import AppBar from "@mui/material/AppBar"
+import Toolbar from "@mui/material/AppBar"
+import TextField from "@mui/material/TextField"
+import { Search } from "@mui/icons-material"
 
 const styles = (theme) => ({
   paper: {
@@ -18,17 +18,9 @@ const styles = (theme) => ({
     backgroundColor: "transparent",
     zIndex: "1",
   },
-  searchInput: {
-    fontSize: theme.typography.fontSize,
-    color: "#fff",
-    height: "40px",
-  },
   block: {
     display: "block",
     color: "#fff",
-  },
-  addUser: {
-    marginRight: theme.spacing(1),
   },
   contentWrapper: {
     margin: "40px 16px",
@@ -51,7 +43,7 @@ function MeilieSearchBar(props) {
         <Grid container spacing={2} alignItems="center">
           <Grid item></Grid>
           <Grid item>
-            <SearchIcon className={classes.block} color="inherit" />
+            <Search className={classes.block} color="inherit" />
           </Grid>
           <Grid item xs>
             <TextField
@@ -59,11 +51,12 @@ function MeilieSearchBar(props) {
               onChange={(e) => refine(e.currentTarget.value)}
               placeholder="Search"
               value={currentRefinement}
+              size="small"
               InputProps={{
                 disableUnderline: true,
-                className: classes.searchInput,
+                sx: { color: "#fff" },
               }}
-              style={{ color: "#fff" }}
+              sx={{ height: "40px" }}
             />
           </Grid>
         </Grid>

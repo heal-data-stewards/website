@@ -1,4 +1,4 @@
-import Image from "next/image"
+import Image from "next/legacy/image"
 
 /**
  * @param {{ stepNumber: number, iconName: string, linePosition: "both" | "top" | "bottom" }}

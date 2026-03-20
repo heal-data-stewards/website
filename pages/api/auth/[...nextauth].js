@@ -1,10 +1,10 @@
 import NextAuth from "next-auth"
-import Providers from "next-auth/providers"
+import CredentialsProvider from "next-auth/providers/credentials"
 import axios from "axios"
 
-const options = {
+export default NextAuth({
   providers: [
-    Providers.Credentials({
+    CredentialsProvider({
       name: "Credentials",
       credentials: {
         email: { label: "Email", type: "text", placeholder: "test@test.com" },
@@ -20,36 +20,27 @@ const options = {
             }
           )
           if (data) {
-            // console.log(data);
             return data
           } else {
             return null
           }
         } catch (e) {
-          // console.log('caught error');
-          // const errorMessage = e.response.data.message
-          // Redirecting to the login page with error message          in the URL
-          // throw new Error(errorMessage + '&email=' + credentials.email)
           return null
         }
       },
     }),
   ],
-  database: process.env.NEXT_PUBLIC_DATABASE_URL,
   session: {
-    jwt: true,
+    strategy: "jwt",
   },
   pages: {
     signIn: "/account",
     signOut: "/account",
-    error: "/sign-up", // Error code passed in query string as ?error=
+    error: "/sign-up",
   },
-
   callbacks: {
-    // Getting the JWT token from API response
-    jwt: async (token, user, account) => {
-      const isSignIn = user ? true : false
-      if (isSignIn) {
+    jwt: async ({ token, user }) => {
+      if (user) {
         token.jwt = user.jwt
         token.id = user.user.id
         token.name = user.user.username
@@ -60,32 +51,23 @@ const options = {
         token.userrole = user.user.userrole
         token.programarea = user.user.programarea
         token.roleInProgramArea = user.user.roleInProgramArea
-        // token.picture = user.user.picture.url;
       }
-
-      return Promise.resolve(token)
+      return token
     },
-    redirect: async (url, baseUrl) => {
-      return url.startsWith(baseUrl)
-        ? Promise.resolve(url)
-        : Promise.resolve(baseUrl)
+    redirect: async ({ url, baseUrl }) => {
+      return url.startsWith(baseUrl) ? url : baseUrl
     },
-    session: async (session, user) => {
-      session.jwt = user.jwt
-      session.id = user.id
-      session.firstname = user.firstname
-      session.lastname = user.lastname
-      session.email = user.email
-      session.organization = user.organization
-      session.userrole = user.userrole
-      session.programarea = user.programarea
-      session.roleInProgramArea = user.roleInProgramArea
-      // session.picture = user.picture;
-      return Promise.resolve(session)
+    session: async ({ session, token }) => {
+      session.jwt = token.jwt
+      session.id = token.id
+      session.firstname = token.firstname
+      session.lastname = token.lastname
+      session.email = token.email
+      session.organization = token.organization
+      session.userrole = token.userrole
+      session.programarea = token.programarea
+      session.roleInProgramArea = token.roleInProgramArea
+      return session
     },
   },
-}
-
-const Deliver = (req, res) => NextAuth(req, res, options)
-
-export default Deliver
+})

@@ -2,9 +2,9 @@ import PropTypes from "prop-types"
 import { useState } from "react"
 import { linkPropTypes, mediaPropTypes } from "utils/types"
 import NextImage from "./image"
-import Image from "next/image"
+import Image from "next/legacy/image"
 import CustomLink from "./custom-link"
-import { styled } from "@material-ui/core/styles"
+import { styled } from "@mui/styles"
 import { ExpandLess } from "@mui/icons-material"
 
 const Footer = ({ footer, pageContext }) => {

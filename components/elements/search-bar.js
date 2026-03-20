@@ -1,16 +1,15 @@
 import React from "react"
 import PropTypes from "prop-types"
-import Grid from "@material-ui/core/Grid"
-import IconButton from "@material-ui/core/IconButton"
-import { withStyles } from "@material-ui/core/styles"
-import AppBar from "@material-ui/core/AppBar"
-import Toolbar from "@material-ui/core/AppBar"
-import SearchIcon from "@material-ui/icons/Search"
-import TextField from "@material-ui/core/TextField"
-import Tooltip from "@material-ui/core/Tooltip"
-import RefreshIcon from "@material-ui/icons/Refresh"
+import Grid from "@mui/material/Grid"
+import IconButton from "@mui/material/IconButton"
+import { withStyles } from "@mui/material/styles"
+import AppBar from "@mui/material/AppBar"
+import Toolbar from "@mui/material/AppBar"
+import TextField from "@mui/material/TextField"
+import Tooltip from "@mui/material/Tooltip"
+import { Refresh, Search } from "@mui/icons-material"
 
-const styles = (theme) => ({
+const styles = () => ({
   paper: {
     maxWidth: 936,
     margin: "auto",
@@ -22,15 +21,12 @@ const styles = (theme) => ({
     zIndex: "1",
   },
   searchInput: {
-    fontSize: theme.typography.fontSize,
+    fontSize: "0.875rem",
     color: "#fff",
   },
   block: {
     display: "block",
     color: "#fff",
-  },
-  addUser: {
-    marginRight: theme.spacing(1),
   },
   contentWrapper: {
     margin: "40px 16px",
@@ -53,7 +49,7 @@ function UniversalSearchBar(props) {
         <Grid container spacing={2} alignItems="center">
           <Grid item></Grid>
           <Grid item>
-            <SearchIcon className={classes.block} color="inherit" />
+            <Search className={classes.block} color="inherit" />
           </Grid>
           <Grid item xs>
             <TextField
@@ -71,7 +67,7 @@ function UniversalSearchBar(props) {
           <Grid item>
             <Tooltip title="Reload">
               <IconButton>
-                <RefreshIcon
+                <Refresh
                   className={classes.block}
                   color="inherit"
                   onClick={() => setFilter("")}

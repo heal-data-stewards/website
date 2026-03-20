@@ -1,5 +1,5 @@
 import { getStrapiMedia } from "utils/media"
-import Image from "next/image"
+import Image from "next/legacy/image"
 import PropTypes from "prop-types"
 import { mediaPropTypes } from "utils/types"
 

@@ -1,7 +1,7 @@
 import * as React from "react"
 import ListItem from "@mui/material/ListItem"
 import Chip from "@mui/material/Chip"
-import Image from "next/image"
+import Image from "next/legacy/image"
 
 export default function WorkingGroupListItem({
   name,

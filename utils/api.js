@@ -1,10 +1,9 @@
-import axios from "axios";
-import { gridColumnsTotalWidthSelector } from "@material-ui/data-grid";
+import axios from "axios"
 
 export function getStrapiURL(path) {
   return `${
     process.env.NEXT_PUBLIC_STRAPI_API_URL || "https://api.healdatafair.org"
-  }${path}`;
+  }${path}`
 }
 
 // Helper to make GET requests to Strapi
@@ -13,20 +12,20 @@ export async function fetchAPI(path, options = {}) {
     headers: {
       "Content-Type": "application/json",
     },
-  };
+  }
   const mergedOptions = {
     ...defaultOptions,
     ...options,
-  };
-  const requestUrl = getStrapiURL(path);
-  const response = await fetch(requestUrl, mergedOptions);
+  }
+  const requestUrl = getStrapiURL(path)
+  const response = await fetch(requestUrl, mergedOptions)
 
   if (!response.ok) {
-    console.error(response.statusText);
-    throw new Error(`An error occured please try again`);
+    console.error(response.statusText)
+    throw new Error(`An error occured please try again`)
   }
-  const data = await response.json();
-  return data;
+  const data = await response.json()
+  return data
 }
 
 /**
@@ -36,43 +35,43 @@ export async function fetchAPI(path, options = {}) {
  * @param {boolean} preview router isPreview value
  */
 export async function getPageData(params, locale, preview) {
-  const slug = params.slug.join("/");
+  const slug = params.slug.join("/")
   // Find the pages that match this slug
   const pagesData = await fetchAPI(
     `/pages?slug=${slug}&_locale=${locale}&status=published${
       preview ? "&status=draft" : ""
     }`
-  );
+  )
 
   // Make sure we found something, otherwise return null
   if (pagesData == null || pagesData.length === 0) {
-    return null;
+    return null
   }
 
   // Return the first item since there should only be one result per slug
-  return pagesData[0];
+  return pagesData[0]
 }
 
 // Get site data from Strapi (metadata, navbar, footer...)
 export async function getGlobalData(locale) {
-  const global = await fetchAPI(`/global?_locale=${locale}`);
-  return global;
+  const global = await fetchAPI(`/global?_locale=${locale}`)
+  return global
 }
 
 // Get site data from Strapi (users)
 export async function getAllUsers(locale) {
-  const users = await fetchAPI(`/users`);
-  return users;
+  const users = await fetchAPI(`/users`)
+  return users
 }
 
 export async function getStrapiApiPageData(slug) {
-  const pageData = await getPageData({ slug: [slug] }, "en", false);
-  return pageData;
+  const pageData = await getPageData({ slug: [slug] }, "en", false)
+  return pageData
 }
 
 export async function passwordReset(code, myNewPassword, myNewPasswordConfirm) {
-  const path = "/auth/reset-password";
-  const requestUrl = getStrapiURL(path);
+  const path = "/auth/reset-password"
+  const requestUrl = getStrapiURL(path)
 
   // Request API.
   const response = axios
@@ -83,22 +82,22 @@ export async function passwordReset(code, myNewPassword, myNewPasswordConfirm) {
     })
     .then((response) => {
       // Handle success.
-      console.log(response);
-      return response;
+      console.log(response)
+      return response
     })
     .catch((error) => {
       // Handle error.
-      console.log("An error occurred:", error.response);
-      return error.response;
-    });
+      console.log("An error occurred:", error.response)
+      return error.response
+    })
 
-  return response;
+  return response
 }
 
 export async function forgottenPassword(email) {
-  const path = "/auth/forgot-password";
-  const pwResetPath = "/admin/plugins/users-permissions/auth/reset-password";
-  const requestUrl = getStrapiURL(path);
+  const path = "/auth/forgot-password"
+  const pwResetPath = "/admin/plugins/users-permissions/auth/reset-password"
+  const requestUrl = getStrapiURL(path)
   // Request API.
   const response = axios
     .post(requestUrl, {
@@ -107,12 +106,12 @@ export async function forgottenPassword(email) {
     })
     .then((response) => {
       // Handle success.
-      return response;
+      return response
     })
     .catch((error) => {
       // Handle error.
-      return error.response;
-    });
+      return error.response
+    })
 
-  return response;
+  return response
 }

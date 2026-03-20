@@ -54,10 +54,9 @@ export default function DataSharingStatus({ data }) {
                 pathname: "/app-search",
                 query: { data: value }, // the data
               }}
+              style={{ color: "inherit", textDecoration: "none" }}
             >
-              <a style={{ color: "inherit", textDecoration: "none" }}>
-                {data.buttonText}
-              </a>
+              {data.buttonText}
             </Link>
           ) : (
             <span style={{ color: "inherit" }}>{data.buttonText}</span>
@@ -67,7 +66,6 @@ export default function DataSharingStatus({ data }) {
           <InfoIcon sx={{ color: "#cacaca" }} />
         </LightTooltip>
       </Box>
-
       {isInvalidInput && (
         <div
           style={{

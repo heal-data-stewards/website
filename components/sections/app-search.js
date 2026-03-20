@@ -40,7 +40,7 @@ const columns = [
     accessorKey: "status",
     header: "Status",
     size: 40,
-    // eslint-disable-next-line react/display-name
+
     Cell: ({ cell }) => {
       let icon = (expr) => {
         switch (expr) {
@@ -84,7 +84,7 @@ const columns = [
     accessorKey: "step",
     header: "Checklist Step",
     size: 75,
-    // eslint-disable-next-line react/display-name
+
     Cell: ({ cell }) => {
       return (
         <Markdown linkTarget="_blank" className="general-table">
@@ -96,7 +96,7 @@ const columns = [
   {
     accessorKey: "notes",
     header: "Notes",
-    // eslint-disable-next-line react/display-name
+
     Cell: ({ cell }) => {
       const value = cell.getValue()
       if (typeof value === "string") {

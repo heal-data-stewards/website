@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react"
-import { useSession } from "next-auth/client"
+import { useSession } from "next-auth/react"
 import WebinarItem from "./webinar-item"
 import { filterByDate } from "utils/helper-functions"
 import Divider from "@mui/material/Divider"
@@ -7,7 +7,7 @@ import { fetchEvents } from "utils/msft-graph-api"
 
 export default function WebinarBody(props) {
   const [events, setEvents] = useState(filterByDate(props.eventData))
-  const [session, loading] = useSession()
+  const { data: session } = useSession()
   const [loggedIn, setLoggedIn] = useState(false)
 
   useEffect(() => {

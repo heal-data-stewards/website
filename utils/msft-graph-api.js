@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from "axios"
 
 export function getEvents(token) {
   return new Promise((resolve, reject) => {
@@ -12,12 +12,12 @@ export function getEvents(token) {
         }
       )
       .then((res) => {
-        resolve(res.data.value);
+        resolve(res.data.value)
       })
       .catch((error) => {
-        reject(error.response.data);
-      });
-  });
+        reject(error.response.data)
+      })
+  })
 }
 
 export function getEvent(token, id) {
@@ -33,23 +33,23 @@ export function getEvent(token, id) {
       )
       .then((res) => {
         // console.log(res)
-        resolve(res.data);
+        resolve(res.data)
       })
       .catch((error) => {
-        reject(error.response.data);
-      });
-  });
+        reject(error.response.data)
+      })
+  })
 }
 
 export async function getAuthorizationToken(id) {
-  let event = "";
+  let event = ""
 
   const data = {
     client_id: process.env.CLIENT_ID,
     scope: process.env.SCOPE,
     client_secret: process.env.CLIENT_SECRET,
     grant_type: process.env.GRANT_TYPE,
-  };
+  }
 
   let token = await fetch(
     "https://login.microsoftonline.com/58b3d54f-16c9-42d3-af08-1fcabd095666/oauth2/v2.0/token",
@@ -63,22 +63,22 @@ export async function getAuthorizationToken(id) {
   )
     .then((response) => response.json())
     .then((data) => {
-      return data.access_token;
+      return data.access_token
     })
     .catch((error) => {
-      console.error(error);
-    });
+      console.error(error)
+    })
 
   if (id === undefined) {
-    event = await getEvents(token);
+    event = await getEvents(token)
   } else {
-    event = await getEvent(token, id);
+    event = await getEvent(token, id)
   }
-  event.token = token;
-  return event;
+  event.token = token
+  return event
 }
 
 export async function fetchEvents(token) {
-  let event = await getEvents(token);
-  return event;
+  let event = await getEvents(token)
+  return event
 }

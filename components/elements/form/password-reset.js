@@ -2,7 +2,7 @@ import * as yup from "yup"
 import { Formik, Form, Field } from "formik"
 import { Btn2 } from "../button"
 import React, { useState } from "react"
-import { TextField } from "formik-material-ui"
+import { TextField } from "formik-mui"
 import { passwordReset } from "utils/api"
 import { useRouter } from "next/router"
 

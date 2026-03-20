@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from "react"
-import { DataGrid, GridToolbar } from "@material-ui/data-grid"
 import Markdown from "../../elements/markdown"
 import { MaterialReactTable } from "material-react-table"
 const columns = [
   {
     accessorKey: "Repository",
     header: "Repository",
-    // eslint-disable-next-line react/display-name
+
     Cell: ({ cell }) => {
       return (
         <Markdown linkTarget="_blank" className="general-table">
@@ -18,7 +17,7 @@ const columns = [
   {
     accessorKey: "De-identification Method",
     header: "De-identification Method",
-    // eslint-disable-next-line react/display-name
+
     Cell: ({ cell }) => {
       return (
         <Markdown linkTarget="_blank" className="general-table">
@@ -30,7 +29,7 @@ const columns = [
   {
     accessorKey: "De-ID Documentation",
     header: "De-ID Documentation",
-    // eslint-disable-next-line react/display-name
+
     Cell: ({ cell }) => {
       return (
         <Markdown linkTarget="_blank" className="general-table">
@@ -42,7 +41,7 @@ const columns = [
   {
     accessorKey: "De-ID Verification",
     header: "De-ID Verification",
-    // eslint-disable-next-line react/display-name
+
     Cell: ({ cell }) => {
       return (
         <Markdown linkTarget="_blank" className="general-table">
@@ -54,7 +53,7 @@ const columns = [
   {
     accessorKey: "De-ID Assistance",
     header: "De-ID Assistance",
-    // eslint-disable-next-line react/display-name
+
     Cell: ({ cell }) => {
       return (
         <Markdown linkTarget="_blank" className="general-table">
@@ -66,7 +65,7 @@ const columns = [
   {
     accessorKey: "Special Notes",
     header: "Special Notes",
-    // eslint-disable-next-line react/display-name
+
     Cell: ({ cell }) => {
       return (
         <Markdown linkTarget="_blank" className="general-table">
@@ -78,7 +77,7 @@ const columns = [
   {
     accessorKey: "References",
     header: "References",
-    // eslint-disable-next-line react/display-name
+
     Cell: ({ cell }) => {
       return (
         <Markdown linkTarget="_blank" className="general-table">
