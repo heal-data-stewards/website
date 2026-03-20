@@ -42,8 +42,7 @@ const parseMarkdownToSections = (markdown) => {
  * Check if a line is a Markdown H1 heading.
  * Matches strings like "# Title" or "# Title ###".
  */
-const isHeading = (line) =>
-  /^\s{0,3}# (.+?)(?:\s+#+)?$/.test(line)
+const isHeading = (line) => /^\s{0,3}# (.+?)(?:\s+#+)?$/.test(line)
 
 /**
  * Create a new accordion section starting at a heading line.

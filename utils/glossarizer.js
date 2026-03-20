@@ -1,13 +1,13 @@
-import React from "react";
-import reactStringReplace from "react-string-replace";
-import { styled } from "@mui/material/styles";
-import Tooltip, { tooltipClasses } from "@mui/material/Tooltip";
-import Typography from "@mui/material/Typography";
+import React from "react"
+import reactStringReplace from "react-string-replace"
+import { styled } from "@mui/material/styles"
+import Tooltip, { tooltipClasses } from "@mui/material/Tooltip"
+import Typography from "@mui/material/Typography"
 
 // Creates and returns react components from any string while wrapping any word that matches a glossary term with a tooltip defining the word
 
 export function addToolTips(data, glossary) {
-  let replacedText = data;
+  let replacedText = data
 
   const HtmlTooltip = styled(({ className, ...props }) => (
     <Tooltip {...props} classes={{ popper: className }} />
@@ -19,10 +19,10 @@ export function addToolTips(data, glossary) {
       fontSize: theme.typography.pxToRem(12),
       border: "1px solid #dadde9",
     },
-  }));
+  }))
 
   glossary.forEach((element, i) => {
-    let regex = new RegExp("(" + element.gtd_item[0].term_name + ")", "g");
+    let regex = new RegExp("(" + element.gtd_item[0].term_name + ")", "g")
     replacedText = reactStringReplace(replacedText, regex, (match) => (
       <HtmlTooltip
         title={
@@ -34,7 +34,7 @@ export function addToolTips(data, glossary) {
       >
         <span className="text-purple">{match}</span>
       </HtmlTooltip>
-    ));
-  });
-  return replacedText;
+    ))
+  })
+  return replacedText
 }

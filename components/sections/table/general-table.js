@@ -14,7 +14,7 @@ const columns = [
     sortable: false,
     filterable: false,
     width: 350,
-    // eslint-disable-next-line react/display-name
+
     renderCell: ({ row }) => (
       <Box
         sx={{
@@ -36,7 +36,7 @@ const columns = [
     width: 275,
     sortable: false,
     cellClass: "overflow",
-    // eslint-disable-next-line react/display-name
+
     renderCell: ({ row }) => (
       <RenderExpandableCell linkTarget="_blank" className="general-table">
         {row["Descriptive Tags"]}
@@ -49,7 +49,7 @@ const columns = [
     headerClassName: "general-table-header",
     width: 118,
     sortable: false,
-    // eslint-disable-next-line react/display-name
+
     renderCell: ({ row }) => (
       <RenderExpandableCell linkTarget="_blank" className="general-table">
         {row["Organism"]}
@@ -62,7 +62,7 @@ const columns = [
     headerClassName: "general-table-header",
     width: 160,
     sortable: false,
-    // eslint-disable-next-line react/display-name
+
     renderCell: ({ row }) => (
       <RenderExpandableCell linkTarget="_blank" className="general-table">
         {row["IC/Program"]}

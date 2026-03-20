@@ -1,4 +1,4 @@
-import { createTheme } from '@mui/material/styles';
+import { createTheme } from "@mui/material/styles"
 
 const palette = {
   primary: {
@@ -44,42 +44,42 @@ const palette = {
 const typography = {
   fontFamily: "Montserrat",
   h1: {
-    fontSize: '3rem',
-    fontWeight: '600',
-    paddingBottom: '1rem',
+    fontSize: "3rem",
+    fontWeight: "600",
+    paddingBottom: "1rem",
     lineHeight: 1,
-    color: palette.primary.main
+    color: palette.primary.main,
   },
   h2: {
-    fontSize: '2rem',
-    lineHeight: '1.25',
-    fontWeight: '500',
-    paddingBottom: '1rem',
+    fontSize: "2rem",
+    lineHeight: "1.25",
+    fontWeight: "500",
+    paddingBottom: "1rem",
   },
   h3: {
-    fontSize: '1.25rem',
-    fontWeight: '600',
-    paddingBottom: '0.5rem',
+    fontSize: "1.25rem",
+    fontWeight: "600",
+    paddingBottom: "0.5rem",
     lineHeight: 1.35,
-    color: palette.primary.main
+    color: palette.primary.main,
   },
   h4: {
-    fontSize: '1.15rem',
-    fontWeight: '700',
-    paddingBottom: '0.5rem',
+    fontSize: "1.15rem",
+    fontWeight: "700",
+    paddingBottom: "0.5rem",
     lineHeight: 1.35,
   },
   h6: {
-    fontSize: '1rem',
+    fontSize: "1rem",
   },
   body1: {
     lineHeight: 1.45,
-    fontSize: '1.1rem',
-    marginBottom: '0.5rem',
+    fontSize: "1.1rem",
+    marginBottom: "0.5rem",
   },
   body2: {
     lineHeight: 1.35,
-    fontSize: '1.15rem',
+    fontSize: "1.15rem",
   },
   subtitle1: {
     color: palette.primary.main,
@@ -94,10 +94,10 @@ const typography = {
     color: palette.magenta.DEFAULT,
     fontSize: "1rem",
     marginBottom: "1rem",
-  }
+  },
 }
 
 export const theme = createTheme({
   palette,
-  typography
+  typography,
 })

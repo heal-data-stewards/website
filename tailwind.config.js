@@ -1,13 +1,13 @@
-const { colors } = require(`tailwindcss/defaultTheme`);
+const { colors } = require(`tailwindcss/defaultTheme`)
 // console.log(colors.purple);
 module.exports = {
-  content: ["./components/**/*.js","./components/**/*.jsx", "./pages/**/*.js"],
+  content: ["./components/**/*.js", "./components/**/*.jsx", "./pages/**/*.js"],
   theme: {
     extend: {
       colors: {
         brand: {
-          300: '#996DFF',
-          500: '#8257e6',
+          300: "#996DFF",
+          500: "#8257e6",
         },
         primary: "#532565",
         purple: {
@@ -73,4 +73,4 @@ module.exports = {
     require("@tailwindcss/forms"),
     require("tailwind-scrollbar"),
   ],
-};
+}
