@@ -1,13 +1,7 @@
-import {
-  Button,
-  Card,
-  CardContent,
-  CardHeader,
-  Divider,
-} from "@material-ui/core"
+import { Button, Card, CardContent, CardHeader, Divider } from "@mui/material"
 import { Close as CloseIcon } from "@mui/icons-material"
 import { Popover } from "@headlessui/react"
-import { makeStyles } from "@material-ui/core/styles"
+import { makeStyles } from "@mui/styles"
 
 const useStyles = makeStyles((theme) => ({
   feedbackButton: {

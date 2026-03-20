@@ -3,10 +3,10 @@ import List from "@mui/material/List"
 import WorkingGroupListItem from "./list-item"
 import { getAllUsers } from "utils/api"
 import Button from "@mui/material/Button"
-import { useSession, getSession } from "next-auth/client"
+import { useSession } from "next-auth/react"
 
 export default function WorkingGroupTable({ data }) {
-  const [session, loading] = useSession()
+  const { data: session } = useSession()
   const [users, setUsers] = useState([])
   // Call the strapi API to GET all users
   useEffect(() => {

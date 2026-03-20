@@ -5,7 +5,7 @@ import { Icon } from "./icon"
 import { Text } from "./text"
 import { ArcLine, HorizontalLine, VerticalLine } from "./lines"
 import Link from "next/link"
-import { Box } from "@material-ui/core"
+import { Box } from "@mui/material"
 import { ArrowForward } from "@mui/icons-material"
 
 export default function ChecklistGraphic({ data }) {

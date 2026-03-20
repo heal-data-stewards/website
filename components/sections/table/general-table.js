@@ -6,7 +6,7 @@ import Markdown from "../../elements/markdown"
 
 // Column Definitions
 const columns = [
-  { field: "id", hide: true, headerName: "ID", width: 10 },
+  { field: "id", headerName: "ID", width: 10 },
   {
     field: "Repository",
     headerName: "Repository",
@@ -141,8 +141,9 @@ export default function GeneralDataTable({ data }) {
       <DataGrid
         rows={rows}
         columns={columns}
-        enableColumnOrdering
-        enableGlobalFilter={true}
+        initialState={{
+          columns: { columnVisibilityModel: { id: false } },
+        }}
       />
     </Box>
   )

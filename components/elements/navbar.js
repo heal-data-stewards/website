@@ -9,14 +9,14 @@ import { mediaPropTypes, linkPropTypes, buttonLinkPropTypes } from "utils/types"
 import { MdMenu } from "react-icons/md"
 import NextImage from "./image"
 import CustomLink from "./custom-link"
-import AppBar from "@material-ui/core/AppBar"
-import Toolbar from "@material-ui/core/Toolbar"
-import Drawer from "@material-ui/core/Drawer"
-import List from "@material-ui/core/List"
-import ListItem from "@material-ui/core/ListItem"
-import ListItemText from "@material-ui/core/ListItemText"
-import Divider from "@material-ui/core/Divider"
-import { signIn, signOut, useSession, getSession } from "next-auth/client"
+import AppBar from "@mui/material/AppBar"
+import Toolbar from "@mui/material/Toolbar"
+import Drawer from "@mui/material/Drawer"
+import List from "@mui/material/List"
+import ListItem from "@mui/material/ListItem"
+import ListItemText from "@mui/material/ListItemText"
+import Divider from "@mui/material/Divider"
+import { signIn, signOut, useSession } from "next-auth/react"
 import { Btn2 } from "../elements/button"
 import AccountMenu from "./account-menu"
 import PopupState, { bindTrigger, bindMenu } from "material-ui-popup-state"
@@ -117,7 +117,7 @@ const MenuPopupState = (data) => {
 }
 
 const Navbar = ({ navbar, pageContext }) => {
-  const [session, loading] = useSession()
+  const { data: session } = useSession()
   const [mobileMenuIsShown, setMobileMenuIsShown] = useState(false)
   const [isMobileAboutMenuOpen, setIsMobileAboutMenuOpen] = useState(false)
   const [loggedIn, setLoggedIn] = useState(false)

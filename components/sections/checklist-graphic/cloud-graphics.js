@@ -123,7 +123,9 @@ const PurpleCloud = ({ style, children }) => {
 const LightPurpleButton = styled(Button)(() => ({
   position: "absolute",
   bottom: 0,
-  transform: "translateY(50%)",
+  right: "-25px",
+  textWrap: "nowrap",
+  transform: "translateY(25%)",
 
   backgroundColor: "#d2c9d7",
   "&:hover": {

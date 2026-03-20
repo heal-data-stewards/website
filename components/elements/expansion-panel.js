@@ -1,13 +1,9 @@
 import React from "react"
 import PropTypes from "prop-types"
-import { withStyles } from "@material-ui/core/styles"
-import Typography from "@material-ui/core/Typography"
-import ExpandMoreIcon from "@material-ui/icons/ExpandMore"
-import {
-  Accordion,
-  AccordionSummary,
-  AccordionDetails,
-} from "@material-ui/core"
+import { withStyles } from "@mui/styles"
+import Typography from "@mui/material/Typography"
+import { Accordion, AccordionSummary, AccordionDetails } from "@mui/material"
+import { ExpandMore } from "@mui/icons-material"
 
 const styles = (theme) => ({
   root: {
@@ -25,7 +21,7 @@ function SimpleExpansionPanel({ classes, data }) {
       {data.map((faq, i) => {
         return (
           <Accordion key={faq.question + i}>
-            <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+            <AccordionSummary expandIcon={<ExpandMore />}>
               <Typography className={classes.heading}>
                 {faq.question}
               </Typography>

@@ -1,14 +1,14 @@
 import * as yup from "yup"
 import { Formik, Form, Field } from "formik"
 import React from "react"
-import { TextField } from "formik-material-ui"
+import { TextField } from "formik-mui"
 const axios = require("axios")
-import { signIn, useSession } from "next-auth/client"
+import { signIn, useSession } from "next-auth/react"
 import { Btn2 } from "../button"
 
 const EditForm = ({ setData, data, handleClose }) => {
   // const [loading, setLoading] = useState(false);
-  const [session, loading] = useSession()
+  const { data: session } = useSession()
 
   const LeadSchema = yup.object().shape({
     firstname: yup.string(),

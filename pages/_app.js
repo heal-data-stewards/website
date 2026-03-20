@@ -5,7 +5,7 @@ import { useRouter } from "next/router"
 import { DefaultSeo } from "next-seo"
 import { getStrapiMedia } from "utils/media"
 import { getGlobalData } from "utils/api"
-import { Provider } from "next-auth/client"
+import { SessionProvider } from "next-auth/react"
 // import { useEffect } from "react"
 import { RouteGuard } from "@/components/route-guard"
 import { ThemeProvider } from "@emotion/react"
@@ -27,7 +27,7 @@ const MyApp = ({ Component, pageProps }) => {
   const { metadata } = global
 
   return (
-    <Provider session={pageProps.session}>
+    <SessionProvider session={pageProps.session}>
       <Head>
         <link rel="shortcut icon" href={getStrapiMedia(global.favicon.url)} />
       </Head>
@@ -56,7 +56,7 @@ const MyApp = ({ Component, pageProps }) => {
           <Component {...pageProps} />
         </ThemeProvider>
       </RouteGuard>
-    </Provider>
+    </SessionProvider>
   )
 }
 

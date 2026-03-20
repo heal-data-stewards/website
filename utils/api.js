@@ -1,5 +1,4 @@
 import axios from "axios";
-import { gridColumnsTotalWidthSelector } from "@material-ui/data-grid";
 
 export function getStrapiURL(path) {
   return `${

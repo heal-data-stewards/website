@@ -5,7 +5,7 @@ import ReactMarkdown from "react-markdown"
 import CustomMarkdown from "./markdown"
 import Box from "@mui/material/Box"
 import ButtonBase from "@mui/material/ButtonBase"
-import Modal from "@material-ui/core/Modal"
+import Modal from "@mui/material/Modal"
 
 const NotificationBanner = ({
   data: { text, type, clickForModal, modalContent },
