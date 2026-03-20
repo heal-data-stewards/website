@@ -1,12 +1,7 @@
 const { colors } = require(`tailwindcss/defaultTheme`);
 // console.log(colors.purple);
 module.exports = {
-  mode: "jit", // see https://tailwindcss.com/docs/just-in-time-mode
-  purge: ["./components/**/*.js","./components/**/*.jsx", "./pages/**/*.js"],
-  darkMode: false, // or "media" or "class"
-  variants: {
-    fill: ["hover", "focus"], // this line does the trick
-  },
+  content: ["./components/**/*.js","./components/**/*.jsx", "./pages/**/*.js"],
   theme: {
     extend: {
       colors: {
@@ -72,9 +67,6 @@ module.exports = {
       xl: "1280px",
       mdmax: { max: "1050px" },
     },
-  },
-  variants: {
-    extend: {},
   },
   plugins: [
     require("@tailwindcss/typography"),

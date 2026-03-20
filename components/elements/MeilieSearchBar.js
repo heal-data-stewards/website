@@ -18,11 +18,6 @@ const styles = (theme) => ({
     backgroundColor: "transparent",
     zIndex: "1",
   },
-  searchInput: {
-    fontSize: "0.875rem",
-    color: "#fff",
-    height: "40px",
-  },
   block: {
     display: "block",
     color: "#fff",
@@ -56,11 +51,12 @@ function MeilieSearchBar(props) {
               onChange={(e) => refine(e.currentTarget.value)}
               placeholder="Search"
               value={currentRefinement}
+              size="small"
               InputProps={{
                 disableUnderline: true,
-                className: classes.searchInput,
+                sx: { color: "#fff" },
               }}
-              style={{ color: "#fff" }}
+              sx={{ height: "40px" }}
             />
           </Grid>
         </Grid>
