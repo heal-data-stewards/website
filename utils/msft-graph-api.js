@@ -1,43 +1,67 @@
 import axios from "axios"
 
+const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms))
+
+async function axiosWithBackoff(config, retries = 5, baseDelay = 1000) {
+  for (let attempt = 0; attempt <= retries; attempt++) {
+    try {
+      const res = await axios(config)
+      return res
+    } catch (error) {
+      const status = error.response?.status
+      const errorCode = error.response?.data?.error?.code
+
+      const isThrottled =
+        status === 429 ||
+        status === 503 ||
+        errorCode === "ApplicationThrottled" ||
+        errorCode === "ServiceUnavailable"
+
+      if (!isThrottled || attempt === retries) {
+        throw error.response?.data ?? error
+      }
+
+      // Respect Retry-After header if present, otherwise exponential backoff
+      const retryAfter = error.response?.headers?.["retry-after"]
+      const delay = retryAfter
+        ? parseInt(retryAfter, 10) * 1000
+        : baseDelay * 2 ** attempt
+
+      console.warn(
+        `Graph API throttled (${
+          errorCode ?? status
+        }). Retrying in ${delay}ms... (attempt ${attempt + 1}/${retries})`
+      )
+      await sleep(delay)
+    }
+  }
+}
+
 export function getEvents(token) {
   return new Promise((resolve, reject) => {
-    axios
-      .get(
-        `https://graph.microsoft.com/v1.0/users/RENCI_healdataca.rmb@ad.unc.edu/calendar/events?$top=100`,
-        {
-          headers: {
-            Authorization: "Bearer " + token,
-          },
-        }
-      )
-      .then((res) => {
-        resolve(res.data.value)
-      })
-      .catch((error) => {
-        reject(error.response.data)
-      })
+    axiosWithBackoff({
+      method: "get",
+      url: `https://graph.microsoft.com/v1.0/users/RENCI_healdataca.rmb@ad.unc.edu/calendar/events?$top=100`,
+      headers: {
+        Authorization: "Bearer " + token,
+      },
+    })
+      .then((res) => resolve(res.data.value))
+      .catch(reject)
   })
 }
 
 export function getEvent(token, id) {
   return new Promise((resolve, reject) => {
-    axios
-      .get(
-        `https://graph.microsoft.com/v1.0/users/RENCI_healdataca.rmb@ad.unc.edu/calendar/events/${id}`,
-        {
-          headers: {
-            Authorization: "Bearer " + token,
-          },
-        }
-      )
-      .then((res) => {
-        // console.log(res)
-        resolve(res.data)
-      })
-      .catch((error) => {
-        reject(error.response.data)
-      })
+    axiosWithBackoff({
+      method: "get",
+      url: `https://graph.microsoft.com/v1.0/users/RENCI_healdataca.rmb@ad.unc.edu/calendar/events/${id}`,
+      headers: {
+        Authorization: "Bearer " + token,
+      },
+    })
+      .then((res) => resolve(res.data))
+      .catch(reject)
   })
 }
 
