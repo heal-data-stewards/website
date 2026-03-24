@@ -76,7 +76,9 @@ function RouteGuard({ children }) {
       // "/collaboration",
       // "/collective-board",
     ]
-    const path = url.split("?")[0]
+
+    // Strip both query params (?...) and hash fragments (#...)
+    const path = url.split("?")[0].split("#")[0]
 
     const rememberMe = localStorage.getItem("loggedIn") === "true"
     // console.log(router.back())
