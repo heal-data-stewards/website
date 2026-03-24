@@ -3,8 +3,8 @@ import classNames from "classnames"
 import PropTypes from "prop-types"
 import { buttonLinkPropTypes } from "utils/types"
 import Loader from "./loader"
-import Button from "@material-ui/core/Button"
-import { createTheme, ThemeProvider } from "@material-ui/core/styles"
+import Button from "@mui/material/Button"
+import { createTheme, ThemeProvider } from "@mui/material/styles"
 
 const theme = createTheme({
   palette: {

@@ -5,7 +5,7 @@ import { Icon } from "./icon"
 import { Text } from "./text"
 import { ArcLine, HorizontalLine, VerticalLine } from "./lines"
 import Link from "next/link"
-import { Box } from "@material-ui/core"
+import { Box } from "@mui/material"
 import { ArrowForward } from "@mui/icons-material"
 
 export default function ChecklistGraphic({ data }) {
@@ -31,13 +31,11 @@ export default function ChecklistGraphic({ data }) {
       <Heading>
         Your <span>HEAL</span> Data Sharing Checklist
       </Heading>
-
       <CloudsGroup
         text={data.cloudGraphicText}
         href={data.cloudGraphicUrl}
         buttonText={data.cloudGraphicButtonText}
       />
-
       <ChecklistGrid>
         {steps.map(({ icon, text }, index) => (
           <React.Fragment key={icon}>
@@ -73,9 +71,8 @@ export default function ChecklistGraphic({ data }) {
         <ArcLine arcNumber={7} position="br" />
         <ArcLine arcNumber={8} position="bl" />
       </ChecklistGrid>
-
       <ButtonHider>
-        <Link href={data.cloudGraphicUrl} passHref>
+        <Link href={data.cloudGraphicUrl}>
           <Button
             endIcon={<ArrowForward />}
             variant="contained"

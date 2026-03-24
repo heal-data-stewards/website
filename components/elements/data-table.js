@@ -1,19 +1,9 @@
 import React, { useEffect, useState } from "react"
-import { DataGrid, GridToolbar } from "@material-ui/data-grid"
+import { DataGrid, GridToolbar } from "@mui/x-data-grid"
 import { getAllUsers } from "utils/api"
-// import { styled } from "@material-ui/core/styles"
-// import { makeStyles } from "@material-ui/core/styles"
-// const useStyles = makeStyles({
-// table: {
-//   background: "#fff",
-// },
-// })
-// const TestComponent = styled(GridToolbar)({
-// background: "#c0b3c569",
-// })
 
 const columns = [
-  { field: "id", hide: true, headerName: "ID", width: 70 },
+  { field: "id", headerName: "ID", width: 70 },
   { field: "firstname", headerName: "First Name", width: 150 },
   { field: "lastname", headerName: "Last Name", width: 150 },
   {
@@ -98,10 +88,13 @@ export default function DataTable() {
         // className={classes.table}
         rows={users}
         columns={columns}
-        pageSize={25}
+        initialState={{
+          pagination: { paginationModel: { pageSize: 25 } },
+          columns: { columnVisibilityModel: { id: false } },
+        }}
         checkboxSelection
-        components={{
-          Toolbar: GridToolbar,
+        slots={{
+          toolbar: GridToolbar,
         }}
       />
     </div>

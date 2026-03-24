@@ -1,6 +1,6 @@
 import { Typography } from "@mui/material"
 import Markdown from "../elements/markdown"
-import Image from "next/image"
+import Image from "next/legacy/image"
 
 const WorkflowGraphic = ({ data }) => {
   return (

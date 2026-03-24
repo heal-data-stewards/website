@@ -6,9 +6,9 @@ import StepLabel from "@mui/material/StepLabel"
 import StepContent from "@mui/material/StepContent"
 import Button from "@mui/material/Button"
 import Typography from "@mui/material/Typography"
-import { makeStyles } from "@material-ui/core"
+import { makeStyles } from "@mui/styles"
 import clsx from "clsx"
-import Image from "next/image"
+import Image from "next/legacy/image"
 import Markdown from "../elements/markdown"
 
 export default function SensitiveDataTree({ data }) {

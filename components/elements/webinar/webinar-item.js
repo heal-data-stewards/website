@@ -2,7 +2,7 @@ import * as React from "react"
 import PropTypes from "prop-types"
 import Button from "@mui/material/Button"
 import Typography from "@mui/material/Typography"
-import Image from "next/image"
+import Image from "next/legacy/image"
 import Markdown from "../../elements/markdown"
 
 import {

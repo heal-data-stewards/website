@@ -1,10 +1,18 @@
 module.exports = {
-  webpack5: false,
+  eslint: {
+    ignoreDuringBuilds: true,
+  },
+  transpilePackages: ["@mui/x-data-grid"],
   images: {
-    domains: ["heal-community-portal-api.s3.amazonaws.com"],
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "heal-community-portal-api.s3.amazonaws.com",
+      },
+    ],
   },
   i18n: {
     locales: ["en"],
     defaultLocale: "en",
-  }
-};
+  },
+}

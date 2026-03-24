@@ -1,55 +1,79 @@
-import axios from "axios";
+import axios from "axios"
+
+const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms))
+
+async function axiosWithBackoff(config, retries = 5, baseDelay = 1000) {
+  for (let attempt = 0; attempt <= retries; attempt++) {
+    try {
+      const res = await axios(config)
+      return res
+    } catch (error) {
+      const status = error.response?.status
+      const errorCode = error.response?.data?.error?.code
+
+      const isThrottled =
+        status === 429 ||
+        status === 503 ||
+        errorCode === "ApplicationThrottled" ||
+        errorCode === "ServiceUnavailable"
+
+      if (!isThrottled || attempt === retries) {
+        throw error.response?.data ?? error
+      }
+
+      // Respect Retry-After header if present, otherwise exponential backoff
+      const retryAfter = error.response?.headers?.["retry-after"]
+      const delay = retryAfter
+        ? parseInt(retryAfter, 10) * 1000
+        : baseDelay * 2 ** attempt
+
+      console.warn(
+        `Graph API throttled (${
+          errorCode ?? status
+        }). Retrying in ${delay}ms... (attempt ${attempt + 1}/${retries})`
+      )
+      await sleep(delay)
+    }
+  }
+}
 
 export function getEvents(token) {
   return new Promise((resolve, reject) => {
-    axios
-      .get(
-        `https://graph.microsoft.com/v1.0/users/RENCI_healdataca.rmb@ad.unc.edu/calendar/events?$top=100`,
-        {
-          headers: {
-            Authorization: "Bearer " + token,
-          },
-        }
-      )
-      .then((res) => {
-        resolve(res.data.value);
-      })
-      .catch((error) => {
-        reject(error.response.data);
-      });
-  });
+    axiosWithBackoff({
+      method: "get",
+      url: `https://graph.microsoft.com/v1.0/users/RENCI_healdataca.rmb@ad.unc.edu/calendar/events?$top=100`,
+      headers: {
+        Authorization: "Bearer " + token,
+      },
+    })
+      .then((res) => resolve(res.data.value))
+      .catch(reject)
+  })
 }
 
 export function getEvent(token, id) {
   return new Promise((resolve, reject) => {
-    axios
-      .get(
-        `https://graph.microsoft.com/v1.0/users/RENCI_healdataca.rmb@ad.unc.edu/calendar/events/${id}`,
-        {
-          headers: {
-            Authorization: "Bearer " + token,
-          },
-        }
-      )
-      .then((res) => {
-        // console.log(res)
-        resolve(res.data);
-      })
-      .catch((error) => {
-        reject(error.response.data);
-      });
-  });
+    axiosWithBackoff({
+      method: "get",
+      url: `https://graph.microsoft.com/v1.0/users/RENCI_healdataca.rmb@ad.unc.edu/calendar/events/${id}`,
+      headers: {
+        Authorization: "Bearer " + token,
+      },
+    })
+      .then((res) => resolve(res.data))
+      .catch(reject)
+  })
 }
 
 export async function getAuthorizationToken(id) {
-  let event = "";
+  let event = ""
 
   const data = {
     client_id: process.env.CLIENT_ID,
     scope: process.env.SCOPE,
     client_secret: process.env.CLIENT_SECRET,
     grant_type: process.env.GRANT_TYPE,
-  };
+  }
 
   let token = await fetch(
     "https://login.microsoftonline.com/58b3d54f-16c9-42d3-af08-1fcabd095666/oauth2/v2.0/token",
@@ -63,22 +87,22 @@ export async function getAuthorizationToken(id) {
   )
     .then((response) => response.json())
     .then((data) => {
-      return data.access_token;
+      return data.access_token
     })
     .catch((error) => {
-      console.error(error);
-    });
+      console.error(error)
+    })
 
   if (id === undefined) {
-    event = await getEvents(token);
+    event = await getEvents(token)
   } else {
-    event = await getEvent(token, id);
+    event = await getEvent(token, id)
   }
-  event.token = token;
-  return event;
+  event.token = token
+  return event
 }
 
 export async function fetchEvents(token) {
-  let event = await getEvents(token);
-  return event;
+  let event = await getEvents(token)
+  return event
 }

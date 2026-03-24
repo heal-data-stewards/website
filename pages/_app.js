@@ -5,26 +5,19 @@ import { useRouter } from "next/router"
 import { DefaultSeo } from "next-seo"
 import { getStrapiMedia } from "utils/media"
 import { getGlobalData } from "utils/api"
-import { Provider } from "next-auth/client"
+import { SessionProvider } from "next-auth/react"
 // import { useEffect } from "react"
 import { RouteGuard } from "@/components/route-guard"
 import { ThemeProvider } from "@emotion/react"
 import { theme } from "../styles/theme"
 import "@/styles/index.css"
 
+const options = {
+  api_host: process.env.NEXT_PUBLIC_POSTHOG_HOST,
+  defaults: "2025-11-30",
+}
+
 const MyApp = ({ Component, pageProps }) => {
-  // const router = useRouter()
-  // useEffect(() => {
-  //   const handleRouteChange = (url) => {
-  //     window.gtag("config", process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS, {
-  //       page_path: url,
-  //     })
-  //   }
-  //   router.events.on("routeChangeComplete", handleRouteChange)
-  //   return () => {
-  //     router.events.off("routeChangeComplete", handleRouteChange)
-  //   }
-  // }, [router.events])
   // Extract the data we need
   const { global } = pageProps
   if (global == null) {
@@ -34,8 +27,7 @@ const MyApp = ({ Component, pageProps }) => {
   const { metadata } = global
 
   return (
-    <Provider session={pageProps.session}>
-      {/* Favicon */}
+    <SessionProvider session={pageProps.session}>
       <Head>
         <link rel="shortcut icon" href={getStrapiMedia(global.favicon.url)} />
       </Head>
@@ -64,7 +56,7 @@ const MyApp = ({ Component, pageProps }) => {
           <Component {...pageProps} />
         </ThemeProvider>
       </RouteGuard>
-    </Provider>
+    </SessionProvider>
   )
 }
 

@@ -3,8 +3,8 @@ import * as yup from "yup"
 import { Formik, Form, Field } from "formik"
 import { Btn2 } from "../button"
 import React, { useState } from "react"
-import { TextField, Select } from "formik-material-ui"
-import InputLabel from "@material-ui/core/InputLabel"
+import { TextField, Select } from "formik-mui"
+import InputLabel from "@mui/material/InputLabel"
 
 const CreateAccountForm = () => {
   const [loadingWheel, setLoadingWheel] = useState(false)

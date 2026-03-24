@@ -4,19 +4,19 @@ import React, { useState, useEffect } from "react"
 import PropTypes from "prop-types"
 import Link from "next/link"
 import { useRouter } from "next/router"
-import Image from "next/image"
+import Image from "next/legacy/image"
 import { mediaPropTypes, linkPropTypes, buttonLinkPropTypes } from "utils/types"
 import { MdMenu } from "react-icons/md"
 import NextImage from "./image"
 import CustomLink from "./custom-link"
-import AppBar from "@material-ui/core/AppBar"
-import Toolbar from "@material-ui/core/Toolbar"
-import Drawer from "@material-ui/core/Drawer"
-import List from "@material-ui/core/List"
-import ListItem from "@material-ui/core/ListItem"
-import ListItemText from "@material-ui/core/ListItemText"
-import Divider from "@material-ui/core/Divider"
-import { signIn, signOut, useSession, getSession } from "next-auth/client"
+import AppBar from "@mui/material/AppBar"
+import Toolbar from "@mui/material/Toolbar"
+import Drawer from "@mui/material/Drawer"
+import List from "@mui/material/List"
+import ListItem from "@mui/material/ListItem"
+import ListItemText from "@mui/material/ListItemText"
+import Divider from "@mui/material/Divider"
+import { signIn, signOut, useSession } from "next-auth/react"
 import { Btn2 } from "../elements/button"
 import AccountMenu from "./account-menu"
 import PopupState, { bindTrigger, bindMenu } from "material-ui-popup-state"
@@ -83,10 +83,12 @@ const MenuPopupState = (data) => {
                 })
               }}
             >
-              <Link href="/[[...slug]]" as={"/about"}>
-                <a style={{ fontSize: "14px", fontWeight: "bold" }}>
-                  HEAL DATA ECOSYSTEM
-                </a>
+              <Link
+                href="/[[...slug]]"
+                as={"/about"}
+                style={{ fontSize: "14px", fontWeight: "bold" }}
+              >
+                HEAL DATA ECOSYSTEM
               </Link>
             </MenuItem>
             <MenuItem
@@ -99,10 +101,12 @@ const MenuPopupState = (data) => {
                 })
               }}
             >
-              <Link href="/[[...slug]]" as={"/collective"}>
-                <a style={{ fontSize: "14px", fontWeight: "bold" }}>
-                  COLLECTIVE BOARD
-                </a>
+              <Link
+                href="/[[...slug]]"
+                as={"/collective"}
+                style={{ fontSize: "14px", fontWeight: "bold" }}
+              >
+                COLLECTIVE BOARD
               </Link>
             </MenuItem>
           </StyledMenu>
@@ -113,7 +117,7 @@ const MenuPopupState = (data) => {
 }
 
 const Navbar = ({ navbar, pageContext }) => {
-  const [session, loading] = useSession()
+  const { data: session } = useSession()
   const [mobileMenuIsShown, setMobileMenuIsShown] = useState(false)
   const [isMobileAboutMenuOpen, setIsMobileAboutMenuOpen] = useState(false)
   const [loggedIn, setLoggedIn] = useState(false)
@@ -139,16 +143,15 @@ const Navbar = ({ navbar, pageContext }) => {
         >
           {/* Content aligned to the left */}
           <div className="flex flex-row items-center justify-between w-full">
-            <Link href="/">
-              <a
-                className="h-8"
-                style={{
-                  height: "100%",
-                  width: pageContext.isFullscreen ? "13rem" : "17rem",
-                }}
-              >
-                <NextImage media={navbar.logo} />
-              </a>
+            <Link
+              href="/"
+              className="h-8"
+              style={{
+                height: "100%",
+                width: pageContext.isFullscreen ? "13rem" : "17rem",
+              }}
+            >
+              <NextImage media={navbar.logo} />
             </Link>
             {/* List of links on desktop */}
             <ul className="hidden list-none lg:flex flex-row gap-1 items-baseline ml-10 mr-10">
@@ -212,7 +215,6 @@ const Navbar = ({ navbar, pageContext }) => {
           </div>
         </Toolbar>
       </AppBar>
-
       {/* Mobile navigation menu panel */}
       {mobileMenuIsShown && (
         <Drawer
@@ -223,17 +225,15 @@ const Navbar = ({ navbar, pageContext }) => {
           <List style={{ width: "275px" }}>
             <div style={{ margin: "10px" }}>
               <Link href="/">
-                <a>
-                  <Image
-                    src={`${navbar.logo.url}`}
-                    style={{ margin: "7px" }}
-                    width="180"
-                    height="54"
-                    priority={true}
-                    layout="intrinsic"
-                    alt={`${navbar.logo.alternativeText || ""}`}
-                  />
-                </a>
+                <Image
+                  src={`${navbar.logo.url}`}
+                  style={{ margin: "7px" }}
+                  width="180"
+                  height="54"
+                  priority={true}
+                  layout="intrinsic"
+                  alt={`${navbar.logo.alternativeText || ""}`}
+                />
               </Link>
             </div>
             <ListItem className="hover:text-white hover:bg-magenta text-purple px-2 py-1">

@@ -1,15 +1,13 @@
-import React, { useState, useEffect, useCallback } from "react"
+import Card from "@mui/material/Card"
+import CardContent from "@mui/material/CardContent"
+import { makeStyles } from "@mui/styles"
 import { useEmblaCarousel } from "embla-carousel/react"
-import { useRecursiveTimeout } from "./carousel/useRecursiveTimeout"
-import Image from "next/image"
-import Card from "@material-ui/core/Card"
-import CardMedia from "@material-ui/core/CardMedia"
-import CardActionArea from "@material-ui/core/CardActionArea"
-import { makeStyles } from "@material-ui/core/styles"
-import CardContent from "@material-ui/core/CardContent"
-import { DotButton } from "./carousel/buttons"
+import Image from "next/legacy/image"
 import Link from "next/link"
+import React, { useCallback, useEffect, useState } from "react"
 import styled from "styled-components"
+import { DotButton } from "./carousel/buttons"
+import { useRecursiveTimeout } from "./carousel/useRecursiveTimeout"
 
 const AUTOPLAY_INTERVAL = 6000
 
@@ -217,7 +215,7 @@ export const EmblaCarousel = ({ data }) => {
                     making data FAIR. We understand that each study has unique
                     needs and is at different stages of conducting
                     investigation. We will be publishing a{" "}
-                    <Link href={"/resources"} passHref>
+                    <Link href={"/resources"}>
                       <BlueLink>series of general recommendations</BlueLink>
                     </Link>{" "}
                     this Fall that are intended to provide support to HEAL

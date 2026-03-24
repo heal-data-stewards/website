@@ -6,7 +6,7 @@ import Markdown from "../../elements/markdown"
 
 // Column Definitions
 const columns = [
-  { field: "id", hide: true, headerName: "ID", width: 10 },
+  { field: "id", headerName: "ID", width: 10 },
   {
     field: "Repository",
     headerName: "Repository",
@@ -14,7 +14,7 @@ const columns = [
     sortable: false,
     filterable: false,
     width: 350,
-    // eslint-disable-next-line react/display-name
+
     renderCell: ({ row }) => (
       <Box
         sx={{
@@ -36,7 +36,7 @@ const columns = [
     width: 275,
     sortable: false,
     cellClass: "overflow",
-    // eslint-disable-next-line react/display-name
+
     renderCell: ({ row }) => (
       <RenderExpandableCell linkTarget="_blank" className="general-table">
         {row["Descriptive Tags"]}
@@ -49,7 +49,7 @@ const columns = [
     headerClassName: "general-table-header",
     width: 118,
     sortable: false,
-    // eslint-disable-next-line react/display-name
+
     renderCell: ({ row }) => (
       <RenderExpandableCell linkTarget="_blank" className="general-table">
         {row["Organism"]}
@@ -62,7 +62,7 @@ const columns = [
     headerClassName: "general-table-header",
     width: 160,
     sortable: false,
-    // eslint-disable-next-line react/display-name
+
     renderCell: ({ row }) => (
       <RenderExpandableCell linkTarget="_blank" className="general-table">
         {row["IC/Program"]}
@@ -141,8 +141,9 @@ export default function GeneralDataTable({ data }) {
       <DataGrid
         rows={rows}
         columns={columns}
-        enableColumnOrdering
-        enableGlobalFilter={true}
+        initialState={{
+          columns: { columnVisibilityModel: { id: false } },
+        }}
       />
     </Box>
   )

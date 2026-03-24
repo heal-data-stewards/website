@@ -1,19 +1,14 @@
-import React, { useState } from "react"
-import { Divider } from "@material-ui/core"
-import Link from "next/link"
-import MeilieSearchBar from "components/elements/MeilieSearchBar.js"
-import { InstantSearch, Hits, Highlight } from "react-instantsearch-dom"
 import { instantMeiliSearch } from "@meilisearch/instant-meilisearch"
-import { createConnector } from "react-instantsearch-dom"
-import { Snippet } from "react-instantsearch-dom"
+import { Divider } from "@mui/material"
 import Box from "@mui/material/Box"
 import Card from "@mui/material/Card"
-import CardActions from "@mui/material/CardActions"
 import CardContent from "@mui/material/CardContent"
-import Button from "@mui/material/Button"
 import Typography from "@mui/material/Typography"
+import MeilieSearchBar from "components/elements/MeilieSearchBar.js"
+import Link from "next/link"
+import React from "react"
+import { createConnector, Hits, InstantSearch } from "react-instantsearch-dom"
 import Markdown from "../elements/markdown"
-import link from "next/link"
 
 function OutlinedCard(props) {
   return (
@@ -146,10 +141,11 @@ export default function Topics({ data }) {
                 style={{ width: "50%" }}
                 key={topic.title + i}
               >
-                <Link href={`/${topic.slug || "coming-soon"}`} passHref>
-                  <a className="text-2xl text-magenta font-bold mb-4">
-                    {topic.shortName}
-                  </a>
+                <Link
+                  href={`/${topic.slug || "coming-soon"}`}
+                  className="text-2xl text-magenta font-bold mb-4"
+                >
+                  {topic.shortName}
                 </Link>
                 <Markdown linkTarget="_blank">
                   {topic.short_description}

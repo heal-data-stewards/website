@@ -1,17 +1,15 @@
 import React from "react"
 import PropTypes from "prop-types"
-import Typography from "@material-ui/core/Typography"
-import Grid from "@material-ui/core/Grid"
-import IconButton from "@material-ui/core/IconButton"
-import { withStyles } from "@material-ui/core/styles"
-import AppBar from "@material-ui/core/AppBar"
-import Toolbar from "@material-ui/core/AppBar"
-import SearchIcon from "@material-ui/icons/Search"
-import TextField from "@material-ui/core/TextField"
-import Tooltip from "@material-ui/core/Tooltip"
-import RefreshIcon from "@material-ui/icons/Refresh"
+import Grid from "@mui/material/Grid"
+import IconButton from "@mui/material/IconButton"
+import { withStyles } from "@mui/styles"
+import AppBar from "@mui/material/AppBar"
+import Toolbar from "@mui/material/AppBar"
+import TextField from "@mui/material/TextField"
+import Tooltip from "@mui/material/Tooltip"
+import { Refresh, Search } from "@mui/icons-material"
 
-const styles = (theme) => ({
+const styles = () => ({
   paper: {
     maxWidth: 936,
     margin: "auto",
@@ -22,16 +20,9 @@ const styles = (theme) => ({
     backgroundColor: "transparent",
     zIndex: "1",
   },
-  searchInput: {
-    fontSize: theme.typography.fontSize,
-    color: "#fff",
-  },
   block: {
     display: "block",
     color: "#fff",
-  },
-  addUser: {
-    marginRight: theme.spacing(1),
   },
   contentWrapper: {
     margin: "40px 16px",
@@ -43,7 +34,6 @@ const styles = (theme) => ({
 
 function SearchBar(props) {
   const { classes, filter, setFilter } = props
-  //   const lowercasedFilter = filter.toLowerCase();
 
   return (
     <AppBar className={classes.searchBar} position="relative" elevation={0}>
@@ -54,7 +44,7 @@ function SearchBar(props) {
         <Grid container spacing={2} alignItems="center">
           <Grid item></Grid>
           <Grid item>
-            <SearchIcon className={classes.block} color="inherit" />
+            <Search className={classes.block} color="inherit" />
           </Grid>
           <Grid item xs>
             <TextField
@@ -62,17 +52,18 @@ function SearchBar(props) {
               onChange={(e) => setFilter(e.currentTarget.value)}
               placeholder="Search"
               value={filter}
+              size="small"
               InputProps={{
                 disableUnderline: true,
-                className: classes.searchInput,
+                sx: { color: "#fff" },
               }}
-              style={{ color: "#fff" }}
+              sx={{ height: "40px" }}
             />
           </Grid>
           <Grid item>
             <Tooltip title="Reload">
               <IconButton>
-                <RefreshIcon
+                <Refresh
                   className={classes.block}
                   color="inherit"
                   onClick={() => setFilter("")}
