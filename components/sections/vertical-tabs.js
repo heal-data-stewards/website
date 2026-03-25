@@ -44,17 +44,27 @@ const VerticalTabs = ({ data }) => {
             )
           })}
         </ButtonBlockContainer>
-        <PanelContainer>
-          <Typography
-            variant="h2"
-            color="primary"
-            sx={{ fontWeight: "600", paddingTop: 0 }}
+        {data.TabItem.map((item, i) => (
+          <PanelContainer
+            key={i + item.TabTitle}
+            style={{
+              display:
+                item.TabTitle === shownContent.TabTitle ? undefined : "none",
+            }}
           >
-            {shownContent.TabTitle}
-          </Typography>
-          <Divider sx={{ backgroundColor: "#982568", marginBottom: "1rem" }} />
-          <Markdown>{shownContent.TabContent}</Markdown>
-        </PanelContainer>
+            <Typography
+              variant="h2"
+              color="primary"
+              sx={{ fontWeight: "600", paddingTop: 0 }}
+            >
+              {item.TabTitle}
+            </Typography>
+            <Divider
+              sx={{ backgroundColor: "#982568", marginBottom: "1rem" }}
+            />
+            <Markdown>{item.TabContent}</Markdown>
+          </PanelContainer>
+        ))}
       </div>
     </div>
   )
