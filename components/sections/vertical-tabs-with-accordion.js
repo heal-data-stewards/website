@@ -251,51 +251,69 @@ const VerticalTabsWithAccordion = ({ data }) => {
           </ButtonBlockContainer>
         )}
 
-        <PanelContainer
-          sx={{
-            width: "100%",
-            paddingX: isMobile ? 2 : 0,
-            marginTop: isMobile ? 2 : 0,
-          }}
-        >
-          {!isMobile && (
-            <Fragment>
-              <Typography
-                variant="h2"
-                color="primary"
-                sx={{
-                  fontWeight: 600,
-                  paddingTop: 0,
-                  fontSize: { xs: "1.5rem", sm: "2rem", md: "2.5rem" },
-                }}
-              >
-                {shownContent.TabTitle}
-              </Typography>
-              <Divider
-                sx={{ backgroundColor: "#982568", marginBottom: "1rem" }}
-              />
-            </Fragment>
-          )}
-
-          {sections[0]?.type === "accordion" ? (
-            <>
-              <AccordionControls
-                expandedStates={expandedStates}
-                onExpandAll={handleExpandAll}
-                onCollapseAll={handleCollapseAll}
-              />
-              <AccordionList
-                sections={sections}
-                expandedStates={expandedStates}
-                handleToggle={handleToggle}
-              />
-            </>
-          ) : (
-            <div style={{ color: "#532565" }}>
-              <Markdown>{sections[0]?.content}</Markdown>
-            </div>
-          )}
-        </PanelContainer>
+        {data.TabItemWithAccordion.map((item) => {
+          const isActive = item.TabTitle === shownContent.TabTitle
+          return (
+            <PanelContainer
+              key={item.TabTitle}
+              sx={{
+                width: "100%",
+                paddingX: isMobile ? 2 : 0,
+                marginTop: isMobile ? 2 : 0,
+              }}
+              style={{ display: isActive ? undefined : "none" }}
+            >
+              {isActive ? (
+                <>
+                  {!isMobile && (
+                    <Fragment>
+                      <Typography
+                        variant="h2"
+                        color="primary"
+                        sx={{
+                          fontWeight: 600,
+                          paddingTop: 0,
+                          fontSize: { xs: "1.5rem", sm: "2rem", md: "2.5rem" },
+                        }}
+                      >
+                        {item.TabTitle}
+                      </Typography>
+                      <Divider
+                        sx={{
+                          backgroundColor: "#982568",
+                          marginBottom: "1rem",
+                        }}
+                      />
+                    </Fragment>
+                  )}
+                  {sections[0]?.type === "accordion" ? (
+                    <>
+                      <AccordionControls
+                        expandedStates={expandedStates}
+                        onExpandAll={handleExpandAll}
+                        onCollapseAll={handleCollapseAll}
+                      />
+                      <AccordionList
+                        sections={sections}
+                        expandedStates={expandedStates}
+                        handleToggle={handleToggle}
+                      />
+                    </>
+                  ) : (
+                    <div style={{ color: "#532565" }}>
+                      <Markdown>{sections[0]?.content}</Markdown>
+                    </div>
+                  )}
+                </>
+              ) : (
+                <>
+                  <h2>{item.TabTitle}</h2>
+                  <Markdown>{item.TabContent}</Markdown>
+                </>
+              )}
+            </PanelContainer>
+          )
+        })}
       </div>
 
       {showBackToTop && (
