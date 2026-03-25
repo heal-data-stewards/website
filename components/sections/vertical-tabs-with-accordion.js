@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo, Fragment } from "react"
+import React, { useState, useEffect, useMemo, useRef, Fragment } from "react"
 import Markdown from "../elements/markdown"
 import {
   Typography,
@@ -21,20 +21,74 @@ import parseMarkdownToSections from "../../utils/parse-markdown-to-sections"
 import { OpenInNew } from "@mui/icons-material"
 import trackTabClick from "../elements/side-tab-menu/analytics/track-tab-click"
 
+// Helper function to create slug from tab title
+const createSlug = (title) => {
+  return title
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-|-$/g, "")
+}
+
 const VerticalTabsWithAccordion = ({ data }) => {
   const theme = useTheme()
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"))
 
-  const [shownContent, setShownContent] = useState(
-    () => data.TabItemWithAccordion[0]
-  )
+  // Find tab by hash or default to first
+  const getInitialTab = () => {
+    if (typeof window === "undefined") return data.TabItemWithAccordion[0]
+
+    const hash = window.location.hash.slice(1) // Remove #
+    if (!hash) return data.TabItemWithAccordion[0]
+
+    const matchedTab = data.TabItemWithAccordion.find(
+      (item) => createSlug(item.TabTitle) === hash
+    )
+    return matchedTab || data.TabItemWithAccordion[0]
+  }
+
+  const [shownContent, setShownContent] = useState(getInitialTab)
   const [expandedStates, setExpandedStates] = useState([])
   const [showBackToTop, setShowBackToTop] = useState(false)
+  const tabItemsRef = useRef(data.TabItemWithAccordion)
 
   const sections = useMemo(() => {
     if (!shownContent?.TabContent) return []
     return parseMarkdownToSections(shownContent.TabContent)
   }, [shownContent?.TabContent])
+
+  // Handle hash changes (browser back/forward)
+  useEffect(() => {
+    const handleHashChange = () => {
+      const hash = window.location.hash.slice(1)
+      if (!hash) {
+        setShownContent(data.TabItemWithAccordion[0])
+        return
+      }
+
+      const matchedTab = data.TabItemWithAccordion.find(
+        (item) => createSlug(item.TabTitle) === hash
+      )
+      if (matchedTab && matchedTab.TabTitle !== shownContent.TabTitle) {
+        setShownContent(matchedTab)
+      }
+    }
+
+    window.addEventListener("hashchange", handleHashChange)
+    return () => window.removeEventListener("hashchange", handleHashChange)
+  }, [data.TabItemWithAccordion, shownContent.TabTitle])
+
+  // Set initial tab from hash on mount (corrects SSR default when a hash is present)
+  useEffect(() => {
+    if (typeof window === "undefined") return
+    const hash = window.location.hash.slice(1)
+    if (!hash) return
+    const matchedTab = tabItemsRef.current.find(
+      (item) => createSlug(item.TabTitle) === hash
+    )
+    if (matchedTab) {
+      setShownContent(matchedTab)
+    }
+  }, [])
 
   useEffect(() => {
     setExpandedStates(
@@ -70,6 +124,19 @@ const VerticalTabsWithAccordion = ({ data }) => {
     }
   }
 
+  // Updated tab change handler
+  const handleTabChange = (item) => {
+    if (item.TabURL) {
+      window.open(item.TabURL, "_blank", "noopener,noreferrer")
+      return
+    }
+
+    setShownContent(item)
+    // Update hash without triggering page scroll
+    const slug = createSlug(item.TabTitle)
+    window.history.pushState(null, "", `#${slug}`)
+  }
+
   return (
     <div className="container pb-12">
       <div
@@ -84,13 +151,7 @@ const VerticalTabsWithAccordion = ({ data }) => {
                 const selected = data.TabItemWithAccordion.find(
                   (item) => item.TabTitle === e.target.value
                 )
-
-                if (selected?.TabURL) {
-                  window.open(selected.TabURL, "_blank", "noopener,noreferrer")
-                  return
-                }
-
-                setShownContent(selected)
+                handleTabChange(selected)
               }}
               IconComponent={KeyboardArrowDown}
               renderValue={(selected) => (
@@ -180,7 +241,7 @@ const VerticalTabsWithAccordion = ({ data }) => {
             {data.TabItemWithAccordion.map((item, i) => (
               <Block
                 key={i + item.TabTitle}
-                onClick={() => setShownContent(item)}
+                onClick={() => handleTabChange(item)}
                 title={item.TabTitle}
                 url={item.TabURL}
                 index={i}
