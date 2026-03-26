@@ -208,9 +208,7 @@ export default function AppSearch({ data }) {
         })
         .catch((err) => console.error(err))
     }
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  }, [params.data])
 
   function createData(data) {
     const steps = []
@@ -361,7 +359,7 @@ export default function AppSearch({ data }) {
           setSelectedHdpId(filteredStudies[0].hdp_id)
           setShowSupport(false)
         } else {
-          setStoreSentParam(params.data)
+          setStoreSentParam(value)
           setShowSupport(response.data.length > 0 ? "archived" : "unknown")
         }
       })
