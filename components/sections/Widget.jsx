@@ -24,7 +24,7 @@ export function Widget({ data }) {
   const classes = useStyles()
   return (
     <Popover
-      style={{ right: "-1rem", bottom: "106px" }}
+      style={{ right: "-1rem", bottom: "106px", zIndex: 1000 }}
       className="fixed flex flex-col items-end"
     >
       <Card component={Popover.Panel} className={classes.feedbackPopup}>

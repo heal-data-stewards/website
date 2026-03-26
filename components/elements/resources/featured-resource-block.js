@@ -81,7 +81,8 @@ const CardContainer = styled(Card)(({ hasBlurb }) => ({
 
 export function FeaturedResourceBlock({ data }) {
   const hasBlurb = Boolean(data.blurb)
-  const href = `/${data.link || "/"}`
+  const rawLink = data.link || "/"
+  const href = rawLink.startsWith("/") ? rawLink : `/${rawLink}`
 
   return (
     <Link href={href} legacyBehavior passHref>

@@ -4,7 +4,7 @@ import { linkPropTypes, mediaPropTypes } from "utils/types"
 import NextImage from "./image"
 import Image from "next/legacy/image"
 import CustomLink from "./custom-link"
-import { styled } from "@mui/styles"
+import styled, { css } from "styled-components"
 import { ExpandLess } from "@mui/icons-material"
 
 const Footer = ({ footer, pageContext }) => {
@@ -83,22 +83,24 @@ const Footer = ({ footer, pageContext }) => {
   )
 }
 
-const StyledFooter = styled("footer")(({ isFullscreen, isOpen }) => ({
-  backgroundColor: "#e5e0e7",
-  ...(isFullscreen && {
-    zIndex: 1000,
-    position: "absolute",
-    bottom: "0px",
-    left: "0px",
-    right: "0px",
-    transition: "transform 400ms ease-in-out",
-    transform: isOpen ? "none" : "translateY(calc(100% - 32px))",
-    "& .MuiSvgIcon-root": {
-      transition: "transform 400ms ease-in-out",
-      transform: isOpen ? "rotate(180deg)" : "none",
-    },
-  }),
-}))
+const StyledFooter = styled.footer`
+  background-color: #e5e0e7;
+  ${({ isFullscreen, isOpen }) =>
+    isFullscreen &&
+    css`
+      z-index: 1000;
+      position: absolute;
+      bottom: 0px;
+      left: 0px;
+      right: 0px;
+      transition: transform 400ms ease-in-out;
+      transform: ${isOpen ? "none" : "translateY(calc(100% - 32px))"};
+      & .MuiSvgIcon-root {
+        transition: transform 400ms ease-in-out;
+        transform: ${isOpen ? "rotate(180deg)" : "none"};
+      }
+    `}
+`
 
 Footer.propTypes = {
   footer: PropTypes.shape({
