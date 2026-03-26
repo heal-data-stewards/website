@@ -84,9 +84,11 @@ const CardContainer = styled(Card)(({ hasTooltip }) => ({
 
 export function ResourceBlock({ data }) {
   const hasTooltip = Boolean(data.tooltip)
+  const rawUrl = data.url || "coming-soon"
+  const href = rawUrl.startsWith("/") ? rawUrl : `/${rawUrl}`
 
   return (
-    <Link href={`/${data.url || "coming-soon"}`} legacyBehavior passHref>
+    <Link href={href} legacyBehavior passHref>
       <CardContainer
         aria-label={data.title}
         hasTooltip={hasTooltip}
