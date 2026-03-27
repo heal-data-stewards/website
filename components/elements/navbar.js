@@ -27,6 +27,13 @@ import { ExpandMore } from "@mui/icons-material"
 import { Collapse } from "@mui/material"
 import classNames from "classnames"
 import { sendCustomEvent } from "utils/analytics"
+import { liteClient as algoliasearch } from "algoliasearch/lite"
+import { Search } from "../search/search"
+
+const searchClient = algoliasearch(
+  process.env.NEXT_PUBLIC_ALGOLIA_APPLICATION_ID,
+  process.env.NEXT_PUBLIC_ALGOLIA_SEARCH_KEY
+)
 
 const StyledMenu = styled((props) => <Menu elevation={0} {...props} />)(
   ({ theme }) => ({
@@ -154,7 +161,7 @@ const Navbar = ({ navbar, pageContext }) => {
               <NextImage media={navbar.logo} />
             </Link>
             {/* List of links on desktop */}
-            <ul className="hidden list-none lg:flex flex-row gap-1 items-baseline ml-10 mr-10">
+            <ul className="hidden list-none lg:flex flex-row gap-1 items-center ml-10 mr-10">
               <li>
                 <MenuPopupState />
               </li>
@@ -184,6 +191,12 @@ const Navbar = ({ navbar, pageContext }) => {
                   </CustomLink>
                 </li>
               ))}
+              <li>
+                <Search
+                  searchClient={searchClient}
+                  indexName={process.env.NEXT_PUBLIC_ALGOLIA_INDEX_NAME}
+                />
+              </li>
             </ul>
           </div>
           <div className="flex">
