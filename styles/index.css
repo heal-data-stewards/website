@@ -416,6 +416,16 @@ ol {
 
 }
 
+/* Algolia InstantSearch */
+
+.ais-Hits-list {
+  padding: 0px !important;
+}
+
+.ais-Hits-item {
+  padding: 0px !important;
+}
+
 .vlmd-standards-wrapper {
   align-self: flex-start;
   display: grid;

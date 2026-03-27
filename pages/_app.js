@@ -11,6 +11,7 @@ import { RouteGuard } from "@/components/route-guard"
 import { ThemeProvider } from "@emotion/react"
 import { theme } from "../styles/theme"
 import "@/styles/index.css"
+import "instantsearch.css/themes/satellite.css"
 
 const options = {
   api_host: process.env.NEXT_PUBLIC_POSTHOG_HOST,
