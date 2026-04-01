@@ -21,12 +21,18 @@ import parseMarkdownToSections from "../../utils/parse-markdown-to-sections"
 import { OpenInNew } from "@mui/icons-material"
 import trackTabClick from "../elements/side-tab-menu/analytics/track-tab-click"
 
-// Helper function to create slug from tab title
+// Helper function to create slug from tab title (fallback)
 const createSlug = (title) => {
   return title
     .toLowerCase()
     .replace(/[^a-z0-9]+/g, "-")
     .replace(/^-|-$/g, "")
+}
+
+// Helper to get the slug (custom or auto-generated)
+const getSlug = (item) => {
+  // Use custom TabLinkFragment if provided, otherwise auto-generate from title
+  return item.TabLinkFragment || createSlug(item.TabTitle)
 }
 
 const VerticalTabsWithAccordion = ({ data }) => {
@@ -41,7 +47,7 @@ const VerticalTabsWithAccordion = ({ data }) => {
     if (!hash) return data.TabItemWithAccordion[0]
 
     const matchedTab = data.TabItemWithAccordion.find(
-      (item) => createSlug(item.TabTitle) === hash
+      (item) => getSlug(item) === hash
     )
     return matchedTab || data.TabItemWithAccordion[0]
   }
@@ -66,7 +72,7 @@ const VerticalTabsWithAccordion = ({ data }) => {
       }
 
       const matchedTab = data.TabItemWithAccordion.find(
-        (item) => createSlug(item.TabTitle) === hash
+        (item) => getSlug(item) === hash
       )
       if (matchedTab && matchedTab.TabTitle !== shownContent.TabTitle) {
         setShownContent(matchedTab)
@@ -83,7 +89,7 @@ const VerticalTabsWithAccordion = ({ data }) => {
     const hash = window.location.hash.slice(1)
     if (!hash) return
     const matchedTab = tabItemsRef.current.find(
-      (item) => createSlug(item.TabTitle) === hash
+      (item) => getSlug(item) === hash
     )
     if (matchedTab) {
       setShownContent(matchedTab)
@@ -133,7 +139,7 @@ const VerticalTabsWithAccordion = ({ data }) => {
 
     setShownContent(item)
     // Update hash without triggering page scroll
-    const slug = createSlug(item.TabTitle)
+    const slug = getSlug(item)
     window.history.pushState(null, "", `#${slug}`)
   }
 
