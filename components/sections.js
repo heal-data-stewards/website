@@ -52,6 +52,7 @@ import SemanticSearch from "./sections/semantic-search/semantic-search"
 import SemanticSearchResults from "./sections/semantic-search/semantic-search-results"
 import WorkflowGraphic from "./sections/workflow-graphic"
 import FeaturedResourceBlocks from "./sections/featured-resource-blocks"
+import RichTextTable from "./sections/table/rich-text-table"
 
 // Map Strapi sections to section components
 const sectionComponents = {
@@ -108,6 +109,7 @@ const sectionComponents = {
   "sections.vertical-tabs-with-accordion": VerticalTabsWithAccordion,
   "sections.info-table": InfoTable,
   "sections.featured-resource-card": FeaturedResourceBlocks,
+  "table.repeatable-column": RichTextTable,
 }
 
 // Display a section individually
