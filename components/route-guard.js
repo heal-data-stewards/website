@@ -42,6 +42,7 @@ const publicPaths = [
   "/resources/sharing-data",
   "/resources/HSS",
   "/resources/dmsps-overview",
+  "/test-side-tab-page",
   // The following used to be private pages only exposed to signed in guests
   // "/directory",
   // "/collaboration",
