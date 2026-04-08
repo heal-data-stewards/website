@@ -1,5 +1,3 @@
-// /components/sections/semantic-search/components/Collection.js
-
 import { Bookmarks, Close, Delete, Download } from "@mui/icons-material"
 import { Button, IconButton } from "@mui/material"
 import { useCollectionContext } from "../context/collection"
