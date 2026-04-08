@@ -13,11 +13,13 @@ export const CloudsGroup = ({ text, href, buttonText }) => {
         }}
       >
         {text}
-        <Link href={href}>
-          <LightPurpleButton component={"a"} endIcon={<ArrowForward />}>
-            {buttonText}
-          </LightPurpleButton>
-        </Link>
+        <LightPurpleButton
+          component={Link}
+          href={href}
+          endIcon={<ArrowForward />}
+        >
+          {buttonText}
+        </LightPurpleButton>
       </PurpleCloud>
       <LightPurpleCloud
         style={{
