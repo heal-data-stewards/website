@@ -2,6 +2,7 @@ import { Bookmarks, Close, Delete, Download } from "@mui/icons-material"
 import { Button, IconButton } from "@mui/material"
 import { useCollectionContext } from "../context/collection"
 import {
+  trackCsvCollectionDownloadClick,
   trackCollectionDownloadClick,
   trackCollectionClearedClick,
 } from "../analytics"
@@ -51,6 +52,14 @@ export function Collection() {
                 <button
                   className="text-sm text-[#4d2862] hover:text-[#982568] transition-colors duration-75 flex items-center gap-1"
                   onClick={() => {
+                    const categoryData = getEntityAnalytics(c.list)
+
+                    trackCsvCollectionDownloadClick({
+                      category: title.toLowerCase(),
+                      ids: categoryData.ids,
+                      labels: categoryData.labels,
+                      count: categoryData.count,
+                    })
                     c.downloadCsv(title)
                   }}
                 >
