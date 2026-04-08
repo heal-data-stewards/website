@@ -1,5 +1,3 @@
-// /components/sections/semantic-search/analytics/csvDownload.js
-
 import { sendCustomEvent } from "utils/analytics"
 
 function stringify(value) {
@@ -12,15 +10,20 @@ export function trackCsvCollectionDownloadClick({
   labels,
   count,
 }) {
-  const categoryKey = category === "cdes" ? "cde" : category.slice(0, -1)
+  const categoryMap = {
+    studies: "study",
+    cdes: "cde",
+    concepts: "concept",
+    variables: "variable",
+  }
 
-  // Dynamic event name based on category
-  const eventName = `hss_${categoryKey}_csv_downloaded`
+  const singularCategory = categoryMap[category] || category
+
+  const eventName = `hss_${category}_csv_downloaded`
 
   sendCustomEvent(eventName, {
-    // Dynamic parameter names that match your collectionDownload structure
-    [`downloaded_collection_${categoryKey}_count`]: count,
-    [`downloaded_collection_${categoryKey}_ids`]: stringify(ids),
-    [`downloaded_collection_${categoryKey}_labels`]: stringify(labels),
+    [`downloaded_collection_${singularCategory}_count`]: count,
+    [`downloaded_collection_${singularCategory}_ids`]: stringify(ids),
+    [`downloaded_collection_${singularCategory}_labels`]: stringify(labels),
   })
 }
