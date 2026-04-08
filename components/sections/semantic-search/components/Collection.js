@@ -55,7 +55,7 @@ export function Collection() {
                   className="text-sm text-[#4d2862] hover:text-[#982568] transition-colors duration-75 flex items-center gap-1"
                   onClick={() => {
                     const categoryData = getEntityAnalytics(c.list)
-                    
+
                     trackCsvCollectionDownloadClick({
                       category: title.toLowerCase(),
                       ids: categoryData.ids,

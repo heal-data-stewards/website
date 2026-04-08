@@ -13,10 +13,10 @@ export function trackCsvCollectionDownloadClick({
   count,
 }) {
   const categoryKey = category === "cdes" ? "cde" : category.slice(0, -1)
-  
+
   // Dynamic event name based on category
   const eventName = `hss_${categoryKey}_csv_downloaded`
-  
+
   sendCustomEvent(eventName, {
     // Dynamic parameter names that match your collectionDownload structure
     [`downloaded_collection_${categoryKey}_count`]: count,
