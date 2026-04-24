@@ -603,7 +603,20 @@ function SidebarItem({
           )}
         </IconButton>
       </div>
-      <p className="text-sm mt-2 text-gray-500">{id}</p>
+      <p className="text-sm mt-2 text-gray-500">
+        {study.metadata?.["Data Availability"] === "available" && (
+          <Tooltip
+            title="This study has a data package available"
+            placement="top"
+          >
+            <span
+              style={{ backgroundColor: "#982568" }}
+              className="inline-block w-[10px] h-[10px] rounded-full flex-shrink-0 cursor-default mr-1.5 align-middle translate-y-[-1px]"
+            />
+          </Tooltip>
+        )}
+        {id}
+      </p>
       {statsText.length > 0 && (
         <p className="text-sm mt-1 text-gray-500">{statsText.join(", ")}</p>
       )}
