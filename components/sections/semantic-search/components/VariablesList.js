@@ -1,20 +1,27 @@
 import { useState, useMemo, useCallback, useEffect } from "react"
 import {
+  ArrowForward,
   Assessment,
   Bookmark,
   BookmarkBorder,
+  Link as LinkIcon,
   PendingActions,
   Search,
 } from "@mui/icons-material"
 import {
   Checkbox,
+  Chip,
   CircularProgress,
+  Dialog,
+  DialogContent,
+  DialogTitle,
   Divider,
   FormControlLabel,
   IconButton,
   InputAdornment,
   TextField,
   Toolbar,
+  Tooltip,
 } from "@mui/material"
 import { fetchVariables } from "../data/variables"
 import { useQuery } from "utils/use-query"
@@ -25,14 +32,17 @@ import { useLunrSearch } from "utils/use-lunr-search"
 import { useDebounce } from "use-debounce"
 import Highlighter from "react-highlight-words"
 import InfiniteScroll from "react-infinite-scroll-component"
+import { VariableQuestionDisplay } from "./VariableQuestionDisplay"
 
 const VIRTUAL_PAGE_SIZE = 50
 
 export function VariablesList({ study, searchTerm, panelLocation }) {
   const collection = useCollectionContext()
   const [showOnlyRelated, setShowOnlyRelated] = useState(false)
+  const [showOnlyCDEMapped, setShowOnlyCDEMapped] = useState(false)
   const [search, setSearch] = useState("")
   const [visibleCount, setVisibleCount] = useState(VIRTUAL_PAGE_SIZE)
+  const [cdeDialogVariable, setCdeDialogVariable] = useState(null)
 
   const allVariablesPayload = useMemo(
     () => ({
@@ -91,19 +101,72 @@ export function VariablesList({ study, searchTerm, panelLocation }) {
   )
   const { index, lexicalSearch } = useLunrSearch(lunrConfig)
 
-  const [variableSource, highlightTokens] = useMemo(() => {
-    const variables = activeQuery.data?.results
-    if (!variables) return [[], []]
-    if (search.length < 3) return [variables, []]
+  const relatedLunrConfig = useMemo(
+    () => ({
+      docs: relatedVariablesQuery.data?.results
+        ? relatedVariablesQuery.data.results.map(
+            ({ id, name, description }) => ({ id, name, description })
+          )
+        : [],
+      index: {
+        ref: "id",
+        fields: ["name", "description"],
+      },
+    }),
+    [relatedVariablesQuery.data]
+  )
+  const { lexicalSearch: relatedLexicalSearch } =
+    useLunrSearch(relatedLunrConfig)
 
-    const { hits, tokens } = lexicalSearch(search, { fuzziness: 0 })
-    const hitIds = hits.map(({ ref }) => ref)
-    const matchedVariables = variables.filter((variable) =>
-      hitIds.includes(variable.id)
+  const applySearch = useCallback(
+    (variables, lexicalSearchFn) => {
+      if (search.length < 3) return { variables, tokens: [] }
+      const { hits, tokens } = lexicalSearchFn(search, { fuzziness: 0 })
+      const hitIds = new Set(hits.map(({ ref }) => ref))
+      return {
+        variables: variables.filter((v) => hitIds.has(v.id)),
+        tokens,
+      }
+    },
+    [search]
+  )
+
+  const [variableSource, highlightTokens] = useMemo(() => {
+    let variables = activeQuery.data?.results
+    if (!variables) return [[], []]
+    const { variables: searched, tokens } = applySearch(
+      variables,
+      lexicalSearch
     )
-    return [matchedVariables, tokens]
-  }, [activeQuery.data, search, lexicalSearch])
+    variables = searched
+    if (showOnlyCDEMapped) {
+      variables = variables.filter((v) => v.metadata?.cde_mapping)
+    }
+    return [variables, tokens]
+  }, [activeQuery.data, applySearch, lexicalSearch, showOnlyCDEMapped])
   const visibleVariables = variableSource.slice(0, visibleCount)
+
+  const cdeMappedCount = useMemo(() => {
+    const variables = activeQuery.data?.results
+    if (!variables) return 0
+    const { variables: searched } = applySearch(variables, lexicalSearch)
+    return searched.filter((v) => v.metadata?.cde_mapping).length
+  }, [activeQuery.data, applySearch, lexicalSearch])
+
+  const relatedCount = useMemo(() => {
+    const variables = relatedVariablesQuery.data?.results
+    if (!variables) return null
+    const { variables: searched } = applySearch(variables, relatedLexicalSearch)
+    const filtered = showOnlyCDEMapped
+      ? searched.filter((v) => v.metadata?.cde_mapping)
+      : searched
+    return filtered.length
+  }, [
+    relatedVariablesQuery.data,
+    applySearch,
+    relatedLexicalSearch,
+    showOnlyCDEMapped,
+  ])
 
   useEffect(() => {
     setVisibleCount(VIRTUAL_PAGE_SIZE)
@@ -140,32 +203,54 @@ export function VariablesList({ study, searchTerm, panelLocation }) {
 
   return (
     <div className="flex flex-col gap-2">
-      <div className="sticky -top-4 bg-white z-10 py-2 flex items-center">
+      <div className="sticky -top-4 bg-white z-10 py-2 flex flex-col gap-2 border-b border-gray-200 mb-2">
         <VariableSearchInput onChange={setSearch} />
-        <FormControlLabel
-          control={
-            <Checkbox
-              checked={showOnlyRelated}
-              onChange={(e) => setShowOnlyRelated(e.target.checked)}
-              size="small"
-            />
-          }
-          label={
-            <span>
-              Only show variables related to &quot;{searchTerm}&quot;
-              {relatedVariablesQuery.data && (
-                <span>&nbsp;({relatedVariablesQuery.data.results.length})</span>
-              )}
-            </span>
-          }
-          sx={{
-            marginLeft: 2,
-            "& .MuiFormControlLabel-label": {
+        <div className="flex items-center flex-wrap gap-x-4">
+          <FormControlLabel
+            control={
+              <Checkbox
+                checked={showOnlyRelated}
+                onChange={(e) => setShowOnlyRelated(e.target.checked)}
+                size="small"
+              />
+            }
+            label={
+              <span>
+                Related to &quot;{searchTerm}&quot;
+                {relatedCount !== null && <span>&nbsp;({relatedCount})</span>}
+              </span>
+            }
+            sx={{
               margin: 0,
-              fontSize: "15px !important",
-            },
-          }}
-        />
+              "& .MuiFormControlLabel-label": {
+                margin: 0,
+                fontSize: "14px !important",
+              },
+            }}
+          />
+          <FormControlLabel
+            control={
+              <Checkbox
+                checked={showOnlyCDEMapped}
+                onChange={(e) => setShowOnlyCDEMapped(e.target.checked)}
+                size="small"
+              />
+            }
+            label={
+              <span>
+                Has CDE mapping
+                <span>&nbsp;({cdeMappedCount})</span>
+              </span>
+            }
+            sx={{
+              margin: 0,
+              "& .MuiFormControlLabel-label": {
+                margin: 0,
+                fontSize: "14px !important",
+              },
+            }}
+          />
+        </div>
       </div>
       {variableSource.length === 0 ? (
         <Empty icon={<Assessment />} text="No related measures found." />
@@ -223,13 +308,34 @@ export function VariablesList({ study, searchTerm, panelLocation }) {
                     />
                   )}
                 </IconButton>
-                <div className="flex flex-col ml-2">
-                  <Highlighter
-                    highlightClassName="bg-magenta-light2 text-primary"
-                    textToHighlight={variable.name}
-                    searchWords={highlightTokens}
-                    autoEscape
-                  />
+                <div className="flex flex-col gap-0.5 ml-2">
+                  <div className="flex items-center gap-2">
+                    <Highlighter
+                      highlightClassName="bg-magenta-light2 text-primary"
+                      textToHighlight={variable.name}
+                      searchWords={highlightTokens}
+                      autoEscape
+                    />
+                    {variable.metadata?.cde_mapping && (
+                      <Tooltip title="View CDE mapping">
+                        <Chip
+                          icon={<LinkIcon sx={{ fontSize: 14 }} />}
+                          label="CDE"
+                          size="small"
+                          clickable
+                          onClick={() => setCdeDialogVariable(variable)}
+                          sx={{
+                            height: 18,
+                            fontSize: 11,
+                            backgroundColor: "#4d2862",
+                            color: "white",
+                            "& .MuiChip-icon": { color: "white" },
+                            "&:hover": { backgroundColor: "#6b3887" },
+                          }}
+                        />
+                      </Tooltip>
+                    )}
+                  </div>
                   <Highlighter
                     className="text-sm text-gray-400"
                     highlightClassName="bg-magenta-light2 text-primary"
@@ -243,7 +349,60 @@ export function VariablesList({ study, searchTerm, panelLocation }) {
           </ul>
         </InfiniteScroll>
       )}
+      <CDEMappingDialog
+        variable={cdeDialogVariable}
+        onClose={() => setCdeDialogVariable(null)}
+      />
     </div>
+  )
+}
+
+function MappingNode({ label, value }) {
+  return (
+    <div className="flex flex-col min-w-0">
+      <span className="text-[10px] uppercase tracking-wide text-gray-400">
+        {label}
+      </span>
+      <span className="font-medium text-primary break-words text-sm">
+        {value || "—"}
+      </span>
+    </div>
+  )
+}
+
+function MappingArrow() {
+  return (
+    <div className="flex items-end pb-1 text-[#4d2862]">
+      <ArrowForward sx={{ fontSize: 18 }} />
+    </div>
+  )
+}
+
+function CDEMappingDialog({ variable, onClose }) {
+  const mapping = variable?.metadata?.cde_mapping
+  return (
+    <Dialog open={!!variable} onClose={onClose} maxWidth="sm" fullWidth>
+      <DialogTitle>CDE Mapping</DialogTitle>
+      <DialogContent dividers>
+        {variable && (
+          <div className="flex flex-col gap-4">
+            <div className="flex items-stretch justify-between gap-4 mx-2">
+              <MappingNode label="Variable" value={variable.name} />
+              <MappingArrow />
+              <MappingNode label="Measure" value={mapping?.measure} />
+              <MappingArrow />
+              <MappingNode label="CDE" value={mapping?.cde} />
+            </div>
+            {mapping?.measure && (
+              <>
+                <Divider />
+                <VariableQuestionDisplay variableList={[mapping.measure]} />
+              </>
+            )}
+          </div>
+        )}
+      </DialogContent>
+    </Dialog>
   )
 }
 
