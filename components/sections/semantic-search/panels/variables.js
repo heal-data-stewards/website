@@ -470,7 +470,6 @@ function MainContent({ activeVariable, searchTerm }) {
             {tab.key === "usage" &&
               (activeVariable.is_cde ? (
                 <CDEDisplay
-                  searchTerm={searchTerm}
                   panelLocation={PANEL_LOCATIONS.VARIABLES}
                   expandFirstItem
                   emptyText={"No CDEs found for this variable."}
