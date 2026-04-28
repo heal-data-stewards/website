@@ -273,44 +273,40 @@ export const ConceptsPanel = ({ searchTerm }) => {
               <h2 className="text-2xl font-semibold leading-relaxed text-[#592963]">
                 {lowercaseFirstLetters(activeConcept.name)}{" "}
               </h2>
-              <Link
-                href={(() => {
-                  const url = new URL(window.location.href)
-                  url.searchParams.set("q", activeConcept.name)
-                  return url
-                })()}
-                passHref
-              >
-                <Tooltip title="Search for this concept" placement="top">
-                  <IconButton
-                    size="large"
-                    component="a"
-                    onMouseDown={(e) => {
-                      e.stopPropagation()
+              <Tooltip title="Search for this concept" placement="top">
+                <IconButton
+                  size="large"
+                  component="a"
+                  href={(() => {
+                    const url = new URL(window.location.href)
+                    url.searchParams.set("q", activeConcept.name)
+                    return url.toString()
+                  })()}
+                  onMouseDown={(e) => {
+                    e.stopPropagation()
 
+                    trackNewConceptSearched({
+                      concept: activeConcept,
+                      panelLocation: PANEL_LOCATIONS.CONCEPTS,
+                      uiSurface: UI_SURFACES.RIGHT_DETAIL,
+                      referringSearchTerm: searchTerm,
+                    })
+                  }}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter" || e.key === " ") {
+                      e.preventDefault()
                       trackNewConceptSearched({
                         concept: activeConcept,
                         panelLocation: PANEL_LOCATIONS.CONCEPTS,
                         uiSurface: UI_SURFACES.RIGHT_DETAIL,
                         referringSearchTerm: searchTerm,
                       })
-                    }}
-                    onKeyDown={(e) => {
-                      if (e.key === "Enter" || e.key === " ") {
-                        e.preventDefault()
-                        trackNewConceptSearched({
-                          concept: activeConcept,
-                          panelLocation: PANEL_LOCATIONS.CONCEPTS,
-                          uiSurface: UI_SURFACES.RIGHT_DETAIL,
-                          referringSearchTerm: searchTerm,
-                        })
-                      }
-                    }}
-                  >
-                    <Search fontSize="large" sx={{ color: "#4d2862" }} />
-                  </IconButton>
-                </Tooltip>
-              </Link>
+                    }
+                  }}
+                >
+                  <Search fontSize="large" sx={{ color: "#4d2862" }} />
+                </IconButton>
+              </Tooltip>
             </div>
 
             <IconButton
@@ -334,24 +330,20 @@ export const ConceptsPanel = ({ searchTerm }) => {
                 <BookmarkBorder fontSize="large" sx={{ color: "#4d2862" }} />
               )}
             </IconButton>
-            <Link
-              href={(() => {
-                const url = new URL(window.location.href)
-                url.searchParams.set("q", activeConcept.name)
-                return url
-              })()}
-              passHref
-            >
-              <Tooltip title="Search for this concept" placement="top">
-                <IconButton
-                  size="large"
-                  component={"a"}
-                  onClick={(e) => e.stopPropagation()}
-                >
-                  <Search fontSize="large" sx={{ color: "#4d2862" }} />
-                </IconButton>
-              </Tooltip>
-            </Link>
+            <Tooltip title="Search for this concept" placement="top">
+              <IconButton
+                size="large"
+                component="a"
+                href={(() => {
+                  const url = new URL(window.location.href)
+                  url.searchParams.set("q", activeConcept.name)
+                  return url.toString()
+                })()}
+                onClick={(e) => e.stopPropagation()}
+              >
+                <Search fontSize="large" sx={{ color: "#4d2862" }} />
+              </IconButton>
+            </Tooltip>
           </div>
           <div className="mb-2 flex gap-2 flex-wrap">
             <p className="text-gray-600 bg-gray-100 border-[1px] border-gray-200 border-solid px-2 py-1 rounded-lg shadow-sm">
@@ -445,7 +437,9 @@ function SidebarItem({
   const collection = useCollectionContext()
 
   return (
-    <button
+    <div
+      role="button"
+      tabIndex={0}
       onClick={() => {
         trackLeftListClick({
           entity: concept,
@@ -456,6 +450,18 @@ function SidebarItem({
 
         onClick()
       }}
+      onKeyDown={(e) => {
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault()
+          trackLeftListClick({
+            entity: concept,
+            panelLocation: PANEL_LOCATIONS.CONCEPTS,
+            referringSearchTerm: searchTerm,
+            uiSurface: UI_SURFACES.LEFT_LIST,
+          })
+          onClick()
+        }
+      }}
       className={
         `w-full p-4 border-b border-gray-200 cursor-pointer text-left` +
         (active ? " bg-[#eeecf0]" : "")
@@ -464,44 +470,40 @@ function SidebarItem({
       <div className="flex gap-2 items-start justify-between">
         <div className="flex gap-1 items-center">
           <h4 className="font-semibold">{name}</h4>
-          <Link
-            href={(() => {
-              const url = new URL(window.location.href)
-              url.searchParams.set("q", name)
-              return url
-            })()}
-            passHref
-          >
-            <Tooltip title="Search for this concept" placement="top">
-              <IconButton
-                size="small"
-                component="a"
-                onMouseDown={(e) => {
-                  e.stopPropagation()
+          <Tooltip title="Search for this concept" placement="top">
+            <IconButton
+              size="small"
+              component="a"
+              href={(() => {
+                const url = new URL(window.location.href)
+                url.searchParams.set("q", name)
+                return url.toString()
+              })()}
+              onMouseDown={(e) => {
+                e.stopPropagation()
 
+                trackNewConceptSearched({
+                  concept: concept,
+                  panelLocation: PANEL_LOCATIONS.CONCEPTS,
+                  uiSurface: UI_SURFACES.LEFT_LIST,
+                  referringSearchTerm: searchTerm,
+                })
+              }}
+              onKeyDown={(e) => {
+                if (e.key === "Enter" || e.key === " ") {
+                  e.preventDefault()
                   trackNewConceptSearched({
                     concept: concept,
                     panelLocation: PANEL_LOCATIONS.CONCEPTS,
                     uiSurface: UI_SURFACES.LEFT_LIST,
                     referringSearchTerm: searchTerm,
                   })
-                }}
-                onKeyDown={(e) => {
-                  if (e.key === "Enter" || e.key === " ") {
-                    e.preventDefault()
-                    trackNewConceptSearched({
-                      concept: concept,
-                      panelLocation: PANEL_LOCATIONS.CONCEPTS,
-                      uiSurface: UI_SURFACES.LEFT_LIST,
-                      referringSearchTerm: searchTerm,
-                    })
-                  }
-                }}
-              >
-                <Search fontSize="small" sx={{ color: "#4d2862" }} />
-              </IconButton>
-            </Tooltip>
-          </Link>
+                }
+              }}
+            >
+              <Search fontSize="small" sx={{ color: "#4d2862" }} />
+            </IconButton>
+          </Tooltip>
         </div>
         <IconButton
           size="small"
@@ -527,6 +529,6 @@ function SidebarItem({
         </IconButton>
       </div>
       <p className="text-sm text-gray-500">{description}</p>
-    </button>
+    </div>
   )
 }

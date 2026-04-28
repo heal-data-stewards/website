@@ -7,7 +7,7 @@ import {
   Tooltip,
 } from "@mui/material"
 import { useRouter } from "next/router"
-import { useCallback, useState } from "react"
+import { useCallback, useEffect, useState } from "react"
 import { backgroundColor } from "tailwindcss/defaultTheme"
 import { QueryCacheProvider } from "utils/use-query"
 import { sendCustomEvent } from "utils/analytics"
@@ -55,20 +55,24 @@ export function IntegratedSearchBar({
 }) {
   const router = useRouter()
 
-  const path = typeof window !== "undefined" ? window.location.pathname : ""
   const searchLocation =
-    path === "/resources/semantic-search"
+    router.pathname === "/resources/semantic-search"
       ? "HSS Landing Page"
-      : path.startsWith("/resources/semantic-search/results")
+      : router.pathname.startsWith("/resources/semantic-search/results")
       ? "HSS Results Page"
       : "Unknown"
 
-  const [searchInputValue, setSearchInputValue] = useState(
-    getQueryParam(redirectQueryParam) ?? ""
-  )
-  const [selectedSuggestions, setSelectedSuggestions] = useState(
-    getRandomSuggestions(3)
-  )
+  const [searchInputValue, setSearchInputValue] = useState("")
+  const [selectedSuggestions, setSelectedSuggestions] = useState([])
+
+  useEffect(() => {
+    const value = getQueryParam(redirectQueryParam)
+    if (value) setSearchInputValue(value)
+  }, [redirectQueryParam])
+
+  useEffect(() => {
+    setSelectedSuggestions(getRandomSuggestions(3))
+  }, [])
 
   // Fire analytics BEFORE navigation
   const searchTermHandler = (term) => {

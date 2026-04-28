@@ -563,7 +563,9 @@ function SidebarItem({
   }
 
   return (
-    <button
+    <div
+      role="button"
+      tabIndex={0}
       onClick={() => {
         trackLeftListClick({
           entity: study,
@@ -573,6 +575,18 @@ function SidebarItem({
         })
 
         onClick()
+      }}
+      onKeyDown={(e) => {
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault()
+          trackLeftListClick({
+            entity: study,
+            panelLocation: PANEL_LOCATIONS.STUDIES,
+            referringSearchTerm: searchTerm,
+            uiSurface: UI_SURFACES.LEFT_LIST,
+          })
+          onClick()
+        }
       }}
       className={
         `w-full p-4 border-b border-gray-200 cursor-pointer text-left` +
@@ -620,6 +634,6 @@ function SidebarItem({
       {statsText.length > 0 && (
         <p className="text-sm mt-1 text-gray-500">{statsText.join(", ")}</p>
       )}
-    </button>
+    </div>
   )
 }

@@ -2,6 +2,9 @@ module.exports = {
   eslint: {
     ignoreDuringBuilds: true,
   },
+  compiler: {
+    styledComponents: true,
+  },
   transpilePackages: ["@mui/x-data-grid"],
   images: {
     remotePatterns: [

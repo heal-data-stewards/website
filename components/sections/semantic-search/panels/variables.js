@@ -304,7 +304,9 @@ function SidebarItem({
   const collection = useCollectionContext()
 
   return (
-    <button
+    <div
+      role="button"
+      tabIndex={0}
       onClick={() => {
         trackLeftListClick({
           entity: variable,
@@ -314,6 +316,18 @@ function SidebarItem({
         })
 
         onClick()
+      }}
+      onKeyDown={(e) => {
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault()
+          trackLeftListClick({
+            entity: variable,
+            panelLocation: PANEL_LOCATIONS.VARIABLES,
+            referringSearchTerm: searchTerm,
+            uiSurface: UI_SURFACES.LEFT_LIST,
+          })
+          onClick()
+        }
       }}
       className={
         `w-full p-4 border-b border-gray-200 cursor-pointer text-left` +
@@ -346,7 +360,7 @@ function SidebarItem({
         </IconButton>
       </div>
       <p className="text-sm text-gray-500">{description}</p>
-    </button>
+    </div>
   )
 }
 
@@ -443,7 +457,9 @@ function MainContent({ activeVariable, searchTerm }) {
                   {activeVariable.metadata?.crf_name}
                 </h3> */}
                 {activeVariable.metadata?.question_text !== "None" && (
-                  <p className="mt-1">{activeVariable.metadata.question_text}</p>
+                  <p className="mt-1">
+                    {activeVariable.metadata.question_text}
+                  </p>
                 )}
 
                 {variableHasPermissibleValues && (

@@ -6,18 +6,25 @@ import { DefaultSeo } from "next-seo"
 import { getStrapiMedia } from "utils/media"
 import { getGlobalData } from "utils/api"
 import { SessionProvider } from "next-auth/react"
-// import { useEffect } from "react"
 import { RouteGuard } from "@/components/route-guard"
-import { ThemeProvider } from "@emotion/react"
+import { CacheProvider } from "@emotion/react"
+import { ThemeProvider } from "@mui/material/styles"
+import createEmotionCache from "utils/createEmotionCache"
 import { theme } from "../styles/theme"
 import "@/styles/index.css"
+
+const clientSideEmotionCache = createEmotionCache()
 
 const options = {
   api_host: process.env.NEXT_PUBLIC_POSTHOG_HOST,
   defaults: "2025-11-30",
 }
 
-const MyApp = ({ Component, pageProps }) => {
+const MyApp = ({
+  Component,
+  pageProps,
+  emotionCache = clientSideEmotionCache,
+}) => {
   // Extract the data we need
   const { global } = pageProps
   if (global == null) {
@@ -27,36 +34,38 @@ const MyApp = ({ Component, pageProps }) => {
   const { metadata } = global
 
   return (
-    <SessionProvider session={pageProps.session}>
-      <Head>
-        <link rel="shortcut icon" href={getStrapiMedia(global.favicon.url)} />
-      </Head>
-      {/* Global site metadata */}
-      <DefaultSeo
-        titleTemplate={`%s | ${global.metaTitleSuffix}`}
-        title="Page"
-        description={metadata.metaDescription}
-        openGraph={{
-          images: Object.values(metadata.shareImage.formats).map((image) => {
-            return {
-              url: getStrapiMedia(image.url),
-              width: image.width,
-              height: image.height,
-            }
-          }),
-        }}
-        twitter={{
-          cardType: metadata.twitterCardType,
-          handle: metadata.twitterUsername,
-        }}
-      />
-      {/* Display the content */}
-      <RouteGuard>
-        <ThemeProvider theme={theme}>
-          <Component {...pageProps} />
-        </ThemeProvider>
-      </RouteGuard>
-    </SessionProvider>
+    <CacheProvider value={emotionCache}>
+      <SessionProvider session={pageProps.session}>
+        <Head>
+          <link rel="shortcut icon" href={getStrapiMedia(global.favicon.url)} />
+        </Head>
+        {/* Global site metadata */}
+        <DefaultSeo
+          titleTemplate={`%s | ${global.metaTitleSuffix}`}
+          title="Page"
+          description={metadata.metaDescription}
+          openGraph={{
+            images: Object.values(metadata.shareImage.formats).map((image) => {
+              return {
+                url: getStrapiMedia(image.url),
+                width: image.width,
+                height: image.height,
+              }
+            }),
+          }}
+          twitter={{
+            cardType: metadata.twitterCardType,
+            handle: metadata.twitterUsername,
+          }}
+        />
+        {/* Display the content */}
+        <RouteGuard>
+          <ThemeProvider theme={theme}>
+            <Component {...pageProps} />
+          </ThemeProvider>
+        </RouteGuard>
+      </SessionProvider>
+    </CacheProvider>
   )
 }
 
