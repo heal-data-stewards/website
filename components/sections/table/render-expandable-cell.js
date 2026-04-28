@@ -4,19 +4,16 @@ import { tooltipClasses } from "@mui/material/Tooltip"
 import { styled } from "@mui/material/styles"
 
 const RenderExpandableCell = (props) => {
-  const [isOverflowed, setIsOverflow] = useState(true)
+  const [isOverflowed, setIsOverflow] = useState(false)
 
   const textElementRef = useRef(null)
 
   const checkOverflow = () => {
-    // Using getBoundingClientRect, instead of scrollWidth and clientWidth, to get width with fractional accuracy
-    const clientWidth = textElementRef.current.getBoundingClientRect().width
+    const el = textElementRef.current
+    if (!el) return
 
-    textElementRef.current.style.overflow = "visible"
-    const contentWidth = textElementRef.current.getBoundingClientRect().width
-    textElementRef.current.style.overflow = "hidden"
-
-    setIsOverflow(contentWidth > clientWidth)
+    const isOverflowing = el.scrollWidth > el.clientWidth
+    setIsOverflow(isOverflowing)
   }
 
   useEffect(() => {
@@ -45,6 +42,8 @@ const RenderExpandableCell = (props) => {
       <span
         ref={textElementRef}
         style={{
+          display: "block",
+          width: "100%",
           whiteSpace: "nowrap",
           overflow: "hidden",
           textOverflow: "ellipsis",
