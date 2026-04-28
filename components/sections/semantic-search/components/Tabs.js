@@ -156,7 +156,7 @@ const StyledPillTabs = styled((props) => (
   "& .MuiTab-root": {
     textTransform: "none",
     fontWeight: theme.typography.fontWeightMedium,
-    fontSize: theme.typography.pxToRem(14),
+    fontSize: "0.875rem",
     minHeight: "auto",
     minWidth: "auto",
     padding: theme.spacing(1, 2),

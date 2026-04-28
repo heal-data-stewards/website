@@ -1,6 +1,7 @@
 import { styled } from "@mui/material/styles"
 import { Box } from "@mui/material"
 import { OpenInNew } from "@mui/icons-material"
+import Link from "next/link"
 import trackTabClick from "./analytics/track-tab-click"
 
 const getBlockStyles = ({ isSelected }) => ({
@@ -16,16 +17,17 @@ const getBlockStyles = ({ isSelected }) => ({
   color: isSelected ? "#fff" : "rgba(83, 37, 101, 1)",
 })
 
-export const Block = ({ title, url, onClick, isSelected, index }) => {
-  return !url ? (
+export const Block = ({ title, url, href, onClick, isSelected, index }) => {
+  if (url) return <LinkTab title={title} url={url} />
+  if (href)
+    return <InternalLinkTab title={title} href={href} isSelected={isSelected} />
+  return (
     <Tab
       title={title}
       index={index}
       isSelected={isSelected}
       onClick={onClick}
     />
-  ) : (
-    <LinkTab title={title} url={url} />
   )
 }
 
@@ -51,6 +53,21 @@ const Tab = ({ title, onClick, isSelected, index }) => {
     </button>
   )
 }
+
+const InternalLinkTab = ({ title, href, isSelected }) => (
+  <Link
+    href={href}
+    style={{
+      ...getBlockStyles({ isSelected }),
+      display: "block",
+      textDecoration: "none",
+    }}
+    className="sensitive-data-blocks"
+    onMouseDown={() => trackTabClick({ title, isMobile: false })}
+  >
+    {title}
+  </Link>
+)
 
 const LinkTab = ({ title, url }) => {
   const handleClick = () => {

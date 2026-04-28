@@ -6,6 +6,7 @@ import { useRouter } from "next/router"
 import Layout from "@/components/layout"
 import { getLocalizedPaths } from "utils/localize"
 import { getAuthorizationToken } from "utils/msft-graph-api"
+import { createSlug } from "utils/slugify"
 
 // The file is called [[...slug]].js because we're using Next's
 // optional catch all routes feature. See the related docs:
@@ -75,6 +76,23 @@ const DynamicPage = ({
   )
 }
 
+const TAB_SECTION_TYPES = [
+  "sections.vertical-tabs",
+  "sections.vertical-tabs-with-accordion",
+]
+
+const getTabItemsForSection = (section) => {
+  if (section.__component === "sections.vertical-tabs") {
+    return (section.TabItem || []).filter((item) => item.TabTitle)
+  }
+  if (section.__component === "sections.vertical-tabs-with-accordion") {
+    return (section.TabItemWithAccordion || []).filter(
+      (item) => item.TabTitle && !item.TabURL
+    )
+  }
+  return []
+}
+
 export async function getStaticPaths(context) {
   // Get all pages from Strapi
   const allPages = context.locales.map(async (locale) => {
@@ -84,15 +102,26 @@ export async function getStaticPaths(context) {
 
   const pages = await (await Promise.all(allPages)).flat()
 
-  const paths = pages.map((page) => {
-    // Decompose the slug that was saved in Strapi
+  const paths = pages.flatMap((page) => {
     const slugArray = !page.slug ? false : page.slug.split("/")
 
-    return {
+    const pagePath = {
       params: { slug: slugArray },
-      // Specify the locale to render
       locale: page.locale,
     }
+
+    if (!slugArray || !page.contentSections) return [pagePath]
+
+    const tabPaths = page.contentSections
+      .filter((s) => TAB_SECTION_TYPES.includes(s.__component))
+      .flatMap((section) =>
+        getTabItemsForSection(section).map((tab) => ({
+          params: { slug: [...slugArray, createSlug(tab.TabTitle)] },
+          locale: page.locale,
+        }))
+      )
+
+    return [pagePath, ...tabPaths]
   })
 
   return { paths, fallback: true }
@@ -131,11 +160,17 @@ export async function getStaticProps(context) {
     eventData.token = events.token
   }
 
-  const pageData = await getPageData(
-    { slug: !params.slug ? [""] : params.slug },
-    locale,
-    preview
-  )
+  const rawSlug = !params.slug ? [""] : params.slug
+  let pageData = await getPageData({ slug: rawSlug }, locale, preview)
+  let activeTabSlug = null
+
+  if (pageData == null && rawSlug.length > 1) {
+    const parentSlug = rawSlug.slice(0, -1)
+    pageData = await getPageData({ slug: parentSlug }, locale, preview)
+    if (pageData != null) {
+      activeTabSlug = rawSlug[rawSlug.length - 1]
+    }
+  }
 
   if (pageData == null) {
     // Giving the page no props will trigger a 404 page
@@ -145,6 +180,18 @@ export async function getStaticProps(context) {
   // We have the required page data, pass it to the page component
   const { contentSections, metadata, localizations, slug, isFullscreen } =
     pageData
+
+  const basePath =
+    "/" +
+    (activeTabSlug ? rawSlug.slice(0, -1) : rawSlug)
+      .filter((s) => s !== "")
+      .join("/")
+
+  const augmentedSections = contentSections.map((section) =>
+    TAB_SECTION_TYPES.includes(section.__component)
+      ? { ...section, activeTabSlug, basePath }
+      : section
+  )
 
   const pageContext = {
     locale: pageData.locale,
@@ -163,7 +210,7 @@ export async function getStaticProps(context) {
       token: eventData.token || null,
       preview,
       eventData: eventData,
-      sections: contentSections,
+      sections: augmentedSections,
       metadata,
       global: globalLocale,
       pageContext: {
