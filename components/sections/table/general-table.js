@@ -137,7 +137,13 @@ export default function GeneralDataTable({ data }) {
   const rows = data.row.map((row) => createData(row.id, row.columns))
 
   return (
-    <Box className="container" sx={{ height: 600 }}>
+    <Box
+      className="container"
+      sx={{
+        height: 600,
+        "& .MuiDataGrid-cell": { display: "flex", alignItems: "center" },
+      }}
+    >
       <DataGrid
         rows={rows}
         columns={columns}
