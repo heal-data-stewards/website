@@ -48,12 +48,19 @@ const publicPaths = [
   // "/collective-board",
 ]
 
+// Returns true for exact public paths, /events/ paths, and tab sub-paths that
+// are exactly one segment deeper than a public path (e.g. /resources/data-sharing-success/analyze).
+const isPublicPath = (path) => {
+  if (publicPaths.includes(path) || path.includes("/events/")) return true
+  return publicPaths.some(
+    (p) => path.startsWith(p + "/") && !path.slice(p.length + 1).includes("/")
+  )
+}
+
 function RouteGuard({ children }) {
   const router = useRouter()
   const initialPath = router.asPath.split("?")[0].split("#")[0]
-  const isInitiallyPublic =
-    publicPaths.includes(initialPath) || initialPath.includes("/events/")
-  const [authorized, setAuthorized] = useState(isInitiallyPublic)
+  const [authorized, setAuthorized] = useState(isPublicPath(initialPath))
 
   useEffect(() => {
     // on initial load - run auth check
@@ -80,13 +87,8 @@ function RouteGuard({ children }) {
     const path = url.split("?")[0].split("#")[0]
 
     const rememberMe = localStorage.getItem("loggedIn") === "true"
-    // console.log(router.back())
 
-    if (
-      !publicPaths.includes(path) &&
-      !rememberMe &&
-      !path.includes("/events/")
-    ) {
+    if (!isPublicPath(path) && !rememberMe) {
       setAuthorized(false)
       router.push({
         pathname: "/",
