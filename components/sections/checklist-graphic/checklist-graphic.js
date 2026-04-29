@@ -3,7 +3,14 @@ import React from "react"
 import { CloudsGroup } from "./cloud-graphics"
 import { Icon } from "./icon"
 import { Text } from "./text"
-import { ArcLine, HorizontalLine, VerticalLine } from "./lines"
+import {
+  ArcLine,
+  HorizontalLine,
+  VerticalLine,
+  lineColor,
+  lineWidth,
+  iconSize,
+} from "./lines"
 import Link from "next/link"
 import { Box } from "@mui/material"
 import { ArrowForward } from "@mui/icons-material"
@@ -97,9 +104,9 @@ const ButtonHider = styled(Box)`
 `
 
 const ChecklistGrid = styled("div")`
-  --line-color: #dcd2de;
-  --line-width: 10px;
-  --icon-size: 80px;
+  --line-color: ${lineColor};
+  --line-width: ${lineWidth};
+  --icon-size: ${iconSize};
   --gutter-height: 40px;
 
   position: "absolute";
