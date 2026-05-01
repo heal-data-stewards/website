@@ -82,7 +82,14 @@ export function ParentStudiesDisplay({
         key: study.id,
         summary: (
           <div className="flex justify-between items-center w-full">
-            <h4>{study.name}</h4>
+            <h4>
+              {study.name}
+              {study.metadata?.["Data Availability"] === "available" && (
+                <span className="inline-block bg-[#982568] text-white rounded-md px-2 py-1 flex-shrink-0 mx-2">
+                  Data available
+                </span>
+              )}
+            </h4>
             <IconButton
               size="small"
               onClick={(e) => {
