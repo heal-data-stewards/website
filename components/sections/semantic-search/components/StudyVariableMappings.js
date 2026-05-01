@@ -7,6 +7,8 @@ import Link from "../../../elements/link"
 import { useCollectionContext } from "../context/collection"
 
 export function StudyVariableMappings({ studyMappings }) {
+  console.log("StudyVariableMappings", studyMappings)
+
   const collection = useCollectionContext()
 
   const payload = {
@@ -43,6 +45,11 @@ export function StudyVariableMappings({ studyMappings }) {
           <div className="flex justify-between items-center w-full">
             <h4>
               {study.name}{" "}
+              {study.metadata?.["Data Availability"] === "available" && (
+                <span className="inline-block bg-[#982568] text-white rounded-md px-2 py-1 flex-shrink-0 mx-2">
+                  Data available
+                </span>
+              )}
               <span className="text-sm text-gray-500">
                 {studyMappings[study.id]?.join(", ") ?? "No mapped variables"}
               </span>

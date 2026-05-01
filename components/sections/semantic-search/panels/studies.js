@@ -326,6 +326,11 @@ export const StudiesPanel = ({ searchTerm }) => {
           <div className="flex gap-2 justify-between">
             <h2 className="text-2xl font-semibold leading-relaxed mb-2 text-[#592963]">
               {activeStudy.name}
+              {activeStudy.metadata?.["Data Availability"] === "available" && (
+                <span className="inline-block bg-[#982568] text-white rounded-md px-2 py-1 flex-shrink-0 mx-2 font-normal text-sm align-middle">
+                  Data available
+                </span>
+              )}
             </h2>
             <IconButton
               size="large"
@@ -619,15 +624,9 @@ function SidebarItem({
       </div>
       <p className="text-sm mt-2 text-gray-500">
         {study.metadata?.["Data Availability"] === "available" && (
-          <Tooltip
-            title="This study has a data package available"
-            placement="top"
-          >
-            <span
-              style={{ backgroundColor: "#982568" }}
-              className="inline-block w-[10px] h-[10px] rounded-full flex-shrink-0 cursor-default mr-1.5 align-middle translate-y-[-1px]"
-            />
-          </Tooltip>
+          <span className="bg-[#982568] text-white rounded-md px-2 py-1 flex-shrink-0 ml-[-0.5rem] mr-1">
+            Data available
+          </span>
         )}
         {id}
       </p>
