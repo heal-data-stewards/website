@@ -20,8 +20,8 @@ const BlueLink = styled.a`
 export default function WebinarItem({ event, past, collective }) {
   let date = new Date(Date.parse(event.start.dateTime))
   let endDate = new Date(Date.parse(event.end.dateTime))
-  let sTime = date.toLocaleTimeString()
-  let eTime = endDate.toLocaleTimeString()
+  let sTime = date.toLocaleTimeString("en-US")
+  let eTime = endDate.toLocaleTimeString("en-US")
   let startTime = checkDaylightSavings(date)
     ? makeEasternTimeWithDaylightSavings(sTime)
     : makeEasternTime(sTime)

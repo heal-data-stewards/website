@@ -9,6 +9,11 @@ export default function Calendar(props) {
   const [events, setEvents] = useState(filterByDate(props.eventData))
   const { data: session } = useSession()
   const [loggedIn, setLoggedIn] = useState(false)
+  const [now, setNow] = useState(null)
+
+  useEffect(() => {
+    setNow(new Date())
+  }, [])
 
   useEffect(() => {
     if (session) {
@@ -53,7 +58,7 @@ export default function Calendar(props) {
               return new Date(a.start.dateTime) - new Date(b.start.dateTime)
             })
             .map((event, i) => {
-              if (new Date(event.start.dateTime) >= new Date()) {
+              if (now && new Date(event.start.dateTime) >= now) {
                 return (
                   <WebinarItem
                     key={event.subject + i}
@@ -78,7 +83,7 @@ export default function Calendar(props) {
             })
             .reverse()
             .map((event, i) => {
-              if (new Date(event.start.dateTime) <= new Date()) {
+              if (now && new Date(event.start.dateTime) <= now) {
                 return (
                   <WebinarItem
                     key={event.subject + i}
