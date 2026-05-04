@@ -187,7 +187,7 @@ export async function getStaticProps(context) {
       .filter((s) => s !== "")
       .join("/")
 
-  const augmentedSections = contentSections.map((section) =>
+  const augmentedSections = (contentSections || []).map((section) =>
     TAB_SECTION_TYPES.includes(section.__component)
       ? { ...section, activeTabSlug, basePath }
       : section
