@@ -193,6 +193,24 @@ export async function getStaticProps(context) {
       : section
   )
 
+  let activeTabTitle = null
+  if (activeTabSlug && contentSections) {
+    for (const section of contentSections) {
+      if (!TAB_SECTION_TYPES.includes(section.__component)) continue
+      const match = getTabItemsForSection(section).find(
+        (item) => createSlug(item.TabTitle) === activeTabSlug
+      )
+      if (match) {
+        activeTabTitle = match.TabTitle
+        break
+      }
+    }
+  }
+
+  const augmentedMetadata = activeTabTitle
+    ? { ...metadata, metaTitle: `${metadata.metaTitle} | ${activeTabTitle}` }
+    : metadata
+
   const pageContext = {
     locale: pageData.locale,
     locales,
@@ -211,7 +229,7 @@ export async function getStaticProps(context) {
       preview,
       eventData: eventData,
       sections: augmentedSections,
-      metadata,
+      metadata: augmentedMetadata,
       global: globalLocale,
       pageContext: {
         ...pageContext,
