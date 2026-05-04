@@ -326,6 +326,11 @@ export const StudiesPanel = ({ searchTerm }) => {
           <div className="flex gap-2 justify-between">
             <h2 className="text-2xl font-semibold leading-relaxed mb-2 text-[#592963]">
               {activeStudy.name}
+              {activeStudy.metadata?.["Data Availability"] === "available" && (
+                <span className="inline-block bg-[#982568] text-white rounded-md px-2 py-1 flex-shrink-0 mx-2 font-normal text-sm align-middle">
+                  Data available
+                </span>
+              )}
             </h2>
             <IconButton
               size="large"
@@ -563,7 +568,9 @@ function SidebarItem({
   }
 
   return (
-    <button
+    <div
+      role="button"
+      tabIndex={0}
       onClick={() => {
         trackLeftListClick({
           entity: study,
@@ -573,6 +580,18 @@ function SidebarItem({
         })
 
         onClick()
+      }}
+      onKeyDown={(e) => {
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault()
+          trackLeftListClick({
+            entity: study,
+            panelLocation: PANEL_LOCATIONS.STUDIES,
+            referringSearchTerm: searchTerm,
+            uiSurface: UI_SURFACES.LEFT_LIST,
+          })
+          onClick()
+        }
       }}
       className={
         `w-full p-4 border-b border-gray-200 cursor-pointer text-left` +
@@ -603,10 +622,17 @@ function SidebarItem({
           )}
         </IconButton>
       </div>
-      <p className="text-sm mt-2 text-gray-500">{id}</p>
+      <p className="text-sm mt-2 text-gray-500">
+        {study.metadata?.["Data Availability"] === "available" && (
+          <span className="bg-[#982568] text-white rounded-md px-2 py-1 flex-shrink-0 ml-[-0.5rem] mr-1">
+            Data available
+          </span>
+        )}
+        {id}
+      </p>
       {statsText.length > 0 && (
         <p className="text-sm mt-1 text-gray-500">{statsText.join(", ")}</p>
       )}
-    </button>
+    </div>
   )
 }

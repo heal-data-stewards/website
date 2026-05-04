@@ -8,15 +8,15 @@ const InternalLink = React.forwardRef(function InternalLink(
   ref
 ) {
   return (
-    <NextLink href={ref} {...props}>
-      <MUILink
-        underline="hover"
-        sx={{ fontWeight: "600", color: "#982568" }}
-        {...props}
-      >
-        {children}
-      </MUILink>
-    </NextLink>
+    <MUILink
+      component={NextLink}
+      underline="hover"
+      sx={{ fontWeight: "600", color: "#982568" }}
+      ref={ref}
+      {...props}
+    >
+      {children}
+    </MUILink>
   )
 })
 

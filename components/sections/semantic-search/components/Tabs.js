@@ -38,51 +38,54 @@ export function SemanticSearchTabs({ currentTabIndex, setCurrentTabIndex }) {
   const [helpModalOpen, setHelpModalOpen] = useState(false)
 
   return (
-    <StyledTabs
-      value={currentTabIndex}
-      onChange={(_, i) => setCurrentTabIndex(i)}
-      aria-label="Results tabs"
-    >
-      <StyledTab
-        label="Studies"
-        {...a11yProps(0)}
-        onClick={() => {
-          sendCustomEvent("hss_panel_selected", {
-            panel_index: "Studies",
-          })
-        }}
-      />
-      <StyledTab
-        label="CDEs"
-        {...a11yProps(1)}
-        onClick={() => {
-          sendCustomEvent("hss_panel_selected", {
-            panel_index: "CDEs",
-          })
-        }}
-      />
-      <StyledTab
-        label="Related Concepts"
-        {...a11yProps(2)}
-        onClick={() => {
-          sendCustomEvent("hss_panel_selected", {
-            panel_index: "Related Concepts",
-          })
-        }}
-      />
-      <StyledTab
-        label="Variables"
-        {...a11yProps(3)}
-        onClick={() => {
-          sendCustomEvent("hss_panel_selected", {
-            panel_index: "Variables",
-          })
-        }}
-      />
+    <div className="flex items-center">
+      <StyledTabs
+        value={currentTabIndex}
+        onChange={(_, i) => setCurrentTabIndex(i)}
+        aria-label="Results tabs"
+        sx={{ flex: 1 }}
+      >
+        <StyledTab
+          label="Studies"
+          {...a11yProps(0)}
+          onClick={() => {
+            sendCustomEvent("hss_panel_selected", {
+              panel_index: "Studies",
+            })
+          }}
+        />
+        <StyledTab
+          label="CDEs"
+          {...a11yProps(1)}
+          onClick={() => {
+            sendCustomEvent("hss_panel_selected", {
+              panel_index: "CDEs",
+            })
+          }}
+        />
+        <StyledTab
+          label="Related Concepts"
+          {...a11yProps(2)}
+          onClick={() => {
+            sendCustomEvent("hss_panel_selected", {
+              panel_index: "Related Concepts",
+            })
+          }}
+        />
+        <StyledTab
+          label="Variables"
+          {...a11yProps(3)}
+          onClick={() => {
+            sendCustomEvent("hss_panel_selected", {
+              panel_index: "Variables",
+            })
+          }}
+        />
+      </StyledTabs>
       <Button
         variant="text"
         startIcon={<Help />}
-        style={{ textTransform: "none", marginLeft: "auto", color: "#4d2862" }}
+        style={{ textTransform: "none", flexShrink: 0, color: "#4d2862" }}
         onClick={() => setHelpModalOpen(true)}
       >
         Need help?
@@ -122,7 +125,7 @@ export function SemanticSearchTabs({ currentTabIndex, setCurrentTabIndex }) {
           <Markdown>{HELP_CONTENT}</Markdown>
         </Box>
       </Modal>
-    </StyledTabs>
+    </div>
   )
 }
 

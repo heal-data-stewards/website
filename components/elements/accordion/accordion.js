@@ -29,6 +29,9 @@ export const Accordion = React.memo(
       display: "flex",
       justifyContent: "space-between",
     },
+    "& .MuiTypography-h3": {
+      margin: 0,
+    },
   }))
 )
 

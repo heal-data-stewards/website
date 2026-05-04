@@ -304,7 +304,9 @@ function SidebarItem({
   const collection = useCollectionContext()
 
   return (
-    <button
+    <div
+      role="button"
+      tabIndex={0}
       onClick={() => {
         trackLeftListClick({
           entity: variable,
@@ -314,6 +316,18 @@ function SidebarItem({
         })
 
         onClick()
+      }}
+      onKeyDown={(e) => {
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault()
+          trackLeftListClick({
+            entity: variable,
+            panelLocation: PANEL_LOCATIONS.VARIABLES,
+            referringSearchTerm: searchTerm,
+            uiSurface: UI_SURFACES.LEFT_LIST,
+          })
+          onClick()
+        }
       }}
       className={
         `w-full p-4 border-b border-gray-200 cursor-pointer text-left` +
@@ -346,7 +360,7 @@ function SidebarItem({
         </IconButton>
       </div>
       <p className="text-sm text-gray-500">{description}</p>
-    </button>
+    </div>
   )
 }
 
@@ -439,11 +453,13 @@ function MainContent({ activeVariable, searchTerm }) {
           >
             {tab.key === "permissible_values" && (
               <>
-                <h3 className="text-l font-semibold mt-1 mb-1">
+                {/* <h3 className="text-l font-semibold mt-1 mb-1">
                   {activeVariable.metadata?.crf_name}
-                </h3>
+                </h3> */}
                 {activeVariable.metadata?.question_text !== "None" && (
-                  <p>{activeVariable.metadata.question_text}</p>
+                  <p className="mt-1">
+                    {activeVariable.metadata.question_text}
+                  </p>
                 )}
 
                 {variableHasPermissibleValues && (
@@ -470,7 +486,6 @@ function MainContent({ activeVariable, searchTerm }) {
             {tab.key === "usage" &&
               (activeVariable.is_cde ? (
                 <CDEDisplay
-                  searchTerm={searchTerm}
                   panelLocation={PANEL_LOCATIONS.VARIABLES}
                   expandFirstItem
                   emptyText={"No CDEs found for this variable."}
