@@ -616,12 +616,14 @@ export default function AppSearch({ data }) {
                     Initiative support by referencing in the acknowledgement
                     sections of any relevant publication: This research was
                     supported by the National Institutes of Health through the
-                    NIH HEAL Initiative (https://www.nih.gov/heal) under award
-                    number, [include specific grant/contract/award number; for
-                    NIH grant number(s) use full format for the grant number,
-                    which includes application type, activity code, institute
-                    code, serial number, support year, and other suffixes as
-                    defined in Deciphering NIH Application/Grant Numbers.
+                    NIH HEAL Initiative
+                    ([https://www.nih.gov/heal](https://www.nih.gov/heal)) under
+                    award number, [include specific grant/contract/award number;
+                    for NIH grant number(s) use full format for the grant
+                    number, which includes application type, activity code,
+                    institute code, serial number, support year, and other
+                    suffixes as defined in [Deciphering NIH Application/Grant
+                    Numbers](https://www.era.nih.gov/files/Deciphering_NIH_Application.pdf).
                     Example: 5R01GM987654-03S].
                   </Markdown>
                 </td>
