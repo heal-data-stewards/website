@@ -91,7 +91,11 @@ function SearchResultsContent() {
           endAdornment={
             inputValue ? (
               <InputAdornment position="end">
-                <IconButton onClick={handleClear} aria-label="Clear search" edge="end">
+                <IconButton
+                  onClick={handleClear}
+                  aria-label="Clear search"
+                  edge="end"
+                >
                   <CloseIcon />
                 </IconButton>
               </InputAdornment>
