@@ -41,7 +41,11 @@ export function SearchCombobox() {
   })
 
   return (
-    <ClickAwayListener onClickAway={() => { if (isExpanded) handleClose() }}>
+    <ClickAwayListener
+      onClickAway={() => {
+        if (isExpanded) handleClose()
+      }}
+    >
       <div className="relative">
         <SearchInput
           ref={inputRef}
