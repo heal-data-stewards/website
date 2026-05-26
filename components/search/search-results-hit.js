@@ -2,27 +2,24 @@ import Link from "next/link"
 import { Highlight, Snippet } from "react-instantsearch"
 import { titleHighlightClass, snippetHighlightClass } from "./search-styles"
 
-export function SearchHit({ id, hit, isActive, onSelect }) {
+export function SearchResultsHit({ hit }) {
   return (
-    <li id={id} role="option" aria-selected={isActive}>
+    <li>
       <Link
         href={hit.path}
-        onClick={onSelect}
         className={[
-          "block px-4 py-3 no-underline border-l-[6px] transition-colors",
-          isActive
-            ? "border-l-purple"
-            : "border-l-transparent hover:border-l-purple",
+          "block py-5 no-underline border-l-[6px] pl-4 transition-colors",
+          "border-l-transparent hover:border-l-purple",
         ].join(" ")}
       >
         <span
-          className={`text-purple font-semibold text-base ${titleHighlightClass}`}
+          className={`text-purple font-semibold text-xl ${titleHighlightClass}`}
         >
           <Highlight attribute="title" hit={hit} />
         </span>
         <div className="text-gray text-[13.125px] mt-0.5">{hit.path}</div>
         <p
-          className={`text-gray-dark text-[13.125px] mt-1 line-clamp-2 m-0 ${snippetHighlightClass}`}
+          className={`text-gray-dark text-sm mt-1 line-clamp-3 m-0 ${snippetHighlightClass}`}
         >
           <Snippet attribute="content" hit={hit} />
         </p>

@@ -2,6 +2,7 @@ import { forwardRef } from "react"
 import { OutlinedInput, InputAdornment, IconButton } from "@mui/material"
 import SearchIcon from "@mui/icons-material/Search"
 import CloseIcon from "@mui/icons-material/Close"
+import { searchInputSx } from "./search-styles"
 
 export const SearchInput = forwardRef(function SearchInput(
   {
@@ -67,20 +68,7 @@ export const SearchInput = forwardRef(function SearchInput(
               </IconButton>
             </InputAdornment>
           }
-          sx={{
-            marginBottom: 0,
-            backgroundColor: "white",
-            "& .MuiOutlinedInput-notchedOutline": {
-              borderColor: "#532565",
-            },
-            "&:hover .MuiOutlinedInput-notchedOutline": {
-              borderColor: "#532565",
-            },
-            "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
-              borderColor: "#532565",
-              borderWidth: 2,
-            },
-          }}
+          sx={searchInputSx}
         />
       </div>
     </div>

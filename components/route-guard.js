@@ -18,7 +18,7 @@ const publicPaths = [
   "/faqs",
   "/glossary",
   "/webinar",
-  // "/search",
+  "/search",
   "/collective/meetings",
   "/resources/metadata",
   "/resources/repositories",
