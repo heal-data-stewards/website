@@ -12,23 +12,21 @@ export const SearchInput = forwardRef(function SearchInput(
     onExpand,
     onClose,
     onKeyDown,
+    onNavigateToResults,
     listboxId,
     isOpen,
     activeIndex,
   },
   ref
 ) {
+  const handleIconClick = () => {
+    if (!isExpanded) return onExpand()
+    if (value.trim() && onNavigateToResults) return onNavigateToResults()
+    ref.current?.focus()
+  }
+
   return (
     <div className="flex items-center">
-      {/* Icon is always visible; expand trigger when collapsed, re-focus when expanded */}
-      <button
-        onClick={isExpanded ? () => ref.current?.focus() : onExpand}
-        aria-label={isExpanded ? "Focus search" : "Open search"}
-        className="text-purple hover:text-magenta p-1 leading-none"
-      >
-        <SearchIcon fontSize="medium" />
-      </button>
-
       {/* MUI input animates in/out via width transition */}
       <div
         className={[
@@ -71,6 +69,21 @@ export const SearchInput = forwardRef(function SearchInput(
           sx={searchInputSx}
         />
       </div>
+
+      {/* Collapsed: opens search. Expanded with query: goes to results. Expanded empty: re-focuses. */}
+      <button
+        onClick={handleIconClick}
+        aria-label={
+          isExpanded && value.trim()
+            ? "Go to search results"
+            : isExpanded
+            ? "Focus search"
+            : "Open search"
+        }
+        className="text-purple hover:text-magenta p-1 leading-none"
+      >
+        <SearchIcon fontSize="medium" />
+      </button>
     </div>
   )
 })

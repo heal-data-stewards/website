@@ -28,7 +28,10 @@ import { Collapse } from "@mui/material"
 import classNames from "classnames"
 import { sendCustomEvent } from "utils/analytics"
 import { liteClient as algoliasearch } from "algoliasearch/lite"
+import SearchIcon from "@mui/icons-material/Search"
+import CloseIcon from "@mui/icons-material/Close"
 import { Search } from "../search/search"
+import { MobileSearchPanel } from "../search/mobile-search-panel"
 
 const searchClient = algoliasearch(
   process.env.NEXT_PUBLIC_ALGOLIA_APPLICATION_ID,
@@ -127,6 +130,7 @@ const Navbar = ({ navbar, pageContext }) => {
   const { data: session } = useSession()
   const [mobileMenuIsShown, setMobileMenuIsShown] = useState(false)
   const [isMobileAboutMenuOpen, setIsMobileAboutMenuOpen] = useState(false)
+  const [mobileSearchOpen, setMobileSearchOpen] = useState(false)
   const [loggedIn, setLoggedIn] = useState(false)
   const router = useRouter()
 
@@ -218,9 +222,27 @@ const Navbar = ({ navbar, pageContext }) => {
                 )}
               </div>
             )}
+            {/* Search icon on mobile */}
+            <button
+              onClick={() => {
+                setMobileSearchOpen((p) => !p)
+                setMobileMenuIsShown(false)
+              }}
+              aria-label={mobileSearchOpen ? "Close search" : "Open search"}
+              className="p-1 block lg:hidden text-purple hover:text-magenta"
+            >
+              {mobileSearchOpen ? (
+                <CloseIcon fontSize="medium" />
+              ) : (
+                <SearchIcon fontSize="medium" />
+              )}
+            </button>
             {/* Hamburger menu on mobile */}
             <button
-              onClick={() => setMobileMenuIsShown(true)}
+              onClick={() => {
+                setMobileMenuIsShown(true)
+                setMobileSearchOpen(false)
+              }}
               className="p-1 block lg:hidden"
             >
               <MdMenu className="h-8 w-auto" />
@@ -228,6 +250,17 @@ const Navbar = ({ navbar, pageContext }) => {
           </div>
         </Toolbar>
       </AppBar>
+      {/* Mobile search panel */}
+      {mobileSearchOpen && (
+        <div className="lg:hidden w-full bg-white border-t border-gray-light shadow-md">
+          <MobileSearchPanel
+            searchClient={searchClient}
+            indexName={process.env.NEXT_PUBLIC_ALGOLIA_INDEX_NAME}
+            onClose={() => setMobileSearchOpen(false)}
+          />
+        </div>
+      )}
+
       {/* Mobile navigation menu panel */}
       {mobileMenuIsShown && (
         <Drawer

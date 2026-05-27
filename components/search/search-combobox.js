@@ -10,7 +10,7 @@ const LISTBOX_ID = "global-search-listbox"
 
 export function SearchCombobox() {
   const { query, refine, clear } = useSearchBox()
-  const { hits } = useHits()
+  const { items: hits } = useHits()
   const inputRef = useRef(null)
   const [isExpanded, setIsExpanded] = useState(false)
   const router = useRouter()
@@ -55,6 +55,9 @@ export function SearchCombobox() {
           onExpand={handleExpand}
           onClose={handleClose}
           onKeyDown={handleKeyDown}
+          onNavigateToResults={() =>
+            handleNavigate(`/search?q=${encodeURIComponent(query.trim())}`)
+          }
           listboxId={LISTBOX_ID}
           isOpen={isOpen}
           activeIndex={activeIndex}

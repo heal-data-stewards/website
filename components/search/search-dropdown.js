@@ -1,6 +1,12 @@
 import { SearchHit } from "./search-hit"
 
-export function SearchDropdown({ id, hits, activeIndex, onHitSelect }) {
+export function SearchDropdown({
+  id,
+  hits,
+  activeIndex,
+  onHitSelect,
+  idPrefix = "search-hit",
+}) {
   return (
     <ul
       id={id}
@@ -11,7 +17,7 @@ export function SearchDropdown({ id, hits, activeIndex, onHitSelect }) {
       {hits.map((hit, index) => (
         <SearchHit
           key={hit.objectID}
-          id={`search-hit-${index}`}
+          id={`${idPrefix}-${index}`}
           hit={hit}
           isActive={activeIndex === index}
           onSelect={onHitSelect}
