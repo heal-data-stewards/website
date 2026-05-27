@@ -102,6 +102,7 @@ function SearchResultsContent() {
             flex: 1,
             marginBottom: 0,
             backgroundColor: "white",
+            fontFamily: "inherit",
             borderRadius: "4px 0 0 4px",
             "& .MuiOutlinedInput-notchedOutline": { borderColor: "#532565" },
             "&:hover .MuiOutlinedInput-notchedOutline": {

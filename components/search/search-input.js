@@ -30,9 +30,9 @@ export const SearchInput = forwardRef(function SearchInput(
       {/* MUI input animates in/out via width transition */}
       <div
         className={[
-          "flex items-center overflow-hidden whitespace-nowrap",
+          "flex items-center whitespace-nowrap",
           "transition-[width,opacity] duration-200 ease-in-out",
-          isExpanded ? "w-56 opacity-100" : "w-0 opacity-0 pointer-events-none",
+          isExpanded ? "w-52 opacity-100" : "w-0 opacity-0 pointer-events-none",
         ].join(" ")}
       >
         <OutlinedInput

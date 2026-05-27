@@ -149,7 +149,7 @@ const Navbar = ({ navbar, pageContext }) => {
         }}
       >
         <Toolbar
-          className="container flex flex-row items-center justify-between"
+          className="container !max-w-screen-xl flex flex-row items-center justify-between"
           style={{ height: "100%" }}
         >
           {/* Content aligned to the left */}
@@ -165,7 +165,7 @@ const Navbar = ({ navbar, pageContext }) => {
               <NextImage media={navbar.logo} />
             </Link>
             {/* List of links on desktop */}
-            <ul className="hidden list-none lg:flex flex-row gap-1 items-center ml-10 mr-10">
+            <ul className="hidden list-none xl:flex flex-row gap-1 items-center ml-10 mr-10">
               <li>
                 <MenuPopupState />
               </li>
@@ -188,7 +188,7 @@ const Navbar = ({ navbar, pageContext }) => {
                         fontWeight: "bold",
                         textTransform: "uppercase",
                       }}
-                      className="hover:text-magenta text-purple px-2 py-1 whitespace-nowrap overflow-hidden overflow-ellipsis"
+                      className="hover:text-magenta text-purple px-2 py-1 whitespace-nowrap"
                     >
                       {navLink.text}
                     </div>
@@ -206,7 +206,7 @@ const Navbar = ({ navbar, pageContext }) => {
           <div className="flex">
             {/* CTA button on desktop */}
             {navbar.button && (
-              <div className="hidden lg:block">
+              <div className="hidden xl:block">
                 {!session && (
                   <>
                     <Btn2 href={"/account"} button={{ text: "Log In" }} />
@@ -229,7 +229,7 @@ const Navbar = ({ navbar, pageContext }) => {
                 setMobileMenuIsShown(false)
               }}
               aria-label={mobileSearchOpen ? "Close search" : "Open search"}
-              className="p-1 block lg:hidden text-purple hover:text-magenta"
+              className="p-1 block xl:hidden text-purple hover:text-magenta"
             >
               {mobileSearchOpen ? (
                 <CloseIcon fontSize="medium" />
@@ -243,7 +243,7 @@ const Navbar = ({ navbar, pageContext }) => {
                 setMobileMenuIsShown(true)
                 setMobileSearchOpen(false)
               }}
-              className="p-1 block lg:hidden"
+              className="p-1 block xl:hidden"
             >
               <MdMenu className="h-8 w-auto" />
             </button>
@@ -252,7 +252,7 @@ const Navbar = ({ navbar, pageContext }) => {
       </AppBar>
       {/* Mobile search panel */}
       {mobileSearchOpen && (
-        <div className="lg:hidden w-full bg-white border-t border-gray-light shadow-md">
+        <div className="xl:hidden w-full bg-white border-t border-gray-light shadow-md">
           <MobileSearchPanel
             searchClient={searchClient}
             indexName={process.env.NEXT_PUBLIC_ALGOLIA_INDEX_NAME}
@@ -375,7 +375,7 @@ const Navbar = ({ navbar, pageContext }) => {
             <Divider />
             <div className="flex">
               {navbar.button && (
-                <div className="lg:block mt-4 ml-4">
+                <div className="xl:block mt-4 ml-4">
                   {!session && (
                     <>
                       <Btn2 href={"/account"} button={{ text: "Log In" }} />
