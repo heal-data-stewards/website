@@ -194,21 +194,33 @@ export async function getStaticProps(context) {
   )
 
   let activeTabTitle = null
+  let isFirstTab = false
   if (activeTabSlug && contentSections) {
     for (const section of contentSections) {
       if (!TAB_SECTION_TYPES.includes(section.__component)) continue
-      const match = getTabItemsForSection(section).find(
+      const tabItems = getTabItemsForSection(section)
+      const matchIndex = tabItems.findIndex(
         (item) => createSlug(item.TabTitle) === activeTabSlug
       )
-      if (match) {
-        activeTabTitle = match.TabTitle
+      if (matchIndex !== -1) {
+        activeTabTitle = tabItems[matchIndex].TabTitle
+        isFirstTab = matchIndex === 0
         break
       }
     }
   }
 
+  const canonicalUrl =
+    isFirstTab && process.env.NEXT_PUBLIC_SITE_URL
+      ? `${process.env.NEXT_PUBLIC_SITE_URL}${basePath}`
+      : null
+
   const augmentedMetadata = activeTabTitle
-    ? { ...metadata, metaTitle: `${metadata.metaTitle} | ${activeTabTitle}` }
+    ? {
+        ...metadata,
+        metaTitle: `${metadata.metaTitle} | ${activeTabTitle}`,
+        ...(canonicalUrl && { canonicalUrl }),
+      }
     : metadata
 
   const pageContext = {

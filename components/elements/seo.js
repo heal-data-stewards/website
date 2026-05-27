@@ -11,6 +11,7 @@ const Seo = ({ metadata }) => {
     <NextSeo
       title={metadata.metaTitle}
       description={metadata.metaDescription}
+      {...(metadata.canonicalUrl && { canonical: metadata.canonicalUrl })}
       openGraph={{
         // Title and description are mandatory
         title: metadata.metaTitle,
