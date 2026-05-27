@@ -1,5 +1,4 @@
-import { useState, useRef, useEffect } from "react"
-import { useRouter } from "next/router"
+import { useState, useEffect, useRef } from "react"
 import { liteClient as algoliasearch } from "algoliasearch/lite"
 import {
   InstantSearch,
@@ -14,6 +13,7 @@ import SearchIcon from "@mui/icons-material/Search"
 import CloseIcon from "@mui/icons-material/Close"
 import Layout from "@/components/layout"
 import { SearchResultsHit } from "@/components/search/search-results-hit"
+import { useQueryParams } from "utils/use-query-params"
 
 const searchClient = algoliasearch(
   process.env.NEXT_PUBLIC_ALGOLIA_APPLICATION_ID,
@@ -40,36 +40,34 @@ function SearchResultsContent() {
   const { query, refine } = useSearchBox()
   const { items: hits } = useHits()
   const { nbHits } = useStats()
-  const router = useRouter()
+  const { refine: refinePage } = usePagination()
 
-  // inputValue tracks the text field; query tracks what Algolia has committed.
-  // They only sync on submit so rapid typing doesn't fire a request per keystroke.
-  const [inputValue, setInputValue] = useState("")
-  const seeded = useRef(false)
+  const [{ q, page }, setParam] = useQueryParams({ q: null, page: null })
+  const [inputValue, setInputValue] = useState(q ?? "")
 
-  // Seed both input and Algolia from the URL once the router is ready
+  const initialQ = useRef(q)
+  const initialPage = useRef(page)
+
   useEffect(() => {
-    if (!router.isReady || seeded.current) return
-    seeded.current = true
-    const q = typeof router.query.q === "string" ? router.query.q : ""
-    setInputValue(q)
-    if (q) refine(q)
-  }, [router.isReady]) // eslint-disable-line react-hooks/exhaustive-deps
+    if (initialQ.current) refine(initialQ.current)
+    const p = initialPage.current
+      ? Math.max(0, parseInt(initialPage.current, 10) - 1)
+      : 0
+    if (p > 0) refinePage(p)
+  }, [refine, refinePage])
 
   const handleSubmit = (e) => {
     e.preventDefault()
     refine(inputValue)
-    router.replace(
-      { pathname: "/search", query: inputValue ? { q: inputValue } : {} },
-      undefined,
-      { shallow: true }
-    )
+    setParam("q", inputValue || null)
+    setParam("page", null)
   }
 
   const handleClear = () => {
     setInputValue("")
     refine("")
-    router.replace({ pathname: "/search" }, undefined, { shallow: true })
+    setParam("q", null)
+    setParam("page", null)
   }
 
   return (
@@ -151,11 +149,13 @@ function SearchResultsContent() {
 function SearchPagination() {
   const { pages, currentRefinement, nbPages, isFirstPage, isLastPage, refine } =
     usePagination({ padding: 2 })
+  const [, setParam] = useQueryParams({ page: null })
 
   if (nbPages <= 1) return null
 
   const goTo = (page) => {
     refine(page)
+    setParam("page", page > 0 ? String(page + 1) : null)
     window.scrollTo({ top: 0, behavior: "smooth" })
   }
 
