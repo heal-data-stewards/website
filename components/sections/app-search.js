@@ -22,6 +22,7 @@ import {
 } from "@mui/material"
 import { formatList } from "utils/format-list"
 import styled from "styled-components"
+import { sendCustomEvent } from "utils/analytics"
 
 const RedX = () => (
   <CancelIcon style={{ color: "#cf0000", width: "50px", height: "50px" }} />
@@ -332,6 +333,15 @@ export default function AppSearch({ data }) {
     return steps
   }
 
+  const handleTextFieldBlur = () => {
+    if (value.trim()) {
+      sendCustomEvent("checklist_search_info_entered", {
+        parent_page_title: document.title,
+        parent_page_url: window.location.href,
+      })
+    }
+  }
+
   const getAppId = (e) => {
     e.preventDefault()
 
@@ -341,6 +351,12 @@ export default function AppSearch({ data }) {
     } else {
       setIsInvalidInput(false)
     }
+
+    sendCustomEvent("checklist_check_status_click", {
+      search_value: value,
+      parent_page_title: document.title,
+      parent_page_url: window.location.href,
+    })
 
     setPayload(false)
 
@@ -407,6 +423,7 @@ export default function AppSearch({ data }) {
                   label="PI Name / Project # / CTN # / Appl ID / HDP ID"
                   variant="outlined"
                   onChange={handleTextFieldChange}
+                  onBlur={handleTextFieldBlur}
                   value={value}
                   sx={{
                     width: 450,

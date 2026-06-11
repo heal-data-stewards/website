@@ -19,6 +19,15 @@ import {
   RestartAlt as StartOverIcon,
   FileDownload as FileDownloadIcon,
 } from "@mui/icons-material"
+import { sendCustomEvent } from "utils/analytics"
+
+const QUESTION_LABELS = {
+  1: "1-ic-specific-repository",
+  2: "2-generalist-or-data-type-specific",
+  3: "3-human-data",
+  13: "4-data-types-multi-select",
+  8: "5-protocols-code-publications",
+}
 
 const RepoQuestions = ({ data }) => {
   const [value, setValue] = React.useState("")
@@ -28,49 +37,78 @@ const RepoQuestions = ({ data }) => {
   const [selectedCheckboxes, setSelectedCheckboxes] = React.useState({})
 
   const handleClickStartOver = React.useCallback(() => {
+    sendCustomEvent("repo_selection_tool_interaction", {
+      interaction_type: "start_over",
+      question_id:
+        QUESTION_LABELS[data.repo_question[questionToShow - 1]?.id] ??
+        data.repo_question[questionToShow - 1]?.id,
+    })
     setQuestionToShow(1)
     setOptionalInformation(false)
     setShowOptions(true)
     setValue("")
     setSelectedCheckboxes({})
-  }, [])
+  }, [questionToShow, data.repo_question])
 
   const handleClickBack = React.useCallback(() => {
+    sendCustomEvent("repo_selection_tool_interaction", {
+      interaction_type: "back_click",
+      question_id:
+        QUESTION_LABELS[data.repo_question[questionToShow - 1]?.id] ??
+        data.repo_question[questionToShow - 1]?.id,
+    })
     if (optionalInformation || Object.keys(selectedCheckboxes).length > 0) {
-      // if optionalInformation is displayed or checkboxes are selected, clear them but stay on the same question
       setOptionalInformation(false)
       setShowOptions(true)
       setValue("")
       setSelectedCheckboxes({})
     } else {
-      // otherwise, go back one question
       setQuestionToShow(Math.max(questionToShow - 1, 1))
       setOptionalInformation(false)
       setShowOptions(true)
       setValue("")
       setSelectedCheckboxes({})
     }
-  }, [questionToShow, optionalInformation, selectedCheckboxes])
+  }, [
+    questionToShow,
+    optionalInformation,
+    selectedCheckboxes,
+    data.repo_question,
+  ])
 
-  const handleChange = (event) => {
-    const selectedValue = event.target.value
+  const handleChange = (event, question, selectedOption) => {
+    const isNoneOfTheAbove = !selectedOption
 
-    if (selectedValue === "next") {
+    sendCustomEvent("repo_selection_tool_interaction", {
+      interaction_type: "question_answered",
+      question_id: QUESTION_LABELS[question?.id] ?? question?.id,
+      answer: isNoneOfTheAbove
+        ? "none_of_the_above"
+        : selectedOption.option_label,
+    })
+
+    if (!selectedOption?.optional_information) {
       setOptionalInformation(false)
       setSelectedCheckboxes({})
-
       if (data.repo_question.length > questionToShow) {
         setQuestionToShow(questionToShow + 1)
         setValue("")
       }
     } else {
-      setValue(selectedValue)
+      setValue(event.target.value)
       setShowOptions(false)
-      setOptionalInformation(selectedValue)
+      setOptionalInformation(event.target.value)
     }
   }
 
-  const handleCheckboxChange = (option, checked) => {
+  const handleCheckboxChange = (option, checked, question) => {
+    if (checked) {
+      sendCustomEvent("repo_selection_tool_interaction", {
+        interaction_type: "question_answered",
+        question_id: QUESTION_LABELS[question?.id] ?? question?.id,
+        answer: option.option_label,
+      })
+    }
     setSelectedCheckboxes((prev) => {
       const updated = { ...prev }
       if (checked) {
@@ -137,7 +175,7 @@ const RepoQuestions = ({ data }) => {
                           control={
                             <Checkbox
                               onChange={(e) =>
-                                handleCheckboxChange(o, e.target.checked)
+                                handleCheckboxChange(o, e.target.checked, q)
                               }
                               checked={!!selectedCheckboxes[o.yes_no]}
                             />
@@ -154,7 +192,7 @@ const RepoQuestions = ({ data }) => {
                     <Button
                       variant="outlined"
                       onClick={() =>
-                        handleChange({ target: { value: "next" } })
+                        handleChange({ target: { value: "next" } }, q, null)
                       }
                       sx={{ margin: "1rem 1rem 1rem" }}
                     >
@@ -162,20 +200,39 @@ const RepoQuestions = ({ data }) => {
                     </Button>
                   </Box>
                   {Object.keys(selectedCheckboxes).length > 0 && (
-                    <div>
+                    <div
+                      onClick={(e) => {
+                        const anchor = e.target.closest("a")
+                        if (!anchor) return
+                        sendCustomEvent("repo_selection_tool_interaction", {
+                          interaction_type: "result_link_click",
+                          link_url: anchor.href,
+                          link_text: anchor.innerText,
+                          question_id: QUESTION_LABELS[q.id] ?? q.id,
+                        })
+                      }}
+                    >
                       <Typography variant="h3">Repository List</Typography>
                       {Object.values(selectedCheckboxes).map((info, idx) => (
                         <Box
                           key={`info-${idx}`}
                           sx={{ marginBottom: "1rem", "& ul": { py: 0 } }}
                         >
-                          <Markdown>{info}</Markdown>
+                          <Markdown linkTarget="_blank">{info}</Markdown>
                         </Box>
                       ))}
                       <br />
                       <Button
                         variant="contained"
                         startIcon={<FileDownloadIcon />}
+                        onClick={(e) => {
+                          e.stopPropagation()
+                          sendCustomEvent("repo_selection_tool_interaction", {
+                            interaction_type: "download_results",
+                            question_id: QUESTION_LABELS[q.id] ?? q.id,
+                            answer: Object.keys(selectedCheckboxes).join(", "),
+                          })
+                        }}
                       >
                         <CSVLink
                           data={Object.entries(selectedCheckboxes).map(
@@ -201,7 +258,14 @@ const RepoQuestions = ({ data }) => {
                       aria-labelledby="demo-controlled-radio-buttons-group"
                       name="controlled-radio-buttons-group"
                       value={value}
-                      onChange={handleChange}
+                      onChange={(e) => {
+                        const selectedOption = q.options.find(
+                          (o) =>
+                            (o.optional_information || "next") ===
+                            e.target.value
+                        )
+                        handleChange(e, q, selectedOption)
+                      }}
                     >
                       {q.options.map((o) => {
                         let v = o.optional_information || "next"
@@ -225,10 +289,31 @@ const RepoQuestions = ({ data }) => {
               )}
 
               {optionalInformation && (
-                <div>
-                  <Markdown>{optionalInformation}</Markdown>
-                  <br></br>
-                  <Button variant="contained" startIcon={<FileDownloadIcon />}>
+                <div
+                  onClick={(e) => {
+                    const anchor = e.target.closest("a")
+                    if (!anchor) return
+                    sendCustomEvent("repo_selection_tool_interaction", {
+                      interaction_type: "result_link_click",
+                      link_url: anchor.href,
+                      link_text: anchor.innerText,
+                      question_id: QUESTION_LABELS[q.id] ?? q.id,
+                    })
+                  }}
+                >
+                  <Markdown linkTarget="_blank">{optionalInformation}</Markdown>
+                  <br />
+                  <Button
+                    variant="contained"
+                    startIcon={<FileDownloadIcon />}
+                    onClick={(e) => {
+                      e.stopPropagation()
+                      sendCustomEvent("repo_selection_tool_interaction", {
+                        interaction_type: "download_results",
+                        question_id: QUESTION_LABELS[q.id] ?? q.id,
+                      })
+                    }}
+                  >
                     <CSVLink data={optionalInformation}>
                       Download Results
                     </CSVLink>
@@ -237,6 +322,15 @@ const RepoQuestions = ({ data }) => {
               )}
               {!showOptions && (
                 <Box
+                  onClick={(e) => {
+                    const anchor = e.target.closest("a")
+                    if (!anchor) return
+                    sendCustomEvent("repo_tool_next_steps_link_click", {
+                      link_url: anchor.href,
+                      link_text: anchor.innerText,
+                      question_id: QUESTION_LABELS[q.id] ?? q.id,
+                    })
+                  }}
                   sx={{
                     borderLeft: "6px solid",
                     borderLeftColor: "primary.light",
@@ -245,7 +339,7 @@ const RepoQuestions = ({ data }) => {
                     p: 2,
                   }}
                 >
-                  <Markdown>
+                  <Markdown linkTarget="_blank">
                     Once you have selected a repository, please report your
                     selection to the HEAL Stewards by emailing
                     [HEALStewards@renci.org](mailto:HEALStewards@renci.org), or
