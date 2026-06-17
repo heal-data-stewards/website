@@ -49,7 +49,7 @@ export function RelatedSearches({ searchTerm }) {
       </div>
       <hr className="my-4" />
       <div className="flex flex-col">
-        {concepts.map((term) => {`2323`
+        {concepts.map((term) => {
           const queryTerm =
             term.name.includes(" ") &&
             !(term.name.startsWith('"') && term.name.endsWith('"'))
