@@ -250,7 +250,7 @@ export default function AppSearch({ data }) {
     }
 
     if ("overall_percent_complete" in data) {
-      const step = "Complete Your Study-Level Metadata Form"
+      const step = "Complete Your Study-Level Metadata (CEDAR) Form"
       const status =
         Number(data.overall_percent_complete) >= 50 ? "green" : "red"
       steps.push({
