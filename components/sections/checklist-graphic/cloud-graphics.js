@@ -1,5 +1,3 @@
-// website/components/sections/checklist-graphic/cloud-graphics.js
-
 import { ArrowForward } from "@mui/icons-material"
 import { Button, styled } from "@mui/material"
 import Link from "next/link"
@@ -21,15 +19,7 @@ export const CloudsGroup = ({ text, href, buttonText }) => {
           href={href}
           endIcon={<ArrowForward />}
           onClick={() => {
-            const pageName =
-              window.location.pathname.split("/").filter(Boolean)[0] || "home"
-
-            sendCustomEvent(`${pageName}_page_cta_click`, {
-              href,
-              buttonText,
-              parent_page_title: document.title,
-              parent_page_url: window.location.href,
-            })
+            sendCustomEvent(`checklist_cloud_click`)
           }}
         >
           {buttonText}

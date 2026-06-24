@@ -29,12 +29,20 @@ const QUESTION_LABELS = {
   8: "5-protocols-code-publications",
 }
 
+// todo: track links clicked not just downloads (its own event)
+
 const RepoQuestions = ({ data }) => {
   const [value, setValue] = React.useState("")
   const [showOptions, setShowOptions] = React.useState(true)
   const [optionalInformation, setOptionalInformation] = React.useState(false)
   const [questionToShow, setQuestionToShow] = React.useState(1)
   const [selectedCheckboxes, setSelectedCheckboxes] = React.useState({})
+
+  React.useEffect(() => {
+    sendCustomEvent("repo_selection_tool_start", {
+      parent_page_url: window.location.href,
+    })
+  }, [])
 
   const handleClickStartOver = React.useCallback(() => {
     sendCustomEvent("repo_selection_tool_interaction", {
@@ -227,8 +235,7 @@ const RepoQuestions = ({ data }) => {
                         startIcon={<FileDownloadIcon />}
                         onClick={(e) => {
                           e.stopPropagation()
-                          sendCustomEvent("repo_selection_tool_interaction", {
-                            interaction_type: "download_results",
+                          sendCustomEvent("repo_selection_tool_download", {
                             question_id: QUESTION_LABELS[q.id] ?? q.id,
                             answer: Object.keys(selectedCheckboxes).join(", "),
                           })
@@ -308,8 +315,7 @@ const RepoQuestions = ({ data }) => {
                     startIcon={<FileDownloadIcon />}
                     onClick={(e) => {
                       e.stopPropagation()
-                      sendCustomEvent("repo_selection_tool_interaction", {
-                        interaction_type: "download_results",
+                      sendCustomEvent("repo_selection_tool_download", {
                         question_id: QUESTION_LABELS[q.id] ?? q.id,
                       })
                     }}

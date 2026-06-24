@@ -41,7 +41,6 @@ const columns = [
     accessorKey: "status",
     header: "Status",
     size: 40,
-
     Cell: ({ cell }) => {
       let icon = (expr) => {
         switch (expr) {
@@ -85,7 +84,6 @@ const columns = [
     accessorKey: "step",
     header: "Checklist Step",
     size: 75,
-
     Cell: ({ cell }) => {
       return (
         <Markdown linkTarget="_blank" className="general-table">
@@ -97,18 +95,41 @@ const columns = [
   {
     accessorKey: "notes",
     header: "Notes",
-
-    Cell: ({ cell }) => {
+    Cell: ({ cell, row }) => {
       const value = cell.getValue()
       if (typeof value === "string") {
         return (
-          <Markdown linkTarget="_blank" className="general-table">
-            {cell.getValue()}
-          </Markdown>
+          <div
+            onClick={(e) => {
+              const anchor = e.target.closest("a")
+              if (!anchor) return
+              sendCustomEvent("checklist_study_tracker_results", {
+                interaction_type: "link_click",
+                step_title: row.original.step,
+                link_text: anchor.innerText,
+                link_url: anchor.href,
+              })
+            }}
+          >
+            <Markdown linkTarget="_blank" className="general-table">
+              {value}
+            </Markdown>
+          </div>
         )
       } else {
         return (
-          <>
+          <div
+            onClick={(e) => {
+              const anchor = e.target.closest("a")
+              if (!anchor) return
+              sendCustomEvent("checklist_study_tracker_results", {
+                interaction_type: "link_click",
+                step_title: row.original.step,
+                link_text: anchor.innerText,
+                link_url: anchor.href,
+              })
+            }}
+          >
             <p style={{ marginBottom: "1rem" }}>
               Below is a table indicating submission status for repositories
               you&apos;ve indicated.
@@ -137,7 +158,7 @@ const columns = [
                 ))}
               </tbody>
             </SubTable>
-          </>
+          </div>
         )
       }
     },
@@ -335,7 +356,9 @@ export default function AppSearch({ data }) {
 
   const handleTextFieldBlur = () => {
     if (value.trim()) {
-      sendCustomEvent("checklist_search_info_entered", {
+      sendCustomEvent("checklist_study_tracker_tool_interaction", {
+        interaction_type: "search_info_entered",
+        location: "results_page",
         parent_page_title: document.title,
         parent_page_url: window.location.href,
       })
@@ -352,8 +375,10 @@ export default function AppSearch({ data }) {
       setIsInvalidInput(false)
     }
 
-    sendCustomEvent("checklist_check_status_click", {
+    sendCustomEvent("checklist_study_tracker_tool_interaction", {
+      interaction_type: "check_status_click",
       search_value: value,
+      location: "results_page",
       parent_page_title: document.title,
       parent_page_url: window.location.href,
     })
@@ -583,7 +608,24 @@ export default function AppSearch({ data }) {
             The steps below cannot currently be verified through this website.
             Please review these steps carefully and complete them if applicable.
           </p>
-          <SecondaryTable>
+          <SecondaryTable
+            onClick={(e) => {
+              const anchor = e.target.closest("a")
+              if (!anchor) return
+              const td = e.target.closest("td")
+              const tr = td?.closest("tr")
+              const stepTitle = tr?.querySelector("td:first-child")?.innerText
+              sendCustomEvent("checklist_study_tracker_results", {
+                interaction_type: "link_click",
+                step_title: stepTitle,
+                link_text: anchor.innerText,
+                link_url: anchor.href,
+                location: "results_page",
+                parent_page_title: document.title,
+                parent_page_url: window.location.href,
+              })
+            }}
+          >
             <thead>
               <tr>
                 <th>Checklist Step</th>

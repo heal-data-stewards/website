@@ -20,7 +20,9 @@ export default function DataSharingStatus({ data }) {
 
   const handleTextFieldBlur = () => {
     if (value.trim()) {
-      sendCustomEvent("checklist_search_info_entered", {
+      sendCustomEvent("checklist_study_tracker_tool_interaction", {
+        interaction_type: "search_info_entered",
+        location: "checklist_page",
         parent_page_title: document.title,
         parent_page_url: window.location.href,
       })
@@ -33,8 +35,10 @@ export default function DataSharingStatus({ data }) {
       e.preventDefault()
       setIsInvalidInput(true)
     } else {
-      sendCustomEvent("checklist_check_status_click", {
+      sendCustomEvent("checklist_study_tracker_tool_interaction", {
+        interaction_type: "check_status_click",
         search_value: value,
+        location: "checklist_page",
         parent_page_title: document.title,
         parent_page_url: window.location.href,
       })

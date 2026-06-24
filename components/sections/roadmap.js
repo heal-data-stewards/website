@@ -29,10 +29,10 @@ export default function RoadMap({ data }) {
   }
 
   const handleSelect = (i) => {
-    sendCustomEvent("checklist_interaction", {
+    sendCustomEvent("checklist_roadmap_interaction", {
       interaction_type: "step_select",
       step_title: data.steps[i].title,
-      step_number: data.steps[i].stepID ?? i + 1,
+      step_label: data.steps[i].stepID ?? i + 1,
     })
     setActiveStep(i)
   }
@@ -128,10 +128,10 @@ export default function RoadMap({ data }) {
                     <Button
                       variant="contained"
                       onClick={() => {
-                        sendCustomEvent("checklist_interaction", {
+                        sendCustomEvent("checklist_roadmap_interaction", {
                           interaction_type: "step_continue",
                           step_title: step.title,
-                          step_number: step.stepID ?? index + 1,
+                          step_label: step.stepID ?? index + 1,
                         })
                         handleNext()
                       }}
@@ -150,10 +150,10 @@ export default function RoadMap({ data }) {
                       <Button
                         disabled={index === 0}
                         onClick={() => {
-                          sendCustomEvent("checklist_interaction", {
+                          sendCustomEvent("checklist_roadmap_interaction", {
                             interaction_type: "step_back",
                             step_title: step.title,
-                            step_number: step.stepID ?? index + 1,
+                            step_label: step.stepID ?? index + 1,
                           })
                           handleBack()
                         }}
@@ -172,9 +172,9 @@ export default function RoadMap({ data }) {
           <Paper square elevation={0} sx={{ p: 3 }}>
             <Button
               onClick={() => {
-                sendCustomEvent("checklist_interaction", {
+                sendCustomEvent("checklist_roadmap_interaction", {
                   interaction_type: "step_reset",
-                  step_number: activeStep + 1,
+                  step_label: activeStep + 1,
                 })
                 handleReset()
               }}
