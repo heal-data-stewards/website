@@ -7,7 +7,7 @@ import {
   Tooltip,
 } from "@mui/material"
 import { useRouter } from "next/router"
-import { useCallback, useState } from "react"
+import { useCallback, useEffect, useState } from "react"
 import { backgroundColor } from "tailwindcss/defaultTheme"
 import { QueryCacheProvider } from "utils/use-query"
 import { sendCustomEvent } from "utils/analytics"
@@ -66,9 +66,11 @@ export function IntegratedSearchBar({
   const [searchInputValue, setSearchInputValue] = useState(
     getQueryParam(redirectQueryParam) ?? ""
   )
-  const [selectedSuggestions, setSelectedSuggestions] = useState(
-    getRandomSuggestions(3)
-  )
+  const [selectedSuggestions, setSelectedSuggestions] = useState([])
+
+  useEffect(() => {
+    setSelectedSuggestions(getRandomSuggestions(3))
+  }, [])
 
   // Fire analytics BEFORE navigation
   const searchTermHandler = (term) => {

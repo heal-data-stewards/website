@@ -443,7 +443,9 @@ function MainContent({ activeVariable, searchTerm }) {
                   {activeVariable.metadata?.crf_name}
                 </h3> */}
                 {activeVariable.metadata?.question_text !== "None" && (
-                  <p className="mt-1">{activeVariable.metadata.question_text}</p>
+                  <p className="mt-1">
+                    {activeVariable.metadata.question_text}
+                  </p>
                 )}
 
                 {variableHasPermissibleValues && (

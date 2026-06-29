@@ -7,7 +7,7 @@ import {
   Tooltip,
 } from "@mui/material"
 import { useRouter } from "next/router"
-import { useCallback, useState } from "react"
+import { useCallback, useEffect, useState } from "react"
 import { QueryCacheProvider } from "utils/use-query"
 import { sendCustomEvent } from "utils/analytics"
 import { getRandomSuggestions } from "./data/search-suggestions"
@@ -50,9 +50,11 @@ export default function SemanticSearch({ data }) {
   const [searchInputValue, setSearchInputValue] = useState(
     getQueryParam(data.redirect_query_param) ?? ""
   )
-  const [selectedSuggestions, setSelectedSuggestions] = useState(
-    getRandomSuggestions(3)
-  )
+  const [selectedSuggestions, setSelectedSuggestions] = useState([])
+
+  useEffect(() => {
+    setSelectedSuggestions(getRandomSuggestions(3))
+  }, [])
 
   // Fire event BEFORE navigation
   const searchTermHandler = (term) => {

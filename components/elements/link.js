@@ -4,19 +4,21 @@ import NextLink from "next/link"
 import MUILink from "@mui/material/Link"
 
 const InternalLink = React.forwardRef(function InternalLink(
-  { children, className, ...props },
+  { children, className, href, to, ...props },
   ref
 ) {
   return (
-    <NextLink href={ref} {...props}>
-      <MUILink
-        underline="hover"
-        sx={{ fontWeight: "600", color: "#982568" }}
-        {...props}
-      >
-        {children}
-      </MUILink>
-    </NextLink>
+    <MUILink
+      component={NextLink}
+      href={href ?? to}
+      ref={ref}
+      underline="hover"
+      sx={{ fontWeight: "600", color: "#982568" }}
+      className={className}
+      {...props}
+    >
+      {children}
+    </MUILink>
   )
 })
 
