@@ -11,6 +11,7 @@ import { useCallback, useState } from "react"
 import { QueryCacheProvider } from "utils/use-query"
 import { sendCustomEvent } from "utils/analytics"
 import { getRandomSuggestions } from "./data/search-suggestions"
+import { SimpleSearchToggle } from "./components/SimpleSearchToggle"
 
 const SearchBar = styled(OutlinedInput)(() => ({
   marginBottom: "0",
@@ -50,9 +51,14 @@ export default function SemanticSearch({ data }) {
   const [searchInputValue, setSearchInputValue] = useState(
     getQueryParam(data.redirect_query_param) ?? ""
   )
+  const [simpleSearch, setSimpleSearch] = useState(
+    getQueryParam("simple_search") === "true"
+  )
   const [selectedSuggestions, setSelectedSuggestions] = useState(
     getRandomSuggestions(3)
   )
+
+  const simpleSearchQuery = simpleSearch ? { simple_search: "true" } : {}
 
   // Fire event BEFORE navigation
   const searchTermHandler = (term) => {
@@ -63,7 +69,7 @@ export default function SemanticSearch({ data }) {
 
     router.push({
       pathname: data.redirect_url,
-      query: { [data.redirect_query_param]: term },
+      query: { ...simpleSearchQuery, [data.redirect_query_param]: term },
     })
   }
 
@@ -75,7 +81,7 @@ export default function SemanticSearch({ data }) {
 
     router.push({
       pathname: data.redirect_url,
-      query: { [data.redirect_query_param]: term },
+      query: { ...simpleSearchQuery, [data.redirect_query_param]: term },
     })
   }
 
@@ -108,7 +114,7 @@ export default function SemanticSearch({ data }) {
             </SearchButton>
           </form>
 
-          <div className="flex flex-col lg:flex-row gap-2 items-start lg:items-center max-w-full">
+          <div className="flex flex-col lg:flex-row gap-2 items-start lg:items-center max-w-full w-full">
             <span>Example terms to search for:</span>
             <div className="flex gap-2 max-w-full overflow-auto">
               <Tooltip
@@ -119,7 +125,7 @@ export default function SemanticSearch({ data }) {
                   <Refresh />
                 </IconButton>
               </Tooltip>
-              <div className="flex gap-4 text-white">
+              <div className="flex flex-wrap justify-start items-start gap-4 text-white">
                 {selectedSuggestions.map((term) => (
                   <Button
                     variant="contained"
@@ -140,6 +146,13 @@ export default function SemanticSearch({ data }) {
                   </Button>
                 ))}
               </div>
+            </div>
+            <div className="lg:ml-auto flex-shrink-0">
+              <SimpleSearchToggle
+                size="medium"
+                checked={simpleSearch}
+                onChange={setSimpleSearch}
+              />
             </div>
           </div>
         </div>

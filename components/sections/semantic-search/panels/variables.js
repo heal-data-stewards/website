@@ -40,7 +40,7 @@ const DATA_TYPE_OPTIONS = [
   "text",
 ]
 
-export const VariablesPanel = ({ searchTerm }) => {
+export const VariablesPanel = ({ searchTerm, simpleSearch = false }) => {
   const [activeSidebarItem, setActiveSidebarItem] = useState(0)
   const [filtersOpen, setFiltersOpen] = useState(false)
   const [page, setPage] = useState(1)
@@ -93,6 +93,7 @@ export const VariablesPanel = ({ searchTerm }) => {
     limit: PAGE_SIZE,
     offset: (page - 1) * PAGE_SIZE,
     filters: apiFilters,
+    simpleSearch,
   }
 
   const variablesQuery = useQuery({
@@ -130,6 +131,11 @@ export const VariablesPanel = ({ searchTerm }) => {
       ],
     },
   ]
+
+  useEffect(() => {
+    setPage(1)
+    setActiveSidebarItem(0)
+  }, [simpleSearch])
 
   const handleFilterChange = (key, value) => {
     setFilterValues((prev) => ({ ...prev, [key]: value }))
@@ -199,7 +205,7 @@ export const VariablesPanel = ({ searchTerm }) => {
               </div>
             </Collapse>
           </div>
-          <div className="w-full h-24 flex items-center justify-center p-2">
+          <div className="w-full flex items-center justify-center p-4">
             <span className="italic">No results for the requested query.</span>
           </div>
         </div>

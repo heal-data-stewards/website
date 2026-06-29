@@ -17,9 +17,12 @@ const TAB_NAMES = ["studies", "cdes", "concepts", "variables"]
 const SemanticSearchResults = ({ data }) => {
   const [searchTerm] = useQueryParam(null, "q")
   const [currentTab, setCurrentTab] = useQueryParam("studies", "tab")
+  const [simpleSearchParam] = useQueryParam(null, "simple_search")
 
   const currentTabIndex = Math.max(0, TAB_NAMES.indexOf(currentTab))
   const setCurrentTabIndex = (index) => setCurrentTab(TAB_NAMES[index])
+
+  const simpleSearch = simpleSearchParam === "true"
 
   return (
     <QueryCacheProvider>
@@ -44,16 +47,28 @@ const SemanticSearchResults = ({ data }) => {
               />
               <div className="flex-1 border-solid border-[1px] border-t-[3px] border-gray-200 rounded-md rounded-tl-none shadow-md flex min-h-0">
                 <TabPanel currentTabIndex={currentTabIndex} index={0}>
-                  <StudiesPanel searchTerm={searchTerm} />
+                  <StudiesPanel
+                    searchTerm={searchTerm}
+                    simpleSearch={simpleSearch}
+                  />
                 </TabPanel>
                 <TabPanel currentTabIndex={currentTabIndex} index={1}>
-                  <CDEsPanel searchTerm={searchTerm} />
+                  <CDEsPanel
+                    searchTerm={searchTerm}
+                    simpleSearch={simpleSearch}
+                  />
                 </TabPanel>
                 <TabPanel currentTabIndex={currentTabIndex} index={2}>
-                  <ConceptsPanel searchTerm={searchTerm} />
+                  <ConceptsPanel
+                    searchTerm={searchTerm}
+                    simpleSearch={simpleSearch}
+                  />
                 </TabPanel>
                 <TabPanel currentTabIndex={currentTabIndex} index={3}>
-                  <VariablesPanel searchTerm={searchTerm} />
+                  <VariablesPanel
+                    searchTerm={searchTerm}
+                    simpleSearch={simpleSearch}
+                  />
                 </TabPanel>
               </div>
             </div>
