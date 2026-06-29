@@ -39,7 +39,7 @@ function lowercaseFirstLetters(str) {
   return str.replace(/\b\w/g, (char) => char.toLowerCase())
 }
 
-export const ConceptsPanel = ({ searchTerm }) => {
+export const ConceptsPanel = ({ searchTerm, simpleSearch = false }) => {
   const collection = useCollectionContext()
   const [activeSidebarItem, setActiveSidebarItem] = useState(0)
   const [currentTabIndex, setCurrentTabIndex] = useState(0)
@@ -69,6 +69,7 @@ export const ConceptsPanel = ({ searchTerm }) => {
     offset: (page - 1) * PAGE_SIZE,
     filters: apiFilters,
     aggs: { concept_type: 25 },
+    simpleSearch,
   }
 
   const conceptsQuery = useQuery({
@@ -101,6 +102,11 @@ export const ConceptsPanel = ({ searchTerm }) => {
   useEffect(() => {
     setCurrentTabIndex(0)
   }, [activeSidebarItem])
+
+  useEffect(() => {
+    setPage(1)
+    setActiveSidebarItem(0)
+  }, [simpleSearch])
 
   const handleFilterChange = (key, value) => {
     setFilterValues((prev) => ({ ...prev, [key]: value }))
@@ -184,7 +190,7 @@ export const ConceptsPanel = ({ searchTerm }) => {
               </div>
             </Collapse>
           </div>
-          <div className="w-full h-24 flex items-center justify-center p-2">
+          <div className="w-full flex items-center justify-center p-4">
             <span className="italic">No results for the requested query.</span>
           </div>
         </div>

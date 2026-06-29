@@ -27,7 +27,7 @@ import { a11yProps, PillTabs, TabPanel } from "../components/Tabs"
 
 const PAGE_SIZE = 50
 
-export const CDEsPanel = ({ searchTerm }) => {
+export const CDEsPanel = ({ searchTerm, simpleSearch = false }) => {
   const collection = useCollectionContext()
   const [activeSidebarItem, setActiveSidebarItem] = useState(0)
   const [currentTabIndex, setCurrentTabIndex] = useState(0)
@@ -72,6 +72,7 @@ export const CDEsPanel = ({ searchTerm }) => {
     offset: (page - 1) * PAGE_SIZE,
     filters: apiFilters,
     aggs: { "metadata.categories.keyword": 25 },
+    simpleSearch,
   }
 
   const cdesQuery = useQuery({
@@ -113,6 +114,11 @@ export const CDEsPanel = ({ searchTerm }) => {
   useEffect(() => {
     setCurrentTabIndex(0)
   }, [activeSidebarItem])
+
+  useEffect(() => {
+    setPage(1)
+    setActiveSidebarItem(0)
+  }, [simpleSearch])
 
   const handleFilterChange = (key, value) => {
     setFilterValues((prev) => ({ ...prev, [key]: value }))
@@ -181,7 +187,7 @@ export const CDEsPanel = ({ searchTerm }) => {
               </div>
             </Collapse>
           </div>
-          <div className="w-full h-24 flex items-center justify-center p-2">
+          <div className="w-full flex items-center justify-center p-4">
             <span className="italic">No results for the requested query.</span>
           </div>
         </div>

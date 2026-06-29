@@ -30,7 +30,7 @@ import { fetchStudies } from "../data/studies"
 
 const PAGE_SIZE = 50
 
-export const StudiesPanel = ({ searchTerm }) => {
+export const StudiesPanel = ({ searchTerm, simpleSearch = false }) => {
   const collection = useCollectionContext()
   const [activeSidebarItem, setActiveSidebarItem] = useState(0)
   const [currentTabIndex, setCurrentTabIndex] = useState(0)
@@ -104,6 +104,7 @@ export const StudiesPanel = ({ searchTerm }) => {
     offset: (page - 1) * PAGE_SIZE,
     filters: apiFilters,
     aggs: { "programs.keyword": 50 },
+    simpleSearch,
   }
 
   const studiesQuery = useQuery({
@@ -167,6 +168,11 @@ export const StudiesPanel = ({ searchTerm }) => {
   useEffect(() => {
     setCurrentTabIndex(0)
   }, [activeSidebarItem])
+
+  useEffect(() => {
+    setPage(1)
+    setActiveSidebarItem(0)
+  }, [simpleSearch])
 
   const handleFilterChange = (key, value) => {
     setFilterValues((prev) => ({ ...prev, [key]: value }))
@@ -236,7 +242,7 @@ export const StudiesPanel = ({ searchTerm }) => {
               </div>
             </Collapse>
           </div>
-          <div className="w-full h-24 flex items-center justify-center p-2">
+          <div className="w-full flex items-center justify-center p-4">
             <span className="italic">No results for the requested query.</span>
           </div>
         </div>
