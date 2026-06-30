@@ -6,6 +6,7 @@ import Link from "next/link"
 import Markdown from "../elements/markdown"
 import { styled, Tooltip, tooltipClasses } from "@mui/material"
 import InfoIcon from "@mui/icons-material/Info"
+import { sendCustomEvent } from "utils/analytics"
 
 export default function DataSharingStatus({ data }) {
   const [value, setValue] = React.useState("")
@@ -17,11 +18,30 @@ export default function DataSharingStatus({ data }) {
     if (v.trim()) setIsInvalidInput(false)
   }
 
+  const handleTextFieldBlur = () => {
+    if (value.trim()) {
+      sendCustomEvent("checklist_study_tracker_tool_interaction", {
+        interaction_type: "search_info_entered",
+        location: "checklist_page",
+        parent_page_title: document.title,
+        parent_page_url: window.location.href,
+      })
+    }
+  }
+
   const handleButtonClick = (e) => {
     if (!value.trim()) {
       // prevent action when empty and show error
       e.preventDefault()
       setIsInvalidInput(true)
+    } else {
+      sendCustomEvent("checklist_study_tracker_tool_interaction", {
+        interaction_type: "check_status_click",
+        search_value: value,
+        location: "checklist_page",
+        parent_page_title: document.title,
+        parent_page_url: window.location.href,
+      })
     }
   }
 
@@ -35,6 +55,7 @@ export default function DataSharingStatus({ data }) {
           label={data.inputBoxLabel}
           variant="outlined"
           onChange={handleTextFieldChange}
+          onBlur={handleTextFieldBlur}
           value={value}
           sx={{ width: "450px", marginTop: "0.5rem" }}
         />
