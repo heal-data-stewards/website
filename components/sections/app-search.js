@@ -209,6 +209,9 @@ export default function AppSearch({ data }) {
 
   React.useEffect(() => {
     if (params.data) {
+      setPayload(false)
+      setShowSupport(false)
+
       const paramKey = getParamKey(params.data)
 
       axios
@@ -269,7 +272,7 @@ export default function AppSearch({ data }) {
     }
 
     if ("overall_percent_complete" in data) {
-      const step = "Complete Your Study-Level Metadata Form"
+      const step = "Complete Your Study-Level Metadata (CEDAR) Form"
       const status =
         Number(data.overall_percent_complete) >= 50 ? "green" : "red"
       steps.push({
@@ -371,40 +374,10 @@ export default function AppSearch({ data }) {
     if (value.trim() === "") {
       setIsInvalidInput(true)
       return
-    } else {
-      setIsInvalidInput(false)
     }
 
-    sendCustomEvent("checklist_study_tracker_tool_interaction", {
-      interaction_type: "check_status_click",
-      search_value: value,
-      location: "results_page",
-      parent_page_title: document.title,
-      parent_page_url: window.location.href,
-    })
-
-    setPayload(false)
-
-    const paramKey = getParamKey(value)
-
-    axios
-      .get(
-        `https://k18san0v73.execute-api.us-east-1.amazonaws.com/prod/progresstracker?${paramKey}${value}`
-      )
-      .then((response) => {
-        const filteredStudies = response.data.filter(
-          ({ archived }) => archived === "live"
-        )
-        if (filteredStudies.length > 0) {
-          setPayload(filteredStudies)
-          setSelectedHdpId(filteredStudies[0].hdp_id)
-          setShowSupport(false)
-        } else {
-          setStoreSentParam(value)
-          setShowSupport(response.data.length > 0 ? "archived" : "unknown")
-        }
-      })
-      .catch((err) => console.error(err))
+    setIsInvalidInput(false)
+    router.push({ pathname: "/app-search", query: { data: value } })
   }
 
   let handleTextFieldChange = (e) => {
