@@ -3,6 +3,7 @@ export const PANEL_LOCATIONS = {
   CDES: "cdes",
   VARIABLES: "variables",
   CONCEPTS: "concepts",
+  MODAL: "modal",
 }
 
 export const UI_SURFACES = {
@@ -11,4 +12,6 @@ export const UI_SURFACES = {
   CDE_ACCORDION_ROW: "CDE_accordion_row",
   CDE_DOWNLOAD_CARD: "CDE_download_card",
   VARIABLES_LIST: "variables_list",
+  BOOKMARKS_SIDEBAR: "bookmarks_sidebar",
+  STUDY_MAPPINGS_ROW: "study_mappings_row",
 }

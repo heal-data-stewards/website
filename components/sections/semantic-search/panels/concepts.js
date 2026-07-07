@@ -1,49 +1,18 @@
-import {
-  Bookmark,
-  BookmarkBorder,
-  OpenInNew,
-  Search,
-  Tune,
-} from "@mui/icons-material"
-import {
-  Badge,
-  Button,
-  CircularProgress,
-  Collapse,
-  IconButton,
-  Pagination,
-  Tab,
-  Tooltip,
-} from "@mui/material"
-import { useEffect, useMemo, useState } from "react"
+import { Search } from "@mui/icons-material"
+import { IconButton, Tooltip } from "@mui/material"
+import { useMemo, useState } from "react"
 import { useQuery } from "utils/use-query"
-import Link from "../../../elements/link"
-import { CDEDisplay } from "../components/CDEDisplay"
-import { FiltersPanel } from "../components/FiltersPanel"
-import { a11yProps, PillTabs, TabPanel } from "../components/Tabs"
 import {
-  trackBookmarkClick,
-  trackOntologyLinkClick,
   trackNewConceptSearched,
-  trackLeftListClick,
   PANEL_LOCATIONS,
   UI_SURFACES,
 } from "../analytics"
-import { ParentStudiesDisplay } from "../components/ParentStudiesDisplay"
-import { useCollectionContext } from "../context/collection"
+import { EntityPanel, PAGE_SIZE } from "../components/EntityPanel"
+import { EntitySidebarItem } from "../components/EntitySidebarItem"
 import { fetchConcepts } from "../data/concepts"
-
-const PAGE_SIZE = 50
-
-function lowercaseFirstLetters(str) {
-  return str.replace(/\b\w/g, (char) => char.toLowerCase())
-}
+import { ConceptDetail, lowercaseFirstLetters } from "../details/ConceptDetail"
 
 export const ConceptsPanel = ({ searchTerm }) => {
-  const collection = useCollectionContext()
-  const [activeSidebarItem, setActiveSidebarItem] = useState(0)
-  const [currentTabIndex, setCurrentTabIndex] = useState(0)
-  const [filtersOpen, setFiltersOpen] = useState(false)
   const [page, setPage] = useState(1)
   const [filterValues, setFilterValues] = useState({
     conceptTypes: [],
@@ -98,376 +67,60 @@ export const ConceptsPanel = ({ searchTerm }) => {
     ]
   }, [conceptsQuery.data?.aggregations])
 
-  useEffect(() => {
-    setCurrentTabIndex(0)
-  }, [activeSidebarItem])
-
   const handleFilterChange = (key, value) => {
     setFilterValues((prev) => ({ ...prev, [key]: value }))
     setPage(1)
-    setActiveSidebarItem(0)
   }
 
-  const handlePageChange = (event, newPage) => {
-    setPage(newPage)
-    setActiveSidebarItem(0)
-  }
-  if (conceptsQuery.isLoading) {
-    return (
-      <div className="h-96 flex items-center justify-center">
-        <CircularProgress />
-      </div>
-    )
-  }
-  if (conceptsQuery.error) {
-    return (
-      <div className="h-96 flex items-center justify-center rounded-lg bg-red-50 p-4 font-bold text-lg">
-        <span className="text-red-600">Error loading results</span>
-      </div>
-    )
-  }
-  if (conceptsQuery.data === null) {
-    return null
-  }
-  const concepts = conceptsQuery.data.results.map((concept) => ({
-    ...concept,
-    parentStudies: Array.from(
-      new Set(
-        concept.parents
-          .map((str) => {
-            const match = str.match(/^(HEALDATAPLATFORM:[^:]+):[^:]+$/)
-            return match ? match[1] : null
-          })
-          .filter(Boolean)
-      )
-    ),
-    parentCdes: Array.from(
-      new Set(concept.parents.filter((str) => /^HEALCDE:[^:]+$/.test(str)))
-    ),
-  }))
-  const totalCount = conceptsQuery.data.metadata?.total_count ?? concepts.length
-  const totalPages = Math.ceil(totalCount / PAGE_SIZE)
-
-  if (concepts.length < 1)
-    return (
-      <div className="flex flex-row max-h-full h-full">
-        <div className="min-w-[200px] max-w-[400px] flex flex-col min-h-0 border-r border-gray-200 overflow-auto">
-          <div className="border-b border-gray-200 sticky top-0 bg-white isolate z-10">
-            <div className="px-4 py-2 flex items-center justify-between">
-              <span className="italic text-gray-500">0 concepts found.</span>
-              <Button
-                variant="text"
-                size="small"
-                onClick={() => setFiltersOpen((prev) => !prev)}
-                endIcon={
-                  <Badge
-                    color="primary"
-                    variant="dot"
-                    invisible={!hasActiveFilters}
-                    sx={{ "& .MuiBadge-badge": { backgroundColor: "#4d2862" } }}
-                  >
-                    <Tune fontSize="small" />
-                  </Badge>
-                }
-                sx={{ color: "#4d2862" }}
-              >
-                Filters
-              </Button>
-            </div>
-            <Collapse in={filtersOpen}>
-              <div className="px-4 pb-3">
-                <FiltersPanel
-                  filterConfigs={filterConfigs}
-                  filterValues={filterValues}
-                  onFilterChange={handleFilterChange}
-                />
-              </div>
-            </Collapse>
-          </div>
-          <div className="w-full h-24 flex items-center justify-center p-2">
-            <span className="italic">No results for the requested query.</span>
-          </div>
-        </div>
-      </div>
-    )
-  const activeConcept = concepts[activeSidebarItem]
+  const concepts = conceptsQuery.data?.results ?? []
+  const totalCount =
+    conceptsQuery.data?.metadata?.total_count ?? concepts.length
 
   return (
-    <div className="flex flex-row max-h-full h-full">
-      <div className="min-w-[200px] max-w-[400px] flex flex-col min-h-0 border-r border-gray-200">
-        <div className="flex-1 overflow-auto min-h-0">
-          <div className="border-b border-gray-200 sticky top-0 bg-white isolate z-10">
-            <div className="px-4 py-2 flex items-center justify-between">
-              <span className="italic text-gray-500">
-                {totalCount} {totalCount !== 1 ? "concepts" : "concept"} found.
-              </span>
-              <Button
-                variant="text"
-                size="small"
-                onClick={() => setFiltersOpen((prev) => !prev)}
-                endIcon={
-                  <Badge
-                    color="primary"
-                    variant="dot"
-                    invisible={!hasActiveFilters}
-                    sx={{ "& .MuiBadge-badge": { backgroundColor: "#4d2862" } }}
-                  >
-                    <Tune fontSize="small" />
-                  </Badge>
-                }
-                sx={{ color: "#4d2862" }}
-              >
-                Filters
-              </Button>
-            </div>
-            <Collapse in={filtersOpen}>
-              <div className="px-4 pb-3">
-                <FiltersPanel
-                  filterConfigs={filterConfigs}
-                  filterValues={filterValues}
-                  onFilterChange={handleFilterChange}
-                />
-              </div>
-            </Collapse>
-          </div>
-          {concepts.map((concept, index) => (
-            <SidebarItem
-              concept={concept}
-              key={concept.id}
-              name={lowercaseFirstLetters(concept.name)}
-              description={concept.description}
-              parentStudies={concept.parentStudies}
-              parentCdes={concept.parentCdes}
-              onClick={() => setActiveSidebarItem(index)}
-              active={activeSidebarItem === index}
-              searchTerm={searchTerm}
-            />
-          ))}
-        </div>
-        {totalPages > 1 && (
-          <div className="border-t border-gray-200 bg-white py-2 flex justify-center flex-shrink-0">
-            <Pagination
-              count={totalPages}
-              page={page}
-              onChange={handlePageChange}
-              size="small"
-              sx={{
-                "& .MuiPaginationItem-root": {
-                  "&.Mui-selected": {
-                    backgroundColor: "#4d2862",
-                    color: "white",
-                    "&:hover": {
-                      backgroundColor: "#3d1e4e",
-                    },
-                  },
-                },
-              }}
-            />
-          </div>
-        )}
-      </div>
-      {activeConcept ? (
-        <div className="flex-1 p-4 min-h-0 overflow-auto">
-          <div className="flex w-full gap-2">
-            <div className="flex gap-1 items-center" style={{ flexGrow: 1 }}>
-              <h2 className="text-2xl font-semibold leading-relaxed text-[#592963]">
-                {lowercaseFirstLetters(activeConcept.name)}{" "}
-              </h2>
-              <Tooltip title="Search for this concept" placement="top">
-                <IconButton
-                  size="large"
-                  component="a"
-                  href={(() => {
-                    const url = new URL(window.location.href)
-                    url.searchParams.set("q", activeConcept.name)
-                    return url.toString()
-                  })()}
-                  onMouseDown={(e) => {
-                    e.stopPropagation()
-
-                    trackNewConceptSearched({
-                      concept: activeConcept,
-                      panelLocation: PANEL_LOCATIONS.CONCEPTS,
-                      uiSurface: UI_SURFACES.RIGHT_DETAIL,
-                      referringSearchTerm: searchTerm,
-                    })
-                  }}
-                  onKeyDown={(e) => {
-                    if (e.key === "Enter" || e.key === " ") {
-                      e.preventDefault()
-                      trackNewConceptSearched({
-                        concept: activeConcept,
-                        panelLocation: PANEL_LOCATIONS.CONCEPTS,
-                        uiSurface: UI_SURFACES.RIGHT_DETAIL,
-                        referringSearchTerm: searchTerm,
-                      })
-                    }
-                  }}
-                >
-                  <Search fontSize="large" sx={{ color: "#4d2862" }} />
-                </IconButton>
-              </Tooltip>
-            </div>
-
-            <IconButton
-              size="large"
-              sx={{ flexShrink: 0 }}
-              onClick={() => {
-                const isBookmarked = collection.concepts.has(activeConcept)
-                collection.concepts.toggle(activeConcept)
-                trackBookmarkClick({
-                  action: isBookmarked ? "remove" : "add",
-                  entity: activeConcept,
-                  panelLocation: PANEL_LOCATIONS.CONCEPTS,
-                  uiSurface: UI_SURFACES.RIGHT_DETAIL,
-                  referringSearchTerm: searchTerm,
-                })
-              }}
-            >
-              {collection.concepts.has(activeConcept) ? (
-                <Bookmark fontSize="large" sx={{ color: "#4d2862" }} />
-              ) : (
-                <BookmarkBorder fontSize="large" sx={{ color: "#4d2862" }} />
-              )}
-            </IconButton>
-            <Tooltip title="Search for this concept" placement="top">
-              <IconButton
-                size="large"
-                component="a"
-                href={(() => {
-                  const url = new URL(window.location.href)
-                  url.searchParams.set("q", activeConcept.name)
-                  return url.toString()
-                })()}
-                onClick={(e) => e.stopPropagation()}
-              >
-                <Search fontSize="large" sx={{ color: "#4d2862" }} />
-              </IconButton>
-            </Tooltip>
-          </div>
-          <div className="mb-2 flex gap-2 flex-wrap">
-            <p className="text-gray-600 bg-gray-100 border-[1px] border-gray-200 border-solid px-2 py-1 rounded-lg shadow-sm">
-              {activeConcept.action ? (
-                <Link
-                  to={activeConcept.action ?? ""}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  onMouseDown={() =>
-                    trackOntologyLinkClick({
-                      concept: activeConcept,
-                      panelLocation: PANEL_LOCATIONS.CONCEPTS,
-                      uiSurface: UI_SURFACES.RIGHT_DETAIL,
-                      referringSearchTerm: searchTerm,
-                    })
-                  }
-                  onKeyDown={(e) => {
-                    if (e.key === "Enter" || e.key === " ") {
-                      trackOntologyLinkClick({
-                        concept: activeConcept,
-                        panelLocation: PANEL_LOCATIONS.CONCEPTS,
-                        uiSurface: UI_SURFACES.RIGHT_DETAIL,
-                        referringSearchTerm: searchTerm,
-                      })
-                    }
-                  }}
-                >
-                  <Tooltip title="Concept lookup in Ontology" placement="top">
-                    {activeConcept.id}
-                    <OpenInNew fontSize="small" />
-                  </Tooltip>
-                </Link>
-              ) : (
-                activeConcept.id
-              )}
-            </p>
-            <p className="text-gray-600 bg-gray-100 border-[1px] border-gray-200 border-solid px-2 py-1 rounded-lg shadow-sm">
-              {activeConcept.concept_type}
-            </p>
-          </div>
-          <p className="">{activeConcept.description}</p>
-
-          <div className="mt-4">
-            <PillTabs
-              value={currentTabIndex}
-              onChange={(e, value) => setCurrentTabIndex(value)}
-              aria-label="Concept tabs"
-            >
-              <Tab label="Related Studies" {...a11yProps(0)} />
-              <Tab label="Related CDEs" {...a11yProps(1)} />
-            </PillTabs>
-          </div>
-          <div className="p-2">
-            <TabPanel currentTabIndex={currentTabIndex} index={0}>
-              <ParentStudiesDisplay
-                conceptId={activeConcept.id}
-                searchTerm={searchTerm}
-                panelLocation={PANEL_LOCATIONS.CONCEPTS}
-                notFoundText="No studies found for this concept."
-              />
-            </TabPanel>
-            <TabPanel currentTabIndex={currentTabIndex} index={1}>
-              <CDEDisplay
-                searchTerm={searchTerm}
-                conceptId={activeConcept.id}
-                panelLocation={PANEL_LOCATIONS.CONCEPTS}
-                emptyText="No CDEs found for this concept."
-              />
-            </TabPanel>
-          </div>
-        </div>
-      ) : (
-        <div className="flex-1 p-4 min-h-0 overflow-auto flex items-center justify-center">
-          <span className="text-gray-400 italic">
-            Select a concept to view details
-          </span>
-        </div>
+    <EntityPanel
+      query={conceptsQuery}
+      results={concepts}
+      totalCount={totalCount}
+      entityNames={{ singular: "concept", plural: "concepts" }}
+      page={page}
+      onPageChange={setPage}
+      filterConfigs={filterConfigs}
+      filterValues={filterValues}
+      onFilterChange={handleFilterChange}
+      hasActiveFilters={hasActiveFilters}
+      detailPlaceholder="Select a concept to view details"
+      renderSidebarItem={(concept, { active, onClick }) => (
+        <ConceptSidebarItem
+          key={concept.id}
+          concept={concept}
+          onClick={onClick}
+          active={active}
+          searchTerm={searchTerm}
+        />
       )}
-    </div>
+      renderDetail={(concept) => (
+        <ConceptDetail
+          key={concept.id}
+          concept={concept}
+          searchTerm={searchTerm}
+        />
+      )}
+    />
   )
 }
 
-function SidebarItem({
-  concept,
-  name,
-  description,
-  onClick,
-  active,
-  searchTerm,
-}) {
-  const collection = useCollectionContext()
+function ConceptSidebarItem({ concept, onClick, active, searchTerm }) {
+  const name = lowercaseFirstLetters(concept.name)
 
   return (
-    <div
-      role="button"
-      tabIndex={0}
-      onClick={() => {
-        trackLeftListClick({
-          entity: concept,
-          panelLocation: PANEL_LOCATIONS.CONCEPTS,
-          referringSearchTerm: searchTerm,
-          uiSurface: UI_SURFACES.LEFT_LIST,
-        })
-
-        onClick()
-      }}
-      onKeyDown={(e) => {
-        if (e.key === "Enter" || e.key === " ") {
-          e.preventDefault()
-          trackLeftListClick({
-            entity: concept,
-            panelLocation: PANEL_LOCATIONS.CONCEPTS,
-            referringSearchTerm: searchTerm,
-            uiSurface: UI_SURFACES.LEFT_LIST,
-          })
-          onClick()
-        }
-      }}
-      className={
-        `w-full p-4 border-b border-gray-200 cursor-pointer text-left` +
-        (active ? " bg-[#eeecf0]" : "")
-      }
-    >
-      <div className="flex gap-2 items-start justify-between">
+    <EntitySidebarItem
+      entity={concept}
+      collectionKey="concepts"
+      panelLocation={PANEL_LOCATIONS.CONCEPTS}
+      searchTerm={searchTerm}
+      onClick={onClick}
+      active={active}
+      title={
         <div className="flex gap-1 items-center">
           <h4 className="font-semibold">{name}</h4>
           <Tooltip title="Search for this concept" placement="top">
@@ -505,30 +158,9 @@ function SidebarItem({
             </IconButton>
           </Tooltip>
         </div>
-        <IconButton
-          size="small"
-          onClick={(e) => {
-            e.stopPropagation()
-            const isBookmarked = collection.concepts.has(concept)
-            collection.concepts.toggle(concept)
-
-            trackBookmarkClick({
-              action: isBookmarked ? "remove" : "add",
-              entity: concept,
-              panelLocation: PANEL_LOCATIONS.CONCEPTS,
-              uiSurface: UI_SURFACES.LEFT_LIST,
-              referringSearchTerm: searchTerm,
-            })
-          }}
-        >
-          {collection.concepts.has(concept) ? (
-            <Bookmark fontSize="small" sx={{ color: "#4d2862" }} />
-          ) : (
-            <BookmarkBorder fontSize="small" sx={{ color: "#4d2862" }} />
-          )}
-        </IconButton>
-      </div>
-      <p className="text-sm text-gray-500">{description}</p>
-    </div>
+      }
+    >
+      <p className="text-sm text-gray-500">{concept.description}</p>
+    </EntitySidebarItem>
   )
 }

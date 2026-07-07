@@ -1,18 +1,14 @@
 import { CircularProgress, IconButton, Tooltip } from "@mui/material"
 import { useQuery } from "utils/use-query"
 import { fetchStudies } from "../data/studies"
+import { ENTITY_TYPES } from "../data/entity"
 import Link from "../../../elements/link"
-import {
-  Bookmark,
-  OpenInNew,
-  BookmarkBorder,
-  SearchOff,
-} from "@mui/icons-material"
+import { OpenInNew, ReadMore, SearchOff } from "@mui/icons-material"
 import StyledAccordion from "../accordion"
-import { useCollectionContext } from "../context/collection"
+import { useEntityModal } from "../context/entity-modal"
+import { BookmarkButton } from "./BookmarkButton"
 import { Empty } from "./Empty"
 import {
-  trackBookmarkClick,
   trackStudiesAccordionToggle,
   trackHdpLinkClick,
   PANEL_LOCATIONS,
@@ -28,7 +24,7 @@ export function ParentStudiesDisplay({
   panelLocation,
   expandFirstItem = false,
 }) {
-  const collection = useCollectionContext()
+  const modal = useEntityModal()
 
   const payload = conceptId
     ? {
@@ -90,28 +86,34 @@ export function ParentStudiesDisplay({
                 </span>
               )}
             </h4>
-            <IconButton
-              size="small"
-              onClick={(e) => {
-                e.stopPropagation()
-                const isBookmarked = collection.studies.has(study)
-                collection.studies.toggle(study)
-                trackBookmarkClick({
-                  action: isBookmarked ? "remove" : "add",
-                  entity: study,
-                  panelLocation:
-                    panelLocation ?? PANEL_LOCATIONS.PARENT_STUDIES,
-                  uiSurface: UI_SURFACES.RIGHT_DETAIL,
-                  referringSearchTerm: searchTerm,
-                })
-              }}
-            >
-              {collection.studies.has(study) ? (
-                <Bookmark fontSize="small" sx={{ color: "#4d2862" }} />
-              ) : (
-                <BookmarkBorder fontSize="small" sx={{ color: "#4d2862" }} />
+            <div className="flex items-center flex-shrink-0">
+              <BookmarkButton
+                entity={study}
+                collectionKey="studies"
+                panelLocation={panelLocation ?? PANEL_LOCATIONS.PARENT_STUDIES}
+                uiSurface={UI_SURFACES.RIGHT_DETAIL}
+                searchTerm={searchTerm}
+                size="small"
+              />
+              {modal && (
+                <Tooltip title="View study details">
+                  <IconButton
+                    size="small"
+                    onClick={(e) => {
+                      e.stopPropagation()
+                      modal.openEntity({
+                        type: ENTITY_TYPES.STUDIES,
+                        id: study.id,
+                        entity: study,
+                        uiSurface: UI_SURFACES.RIGHT_DETAIL,
+                      })
+                    }}
+                  >
+                    <ReadMore fontSize="small" sx={{ color: "#4d2862" }} />
+                  </IconButton>
+                </Tooltip>
               )}
-            </IconButton>
+            </div>
           </div>
         ),
         details: (
