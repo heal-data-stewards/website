@@ -1,18 +1,12 @@
-import { CircularProgress, IconButton, Tooltip } from "@mui/material"
+import { CircularProgress, Tooltip } from "@mui/material"
 import { useQuery } from "utils/use-query"
 import { fetchStudies } from "../data/studies"
 import Link from "../../../elements/link"
-import {
-  Bookmark,
-  OpenInNew,
-  BookmarkBorder,
-  SearchOff,
-} from "@mui/icons-material"
+import { OpenInNew, SearchOff } from "@mui/icons-material"
 import StyledAccordion from "../accordion"
-import { useCollectionContext } from "../context/collection"
+import { BookmarkButton } from "./BookmarkButton"
 import { Empty } from "./Empty"
 import {
-  trackBookmarkClick,
   trackStudiesAccordionToggle,
   trackHdpLinkClick,
   PANEL_LOCATIONS,
@@ -28,8 +22,6 @@ export function ParentStudiesDisplay({
   panelLocation,
   expandFirstItem = false,
 }) {
-  const collection = useCollectionContext()
-
   const payload = conceptId
     ? {
         query: searchTerm,
@@ -90,28 +82,14 @@ export function ParentStudiesDisplay({
                 </span>
               )}
             </h4>
-            <IconButton
+            <BookmarkButton
+              entity={study}
+              collectionKey="studies"
+              panelLocation={panelLocation ?? PANEL_LOCATIONS.PARENT_STUDIES}
+              uiSurface={UI_SURFACES.RIGHT_DETAIL}
+              searchTerm={searchTerm}
               size="small"
-              onClick={(e) => {
-                e.stopPropagation()
-                const isBookmarked = collection.studies.has(study)
-                collection.studies.toggle(study)
-                trackBookmarkClick({
-                  action: isBookmarked ? "remove" : "add",
-                  entity: study,
-                  panelLocation:
-                    panelLocation ?? PANEL_LOCATIONS.PARENT_STUDIES,
-                  uiSurface: UI_SURFACES.RIGHT_DETAIL,
-                  referringSearchTerm: searchTerm,
-                })
-              }}
-            >
-              {collection.studies.has(study) ? (
-                <Bookmark fontSize="small" sx={{ color: "#4d2862" }} />
-              ) : (
-                <BookmarkBorder fontSize="small" sx={{ color: "#4d2862" }} />
-              )}
-            </IconButton>
+            />
           </div>
         ),
         details: (
