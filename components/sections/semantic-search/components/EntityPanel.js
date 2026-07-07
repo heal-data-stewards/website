@@ -30,13 +30,16 @@ export function EntityPanel({
   renderSidebarItem,
   renderDetail,
   detailPlaceholder,
+  // Any extra value (e.g. the simple search toggle) that should reset the
+  // selection back to the first result when it changes
+  resetKey,
 }) {
   const [activeIndex, setActiveIndex] = useState(0)
   const [filtersOpen, setFiltersOpen] = useState(false)
 
   useEffect(() => {
     setActiveIndex(0)
-  }, [page, filterValues])
+  }, [page, filterValues, resetKey])
 
   if (query.isLoading) {
     return (
@@ -100,7 +103,7 @@ export function EntityPanel({
             </Collapse>
           </div>
           {results.length === 0 ? (
-            <div className="w-full h-24 flex items-center justify-center p-2">
+            <div className="w-full flex items-center justify-center p-4">
               <span className="italic">
                 No results for the requested query.
               </span>

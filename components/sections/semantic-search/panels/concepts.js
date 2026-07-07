@@ -1,6 +1,6 @@
 import { Search } from "@mui/icons-material"
 import { IconButton, Tooltip } from "@mui/material"
-import { useMemo, useState } from "react"
+import { useEffect, useMemo, useState } from "react"
 import { useQuery } from "utils/use-query"
 import {
   trackNewConceptSearched,
@@ -12,7 +12,7 @@ import { EntitySidebarItem } from "../components/EntitySidebarItem"
 import { fetchConcepts } from "../data/concepts"
 import { ConceptDetail, lowercaseFirstLetters } from "../details/ConceptDetail"
 
-export const ConceptsPanel = ({ searchTerm }) => {
+export const ConceptsPanel = ({ searchTerm, simpleSearch = false }) => {
   const [page, setPage] = useState(1)
   const [filterValues, setFilterValues] = useState({
     conceptTypes: [],
@@ -38,6 +38,7 @@ export const ConceptsPanel = ({ searchTerm }) => {
     offset: (page - 1) * PAGE_SIZE,
     filters: apiFilters,
     aggs: { concept_type: 25 },
+    simpleSearch,
   }
 
   const conceptsQuery = useQuery({
@@ -67,6 +68,10 @@ export const ConceptsPanel = ({ searchTerm }) => {
     ]
   }, [conceptsQuery.data?.aggregations])
 
+  useEffect(() => {
+    setPage(1)
+  }, [simpleSearch])
+
   const handleFilterChange = (key, value) => {
     setFilterValues((prev) => ({ ...prev, [key]: value }))
     setPage(1)
@@ -88,6 +93,7 @@ export const ConceptsPanel = ({ searchTerm }) => {
       filterValues={filterValues}
       onFilterChange={handleFilterChange}
       hasActiveFilters={hasActiveFilters}
+      resetKey={simpleSearch}
       detailPlaceholder="Select a concept to view details"
       renderSidebarItem={(concept, { active, onClick }) => (
         <ConceptSidebarItem

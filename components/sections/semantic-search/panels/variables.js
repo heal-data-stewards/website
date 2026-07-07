@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react"
+import { useEffect, useMemo, useState } from "react"
 import { useQuery } from "utils/use-query"
 import { PANEL_LOCATIONS } from "../analytics"
 import { EntityPanel, PAGE_SIZE } from "../components/EntityPanel"
@@ -18,7 +18,7 @@ const DATA_TYPE_OPTIONS = [
   "text",
 ]
 
-export const VariablesPanel = ({ searchTerm }) => {
+export const VariablesPanel = ({ searchTerm, simpleSearch = false }) => {
   const [page, setPage] = useState(1)
   const [filterValues, setFilterValues] = useState({
     cdeOnly: false,
@@ -69,6 +69,7 @@ export const VariablesPanel = ({ searchTerm }) => {
     limit: PAGE_SIZE,
     offset: (page - 1) * PAGE_SIZE,
     filters: apiFilters,
+    simpleSearch,
   }
 
   const variablesQuery = useQuery({
@@ -107,6 +108,10 @@ export const VariablesPanel = ({ searchTerm }) => {
     },
   ]
 
+  useEffect(() => {
+    setPage(1)
+  }, [simpleSearch])
+
   const handleFilterChange = (key, value) => {
     setFilterValues((prev) => ({ ...prev, [key]: value }))
     setPage(1)
@@ -128,6 +133,7 @@ export const VariablesPanel = ({ searchTerm }) => {
       filterValues={filterValues}
       onFilterChange={handleFilterChange}
       hasActiveFilters={hasActiveFilters}
+      resetKey={simpleSearch}
       detailPlaceholder="Select a variable to view details"
       renderSidebarItem={(variable, { active, onClick }) => (
         <EntitySidebarItem

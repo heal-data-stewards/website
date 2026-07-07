@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react"
+import { useEffect, useMemo, useState } from "react"
 import { useQuery } from "utils/use-query"
 import { PANEL_LOCATIONS } from "../analytics"
 import { EntityPanel, PAGE_SIZE } from "../components/EntityPanel"
@@ -6,7 +6,7 @@ import { EntitySidebarItem } from "../components/EntitySidebarItem"
 import { fetchCDEs } from "../data/cdes"
 import { CdeDetail } from "../details/CdeDetail"
 
-export const CDEsPanel = ({ searchTerm }) => {
+export const CDEsPanel = ({ searchTerm, simpleSearch = false }) => {
   const [page, setPage] = useState(1)
   const [filterValues, setFilterValues] = useState({
     cdeTypes: [],
@@ -47,6 +47,7 @@ export const CDEsPanel = ({ searchTerm }) => {
     offset: (page - 1) * PAGE_SIZE,
     filters: apiFilters,
     aggs: { "metadata.categories.keyword": 25 },
+    simpleSearch,
   }
 
   const cdesQuery = useQuery({
@@ -85,6 +86,10 @@ export const CDEsPanel = ({ searchTerm }) => {
     ]
   }, [cdesQuery.data?.aggregations])
 
+  useEffect(() => {
+    setPage(1)
+  }, [simpleSearch])
+
   const handleFilterChange = (key, value) => {
     setFilterValues((prev) => ({ ...prev, [key]: value }))
     setPage(1)
@@ -105,6 +110,7 @@ export const CDEsPanel = ({ searchTerm }) => {
       filterValues={filterValues}
       onFilterChange={handleFilterChange}
       hasActiveFilters={hasActiveFilters}
+      resetKey={simpleSearch}
       detailPlaceholder="Select a CDE to view details"
       renderSidebarItem={(cde, { active, onClick }) => (
         <EntitySidebarItem

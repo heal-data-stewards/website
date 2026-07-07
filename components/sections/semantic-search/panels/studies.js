@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react"
+import { useEffect, useMemo, useState } from "react"
 import { useQuery } from "utils/use-query"
 import { PANEL_LOCATIONS } from "../analytics"
 import { EntityPanel, PAGE_SIZE } from "../components/EntityPanel"
@@ -6,7 +6,7 @@ import { EntitySidebarItem } from "../components/EntitySidebarItem"
 import { fetchStudies } from "../data/studies"
 import { StudyDetail } from "../details/StudyDetail"
 
-export const StudiesPanel = ({ searchTerm }) => {
+export const StudiesPanel = ({ searchTerm, simpleSearch = false }) => {
   const [page, setPage] = useState(1)
   const [filterValues, setFilterValues] = useState({
     researchNetworks: [],
@@ -76,6 +76,7 @@ export const StudiesPanel = ({ searchTerm }) => {
     offset: (page - 1) * PAGE_SIZE,
     filters: apiFilters,
     aggs: { "programs.keyword": 50 },
+    simpleSearch,
   }
 
   const studiesQuery = useQuery({
@@ -136,6 +137,10 @@ export const StudiesPanel = ({ searchTerm }) => {
     ]
   }, [studiesQuery.data?.aggregations])
 
+  useEffect(() => {
+    setPage(1)
+  }, [simpleSearch])
+
   const handleFilterChange = (key, value) => {
     setFilterValues((prev) => ({ ...prev, [key]: value }))
     setPage(1)
@@ -156,6 +161,7 @@ export const StudiesPanel = ({ searchTerm }) => {
       filterValues={filterValues}
       onFilterChange={handleFilterChange}
       hasActiveFilters={hasActiveFilters}
+      resetKey={simpleSearch}
       detailPlaceholder="Select a study to view details"
       renderSidebarItem={(study, { active, onClick }) => (
         <StudySidebarItem
