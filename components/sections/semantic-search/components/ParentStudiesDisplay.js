@@ -1,9 +1,11 @@
-import { CircularProgress, Tooltip } from "@mui/material"
+import { CircularProgress, IconButton, Tooltip } from "@mui/material"
 import { useQuery } from "utils/use-query"
 import { fetchStudies } from "../data/studies"
+import { ENTITY_TYPES } from "../data/entity"
 import Link from "../../../elements/link"
-import { OpenInNew, SearchOff } from "@mui/icons-material"
+import { OpenInNew, ReadMore, SearchOff } from "@mui/icons-material"
 import StyledAccordion from "../accordion"
+import { useEntityModal } from "../context/entity-modal"
 import { BookmarkButton } from "./BookmarkButton"
 import { Empty } from "./Empty"
 import {
@@ -22,6 +24,8 @@ export function ParentStudiesDisplay({
   panelLocation,
   expandFirstItem = false,
 }) {
+  const modal = useEntityModal()
+
   const payload = conceptId
     ? {
         query: searchTerm,
@@ -82,14 +86,34 @@ export function ParentStudiesDisplay({
                 </span>
               )}
             </h4>
-            <BookmarkButton
-              entity={study}
-              collectionKey="studies"
-              panelLocation={panelLocation ?? PANEL_LOCATIONS.PARENT_STUDIES}
-              uiSurface={UI_SURFACES.RIGHT_DETAIL}
-              searchTerm={searchTerm}
-              size="small"
-            />
+            <div className="flex items-center flex-shrink-0">
+              <BookmarkButton
+                entity={study}
+                collectionKey="studies"
+                panelLocation={panelLocation ?? PANEL_LOCATIONS.PARENT_STUDIES}
+                uiSurface={UI_SURFACES.RIGHT_DETAIL}
+                searchTerm={searchTerm}
+                size="small"
+              />
+              {modal && (
+                <Tooltip title="View study details">
+                  <IconButton
+                    size="small"
+                    onClick={(e) => {
+                      e.stopPropagation()
+                      modal.openEntity({
+                        type: ENTITY_TYPES.STUDIES,
+                        id: study.id,
+                        entity: study,
+                        uiSurface: UI_SURFACES.RIGHT_DETAIL,
+                      })
+                    }}
+                  >
+                    <ReadMore fontSize="small" sx={{ color: "#4d2862" }} />
+                  </IconButton>
+                </Tooltip>
+              )}
+            </div>
           </div>
         ),
         details: (

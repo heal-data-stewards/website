@@ -4,6 +4,7 @@ import {
   Assessment,
   Link as LinkIcon,
   PendingActions,
+  ReadMore,
   Search,
 } from "@mui/icons-material"
 import {
@@ -15,12 +16,15 @@ import {
   DialogTitle,
   Divider,
   FormControlLabel,
+  IconButton,
   InputAdornment,
   TextField,
   Tooltip,
 } from "@mui/material"
 import { fetchVariables } from "../data/variables"
+import { ENTITY_TYPES } from "../data/entity"
 import { useQuery } from "utils/use-query"
+import { useEntityModal } from "../context/entity-modal"
 import { BookmarkButton } from "./BookmarkButton"
 import { Empty } from "./Empty"
 import { UI_SURFACES } from "../analytics"
@@ -38,6 +42,7 @@ export function VariablesList({
   panelLocation,
   scrollContainerId = "studyScrollContainer",
 }) {
+  const modal = useEntityModal()
   const [showOnlyRelated, setShowOnlyRelated] = useState(false)
   const [showOnlyCDEMapped, setShowOnlyCDEMapped] = useState(false)
   const [search, setSearch] = useState("")
@@ -278,6 +283,24 @@ export function VariablesList({
                   searchTerm={searchTerm}
                   size="small"
                 />
+                {modal && (
+                  <Tooltip title="View variable details">
+                    <IconButton
+                      className="flex-shrink-0"
+                      size="small"
+                      onClick={() =>
+                        modal.openEntity({
+                          type: ENTITY_TYPES.VARIABLES,
+                          id: variable.id,
+                          entity: variable,
+                          uiSurface: UI_SURFACES.VARIABLES_LIST,
+                        })
+                      }
+                    >
+                      <ReadMore fontSize="small" sx={{ color: "#4d2862" }} />
+                    </IconButton>
+                  </Tooltip>
+                )}
                 <div className="flex flex-col gap-0.5 ml-2">
                   <div className="flex items-center gap-2">
                     <Highlighter
