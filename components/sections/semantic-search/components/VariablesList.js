@@ -2,10 +2,9 @@ import { useState, useMemo, useCallback, useEffect } from "react"
 import {
   ArrowForward,
   Assessment,
-  Bookmark,
-  BookmarkBorder,
   Link as LinkIcon,
   PendingActions,
+  ReadMore,
   Search,
 } from "@mui/icons-material"
 import {
@@ -20,14 +19,15 @@ import {
   IconButton,
   InputAdornment,
   TextField,
-  Toolbar,
   Tooltip,
 } from "@mui/material"
 import { fetchVariables } from "../data/variables"
+import { ENTITY_TYPES } from "../data/entity"
 import { useQuery } from "utils/use-query"
-import { useCollectionContext } from "../context/collection"
+import { useEntityModal } from "../context/entity-modal"
+import { BookmarkButton } from "./BookmarkButton"
 import { Empty } from "./Empty"
-import { trackBookmarkClick, UI_SURFACES } from "../analytics"
+import { UI_SURFACES } from "../analytics"
 import { useLunrSearch } from "utils/use-lunr-search"
 import { useDebounce } from "use-debounce"
 import Highlighter from "react-highlight-words"
@@ -36,8 +36,13 @@ import { VariableQuestionDisplay } from "./VariableQuestionDisplay"
 
 const VIRTUAL_PAGE_SIZE = 50
 
-export function VariablesList({ study, searchTerm, panelLocation }) {
-  const collection = useCollectionContext()
+export function VariablesList({
+  study,
+  searchTerm,
+  panelLocation,
+  scrollContainerId = "studyScrollContainer",
+}) {
+  const modal = useEntityModal()
   const [showOnlyRelated, setShowOnlyRelated] = useState(false)
   const [showOnlyCDEMapped, setShowOnlyCDEMapped] = useState(false)
   const [search, setSearch] = useState("")
@@ -259,7 +264,7 @@ export function VariablesList({ study, searchTerm, panelLocation }) {
           dataLength={visibleVariables.length}
           next={() => setVisibleCount((prev) => prev + VIRTUAL_PAGE_SIZE)}
           hasMore={visibleVariables.length < variableSource.length}
-          scrollableTarget="studyScrollContainer"
+          scrollableTarget={scrollContainerId}
           loader={
             <div className="flex justify-center py-4 overflow-hidden">
               <CircularProgress size={24} />
@@ -269,45 +274,33 @@ export function VariablesList({ study, searchTerm, panelLocation }) {
           <ul className="flex flex-col gap-2">
             {visibleVariables.map((variable) => (
               <li key={variable.id} className="flex">
-                <IconButton
+                <BookmarkButton
                   className="flex-shrink-0"
+                  entity={variable}
+                  collectionKey="variables"
+                  panelLocation={panelLocation}
+                  uiSurface={UI_SURFACES.VARIABLES_LIST}
+                  searchTerm={searchTerm}
                   size="small"
-                  onMouseDown={(e) => {
-                    e.stopPropagation()
-                    const isBookmarked = collection.variables.has(variable)
-                    collection.variables.toggle(variable)
-                    trackBookmarkClick({
-                      action: isBookmarked ? "remove" : "add",
-                      entity: variable,
-                      panelLocation,
-                      uiSurface: UI_SURFACES.VARIABLES_LIST,
-                      referringSearchTerm: searchTerm,
-                    })
-                  }}
-                  onKeyDown={(e) => {
-                    if (e.key === "Enter" || e.key === " ") {
-                      e.stopPropagation()
-                      const isBookmarked = collection.variables.has(variable)
-                      collection.variables.toggle(variable)
-                      trackBookmarkClick({
-                        action: isBookmarked ? "remove" : "add",
-                        entity: variable,
-                        panelLocation,
-                        uiSurface: UI_SURFACES.VARIABLES_LIST,
-                        referringSearchTerm: searchTerm,
-                      })
-                    }
-                  }}
-                >
-                  {collection.variables.has(variable) ? (
-                    <Bookmark fontSize="small" sx={{ color: "#4d2862" }} />
-                  ) : (
-                    <BookmarkBorder
-                      fontSize="small"
-                      sx={{ color: "#4d2862" }}
-                    />
-                  )}
-                </IconButton>
+                />
+                {modal && (
+                  <Tooltip title="View variable details">
+                    <IconButton
+                      className="flex-shrink-0"
+                      size="small"
+                      onClick={() =>
+                        modal.openEntity({
+                          type: ENTITY_TYPES.VARIABLES,
+                          id: variable.id,
+                          entity: variable,
+                          uiSurface: UI_SURFACES.VARIABLES_LIST,
+                        })
+                      }
+                    >
+                      <ReadMore fontSize="small" sx={{ color: "#4d2862" }} />
+                    </IconButton>
+                  </Tooltip>
+                )}
                 <div className="flex flex-col gap-0.5 ml-2">
                   <div className="flex items-center gap-2">
                     <Highlighter

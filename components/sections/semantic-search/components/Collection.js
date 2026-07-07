@@ -1,10 +1,12 @@
 import { Bookmarks, Close, Delete, Download } from "@mui/icons-material"
 import { Button, IconButton } from "@mui/material"
 import { useCollectionContext } from "../context/collection"
+import { useEntityModal } from "../context/entity-modal"
 import {
   trackCsvCollectionDownloadClick,
   trackCollectionDownloadClick,
   trackCollectionClearedClick,
+  UI_SURFACES,
 } from "../analytics"
 
 export function Collection() {
@@ -38,11 +40,15 @@ export function Collection() {
 
       <div className="flex flex-col gap-3 overflow-auto flex-1 min-h-0">
         {[
-          { title: "Studies", c: collection.studies },
-          { title: "CDEs", c: collection.cdes },
-          { title: "Concepts", c: collection.concepts },
-          { title: "Variables", c: collection.variables },
-        ].map(({ title, c }) => (
+          { title: "Studies", entityType: "studies", c: collection.studies },
+          { title: "CDEs", entityType: "cdes", c: collection.cdes },
+          { title: "Concepts", entityType: "concepts", c: collection.concepts },
+          {
+            title: "Variables",
+            entityType: "variables",
+            c: collection.variables,
+          },
+        ].map(({ title, entityType, c }) => (
           <div key={title}>
             <div className="flex justify-between mb-1 items-center">
               <h4 className="uppercase text-sm font-medium text-gray-500">
@@ -68,7 +74,7 @@ export function Collection() {
                 </button>
               )}
             </div>
-            <CollectionList collection={c} />
+            <CollectionList collection={c} entityType={entityType} />
           </div>
         ))}
       </div>
@@ -128,7 +134,9 @@ export function Collection() {
   )
 }
 
-function CollectionList({ collection }) {
+function CollectionList({ collection, entityType }) {
+  const modal = useEntityModal()
+
   return (
     <ul className="text-xs flex flex-col gap-1">
       {collection.list.map((item) => (
@@ -141,7 +149,23 @@ function CollectionList({ collection }) {
           >
             <Close sx={{ width: "14px", height: "14px" }} />
           </IconButton>
-          {item.name}
+          {modal ? (
+            <button
+              className="text-left hover:text-[#982568] hover:underline transition-colors duration-75"
+              onClick={() =>
+                modal.openEntity({
+                  type: entityType,
+                  id: item.id,
+                  entity: item,
+                  uiSurface: UI_SURFACES.BOOKMARKS_SIDEBAR,
+                })
+              }
+            >
+              {item.name}
+            </button>
+          ) : (
+            item.name
+          )}
         </li>
       ))}
     </ul>
