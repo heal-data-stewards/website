@@ -4,6 +4,10 @@ import PropTypes from "prop-types"
 import { mediaPropTypes } from "utils/types"
 
 const NextImage = ({ media, ...props }) => {
+  // Media fields are optional in Strapi; don't crash the page when one is unset
+  if (!media) {
+    return null
+  }
   const { url, alternativeText } = media
 
   const loader = ({ src }) => {
