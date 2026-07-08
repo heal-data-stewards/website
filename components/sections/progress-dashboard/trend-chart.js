@@ -1,4 +1,6 @@
 import { useState } from "react"
+// recharts is pinned to 2.x: v3 depends on @reduxjs/toolkit, whose ESM build
+// Amplify's lambda file tracing misses, 500ing every SSR'd page (July 2026)
 import {
   Area,
   AreaChart,
