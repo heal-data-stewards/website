@@ -49,30 +49,37 @@ export function RelatedSearches({ searchTerm }) {
       </div>
       <hr className="my-4" />
       <div className="flex flex-col">
-        {concepts.map((term) => (
-          <Link
-            to={`/resources/semantic-search/results?${new URLSearchParams({
-              q: term.name,
-            })}`}
-            key={term.id}
-            onMouseDown={() => {
-              sendCustomEvent("hss_related_search_clicked", {
-                referring_search_term: searchTerm,
-                related_search_term: term.name,
-              })
-            }}
-            onKeyDown={(e) => {
-              if (e.key === "Enter" || e.key === " ") {
+        {concepts.map((term) => {
+          const queryTerm =
+            term.name.includes(" ") &&
+            !(term.name.startsWith('"') && term.name.endsWith('"'))
+              ? `"${term.name}"`
+              : term.name
+          return (
+            <Link
+              to={`/resources/semantic-search/results?${new URLSearchParams({
+                q: queryTerm,
+              })}`}
+              key={term.id}
+              onMouseDown={() => {
                 sendCustomEvent("hss_related_search_clicked", {
                   referring_search_term: searchTerm,
                   related_search_term: term.name,
                 })
-              }
-            }}
-          >
-            {term.name}
-          </Link>
-        ))}
+              }}
+              onKeyDown={(e) => {
+                if (e.key === "Enter" || e.key === " ") {
+                  sendCustomEvent("hss_related_search_clicked", {
+                    referring_search_term: searchTerm,
+                    related_search_term: term.name,
+                  })
+                }
+              }}
+            >
+              {term.name}
+            </Link>
+          )
+        })}
       </div>
     </div>
   )
