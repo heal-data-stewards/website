@@ -3,7 +3,6 @@ import { QueryCacheProvider } from "utils/use-query"
 import { useQueryParam } from "utils/use-query-params"
 import { SemanticSearchTabs } from "./components/Tabs"
 import { Collection } from "./components/Collection"
-import { RelatedSearches } from "./components/RelatedSearches"
 import { StudiesPanel } from "./panels/studies"
 import { CDEsPanel } from "./panels/cdes"
 import { ConceptsPanel } from "./panels/concepts"
@@ -76,7 +75,6 @@ const SemanticSearchResults = ({ data }) => {
               </div>
 
               <div className="min-w-[150px] max-w-[300px] flex flex-col gap-4 pt-[48px]">
-                <RelatedSearches searchTerm={searchTerm} />
                 <Collection />
               </div>
             </div>
