@@ -30,8 +30,6 @@ const QUESTION_LABELS = {
   9: "6-final-question",
 }
 
-// todo: track links clicked not just downloads (its own event)
-
 const RepoQuestions = ({ data }) => {
   const [value, setValue] = React.useState("")
   const [showOptions, setShowOptions] = React.useState(true)
@@ -91,11 +89,13 @@ const RepoQuestions = ({ data }) => {
   ])
 
   const handleChange = (event, question, selectedOption) => {
-    sendCustomEvent("repo_selection_tool_interaction", {
-      interaction_type: "radio_selected",
-      question_id: QUESTION_LABELS[question?.id] ?? question?.id,
-      answer: selectedOption?.option_label,
-    })
+    if (selectedOption != null) {
+      sendCustomEvent("repo_selection_tool_interaction", {
+        interaction_type: "radio_selected",
+        question_id: QUESTION_LABELS[question?.id] ?? question?.id,
+        answer: selectedOption?.option_label,
+      })
+    }
 
     if (!selectedOption?.optional_information) {
       setOptionalInformation(false)
@@ -338,11 +338,14 @@ const RepoQuestions = ({ data }) => {
                   onClick={(e) => {
                     const anchor = e.target.closest("a")
                     if (!anchor) return
-                    sendCustomEvent("repo_tool_next_steps_link_click", {
-                      link_url: anchor.href,
-                      link_text: anchor.innerText,
-                      question_id: QUESTION_LABELS[q.id] ?? q.id,
-                    })
+                    sendCustomEvent(
+                      "repo_selection_tool_next_steps_box_link_click",
+                      {
+                        link_url: anchor.href,
+                        link_text: anchor.innerText,
+                        question_id: QUESTION_LABELS[q.id] ?? q.id,
+                      }
+                    )
                   }}
                   sx={{
                     borderLeft: "6px solid",
