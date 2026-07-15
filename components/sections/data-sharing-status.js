@@ -22,7 +22,6 @@ export default function DataSharingStatus({ data }) {
     if (value.trim()) {
       sendCustomEvent("checklist_study_tracker_tool_interaction", {
         interaction_type: "search_info_entered",
-        location: "checklist_page",
         parent_page_title: document.title,
         parent_page_url: window.location.href,
       })
@@ -31,14 +30,12 @@ export default function DataSharingStatus({ data }) {
 
   const handleButtonClick = (e) => {
     if (!value.trim()) {
-      // prevent action when empty and show error
       e.preventDefault()
       setIsInvalidInput(true)
     } else {
       sendCustomEvent("checklist_study_tracker_tool_interaction", {
         interaction_type: "check_status_click",
         search_value: value,
-        location: "checklist_page",
         parent_page_title: document.title,
         parent_page_url: window.location.href,
       })
