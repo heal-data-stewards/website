@@ -19,7 +19,10 @@ export const CloudsGroup = ({ text, href, buttonText }) => {
           href={href}
           endIcon={<ArrowForward />}
           onClick={() => {
-            sendCustomEvent(`checklist_cloud_click`)
+            sendCustomEvent("checklist_cloud_click", {
+              link_url: href,
+              parent_page_url: window.location.href,
+            })
           }}
         >
           {buttonText}

@@ -39,7 +39,7 @@ const RepoQuestions = ({ data }) => {
 
   React.useEffect(() => {
     sendCustomEvent("repo_selection_tool_start", {
-      trigger: "page_load",
+      start_reason: "page_load",
       parent_page_url: window.location.href,
     })
   }, [])
@@ -52,7 +52,7 @@ const RepoQuestions = ({ data }) => {
         data.repo_question[questionToShow - 1]?.id,
     })
     sendCustomEvent("repo_selection_tool_start", {
-      trigger: "start_over",
+      start_reason: "start_over",
       parent_page_url: window.location.href,
     })
     setQuestionToShow(1)
