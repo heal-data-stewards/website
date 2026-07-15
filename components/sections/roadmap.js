@@ -32,7 +32,7 @@ export default function RoadMap({ data }) {
     sendCustomEvent("checklist_roadmap_interaction", {
       interaction_type: "step_select",
       step_title: data.steps[i].title,
-      step_label: data.steps[i].stepID ?? i + 1,
+      step_label: data.steps[i].stepID,
     })
     setActiveStep(i)
   }
@@ -117,7 +117,18 @@ export default function RoadMap({ data }) {
                 </button>
               </StepLabel>
 
-              <StepContent>
+              <StepContent
+                onClick={(e) => {
+                  const anchor = e.target.closest("a")
+                  if (!anchor) return
+                  sendCustomEvent("checklist_roadmap_link_click", {
+                    step_title: step.title,
+                    step_label: step.stepID,
+                    link_text: anchor.innerText,
+                    link_url: anchor.href,
+                  })
+                }}
+              >
                 <div className="event-html">
                   <Typography>
                     <Markdown linkTarget="_blank">{step.description}</Markdown>

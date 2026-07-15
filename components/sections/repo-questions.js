@@ -27,6 +27,7 @@ const QUESTION_LABELS = {
   3: "3-human-data",
   13: "4-data-types-multi-select",
   8: "5-protocols-code-publications",
+  9: "6-final-question",
 }
 
 // todo: track links clicked not just downloads (its own event)
@@ -40,6 +41,7 @@ const RepoQuestions = ({ data }) => {
 
   React.useEffect(() => {
     sendCustomEvent("repo_selection_tool_start", {
+      trigger: "page_load",
       parent_page_url: window.location.href,
     })
   }, [])
@@ -50,6 +52,10 @@ const RepoQuestions = ({ data }) => {
       question_id:
         QUESTION_LABELS[data.repo_question[questionToShow - 1]?.id] ??
         data.repo_question[questionToShow - 1]?.id,
+    })
+    sendCustomEvent("repo_selection_tool_start", {
+      trigger: "start_over",
+      parent_page_url: window.location.href,
     })
     setQuestionToShow(1)
     setOptionalInformation(false)
@@ -85,14 +91,10 @@ const RepoQuestions = ({ data }) => {
   ])
 
   const handleChange = (event, question, selectedOption) => {
-    const isNoneOfTheAbove = !selectedOption
-
     sendCustomEvent("repo_selection_tool_interaction", {
-      interaction_type: "question_answered",
+      interaction_type: "radio_selected",
       question_id: QUESTION_LABELS[question?.id] ?? question?.id,
-      answer: isNoneOfTheAbove
-        ? "none_of_the_above"
-        : selectedOption.option_label,
+      answer: selectedOption?.option_label,
     })
 
     if (!selectedOption?.optional_information) {
@@ -112,7 +114,7 @@ const RepoQuestions = ({ data }) => {
   const handleCheckboxChange = (option, checked, question) => {
     if (checked) {
       sendCustomEvent("repo_selection_tool_interaction", {
-        interaction_type: "question_answered",
+        interaction_type: "multiselect_checkbox_selected",
         question_id: QUESTION_LABELS[question?.id] ?? question?.id,
         answer: option.option_label,
       })
@@ -199,9 +201,14 @@ const RepoQuestions = ({ data }) => {
                     </FormGroup>
                     <Button
                       variant="outlined"
-                      onClick={() =>
+                      onClick={() => {
+                        sendCustomEvent("repo_selection_tool_interaction", {
+                          interaction_type:
+                            "multiselect_none_of_above_selected",
+                          question_id: QUESTION_LABELS[q.id] ?? q.id,
+                        })
                         handleChange({ target: { value: "next" } }, q, null)
-                      }
+                      }}
                       sx={{ margin: "1rem 1rem 1rem" }}
                     >
                       None of the Above

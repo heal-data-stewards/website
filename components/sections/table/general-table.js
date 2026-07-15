@@ -8,6 +8,9 @@ import { sendCustomEvent } from "utils/analytics"
 const getRepoName = (markdown) =>
   markdown?.replace(/\[([^\]]+)\]\([^)]+\)/, "$1") ?? markdown
 
+const getLinkInteractionType = (linkText) =>
+  `${linkText.toLowerCase().trim().replace(/\s+/g, "_")}_link_click`
+
 const columns = [
   { field: "id", headerName: "ID", width: 10 },
   {
@@ -27,11 +30,9 @@ const columns = [
         onClick={(e) => {
           const anchor = e.target.closest("a")
           if (!anchor) return
-          sendCustomEvent("repo_selection_guide_interaction", {
-            interaction_type: "link_click",
-            column: "repository",
+          sendCustomEvent("repo_selection_table_interaction", {
+            interaction_type: "repository_name_link_click",
             repository_name: getRepoName(row.Repository),
-            link_text: anchor.innerText,
             link_url: anchor.href,
           })
         }}
@@ -104,11 +105,9 @@ const columns = [
         onClick={(e) => {
           const anchor = e.target.closest("a")
           if (!anchor) return
-          sendCustomEvent("repo_selection_guide_interaction", {
-            interaction_type: "link_click",
-            column: "links",
+          sendCustomEvent("repo_selection_table_interaction", {
+            interaction_type: getLinkInteractionType(anchor.innerText),
             repository_name: getRepoName(row.Repository),
-            link_text: anchor.innerText,
             link_url: anchor.href,
           })
         }}
@@ -166,11 +165,6 @@ export default function GeneralDataTable({ data }) {
         }}
         onSortModelChange={(sortModel) => {
           if (!sortModel.length) return
-          sendCustomEvent("repo_selection_guide_interaction", {
-            interaction_type: "sort",
-            column: sortModel[0]?.field,
-            sort_direction: sortModel[0]?.sort,
-          })
         }}
       />
     </Box>
