@@ -11,6 +11,7 @@ import { makeStyles } from "@mui/styles"
 import clsx from "clsx"
 import Image from "next/legacy/image"
 import Markdown from "../elements/markdown"
+import { sendCustomEvent } from "utils/analytics"
 
 export default function RoadMap({ data }) {
   const [activeStep, setActiveStep] = React.useState(0)
@@ -28,6 +29,11 @@ export default function RoadMap({ data }) {
   }
 
   const handleSelect = (i) => {
+    sendCustomEvent("checklist_roadmap_interaction", {
+      interaction_type: "step_select",
+      step_title: data.steps[i].title,
+      step_label: data.steps[i].stepID,
+    })
     setActiveStep(i)
   }
 
@@ -94,11 +100,6 @@ export default function RoadMap({ data }) {
               <StepLabel
                 style={{ padding: 0 }}
                 StepIconComponent={CustomStepIcon}
-                // optional={
-                //   index === data.steps.length - 1 ? (
-                //     <Typography variant="caption">Last step</Typography>
-                //   ) : null
-                // }
               >
                 {" "}
                 <button
@@ -116,7 +117,18 @@ export default function RoadMap({ data }) {
                 </button>
               </StepLabel>
 
-              <StepContent>
+              <StepContent
+                onClick={(e) => {
+                  const anchor = e.target.closest("a")
+                  if (!anchor) return
+                  sendCustomEvent("checklist_roadmap_link_click", {
+                    step_title: step.title,
+                    step_label: step.stepID,
+                    link_text: anchor.innerText,
+                    link_url: anchor.href,
+                  })
+                }}
+              >
                 <div className="event-html">
                   <Typography>
                     <Markdown linkTarget="_blank">{step.description}</Markdown>
@@ -126,7 +138,14 @@ export default function RoadMap({ data }) {
                   <div className="mt-6">
                     <Button
                       variant="contained"
-                      onClick={handleNext}
+                      onClick={() => {
+                        sendCustomEvent("checklist_roadmap_interaction", {
+                          interaction_type: "step_continue",
+                          step_title: step.title,
+                          step_label: step.stepID ?? index + 1,
+                        })
+                        handleNext()
+                      }}
                       sx={{ mt: 1, mr: 1 }}
                       id={
                         step.stepID
@@ -141,7 +160,14 @@ export default function RoadMap({ data }) {
                     ) : (
                       <Button
                         disabled={index === 0}
-                        onClick={handleBack}
+                        onClick={() => {
+                          sendCustomEvent("checklist_roadmap_interaction", {
+                            interaction_type: "step_back",
+                            step_title: step.title,
+                            step_label: step.stepID ?? index + 1,
+                          })
+                          handleBack()
+                        }}
                         sx={{ mt: 1, mr: 1 }}
                       >
                         Back
@@ -155,7 +181,16 @@ export default function RoadMap({ data }) {
         </Stepper>
         {activeStep === data.steps.length && (
           <Paper square elevation={0} sx={{ p: 3 }}>
-            <Button onClick={handleReset} sx={{ mt: 1, mr: 1 }}>
+            <Button
+              onClick={() => {
+                sendCustomEvent("checklist_roadmap_interaction", {
+                  interaction_type: "step_reset",
+                  step_label: activeStep + 1,
+                })
+                handleReset()
+              }}
+              sx={{ mt: 1, mr: 1 }}
+            >
               Reset
             </Button>
           </Paper>
