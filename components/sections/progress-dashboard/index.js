@@ -131,7 +131,7 @@ function PlatformStatus({ summary }) {
   return (
     <div>
       <SectionLabel
-        title="HEAL Data Platform Status"
+        title="HEAL Data Platform(HDP) Status"
         desc="Live study counts and key data sharing milestones pulled directly from the HEAL Data Platform."
       />
       <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
