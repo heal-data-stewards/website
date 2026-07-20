@@ -65,8 +65,12 @@ function Dashboard({ data }) {
           <div className="grid items-start gap-6 lg:grid-cols-[1.4fr_1fr]">
             <div>
               <PlatformStatus summary={summary} />
-              <GrowthTrend summary={summary} />
-              <StudyBreakdown summary={summary} />
+              <div className="mt-2.5">
+                <GrowthTrend summary={summary} />
+              </div>
+              <div className="mt-2.5">
+                <StudyBreakdown summary={summary} />
+              </div>
             </div>
             <div>
               <HssSection summary={summary} />
@@ -80,8 +84,12 @@ function Dashboard({ data }) {
             </div>
           </div>
 
-          <OriginBreakdown summary={summary} />
-          <RepoPrograms summary={summary} queryApiBase={queryApiBase} />
+          <div className="mt-2.5">
+            <OriginBreakdown summary={summary} />
+          </div>
+          <div className="mt-2.5">
+            <RepoPrograms summary={summary} queryApiBase={queryApiBase} />
+          </div>
         </>
       )}
     </div>
@@ -217,7 +225,7 @@ function StudyBreakdown({ summary }) {
   return (
     <div>
       <SectionLabel
-        title="Study breakdown & metadata quality"
+        title="Study registration and data sharing status"
         desc="All percentages are of live HEAL studies on HDP. Use this to gauge overall data sharing progress."
       />
       <Card>
