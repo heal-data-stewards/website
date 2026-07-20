@@ -14,10 +14,10 @@ import { COLORS, fmt } from "./lib"
 
 const SERIES = [
   { key: "total_live", label: "Live studies", color: COLORS.blue },
-  { key: "data_linked", label: "Data linked", color: COLORS.purple },
-  { key: "vlmd_available", label: "VLMD available", color: COLORS.teal },
   { key: "cedar_complete", label: "CEDAR complete", color: COLORS.amber },
+  { key: "vlmd_available", label: "VLMD available", color: COLORS.teal },
   { key: "cde_studies", label: "Using CDEs", color: COLORS.coral },
+  { key: "data_linked", label: "Data linked", color: COLORS.purple },
   { key: "archived_count", label: "Archived", color: COLORS.gray },
 ]
 
