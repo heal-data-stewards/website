@@ -12,6 +12,8 @@ import { backgroundColor } from "tailwindcss/defaultTheme"
 import { QueryCacheProvider } from "utils/use-query"
 import { sendCustomEvent } from "utils/analytics"
 import { getRandomSuggestions } from "../data/search-suggestions"
+import { SimpleSearchToggle } from "./SimpleSearchToggle"
+import { useQueryParam } from "utils/use-query-params"
 import Link from "next/link"
 
 const SearchBar = styled(OutlinedInput)(() => ({
@@ -64,6 +66,14 @@ export function IntegratedSearchBar({
 
   const [searchInputValue, setSearchInputValue] = useState("")
   const [selectedSuggestions, setSelectedSuggestions] = useState([])
+  const [simpleSearchParam, setSimpleSearchParam] = useQueryParam(
+    null,
+    "simple_search"
+  )
+
+  const simpleSearch = simpleSearchParam === "true"
+  const toggleSimpleSearch = (checked) =>
+    setSimpleSearchParam(checked ? "true" : null)
 
   useEffect(() => {
     const value = getQueryParam(redirectQueryParam)
@@ -137,7 +147,7 @@ export function IntegratedSearchBar({
                 <Refresh fontSize="small" />
               </IconButton>
             </Tooltip>
-            <span>
+            <span className="flex-1">
               Example terms to search for:{" "}
               {selectedSuggestions.reduce((arr, term, i) => {
                 const link = (
@@ -165,6 +175,13 @@ export function IntegratedSearchBar({
                   : [...arr, link, <span key={`sep-${i}`}> | </span>]
               }, [])}
             </span>
+            <div className="ml-auto flex-shrink-0">
+              <SimpleSearchToggle
+                size="small"
+                checked={simpleSearch}
+                onChange={toggleSimpleSearch}
+              />
+            </div>
           </div>
         </div>
       </div>

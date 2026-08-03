@@ -7,6 +7,7 @@ export const fetchConcepts = async ({
   offset = 0,
   filters = [],
   aggs = {},
+  simpleSearch = false,
 }) => {
   const res = await fetch(`${DUG_API_URL}/concepts`, {
     method: "POST",
@@ -17,6 +18,7 @@ export const fetchConcepts = async ({
         conceptTypes.length > 0 && { concept_types: conceptTypes }),
       ...(filters.length > 0 && { filters }),
       ...(Object.keys(aggs).length > 0 && { aggs }),
+      ...(simpleSearch && { simple_search: true }),
       size: limit,
       offset,
     }),
