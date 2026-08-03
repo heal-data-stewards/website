@@ -1,10 +1,15 @@
 import { useRef, useState } from "react"
-import { useSearchBox, useHits } from "react-instantsearch"
+import { useSearchBox, useHits, Configure } from "react-instantsearch"
 import { ClickAwayListener } from "@mui/material"
 import { useRouter } from "next/router"
 import { SearchInput } from "./search-input"
 import { SearchDropdown } from "./search-dropdown"
 import { useKeyboardNav } from "./use-keyboard-nav"
+import {
+  IncludeEventsToggle,
+  EVENTS_EXCLUDED_FILTER,
+  EVENTS_PARAM_VALUE,
+} from "./include-events-toggle"
 
 const LISTBOX_ID = "global-search-listbox"
 
@@ -13,6 +18,7 @@ export function SearchCombobox() {
   const { items: hits } = useHits()
   const inputRef = useRef(null)
   const [isExpanded, setIsExpanded] = useState(false)
+  const [includeEvents, setIncludeEvents] = useState(false)
   const router = useRouter()
 
   const isOpen = isExpanded && query.length > 0 && hits.length > 0
@@ -47,6 +53,7 @@ export function SearchCombobox() {
       }}
     >
       <div className="relative">
+        <Configure filters={includeEvents ? "" : EVENTS_EXCLUDED_FILTER} />
         <SearchInput
           ref={inputRef}
           isExpanded={isExpanded}
@@ -56,7 +63,11 @@ export function SearchCombobox() {
           onClose={handleClose}
           onKeyDown={handleKeyDown}
           onNavigateToResults={() =>
-            handleNavigate(`/search?q=${encodeURIComponent(query.trim())}`)
+            handleNavigate(
+              `/search?q=${encodeURIComponent(query.trim())}${
+                includeEvents ? `&events=${EVENTS_PARAM_VALUE}` : ""
+              }`
+            )
           }
           listboxId={LISTBOX_ID}
           isOpen={isOpen}
@@ -68,6 +79,13 @@ export function SearchCombobox() {
             hits={hits}
             activeIndex={activeIndex}
             onHitSelect={handleClose}
+            footer={
+              <IncludeEventsToggle
+                id="global-search-include-events"
+                checked={includeEvents}
+                onChange={setIncludeEvents}
+              />
+            }
           />
         )}
       </div>

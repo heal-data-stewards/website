@@ -5,24 +5,30 @@ export function SearchDropdown({
   hits,
   activeIndex,
   onHitSelect,
+  footer,
   idPrefix = "search-hit",
 }) {
   return (
-    <ul
-      id={id}
-      role="listbox"
-      aria-label="Search results"
-      className="absolute right-0 mt-1 w-[28rem] max-w-[calc(100vw-2rem)] bg-white rounded shadow-lg border border-gray-light divide-y divide-gray-light z-[1200] overflow-y-auto max-h-[70vh]"
-    >
-      {hits.map((hit, index) => (
-        <SearchHit
-          key={hit.objectID}
-          id={`${idPrefix}-${index}`}
-          hit={hit}
-          isActive={activeIndex === index}
-          onSelect={onHitSelect}
-        />
-      ))}
-    </ul>
+    <div className="absolute right-0 mt-1 w-[28rem] max-w-[calc(100vw-2rem)] bg-white rounded shadow-lg border border-gray-light z-[1200] overflow-hidden">
+      <ul
+        id={id}
+        role="listbox"
+        aria-label="Search results"
+        className="divide-y divide-gray-light overflow-y-auto max-h-[70vh]"
+      >
+        {hits.map((hit, index) => (
+          <SearchHit
+            key={hit.objectID}
+            id={`${idPrefix}-${index}`}
+            hit={hit}
+            isActive={activeIndex === index}
+            onSelect={onHitSelect}
+          />
+        ))}
+      </ul>
+      {footer && (
+        <div className="border-t border-gray-light px-4 py-3">{footer}</div>
+      )}
+    </div>
   )
 }

@@ -13,6 +13,11 @@ import SearchIcon from "@mui/icons-material/Search"
 import CloseIcon from "@mui/icons-material/Close"
 import Layout from "@/components/layout"
 import { SearchResultsHit } from "@/components/search/search-results-hit"
+import {
+  IncludeEventsToggle,
+  EVENTS_EXCLUDED_FILTER,
+  EVENTS_PARAM_VALUE,
+} from "@/components/search/include-events-toggle"
 import { useQueryParams } from "utils/use-query-params"
 
 const searchClient = algoliasearch(
@@ -29,7 +34,6 @@ export default function SearchPage({ global }) {
         searchClient={searchClient}
         indexName={process.env.NEXT_PUBLIC_ALGOLIA_INDEX_NAME}
       >
-        <Configure hitsPerPage={10} />
         <SearchResultsContent />
       </InstantSearch>
     </Layout>
@@ -42,8 +46,13 @@ function SearchResultsContent() {
   const { nbHits } = useStats()
   const { refine: refinePage } = usePagination()
 
-  const [{ q, page }, setParam] = useQueryParams({ q: null, page: null })
+  const [{ q, page, events }, setParam] = useQueryParams({
+    q: null,
+    page: null,
+    events: null,
+  })
   const [inputValue, setInputValue] = useState(q ?? "")
+  const includeEvents = events === EVENTS_PARAM_VALUE
 
   const initialQ = useRef(q)
   const initialPage = useRef(page)
@@ -70,8 +79,19 @@ function SearchResultsContent() {
     setParam("page", null)
   }
 
+  const handleToggleEvents = (checked) => {
+    // Result set changes, so reset pagination to page 1.
+    setParam("events", checked ? EVENTS_PARAM_VALUE : null)
+    setParam("page", null)
+    refinePage(0)
+  }
+
   return (
     <div className="container py-8 max-w-3xl">
+      <Configure
+        hitsPerPage={10}
+        filters={includeEvents ? "" : EVENTS_EXCLUDED_FILTER}
+      />
       <form onSubmit={handleSubmit} className="flex">
         <OutlinedInput
           value={inputValue}
@@ -121,6 +141,13 @@ function SearchResultsContent() {
           Search
         </button>
       </form>
+
+      <div className="mt-3">
+        <IncludeEventsToggle
+          checked={includeEvents}
+          onChange={handleToggleEvents}
+        />
+      </div>
 
       {query && (
         <p className="text-gray text-[13.125px] mt-3">

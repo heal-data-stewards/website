@@ -82,6 +82,13 @@ const MenuPopupState = (data) => {
               ABOUT
             </div>
           </button>
+          {/* Dupe the two links as hidden so the crawler can reach them. */}
+          <Link href="/[[...slug]]" as="/about" className="sr-only">
+            HEAL Data Ecosystem
+          </Link>
+          <Link href="/[[...slug]]" as="/collective" className="sr-only">
+            Collective Board
+          </Link>
           <StyledMenu {...bindMenu(popupState)}>
             <MenuItem
               onClick={() => {

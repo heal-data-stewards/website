@@ -20,7 +20,9 @@ export function SearchHit({ id, hit, isActive, onSelect }) {
         >
           <Highlight attribute="title" hit={hit} />
         </span>
-        <div className="text-gray text-[13.125px] mt-0.5">{hit.path}</div>
+        <div className="text-gray text-[13.125px] mt-0.5 overflow-hidden text-ellipsis whitespace-nowrap">
+          {hit.path}
+        </div>
         <p
           className={`text-gray-dark text-[13.125px] mt-1 line-clamp-2 m-0 ${snippetHighlightClass}`}
         >

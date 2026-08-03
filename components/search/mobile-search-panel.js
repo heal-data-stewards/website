@@ -1,10 +1,20 @@
-import { useRef } from "react"
-import { InstantSearch, useSearchBox, useHits } from "react-instantsearch"
+import { useRef, useState } from "react"
+import {
+  InstantSearch,
+  useSearchBox,
+  useHits,
+  Configure,
+} from "react-instantsearch"
 import { OutlinedInput, InputAdornment } from "@mui/material"
 import SearchIcon from "@mui/icons-material/Search"
 import { useRouter } from "next/router"
 import { SearchHit } from "./search-hit"
 import { useKeyboardNav } from "./use-keyboard-nav"
+import {
+  IncludeEventsToggle,
+  EVENTS_EXCLUDED_FILTER,
+  EVENTS_PARAM_VALUE,
+} from "./include-events-toggle"
 
 const LISTBOX_ID = "mobile-search-listbox"
 const HIT_ID_PREFIX = "mobile-search-hit"
@@ -21,6 +31,7 @@ function MobileSearchInner({ onClose }) {
   const { query, refine, clear } = useSearchBox()
   const { items: hits } = useHits()
   const inputRef = useRef(null)
+  const [includeEvents, setIncludeEvents] = useState(false)
   const router = useRouter()
 
   const isOpen = query.length > 0 && hits.length > 0
@@ -44,13 +55,18 @@ function MobileSearchInner({ onClose }) {
 
   const handleSearch = () => {
     if (query.trim()) {
-      router.push(`/search?q=${encodeURIComponent(query.trim())}`)
+      router.push(
+        `/search?q=${encodeURIComponent(query.trim())}${
+          includeEvents ? `&events=${EVENTS_PARAM_VALUE}` : ""
+        }`
+      )
       handleClose()
     }
   }
 
   return (
     <div className="w-full">
+      <Configure filters={includeEvents ? "" : EVENTS_EXCLUDED_FILTER} />
       <div className="container py-2 flex">
         <OutlinedInput
           size="small"
@@ -97,6 +113,14 @@ function MobileSearchInner({ onClose }) {
         >
           Search
         </button>
+      </div>
+
+      <div className="container pb-2">
+        <IncludeEventsToggle
+          id="mobile-search-include-events"
+          checked={includeEvents}
+          onChange={setIncludeEvents}
+        />
       </div>
 
       {isOpen && (
