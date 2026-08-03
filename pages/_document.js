@@ -38,6 +38,7 @@ export default class MyDocument extends Document {
           `,
             }}
           />
+          <meta name="algolia-site-verification" content="C41BA50FAA538EAE" />
         </Head>
         <body>
           <Main />
