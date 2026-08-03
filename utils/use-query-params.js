@@ -22,16 +22,18 @@ if (typeof window !== "undefined") {
  * @returns {[string | null, (value: string | null | ((prev: string | null) => string | null)) => void]}
  */
 export const useQueryParam = (initialState, key) => {
-  const [state, setState] = useState(() => {
-    if (typeof window === "undefined") return initialState
-    return new URLSearchParams(window.location.search).get(key) ?? initialState
-  })
+  const [state, setState] = useState(initialState)
 
   const stateRef = useRef(state)
   stateRef.current = state
 
-  // subscribe to the shared notification channel
   useEffect(() => {
+    // Sync from URL on mount, then subscribe to future changes
+    const fromUrl = new URLSearchParams(window.location.search).get(key)
+    if (fromUrl !== null && fromUrl !== stateRef.current) {
+      setState(fromUrl)
+    }
+
     return subscribe(() => {
       const next = new URLSearchParams(window.location.search).get(key)
       if (next !== stateRef.current) {
@@ -102,21 +104,15 @@ function readParams(keys) {
 export const useQueryParams = (config) => {
   const keysRef = useRef(Object.keys(config))
 
-  const [values, dispatch] = useReducer(paramsReducer, config, (initial) => {
-    if (typeof window === "undefined") return initial
-    const fromUrl = readParams(Object.keys(initial))
-    // url values take precedence over initial values.
-    const merged = {}
-    for (const key of Object.keys(initial)) {
-      merged[key] = fromUrl[key] ?? initial[key]
-    }
-    return merged
-  })
+  const [values, dispatch] = useReducer(paramsReducer, config)
 
   const valuesRef = useRef(values)
   valuesRef.current = values
 
   useEffect(() => {
+    // Sync from URL on mount, then subscribe to future changes
+    dispatch({ type: "sync", next: readParams(keysRef.current) })
+
     return subscribe(() => {
       const next = readParams(keysRef.current)
       dispatch({ type: "sync", next })

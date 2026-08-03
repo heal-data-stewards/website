@@ -1,18 +1,14 @@
-import { CircularProgress, IconButton } from "@mui/material"
+import { CircularProgress, IconButton, Tooltip } from "@mui/material"
 import { useQuery } from "utils/use-query"
 import { fetchCDEs } from "../data/cdes"
+import { ENTITY_TYPES } from "../data/entity"
 import Link from "../../../elements/link"
-import {
-  Bookmark,
-  Download,
-  BookmarkBorder,
-  SearchOff,
-} from "@mui/icons-material"
+import { Download, ReadMore, SearchOff } from "@mui/icons-material"
 import StyledAccordion from "../accordion"
-import { useCollectionContext } from "../context/collection"
+import { useEntityModal } from "../context/entity-modal"
+import { BookmarkButton } from "./BookmarkButton"
 import { Empty } from "./Empty"
 import {
-  trackBookmarkClick,
   trackCdeAccordionToggle,
   trackCdeDownloadClick,
   UI_SURFACES,
@@ -28,7 +24,7 @@ export function CDEDisplay({
   panelLocation,
   expandFirstItem = false,
 }) {
-  const collection = useCollectionContext()
+  const modal = useEntityModal()
 
   const payload = {
     query: searchTerm ?? "",
@@ -83,27 +79,34 @@ export function CDEDisplay({
               {cde.name}&nbsp;
               <span className="text-sm text-gray-500">{cde.id}</span>
             </h4>
-            <IconButton
-              size="small"
-              onClick={(e) => {
-                e.stopPropagation()
-                const isBookmarked = collection.cdes.has(cde)
-                collection.cdes.toggle(cde)
-                trackBookmarkClick({
-                  action: isBookmarked ? "remove" : "add",
-                  entity: cde,
-                  panelLocation,
-                  uiSurface: UI_SURFACES.CDE_ACCORDION_ROW,
-                  referringSearchTerm: searchTerm,
-                })
-              }}
-            >
-              {collection.cdes.has(cde) ? (
-                <Bookmark fontSize="small" sx={{ color: "#4d2862" }} />
-              ) : (
-                <BookmarkBorder fontSize="small" sx={{ color: "#4d2862" }} />
+            <div className="flex items-center flex-shrink-0">
+              <BookmarkButton
+                entity={cde}
+                collectionKey="cdes"
+                panelLocation={panelLocation}
+                uiSurface={UI_SURFACES.CDE_ACCORDION_ROW}
+                searchTerm={searchTerm}
+                size="small"
+              />
+              {modal && (
+                <Tooltip title="View CDE details">
+                  <IconButton
+                    size="small"
+                    onClick={(e) => {
+                      e.stopPropagation()
+                      modal.openEntity({
+                        type: ENTITY_TYPES.CDES,
+                        id: cde.id,
+                        entity: cde,
+                        uiSurface: UI_SURFACES.CDE_ACCORDION_ROW,
+                      })
+                    }}
+                  >
+                    <ReadMore fontSize="small" sx={{ color: "#4d2862" }} />
+                  </IconButton>
+                </Tooltip>
               )}
-            </IconButton>
+            </div>
           </div>
         ),
         details: (

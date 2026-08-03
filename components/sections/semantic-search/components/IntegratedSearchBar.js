@@ -7,11 +7,13 @@ import {
   Tooltip,
 } from "@mui/material"
 import { useRouter } from "next/router"
-import { useCallback, useState } from "react"
+import { useCallback, useEffect, useState } from "react"
 import { backgroundColor } from "tailwindcss/defaultTheme"
 import { QueryCacheProvider } from "utils/use-query"
 import { sendCustomEvent } from "utils/analytics"
 import { getRandomSuggestions } from "../data/search-suggestions"
+import { SimpleSearchToggle } from "./SimpleSearchToggle"
+import { useQueryParam } from "utils/use-query-params"
 import Link from "next/link"
 
 const SearchBar = styled(OutlinedInput)(() => ({
@@ -55,20 +57,32 @@ export function IntegratedSearchBar({
 }) {
   const router = useRouter()
 
-  const path = typeof window !== "undefined" ? window.location.pathname : ""
   const searchLocation =
-    path === "/resources/semantic-search"
+    router.pathname === "/resources/semantic-search"
       ? "HSS Landing Page"
-      : path.startsWith("/resources/semantic-search/results")
+      : router.pathname.startsWith("/resources/semantic-search/results")
       ? "HSS Results Page"
       : "Unknown"
 
-  const [searchInputValue, setSearchInputValue] = useState(
-    getQueryParam(redirectQueryParam) ?? ""
+  const [searchInputValue, setSearchInputValue] = useState("")
+  const [selectedSuggestions, setSelectedSuggestions] = useState([])
+  const [simpleSearchParam, setSimpleSearchParam] = useQueryParam(
+    null,
+    "simple_search"
   )
-  const [selectedSuggestions, setSelectedSuggestions] = useState(
-    getRandomSuggestions(3)
-  )
+
+  const simpleSearch = simpleSearchParam === "true"
+  const toggleSimpleSearch = (checked) =>
+    setSimpleSearchParam(checked ? "true" : null)
+
+  useEffect(() => {
+    const value = getQueryParam(redirectQueryParam)
+    if (value) setSearchInputValue(value)
+  }, [redirectQueryParam])
+
+  useEffect(() => {
+    setSelectedSuggestions(getRandomSuggestions(3))
+  }, [])
 
   // Fire analytics BEFORE navigation
   const searchTermHandler = (term) => {
@@ -133,7 +147,7 @@ export function IntegratedSearchBar({
                 <Refresh fontSize="small" />
               </IconButton>
             </Tooltip>
-            <span>
+            <span className="flex-1">
               Example terms to search for:{" "}
               {selectedSuggestions.reduce((arr, term, i) => {
                 const link = (
@@ -161,6 +175,13 @@ export function IntegratedSearchBar({
                   : [...arr, link, <span key={`sep-${i}`}> | </span>]
               }, [])}
             </span>
+            <div className="ml-auto flex-shrink-0">
+              <SimpleSearchToggle
+                size="small"
+                checked={simpleSearch}
+                onChange={toggleSimpleSearch}
+              />
+            </div>
           </div>
         </div>
       </div>

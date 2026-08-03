@@ -1,8 +1,8 @@
-import { Button, CircularProgress, Collapse } from "@mui/material"
+import { CircularProgress } from "@mui/material"
 import { useQuery } from "utils/use-query"
 import { fetchVariables } from "../data/variables"
-import { useState } from "react"
-import { ChevronRight, ExpandMore } from "@mui/icons-material"
+import { Fragment, useState } from "react"
+import { ChevronRight } from "@mui/icons-material"
 import classNames from "classnames"
 
 export function VariableQuestionDisplay({ variableList }) {
@@ -43,8 +43,8 @@ export function VariableQuestionDisplay({ variableList }) {
   return (
     <div>
       {variables.map((v, i) => (
-        <>
-          <div key={v.id}>
+        <Fragment key={v.id}>
+          <div>
             <h4
               className={classNames("text-lg text-primary font-semibold", {
                 "": i > 0,
@@ -75,7 +75,7 @@ export function VariableQuestionDisplay({ variableList }) {
               )}
           </div>
           {i < variables.length - 1 && <hr className="my-4" />}
-        </>
+        </Fragment>
       ))}
     </div>
   )

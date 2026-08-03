@@ -1,33 +1,14 @@
 import { Button, Card, CardContent, CardHeader, Divider } from "@mui/material"
 import { Close as CloseIcon } from "@mui/icons-material"
 import { Popover } from "@headlessui/react"
-import { makeStyles } from "@mui/styles"
-
-const useStyles = makeStyles((theme) => ({
-  feedbackButton: {
-    transform: "rotate(-90deg) translateY(40px)",
-    transition: "transform 250ms, background-color 250ms",
-    height: "100px",
-    display: "flex",
-    alignItems: "flex-start",
-    "&:hover": {
-      transform: "rotate(-90deg) translateY(20px)",
-    },
-    color: "white",
-  },
-  feedbackPopup: {
-    transform: "translate(-2rem, -1rem)",
-  },
-}))
 
 export function Widget({ data }) {
-  const classes = useStyles()
   return (
     <Popover
       style={{ right: "-1rem", bottom: "106px", zIndex: 1000 }}
       className="fixed flex flex-col items-end"
     >
-      <Card component={Popover.Panel} className={classes.feedbackPopup}>
+      <Card component={Popover.Panel} sx={{ transform: "translate(-2rem, -1rem)" }}>
         <CardHeader
           title={data.sendFeedbackText}
           action={
@@ -61,7 +42,17 @@ export function Widget({ data }) {
       </Card>
 
       <Button
-        className={classes.feedbackButton}
+        sx={{
+          transform: "rotate(-90deg) translateY(40px)",
+          transition: "transform 250ms, background-color 250ms",
+          height: "100px",
+          display: "flex",
+          alignItems: "flex-start",
+          color: "white",
+          "&:hover": {
+            transform: "rotate(-90deg) translateY(20px)",
+          },
+        }}
         component={Popover.Button}
         variant="contained"
         color="primary"

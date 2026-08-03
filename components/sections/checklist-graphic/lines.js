@@ -1,3 +1,7 @@
+export const lineColor = "#dcd2de"
+export const lineWidth = "10px"
+export const iconSize = "80px"
+
 /**
  * @param {{ arcNumber: number, position: "tl" | "tr" | "bl" | "br" }}
  * @help the position is the corner wrapped by the arc segment
@@ -38,17 +42,17 @@ export function ArcLine({ arcNumber, position }) {
     >
       <div
         style={{
-          width: "var(--icon-size)",
-          height: "var(--icon-size)",
+          width: `var(--icon-size, ${iconSize})`,
+          height: `var(--icon-size, ${iconSize})`,
           position: "relative",
         }}
       >
         <div
           style={{
             position: "absolute",
-            backgroundColor: "var(--line-color)",
-            width: "calc((100% + var(--line-width)) / 2)",
-            height: "calc((100% + var(--line-width)) / 2)",
+            backgroundColor: `var(--line-color, ${lineColor})`,
+            width: `calc((100% + var(--line-width, ${lineWidth})) / 2)`,
+            height: `calc((100% + var(--line-width, ${lineWidth})) / 2)`,
             ...positionVals,
           }}
         >
@@ -56,8 +60,8 @@ export function ArcLine({ arcNumber, position }) {
             style={{
               backgroundColor: "white",
               position: "absolute",
-              width: "calc(100% - var(--line-width)",
-              height: "calc(100% - var(--line-width)",
+              width: `calc(100% - var(--line-width, ${lineWidth}))`,
+              height: `calc(100% - var(--line-width, ${lineWidth}))`,
               ...positionVals,
             }}
           ></div>

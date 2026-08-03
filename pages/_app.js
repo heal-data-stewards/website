@@ -2,23 +2,42 @@ import App from "next/app"
 import Head from "next/head"
 import ErrorPage from "next/error"
 import { useRouter } from "next/router"
+import { useEffect } from "react"
 import { DefaultSeo } from "next-seo"
 import { getStrapiMedia } from "utils/media"
 import { getGlobalData } from "utils/api"
 import { SessionProvider } from "next-auth/react"
-// import { useEffect } from "react"
 import { RouteGuard } from "@/components/route-guard"
-import { ThemeProvider } from "@emotion/react"
+import { CacheProvider } from "@emotion/react"
+import { ThemeProvider } from "@mui/material/styles"
+import createEmotionCache from "utils/createEmotionCache"
 import { theme } from "../styles/theme"
 import "@/styles/index.css"
 import "instantsearch.css/themes/satellite.css"
+import posthog from "posthog-js"
+import { PostHogProvider } from "posthog-js/react"
 
-const options = {
-  api_host: process.env.NEXT_PUBLIC_POSTHOG_HOST,
-  defaults: "2025-11-30",
-}
+const clientSideEmotionCache = createEmotionCache()
 
-const MyApp = ({ Component, pageProps }) => {
+const MyApp = ({
+  Component,
+  pageProps,
+  emotionCache = clientSideEmotionCache,
+}) => {
+  const router = useRouter()
+
+  useEffect(() => {
+    posthog.init(process.env.NEXT_PUBLIC_POSTHOG_KEY, {
+      api_host: process.env.NEXT_PUBLIC_POSTHOG_HOST,
+      defaults: "2025-11-30",
+      disable_session_recording: process.env.NODE_ENV !== "production",
+    })
+
+    const handleRouteChange = () => posthog.capture("$pageview")
+    router.events.on("routeChangeComplete", handleRouteChange)
+    return () => router.events.off("routeChangeComplete", handleRouteChange)
+  }, [router.events])
+
   // Extract the data we need
   const { global } = pageProps
   if (global == null) {
@@ -28,36 +47,45 @@ const MyApp = ({ Component, pageProps }) => {
   const { metadata } = global
 
   return (
-    <SessionProvider session={pageProps.session}>
-      <Head>
-        <link rel="shortcut icon" href={getStrapiMedia(global.favicon.url)} />
-      </Head>
-      {/* Global site metadata */}
-      <DefaultSeo
-        titleTemplate={`%s | ${global.metaTitleSuffix}`}
-        title="Page"
-        description={metadata.metaDescription}
-        openGraph={{
-          images: Object.values(metadata.shareImage.formats).map((image) => {
-            return {
-              url: getStrapiMedia(image.url),
-              width: image.width,
-              height: image.height,
-            }
-          }),
-        }}
-        twitter={{
-          cardType: metadata.twitterCardType,
-          handle: metadata.twitterUsername,
-        }}
-      />
-      {/* Display the content */}
-      <RouteGuard>
-        <ThemeProvider theme={theme}>
-          <Component {...pageProps} />
-        </ThemeProvider>
-      </RouteGuard>
-    </SessionProvider>
+    <PostHogProvider client={posthog}>
+      <CacheProvider value={emotionCache}>
+        <SessionProvider session={pageProps.session}>
+          <Head>
+            <link
+              rel="shortcut icon"
+              href={getStrapiMedia(global.favicon.url)}
+            />
+          </Head>
+          {/* Global site metadata */}
+          <DefaultSeo
+            titleTemplate={`%s | ${global.metaTitleSuffix}`}
+            title="Page"
+            description={metadata.metaDescription}
+            openGraph={{
+              images: Object.values(metadata.shareImage.formats).map(
+                (image) => {
+                  return {
+                    url: getStrapiMedia(image.url),
+                    width: image.width,
+                    height: image.height,
+                  }
+                }
+              ),
+            }}
+            twitter={{
+              cardType: metadata.twitterCardType,
+              handle: metadata.twitterUsername,
+            }}
+          />
+          {/* Display the content */}
+          <RouteGuard>
+            <ThemeProvider theme={theme}>
+              <Component {...pageProps} />
+            </ThemeProvider>
+          </RouteGuard>
+        </SessionProvider>
+      </CacheProvider>
+    </PostHogProvider>
   )
 }
 

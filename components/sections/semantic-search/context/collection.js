@@ -1,4 +1,5 @@
 import { useLocalStorage } from "utils/use-local-storage"
+import { collectionUploadSchema } from "./upload-schema"
 import { generateStudiesCsv } from "./csv/studies"
 import { generateVariablesCsv } from "./csv/variables"
 import { generateConceptsCsv } from "./csv/concepts"
@@ -80,6 +81,16 @@ export const CollectionContextProvider = ({ children }) => {
           a.download = "collection.json"
           a.click()
           URL.revokeObjectURL(url)
+        },
+        async uploadAll(data) {
+          const validated = await collectionUploadSchema.validate(data)
+
+          setStudies(validated.studies)
+          setConcepts(validated.concepts)
+          setCdes(validated.cdes)
+          setVariables(validated.variables)
+
+          return validated
         },
         clearAll() {
           setStudies([])

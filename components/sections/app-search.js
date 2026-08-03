@@ -22,6 +22,7 @@ import {
 } from "@mui/material"
 import { formatList } from "utils/format-list"
 import styled from "styled-components"
+import { sendCustomEvent } from "utils/analytics"
 
 const RedX = () => (
   <CancelIcon style={{ color: "#cf0000", width: "50px", height: "50px" }} />
@@ -40,7 +41,6 @@ const columns = [
     accessorKey: "status",
     header: "Status",
     size: 40,
-
     Cell: ({ cell }) => {
       let icon = (expr) => {
         switch (expr) {
@@ -84,7 +84,6 @@ const columns = [
     accessorKey: "step",
     header: "Checklist Step",
     size: 75,
-
     Cell: ({ cell }) => {
       return (
         <Markdown linkTarget="_blank" className="general-table">
@@ -96,18 +95,41 @@ const columns = [
   {
     accessorKey: "notes",
     header: "Notes",
-
-    Cell: ({ cell }) => {
+    Cell: ({ cell, row }) => {
       const value = cell.getValue()
       if (typeof value === "string") {
         return (
-          <Markdown linkTarget="_blank" className="general-table">
-            {cell.getValue()}
-          </Markdown>
+          <div
+            onClick={(e) => {
+              const anchor = e.target.closest("a")
+              if (!anchor) return
+              sendCustomEvent("checklist_study_tracker_results", {
+                interaction_type: "link_click",
+                step_title: row.original.step,
+                link_text: anchor.innerText,
+                link_url: anchor.href,
+              })
+            }}
+          >
+            <Markdown linkTarget="_blank" className="general-table">
+              {value}
+            </Markdown>
+          </div>
         )
       } else {
         return (
-          <>
+          <div
+            onClick={(e) => {
+              const anchor = e.target.closest("a")
+              if (!anchor) return
+              sendCustomEvent("checklist_study_tracker_results", {
+                interaction_type: "link_click",
+                step_title: row.original.step,
+                link_text: anchor.innerText,
+                link_url: anchor.href,
+              })
+            }}
+          >
             <p style={{ marginBottom: "1rem" }}>
               Below is a table indicating submission status for repositories
               you&apos;ve indicated.
@@ -136,7 +158,7 @@ const columns = [
                 ))}
               </tbody>
             </SubTable>
-          </>
+          </div>
         )
       }
     },
@@ -187,6 +209,9 @@ export default function AppSearch({ data }) {
 
   React.useEffect(() => {
     if (params.data) {
+      setPayload(false)
+      setShowSupport(false)
+
       const paramKey = getParamKey(params.data)
 
       axios
@@ -247,7 +272,7 @@ export default function AppSearch({ data }) {
     }
 
     if ("overall_percent_complete" in data) {
-      const step = "Complete Your Study-Level Metadata Form"
+      const step = "Complete Your Study-Level Metadata (CEDAR) Form"
       const status =
         Number(data.overall_percent_complete) >= 50 ? "green" : "red"
       steps.push({
@@ -332,38 +357,27 @@ export default function AppSearch({ data }) {
     return steps
   }
 
+  const handleTextFieldBlur = () => {
+    if (value.trim()) {
+      sendCustomEvent("checklist_study_tracker_tool_interaction", {
+        interaction_type: "search_info_entered",
+        location: "results_page",
+        parent_page_title: document.title,
+        parent_page_url: window.location.href,
+      })
+    }
+  }
+
   const getAppId = (e) => {
     e.preventDefault()
 
     if (value.trim() === "") {
       setIsInvalidInput(true)
       return
-    } else {
-      setIsInvalidInput(false)
     }
 
-    setPayload(false)
-
-    const paramKey = getParamKey(value)
-
-    axios
-      .get(
-        `https://k18san0v73.execute-api.us-east-1.amazonaws.com/prod/progresstracker?${paramKey}${value}`
-      )
-      .then((response) => {
-        const filteredStudies = response.data.filter(
-          ({ archived }) => archived === "live"
-        )
-        if (filteredStudies.length > 0) {
-          setPayload(filteredStudies)
-          setSelectedHdpId(filteredStudies[0].hdp_id)
-          setShowSupport(false)
-        } else {
-          setStoreSentParam(value)
-          setShowSupport(response.data.length > 0 ? "archived" : "unknown")
-        }
-      })
-      .catch((err) => console.error(err))
+    setIsInvalidInput(false)
+    router.push({ pathname: "/app-search", query: { data: value } })
   }
 
   let handleTextFieldChange = (e) => {
@@ -407,6 +421,7 @@ export default function AppSearch({ data }) {
                   label="PI Name / Project # / CTN # / Appl ID / HDP ID"
                   variant="outlined"
                   onChange={handleTextFieldChange}
+                  onBlur={handleTextFieldBlur}
                   value={value}
                   sx={{
                     width: 450,
@@ -566,7 +581,24 @@ export default function AppSearch({ data }) {
             The steps below cannot currently be verified through this website.
             Please review these steps carefully and complete them if applicable.
           </p>
-          <SecondaryTable>
+          <SecondaryTable
+            onClick={(e) => {
+              const anchor = e.target.closest("a")
+              if (!anchor) return
+              const td = e.target.closest("td")
+              const tr = td?.closest("tr")
+              const stepTitle = tr?.querySelector("td:first-child")?.innerText
+              sendCustomEvent("checklist_study_tracker_results", {
+                interaction_type: "link_click",
+                step_title: stepTitle,
+                link_text: anchor.innerText,
+                link_url: anchor.href,
+                location: "results_page",
+                parent_page_title: document.title,
+                parent_page_url: window.location.href,
+              })
+            }}
+          >
             <thead>
               <tr>
                 <th>Checklist Step</th>
@@ -616,9 +648,15 @@ export default function AppSearch({ data }) {
                     Initiative support by referencing in the acknowledgement
                     sections of any relevant publication: This research was
                     supported by the National Institutes of Health through the
-                    NIH HEAL Initiative (/) under award number [include specific
-                    grant/contract/award number; with NIH grant number(s) in
-                    this format: R01GM987654].
+                    NIH HEAL Initiative
+                    ([https://www.nih.gov/heal](https://www.nih.gov/heal)) under
+                    award number, [include specific grant/contract/award number;
+                    for NIH grant number(s) use full format for the grant
+                    number, which includes application type, activity code,
+                    institute code, serial number, support year, and other
+                    suffixes as defined in [Deciphering NIH Application/Grant
+                    Numbers](https://www.era.nih.gov/files/Deciphering_NIH_Application.pdf).
+                    Example: 5R01GM987654-03S].
                   </Markdown>
                 </td>
               </tr>

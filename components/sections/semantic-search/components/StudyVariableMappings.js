@@ -2,12 +2,21 @@ import { useQuery } from "utils/use-query"
 import { CircularProgress, IconButton, Tooltip } from "@mui/material"
 import StyledAccordion from "../accordion"
 import { fetchStudies } from "../data/studies"
-import { Bookmark, BookmarkBorder, OpenInNew } from "@mui/icons-material"
+import { ENTITY_TYPES } from "../data/entity"
+import {
+  Bookmark,
+  BookmarkBorder,
+  OpenInNew,
+  ReadMore,
+} from "@mui/icons-material"
 import Link from "../../../elements/link"
 import { useCollectionContext } from "../context/collection"
+import { useEntityModal } from "../context/entity-modal"
+import { UI_SURFACES } from "../analytics"
 
 export function StudyVariableMappings({ studyMappings }) {
   const collection = useCollectionContext()
+  const modal = useEntityModal()
 
   const payload = {
     query: "",
@@ -43,23 +52,48 @@ export function StudyVariableMappings({ studyMappings }) {
           <div className="flex justify-between items-center w-full">
             <h4>
               {study.name}{" "}
+              {study.metadata?.["Data Availability"] === "available" && (
+                <span className="inline-block bg-[#982568] text-white rounded-md px-2 py-1 flex-shrink-0 mx-2">
+                  Data available
+                </span>
+              )}
               <span className="text-sm text-gray-500">
                 {studyMappings[study.id]?.join(", ") ?? "No mapped variables"}
               </span>
             </h4>
-            <IconButton
-              size="small"
-              onClick={(e) => {
-                e.stopPropagation()
-                collection.studies.toggle(study)
-              }}
-            >
-              {collection.studies.has(study) ? (
-                <Bookmark fontSize="small" sx={{ color: "#4d2862" }} />
-              ) : (
-                <BookmarkBorder fontSize="small" sx={{ color: "#4d2862" }} />
+            <div className="flex items-center flex-shrink-0">
+              <IconButton
+                size="small"
+                onClick={(e) => {
+                  e.stopPropagation()
+                  collection.studies.toggle(study)
+                }}
+              >
+                {collection.studies.has(study) ? (
+                  <Bookmark fontSize="small" sx={{ color: "#4d2862" }} />
+                ) : (
+                  <BookmarkBorder fontSize="small" sx={{ color: "#4d2862" }} />
+                )}
+              </IconButton>
+              {modal && (
+                <Tooltip title="View study details">
+                  <IconButton
+                    size="small"
+                    onClick={(e) => {
+                      e.stopPropagation()
+                      modal.openEntity({
+                        type: ENTITY_TYPES.STUDIES,
+                        id: study.id,
+                        entity: study,
+                        uiSurface: UI_SURFACES.STUDY_MAPPINGS_ROW,
+                      })
+                    }}
+                  >
+                    <ReadMore fontSize="small" sx={{ color: "#4d2862" }} />
+                  </IconButton>
+                </Tooltip>
               )}
-            </IconButton>
+            </div>
           </div>
         ),
         details: (

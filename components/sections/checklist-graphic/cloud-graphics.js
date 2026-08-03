@@ -1,6 +1,7 @@
 import { ArrowForward } from "@mui/icons-material"
 import { Button, styled } from "@mui/material"
 import Link from "next/link"
+import { sendCustomEvent } from "utils/analytics"
 
 export const CloudsGroup = ({ text, href, buttonText }) => {
   return (
@@ -17,6 +18,12 @@ export const CloudsGroup = ({ text, href, buttonText }) => {
           component={Link}
           href={href}
           endIcon={<ArrowForward />}
+          onClick={() => {
+            sendCustomEvent("checklist_cloud_click", {
+              link_url: href,
+              parent_page_url: window.location.href,
+            })
+          }}
         >
           {buttonText}
         </LightPurpleButton>

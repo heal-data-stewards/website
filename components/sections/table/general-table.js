@@ -3,8 +3,14 @@ import { Box, Typography } from "@mui/material"
 import { DataGrid } from "@mui/x-data-grid"
 import RenderExpandableCell from "./render-expandable-cell"
 import Markdown from "../../elements/markdown"
+import { sendCustomEvent } from "utils/analytics"
 
-// Column Definitions
+const getRepoName = (markdown) =>
+  markdown?.replace(/\[([^\]]+)\]\([^)]+\)/, "$1") ?? markdown
+
+const getLinkInteractionType = (linkText) =>
+  `${linkText.toLowerCase().trim().replace(/\s+/g, "_")}_link_click`
+
 const columns = [
   { field: "id", headerName: "ID", width: 10 },
   {
@@ -14,13 +20,21 @@ const columns = [
     sortable: false,
     filterable: false,
     width: 350,
-
     renderCell: ({ row }) => (
       <Box
         sx={{
           whiteSpace: "normal",
           wordWrap: "break-word",
           overflow: "visible",
+        }}
+        onClick={(e) => {
+          const anchor = e.target.closest("a")
+          if (!anchor) return
+          sendCustomEvent("repo_selection_table_interaction", {
+            interaction_type: "repository_name_link_click",
+            repository_name: getRepoName(row.Repository),
+            link_url: anchor.href,
+          })
         }}
       >
         <Markdown linkTarget="_blank" className="general-table">
@@ -36,7 +50,6 @@ const columns = [
     width: 275,
     sortable: false,
     cellClass: "overflow",
-
     renderCell: ({ row }) => (
       <RenderExpandableCell linkTarget="_blank" className="general-table">
         {row["Descriptive Tags"]}
@@ -49,7 +62,6 @@ const columns = [
     headerClassName: "general-table-header",
     width: 118,
     sortable: false,
-
     renderCell: ({ row }) => (
       <RenderExpandableCell linkTarget="_blank" className="general-table">
         {row["Organism"]}
@@ -62,7 +74,6 @@ const columns = [
     headerClassName: "general-table-header",
     width: 160,
     sortable: false,
-
     renderCell: ({ row }) => (
       <RenderExpandableCell linkTarget="_blank" className="general-table">
         {row["IC/Program"]}
@@ -91,6 +102,15 @@ const columns = [
             fontSize: "0.95rem !important",
           },
         }}
+        onClick={(e) => {
+          const anchor = e.target.closest("a")
+          if (!anchor) return
+          sendCustomEvent("repo_selection_table_interaction", {
+            interaction_type: getLinkInteractionType(anchor.innerText),
+            repository_name: getRepoName(row.Repository),
+            link_url: anchor.href,
+          })
+        }}
       >
         <Markdown linkTarget="_blank">{row["Get Started Here"]}</Markdown>
         {row[`Get Started Here Footnote`] && (
@@ -107,7 +127,6 @@ const columns = [
   },
 ]
 
-// Field-to-Column Mapping
 const columnFieldOrder = [
   "Repository",
   "Descriptive Tags",
@@ -200,12 +219,21 @@ export default function GeneralDataTable({ data }) {
   if (!mounted) return <StaticTable rows={rows} />
 
   return (
-    <Box className="container" sx={{ height: 600 }}>
+    <Box
+      className="container"
+      sx={{
+        height: 600,
+        "& .MuiDataGrid-cell": { display: "flex", alignItems: "center" },
+      }}
+    >
       <DataGrid
         rows={rows}
         columns={columns}
         initialState={{
           columns: { columnVisibilityModel: { id: false } },
+        }}
+        onSortModelChange={(sortModel) => {
+          if (!sortModel.length) return
         }}
       />
     </Box>
