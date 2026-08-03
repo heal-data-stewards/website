@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React from "react"
 import Markdown from "../elements/markdown"
 import Typography from "@mui/material/Typography"
 import Divider from "@mui/material/Divider"
@@ -7,14 +7,16 @@ import {
   ButtonBlockContainer,
   PanelContainer,
 } from "../elements/side-tab-menu"
-import trackTabClick from "../elements/side-tab-menu/analytics/track-tab-click"
+import { createSlug } from "../../utils/slugify"
 
 const VerticalTabs = ({ data }) => {
-  const [shownContent, setShownContent] = useState(data.TabItem[0])
-  const handleTabClick = (item) => {
-    trackTabClick({ title: item.TabTitle, url: item.TabUrl })
-    setShownContent(item)
-  }
+  const activeTab =
+    (data.activeTabSlug &&
+      data.TabItem.find(
+        (item) => createSlug(item.TabTitle) === data.activeTabSlug
+      )) ||
+    data.TabItem[0]
+
   return (
     <div className="container pb-12">
       <div style={{ display: "flex", justifyContent: "space-between" }}>
@@ -26,45 +28,32 @@ const VerticalTabs = ({ data }) => {
             flex: { md: "0 0 300px", sm: "0 0 200px" },
           }}
         >
-          {data.TabItem.map((item, i) => {
-            return (
-              <Block
-                onMouseDown={() => handleTabClick(item)}
-                onKeyDown={(e) => {
-                  if (e.key === "Enter" || e.key === " ") {
-                    handleTabClick(item)
-                  }
-                }}
-                key={i + item.TabTitle}
-                title={item.TabTitle}
-                url={item.TabUrl}
-                index={i}
-                isSelected={item.TabTitle === shownContent.TabTitle}
-              />
-            )
-          })}
-        </ButtonBlockContainer>
-        {data.TabItem.map((item, i) => (
-          <PanelContainer
-            key={i + item.TabTitle}
-            style={{
-              display:
-                item.TabTitle === shownContent.TabTitle ? undefined : "none",
-            }}
-          >
-            <Typography
-              variant="h2"
-              color="primary"
-              sx={{ fontWeight: "600", paddingTop: 0 }}
-            >
-              {item.TabTitle}
-            </Typography>
-            <Divider
-              sx={{ backgroundColor: "#982568", marginBottom: "1rem" }}
+          {data.TabItem.map((item, i) => (
+            <Block
+              key={i + item.TabTitle}
+              href={
+                item.TabUrl
+                  ? undefined
+                  : `${data.basePath}/${createSlug(item.TabTitle)}`
+              }
+              url={item.TabUrl}
+              title={item.TabTitle}
+              index={i}
+              isSelected={item.TabTitle === activeTab.TabTitle}
             />
-            <Markdown>{item.TabContent}</Markdown>
-          </PanelContainer>
-        ))}
+          ))}
+        </ButtonBlockContainer>
+        <PanelContainer>
+          <Typography
+            variant="h2"
+            color="primary"
+            sx={{ fontWeight: "600", paddingTop: 0 }}
+          >
+            {activeTab.TabTitle}
+          </Typography>
+          <Divider sx={{ backgroundColor: "#982568", marginBottom: "1rem" }} />
+          <Markdown>{activeTab.TabContent}</Markdown>
+        </PanelContainer>
       </div>
     </div>
   )

@@ -22,6 +22,7 @@ export default class MyDocument extends Document {
           {this.props.styles}
           <meta name="emotion-insertion-point" content="" />
           {this.props.emotionStyleTags}
+          <meta name="algolia-site-verification" content="C41BA50FAA538EAE" />
           <script
             async
             src={`https://www.googletagmanager.com/gtag/js?id=${process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS}`}

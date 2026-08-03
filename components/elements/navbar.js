@@ -27,6 +27,16 @@ import { ExpandMore } from "@mui/icons-material"
 import { Collapse } from "@mui/material"
 import classNames from "classnames"
 import { sendCustomEvent } from "utils/analytics"
+import { liteClient as algoliasearch } from "algoliasearch/lite"
+import SearchIcon from "@mui/icons-material/Search"
+import CloseIcon from "@mui/icons-material/Close"
+import { Search } from "../search/search"
+import { MobileSearchPanel } from "../search/mobile-search-panel"
+
+const searchClient = algoliasearch(
+  process.env.NEXT_PUBLIC_ALGOLIA_APPLICATION_ID,
+  process.env.NEXT_PUBLIC_ALGOLIA_SEARCH_KEY
+)
 
 const StyledMenu = styled((props) => <Menu elevation={0} {...props} />)(
   ({ theme }) => ({
@@ -72,6 +82,13 @@ const MenuPopupState = (data) => {
               ABOUT
             </div>
           </button>
+          {/* Dupe the two links as hidden so the crawler can reach them. */}
+          <Link href="/[[...slug]]" as="/about" className="sr-only">
+            HEAL Data Ecosystem
+          </Link>
+          <Link href="/[[...slug]]" as="/collective" className="sr-only">
+            Collective Board
+          </Link>
           <StyledMenu {...bindMenu(popupState)}>
             <MenuItem
               onClick={() => {
@@ -120,6 +137,7 @@ const Navbar = ({ navbar, pageContext }) => {
   const { data: session } = useSession()
   const [mobileMenuIsShown, setMobileMenuIsShown] = useState(false)
   const [isMobileAboutMenuOpen, setIsMobileAboutMenuOpen] = useState(false)
+  const [mobileSearchOpen, setMobileSearchOpen] = useState(false)
   const [loggedIn, setLoggedIn] = useState(false)
   const router = useRouter()
 
@@ -138,7 +156,7 @@ const Navbar = ({ navbar, pageContext }) => {
         }}
       >
         <Toolbar
-          className="container flex flex-row items-center justify-between"
+          className="container !max-w-screen-xl flex flex-row items-center justify-between"
           style={{ height: "100%" }}
         >
           {/* Content aligned to the left */}
@@ -154,7 +172,7 @@ const Navbar = ({ navbar, pageContext }) => {
               <NextImage media={navbar.logo} />
             </Link>
             {/* List of links on desktop */}
-            <ul className="hidden list-none lg:flex flex-row gap-1 items-baseline ml-10 mr-10">
+            <ul className="hidden list-none xl:flex flex-row gap-1 items-center ml-10 mr-10">
               <li>
                 <MenuPopupState />
               </li>
@@ -177,19 +195,25 @@ const Navbar = ({ navbar, pageContext }) => {
                         fontWeight: "bold",
                         textTransform: "uppercase",
                       }}
-                      className="hover:text-magenta text-purple px-2 py-1 whitespace-nowrap overflow-hidden overflow-ellipsis"
+                      className="hover:text-magenta text-purple px-2 py-1 whitespace-nowrap"
                     >
                       {navLink.text}
                     </div>
                   </CustomLink>
                 </li>
               ))}
+              <li>
+                <Search
+                  searchClient={searchClient}
+                  indexName={process.env.NEXT_PUBLIC_ALGOLIA_INDEX_NAME}
+                />
+              </li>
             </ul>
           </div>
           <div className="flex">
             {/* CTA button on desktop */}
             {navbar.button && (
-              <div className="hidden lg:block">
+              <div className="hidden xl:block">
                 {!session && (
                   <>
                     <Btn2 href={"/account"} button={{ text: "Log In" }} />
@@ -205,16 +229,45 @@ const Navbar = ({ navbar, pageContext }) => {
                 )}
               </div>
             )}
+            {/* Search icon on mobile */}
+            <button
+              onClick={() => {
+                setMobileSearchOpen((p) => !p)
+                setMobileMenuIsShown(false)
+              }}
+              aria-label={mobileSearchOpen ? "Close search" : "Open search"}
+              className="p-1 block xl:hidden text-purple hover:text-magenta"
+            >
+              {mobileSearchOpen ? (
+                <CloseIcon fontSize="medium" />
+              ) : (
+                <SearchIcon fontSize="medium" />
+              )}
+            </button>
             {/* Hamburger menu on mobile */}
             <button
-              onClick={() => setMobileMenuIsShown(true)}
-              className="p-1 block lg:hidden"
+              onClick={() => {
+                setMobileMenuIsShown(true)
+                setMobileSearchOpen(false)
+              }}
+              className="p-1 block xl:hidden"
             >
               <MdMenu className="h-8 w-auto" />
             </button>
           </div>
         </Toolbar>
       </AppBar>
+      {/* Mobile search panel */}
+      {mobileSearchOpen && (
+        <div className="xl:hidden w-full bg-white border-t border-gray-light shadow-md">
+          <MobileSearchPanel
+            searchClient={searchClient}
+            indexName={process.env.NEXT_PUBLIC_ALGOLIA_INDEX_NAME}
+            onClose={() => setMobileSearchOpen(false)}
+          />
+        </div>
+      )}
+
       {/* Mobile navigation menu panel */}
       {mobileMenuIsShown && (
         <Drawer
@@ -329,7 +382,7 @@ const Navbar = ({ navbar, pageContext }) => {
             <Divider />
             <div className="flex">
               {navbar.button && (
-                <div className="lg:block mt-4 ml-4">
+                <div className="xl:block mt-4 ml-4">
                   {!session && (
                     <>
                       <Btn2 href={"/account"} button={{ text: "Log In" }} />
