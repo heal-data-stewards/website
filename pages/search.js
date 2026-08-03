@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from "react"
+import { useRouter } from "next/router"
 import { liteClient as algoliasearch } from "algoliasearch/lite"
 import {
   InstantSearch,
@@ -46,24 +47,29 @@ function SearchResultsContent() {
   const { nbHits } = useStats()
   const { refine: refinePage } = usePagination()
 
-  const [{ q, page, events }, setParam] = useQueryParams({
-    q: null,
-    page: null,
-    events: null,
-  })
-  const [inputValue, setInputValue] = useState(q ?? "")
-  const includeEvents = events === EVENTS_PARAM_VALUE
+  const router = useRouter()
+  const [, setParam] = useQueryParams({ q: null, page: null, events: null })
+  const [inputValue, setInputValue] = useState("")
+  const [includeEvents, setIncludeEvents] = useState(false)
 
-  const initialQ = useRef(q)
-  const initialPage = useRef(page)
-
+  const didSeed = useRef(false)
   useEffect(() => {
-    if (initialQ.current) refine(initialQ.current)
-    const p = initialPage.current
-      ? Math.max(0, parseInt(initialPage.current, 10) - 1)
+    if (!router.isReady || didSeed.current) return
+    didSeed.current = true
+
+    const urlQ = typeof router.query.q === "string" ? router.query.q : ""
+    if (urlQ) {
+      setInputValue(urlQ)
+      refine(urlQ)
+    }
+
+    setIncludeEvents(router.query.events === EVENTS_PARAM_VALUE)
+
+    const p = router.query.page
+      ? Math.max(0, parseInt(router.query.page, 10) - 1)
       : 0
     if (p > 0) refinePage(p)
-  }, [refine, refinePage])
+  }, [router.isReady, router.query, refine, refinePage])
 
   const handleSubmit = (e) => {
     e.preventDefault()
@@ -80,6 +86,7 @@ function SearchResultsContent() {
   }
 
   const handleToggleEvents = (checked) => {
+    setIncludeEvents(checked)
     // Result set changes, so reset pagination to page 1.
     setParam("events", checked ? EVENTS_PARAM_VALUE : null)
     setParam("page", null)
