@@ -13,6 +13,7 @@ import { ThemeProvider } from "@mui/material/styles"
 import createEmotionCache from "utils/createEmotionCache"
 import { theme } from "../styles/theme"
 import "@/styles/index.css"
+import "instantsearch.css/themes/satellite.css"
 import posthog from "posthog-js"
 import { PostHogProvider } from "posthog-js/react"
 

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo, useRef, Fragment } from "react"
+import React, { useState, useEffect, useMemo, Fragment } from "react"
 import Markdown from "../elements/markdown"
 import {
   Typography,
@@ -17,78 +17,31 @@ import {
   PanelContainer,
 } from "../elements/side-tab-menu"
 import { useTheme } from "@mui/material/styles"
+import { useRouter } from "next/router"
 import parseMarkdownToSections from "../../utils/parse-markdown-to-sections"
 import { OpenInNew } from "@mui/icons-material"
 import trackTabClick from "../elements/side-tab-menu/analytics/track-tab-click"
-
-// Helper function to create slug from tab title
-const createSlug = (title) => {
-  return title
-    .toLowerCase()
-    .replace(/[^a-z0-9]+/g, "-")
-    .replace(/^-|-$/g, "")
-}
+import { createSlug } from "../../utils/slugify"
 
 const VerticalTabsWithAccordion = ({ data }) => {
   const theme = useTheme()
+  const router = useRouter()
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"))
 
-  // Find tab by hash or default to first
-  const getInitialTab = () => {
-    if (typeof window === "undefined") return data.TabItemWithAccordion[0]
+  const activeItem =
+    (data.activeTabSlug &&
+      data.TabItemWithAccordion.find(
+        (item) => createSlug(item.TabTitle) === data.activeTabSlug
+      )) ||
+    data.TabItemWithAccordion[0]
 
-    const hash = window.location.hash.slice(1) // Remove #
-    if (!hash) return data.TabItemWithAccordion[0]
-
-    const matchedTab = data.TabItemWithAccordion.find(
-      (item) => createSlug(item.TabTitle) === hash
-    )
-    return matchedTab || data.TabItemWithAccordion[0]
-  }
-
-  const [shownContent, setShownContent] = useState(getInitialTab)
   const [expandedStates, setExpandedStates] = useState([])
   const [showBackToTop, setShowBackToTop] = useState(false)
-  const tabItemsRef = useRef(data.TabItemWithAccordion)
 
   const sections = useMemo(() => {
-    if (!shownContent?.TabContent) return []
-    return parseMarkdownToSections(shownContent.TabContent)
-  }, [shownContent?.TabContent])
-
-  // Handle hash changes (browser back/forward)
-  useEffect(() => {
-    const handleHashChange = () => {
-      const hash = window.location.hash.slice(1)
-      if (!hash) {
-        setShownContent(data.TabItemWithAccordion[0])
-        return
-      }
-
-      const matchedTab = data.TabItemWithAccordion.find(
-        (item) => createSlug(item.TabTitle) === hash
-      )
-      if (matchedTab && matchedTab.TabTitle !== shownContent.TabTitle) {
-        setShownContent(matchedTab)
-      }
-    }
-
-    window.addEventListener("hashchange", handleHashChange)
-    return () => window.removeEventListener("hashchange", handleHashChange)
-  }, [data.TabItemWithAccordion, shownContent.TabTitle])
-
-  // Set initial tab from hash on mount (corrects SSR default when a hash is present)
-  useEffect(() => {
-    if (typeof window === "undefined") return
-    const hash = window.location.hash.slice(1)
-    if (!hash) return
-    const matchedTab = tabItemsRef.current.find(
-      (item) => createSlug(item.TabTitle) === hash
-    )
-    if (matchedTab) {
-      setShownContent(matchedTab)
-    }
-  }, [])
+    if (!activeItem?.TabContent) return []
+    return parseMarkdownToSections(activeItem.TabContent)
+  }, [activeItem?.TabContent])
 
   useEffect(() => {
     setExpandedStates(
@@ -96,10 +49,8 @@ const VerticalTabsWithAccordion = ({ data }) => {
         ? Array(sections.length).fill(false)
         : []
     )
-  }, [shownContent, sections])
+  }, [activeItem, sections])
 
-  // Scroll listener for Back to Top button
-  // To Do: add this to page layout component to implement site-wide
   useEffect(() => {
     const handleScroll = () => setShowBackToTop(window.scrollY > 200)
     window.addEventListener("scroll", handleScroll)
@@ -124,19 +75,6 @@ const VerticalTabsWithAccordion = ({ data }) => {
     }
   }
 
-  // Updated tab change handler
-  const handleTabChange = (item) => {
-    if (item.TabURL) {
-      window.open(item.TabURL, "_blank", "noopener,noreferrer")
-      return
-    }
-
-    setShownContent(item)
-    // Update hash without triggering page scroll
-    const slug = createSlug(item.TabTitle)
-    window.history.pushState(null, "", `#${slug}`)
-  }
-
   return (
     <div className="container pb-12">
       <div
@@ -146,12 +84,18 @@ const VerticalTabsWithAccordion = ({ data }) => {
           <Box mb={2}>
             <Select
               fullWidth
-              value={shownContent.TabTitle}
+              value={activeItem.TabTitle}
               onChange={(e) => {
                 const selected = data.TabItemWithAccordion.find(
                   (item) => item.TabTitle === e.target.value
                 )
-                handleTabChange(selected)
+                if (selected.TabURL) {
+                  window.open(selected.TabURL, "_blank", "noopener,noreferrer")
+                } else {
+                  router.push(
+                    `${data.basePath}/${createSlug(selected.TabTitle)}`
+                  )
+                }
               }}
               IconComponent={KeyboardArrowDown}
               renderValue={(selected) => (
@@ -241,79 +185,67 @@ const VerticalTabsWithAccordion = ({ data }) => {
             {data.TabItemWithAccordion.map((item, i) => (
               <Block
                 key={i + item.TabTitle}
-                onClick={() => handleTabChange(item)}
-                title={item.TabTitle}
+                href={
+                  item.TabURL
+                    ? undefined
+                    : `${data.basePath}/${createSlug(item.TabTitle)}`
+                }
                 url={item.TabURL}
+                title={item.TabTitle}
                 index={i}
-                isSelected={item.TabTitle === shownContent.TabTitle}
+                isSelected={item.TabTitle === activeItem.TabTitle}
               />
             ))}
           </ButtonBlockContainer>
         )}
 
-        {data.TabItemWithAccordion.map((item) => {
-          const isActive = item.TabTitle === shownContent.TabTitle
-          return (
-            <PanelContainer
-              key={item.TabTitle}
-              sx={{
-                width: "100%",
-                paddingX: isMobile ? 2 : 0,
-                marginTop: isMobile ? 2 : 0,
-              }}
-              style={{ display: isActive ? undefined : "none" }}
-            >
-              {isActive ? (
-                <>
-                  {!isMobile && (
-                    <Fragment>
-                      <Typography
-                        variant="h2"
-                        color="primary"
-                        sx={{
-                          fontWeight: 600,
-                          paddingTop: 0,
-                          fontSize: { xs: "1.5rem", sm: "2rem", md: "2.5rem" },
-                        }}
-                      >
-                        {item.TabTitle}
-                      </Typography>
-                      <Divider
-                        sx={{
-                          backgroundColor: "#982568",
-                          marginBottom: "1rem",
-                        }}
-                      />
-                    </Fragment>
-                  )}
-                  {sections[0]?.type === "accordion" ? (
-                    <>
-                      <AccordionControls
-                        expandedStates={expandedStates}
-                        onExpandAll={handleExpandAll}
-                        onCollapseAll={handleCollapseAll}
-                      />
-                      <AccordionList
-                        sections={sections}
-                        expandedStates={expandedStates}
-                        handleToggle={handleToggle}
-                      />
-                    </>
-                  ) : (
-                    <div style={{ color: "#532565" }}>
-                      <Markdown>{sections[0]?.content}</Markdown>
-                    </div>
-                  )}
-                </>
-              ) : (
-                <>
-                  <h2>{item.TabTitle}</h2>
-                  <Markdown>{item.TabContent}</Markdown>
-                </>
-              )}
-            </PanelContainer>
-          )
-        })}
+        <PanelContainer
+          sx={{
+            width: "100%",
+            paddingX: isMobile ? 2 : 0,
+            marginTop: isMobile ? 2 : 0,
+          }}
+        >
+          {!isMobile && (
+            <Fragment>
+              <Typography
+                variant="h2"
+                color="primary"
+                sx={{
+                  fontWeight: 600,
+                  paddingTop: 0,
+                  fontSize: { xs: "1.5rem", sm: "2rem", md: "2.5rem" },
+                }}
+              >
+                {activeItem.TabTitle}
+              </Typography>
+              <Divider
+                sx={{
+                  backgroundColor: "#982568",
+                  marginBottom: "1rem",
+                }}
+              />
+            </Fragment>
+          )}
+          {sections[0]?.type === "accordion" ? (
+            <>
+              <AccordionControls
+                expandedStates={expandedStates}
+                onExpandAll={handleExpandAll}
+                onCollapseAll={handleCollapseAll}
+              />
+              <AccordionList
+                sections={sections}
+                expandedStates={expandedStates}
+                handleToggle={handleToggle}
+              />
+            </>
+          ) : (
+            <div style={{ color: "#532565" }}>
+              <Markdown>{sections[0]?.content}</Markdown>
+            </div>
+          )}
+        </PanelContainer>
       </div>
 
       {showBackToTop && (

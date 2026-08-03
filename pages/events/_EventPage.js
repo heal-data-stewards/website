@@ -50,7 +50,7 @@ function EventPage({ global, event, pageContext, metadata }) {
 
   return (
     <Layout global={global} pageContext={pageContext}>
-      <Seo metadata={metadata} />
+      <Seo metadata={{ ...metadata, metaTitle: data.subject }} />
       <div className="container pt-10 pb-10">
         {/* Page header section */}
         <section className="">
