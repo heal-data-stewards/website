@@ -28,14 +28,27 @@ export default function MetricCard({
   spark,
   sparkColor,
   small,
+  dimmed,
+  dimmedNote,
 }) {
   return (
-    <div className="rounded-lg border border-gray-light bg-white p-3 shadow-sm">
+    <div
+      className={`rounded-lg border p-3 shadow-sm ${
+        dimmed
+          ? "border-gray-light bg-gray-50 opacity-60"
+          : "border-gray-light bg-white"
+      }`}
+    >
       <div className="text-[11px] font-semibold uppercase tracking-wide text-gray">
         {label}
+        {dimmed && dimmedNote && (
+          <span className="ml-1 rounded bg-gray-100 px-1 py-0.5 text-[9px] font-normal normal-case text-gray">
+            {dimmedNote}
+          </span>
+        )}
       </div>
       <div
-        className={`${small ? "text-xl" : "text-3xl"} font-bold text-purple`}
+        className={`${small ? "text-xl" : "text-3xl"} font-bold ${dimmed ? "text-gray" : "text-purple"}`}
       >
         {value ?? "—"}
       </div>
