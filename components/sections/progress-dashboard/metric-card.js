@@ -48,7 +48,9 @@ export default function MetricCard({
         )}
       </div>
       <div
-        className={`${small ? "text-xl" : "text-3xl"} font-bold ${dimmed ? "text-gray" : "text-purple"}`}
+        className={`${small ? "text-xl" : "text-3xl"} font-bold ${
+          dimmed ? "text-gray" : "text-purple"
+        }`}
       >
         {value ?? "—"}
       </div>
