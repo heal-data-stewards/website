@@ -6,6 +6,7 @@ export const fetchConcepts = async ({
   limit = 100,
   offset = 0,
   filters = [],
+  sort = [],
   aggs = {},
   simpleSearch = false,
 }) => {
@@ -17,6 +18,7 @@ export const fetchConcepts = async ({
       ...(conceptTypes &&
         conceptTypes.length > 0 && { concept_types: conceptTypes }),
       ...(filters.length > 0 && { filters }),
+      ...(sort.length > 0 && { sort }),
       ...(Object.keys(aggs).length > 0 && { aggs }),
       ...(simpleSearch && { simple_search: true }),
       size: limit,
