@@ -39,7 +39,7 @@ export const QUERIES = [
   },
   {
     key: "ended_studies",
-    label: "Studies with Ended Projects",
+    label: "Studies Past End Date",
     desc: "Studies whose project end date has passed",
   },
   {
