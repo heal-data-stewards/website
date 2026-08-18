@@ -8,6 +8,7 @@ export const fetchStudies = async ({
   limit = 100,
   offset = 0,
   filters = [],
+  sort = [],
   aggs = {},
   simpleSearch = false,
 }) => {
@@ -23,6 +24,7 @@ export const fetchStudies = async ({
       ...(elementIds && elementIds.length > 0 && { element_ids: elementIds }),
       ...(typeof concept === "string" && { concept }),
       ...(filters.length > 0 && { filters }),
+      ...(sort.length > 0 && { sort }),
       ...(Object.keys(aggs).length > 0 && { aggs }),
       ...(simpleSearch && { simple_search: true }),
       size: limit,
