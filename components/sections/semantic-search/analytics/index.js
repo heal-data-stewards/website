@@ -1,4 +1,5 @@
 export * from "./bookmark"
+export * from "./bulkDownload"
 export * from "./cdeAccordion"
 export * from "./cdeDownload"
 export * from "./collectionCleared"

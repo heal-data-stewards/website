@@ -103,7 +103,10 @@ export const CDEsPanel = ({ searchTerm, simpleSearch = false }) => {
       query={cdesQuery}
       results={cdes}
       totalCount={totalCount}
+      entityType="cdes"
       entityNames={{ singular: "CDE", plural: "CDEs" }}
+      searchTerm={searchTerm}
+      simpleSearch={simpleSearch}
       page={page}
       onPageChange={setPage}
       filterConfigs={filterConfigs}
