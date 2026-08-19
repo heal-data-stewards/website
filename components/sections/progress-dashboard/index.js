@@ -14,15 +14,29 @@ import OriginBreakdown from "./origin-breakdown"
 import QueryPanel from "./query-panel"
 import RepoPrograms from "./repo-programs"
 import TrendChart from "./trend-chart"
-import { Card, CardHeader, SectionLabel, StatusDot, TrendDelta } from "./ui"
+import { Card, CardHeader, SectionLabel, TrendDelta } from "./ui"
 
+// "all" uses a sentinel start date well before the earliest snapshot (Dec 2024);
+// the API just clips list_range() to whatever snapshots actually exist.
 const RANGES = [
-  { value: 1, label: "30 days" },
-  { value: 3, label: "3 months" },
-  { value: 6, label: "6 months" },
-  { value: 12, label: "12 months" },
-  { value: "all", label: "All time" },
+  { label: "30 days", days: 30 },
+  { label: "6 months", days: 182 },
+  { label: "12 months", days: 365 },
+  { label: "All time", days: null },
 ]
+
+const todayISO = () => new Date().toISOString().slice(0, 10)
+
+const subDays = (days) => {
+  const d = new Date()
+  d.setDate(d.getDate() - days)
+  return d.toISOString().slice(0, 10)
+}
+
+const presetRange = (range) => ({
+  start: range.days == null ? "2000-01-01" : subDays(range.days),
+  end: todayISO(),
+})
 
 export default function ProgressDashboard({ data }) {
   return (
@@ -37,19 +51,22 @@ function Dashboard({ data }) {
   const apiBase = (data?.apiBase || DEFAULT_API_BASE).replace(/\/+$/, "")
   const queryApiBase = data?.queryApiBase || DEFAULT_QUERY_API_BASE
 
-  const [months, setMonths] = useState(6)
+  // filter is always a { start, end } date range; presets just populate it
+  const [filter, setFilter] = useState(() => presetRange(RANGES[1]))
+  const filterKey = `${filter.start}-${filter.end}`
+
   const {
     data: summary,
     isLoading,
     error,
   } = useQuery({
-    queryKey: `heal-summary-${months}`,
-    queryFn: () => fetchSummary(apiBase, months),
+    queryKey: `heal-summary-${filterKey}`,
+    queryFn: () => fetchSummary(apiBase, filter),
   })
 
   return (
     <div className="container mb-16">
-      <TopBar summary={summary} months={months} onRangeChange={setMonths} />
+      <TopBar summary={summary} filter={filter} onFilterChange={setFilter} />
 
       {isLoading && (
         <div className="py-16 text-center text-gray">Loading HEAL metrics…</div>
@@ -96,37 +113,73 @@ function Dashboard({ data }) {
   )
 }
 
-function TopBar({ summary, months, onRangeChange }) {
-  const health = summary?.latest?.api_health ?? {}
+function TopBar({ summary, filter, onFilterChange }) {
   const collectedAt = summary?.latest?.collected_at
+
+  const [start, setStart] = useState(filter.start)
+  const [end, setEnd] = useState(filter.end)
+
+  const activePreset = RANGES.find((r) => {
+    const p = presetRange(r)
+    return p.start === start && p.end === end
+  })
+
+  const handlePreset = (r) => {
+    const { start: s, end: e } = presetRange(r)
+    setStart(s)
+    setEnd(e)
+    onFilterChange({ start: s, end: e })
+  }
+
+  const handleStartChange = (value) => {
+    setStart(value)
+    if (value && end) onFilterChange({ start: value, end })
+  }
+
+  const handleEndChange = (value) => {
+    setEnd(value)
+    if (start && value) onFilterChange({ start, end: value })
+  }
 
   return (
     <div className="mb-6 flex flex-wrap items-center justify-between gap-3 rounded-lg bg-purple px-4 py-3 text-white">
-      <div className="flex flex-wrap items-center gap-4 text-sm">
-        <StatusDot status={health.mds} label="healdata.org" />
-        <StatusDot status={health.hss} label="Semantic Search" />
-        <StatusDot status={health.healdatafair} label="healdatafair.org" />
-        {collectedAt && (
-          <span className="text-xs text-white/60">
-            Refreshed: {new Date(collectedAt).toLocaleString()}
-          </span>
-        )}
+      <div className="flex flex-wrap items-center gap-3 text-sm">
+        <div className="flex flex-wrap items-center gap-1">
+          {RANGES.map((r) => (
+            <button
+              key={r.label}
+              onClick={() => handlePreset(r)}
+              className={`rounded-full px-3 py-1 text-xs font-semibold transition-colors ${
+                activePreset?.label === r.label
+                  ? "bg-white text-purple"
+                  : "bg-white/10 text-white hover:bg-white/20"
+              }`}
+            >
+              {r.label}
+            </button>
+          ))}
+        </div>
+        <div className="flex items-center gap-1">
+          <input
+            type="date"
+            value={start}
+            onChange={(e) => handleStartChange(e.target.value)}
+            className="rounded border border-white/30 bg-white/10 px-2 py-0.5 text-xs text-white [color-scheme:dark]"
+          />
+          <span className="text-xs text-white/60">to</span>
+          <input
+            type="date"
+            value={end}
+            onChange={(e) => handleEndChange(e.target.value)}
+            className="rounded border border-white/30 bg-white/10 px-2 py-0.5 text-xs text-white [color-scheme:dark]"
+          />
+        </div>
       </div>
-      <div className="flex flex-wrap gap-1">
-        {RANGES.map((r) => (
-          <button
-            key={r.value}
-            onClick={() => onRangeChange(r.value)}
-            className={`rounded-full px-3 py-1 text-xs font-semibold transition-colors ${
-              months === r.value
-                ? "bg-white text-purple"
-                : "bg-white/10 text-white hover:bg-white/20"
-            }`}
-          >
-            {r.label}
-          </button>
-        ))}
-      </div>
+      {collectedAt && (
+        <span className="text-xs text-white/60">
+          Refreshed: {new Date(collectedAt).toLocaleString()}
+        </span>
+      )}
     </div>
   )
 }
@@ -169,7 +222,25 @@ function PlatformStatus({ summary }) {
   )
 }
 
+// Beyond ~3 months of weekly snapshots the chart gets too busy; fall back to
+// one point per month (the last snapshot in each month) for longer ranges.
+const MONTHLY_THRESHOLD_DAYS = 90
+
+function toMonthlyPoints(timeSeries) {
+  const byMonth = new Map()
+  for (const point of timeSeries) byMonth.set(point.date.slice(0, 7), point)
+  return Array.from(byMonth.values())
+}
+
 function GrowthTrend({ summary }) {
+  const raw = summary.time_series ?? []
+  const spanDays =
+    raw.length > 1
+      ? (new Date(raw[raw.length - 1].date) - new Date(raw[0].date)) / 86400000
+      : 0
+  const monthly = spanDays > MONTHLY_THRESHOLD_DAYS
+  const points = monthly ? toMonthlyPoints(raw) : raw
+
   return (
     <div>
       <SectionLabel
@@ -179,9 +250,12 @@ function GrowthTrend({ summary }) {
       <Card>
         <CardHeader
           title="HDP Study counts — rolling trend"
-          badge="weekly snapshots"
+          badge={monthly ? "monthly snapshots" : "weekly snapshots"}
         />
-        <TrendChart timeSeries={summary.time_series ?? []} />
+        <TrendChart
+          timeSeries={points}
+          granularity={monthly ? "monthly" : "weekly"}
+        />
       </Card>
     </div>
   )

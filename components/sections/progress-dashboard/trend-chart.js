@@ -24,9 +24,19 @@ const SERIES = [
 const AXIS_TICK = { fontSize: 11, fill: "rgba(83,37,101,0.6)" }
 const GRID_STROKE = "rgba(83,37,101,0.08)"
 
+const formatMonthTick = (d) => {
+  if (!d) return ""
+  return new Date(`${d}T00:00:00`).toLocaleDateString("en-US", {
+    month: "short",
+    year: "2-digit",
+  })
+}
+
 // Multi-series area chart with a clickable legend that focuses one line
-export default function TrendChart({ timeSeries }) {
+export default function TrendChart({ timeSeries, granularity = "weekly" }) {
   const [focused, setFocused] = useState(null)
+  const tickFormatter =
+    granularity === "monthly" ? formatMonthTick : (d) => d?.slice(5) ?? ""
 
   return (
     <div>
@@ -57,7 +67,7 @@ export default function TrendChart({ timeSeries }) {
           <CartesianGrid stroke={GRID_STROKE} vertical={false} />
           <XAxis
             dataKey="date"
-            tickFormatter={(d) => d?.slice(5) ?? ""}
+            tickFormatter={tickFormatter}
             tick={AXIS_TICK}
           />
           <YAxis

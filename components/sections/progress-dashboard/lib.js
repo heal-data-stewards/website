@@ -1,10 +1,26 @@
 // Shared constants and helpers for the progress dashboard
 
-export const DEFAULT_API_BASE =
-  "https://ukx8knp2oa.execute-api.us-east-1.amazonaws.com"
+// Local/dev override: set NEXT_PUBLIC_HEAL_API_ENV=test in .env.local to point
+// the dashboard at test Lambda endpoints instead of prod. Strapi-configured
+// endpoints (passed in as `data.apiBase` / `data.queryApiBase`) still win over
+// both — this only changes the fallback used when Strapi hasn't set one.
+const API_ENV =
+  process.env.NEXT_PUBLIC_HEAL_API_ENV === "test" ? "test" : "prod"
+
+const API_BASE_BY_ENV = {
+  prod: "https://ukx8knp2oa.execute-api.us-east-1.amazonaws.com",
+  test: process.env.NEXT_PUBLIC_HEAL_API_BASE_TEST || "",
+}
+
+const QUERY_API_BASE_BY_ENV = {
+  prod: "https://opzv7se6o6fpwzfpgt4uqne6rm0fnqtu.lambda-url.us-east-1.on.aws/",
+  test: process.env.NEXT_PUBLIC_HEAL_QUERY_API_BASE_TEST || "",
+}
+
+export const DEFAULT_API_BASE = API_BASE_BY_ENV[API_ENV] || API_BASE_BY_ENV.prod
 
 export const DEFAULT_QUERY_API_BASE =
-  "https://opzv7se6o6fpwzfpgt4uqne6rm0fnqtu.lambda-url.us-east-1.on.aws/"
+  QUERY_API_BASE_BY_ENV[API_ENV] || QUERY_API_BASE_BY_ENV.prod
 
 export const COLORS = {
   blue: "#0044B3",
@@ -73,8 +89,12 @@ export function fmtColHeader(key) {
   return key.replace(/_/g, " ").replace(/\b\w/g, (c) => c.toUpperCase())
 }
 
-export async function fetchSummary(apiBase, months) {
-  const res = await fetch(`${apiBase}/api/metrics/summary?months=${months}`)
+export async function fetchSummary(apiBase, filter) {
+  const params =
+    filter && typeof filter === "object"
+      ? `start=${filter.start}&end=${filter.end}`
+      : `months=${filter}`
+  const res = await fetch(`${apiBase}/api/metrics/summary?${params}`)
   if (!res.ok) throw new Error(`API error ${res.status}`)
   return res.json()
 }
