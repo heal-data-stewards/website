@@ -173,7 +173,10 @@ export const StudiesPanel = ({ searchTerm, simpleSearch = false }) => {
       query={studiesQuery}
       results={studies}
       totalCount={totalCount}
+      entityType="studies"
       entityNames={{ singular: "study", plural: "studies" }}
+      searchTerm={searchTerm}
+      simpleSearch={simpleSearch}
       page={page}
       onPageChange={setPage}
       filterConfigs={filterConfigs}
