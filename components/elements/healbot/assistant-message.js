@@ -1,6 +1,5 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react"
 import Box from "@mui/material/Box"
-import Typography from "@mui/material/Typography"
 import Link from "../link"
 import ChatMarkdown from "./chat-markdown"
 
@@ -73,18 +72,20 @@ const AssistantMessage = ({ content }) => {
 
       {sources.length > 0 && (
         <Box sx={{ mt: 1.5 }}>
-          <Typography
+          <Box
+            component="h4"
             sx={{
               fontSize: "0.75rem",
               fontWeight: 700,
               textTransform: "uppercase",
               letterSpacing: "0.05em",
               color: "text.secondary",
+              m: 0,
               mb: 0.5,
             }}
           >
             Sources
-          </Typography>
+          </Box>
           {/* `&&` doubles the class specificity: a single class loses to the
               global `ol` padding-inline-start rule. */}
           <Box

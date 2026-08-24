@@ -4,7 +4,6 @@ import gfm from "remark-gfm"
 import Box from "@mui/material/Box"
 import Divider from "@mui/material/Divider"
 import MUILink from "@mui/material/Link"
-import Typography from "@mui/material/Typography"
 import Link from "../link"
 
 // Splits on fenced blocks and inline spans so code is left verbatim; the
@@ -63,16 +62,20 @@ const codeFont = {
   fontSize: "0.8125rem",
 }
 
+// Plain elements rather than MUI Typography: index.css pins every
+// .MuiTypography-* variant with !important, which no sx value can override.
 const Heading = ({ children }) => (
-  <Typography sx={heading}>{children}</Typography>
+  <Box component="h4" sx={heading}>
+    {children}
+  </Box>
 )
 
 const baseComponents = {
   p: function Paragraph({ children }) {
     return (
-      <Typography sx={{ ...body, mb: 1, "&:last-child": { mb: 0 } }}>
+      <Box component="p" sx={{ ...body, mb: 1, "&:last-child": { mb: 0 } }}>
         {children}
-      </Typography>
+      </Box>
     )
   },
   h1: Heading,

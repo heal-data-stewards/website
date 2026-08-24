@@ -1,18 +1,24 @@
 import { useCallback, useEffect, useRef, useState } from "react"
+import { formatDistanceToNow } from "date-fns"
 import Box from "@mui/material/Box"
 import Chip from "@mui/material/Chip"
 import Fab from "@mui/material/Fab"
 import IconButton from "@mui/material/IconButton"
+import ListItemText from "@mui/material/ListItemText"
+import Menu from "@mui/material/Menu"
+import MenuItem from "@mui/material/MenuItem"
 import Paper from "@mui/material/Paper"
 import TextField from "@mui/material/TextField"
 import Tooltip from "@mui/material/Tooltip"
-import Typography from "@mui/material/Typography"
+import AddCommentRoundedIcon from "@mui/icons-material/AddCommentRounded"
+import FeedbackOutlinedIcon from "@mui/icons-material/FeedbackOutlined"
 import ChatBubbleOutlineRoundedIcon from "@mui/icons-material/ChatBubbleOutlineRounded"
 import CloseRoundedIcon from "@mui/icons-material/CloseRounded"
 import DeleteOutlineRoundedIcon from "@mui/icons-material/DeleteOutlineRounded"
 import ErrorOutlineRoundedIcon from "@mui/icons-material/ErrorOutlineRounded"
+import HistoryRoundedIcon from "@mui/icons-material/HistoryRounded"
 import SendRoundedIcon from "@mui/icons-material/SendRounded"
-import { useChatHistory } from "utils/use-chat-history"
+import { useChatConversations } from "utils/use-chat-conversations"
 import AssistantMessage from "./assistant-message"
 
 const SUGGESTIONS = [
@@ -23,6 +29,15 @@ const SUGGESTIONS = [
 ]
 
 const GENERIC_ERROR = "Something went wrong. Please try again."
+
+const FEEDBACK_MAILTO = `mailto:groupe@renci.org?subject=${encodeURIComponent(
+  "HEAL Assistant feedback"
+)}`
+
+// MUI's default disabled grey is close to unreadable on the purple header.
+const headerButton = {
+  "&.Mui-disabled": { color: "rgba(255, 255, 255, 0.4)" },
+}
 
 const TypingIndicator = () => (
   <Box sx={{ display: "flex", gap: 0.5, px: 0.5, py: 1 }}>
@@ -69,7 +84,7 @@ const MessageBubble = ({ message }) => {
         }}
       >
         {isUser ? (
-          <Typography
+          <Box
             sx={{
               fontSize: "0.875rem",
               lineHeight: 1.55,
@@ -77,7 +92,7 @@ const MessageBubble = ({ message }) => {
             }}
           >
             {message.content}
-          </Typography>
+          </Box>
         ) : (
           <AssistantMessage content={message.content} />
         )}
@@ -87,11 +102,21 @@ const MessageBubble = ({ message }) => {
 }
 
 const AssistantPopup = () => {
-  const { messages, appendMessage, clearMessages } = useChatHistory()
+  const {
+    conversations,
+    activeId,
+    messages,
+    startConversation,
+    appendMessage,
+    newChat,
+    selectConversation,
+    deleteConversation,
+  } = useChatConversations()
   const [open, setOpen] = useState(false)
   const [input, setInput] = useState("")
   const [pending, setPending] = useState(false)
   const [error, setError] = useState(null)
+  const [historyAnchor, setHistoryAnchor] = useState(null)
 
   const scrollRef = useRef(null)
   const inputRef = useRef(null)
@@ -105,14 +130,23 @@ const AssistantPopup = () => {
     if (open) inputRef.current?.focus()
   }, [open])
 
+  // Deleting the last conversation would otherwise leave an empty menu open.
+  useEffect(() => {
+    if (!conversations.length) setHistoryAnchor(null)
+  }, [conversations.length])
+
   const send = useCallback(
     async (text) => {
       const question = text.trim()
       if (!question || pending) return
 
+      // Pinned up front so the reply still lands here if the user switches
+      // conversations while the request is in flight.
+      const conversationId = startConversation()
+
       setInput("")
       setError(null)
-      appendMessage({ role: "user", content: question })
+      appendMessage(conversationId, { role: "user", content: question })
       setPending(true)
 
       try {
@@ -129,14 +163,17 @@ const AssistantPopup = () => {
           return
         }
 
-        appendMessage({ role: "assistant", content: data.reply })
+        appendMessage(conversationId, {
+          role: "assistant",
+          content: data.reply,
+        })
       } catch {
         setError(GENERIC_ERROR)
       } finally {
         setPending(false)
       }
     },
-    [appendMessage, messages, pending]
+    [appendMessage, messages, pending, startConversation]
   )
 
   const handleKeyDown = (event) => {
@@ -145,6 +182,8 @@ const AssistantPopup = () => {
       send(input)
     }
   }
+
+  if (process.env.NEXT_PUBLIC_HEALBOT_ENABLED !== "true") return null
 
   if (!open) {
     return (
@@ -187,22 +226,49 @@ const AssistantPopup = () => {
           color: "primary.contrastText",
         }}
       >
-        <Typography sx={{ flex: 1, fontWeight: 600, fontSize: "0.95rem" }}>
+        <Box sx={{ flex: 1, fontWeight: 600, fontSize: "0.95rem" }}>
           HEAL Assistant
-        </Typography>
-        <Tooltip title="Clear conversation">
+        </Box>
+        <Tooltip title="Send feedback">
+          <IconButton
+            component="a"
+            href={FEEDBACK_MAILTO}
+            size="small"
+            color="inherit"
+            aria-label="Send feedback by email"
+            sx={headerButton}
+          >
+            <FeedbackOutlinedIcon fontSize="small" />
+          </IconButton>
+        </Tooltip>
+        <Tooltip title="Chat history">
           <span>
             <IconButton
               size="small"
               color="inherit"
-              aria-label="Clear conversation"
-              disabled={!messages.length}
+              aria-label="Chat history"
+              disabled={!conversations.length}
+              onClick={(event) => setHistoryAnchor(event.currentTarget)}
+              sx={headerButton}
+            >
+              <HistoryRoundedIcon fontSize="small" />
+            </IconButton>
+          </span>
+        </Tooltip>
+        <Tooltip title="New chat">
+          <span>
+            <IconButton
+              size="small"
+              color="inherit"
+              aria-label="New chat"
+              disabled={!activeId}
               onClick={() => {
-                clearMessages()
+                newChat()
                 setError(null)
               }}
+              sx={headerButton}
             >
-              <DeleteOutlineRoundedIcon fontSize="small" />
+              <AddCommentRoundedIcon fontSize="small" />
             </IconButton>
           </span>
         </Tooltip>
@@ -215,6 +281,72 @@ const AssistantPopup = () => {
           <CloseRoundedIcon fontSize="small" />
         </IconButton>
       </Box>
+
+      <Menu
+        anchorEl={historyAnchor}
+        open={Boolean(historyAnchor)}
+        onClose={() => setHistoryAnchor(null)}
+        anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+        transformOrigin={{ vertical: "top", horizontal: "right" }}
+        PaperProps={{ sx: { width: 300, maxHeight: 340 } }}
+      >
+        {conversations.map((conversation) => (
+          <MenuItem
+            key={conversation.id}
+            selected={conversation.id === activeId}
+            onClick={() => {
+              selectConversation(conversation.id)
+              setHistoryAnchor(null)
+              setError(null)
+            }}
+            sx={{ alignItems: "flex-start", gap: 1 }}
+          >
+            <ListItemText
+              disableTypography
+              sx={{ my: 0, minWidth: 0 }}
+              primary={
+                <Box
+                  sx={{
+                    fontSize: "13px",
+                    lineHeight: 1.35,
+                    // MenuItem sets white-space: nowrap, which runs long
+                    // titles underneath the delete button.
+                    whiteSpace: "normal",
+                    overflowWrap: "anywhere",
+                  }}
+                >
+                  {conversation.title}
+                </Box>
+              }
+              secondary={
+                <Box
+                  sx={{
+                    fontSize: "11px",
+                    color: "text.secondary",
+                    mt: 0.25,
+                  }}
+                >
+                  {formatDistanceToNow(conversation.updatedAt, {
+                    addSuffix: true,
+                  })}
+                </Box>
+              }
+            />
+            <Tooltip title="Delete chat">
+              <IconButton
+                size="small"
+                aria-label={`Delete chat: ${conversation.title}`}
+                onClick={(event) => {
+                  event.stopPropagation()
+                  deleteConversation(conversation.id)
+                }}
+              >
+                <DeleteOutlineRoundedIcon fontSize="small" />
+              </IconButton>
+            </Tooltip>
+          </MenuItem>
+        ))}
+      </Menu>
 
       <Box
         ref={scrollRef}
@@ -233,11 +365,19 @@ const AssistantPopup = () => {
       >
         {!messages.length && (
           <>
-            <Typography sx={{ fontSize: "0.875rem", lineHeight: 1.55 }}>
+            <Box sx={{ fontSize: "0.875rem", lineHeight: 1.55 }}>
               Ask about HEAL data sharing, FAIR principles, metadata, and
-              repositories. Answers are grounded in resources from
-              healdatafair.org.
-            </Typography>
+              repositories. This is an early prototype. Have an issue, question,
+              or comment about the assistant?{" "}
+              <Box
+                component="a"
+                href={FEEDBACK_MAILTO}
+                sx={{ fontWeight: 600, color: "#982568" }}
+              >
+                Let us know
+              </Box>
+              .
+            </Box>
             <Box sx={{ display: "flex", flexWrap: "wrap", gap: 0.75 }}>
               {SUGGESTIONS.map((suggestion) => (
                 <Chip
@@ -277,7 +417,7 @@ const AssistantPopup = () => {
             }}
           >
             <ErrorOutlineRoundedIcon fontSize="small" />
-            <Typography sx={{ fontSize: "0.8125rem" }}>{error}</Typography>
+            <Box sx={{ fontSize: "0.8125rem" }}>{error}</Box>
           </Box>
         )}
       </Box>
@@ -308,6 +448,7 @@ const AssistantPopup = () => {
             sx: {
               fontSize: "0.875rem",
               borderRadius: 2,
+              marginBottom: 0,
               // @tailwindcss/forms styles bare textareas, which double up on
               // the outline MUI already draws.
               "& textarea": {
