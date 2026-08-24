@@ -8,7 +8,9 @@ import {
 } from "@mui/material"
 import { useEffect, useState } from "react"
 import { BulkDownloadButton } from "./BulkDownloadButton"
+import { DEFAULT_SORT } from "../data/sort"
 import { FiltersPanel } from "./FiltersPanel"
+import { SortControl } from "./SortControl"
 
 export const PAGE_SIZE = 50
 
@@ -32,6 +34,11 @@ export function EntityPanel({
   filterValues,
   onFilterChange,
   hasActiveFilters,
+  // Panels whose index maps sortable fields pass their options here; omitting
+  // them hides the sort control entirely.
+  sortOptions,
+  sortValue = DEFAULT_SORT,
+  onSortChange,
   renderSidebarItem,
   renderDetail,
   detailPlaceholder,
@@ -44,7 +51,7 @@ export function EntityPanel({
 
   useEffect(() => {
     setActiveIndex(0)
-  }, [page, filterValues, resetKey])
+  }, [page, filterValues, sortValue, resetKey])
 
   if (query.isLoading) {
     return (
@@ -66,6 +73,9 @@ export function EntityPanel({
 
   const totalPages = Math.ceil(totalCount / PAGE_SIZE)
   const activeItem = results[activeIndex]
+
+  const sortable = Boolean(sortOptions?.length)
+  const hasActiveSort = sortable && sortValue.key !== DEFAULT_SORT.key
 
   return (
     <div className="flex flex-row max-h-full h-full">
@@ -93,7 +103,7 @@ export function EntityPanel({
                     <Badge
                       color="primary"
                       variant="dot"
-                      invisible={!hasActiveFilters}
+                      invisible={!hasActiveFilters && !hasActiveSort}
                       sx={{
                         "& .MuiBadge-badge": { backgroundColor: "#4d2862" },
                       }}
@@ -103,12 +113,17 @@ export function EntityPanel({
                   }
                   sx={{ color: "#4d2862" }}
                 >
-                  Filters
+                  {sortable ? "Sort & Filter" : "Filters"}
                 </Button>
               </div>
             </div>
             <Collapse in={filtersOpen}>
               <div className="px-4 pb-3">
+                <SortControl
+                  options={sortOptions}
+                  value={sortValue}
+                  onChange={onSortChange}
+                />
                 <FiltersPanel
                   filterConfigs={filterConfigs}
                   filterValues={filterValues}

@@ -8,6 +8,7 @@ export const fetchVariables = async ({
   limit = 100,
   offset = 0,
   filters = [],
+  sort = [],
   simpleSearch = false,
 }) => {
   const res = await fetch(`${DUG_API_URL}/variables`, {
@@ -19,6 +20,7 @@ export const fetchVariables = async ({
       ...(elementIds && elementIds.length > 0 && { element_ids: elementIds }),
       ...(typeof concept === "string" && concept !== "" && { concept }),
       ...(filters.length > 0 && { filters }),
+      ...(sort.length > 0 && { sort }),
       ...(simpleSearch && { simple_search: true }),
       size: limit,
       offset,

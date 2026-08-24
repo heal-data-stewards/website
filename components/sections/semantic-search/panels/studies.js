@@ -4,10 +4,23 @@ import { PANEL_LOCATIONS } from "../analytics"
 import { EntityPanel, PAGE_SIZE } from "../components/EntityPanel"
 import { EntitySidebarItem } from "../components/EntitySidebarItem"
 import { fetchStudies } from "../data/studies"
+import {
+  PROJECT_END_DATE_SORT,
+  PROJECT_START_DATE_SORT,
+  RELEVANCE_SORT,
+  useSort,
+} from "../data/sort"
 import { StudyDetail } from "../details/StudyDetail"
+
+const SORT_OPTIONS = [
+  RELEVANCE_SORT,
+  PROJECT_START_DATE_SORT,
+  PROJECT_END_DATE_SORT,
+]
 
 export const StudiesPanel = ({ searchTerm, simpleSearch = false }) => {
   const [page, setPage] = useState(1)
+  const { sortValue, setSortValue, sort } = useSort(SORT_OPTIONS)
   const [filterValues, setFilterValues] = useState({
     researchNetworks: [],
     vlmdAvailable: "",
@@ -75,6 +88,7 @@ export const StudiesPanel = ({ searchTerm, simpleSearch = false }) => {
     limit: PAGE_SIZE,
     offset: (page - 1) * PAGE_SIZE,
     filters: apiFilters,
+    sort,
     aggs: { "programs.keyword": 50 },
     simpleSearch,
   }
@@ -146,6 +160,11 @@ export const StudiesPanel = ({ searchTerm, simpleSearch = false }) => {
     setPage(1)
   }
 
+  const handleSortChange = (value) => {
+    setSortValue(value)
+    setPage(1)
+  }
+
   const studies = studiesQuery.data?.results ?? []
   const totalCount = studiesQuery.data?.metadata?.total_count ?? studies.length
 
@@ -164,6 +183,9 @@ export const StudiesPanel = ({ searchTerm, simpleSearch = false }) => {
       filterValues={filterValues}
       onFilterChange={handleFilterChange}
       hasActiveFilters={hasActiveFilters}
+      sortOptions={SORT_OPTIONS}
+      sortValue={sortValue}
+      onSortChange={handleSortChange}
       resetKey={simpleSearch}
       detailPlaceholder="Select a study to view details"
       renderSidebarItem={(study, { active, onClick }) => (
