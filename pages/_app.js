@@ -8,6 +8,7 @@ import { getStrapiMedia } from "utils/media"
 import { getGlobalData } from "utils/api"
 import { SessionProvider } from "next-auth/react"
 import { RouteGuard } from "@/components/route-guard"
+import AssistantPopup from "@/components/elements/healbot/assistant-popup"
 import { CacheProvider } from "@emotion/react"
 import { ThemeProvider } from "@mui/material/styles"
 import createEmotionCache from "utils/createEmotionCache"
@@ -78,11 +79,14 @@ const MyApp = ({
             }}
           />
           {/* Display the content */}
-          <RouteGuard>
-            <ThemeProvider theme={theme}>
+          <ThemeProvider theme={theme}>
+            {/* RouteGuard unmounts its children on every navigation, so the
+                assistant sits outside it to keep an open conversation alive. */}
+            <RouteGuard>
               <Component {...pageProps} />
-            </ThemeProvider>
-          </RouteGuard>
+            </RouteGuard>
+            <AssistantPopup />
+          </ThemeProvider>
         </SessionProvider>
       </CacheProvider>
     </PostHogProvider>
