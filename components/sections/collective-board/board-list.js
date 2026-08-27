@@ -4,23 +4,30 @@ import { getAllUsers } from "utils/api"
 import PublicWorkingGroupListItem from "./list-item"
 import Typography from "@mui/material/Typography"
 
+function partitionBoardUsers(result) {
+  const users = (result || [])
+    .filter((user) => user.workgroup === "COLLECTIVE_BOARD")
+    .sort((a, b) => a.lastname.localeCompare(b.lastname))
+  return {
+    currentUsers: users.filter((user) => user.current === true),
+    formerUsers: users.filter((user) => user.current !== true),
+  }
+}
+
 export default function Boardlist({ data }) {
-  const [users, setUsers] = useState([])
-  const [currentUsers, setCurrentUsers] = useState([])
-  const [formerUsers, setFormerUsers] = useState([])
-  // Call the strapi API to GET all users
+  const initial = partitionBoardUsers(data?.boardUsers)
+  const [currentUsers, setCurrentUsers] = useState(initial.currentUsers)
+  const [formerUsers, setFormerUsers] = useState(initial.formerUsers)
+
+  // Fall back to a client-side fetch only if no build-time data was provided.
   useEffect(() => {
+    if (data?.boardUsers) return
     getAllUsers().then(function (result) {
-      const users = result.filter(
-        (user) => user.workgroup === "COLLECTIVE_BOARD"
-      )
-      setUsers(users.sort((a, b) => a.lastname.localeCompare(b.lastname)))
-      let current = users.filter((user) => user.current === true)
-      let former = users.filter((user) => user.current !== true)
-      setCurrentUsers(current)
-      setFormerUsers(former)
+      const { currentUsers, formerUsers } = partitionBoardUsers(result)
+      setCurrentUsers(currentUsers)
+      setFormerUsers(formerUsers)
     })
-  }, [])
+  }, [data?.boardUsers])
   return (
     <div className="container">
       <nav aria-label="working group list">

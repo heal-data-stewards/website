@@ -1,5 +1,5 @@
 import ErrorPage from "next/error"
-import { getPageData, fetchAPI, getGlobalData } from "utils/api"
+import { getPageData, fetchAPI, getGlobalData, getAllUsers } from "utils/api"
 import Sections from "@/components/sections"
 import Seo from "@/components/elements/seo"
 import { useRouter } from "next/router"
@@ -187,11 +187,29 @@ export async function getStaticProps(context) {
       .filter((s) => s !== "")
       .join("/")
 
-  const augmentedSections = (contentSections || []).map((section) =>
-    TAB_SECTION_TYPES.includes(section.__component)
-      ? { ...section, activeTabSlug, basePath }
-      : section
-  )
+  let boardUsers = null
+  if (
+    (contentSections || []).some(
+      (s) => s.__component === "sections.public-collective"
+    )
+  ) {
+    try {
+      boardUsers = await getAllUsers(locale)
+    } catch (err) {
+      console.error("Failed to fetch collective board users at build time", err)
+      boardUsers = []
+    }
+  }
+
+  const augmentedSections = (contentSections || []).map((section) => {
+    if (TAB_SECTION_TYPES.includes(section.__component)) {
+      return { ...section, activeTabSlug, basePath }
+    }
+    if (section.__component === "sections.public-collective") {
+      return { ...section, boardUsers }
+    }
+    return section
+  })
 
   let activeTabTitle = null
   let isFirstTab = false
