@@ -86,10 +86,7 @@ export const ConceptsPanel = ({ searchTerm, simpleSearch = false }) => {
       query={conceptsQuery}
       results={concepts}
       totalCount={totalCount}
-      entityType="concepts"
       entityNames={{ singular: "concept", plural: "concepts" }}
-      searchTerm={searchTerm}
-      simpleSearch={simpleSearch}
       page={page}
       onPageChange={setPage}
       filterConfigs={filterConfigs}
