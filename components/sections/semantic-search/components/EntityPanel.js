@@ -7,7 +7,6 @@ import {
   Pagination,
 } from "@mui/material"
 import { useEffect, useState } from "react"
-import { BulkDownloadButton } from "./BulkDownloadButton"
 import { DEFAULT_SORT } from "../data/sort"
 import { FiltersPanel } from "./FiltersPanel"
 import { SortControl } from "./SortControl"
@@ -23,11 +22,7 @@ export function EntityPanel({
   query,
   results,
   totalCount,
-  // Key into the search API used for the bulk download, e.g. "studies"
-  entityType,
   entityNames,
-  searchTerm,
-  simpleSearch,
   page,
   onPageChange,
   filterConfigs,
@@ -88,34 +83,26 @@ export function EntityPanel({
                 {totalCount !== 1 ? entityNames.plural : entityNames.singular}{" "}
                 found.
               </span>
-              <div className="flex items-center gap-1">
-                <BulkDownloadButton
-                  entityType={entityType}
-                  entityNames={entityNames}
-                  searchTerm={searchTerm}
-                  simpleSearch={simpleSearch}
-                />
-                <Button
-                  variant="text"
-                  size="small"
-                  onClick={() => setFiltersOpen((prev) => !prev)}
-                  endIcon={
-                    <Badge
-                      color="primary"
-                      variant="dot"
-                      invisible={!hasActiveFilters && !hasActiveSort}
-                      sx={{
-                        "& .MuiBadge-badge": { backgroundColor: "#4d2862" },
-                      }}
-                    >
-                      <Tune fontSize="small" />
-                    </Badge>
-                  }
-                  sx={{ color: "#4d2862" }}
-                >
-                  {sortable ? "Sort & Filter" : "Filters"}
-                </Button>
-              </div>
+              <Button
+                variant="text"
+                size="small"
+                onClick={() => setFiltersOpen((prev) => !prev)}
+                endIcon={
+                  <Badge
+                    color="primary"
+                    variant="dot"
+                    invisible={!hasActiveFilters && !hasActiveSort}
+                    sx={{
+                      "& .MuiBadge-badge": { backgroundColor: "#4d2862" },
+                    }}
+                  >
+                    <Tune fontSize="small" />
+                  </Badge>
+                }
+                sx={{ color: "#4d2862" }}
+              >
+                {sortable ? "Sort & Filter" : "Filters"}
+              </Button>
             </div>
             <Collapse in={filtersOpen}>
               <div className="px-4 pb-3">
