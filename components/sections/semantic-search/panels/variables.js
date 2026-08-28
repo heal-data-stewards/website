@@ -126,10 +126,7 @@ export const VariablesPanel = ({ searchTerm, simpleSearch = false }) => {
       query={variablesQuery}
       results={variables}
       totalCount={totalCount}
-      entityType="variables"
       entityNames={{ singular: "variable", plural: "variables" }}
-      searchTerm={searchTerm}
-      simpleSearch={simpleSearch}
       page={page}
       onPageChange={setPage}
       filterConfigs={filterConfigs}

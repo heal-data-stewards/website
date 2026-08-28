@@ -23,6 +23,8 @@ import {
 import { formatList } from "utils/format-list"
 import styled from "styled-components"
 import { sendCustomEvent } from "utils/analytics"
+import CustomLink from "../elements/link"
+import { OpenInNew } from "@mui/icons-material"
 
 const RedX = () => (
   <CancelIcon style={{ color: "#cf0000", width: "50px", height: "50px" }} />
@@ -552,7 +554,19 @@ export default function AppSearch({ data }) {
           >
             <div className="w-96 pr-[20px]">
               <h2 className="font-bold text-xl">Study Title</h2>
-              <p className="text-l">{selectedStudy.study_name}</p>
+              <Tooltip title="Open study in HEAL Data Platform.">
+                <CustomLink
+                  to={`https://healdata.org/portal/discovery/${selectedHdpId}`}
+                >
+                  <span className="text-l">
+                    {selectedStudy.study_name}{" "}
+                    <OpenInNew
+                      fontSize="small"
+                      sx={{ verticalAlign: "text-bottom" }}
+                    />
+                  </span>
+                </CustomLink>
+              </Tooltip>
             </div>
             <div className="w-96 pr-[20px]">
               <h2 className="font-bold text-xl">PI</h2>
