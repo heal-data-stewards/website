@@ -184,6 +184,7 @@ export const StudiesPanel = ({ searchTerm, simpleSearch = false }) => {
       sortValue={sortValue}
       onSortChange={handleSortChange}
       resetKey={simpleSearch}
+      ingestionPanel="studies"
       detailPlaceholder="Select a study to view details"
       renderSidebarItem={(study, { active, onClick }) => (
         <StudySidebarItem

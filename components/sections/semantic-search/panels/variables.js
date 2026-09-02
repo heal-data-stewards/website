@@ -134,6 +134,7 @@ export const VariablesPanel = ({ searchTerm, simpleSearch = false }) => {
       onFilterChange={handleFilterChange}
       hasActiveFilters={hasActiveFilters}
       resetKey={simpleSearch}
+      ingestionPanel="variables"
       detailPlaceholder="Select a variable to view details"
       renderSidebarItem={(variable, { active, onClick }) => (
         <EntitySidebarItem
