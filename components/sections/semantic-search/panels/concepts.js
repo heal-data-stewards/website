@@ -94,6 +94,7 @@ export const ConceptsPanel = ({ searchTerm, simpleSearch = false }) => {
       onFilterChange={handleFilterChange}
       hasActiveFilters={hasActiveFilters}
       resetKey={simpleSearch}
+      ingestionPanel="concepts"
       detailPlaceholder="Select a concept to view details"
       renderSidebarItem={(concept, { active, onClick }) => (
         <ConceptSidebarItem

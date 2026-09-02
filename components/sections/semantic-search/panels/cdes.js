@@ -111,6 +111,7 @@ export const CDEsPanel = ({ searchTerm, simpleSearch = false }) => {
       onFilterChange={handleFilterChange}
       hasActiveFilters={hasActiveFilters}
       resetKey={simpleSearch}
+      ingestionPanel="cdes"
       detailPlaceholder="Select a CDE to view details"
       renderSidebarItem={(cde, { active, onClick }) => (
         <EntitySidebarItem
