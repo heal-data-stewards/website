@@ -8,10 +8,17 @@ import {
 } from "@mui/material"
 import { useEffect, useState } from "react"
 import { DEFAULT_SORT } from "../data/sort"
+import { useIngestionDate } from "../data/ingestion-metadata"
 import { FiltersPanel } from "./FiltersPanel"
 import { SortControl } from "./SortControl"
 
 export const PAGE_SIZE = 50
+
+const INGESTION_DATE_FORMAT = new Intl.DateTimeFormat("en-US", {
+  year: "numeric",
+  month: "short",
+  day: "numeric",
+})
 
 /**
  * Shared layout + behavior for the four search result panels: loading/error
@@ -40,9 +47,13 @@ export function EntityPanel({
   // Any extra value (e.g. the simple search toggle) that should reset the
   // selection back to the first result when it changes
   resetKey,
+  // Key into the ingestion metadata (studies | cdes | concepts | variables) used
+  // to show a subtle "data ingested" date for this panel
+  ingestionPanel,
 }) {
   const [activeIndex, setActiveIndex] = useState(0)
   const [filtersOpen, setFiltersOpen] = useState(false)
+  const ingestionDate = useIngestionDate(ingestionPanel)
 
   useEffect(() => {
     setActiveIndex(0)
@@ -78,11 +89,24 @@ export function EntityPanel({
         <div className="flex-1 overflow-auto min-h-0">
           <div className="border-b border-gray-200 sticky top-0 bg-white isolate z-10">
             <div className="px-4 py-2 flex items-center justify-between">
-              <span className="italic text-gray-500">
-                {totalCount}{" "}
-                {totalCount !== 1 ? entityNames.plural : entityNames.singular}{" "}
-                found.
-              </span>
+              <div className="flex flex-col">
+                <span className="italic text-gray-500">
+                  {totalCount}{" "}
+                  {totalCount !== 1 ? entityNames.plural : entityNames.singular}{" "}
+                  found.
+                </span>
+                {ingestionDate && (
+                  <span
+                    className="text-[11px] text-gray-400"
+                    title={`Data last ingested ${new Date(
+                      ingestionDate
+                    ).toLocaleString()}`}
+                  >
+                    Data ingested{" "}
+                    {INGESTION_DATE_FORMAT.format(new Date(ingestionDate))}
+                  </span>
+                )}
+              </div>
               <Button
                 variant="text"
                 size="small"
