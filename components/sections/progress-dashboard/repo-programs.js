@@ -1,6 +1,7 @@
 import { useState } from "react"
 import Tab from "@mui/material/Tab"
 import Tabs from "@mui/material/Tabs"
+import Tooltip from "@mui/material/Tooltip"
 import { useQuery } from "utils/use-query"
 import { CountBar } from "./bars"
 import { BAR_COLORS, fetchQuery, fmt } from "./lib"
@@ -21,8 +22,8 @@ export default function RepoPrograms({ summary, queryApiBase }) {
   return (
     <div>
       <SectionLabel
-        title="Repository & Research Program"
-        desc="Which repositories HEAL studies have selected for data deposit, and breakdown by NIH research program."
+        title="Repository, Program & Network Breakdown"
+        desc="Which repositories HEAL studies have selected for data deposit, and breakdown by NIH research program and steward-defined research network."
       />
       <div className="mb-3 grid grid-cols-2 gap-3 lg:grid-cols-4">
         <MetricCard
@@ -41,7 +42,7 @@ export default function RepoPrograms({ summary, queryApiBase }) {
           sub={<TrendDelta series={timeSeries} dataKey="data_linked" />}
         />
         <MetricCard
-          label="Research programs"
+          label="NIH Research programs"
           value={programs.length}
           sub="from MDS metadata"
         />
@@ -56,8 +57,18 @@ export default function RepoPrograms({ summary, queryApiBase }) {
             sx={{ minHeight: 0, "& .MuiTab-root": { minHeight: 0, py: 1 } }}
           >
             <Tab label="By Repository" value="repo" />
-            <Tab label="By Research Program" value="prog" />
-            <Tab label="By Research Network" value="resnet" />
+            <Tooltip
+              title="NIH-identified research initiatives that studies are associated with, sourced from MDS metadata."
+              arrow
+            >
+              <Tab label="By NIH Research Program" value="prog" />
+            </Tooltip>
+            <Tooltip
+              title="Groupings defined by HEAL Data Stewards to help organise and track related studies."
+              arrow
+            >
+              <Tab label="By Research Network" value="resnet" />
+            </Tooltip>
           </Tabs>
         </div>
         {tab === "repo" && (
@@ -77,8 +88,8 @@ export default function RepoPrograms({ summary, queryApiBase }) {
               rows={programs.map((p) => ({ name: p.name, count: p.count }))}
             />
             <Note className="text-center">
-              Bar width proportional to number of studies in each program · from
-              MDS metadata · registered studies only
+              Bar width proportional to number of studies in each NIH research
+              program · from MDS metadata · registered studies only
             </Note>
           </>
         )}

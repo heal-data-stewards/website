@@ -1,10 +1,26 @@
 // Shared constants and helpers for the progress dashboard
 
-export const DEFAULT_API_BASE =
-  "https://ukx8knp2oa.execute-api.us-east-1.amazonaws.com"
+// Local/dev override: set NEXT_PUBLIC_HEAL_API_ENV=test in .env.local to point
+// the dashboard at test Lambda endpoints instead of prod. Strapi-configured
+// endpoints (passed in as `data.apiBase` / `data.queryApiBase`) still win over
+// both — this only changes the fallback used when Strapi hasn't set one.
+const API_ENV =
+  process.env.NEXT_PUBLIC_HEAL_API_ENV === "test" ? "test" : "prod"
+
+const API_BASE_BY_ENV = {
+  prod: "https://ukx8knp2oa.execute-api.us-east-1.amazonaws.com",
+  test: process.env.NEXT_PUBLIC_HEAL_API_BASE_TEST || "",
+}
+
+const QUERY_API_BASE_BY_ENV = {
+  prod: "https://opzv7se6o6fpwzfpgt4uqne6rm0fnqtu.lambda-url.us-east-1.on.aws/",
+  test: process.env.NEXT_PUBLIC_HEAL_QUERY_API_BASE_TEST || "",
+}
+
+export const DEFAULT_API_BASE = API_BASE_BY_ENV[API_ENV] || API_BASE_BY_ENV.prod
 
 export const DEFAULT_QUERY_API_BASE =
-  "https://opzv7se6o6fpwzfpgt4uqne6rm0fnqtu.lambda-url.us-east-1.on.aws/"
+  QUERY_API_BASE_BY_ENV[API_ENV] || QUERY_API_BASE_BY_ENV.prod
 
 export const COLORS = {
   blue: "#0044B3",
@@ -39,13 +55,34 @@ export const QUERIES = [
   },
   {
     key: "ended_studies",
-    label: "Studies with Ended Projects",
-    desc: "Studies whose project end date has passed",
+    label: "Studies Past End Date",
+    desc: "Studies whose project end date has passed as of the selected month — includes registration status, repository selection/link, and data-linked status, all filterable in the results table",
+    // Adds a month/year picker to the query row; the chosen month is sent as
+    // this query param, resolved to a date boundary in query-panel.js.
+    dateFilter: { param: "before", label: "As of" },
+  },
+  {
+    key: "studies_ending_soon",
+    label: "Studies Ending Soon",
+    desc: "Studies whose project end date falls within the next 6 months — includes registration status, repository selection/link, and data-linked status, all filterable in the results table",
   },
   {
     key: "funding_ic_freq",
     label: "Funding IC Frequencies",
     desc: "Number of studies by administering IC",
+  },
+  {
+    key: "studies_by_repository",
+    label: "Studies by Repository",
+    desc: "Studies that selected the chosen repository for data deposit",
+    // Adds a dropdown to the query row, populated from the repository
+    // breakdown already loaded for the dashboard (see repo-programs.js).
+    selectFilter: { param: "repository", label: "Repository" },
+  },
+  {
+    key: "get_resnet_resprog",
+    label: "HDPIDs by Research Program & Network",
+    desc: "Full per-study list of HDPIDs with their Research Program and Research Network assignments",
   },
 ]
 
@@ -73,14 +110,19 @@ export function fmtColHeader(key) {
   return key.replace(/_/g, " ").replace(/\b\w/g, (c) => c.toUpperCase())
 }
 
-export async function fetchSummary(apiBase, months) {
-  const res = await fetch(`${apiBase}/api/metrics/summary?months=${months}`)
+export async function fetchSummary(apiBase, filter) {
+  const params =
+    filter && typeof filter === "object"
+      ? `start=${filter.start}&end=${filter.end}`
+      : `months=${filter}`
+  const res = await fetch(`${apiBase}/api/metrics/summary?${params}`)
   if (!res.ok) throw new Error(`API error ${res.status}`)
   return res.json()
 }
 
-export async function fetchQuery(queryApiBase, name) {
-  const res = await fetch(`${queryApiBase}?name=${encodeURIComponent(name)}`)
+export async function fetchQuery(queryApiBase, name, params = {}) {
+  const qs = new URLSearchParams({ name, ...params }).toString()
+  const res = await fetch(`${queryApiBase}?${qs}`)
   if (!res.ok) throw new Error(`API returned ${res.status}`)
   const data = await res.json()
   return data.results ?? []
