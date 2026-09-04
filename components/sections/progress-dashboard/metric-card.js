@@ -1,5 +1,8 @@
 // Headline number card with optional sub-line and sparkline
 
+import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined"
+import Tooltip from "@mui/material/Tooltip"
+
 function Sparkline({ series, color }) {
   if (!series?.length) return null
   const mn = Math.min(...series)
@@ -30,6 +33,7 @@ export default function MetricCard({
   small,
   dimmed,
   dimmedNote,
+  note,
 }) {
   return (
     <div
@@ -39,10 +43,18 @@ export default function MetricCard({
           : "border-gray-light bg-white"
       }`}
     >
-      <div className="text-[11px] font-semibold uppercase tracking-wide text-gray">
-        {label}
+      <div className="flex items-center gap-1 text-[11px] font-semibold uppercase tracking-wide text-gray">
+        <span>{label}</span>
+        {note && (
+          <Tooltip title={note} arrow>
+            <InfoOutlinedIcon
+              sx={{ fontSize: 13 }}
+              className="cursor-help text-gray-400"
+            />
+          </Tooltip>
+        )}
         {dimmed && dimmedNote && (
-          <span className="ml-1 rounded bg-gray-100 px-1 py-0.5 text-[9px] font-normal normal-case text-gray">
+          <span className="rounded bg-gray-100 px-1 py-0.5 text-[9px] font-normal normal-case text-gray">
             {dimmedNote}
           </span>
         )}

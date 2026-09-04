@@ -56,12 +56,33 @@ export const QUERIES = [
   {
     key: "ended_studies",
     label: "Studies Past End Date",
-    desc: "Studies whose project end date has passed",
+    desc: "Studies whose project end date has passed as of the selected month — includes registration status, repository selection/link, and data-linked status, all filterable in the results table",
+    // Adds a month/year picker to the query row; the chosen month is sent as
+    // this query param, resolved to a date boundary in query-panel.js.
+    dateFilter: { param: "before", label: "As of" },
+  },
+  {
+    key: "studies_ending_soon",
+    label: "Studies Ending Soon",
+    desc: "Studies whose project end date falls within the next 6 months — includes registration status, repository selection/link, and data-linked status, all filterable in the results table",
   },
   {
     key: "funding_ic_freq",
     label: "Funding IC Frequencies",
     desc: "Number of studies by administering IC",
+  },
+  {
+    key: "studies_by_repository",
+    label: "Studies by Repository",
+    desc: "Studies that selected the chosen repository for data deposit",
+    // Adds a dropdown to the query row, populated from the repository
+    // breakdown already loaded for the dashboard (see repo-programs.js).
+    selectFilter: { param: "repository", label: "Repository" },
+  },
+  {
+    key: "get_resnet_resprog",
+    label: "HDPIDs by Research Program & Network",
+    desc: "Full per-study list of HDPIDs with their Research Program and Research Network assignments",
   },
 ]
 
@@ -99,8 +120,9 @@ export async function fetchSummary(apiBase, filter) {
   return res.json()
 }
 
-export async function fetchQuery(queryApiBase, name) {
-  const res = await fetch(`${queryApiBase}?name=${encodeURIComponent(name)}`)
+export async function fetchQuery(queryApiBase, name, params = {}) {
+  const qs = new URLSearchParams({ name, ...params }).toString()
+  const res = await fetch(`${queryApiBase}?${qs}`)
   if (!res.ok) throw new Error(`API returned ${res.status}`)
   const data = await res.json()
   return data.results ?? []

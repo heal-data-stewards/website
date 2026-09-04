@@ -14,7 +14,7 @@ import OriginBreakdown from "./origin-breakdown"
 import QueryPanel from "./query-panel"
 import RepoPrograms from "./repo-programs"
 import TrendChart from "./trend-chart"
-import { Card, CardHeader, SectionLabel, TrendDelta } from "./ui"
+import { Card, SectionLabel, TrendDelta } from "./ui"
 
 // "all" uses a sentinel start date well before the earliest snapshot (Dec 2024);
 // the API just clips list_range() to whatever snapshots actually exist.
@@ -79,31 +79,32 @@ function Dashboard({ data }) {
 
       {summary && (
         <>
-          <div className="grid items-start gap-6 lg:grid-cols-[1.4fr_1fr]">
-            <div>
-              <PlatformStatus summary={summary} />
-              <div className="mt-2.5">
-                <GrowthTrend summary={summary} />
-              </div>
-              <div className="mt-2.5">
-                <StudyBreakdown summary={summary} />
-              </div>
-            </div>
-            <div>
-              <HssSection summary={summary} />
-              <SectionLabel
-                title="Ad-hoc Data Queries"
-                desc="Run on-demand queries against the HEAL study database. Results open in a pop-up with a CSV download option."
-              />
-              <Card>
-                <QueryPanel queryApiBase={queryApiBase} />
-              </Card>
-            </div>
+          <PlatformStatus summary={summary} />
+          <div className="mt-2.5 grid grid-cols-1 gap-6 lg:grid-cols-2">
+            <GrowthTrend summary={summary} />
+            <StudyBreakdown summary={summary} />
           </div>
-
           <div className="mt-2.5">
             <OriginBreakdown summary={summary} />
           </div>
+
+          <div className="mt-2.5">
+            <HssSection summary={summary} />
+          </div>
+
+          <div className="mt-2.5">
+            <SectionLabel
+              title="Query the MySQL Database"
+              desc="Run on-demand queries against the HEAL study database. Results open in a pop-up with a CSV download option."
+            />
+            <Card>
+              <QueryPanel
+                queryApiBase={queryApiBase}
+                repositories={summary.latest?.platform?.repositories ?? []}
+              />
+            </Card>
+          </div>
+
           <div className="mt-2.5">
             <RepoPrograms summary={summary} queryApiBase={queryApiBase} />
           </div>
@@ -202,6 +203,7 @@ function PlatformStatus({ summary }) {
           sub={`${fmt(studies.unregistered)} unregistered`}
           spark={timeSeries.map((s) => s.total_live ?? 0)}
           sparkColor={COLORS.blue}
+          note="This count excludes PDAPS studies, matching HEAL Stewards' tracked metrics. See the HDP Studies by Types breakdown below for the full platform total, which includes PDAPS."
         />
         <MetricCard
           label="Studies with Data linked on HDP"
@@ -209,6 +211,7 @@ function PlatformStatus({ summary }) {
           sub={<TrendDelta series={timeSeries} dataKey="data_linked" />}
           spark={timeSeries.map((s) => s.data_linked ?? 0)}
           sparkColor={COLORS.purple}
+          note="This count excludes PDAPS studies, matching HEAL Stewards' tracked metrics. See the HDP Studies by Types breakdown below for the full platform total, which includes PDAPS."
         />
         <MetricCard
           label="Studies with VLMD available on HDP"
@@ -248,13 +251,10 @@ function GrowthTrend({ summary }) {
         desc="Trend of key study milestones over the selected time window. Click a label to highlight a single line."
       />
       <Card>
-        <CardHeader
-          title="HDP Study counts — rolling trend"
-          badge={monthly ? "monthly snapshots" : "weekly snapshots"}
-        />
         <TrendChart
           timeSeries={points}
           granularity={monthly ? "monthly" : "weekly"}
+          badge={monthly ? "monthly snapshots" : "weekly snapshots"}
         />
       </Card>
     </div>

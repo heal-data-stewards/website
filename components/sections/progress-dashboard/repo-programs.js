@@ -22,7 +22,7 @@ export default function RepoPrograms({ summary, queryApiBase }) {
   return (
     <div>
       <SectionLabel
-        title="Repository & NIH Research Program"
+        title="Repository, Program & Network Breakdown"
         desc="Which repositories HEAL studies have selected for data deposit, and breakdown by NIH research program and steward-defined research network."
       />
       <div className="mb-3 grid grid-cols-2 gap-3 lg:grid-cols-4">
