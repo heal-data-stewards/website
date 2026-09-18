@@ -17,6 +17,9 @@ function EventPage({ global, event, pageContext, metadata }) {
   const [data, dataSet] = useState(event.event)
   const textInput = useRef(null)
   useEffect(() => {
+    if (!pageContext.token) {
+      return
+    }
     async function fetchMyAPI() {
       let eventData2 = await getEvent(pageContext.token, pageContext.url)
       dataSet(eventData2)

@@ -4,9 +4,10 @@ import WebinarItem from "../elements/webinar/webinar-item"
 import { filterByDate } from "utils/helper-functions"
 import Divider from "@mui/material/Divider"
 import { fetchEvents } from "utils/msft-graph-api"
+import CalendarUnavailable from "../elements/webinar/calendar-unavailable"
 
 export default function Calendar(props) {
-  const [events, setEvents] = useState(filterByDate(props.eventData))
+  const [events, setEvents] = useState(filterByDate(props.eventData ?? []))
   const { data: session } = useSession()
   const [loggedIn, setLoggedIn] = useState(false)
   const [now, setNow] = useState(null)
@@ -16,6 +17,12 @@ export default function Calendar(props) {
   }, [])
 
   useEffect(() => {
+    // No usable token means the calendar was unavailable at build time - there
+    // is nothing to refresh against, so keep the notice on screen.
+    if (props.calendarUnavailable || !props.token) {
+      return
+    }
+
     if (session) {
       setLoggedIn(true)
       // eventData contains every event in the HEAL calendar, logged in users see every event
@@ -44,7 +51,11 @@ export default function Calendar(props) {
       }
       fetchMyAPI()
     }
-  }, [props.token, session])
+  }, [props.token, props.calendarUnavailable, session])
+
+  if (props.calendarUnavailable) {
+    return <CalendarUnavailable title="Events" />
+  }
 
   return (
     <div className="container">
