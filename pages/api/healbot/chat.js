@@ -2,6 +2,12 @@ const HEALBOT_API_URL = process.env.HEALBOT_API_URL || "http://localhost:8000"
 const HEALBOT_API_USER = process.env.HEALBOT_API_USER || "healbot"
 const HEALBOT_API_PASSWORD = process.env.HEALBOT_API_PASSWORD || ""
 
+console.log(
+  `healbot config at load: url=${process.env.HEALBOT_API_URL || "<unset>"} ` +
+    `user=${process.env.HEALBOT_API_USER || "<unset>"} ` +
+    `password=${process.env.HEALBOT_API_PASSWORD ? "<set>" : "<unset>"}`
+)
+
 // The upstream chain only reads the last 6 turns; sending more just inflates
 // the request.
 const HISTORY_LIMIT = 6
@@ -69,7 +75,13 @@ const chat = async (req, res) => {
 
     return res.status(200).json({ reply })
   } catch (error) {
-    console.error(`healbot request failed: ${error.message}`)
+    // fetch collapses every network-layer failure into "fetch failed"; the
+    // errno that identifies it is on `cause`.
+    const cause = error.cause
+    console.error(
+      `healbot request to ${HEALBOT_API_URL}/chat failed: ${error.name}: ${error.message}` +
+        (cause ? ` (cause: ${cause.code || cause.name} ${cause.message})` : "")
+    )
     return res.status(502).json({ message: UNAVAILABLE })
   }
 }
