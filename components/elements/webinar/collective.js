@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react"
 import WebinarItem from "./webinar-item"
 import { filterByDate } from "utils/helper-functions"
 import Divider from "@mui/material/Divider"
-import CalendarUnavailable from "./calendar-unavailable"
 // import { fetchEvents } from "utils/msft-graph-api"
 
 export default function CollectiveEvents(props) {
@@ -13,7 +12,7 @@ export default function CollectiveEvents(props) {
     // These are the events avaiable to the public
     async function fetchMyAPI() {
       // let eventData2 = await fetchEvents(props.token)
-      const publicEvents = (props.eventData ?? []).filter((event) => {
+      const publicEvents = props.eventData.filter((event) => {
         if (
           // event.categories.length === 0 ||
           event.categories[0] === "Green category"
@@ -26,10 +25,6 @@ export default function CollectiveEvents(props) {
     }
     fetchMyAPI()
   }, [props.eventData])
-
-  if (props.calendarUnavailable) {
-    return <CalendarUnavailable title="Collective Meetings" />
-  }
 
   return (
     <div className="container">

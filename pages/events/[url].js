@@ -20,12 +20,6 @@ export async function getStaticPaths() {
   // Call an external API endpoint to get posts
   const events = await getAuthorizationToken()
 
-  // The calendar was unavailable and ALLOW_BUILD_WITHOUT_CALENDAR let the build
-  // continue, so there are no individual event pages to pre-render.
-  if (events.calendarUnavailable) {
-    return { paths: [], fallback: false }
-  }
-
   const eventPaths = events.map((event) => {
     return { url: event.id }
   })
@@ -47,10 +41,6 @@ export async function getStaticProps(context) {
   // If the route is like /event/1, then params.event is 1
   // const res = await fetch(`https://.../events/${params.url}`)
   const eventData = await getAuthorizationToken(context.params.url)
-
-  if (eventData.calendarUnavailable) {
-    return { notFound: true }
-  }
 
   // Get the navbar and footer from strapi
   const globalLocale = await getGlobalData(locale)

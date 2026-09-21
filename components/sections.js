@@ -113,13 +113,7 @@ const sectionComponents = {
 }
 
 // Display a section individually
-const Section = ({
-  sectionData,
-  eventData,
-  token,
-  calendarUnavailable,
-  glossary,
-}) => {
+const Section = ({ sectionData, eventData, token, glossary }) => {
   // Prepare the component
   const SectionComponent = sectionComponents[sectionData.__component]
   if (!SectionComponent) {
@@ -133,7 +127,6 @@ const Section = ({
       data={sectionData}
       eventData={eventData}
       token={token}
-      calendarUnavailable={calendarUnavailable}
     />
   )
 }
@@ -160,14 +153,7 @@ const PreviewModeBanner = () => {
 }
 
 // Display the list of sections
-const Sections = ({
-  sections,
-  preview,
-  eventData,
-  token,
-  calendarUnavailable,
-  glossary,
-}) => {
+const Sections = ({ sections, preview, eventData, token, glossary }) => {
   return (
     <div className="flex flex-col w-full">
       {/* Show a banner if preview mode is on */}
@@ -179,7 +165,6 @@ const Sections = ({
           eventData={eventData}
           key={`${section.__component}${section.id}`}
           token={token}
-          calendarUnavailable={calendarUnavailable}
           glossary={glossary}
         />
       ))}

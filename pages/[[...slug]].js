@@ -20,7 +20,6 @@ const DynamicPage = ({
   pageContext,
   eventData,
   token,
-  calendarUnavailable,
 }) => {
   const router = useRouter()
 
@@ -71,7 +70,6 @@ const DynamicPage = ({
         preview={preview}
         eventData={eventData}
         token={token}
-        calendarUnavailable={calendarUnavailable}
         glossary={global.glossary_td}
       />
     </Layout>
@@ -134,14 +132,10 @@ export async function getStaticProps(context) {
 
   const globalLocale = await getGlobalData(locale)
   let eventData = []
-  // Set when the calendar could not be reached and ALLOW_BUILD_WITHOUT_CALENDAR
-  // let the build continue without it.
-  let calendarUnavailable = false
   // Fetch pages. Include drafts if preview mode is on
   if (params.slug !== undefined && params.slug[0] === "calendar") {
     let events = await getAuthorizationToken()
     eventData = events
-    calendarUnavailable = events.calendarUnavailable === true
   }
   if (params.slug !== undefined && params.slug[1] === "webinar") {
     let events = await getAuthorizationToken()
@@ -151,7 +145,6 @@ export async function getStaticProps(context) {
     )
     eventData = result
     eventData.token = events.token
-    calendarUnavailable = events.calendarUnavailable === true
   }
   if (
     params.slug !== undefined &&
@@ -165,7 +158,6 @@ export async function getStaticProps(context) {
     )
     eventData = result
     eventData.token = events.token
-    calendarUnavailable = events.calendarUnavailable === true
   }
 
   const rawSlug = !params.slug ? [""] : params.slug
@@ -264,7 +256,6 @@ export async function getStaticProps(context) {
   return {
     props: {
       token: eventData.token || null,
-      calendarUnavailable,
       preview,
       eventData: eventData,
       sections: augmentedSections,
