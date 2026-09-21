@@ -3,7 +3,7 @@ import Seo from "@/components/elements/seo"
 import { getEvent } from "utils/msft-graph-api"
 import React, { useState, useEffect, useRef } from "react"
 import Divider from "@mui/material/Divider"
-import { makeEasternTime } from "utils/helper-functions"
+import { isHttpUrl, makeEasternTime } from "utils/helper-functions"
 import styled from "styled-components"
 
 const BlueLink = styled.a`
@@ -31,6 +31,8 @@ function EventPage({ global, event, pageContext, metadata }) {
   let eTime = endDate.toLocaleTimeString()
   let startTime = makeEasternTime(sTime)
   let endTime = makeEasternTime(eTime)
+  const locationDisplayName = data.location?.displayName || ""
+  const hasLocationLink = isHttpUrl(locationDisplayName)
 
   function stripScripts(s) {
     let retVal = s
@@ -75,9 +77,13 @@ function EventPage({ global, event, pageContext, metadata }) {
               event.event.categories[0] !== "Green category" &&
               checkIfPastEvent()}
 
-            <BlueLink href={data.location.displayName} target="_blank">
-              {data.location.displayName}
-            </BlueLink>
+            {hasLocationLink ? (
+              <BlueLink href={locationDisplayName} target="_blank">
+                {locationDisplayName}
+              </BlueLink>
+            ) : (
+              <span style={{ color: "#000" }}>{locationDisplayName}</span>
+            )}
           </h2>
         </section>
         <section>

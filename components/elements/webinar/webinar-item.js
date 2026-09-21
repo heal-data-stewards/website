@@ -9,6 +9,7 @@ import {
   makeEasternTime,
   checkDaylightSavings,
   makeEasternTimeWithDaylightSavings,
+  isHttpUrl,
 } from "utils/helper-functions"
 import { renderImage } from "utils/helper-functions"
 import styled from "styled-components"
@@ -28,6 +29,8 @@ export default function WebinarItem({ event, past, collective }) {
   let endTime = checkDaylightSavings(endDate)
     ? makeEasternTimeWithDaylightSavings(eTime)
     : makeEasternTime(eTime)
+  const locationDisplayName = event.location?.displayName || ""
+  const hasLocationLink = isHttpUrl(locationDisplayName)
 
   return (
     <div className="basic-card-container">
@@ -70,9 +73,13 @@ export default function WebinarItem({ event, past, collective }) {
             {event.categories[0] !== "Green category" &&
               event.categories[0] !== "Yellow category" &&
               (past ? "Recording Link: " : "Registration Link: ")}
-            <BlueLink href={event.location.displayName} target="_blank">
-              {event.location.displayName}
-            </BlueLink>
+            {hasLocationLink ? (
+              <BlueLink href={locationDisplayName} target="_blank">
+                {locationDisplayName}
+              </BlueLink>
+            ) : (
+              <span className="text-black">{locationDisplayName}</span>
+            )}
           </Typography>
           <Markdown linkTarget="_blank">
             {event.bodyPreview.substring(0, 150) + " ..."}
