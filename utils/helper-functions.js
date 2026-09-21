@@ -21,6 +21,19 @@ export function filterByDate(arr) {
   return newArr
 }
 
+export function isHttpUrl(value) {
+  if (!value) {
+    return false
+  }
+
+  try {
+    const url = new URL(value)
+    return url.protocol === "http:" || url.protocol === "https:"
+  } catch {
+    return false
+  }
+}
+
 export function makeEasternTime(GMT) {
   switch (GMT) {
     case "11:00:00 AM":
