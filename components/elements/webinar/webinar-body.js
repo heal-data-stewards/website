@@ -9,6 +9,9 @@ export default function WebinarBody(props) {
   const [events, setEvents] = useState(filterByDate(props.eventData))
   const { data: session } = useSession()
   const [loggedIn, setLoggedIn] = useState(false)
+  const [usingSnapshot, setUsingSnapshot] = useState(
+    Boolean(props.eventData?.isSnapshot)
+  )
 
   useEffect(() => {
     if (session) {
@@ -17,6 +20,7 @@ export default function WebinarBody(props) {
       async function fetchMyAPI() {
         let eventData2 = await fetchEvents(props.token)
         let sortedEvents = filterByDate(eventData2)
+        setUsingSnapshot(Boolean(eventData2.isSnapshot))
         setEvents(sortedEvents)
       }
       fetchMyAPI()
@@ -34,7 +38,7 @@ export default function WebinarBody(props) {
           }
         })
         let sortedEvents = filterByDate(publicEvents)
-        console.log(sortedEvents)
+        setUsingSnapshot(Boolean(eventData2.isSnapshot))
         setEvents(sortedEvents)
       }
       fetchMyAPI()
@@ -47,6 +51,12 @@ export default function WebinarBody(props) {
       <section>
         <h1 className="text-3xl font-bold pb-4 text-purple">Upcoming Events</h1>
         <Divider />
+        {usingSnapshot && (
+          <p className="mt-4 rounded border border-magenta bg-magenta/10 px-4 py-3 text-sm text-gray-dark">
+            Live calendar data is temporarily unavailable. Showing the last 15
+            HEAL events instead.
+          </p>
+        )}
         <p className="text-xl text-gray-dark pt-4">
           See the list below of events supported by the HEAL Stewards.
         </p>

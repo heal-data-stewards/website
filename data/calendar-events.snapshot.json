@@ -1,0 +1,366 @@
+{
+  "generatedAt": "2026-09-21T17:01:26.799Z",
+  "source": "static/en/calendar-events.snapshot.json",
+  "events": [
+    {
+      "id": "AAMkAGJiYjdiMDk4LTI2NjktNDQ0Yy1iN2NkLTk0ODE5NTkwZGMwYwBGAAAAAADFCfsravpISIJULhJ6kUB2BwDT2LgfOzJeR4d6_-DuvpGaAAAAAAENAACStECWrhwlT6Ftc2zjZMptAASS8bq6AAA=",
+      "subject": "[HEAL Fresh FAIR Webinar] HEAL Research Data in All Forms: Sharing Imaging, Genomic, Qualitative, and Other Digital Assets",
+      "categories": [
+        "Purple category"
+      ],
+      "start": {
+        "dateTime": "2026-09-17T17:00:00.0000000",
+        "timeZone": "UTC"
+      },
+      "end": {
+        "dateTime": "2026-09-17T18:00:00.0000000",
+        "timeZone": "UTC"
+      },
+      "originalEndTimeZone": "Eastern Standard Time",
+      "location": {
+        "displayName": "https://renci.zoom.us/webinar/register/WN_t1Nr2KA3R86j2DxS7BEgVw#/registration"
+      },
+      "bodyPreview": "The HEAL Fresh FAIR webinar on September 17, 2026 at 1:00 PM ET will explore strategies for how to share a variety of different data assets. Research data is not always tabular. It can include imaging files, genomic or sequencing data, qualitative data, a",
+      "body": {
+        "contentType": "html",
+        "content": "<html>\r\n<head>\r\n<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\">\r\n</head>\r\n<body>\r\n<div class=\"elementToProof\" style=\"direction:ltr; line-height:1.38; margin-top:9pt; margin-bottom:9pt; font-family:Aptos,Aptos_EmbeddedFont,Aptos_MSFontService,Calibri,Helvetica,sans-serif; font-size:11pt; color:rgb(0,0,0)\">\r\nThe <span style=\"font-weight:700\">HEAL Fresh FAIR webinar on September 17, 2026 at 1:00 PM ET</span> will explore strategies for how to\r\n<span style=\"font-weight:700\">share a variety of different data assets.</span> Research data is not always tabular. It can include imaging files, genomic or sequencing data, qualitative data, audio and video recordings, code, and other specialized research\r\n outputs. This session will explore preparing and sharing these digital assets to support\r\n<span style=\"font-weight:700\">HEAL data sharing expectations, FAIR principles, and future discovery and reuse.</span></div>\r\n<div class=\"elementToProof\" style=\"direction:ltr; line-height:1.38; margin-top:9pt; margin-bottom:9pt; font-family:Aptos,Aptos_EmbeddedFont,Aptos_MSFontService,Calibri,Helvetica,sans-serif; font-size:11pt\">\r\n<span style=\"color:rgb(0,0,0)\">The session will highlight non-tabular data examples and the\r\n</span><span style=\"color:rgb(0,0,0); font-weight:700\">metadata and documentation that make them understandable and reusable.</span><span style=\"color:rgb(0,0,0)\"> Short presentations will introduce practical digital asset considerations for repository submission,\r\n including format compatibility, metadata requirements, documentation needs, and available tools and resources supporting data sharing. The Stewards will also highlight current NIH funding opportunities to facilitate the use of multimodal data such as the CFDE's</span><span style=\"color:rgb(33,37,41)\"><a href=\"https://commonfund.nih.gov/primed-ai\" id=\"OWA97c3be73-2a5b-eabb-cf3c-20499362096d\" class=\"OWAAutoLink\" style=\"color:rgb(33,37,41)\">\r\n</a></span><span style=\"color:rgb(18,100,163)\"><a href=\"https://commonfund.nih.gov/primed-ai\" id=\"OWA97c3be73-2a5b-eabb-cf3c-20499362096d\" class=\"OWAAutoLink\" style=\"color:rgb(18,100,163)\">PRIMED-AI</a></span><span style=\"color:rgb(0,0,0)\"> program.</span></div>\r\n<div class=\"elementToProof\" style=\"direction:ltr; line-height:1.38; margin-top:9pt; margin-bottom:9pt; font-family:Aptos,Aptos_EmbeddedFont,Aptos_MSFontService,Calibri,Helvetica,sans-serif; font-size:11pt; color:rgb(0,0,0)\">\r\nParticipants will leave understanding sharable research outputs beyond tabular datasets, how metadata supports diverse data reuse, and steps to prepare these assets for the\r\n<span style=\"font-weight:700\">HEAL Data Ecosystem</span>.&nbsp;</div>\r\n<div class=\"elementToProof\" style=\"direction:ltr; line-height:1.38; margin-top:9pt; margin-bottom:9pt; font-family:Aptos,Aptos_EmbeddedFont,Aptos_MSFontService,Calibri,Helvetica,sans-serif; font-size:11pt; color:rgb(0,0,0)\">\r\nThe session will conclude with an interactive <span style=\"font-weight:700\">Q&amp;A and discussion.</span></div>\r\n<div class=\"elementToProof\" style=\"direction:ltr; line-height:1.38; margin-top:0pt; margin-bottom:10pt; font-family:Aptos,Aptos_EmbeddedFont,Aptos_MSFontService,Calibri,Helvetica,sans-serif; font-size:11pt; color:rgb(17,85,204)\">\r\n<a href=\"https://renci.zoom.us/webinar/register/WN_t1Nr2KA3R86j2DxS7BEgVw#/registration\" title=\"https://renci.zoom.us/webinar/register/WN_t1Nr2KA3R86j2DxS7BEgVw#/registration\"><u>Register Here</u></a></div>\r\n</body>\r\n</html>\r\n"
+      }
+    },
+    {
+      "id": "AAMkAGJiYjdiMDk4LTI2NjktNDQ0Yy1iN2NkLTk0ODE5NTkwZGMwYwBGAAAAAADFCfsravpISIJULhJ6kUB2BwDT2LgfOzJeR4d6_-DuvpGaAAAAAAENAACStECWrhwlT6Ftc2zjZMptAAR79zDiAAA=",
+      "subject": "[HEAL Office Hours for Investigators] From Data Dictionaries to Repository Submission",
+      "categories": [
+        "Purple category"
+      ],
+      "start": {
+        "dateTime": "2026-08-20T17:00:00.0000000",
+        "timeZone": "UTC"
+      },
+      "end": {
+        "dateTime": "2026-08-20T18:00:00.0000000",
+        "timeZone": "UTC"
+      },
+      "originalEndTimeZone": "Eastern Standard Time",
+      "location": {
+        "displayName": "https://renci.zoom.us/meeting/register/4z2D6bHrS6KSJLSEoveEkw#/registration"
+      },
+      "bodyPreview": "Join the HEAL Data Ecosystem Office Hours on August 20, 2026, from 1:00–2:00 PM ET for an interactive session focused on creating data dictionaries and preparing data submissions. This office hours session will help attendees better understand requirement",
+      "body": {
+        "contentType": "html",
+        "content": "<html>\r\n<head>\r\n<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\">\r\n</head>\r\n<body>\r\n<div class=\"elementToProof\" style=\"direction:ltr; line-height:1.38; margin-top:0pt; margin-bottom:10pt; font-family:Aptos,Aptos_EmbeddedFont,Aptos_MSFontService,Calibri,Helvetica,sans-serif; font-size:11pt; color:rgb(0,0,0)\">\r\nJoin the <span style=\"font-weight:700\">HEAL Data Ecosystem Office Hours</span> on\r\n<span style=\"font-weight:700\">August 20, 2026, from 1:00–2:00 PM ET</span> for an interactive session focused on\r\n<span style=\"font-weight:700\">creating data dictionaries and preparing data submissions.</span> This office hours session will help attendees better understand requirements to complete HEAL PI Checklist tasks. Participants will also view newly developed\r\n<span style=\"font-weight:700\">data dictionary</span> and <span style=\"font-weight:700\">\r\ndata submission</span> guidance documents and will gain clarity on <span style=\"font-weight:700\">\r\nvariable-level metadata (</span>VLMD) expectations, how VLMD supports FAIR data, and the steps in preparing data for deposition.</div>\r\n<div class=\"elementToProof\" style=\"direction:ltr; line-height:1.38; margin-top:0pt; margin-bottom:10pt; font-family:Aptos,Aptos_EmbeddedFont,Aptos_MSFontService,Calibri,Helvetica,sans-serif; font-size:11pt; color:rgb(0,0,0)\">\r\nThe session will include focused discussion breakout rooms: <span style=\"font-weight:700\">\r\nBreakout Room 1</span> will address data dictionaries and data submissions, and <span style=\"font-weight:700\">\r\nBreakout Room 2</span> will focus on HEAL Data Platform registration and analytic workspace use. By the end of the session, participants will know where to get help, how to begin generating or enhancing VLMD, and what to expect when submitting data to their\r\n selected repository. <span style=\"font-weight:700\">Please note, this session will not be recorded.</span></div>\r\n<div class=\"elementToProof\" style=\"direction:ltr; line-height:1.38; margin-top:0pt; margin-bottom:10pt; font-family:Aptos,Aptos_EmbeddedFont,Aptos_MSFontService,Calibri,Helvetica,sans-serif; font-size:11pt\">\r\n<span style=\"color:rgb(17,85,204)\"><a href=\"https://renci.zoom.us/meeting/register/4z2D6bHrS6KSJLSEoveEkw\" id=\"OWAf1d933a9-f05f-1270-cb5c-774532c8d588\" class=\"OWAAutoLink\" style=\"color:rgb(17,85,204)\"><u>Register Here</u></a></span><span style=\"color:rgb(0,0,0)\">&nbsp;</span></div>\r\n<div style=\"font-family:Aptos,Aptos_EmbeddedFont,Aptos_MSFontService,Calibri,Helvetica,sans-serif; font-size:11pt; color:rgb(0,0,0)\">\r\n<br>\r\n</div>\r\n</body>\r\n</html>\r\n"
+      }
+    },
+    {
+      "id": "AAMkAGJiYjdiMDk4LTI2NjktNDQ0Yy1iN2NkLTk0ODE5NTkwZGMwYwBGAAAAAADFCfsravpISIJULhJ6kUB2BwDT2LgfOzJeR4d6_-DuvpGaAAAAAAENAACStECWrhwlT6Ftc2zjZMptAARcun6YAAA=",
+      "subject": "[HEAL Fresh FAIR Webinar] Preparing HEAL Data for Sharing and Reuse: Repository Considerations for Investigators",
+      "categories": [
+        "Purple category"
+      ],
+      "start": {
+        "dateTime": "2026-07-16T17:00:00.0000000",
+        "timeZone": "UTC"
+      },
+      "end": {
+        "dateTime": "2026-07-16T18:00:00.0000000",
+        "timeZone": "UTC"
+      },
+      "originalEndTimeZone": "Eastern Standard Time",
+      "location": {
+        "displayName": "https://youtu.be/YvsrD_hn6GU"
+      },
+      "bodyPreview": "Data sharing decisions play an important role in data discovery, access, understanding, and reuse for secondary analysis. This session included a panel discussion with representatives from ICPSR, SPARC, and Vivli - all HEAL approved repositories to discus",
+      "body": {
+        "contentType": "html",
+        "content": "<html>\r\n<head>\r\n<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\">\r\n</head>\r\n<body>\r\n<div class=\"elementToProof\" style=\"direction:ltr; line-height:1.38; margin-top:0pt; margin-bottom:10pt; font-family:Aptos,Aptos_EmbeddedFont,Aptos_MSFontService,Calibri,Helvetica,sans-serif; font-size:11pt; color:rgb(0,0,0)\">\r\nData sharing decisions play an important role in data discovery, access, understanding, and reuse for secondary analysis. This session included&nbsp;a panel discussion with representatives from ICPSR, SPARC, and Vivli - all HEAL approved repositories to discuss\r\n repository selection considerations, such as data types that different repositories support and how repository structures influence data discovery, access, and long-term reuse. Speakers highlighted open versus controlled access data sharing options, how researchers\r\n find and request data for secondary analysis, and practices to improve HEAL Data Ecosystem-wide discoverability and reuse.</div>\r\n<div class=\"elementToProof\" style=\"direction:ltr; line-height:1.38; margin-top:0pt; margin-bottom:10pt; font-family:Aptos,Aptos_EmbeddedFont,Aptos_MSFontService,Calibri,Helvetica,sans-serif; font-size:11pt; color:rgb(0,0,0)\">\r\nThis session aimed&nbsp;to support early-stage HEAL awardees, principal investigators, cycle II grant applicants, data managers, and the broader research community by emphasizing the importance of planning for data sharing early in the research lifecycle. Participants\r\n left with a clear understanding of how repository selection impacts data sharing and reuse, features of high quality, reusable datasets, and how early planning can improve data quality and discoverability, and support responsible secondary analysis.</div>\r\n<div style=\"direction:ltr; line-height:1.38; margin-top:0pt; margin-bottom:10pt; font-family:Aptos,Aptos_EmbeddedFont,Aptos_MSFontService,Calibri,Helvetica,sans-serif; font-size:11pt; color:rgb(0,0,0)\">\r\nThe session concluded&nbsp;with a Q&amp;A featuring repository representatives and HEAL Data Stewards.</div>\r\n<div style=\"font-family:Aptos,Aptos_EmbeddedFont,Aptos_MSFontService,Calibri,Helvetica,sans-serif; font-size:11pt; color:rgb(0,0,0)\">\r\n<br>\r\n</div>\r\n<div style=\"font-family:Aptos,Aptos_EmbeddedFont,Aptos_MSFontService,Calibri,Helvetica,sans-serif; font-size:11pt; color:rgb(0,0,0)\">\r\n<br>\r\n</div>\r\n</body>\r\n</html>\r\n"
+      }
+    },
+    {
+      "id": "AAMkAGJiYjdiMDk4LTI2NjktNDQ0Yy1iN2NkLTk0ODE5NTkwZGMwYwBGAAAAAADFCfsravpISIJULhJ6kUB2BwDT2LgfOzJeR4d6_-DuvpGaAAAAAAENAACStECWrhwlT6Ftc2zjZMptAAQ6MC3jAAA=",
+      "subject": "[HEAL Fresh FAIR Tutorial] Identifying and Reusing Datasets in the HEAL Data Ecosystem",
+      "categories": [
+        "Purple category"
+      ],
+      "start": {
+        "dateTime": "2026-05-21T17:00:00.0000000",
+        "timeZone": "UTC"
+      },
+      "end": {
+        "dateTime": "2026-05-21T18:00:00.0000000",
+        "timeZone": "UTC"
+      },
+      "originalEndTimeZone": "Eastern Standard Time",
+      "location": {
+        "displayName": "https://youtu.be/hubCCoQgY6s"
+      },
+      "bodyPreview": "Building on recent FreshFAIR sessions highlighting emerging HEAL data reuse opportunities, this extended tutorial provided a structured, hands-on introduction to identifying, evaluating, and working with existing HEAL datasets to support secondary researc",
+      "body": {
+        "contentType": "html",
+        "content": "<html>\r\n<head>\r\n<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\">\r\n</head>\r\n<body>\r\n<div class=\"cal_aef4\">\r\n<div>\r\n<div class=\"x_elementToProof\" style=\"direction:ltr; line-height:1.38; margin-top:0pt; margin-bottom:10pt; font-family:Aptos,Aptos_EmbeddedFont,Aptos_MSFontService,Calibri,Helvetica,sans-serif; font-size:11pt; color:rgb(0,0,0)\">\r\nBuilding on recent FreshFAIR sessions highlighting emerging HEAL data reuse opportunities, this extended tutorial provided&nbsp;a structured, hands-on introduction to identifying, evaluating, and working with existing HEAL datasets to support secondary research.&nbsp;</div>\r\n<div class=\"x_elementToProof\" style=\"direction:ltr; line-height:1.38; margin-top:0pt; margin-bottom:10pt; font-family:Aptos,Aptos_EmbeddedFont,Aptos_MSFontService,Calibri,Helvetica,sans-serif; font-size:11pt; color:rgb(0,0,0)\">\r\nAfter briefly reviewing common data reuse challenges, we introduced&nbsp;key HEAL Data Ecosystem (HDE) discovery tools—the HEAL Data Platform and HEAL Semantic Search (HSS). Guest speaker Anna Zajacova, PhD, Professor of Sociology at Western University, shared insights\r\n from her experience conducting secondary analysis of large-scale population health datasets.</div>\r\n<div class=\"x_elementToProof\" style=\"direction:ltr; line-height:1.38; margin-top:0pt; margin-bottom:10pt; font-family:Aptos,Aptos_EmbeddedFont,Aptos_MSFontService,Calibri,Helvetica,sans-serif; font-size:11pt; color:rgb(0,0,0)\">\r\nThe second half of the session (1:30–2:30 PM) included&nbsp;two concurrent, interactive breakout sessions, one demonstrating each discovery tool.</div>\r\n<div class=\"x_elementToProof\" style=\"direction:ltr; line-height:1.38; margin-top:0pt; margin-bottom:10pt; font-family:Aptos,Aptos_EmbeddedFont,Aptos_MSFontService,Calibri,Helvetica,sans-serif; font-size:11pt; color:rgb(0,0,0)\">\r\nThe HSS breakout helped participants identify combinable datasets, examine variable mappings, and bookmark relevant studies for potential reuse. The HEAL Platform breakout focused on navigating Platform metadata and demonstrating how to load data into a workspace\r\n environment for secondary analysis.</div>\r\n<div class=\"x_elementToProof\" style=\"direction:ltr; line-height:1.38; margin-top:0pt; margin-bottom:10pt; font-family:Aptos,Aptos_EmbeddedFont,Aptos_MSFontService,Calibri,Helvetica,sans-serif; font-size:11pt; color:rgb(0,0,0)\">\r\nThe breakouts were structured to promote active participation and hands-on engagement. As such, participants brought specific research questions or interests to explore directly with HEAL ecosystem experts.&nbsp;</div>\r\n<div class=\"x_elementToProof\" style=\"direction:ltr; line-height:1.38; margin-top:0pt; margin-bottom:10pt; font-family:Aptos,Aptos_EmbeddedFont,Aptos_MSFontService,Calibri,Helvetica,sans-serif; font-size:11pt\">\r\n<span style=\"color:rgb(0,0,0)\">In preparation, participants could review the April 2026 webinar (available on our\r\n</span><span style=\"color:rgb(17,85,204)\"><a href=\"https://www.youtube.com/@nihhealinitiativedataecosy4164\" id=\"OWAbbb22986-63ac-6ef1-be15-50e0f82f4674\" class=\"x_x_OWAAutoLink\" style=\"color:rgb(17,85,204)\"><u>YouTube channel</u></a></span><span style=\"color:rgb(0,0,0)\">&nbsp;and\r\n via the links below) and gain familiarity with its content covering HSS and the HEAL Data Platform.</span></div>\r\n<ul style=\"margin-top:0px; margin-bottom:0px\">\r\n<li style=\"font-family:Aptos,Aptos_EmbeddedFont,Aptos_MSFontService,Calibri,Helvetica,sans-serif; font-size:11pt; color:rgb(0,0,0); direction:ltr; list-style-type:disc\">\r\n<div role=\"presentation\" style=\"direction:ltr; line-height:1.38; margin-top:0pt; margin-bottom:0pt\">\r\n<span style=\"color:rgb(17,85,204)\"><a href=\"https://www.healdatafair.org/resources/semantic-search/help\" id=\"OWA81d66fcd-274c-14aa-2300-5f3775a015c1\" class=\"x_x_OWAAutoLink\" style=\"color:rgb(17,85,204)\"><u>HSS resources</u></a></span>:\r\n<span style=\"color:rgb(19,41,75)\"><a href=\"https://go.unc.edu/HSSresource\" id=\"OWA138ad050-5447-58b7-7971-3b252375e3eb\" class=\"x_x_OWAAutoLink\" style=\"color:rgb(19,41,75)\">go.unc.edu/HSSresource</a></span></div>\r\n</li><li style=\"font-family:Aptos,Aptos_EmbeddedFont,Aptos_MSFontService,Calibri,Helvetica,sans-serif; font-size:11pt; color:rgb(0,0,0); direction:ltr; list-style-type:disc\">\r\n<div role=\"presentation\" style=\"direction:ltr; line-height:1.38; margin-top:0pt; margin-bottom:10pt\">\r\n<span style=\"color:rgb(17,85,204)\"><a href=\"https://heal.github.io/platform-documentation/workspaces/\" id=\"OWA2dbc61f2-b494-bfe1-b1a9-8bc770bb0a49\" class=\"x_x_OWAAutoLink\" style=\"color:rgb(17,85,204)\"><u>HEAL Platform resource</u></a></span>:\r\n<span style=\"color:rgb(19,41,75)\"><a href=\"https://go.unc.edu/HEALPlatformresource\" id=\"OWA4699d163-7e0c-7726-6532-edaedcc9f969\" class=\"x_x_OWAAutoLink\" style=\"color:rgb(19,41,75)\">go.unc.edu/HEALPlatformresource</a></span></div>\r\n</li></ul>\r\n</div>\r\n</div>\r\n</body>\r\n</html>\r\n"
+      }
+    },
+    {
+      "id": "AAMkAGJiYjdiMDk4LTI2NjktNDQ0Yy1iN2NkLTk0ODE5NTkwZGMwYwBGAAAAAADFCfsravpISIJULhJ6kUB2BwDT2LgfOzJeR4d6_-DuvpGaAAAAAAENAACStECWrhwlT6Ftc2zjZMptAARFTfJ3AAA=",
+      "subject": "[Collective Board Meeting] High Value HEAL Datasets",
+      "categories": [
+        "Green category"
+      ],
+      "start": {
+        "dateTime": "2026-05-05T17:00:00.0000000",
+        "timeZone": "UTC"
+      },
+      "end": {
+        "dateTime": "2026-05-05T18:00:00.0000000",
+        "timeZone": "UTC"
+      },
+      "originalEndTimeZone": "Eastern Standard Time",
+      "location": {
+        "displayName": ""
+      },
+      "bodyPreview": "The May Collective Board (CB) Meeting discussion converged on the idea that “high-value datasets” should not be defined by a single standard but rather as a set of context-dependent, reuse-driven signals shaped by audience and research purpose. CB members",
+      "body": {
+        "contentType": "html",
+        "content": "<html>\r\n<head>\r\n<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\">\r\n</head>\r\n<body>\r\n<div class=\"elementToProof\" style=\"text-align:left; text-indent:0px; margin-top:1em; margin-bottom:1em; font-family:Aptos,Aptos_EmbeddedFont,Aptos_MSFontService,Calibri,Helvetica,sans-serif; font-size:11pt; color:rgb(0,0,0)\">\r\nThe May Collective Board (CB) Meeting discussion converged on the idea that “high-value datasets” should not be defined by a single standard but rather as a set of context-dependent, reuse-driven signals shaped by audience and research purpose. CB members consistently\r\n emphasized interoperability and reuse potential—especially the ability to link, combine, and “re-mix” datasets across systems—as the strongest indicator of value, alongside high-quality documentation (e.g., clear variable definitions, missingness rationale,\r\n collection methods, and study constraints) and technical usability, including AI- and ML-readiness. The group highlighted that value varies by use case (e.g., training, clinical trials, disparities research, implementation science), and that datasets gain\r\n importance when they support question generation, secondary analysis, or scaling insights. There was also recognition that rare or difficult-to-reproduce datasets (e.g., specialized biological or longitudinal administrative data) may be inherently high value\r\n even if imperfect, and that support is often needed to enhance curation, standardization, and alignment beyond what primary study teams can feasibly deliver.</div>\r\n</body>\r\n</html>\r\n"
+      }
+    },
+    {
+      "id": "AAMkAGJiYjdiMDk4LTI2NjktNDQ0Yy1iN2NkLTk0ODE5NTkwZGMwYwBGAAAAAADFCfsravpISIJULhJ6kUB2BwDT2LgfOzJeR4d6_-DuvpGaAAAAAAENAACStECWrhwlT6Ftc2zjZMptAAQqEfJjAAA=",
+      "subject": "[Fresh FAIR Webinar] Discovering New Science Through Data Reuse",
+      "categories": [
+        "Purple category"
+      ],
+      "start": {
+        "dateTime": "2026-04-16T17:00:00.0000000",
+        "timeZone": "UTC"
+      },
+      "end": {
+        "dateTime": "2026-04-16T18:00:00.0000000",
+        "timeZone": "UTC"
+      },
+      "originalEndTimeZone": "Eastern Standard Time",
+      "location": {
+        "displayName": "https://youtu.be/ZtJl6AnV1ME"
+      },
+      "bodyPreview": "This webinar explores the data reuse journey, providing perspective from a researcher who successfully conducted secondary analyses using existing datasets. Guest speaker Ravi Mathur, PhD, of RTI International, is a researcher specializing in biomedical d",
+      "body": {
+        "contentType": "html",
+        "content": "<html>\r\n<head>\r\n<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\">\r\n</head>\r\n<body>\r\n<div class=\"elementToProof\" style=\"direction:ltr; line-height:1.38; margin-top:0pt; margin-bottom:10pt; font-family:Aptos,Aptos_EmbeddedFont,Aptos_MSFontService,Calibri,Helvetica,sans-serif; font-size:11pt; color:rgb(0,0,0)\">\r\nThis webinar explores the data reuse journey, providing perspective from a researcher who successfully conducted secondary analyses using existing datasets. Guest speaker Ravi Mathur, PhD, of RTI International, is a researcher specializing in biomedical data\r\n science, real-world data analysis, and cloud-based research platform use. He shares insights from his experience reusing shared datasets within the NHLBI BioData Catalyst (BDC) ecosystem that inform similar approaches within HEAL. While more HEAL-funded studies\r\n are maturing all the time and building a richer landscape of shareable data, hearing from researchers outside the HEAL Initiative can offer valuable perspective on how shared datasets can be leveraged to generate new findings, extend prior work, and develop\r\n novel research questions.</div>\r\n<div class=\"elementToProof\" style=\"direction:ltr; line-height:1.38; margin-top:0pt; margin-bottom:10pt; font-family:Aptos,Aptos_EmbeddedFont,Aptos_MSFontService,Calibri,Helvetica,sans-serif; font-size:11pt; color:rgb(0,0,0)\">\r\nThe webinar includes&nbsp;an overview of key HDE data reuse tools, such as the HEAL Data Platform and HEAL Semantic Search, and how they facilitate data discovery.</div>\r\n<div style=\"direction:ltr; line-height:1.38; margin-top:0pt; margin-bottom:10pt; font-family:Aptos,Aptos_EmbeddedFont,Aptos_MSFontService,Calibri,Helvetica,sans-serif; font-size:11pt; color:rgb(0,0,0)\">\r\nThis session aims to inspire HEAL investigators and the broader research community interested in pain and opioid use disorder research to explore the HEAL Data Ecosystem, and consider how existing datasets can support new analyses and scientific discovery.</div>\r\n<div style=\"direction:ltr; line-height:1.38; margin-top:0pt; margin-bottom:10pt; font-family:Aptos,Aptos_EmbeddedFont,Aptos_MSFontService,Calibri,Helvetica,sans-serif; font-size:11pt; color:rgb(0,0,0)\">\r\nWe conclude with a Q&amp;A featuring the guest speaker and HEAL ecosystem experts. Attendees are invited to join our May data reuse hands-on tutorial for a deeper walkthrough of the HDE tools and step-by-step demonstrations of identifying and reusing HEAL datasets.</div>\r\n<div style=\"font-family:Aptos,Aptos_EmbeddedFont,Aptos_MSFontService,Calibri,Helvetica,sans-serif; font-size:11pt; color:rgb(0,0,0)\">\r\n<br>\r\n</div>\r\n</body>\r\n</html>\r\n"
+      }
+    },
+    {
+      "id": "AAMkAGJiYjdiMDk4LTI2NjktNDQ0Yy1iN2NkLTk0ODE5NTkwZGMwYwBGAAAAAADFCfsravpISIJULhJ6kUB2BwDT2LgfOzJeR4d6_-DuvpGaAAAAAAENAACStECWrhwlT6Ftc2zjZMptAAQD7ZuxAAA=",
+      "subject": "[Fresh FAIR Webinar] Strengthening FAIR Data in Practice: Updates from the HEAL Data Ecosystem",
+      "categories": [
+        "Purple category"
+      ],
+      "start": {
+        "dateTime": "2026-03-19T17:00:00.0000000",
+        "timeZone": "UTC"
+      },
+      "end": {
+        "dateTime": "2026-03-19T18:00:00.0000000",
+        "timeZone": "UTC"
+      },
+      "originalEndTimeZone": "Eastern Standard Time",
+      "location": {
+        "displayName": "https://youtu.be/P5qBgsvANR4"
+      },
+      "bodyPreview": "This webinar showcases NIH HEAL Data Ecosystem (HDE) progress, highlighting how appropriate tools, metadata quality, and advances in scientific community engagement strengthen data sharing and reuse opportunities.\r\nParticipants receive a high-level overvi",
+      "body": {
+        "contentType": "html",
+        "content": "<html>\r\n<head>\r\n<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\">\r\n</head>\r\n<body>\r\n<div class=\"elementToProof\" style=\"direction:ltr; line-height:1.38; margin-top:0pt; margin-bottom:10pt; font-family:Aptos,Aptos_EmbeddedFont,Aptos_MSFontService,Calibri,Helvetica,sans-serif; font-size:11pt; color:rgb(0,0,0)\">\r\nThis webinar showcases&nbsp;NIH HEAL Data Ecosystem (HDE) progress, highlighting how appropriate tools, metadata quality, and advances in scientific community engagement strengthen data sharing and reuse opportunities.&nbsp;</div>\r\n<div class=\"elementToProof\" style=\"direction:ltr; line-height:1.38; margin-top:0pt; margin-bottom:10pt; font-family:Aptos,Aptos_EmbeddedFont,Aptos_MSFontService,Calibri,Helvetica,sans-serif; font-size:11pt; color:rgb(0,0,0)\">\r\nParticipants receive a high-level overview of key HDE developments, including shared dataset growth, repository deposition trends, and increased adoption of standardized data practices, such as the use of common data elements. The session also highlights how\r\n these developments support study discoverability, interoperability, and future data reuse through shared infrastructure and community-driven standards.</div>\r\n<div class=\"elementToProof\" style=\"direction:ltr; line-height:1.38; margin-top:0pt; margin-bottom:10pt; font-family:Aptos,Aptos_EmbeddedFont,Aptos_MSFontService,Calibri,Helvetica,sans-serif; font-size:11pt; color:rgb(0,0,0)\">\r\nThe webinar concludes&nbsp;with a look at upcoming HDE enhancements, opportunities for continued engagement, and an interactive Q&amp;A. Attendees leave with a clear understanding of how ongoing ecosystem efforts can directly support their research by making data easier\r\n to find and combine, expanding opportunities for cross-study and secondary analyses.</div>\r\n<div class=\"elementToProof\" style=\"direction:ltr; line-height:1.38; margin-top:0pt; margin-bottom:10pt; font-family:Aptos,Aptos_EmbeddedFont,Aptos_MSFontService,Calibri,Helvetica,sans-serif; font-size:11pt; color:rgb(0,0,0)\">\r\nRecording link <a href=\"https://youtu.be/P5qBgsvANR4\" title=\"https://youtu.be/P5qBgsvANR4\">\r\nhere</a>.</div>\r\n<div style=\"font-family:Aptos,Aptos_EmbeddedFont,Aptos_MSFontService,Calibri,Helvetica,sans-serif; font-size:11pt; color:rgb(0,0,0)\">\r\n<br>\r\n</div>\r\n</body>\r\n</html>\r\n"
+      }
+    },
+    {
+      "id": "AAMkAGJiYjdiMDk4LTI2NjktNDQ0Yy1iN2NkLTk0ODE5NTkwZGMwYwBGAAAAAADFCfsravpISIJULhJ6kUB2BwDT2LgfOzJeR4d6_-DuvpGaAAAAAAENAACStECWrhwlT6Ftc2zjZMptAAQD7ZuwAAA=",
+      "subject": "[Collective Board Meeting] HEAL Data Ecosystem (HDE) Progress",
+      "categories": [
+        "Green category"
+      ],
+      "start": {
+        "dateTime": "2026-02-03T18:00:00.0000000",
+        "timeZone": "UTC"
+      },
+      "end": {
+        "dateTime": "2026-02-03T19:00:00.0000000",
+        "timeZone": "UTC"
+      },
+      "originalEndTimeZone": "Eastern Standard Time",
+      "location": {
+        "displayName": ""
+      },
+      "bodyPreview": "Collective Board Meeting Summary: HEAL investigators would be interested in knowing about the HEAL data sets that are available and specifically their value proposition, e.g., what questions they could potentially answer. Several members agreed that a hac",
+      "body": {
+        "contentType": "html",
+        "content": "<html>\r\n<head>\r\n<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\">\r\n</head>\r\n<body>\r\n<div class=\"elementToProof\" style=\"text-align:left; text-indent:0px; margin:0in; font-family:Aptos,Aptos_EmbeddedFont,Aptos_MSFontService,Calibri,Helvetica,sans-serif; font-size:11pt; color:rgb(0,0,0)\">\r\nCollective Board Meeting Summary: HEAL investigators would be interested in knowing about the HEAL data sets that are available and specifically their value proposition, e.g., what questions they could potentially answer. Several members agreed that a hackathon\r\n would be a good way to get people using the data and tools (HEAL Data Platform and HEAL Semantic Search). We have to look at the data to find questions that could be answered. Pilot grants for students/fellows could also get people using the data.&nbsp;</div>\r\n<div class=\"elementToProof\" style=\"text-align:left; text-indent:0px; margin:0in; font-family:Aptos,Aptos_EmbeddedFont,Aptos_MSFontService,Calibri,Helvetica,sans-serif; font-size:11pt; color:rgb(0,0,0)\">\r\n&nbsp;</div>\r\n<div class=\"elementToProof\" style=\"text-align:left; text-indent:0px; margin:0in; font-family:Aptos,Aptos_EmbeddedFont,Aptos_MSFontService,Calibri,Helvetica,sans-serif; font-size:11pt; color:rgb(0,0,0)\">\r\nIn the broader pain &amp; OUD community, people are interested in the AI readiness of the data, data that could be used for trainee or pilot projects, and data that could be translated into practice. These audiences would be interested in case studies. Conferences\r\n could provide an opportunity to reach a broader audience, specifically AHSR, Joint Statistical Meetings of the American Statistical Association, USASP, CPDD, ASAM, SMB, and ACCJH. Members suggested a newsletter to inform stakeholders about new data sets and\r\n the tools and resources available to support data reuse.</div>\r\n<div style=\"font-family:Aptos,Aptos_EmbeddedFont,Aptos_MSFontService,Calibri,Helvetica,sans-serif; font-size:11pt; color:rgb(0,0,0)\">\r\n<br>\r\n</div>\r\n</body>\r\n</html>\r\n"
+      }
+    },
+    {
+      "id": "AAMkAGJiYjdiMDk4LTI2NjktNDQ0Yy1iN2NkLTk0ODE5NTkwZGMwYwBGAAAAAADFCfsravpISIJULhJ6kUB2BwDT2LgfOzJeR4d6_-DuvpGaAAAAAAENAACStECWrhwlT6Ftc2zjZMptAAPuK5CSAAA=",
+      "subject": "[HEAL Office Hours] Navigating the PI Checklist and HEAL Data Platform",
+      "categories": [
+        "Purple category"
+      ],
+      "start": {
+        "dateTime": "2026-01-15T18:00:00.0000000",
+        "timeZone": "UTC"
+      },
+      "end": {
+        "dateTime": "2026-01-15T19:00:00.0000000",
+        "timeZone": "UTC"
+      },
+      "originalEndTimeZone": "Eastern Standard Time",
+      "location": {
+        "displayName": "This session was not recorded"
+      },
+      "bodyPreview": "Getting started with the HEAL data sharing task early can simplify the data collection and management journey, reduce last-minute stress, and ensure investigators remain in compliance with the HEAL and NIH Data Management and Sharing Policy. This interact",
+      "body": {
+        "contentType": "html",
+        "content": "<html>\r\n<head>\r\n<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\">\r\n</head>\r\n<body>\r\n<div class=\"elementToProof\" style=\"direction:ltr; line-height:1.38; margin-top:12pt; margin-bottom:12pt; font-family:Aptos,Aptos_EmbeddedFont,Aptos_MSFontService,Calibri,Helvetica,sans-serif; font-size:11pt; color:rgb(0,0,0)\">\r\nGetting started with the HEAL data sharing task early can simplify the data collection and management journey, reduce last-minute stress, and ensure investigators remain in compliance with the HEAL and NIH Data Management and Sharing Policy. This interactive\r\n office hours session provides&nbsp;attendees with a clear understanding of the requirements outlined in the HEAL PI Checklist and introduces key resources to support timely and confident reporting.</div>\r\n<div style=\"direction:ltr; line-height:1.38; margin-top:12pt; margin-bottom:12pt; font-family:Aptos,Aptos_EmbeddedFont,Aptos_MSFontService,Calibri,Helvetica,sans-serif; font-size:11pt; color:rgb(0,0,0)\">\r\nParticipants:</div>\r\n<ul style=\"margin-top:0px; margin-bottom:0px\">\r\n<li style=\"font-family:Aptos,Aptos_EmbeddedFont,Aptos_MSFontService,Calibri,Helvetica,sans-serif; font-size:11pt; color:rgb(0,0,0); direction:ltr; list-style-type:disc\">\r\n<div role=\"presentation\" style=\"direction:ltr; line-height:1.38; margin-top:12pt; margin-bottom:0pt\">\r\nReceive a high-level walkthrough of early compliance actions, via the HEAL PI Checklist.</div>\r\n</li><li style=\"font-family:Aptos,Aptos_EmbeddedFont,Aptos_MSFontService,Calibri,Helvetica,sans-serif; font-size:11pt; color:rgb(0,0,0); direction:ltr; list-style-type:disc\">\r\n<div role=\"presentation\" style=\"direction:ltr; line-height:1.38; margin-top:0pt; margin-bottom:0pt\">\r\nLearn how to register a study on the HEAL Data Platform and access the CEDAR study-level metadata form.</div>\r\n</li><li style=\"font-family:Aptos,Aptos_EmbeddedFont,Aptos_MSFontService,Calibri,Helvetica,sans-serif; font-size:11pt; color:rgb(0,0,0); direction:ltr; list-style-type:disc\">\r\n<div role=\"presentation\" style=\"direction:ltr; line-height:1.38; margin-top:0pt; margin-bottom:12pt\">\r\nExplore the HEAL Data FAIR Stewards website, receive guidance on using the Checklist Tracker and on requesting Stewards consultations.</div>\r\n</li></ul>\r\n<div class=\"elementToProof\" style=\"direction:ltr; line-height:1.38; margin-top:12pt; margin-bottom:12pt; font-family:Aptos,Aptos_EmbeddedFont,Aptos_MSFontService,Calibri,Helvetica,sans-serif; font-size:11pt; color:rgb(0,0,0)\">\r\nThe session concludes&nbsp;with a Q&amp;A with HEAL Stewards and Platform team members, giving attendees the opportunity to clarify questions and gain guidance for timely engagement with HEAL requirements.<br>\r\n</div>\r\n</body>\r\n</html>\r\n"
+      }
+    },
+    {
+      "id": "AAMkAGJiYjdiMDk4LTI2NjktNDQ0Yy1iN2NkLTk0ODE5NTkwZGMwYwBGAAAAAADFCfsravpISIJULhJ6kUB2BwDT2LgfOzJeR4d6_-DuvpGaAAAAAAENAACStECWrhwlT6Ftc2zjZMptAAO6VQ0AAAA=",
+      "subject": "[Fresh FAIR Webinar] Planning for Data Deposition: Best Practices and Key Resources for Researchers",
+      "categories": [
+        "Purple category"
+      ],
+      "start": {
+        "dateTime": "2025-10-16T17:00:00.0000000",
+        "timeZone": "UTC"
+      },
+      "end": {
+        "dateTime": "2025-10-16T18:00:00.0000000",
+        "timeZone": "UTC"
+      },
+      "originalEndTimeZone": "Eastern Standard Time",
+      "location": {
+        "displayName": "https://youtu.be/IfoVDOiUqbo"
+      },
+      "bodyPreview": "This webinar focused on how research teams can set themselves up for success by planning for data sharing early and throughout their study lifecycle. Building on the March webinar, which emphasized how to assemble and submit a complete data package, this ",
+      "body": {
+        "contentType": "html",
+        "content": "<html>\r\n<head>\r\n<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\">\r\n</head>\r\n<body>\r\n<div style=\"direction:ltr; line-height:1.38; margin-top:0pt; margin-bottom:10pt; font-family:Aptos,Aptos_EmbeddedFont,Aptos_MSFontService,Calibri,Helvetica,sans-serif; font-size:11pt\">\r\n<span style=\"color:rgb(0,0,0)\">This webinar&nbsp;focused on how research teams can set themselves up for success by planning for data sharing early and throughout their study lifecycle. Building on the\r\n</span><span style=\"color:rgb(17,85,204)\"><u><a href=\"https://www.youtube.com/watch?v=fqYmmnBNQtA\" id=\"OWA7d8717d2-52ed-bc66-0b7d-1f62cc2dfd69\" class=\"x_x_OWAAutoLink\" style=\"color:rgb(17,85,204)\">March webinar</a></u></span><span style=\"color:rgb(0,0,0)\">,\r\n which emphasized how to assemble and submit a complete data package, this session provided\r\n<i>proactive strategies</i>&nbsp;to embed data sharing and packaging into study workflows early, reducing submission burdens and setting teams up for long-term success.&nbsp;</span></div>\r\n<div style=\"direction:ltr; line-height:1.38; margin-top:0pt; margin-bottom:10pt; font-family:Aptos,Aptos_EmbeddedFont,Aptos_MSFontService,Calibri,Helvetica,sans-serif; font-size:11pt; color:rgb(0,0,0)\">\r\nParticipants heard from HEAL Stewards on why proactive planning matters, lessons learned from supporting investigators, and specific actions to take at each stage of the research lifecycle. A guest presentation from Dr. Keith Marsolo of the NIH Pragmatic Clinical\r\n Trials Collaboratory overviewed how research teams plan for data deposition, including practical strategies, common challenges and solutions, and best practices. The session also highlighted key resources, such as the NIH Pragmatic Trials Collaboratory Living\r\n Notebook, ICPSR Social Science Research Guide, and HEAL Stewards’ planning tools.<br>\r\n</div>\r\n<div class=\"elementToProof\" style=\"direction:ltr; line-height:1.38; margin-top:0pt; margin-bottom:10pt; font-family:Aptos,Aptos_EmbeddedFont,Aptos_MSFontService,Calibri,Helvetica,sans-serif; font-size:11pt; color:rgb(0,0,0)\">\r\nThe webinar concluded with key takeaways and an interactive Q&amp;A, giving participants the chance to ask questions and explore how early planning can make data management and sharing more efficient and sustainable.&nbsp;</div>\r\n<div class=\"elementToProof\" style=\"direction:ltr; line-height:1.38; margin-top:0pt; margin-bottom:10pt; font-family:Aptos,Aptos_EmbeddedFont,Aptos_MSFontService,Calibri,Helvetica,sans-serif; font-size:11pt; color:rgb(0,0,0)\">\r\nView the webinar recording <a href=\"https://youtu.be/IfoVDOiUqbo\" title=\"https://youtu.be/IfoVDOiUqbo\">\r\nhere</a>.</div>\r\n<div style=\"font-family:Aptos,Aptos_EmbeddedFont,Aptos_MSFontService,Calibri,Helvetica,sans-serif; font-size:11pt; color:rgb(0,0,0)\">\r\n<br>\r\n</div>\r\n</body>\r\n</html>\r\n"
+      }
+    },
+    {
+      "id": "AAMkAGJiYjdiMDk4LTI2NjktNDQ0Yy1iN2NkLTk0ODE5NTkwZGMwYwBGAAAAAADFCfsravpISIJULhJ6kUB2BwDT2LgfOzJeR4d6_-DuvpGaAAAAAAENAACStECWrhwlT6Ftc2zjZMptAAQD7ZuvAAA=",
+      "subject": "[Collective Board Meeting] New HEAL Semantic Search Release",
+      "categories": [
+        "Green category"
+      ],
+      "start": {
+        "dateTime": "2025-10-07T17:00:00.0000000",
+        "timeZone": "UTC"
+      },
+      "end": {
+        "dateTime": "2025-10-07T18:00:00.0000000",
+        "timeZone": "UTC"
+      },
+      "originalEndTimeZone": "Eastern Standard Time",
+      "location": {
+        "displayName": ""
+      },
+      "bodyPreview": "Collective Board Meeting Summary: The board discussed ideas for further increasing the usability and value proposition of HEAL Semantic Search (HSS). In response to the UI improvements in the new release, one member said, “this is so much better. You guys",
+      "body": {
+        "contentType": "html",
+        "content": "<html>\r\n<head>\r\n<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\">\r\n</head>\r\n<body>\r\n<div class=\"elementToProof\" style=\"font-family:Aptos,Aptos_EmbeddedFont,Aptos_MSFontService,Calibri,Helvetica,sans-serif; font-size:11pt; color:rgb(0,0,0)\">\r\nCollective Board Meeting Summary: The board discussed ideas for further increasing the usability and value proposition of HEAL Semantic Search (HSS). In response to the UI improvements in the new release, one member said, “this is so much better. You guys have\r\n done great.” At the same time, they felt more data is needed in the HEAL Data Ecosystem for HSS to reach its potential. There was interest in how HSS ranks search results, and the conversation included the idea of ranking higher the studies using CDEs, providing\r\n users with a relative score on how well each result correlates to the search term, and providing options to view results through a particular lens. The Stewards collected many suggestions for general improvements including opening a new tab rather than navigating\r\n away from the HSS tool, adding a “Data Available!” logo to studies for which data is accessible, and offering users a sample search to make it easy to get started with a positive search experience.</div>\r\n</body>\r\n</html>\r\n"
+      }
+    },
+    {
+      "id": "AAMkAGJiYjdiMDk4LTI2NjktNDQ0Yy1iN2NkLTk0ODE5NTkwZGMwYwBGAAAAAADFCfsravpISIJULhJ6kUB2BwDT2LgfOzJeR4d6_-DuvpGaAAAAAAENAACStECWrhwlT6Ftc2zjZMptAAOohkBpAAA=",
+      "subject": "[Fresh FAIR Webinar] HEAL Data In Action",
+      "categories": [
+        "Purple category"
+      ],
+      "start": {
+        "dateTime": "2025-09-18T17:00:00.0000000",
+        "timeZone": "UTC"
+      },
+      "end": {
+        "dateTime": "2025-09-18T18:00:00.0000000",
+        "timeZone": "UTC"
+      },
+      "originalEndTimeZone": "Eastern Standard Time",
+      "location": {
+        "displayName": "https://youtu.be/Lldw3iy3eWE"
+      },
+      "bodyPreview": "Webinar participants see FAIR in action through real-world examples from HEAL investigators who have applied FAIR practices across the research lifecycle. This webinar highlights the NIH HEAL Initiative’s commitment to transparency, reproducibility, and c",
+      "body": {
+        "contentType": "html",
+        "content": "<html>\r\n<head>\r\n<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\">\r\n</head>\r\n<body>\r\n<div class=\"elementToProof\" style=\"direction:ltr; line-height:1.38; margin-top:0pt; margin-bottom:10pt; font-family:Aptos,Aptos_EmbeddedFont,Aptos_MSFontService,Calibri,Helvetica,sans-serif; font-size:11pt; color:rgb(0,0,0)\">\r\nWebinar participants see FAIR in action through real-world examples from HEAL investigators who have applied FAIR practices across the research lifecycle. This webinar highlights the NIH HEAL Initiative’s commitment to transparency, reproducibility, and collaboration\r\n by presenting practical applications of the FAIR principles (Findable, Accessible, Interoperable, and Reusable).&nbsp;</div>\r\n<div class=\"elementToProof\" style=\"direction:ltr; line-height:1.38; margin-top:0pt; margin-bottom:10pt; font-family:Aptos,Aptos_EmbeddedFont,Aptos_MSFontService,Calibri,Helvetica,sans-serif; font-size:11pt; color:rgb(0,0,0)\">\r\nThe session begins with an introduction from HEAL NIH leadership, followed by presentations from Kira Bradford, PhD, Co-PI of the HEAL Data Stewardship Group, and HEAL researchers sharing real-world use cases. Participants learn how data assets become more\r\n visible and reusable when FAIR is applied thoughtfully.</div>\r\n<div class=\"elementToProof\" style=\"direction:ltr; line-height:1.38; margin-top:0pt; margin-bottom:10pt; font-family:Aptos,Aptos_EmbeddedFont,Aptos_MSFontService,Calibri,Helvetica,sans-serif; font-size:11pt; color:rgb(0,0,0)\">\r\nWhether you are new to FAIR concepts or seeking inspiration to strengthen your own data management practices, this session offers practical examples and insights. The webinar concludes with an interactive Q&amp;A with presenters.</div>\r\n<div style=\"font-family:Aptos,Aptos_EmbeddedFont,Aptos_MSFontService,Calibri,Helvetica,sans-serif; font-size:11pt; color:rgb(0,0,0)\">\r\n<br>\r\n</div>\r\n<div style=\"font-family:Aptos,Aptos_EmbeddedFont,Aptos_MSFontService,Calibri,Helvetica,sans-serif; font-size:11pt; color:rgb(0,0,0)\">\r\n<br>\r\n</div>\r\n</body>\r\n</html>\r\n"
+      }
+    },
+    {
+      "id": "AAMkAGJiYjdiMDk4LTI2NjktNDQ0Yy1iN2NkLTk0ODE5NTkwZGMwYwBGAAAAAADFCfsravpISIJULhJ6kUB2BwDT2LgfOzJeR4d6_-DuvpGaAAAAAAENAACStECWrhwlT6Ftc2zjZMptAAQD7ZuuAAA=",
+      "subject": "[Collective Board Meeting] HEAL Data Platform Workspaces",
+      "categories": [
+        "Green category"
+      ],
+      "start": {
+        "dateTime": "2025-09-02T17:00:00.0000000",
+        "timeZone": "UTC"
+      },
+      "end": {
+        "dateTime": "2025-09-02T18:00:00.0000000",
+        "timeZone": "UTC"
+      },
+      "originalEndTimeZone": "Eastern Standard Time",
+      "location": {
+        "displayName": ""
+      },
+      "bodyPreview": "Collective Board Meeting Summary: The Collective Board found HEAL workspaces to be useful and to accommodate most relevant analytic use cases. FedRAMP moderate security was considered very important. Members reported using cloud-based workspaces like Goog",
+      "body": {
+        "contentType": "html",
+        "content": "<html>\r\n<head>\r\n<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\">\r\n</head>\r\n<body>\r\n<div class=\"elementToProof\" style=\"font-family:Aptos,Aptos_EmbeddedFont,Aptos_MSFontService,Calibri,Helvetica,sans-serif; font-size:11pt; color:rgb(0,0,0)\">\r\nCollective Board Meeting Summary: The Collective Board found HEAL workspaces to be useful and to accommodate most relevant analytic use cases. FedRAMP moderate security was considered very important. Members reported using cloud-based workspaces like Google\r\n and Azure to work with public datasets but internal, HIPAA-compliant infrastructure for working with sensitive data. One institute has their own secure research enclave. Tools being used include Jupyter, Posit (formerly RStudio), SAS, and Stata. There is desire\r\n for SAS in the researcher community, but it was acknowledged that licensing issues make offering SAS in HEAL workspaces not possible at this time. Several members saw a need for shared workspaces for real-time collaboration. To demonstrate the value to potential\r\n users, one member suggested having sample Jupyter notebooks for several use cases available on the Platform</div>\r\n</body>\r\n</html>\r\n"
+      }
+    },
+    {
+      "id": "AAMkAGJiYjdiMDk4LTI2NjktNDQ0Yy1iN2NkLTk0ODE5NTkwZGMwYwBGAAAAAADFCfsravpISIJULhJ6kUB2BwDT2LgfOzJeR4d6_-DuvpGaAAAAAAENAACStECWrhwlT6Ftc2zjZMptAAOTxZ7nAAA=",
+      "subject": "[Fresh FAIR Webinar] CDEs Demystified: Tools, Updates and Best Practices for FAIR Data",
+      "categories": [
+        "Purple category"
+      ],
+      "start": {
+        "dateTime": "2025-08-21T17:00:00.0000000",
+        "timeZone": "UTC"
+      },
+      "end": {
+        "dateTime": "2025-08-21T18:00:00.0000000",
+        "timeZone": "UTC"
+      },
+      "originalEndTimeZone": "Eastern Standard Time",
+      "location": {
+        "displayName": "https://youtu.be/n4qSMtpeKi8"
+      },
+      "bodyPreview": "Building on our previous webinar in May 2025, CDEs Demystified dives deeper into the role of Common Data Elements (CDEs) and variable-level metadata (VLMD) in advancing FAIR data practices within the HEAL Data Ecosystem. Whether or not you attended the pr",
+      "body": {
+        "contentType": "html",
+        "content": "<html>\r\n<head>\r\n<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\">\r\n<meta name=\"Generator\" content=\"Microsoft Word 15 (filtered medium)\">\r\n<style>\r\n<!--\r\n@font-face\r\n\t{font-family:\"Cambria Math\"}\r\n@font-face\r\n\t{font-family:Aptos}\r\np.MsoNormal, li.MsoNormal, div.MsoNormal\r\n\t{margin:0in;\r\n\tfont-size:12.0pt;\r\n\tfont-family:\"Aptos\",sans-serif}\r\na:link, span.MsoHyperlink\r\n\t{color:blue;\r\n\ttext-decoration:underline}\r\nspan.EmailStyle18\r\n\t{font-family:\"Aptos\",sans-serif;\r\n\tcolor:windowtext}\r\n.MsoChpDefault\r\n\t{font-size:10.0pt}\r\n@page WordSection1\r\n\t{margin:1.0in 1.0in 1.0in 1.0in}\r\ndiv.WordSection1\r\n\t{}\r\n-->\r\n</style>\r\n</head>\r\n<body lang=\"EN-US\" link=\"blue\" vlink=\"purple\" style=\"word-wrap:break-word\">\r\n<div class=\"WordSection1\">\r\n<p class=\"MsoNormal\"><span style=\"font-size:11.0pt\">Building on our <a href=\"https://youtu.be/qMZXy0VnuVc\" title=\"https://youtu.be/qMZXy0VnuVc\">\r\nprevious webinar</a> in May 2025, CDEs Demystified&nbsp;dives deeper into the role of Common Data Elements (CDEs) and variable-level metadata (VLMD) in advancing FAIR data practices within the HEAL Data Ecosystem. Whether or not you attended the prior webinar, this\r\n session will provide fresh insights and practical updates for all participants.&nbsp;This webinar begins with an overview of the FAIR principles (Findable, Accessible, Interoperable and Reusable) and highlights how VLMD ensures data discoverability and integration\r\n across the HEAL Platform. We then examine how CDEs and VLMD serve as building blocks for data consistency, reduce variability, and improve cross-study analysis to support NIH’s mission for interoperable and reusable data.</span></p>\r\n<p class=\"MsoNormal\"><span style=\"font-size:11.0pt\">&nbsp;</span></p>\r\n<p class=\"MsoNormal\"><span style=\"font-size:11.0pt\">Participants receive a refresher on CDE fundamentals and learn about recent advancements to HEAL CDEs that help study teams meet NIH data submission requirements. The HEAL Platform team introduces the CDE\r\n Picker, a user-friendly tool that streamlines the selection and application of CDEs for metadata tagging. The session concludes with a live Q&amp;A featuring the HEAL Stewards, Kathy Sward from the University of Utah, and a member of the Platform Team.</span></p>\r\n</div>\r\n</body>\r\n</html>\r\n"
+      }
+    },
+    {
+      "id": "AAMkAGJiYjdiMDk4LTI2NjktNDQ0Yy1iN2NkLTk0ODE5NTkwZGMwYwBGAAAAAADFCfsravpISIJULhJ6kUB2BwDT2LgfOzJeR4d6_-DuvpGaAAAAAAENAACStECWrhwlT6Ftc2zjZMptAAN75zBZAAA=",
+      "subject": "[Fresh FAIR Webinar] Empowering Data Reuse: A Guide to Creating Data Dictionaries and Variable-Level Metadata (VLMD)",
+      "categories": [
+        "Purple category"
+      ],
+      "start": {
+        "dateTime": "2025-07-17T17:00:00.0000000",
+        "timeZone": "UTC"
+      },
+      "end": {
+        "dateTime": "2025-07-17T18:00:00.0000000",
+        "timeZone": "UTC"
+      },
+      "originalEndTimeZone": "Eastern Standard Time",
+      "location": {
+        "displayName": "https://youtu.be/sVsLPTO1dVU"
+      },
+      "bodyPreview": "Effective metadata documentation advances FAIR data practices within the HEAL Data Ecosystem. This webinar provides HEAL investigators and data management teams practical guidance on developing and managing data dictionaries and variable-level metadata (V",
+      "body": {
+        "contentType": "html",
+        "content": "<html>\r\n<head>\r\n<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\">\r\n</head>\r\n<body>\r\n<div style=\"direction:ltr; line-height:1.38; margin-top:10pt; margin-bottom:0pt; font-family:Aptos,Aptos_EmbeddedFont,Aptos_MSFontService,Calibri,Helvetica,sans-serif; font-size:11pt; color:rgb(0,0,0)\">\r\nEffective metadata documentation advances FAIR data practices within the HEAL Data Ecosystem. This webinar provides HEAL investigators and data management teams practical guidance on developing and managing data dictionaries and variable-level metadata (VLMD).&nbsp;</div>\r\n<div style=\"direction:ltr; line-height:1.38; margin-top:10pt; margin-bottom:0pt; font-family:Aptos,Aptos_EmbeddedFont,Aptos_MSFontService,Calibri,Helvetica,sans-serif; font-size:11pt; color:rgb(0,0,0)\">\r\nParticipants will learn to differentiate between metadata types, determine when a data dictionary is applicable, and discover resources for handling diverse data types, including qualitative and non-tabular data. The session highlights HEAL-specific tools,\r\n such as the Variable Standards Finder and the VLMD Validator, supporting metadata creation throughout the study lifecycle, from pre-award planning to data deposition.&nbsp;</div>\r\n<div class=\"elementToProof\" style=\"direction:ltr; line-height:1.38; margin-top:10pt; margin-bottom:0pt; font-family:Aptos,Aptos_EmbeddedFont,Aptos_MSFontService,Calibri,Helvetica,sans-serif; font-size:11pt; color:rgb(0,0,0)\">\r\nAttendees will also see how VLMD directly enhances study findability, and potential reuse of their data by powering discovery tools like the HEAL Semantic Search and the HEAL Data Platform. The webinar concludes with a live Q&amp;A session, providing an opportunity\r\n for personalized metadata documentation and submission support.</div>\r\n<div style=\"font-family:Aptos,Aptos_EmbeddedFont,Aptos_MSFontService,Calibri,Helvetica,sans-serif; font-size:11pt; color:rgb(0,0,0)\">\r\n<br>\r\n</div>\r\n<div style=\"font-family:Aptos,Aptos_EmbeddedFont,Aptos_MSFontService,Calibri,Helvetica,sans-serif; font-size:11pt; color:rgb(0,0,0)\">\r\n<br>\r\n</div>\r\n<div style=\"font-family:Aptos,Aptos_EmbeddedFont,Aptos_MSFontService,Calibri,Helvetica,sans-serif; font-size:11pt; color:rgb(0,0,0)\">\r\n<br>\r\n</div>\r\n</body>\r\n</html>\r\n"
+      }
+    }
+  ]
+}

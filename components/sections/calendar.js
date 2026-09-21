@@ -10,6 +10,9 @@ export default function Calendar(props) {
   const { data: session } = useSession()
   const [loggedIn, setLoggedIn] = useState(false)
   const [now, setNow] = useState(null)
+  const [usingSnapshot, setUsingSnapshot] = useState(
+    Boolean(props.eventData?.isSnapshot)
+  )
 
   useEffect(() => {
     setNow(new Date())
@@ -22,6 +25,7 @@ export default function Calendar(props) {
       async function fetchMyAPI() {
         let eventData2 = await fetchEvents(props.token)
         let sortedEvents = filterByDate(eventData2)
+        setUsingSnapshot(Boolean(eventData2.isSnapshot))
         setEvents(sortedEvents)
       }
       fetchMyAPI()
@@ -40,6 +44,7 @@ export default function Calendar(props) {
           }
         })
         let sortedEvents = filterByDate(publicEvents)
+        setUsingSnapshot(Boolean(eventData2.isSnapshot))
         setEvents(sortedEvents)
       }
       fetchMyAPI()
@@ -94,6 +99,13 @@ export default function Calendar(props) {
               }
             })}
       </section>
+      {usingSnapshot && (
+        <div className="mb-8 rounded border border-magenta bg-magenta/10 px-4 py-3 text-md text-gray-dark">
+          Our full calendar is currently unavailable. This page is currently
+          limited to the last 15 HEAL events. Please check back soon as we work
+          to restore full calendar access.
+        </div>
+      )}
     </div>
   )
 }

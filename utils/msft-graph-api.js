@@ -1,4 +1,5 @@
 import axios from "axios"
+import snapshot from "../data/calendar-events.snapshot.json"
 
 const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms))
 
@@ -37,6 +38,36 @@ async function axiosWithBackoff(config, retries = 5, baseDelay = 1000) {
   }
 }
 
+function getSnapshotEvents() {
+  const events = Array.isArray(snapshot.events)
+    ? snapshot.events.map((event) => ({ ...event }))
+    : []
+
+  events.isSnapshot = true
+  events.snapshotGeneratedAt = snapshot.generatedAt ?? null
+
+  return events
+}
+
+function getSnapshotEvent(id) {
+  const snapshotEvent = getSnapshotEvents().find((event) => event.id === id)
+
+  if (!snapshotEvent) {
+    return undefined
+  }
+
+  return {
+    ...snapshotEvent,
+    isSnapshot: true,
+    snapshotGeneratedAt: snapshot.generatedAt ?? null,
+  }
+}
+
+function withToken(eventData, token) {
+  eventData.token = token ?? null
+  return eventData
+}
+
 export function getEvents(token) {
   return new Promise((resolve, reject) => {
     axiosWithBackoff({
@@ -53,6 +84,18 @@ export function getEvents(token) {
 
 export function getEvent(token, id) {
   return new Promise((resolve, reject) => {
+    if (!token) {
+      const snapshotEvent = getSnapshotEvent(id)
+
+      if (snapshotEvent) {
+        resolve(snapshotEvent)
+        return
+      }
+
+      reject(new Error(`Event ${id} not found in calendar snapshot`))
+      return
+    }
+
     axiosWithBackoff({
       method: "get",
       url: `https://graph.microsoft.com/v1.0/users/RENCI_healdataca.rmb@ad.unc.edu/calendar/events/${id}`,
@@ -61,13 +104,20 @@ export function getEvent(token, id) {
       },
     })
       .then((res) => resolve(res.data))
-      .catch(reject)
+      .catch((error) => {
+        const snapshotEvent = getSnapshotEvent(id)
+
+        if (snapshotEvent) {
+          resolve(snapshotEvent)
+          return
+        }
+
+        reject(error)
+      })
   })
 }
 
 export async function getAuthorizationToken(id) {
-  let event = ""
-
   const data = {
     client_id: process.env.CLIENT_ID,
     scope: process.env.SCOPE,
@@ -75,34 +125,68 @@ export async function getAuthorizationToken(id) {
     grant_type: process.env.GRANT_TYPE,
   }
 
-  let token = await fetch(
-    "https://login.microsoftonline.com/58b3d54f-16c9-42d3-af08-1fcabd095666/oauth2/v2.0/token",
-    {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/x-www-form-urlencoded",
-      },
-      body: new URLSearchParams(data),
-    }
-  )
-    .then((response) => response.json())
-    .then((data) => {
-      return data.access_token
-    })
-    .catch((error) => {
-      console.error(error)
-    })
+  let token = null
 
-  if (id === undefined) {
-    event = await getEvents(token)
-  } else {
-    event = await getEvent(token, id)
+  try {
+    const response = await fetch(
+      "https://login.microsoftonline.com/58b3d54f-16c9-42d3-af08-1fcabd095666/oauth2/v2.0/token",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+        body: new URLSearchParams(data),
+      }
+    )
+    const tokenData = await response.json()
+
+    if (!response.ok || !tokenData.access_token) {
+      console.error("Unable to fetch Microsoft Graph access token", tokenData)
+    } else {
+      token = tokenData.access_token
+    }
+  } catch (error) {
+    console.error(error)
   }
-  event.token = token
-  return event
+
+  try {
+    if (id === undefined) {
+      return withToken(
+        token ? await getEvents(token) : getSnapshotEvents(),
+        token
+      )
+    }
+
+    return withToken(
+      token ? await getEvent(token, id) : getSnapshotEvent(id),
+      token
+    )
+  } catch (error) {
+    console.error(error)
+
+    if (id === undefined) {
+      return withToken(getSnapshotEvents(), null)
+    }
+
+    const snapshotEvent = getSnapshotEvent(id)
+
+    if (snapshotEvent) {
+      return withToken(snapshotEvent, null)
+    }
+
+    throw error
+  }
 }
 
 export async function fetchEvents(token) {
-  let event = await getEvents(token)
-  return event
+  if (!token) {
+    return getSnapshotEvents()
+  }
+
+  try {
+    let event = await getEvents(token)
+    return event
+  } catch (error) {
+    return getSnapshotEvents()
+  }
 }
