@@ -13,6 +13,7 @@ export default function Calendar(props) {
   const [usingSnapshot, setUsingSnapshot] = useState(
     Boolean(props.eventData?.isSnapshot)
   )
+  const snapshotEventCount = events.length
 
   useEffect(() => {
     setNow(new Date())
@@ -102,8 +103,9 @@ export default function Calendar(props) {
       {usingSnapshot && (
         <div className="mb-8 rounded border border-magenta bg-magenta/10 px-4 py-3 text-md text-gray-dark">
           Our full calendar is currently unavailable. This page is currently
-          limited to the last 15 HEAL events. Please check back soon as we work
-          to restore full calendar access.
+          limited to the last {snapshotEventCount} HEAL event
+          {snapshotEventCount === 1 ? "" : "s"}. Please check back soon as we
+          work to restore full calendar access.
         </div>
       )}
     </div>

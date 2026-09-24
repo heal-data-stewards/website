@@ -6,6 +6,8 @@ import Divider from "@mui/material/Divider"
 
 export default function CollectiveEvents(props) {
   const [events, setEvents] = useState([])
+  const usingSnapshot = Boolean(props.eventData?.isSnapshot)
+  const snapshotEventCount = events.length
 
   useEffect(() => {
     // Events created in the HEAL Calendar with out a category label are collected in filteredEvents
@@ -62,6 +64,14 @@ export default function CollectiveEvents(props) {
       <section className={`pt-10 pb-10`}>
         <h1 className="text-3xl font-bold pb-4 text-purple">Past Events</h1>
         <Divider />
+        {usingSnapshot && (
+          <p className="mt-4 rounded border border-magenta bg-magenta/10 px-4 py-3 text-sm text-gray-dark">
+            Our full calendar is currently unavailable. This page is currently
+            limited to the last {snapshotEventCount} HEAL event
+            {snapshotEventCount === 1 ? "" : "s"}. Please check back soon as we
+            work to restore full calendar access.
+          </p>
+        )}
         <br></br>
         <br></br>
         {events.length !== 0 &&
