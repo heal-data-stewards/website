@@ -27,6 +27,28 @@
       }
     },
     {
+      "id": "AAMkAGJiYjdiMDk4LTI2NjktNDQ0Yy1iN2NkLTk0ODE5NTkwZGMwYwBGAAAAAADFCfsravpISIJULhJ6kUB2BwDT2LgfOzJeR4d6_-DuvpGaAAAAAAENAACStECWrhwlT6Ftc2zjZMptAASXsnK1AAA=",
+      "categories": [
+        "Green category"
+      ],
+      "originalStartTimeZone": "Eastern Standard Time",
+      "originalEndTimeZone": "Eastern Standard Time",
+      "subject": "[Collective Board Meeting] Advancing HEAL Self-Service: Defining, Evaluating, and Enhancing with AI",
+      "bodyPreview": "Collective Board Meeting Summary: The Collective Board discussion focused on defining self-service for both investigators submitting data and researchers seeking to discover and reuse data within the HEAL Data Ecosystem. Participants consistently emphasiz",
+      "body": {
+        "contentType": "html",
+        "content": "<html>\r\n<head>\r\n<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\">\r\n</head>\r\n<body>\r\n<div class=\"elementToProof\" style=\"font-family:Aptos,Aptos_EmbeddedFont,Aptos_MSFontService,Calibri,Helvetica,sans-serif; font-size:11pt; color:rgb(0,0,0)\">\r\nCollective Board Meeting Summary: The Collective Board discussion focused on defining self-service for both investigators submitting data and researchers seeking to discover and reuse data within the HEAL Data Ecosystem. Participants consistently emphasized\r\n that self-service should extend beyond AI chatbots and instead focus on reducing user burden through workflow simplification, improved usability, automation, and stronger integration across existing tools and processes. Members highlighted challenges with\r\n current workflows, particularly around CEDAR and metadata submission, and advocated for human-centered design approaches that make processes more intuitive, scalable, and less dependent on user support. There was broad agreement that the most effective solutions\r\n will reduce the need for manual data entry and leverage existing information to generate, validate, or recommend metadata next steps automatically. The discussion also underscored the importance of supporting secondary data reuse by improving dataset quality\r\n indicators, contextual documentation, and harmonization support. Participants noted that discovering data is often less challenging than determining whether it can be effectively reused, citing the need for information about missing data, protocol changes,\r\n and study limitations. AI was viewed as a promising tool for metadata validation, dataset discovery, harmonization, and workflow guidance, particularly when layered onto existing platforms and services. Overall, the discussion highlighted opportunities to\r\n improve the usability, scalability, and interoperability of current tools and processes while reducing burden for both data contributors and data users.</div>\r\n</body>\r\n</html>\r\n"
+      },
+      "start": {
+        "dateTime": "2026-09-01T17:00:00.0000000",
+        "timeZone": "UTC"
+      },
+      "end": {
+        "dateTime": "2026-09-01T18:00:00.0000000",
+        "timeZone": "UTC"
+      }
+    },
+    {
       "id": "AAMkAGJiYjdiMDk4LTI2NjktNDQ0Yy1iN2NkLTk0ODE5NTkwZGMwYwBGAAAAAADFCfsravpISIJULhJ6kUB2BwDT2LgfOzJeR4d6_-DuvpGaAAAAAAENAACStECWrhwlT6Ftc2zjZMptAAR79zDiAAA=",
       "subject": "[HEAL Office Hours for Investigators] From Data Dictionaries to Repository Submission",
       "categories": [
