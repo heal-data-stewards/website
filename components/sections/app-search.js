@@ -370,6 +370,20 @@ export default function AppSearch({ data }) {
     }
   }
 
+  const trackStudyTitleLinkClick = () => {
+    if (!selectedStudy || typeof document === "undefined") return
+
+    sendCustomEvent("checklist_study_tracker_results", {
+      interaction_type: "link_click",
+      step_title: "Study Title",
+      link_text: selectedStudy.study_name,
+      link_url: `https://healdata.org/portal/discovery/${selectedHdpId}`,
+      location: "results_page",
+      parent_page_title: document.title,
+      parent_page_url: window.location.href,
+    })
+  }
+
   const getAppId = (e) => {
     e.preventDefault()
 
@@ -557,6 +571,12 @@ export default function AppSearch({ data }) {
               <Tooltip title="Open study in HEAL Data Platform.">
                 <CustomLink
                   to={`https://healdata.org/portal/discovery/${selectedHdpId}`}
+                  onMouseDown={trackStudyTitleLinkClick}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter" || e.key === " ") {
+                      trackStudyTitleLinkClick()
+                    }
+                  }}
                 >
                   <span className="text-l">
                     {selectedStudy.study_name}{" "}
