@@ -675,14 +675,12 @@ export default function AppSearch({ data }) {
                   <Markdown>
                     We cannot confirm whether or not you have reported your
                     research publications. Remember to report your research
-                    publication to
-                    [HEALquestion@od.nih.gov](mailto:HEALquestion@od.nih.gov)
-                    upon publication in a journal! Award recipients and their
-                    collaborators are required to acknowledge NIH HEAL
-                    Initiative support by referencing in the acknowledgement
-                    sections of any relevant publication: This research was
-                    supported by the National Institutes of Health through the
-                    NIH HEAL Initiative
+                    publication to your NIH Program Officer upon publication in
+                    a journal! Award recipients and their collaborators are
+                    required to acknowledge NIH HEAL Initiative support by
+                    referencing in the acknowledgement sections of any relevant
+                    publication: This research was supported by the National
+                    Institutes of Health through the NIH HEAL Initiative
                     ([https://www.nih.gov/heal](https://www.nih.gov/heal)) under
                     award number, [include specific grant/contract/award number;
                     for NIH grant number(s) use full format for the grant
