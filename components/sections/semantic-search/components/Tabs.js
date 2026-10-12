@@ -1,4 +1,5 @@
 import { sendCustomEvent } from "utils/analytics"
+import { useQuery } from "utils/use-query"
 import { Help, OpenInNew } from "@mui/icons-material"
 import { Button, styled, alpha, Tab, Tabs } from "@mui/material"
 import { forwardRef } from "react"
@@ -172,6 +173,18 @@ export function TabPanel({ children, currentTabIndex, index }) {
       {currentTabIndex === index && <div>{children}</div>}
     </div>
   )
+}
+
+/**
+ * Tab label suffixed with the number of results `query` returns. Pass the same
+ * query options the tab's panel uses so the count matches what the panel shows
+ * and the panel opens from cache.
+ */
+export function QueryCountLabel({ label, query }) {
+  const { data } = useQuery(query)
+  if (!data) return label
+  const count = data.metadata?.total_count ?? data.results.length
+  return `${label} (${count.toLocaleString()})`
 }
 
 export function a11yProps(index) {

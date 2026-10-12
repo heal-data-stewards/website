@@ -15,6 +15,25 @@ import {
   UI_SURFACES,
 } from "../analytics"
 
+export function parentStudiesQueryOptions({ studyIds, conceptId, searchTerm }) {
+  const payload = conceptId
+    ? {
+        query: searchTerm,
+        concept: conceptId,
+      }
+    : {
+        query: "",
+        elementIds: studyIds,
+      }
+
+  return {
+    queryFn: () => {
+      return fetchStudies(payload)
+    },
+    queryKey: `studies-${JSON.stringify(payload)}`,
+  }
+}
+
 export function ParentStudiesDisplay({
   studyIds,
   conceptId,
@@ -26,22 +45,9 @@ export function ParentStudiesDisplay({
 }) {
   const modal = useEntityModal()
 
-  const payload = conceptId
-    ? {
-        query: searchTerm,
-        concept: conceptId,
-      }
-    : {
-        query: "",
-        elementIds: studyIds,
-      }
-
-  const studiesQuery = useQuery({
-    queryFn: () => {
-      return fetchStudies(payload)
-    },
-    queryKey: `studies-${JSON.stringify(payload)}`,
-  })
+  const studiesQuery = useQuery(
+    parentStudiesQueryOptions({ studyIds, conceptId, searchTerm })
+  )
 
   if (studiesQuery.isLoading) {
     return (
