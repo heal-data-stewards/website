@@ -7,9 +7,20 @@ import {
   UI_SURFACES,
 } from "../analytics"
 import { BookmarkButton } from "../components/BookmarkButton"
-import { ParentStudiesDisplay } from "../components/ParentStudiesDisplay"
-import { a11yProps, PillTabs, TabPanel } from "../components/Tabs"
-import { VariableQuestionDisplay } from "../components/VariableQuestionDisplay"
+import {
+  ParentStudiesDisplay,
+  parentStudiesQueryOptions,
+} from "../components/ParentStudiesDisplay"
+import {
+  a11yProps,
+  PillTabs,
+  QueryCountLabel,
+  TabPanel,
+} from "../components/Tabs"
+import {
+  measuresQueryOptions,
+  VariableQuestionDisplay,
+} from "../components/VariableQuestionDisplay"
 
 export function CdeDetail({
   cde,
@@ -44,8 +55,24 @@ export function CdeDetail({
           onChange={(e, value) => setCurrentTabIndex(value)}
           aria-label="CDE tabs"
         >
-          <Tab label="Measures" {...a11yProps(0)} />
-          <Tab label="Usage In Studies" {...a11yProps(1)} />
+          <Tab
+            label={
+              <QueryCountLabel
+                label="Measures"
+                query={measuresQueryOptions(cde.variable_list)}
+              />
+            }
+            {...a11yProps(0)}
+          />
+          <Tab
+            label={
+              <QueryCountLabel
+                label="Usage In Studies"
+                query={parentStudiesQueryOptions({ studyIds: cde.parents })}
+              />
+            }
+            {...a11yProps(1)}
+          />
           <Tab label="Downloads" {...a11yProps(2)} />
         </PillTabs>
       </div>

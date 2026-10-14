@@ -14,20 +14,25 @@ import { useCollectionContext } from "../context/collection"
 import { useEntityModal } from "../context/entity-modal"
 import { UI_SURFACES } from "../analytics"
 
-export function StudyVariableMappings({ studyMappings }) {
-  const collection = useCollectionContext()
-  const modal = useEntityModal()
-
+export function studyVariableMappingsQueryOptions(studyMappings) {
   const payload = {
     query: "",
     elementIds: Object.keys(studyMappings),
   }
-  const studies = useQuery({
+
+  return {
     queryFn: () => {
       return fetchStudies(payload)
     },
     queryKey: `study-variable-mappings-${JSON.stringify(payload)}`,
-  })
+  }
+}
+
+export function StudyVariableMappings({ studyMappings }) {
+  const collection = useCollectionContext()
+  const modal = useEntityModal()
+
+  const studies = useQuery(studyVariableMappingsQueryOptions(studyMappings))
 
   if (studies.isLoading) {
     return (

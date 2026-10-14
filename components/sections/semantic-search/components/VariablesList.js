@@ -36,6 +36,19 @@ import { VariableQuestionDisplay } from "./VariableQuestionDisplay"
 
 const VIRTUAL_PAGE_SIZE = 50
 
+export function studyVariableCountQueryOptions(studyId) {
+  const payload = {
+    query: "",
+    parentIds: [studyId],
+    limit: 0,
+  }
+
+  return {
+    queryFn: () => fetchVariables(payload),
+    queryKey: `variables-count-${JSON.stringify(payload)}`,
+  }
+}
+
 export function VariablesList({
   study,
   searchTerm,

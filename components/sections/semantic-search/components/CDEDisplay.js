@@ -14,6 +14,27 @@ import {
   UI_SURFACES,
 } from "../analytics"
 
+export function cdesQueryOptions({
+  studyId,
+  elementIds,
+  conceptId,
+  searchTerm,
+}) {
+  const payload = {
+    query: searchTerm ?? "",
+    ...(studyId && { parentIds: [studyId] }),
+    ...(elementIds && { elementIds: elementIds }),
+    ...(conceptId && { concept: conceptId }),
+  }
+
+  return {
+    queryFn: () => {
+      return fetchCDEs(payload)
+    },
+    queryKey: `cdes-${JSON.stringify(payload)}`,
+  }
+}
+
 export function CDEDisplay({
   studyId,
   elementIds,
@@ -26,19 +47,9 @@ export function CDEDisplay({
 }) {
   const modal = useEntityModal()
 
-  const payload = {
-    query: searchTerm ?? "",
-    ...(studyId && { parentIds: [studyId] }),
-    ...(elementIds && { elementIds: elementIds }),
-    ...(conceptId && { concept: conceptId }),
-  }
-
-  const cdesQuery = useQuery({
-    queryFn: () => {
-      return fetchCDEs(payload)
-    },
-    queryKey: `cdes-${JSON.stringify(payload)}`,
-  })
+  const cdesQuery = useQuery(
+    cdesQueryOptions({ studyId, elementIds, conceptId, searchTerm })
+  )
 
   if (cdesQuery.isLoading) {
     return (
