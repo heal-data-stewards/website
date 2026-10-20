@@ -5,6 +5,7 @@ export function SearchDropdown({
   hits,
   activeIndex,
   onHitSelect,
+  onResultInteraction,
   footer,
   idPrefix = "search-hit",
 }) {
@@ -22,7 +23,9 @@ export function SearchDropdown({
             id={`${idPrefix}-${index}`}
             hit={hit}
             isActive={activeIndex === index}
+            onResultInteraction={onResultInteraction}
             onSelect={onHitSelect}
+            resultIndex={index + 1}
           />
         ))}
       </ul>
