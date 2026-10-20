@@ -10,6 +10,7 @@ import {
   EVENTS_EXCLUDED_FILTER,
   EVENTS_PARAM_VALUE,
 } from "./include-events-toggle"
+import { sendCustomEvent } from "utils/analytics"
 
 const LISTBOX_ID = "global-search-listbox"
 
@@ -23,7 +24,22 @@ export function SearchCombobox() {
 
   const isOpen = isExpanded && query.length > 0 && hits.length > 0
 
+  const trackSearchSubmitted = (searchTerm, submissionMethod) => {
+    sendCustomEvent("site_search_submitted", {
+      search_term: searchTerm,
+      search_location: "desktop_nav",
+      submission_method: submissionMethod,
+      include_events: includeEvents ? "on" : "off",
+      page_path: window.location.pathname,
+    })
+  }
+
   const handleExpand = () => {
+    sendCustomEvent("site_search_icon_toggled", {
+      search_location: "desktop_nav",
+      toggle_state: "open",
+      page_path: window.location.pathname,
+    })
     setIsExpanded(true)
     requestAnimationFrame(() => inputRef.current?.focus())
   }
@@ -38,12 +54,52 @@ export function SearchCombobox() {
     handleClose()
   }
 
+  const handleNavigateToResults = (submissionMethod = "icon_click") => {
+    const trimmedQuery = query.trim()
+    if (!trimmedQuery) return
+
+    trackSearchSubmitted(trimmedQuery, submissionMethod)
+    handleNavigate(
+      `/search?q=${encodeURIComponent(trimmedQuery)}${
+        includeEvents ? `&events=${EVENTS_PARAM_VALUE}` : ""
+      }`
+    )
+  }
+
+  const handleToggleIncludeEvents = (checked) => {
+    setIncludeEvents(checked)
+    sendCustomEvent("site_search_events_toggled", {
+      search_location: "desktop_nav",
+      toggle_state: checked ? "on" : "off",
+      search_term: query.trim(),
+      page_path: window.location.pathname,
+    })
+  }
+
+  const handleResultInteraction = ({ linkUrl, linkText, resultIndex }) => {
+    sendCustomEvent("site_search_result_clicked", {
+      search_term: query,
+      link_url: linkUrl,
+      link_text: linkText,
+      result_index: resultIndex,
+      page_path: window.location.pathname,
+    })
+  }
+
   const { activeIndex, handleKeyDown } = useKeyboardNav({
     hits,
     query,
     isOpen,
     onNavigate: handleNavigate,
     onClose: handleClose,
+    onSelectHit: (hit, index) => {
+      handleResultInteraction({
+        linkUrl: hit.path,
+        linkText: hit.title || "",
+        resultIndex: index + 1,
+      })
+    },
+    onSubmitQuery: () => handleNavigateToResults("enter_key"),
   })
 
   return (
@@ -62,13 +118,7 @@ export function SearchCombobox() {
           onExpand={handleExpand}
           onClose={handleClose}
           onKeyDown={handleKeyDown}
-          onNavigateToResults={() =>
-            handleNavigate(
-              `/search?q=${encodeURIComponent(query.trim())}${
-                includeEvents ? `&events=${EVENTS_PARAM_VALUE}` : ""
-              }`
-            )
-          }
+          onNavigateToResults={handleNavigateToResults}
           listboxId={LISTBOX_ID}
           isOpen={isOpen}
           activeIndex={activeIndex}
@@ -79,11 +129,12 @@ export function SearchCombobox() {
             hits={hits}
             activeIndex={activeIndex}
             onHitSelect={handleClose}
+            onResultInteraction={handleResultInteraction}
             footer={
               <IncludeEventsToggle
                 id="global-search-include-events"
                 checked={includeEvents}
-                onChange={setIncludeEvents}
+                onChange={handleToggleIncludeEvents}
               />
             }
           />
