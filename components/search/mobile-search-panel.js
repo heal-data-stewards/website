@@ -15,6 +15,7 @@ import {
   EVENTS_EXCLUDED_FILTER,
   EVENTS_PARAM_VALUE,
 } from "./include-events-toggle"
+import { sendCustomEvent } from "utils/analytics"
 
 const LISTBOX_ID = "mobile-search-listbox"
 const HIT_ID_PREFIX = "mobile-search-hit"
@@ -41,6 +42,49 @@ function MobileSearchInner({ onClose }) {
     onClose()
   }
 
+  const trackSearchSubmitted = (searchTerm, submissionMethod) => {
+    sendCustomEvent("site_search_submitted", {
+      search_term: searchTerm,
+      search_location: "mobile_nav",
+      submission_method: submissionMethod,
+      include_events: includeEvents ? "on" : "off",
+      page_path: window.location.pathname,
+    })
+  }
+
+  const handleResultInteraction = ({ linkUrl, linkText, resultIndex }) => {
+    sendCustomEvent("site_search_result_clicked", {
+      search_term: query,
+      link_url: linkUrl,
+      link_text: linkText,
+      result_index: resultIndex,
+      page_path: window.location.pathname,
+    })
+  }
+
+  const handleToggleIncludeEvents = (checked) => {
+    setIncludeEvents(checked)
+    sendCustomEvent("site_search_events_toggled", {
+      search_location: "mobile_nav",
+      toggle_state: checked ? "on" : "off",
+      search_term: query.trim(),
+      page_path: window.location.pathname,
+    })
+  }
+
+  const handleSearch = (submissionMethod = "button_click") => {
+    const trimmedQuery = query.trim()
+    if (trimmedQuery) {
+      trackSearchSubmitted(trimmedQuery, submissionMethod)
+      router.push(
+        `/search?q=${encodeURIComponent(trimmedQuery)}${
+          includeEvents ? `&events=${EVENTS_PARAM_VALUE}` : ""
+        }`
+      )
+      handleClose()
+    }
+  }
+
   const { activeIndex, handleKeyDown } = useKeyboardNav({
     hits,
     query,
@@ -50,19 +94,16 @@ function MobileSearchInner({ onClose }) {
       handleClose()
     },
     onClose: handleClose,
+    onSelectHit: (hit, index) => {
+      handleResultInteraction({
+        linkUrl: hit.path,
+        linkText: hit.title || "",
+        resultIndex: index + 1,
+      })
+    },
+    onSubmitQuery: () => handleSearch("enter_key"),
     idPrefix: HIT_ID_PREFIX,
   })
-
-  const handleSearch = () => {
-    if (query.trim()) {
-      router.push(
-        `/search?q=${encodeURIComponent(query.trim())}${
-          includeEvents ? `&events=${EVENTS_PARAM_VALUE}` : ""
-        }`
-      )
-      handleClose()
-    }
-  }
 
   return (
     <div className="w-full">
@@ -119,7 +160,7 @@ function MobileSearchInner({ onClose }) {
         <IncludeEventsToggle
           id="mobile-search-include-events"
           checked={includeEvents}
-          onChange={setIncludeEvents}
+          onChange={handleToggleIncludeEvents}
         />
       </div>
 
@@ -136,7 +177,9 @@ function MobileSearchInner({ onClose }) {
               id={`${HIT_ID_PREFIX}-${index}`}
               hit={hit}
               isActive={activeIndex === index}
+              onResultInteraction={handleResultInteraction}
               onSelect={handleClose}
+              resultIndex={index + 1}
             />
           ))}
         </ul>

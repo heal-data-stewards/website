@@ -19,7 +19,10 @@ import {
   EVENTS_EXCLUDED_FILTER,
   EVENTS_PARAM_VALUE,
 } from "@/components/search/include-events-toggle"
+import { sendCustomEvent } from "utils/analytics"
 import { useQueryParams } from "utils/use-query-params"
+
+const HITS_PER_PAGE = 10
 
 const searchClient = algoliasearch(
   process.env.NEXT_PUBLIC_ALGOLIA_APPLICATION_ID,
@@ -45,12 +48,13 @@ function SearchResultsContent() {
   const { query, refine } = useSearchBox()
   const { items: hits } = useHits()
   const { nbHits } = useStats()
-  const { refine: refinePage } = usePagination()
+  const { currentRefinement, refine: refinePage } = usePagination()
 
   const router = useRouter()
   const [, setParam] = useQueryParams({ q: null, page: null, events: null })
   const [inputValue, setInputValue] = useState("")
   const [includeEvents, setIncludeEvents] = useState(false)
+  const submitMethodRef = useRef("button_click")
 
   const didSeed = useRef(false)
   useEffect(() => {
@@ -73,12 +77,28 @@ function SearchResultsContent() {
 
   const handleSubmit = (e) => {
     e.preventDefault()
+    const trimmedQuery = inputValue.trim()
+
+    sendCustomEvent("site_search_submitted", {
+      search_term: trimmedQuery,
+      search_location: "search_page",
+      submission_method: submitMethodRef.current,
+      include_events: includeEvents ? "on" : "off",
+      page_path: window.location.pathname,
+    })
+
     refine(inputValue)
     setParam("q", inputValue || null)
     setParam("page", null)
   }
 
   const handleClear = () => {
+    sendCustomEvent("site_search_cleared", {
+      search_location: "search_page",
+      search_term: inputValue || query,
+      page_path: window.location.pathname,
+    })
+
     setInputValue("")
     refine("")
     setParam("q", null)
@@ -87,22 +107,43 @@ function SearchResultsContent() {
 
   const handleToggleEvents = (checked) => {
     setIncludeEvents(checked)
+    sendCustomEvent("site_search_events_toggled", {
+      search_location: "search_page",
+      toggle_state: checked ? "on" : "off",
+      search_term: query || inputValue.trim(),
+      page_path: window.location.pathname,
+    })
     // Result set changes, so reset pagination to page 1.
     setParam("events", checked ? EVENTS_PARAM_VALUE : null)
     setParam("page", null)
     refinePage(0)
   }
 
+  const handleResultInteraction = ({ linkUrl, linkText, resultIndex }) => {
+    sendCustomEvent("site_search_result_clicked", {
+      search_term: query,
+      link_url: linkUrl,
+      link_text: linkText,
+      result_index: resultIndex,
+      page_path: window.location.pathname,
+    })
+  }
+
   return (
     <div className="container py-8 max-w-3xl">
       <Configure
-        hitsPerPage={10}
+        hitsPerPage={HITS_PER_PAGE}
         filters={includeEvents ? "" : EVENTS_EXCLUDED_FILTER}
       />
       <form onSubmit={handleSubmit} className="flex">
         <OutlinedInput
           value={inputValue}
           onChange={(e) => setInputValue(e.target.value)}
+          onKeyDown={(e) => {
+            if (e.key === "Enter") {
+              submitMethodRef.current = "enter_key"
+            }
+          }}
           placeholder="Enter a search term and press Enter"
           autoFocus
           autoComplete="off"
@@ -143,6 +184,9 @@ function SearchResultsContent() {
         />
         <button
           type="submit"
+          onClick={() => {
+            submitMethodRef.current = "button_click"
+          }}
           className="shrink-0 px-4 rounded-r font-semibold bg-purple text-white hover:bg-magenta transition-colors self-stretch"
         >
           Search
@@ -164,8 +208,13 @@ function SearchResultsContent() {
 
       {hits.length > 0 && (
         <ul className="mt-2 divide-y divide-gray-light">
-          {hits.map((hit) => (
-            <SearchResultsHit key={hit.objectID} hit={hit} />
+          {hits.map((hit, index) => (
+            <SearchResultsHit
+              key={hit.objectID}
+              hit={hit}
+              onResultInteraction={handleResultInteraction}
+              resultIndex={currentRefinement * HITS_PER_PAGE + index + 1}
+            />
           ))}
         </ul>
       )}

@@ -2,11 +2,27 @@ import Link from "next/link"
 import { Highlight, Snippet } from "react-instantsearch"
 import { titleHighlightClass, snippetHighlightClass } from "./search-styles"
 
-export function SearchResultsHit({ hit }) {
+export function SearchResultsHit({ hit, resultIndex, onResultInteraction }) {
+  const handleInteraction = () => {
+    onResultInteraction?.({
+      linkUrl: hit.path,
+      linkText: hit.title || "",
+      resultIndex,
+    })
+  }
+
   return (
     <li>
       <Link
         href={hit.path}
+        data-search-result-index={resultIndex}
+        data-search-result-title={hit.title || ""}
+        onMouseDown={handleInteraction}
+        onKeyDown={(event) => {
+          if (event.key === "Enter" || event.key === " ") {
+            handleInteraction()
+          }
+        }}
         className={[
           "block py-5 no-underline border-l-[6px] pl-4 transition-colors",
           "border-l-transparent hover:border-l-purple",
