@@ -174,12 +174,14 @@ export const StudiesPanel = ({ searchTerm, simpleSearch = false }) => {
       results={studies}
       totalCount={totalCount}
       entityNames={{ singular: "study", plural: "studies" }}
+      panelLocation={PANEL_LOCATIONS.STUDIES}
       page={page}
       onPageChange={setPage}
       filterConfigs={filterConfigs}
       filterValues={filterValues}
       onFilterChange={handleFilterChange}
       hasActiveFilters={hasActiveFilters}
+      searchTerm={searchTerm}
       sortOptions={SORT_OPTIONS}
       sortValue={sortValue}
       onSortChange={handleSortChange}

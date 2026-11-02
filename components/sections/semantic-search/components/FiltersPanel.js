@@ -8,10 +8,29 @@ import {
   OutlinedInput,
   Select,
 } from "@mui/material"
+import { trackFilterChanged, UI_SURFACES } from "../analytics"
 
-export function FiltersPanel({ filterConfigs, filterValues, onFilterChange }) {
+export function FiltersPanel({
+  filterConfigs,
+  filterValues,
+  onFilterChange,
+  panelLocation,
+  searchTerm,
+}) {
   if (!filterConfigs || filterConfigs.length === 0) {
     return null
+  }
+
+  const handleFilterChange = (config, newValue) => {
+    trackFilterChanged({
+      filterKey: config.key,
+      value: newValue,
+      panelLocation,
+      uiSurface: UI_SURFACES.FILTERS_PANEL,
+      referringSearchTerm: searchTerm,
+    })
+
+    onFilterChange(config.key, newValue)
   }
 
   return (
@@ -23,7 +42,7 @@ export function FiltersPanel({ filterConfigs, filterValues, onFilterChange }) {
               key={config.key}
               config={config}
               value={filterValues[config.key]}
-              onChange={(newValue) => onFilterChange(config.key, newValue)}
+              onChange={(newValue) => handleFilterChange(config, newValue)}
             />
           )
         }
@@ -34,7 +53,7 @@ export function FiltersPanel({ filterConfigs, filterValues, onFilterChange }) {
               key={config.key}
               config={config}
               value={filterValues[config.key] || ""}
-              onChange={(newValue) => onFilterChange(config.key, newValue)}
+              onChange={(newValue) => handleFilterChange(config, newValue)}
             />
           )
         }
@@ -45,7 +64,7 @@ export function FiltersPanel({ filterConfigs, filterValues, onFilterChange }) {
               key={config.key}
               config={config}
               value={filterValues[config.key] || []}
-              onChange={(newValue) => onFilterChange(config.key, newValue)}
+              onChange={(newValue) => handleFilterChange(config, newValue)}
             />
           )
         }
