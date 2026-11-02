@@ -127,12 +127,14 @@ export const VariablesPanel = ({ searchTerm, simpleSearch = false }) => {
       results={variables}
       totalCount={totalCount}
       entityNames={{ singular: "variable", plural: "variables" }}
+      panelLocation={PANEL_LOCATIONS.VARIABLES}
       page={page}
       onPageChange={setPage}
       filterConfigs={filterConfigs}
       filterValues={filterValues}
       onFilterChange={handleFilterChange}
       hasActiveFilters={hasActiveFilters}
+      searchTerm={searchTerm}
       resetKey={simpleSearch}
       ingestionPanel="variables"
       detailPlaceholder="Select a variable to view details"

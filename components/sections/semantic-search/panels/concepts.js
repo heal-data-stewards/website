@@ -87,12 +87,14 @@ export const ConceptsPanel = ({ searchTerm, simpleSearch = false }) => {
       results={concepts}
       totalCount={totalCount}
       entityNames={{ singular: "concept", plural: "concepts" }}
+      panelLocation={PANEL_LOCATIONS.CONCEPTS}
       page={page}
       onPageChange={setPage}
       filterConfigs={filterConfigs}
       filterValues={filterValues}
       onFilterChange={handleFilterChange}
       hasActiveFilters={hasActiveFilters}
+      searchTerm={searchTerm}
       resetKey={simpleSearch}
       ingestionPanel="concepts"
       detailPlaceholder="Select a concept to view details"

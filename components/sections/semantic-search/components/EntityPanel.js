@@ -7,6 +7,7 @@ import {
   Pagination,
 } from "@mui/material"
 import { useEffect, useState } from "react"
+import { trackFilterPanelToggled, UI_SURFACES } from "../analytics"
 import { DEFAULT_SORT } from "../data/sort"
 import { useIngestionDate } from "../data/ingestion-metadata"
 import { FiltersPanel } from "./FiltersPanel"
@@ -30,6 +31,8 @@ export function EntityPanel({
   results,
   totalCount,
   entityNames,
+  panelLocation,
+  searchTerm,
   page,
   onPageChange,
   filterConfigs,
@@ -83,6 +86,23 @@ export function EntityPanel({
   const sortable = Boolean(sortOptions?.length)
   const hasActiveSort = sortable && sortValue.key !== DEFAULT_SORT.key
 
+  const handleFiltersToggle = () => {
+    setFiltersOpen((prev) => {
+      const nextOpen = !prev
+
+      trackFilterPanelToggled({
+        action: nextOpen ? "open" : "close",
+        panelLocation,
+        uiSurface: UI_SURFACES.FILTER_TOGGLE_BUTTON,
+        referringSearchTerm: searchTerm,
+        hasActiveFilters,
+        hasActiveSort,
+      })
+
+      return nextOpen
+    })
+  }
+
   return (
     <div className="flex flex-row max-h-full h-full">
       <div className="min-w-[200px] max-w-[400px] flex flex-col min-h-0 border-r border-gray-200">
@@ -110,7 +130,7 @@ export function EntityPanel({
               <Button
                 variant="text"
                 size="small"
-                onClick={() => setFiltersOpen((prev) => !prev)}
+                onClick={handleFiltersToggle}
                 endIcon={
                   <Badge
                     color="primary"
@@ -134,11 +154,15 @@ export function EntityPanel({
                   options={sortOptions}
                   value={sortValue}
                   onChange={onSortChange}
+                  panelLocation={panelLocation}
+                  searchTerm={searchTerm}
                 />
                 <FiltersPanel
                   filterConfigs={filterConfigs}
                   filterValues={filterValues}
                   onFilterChange={onFilterChange}
+                  panelLocation={panelLocation}
+                  searchTerm={searchTerm}
                 />
               </div>
             </Collapse>

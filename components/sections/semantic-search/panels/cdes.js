@@ -104,12 +104,14 @@ export const CDEsPanel = ({ searchTerm, simpleSearch = false }) => {
       results={cdes}
       totalCount={totalCount}
       entityNames={{ singular: "CDE", plural: "CDEs" }}
+      panelLocation={PANEL_LOCATIONS.CDES}
       page={page}
       onPageChange={setPage}
       filterConfigs={filterConfigs}
       filterValues={filterValues}
       onFilterChange={handleFilterChange}
       hasActiveFilters={hasActiveFilters}
+      searchTerm={searchTerm}
       resetKey={simpleSearch}
       ingestionPanel="cdes"
       detailPlaceholder="Select a CDE to view details"
