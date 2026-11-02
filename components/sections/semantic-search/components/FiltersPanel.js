@@ -21,10 +21,11 @@ export function FiltersPanel({
     return null
   }
 
-  const handleFilterChange = (config, newValue) => {
+  const handleFilterChange = (config, newValue, analytics = {}) => {
     trackFilterChanged({
       filterKey: config.key,
       value: newValue,
+      changedValue: analytics.changedValue,
       panelLocation,
       uiSurface: UI_SURFACES.FILTERS_PANEL,
       referringSearchTerm: searchTerm,
@@ -64,7 +65,9 @@ export function FiltersPanel({
               key={config.key}
               config={config}
               value={filterValues[config.key] || []}
-              onChange={(newValue) => handleFilterChange(config, newValue)}
+              onChange={(newValue, analytics) =>
+                handleFilterChange(config, newValue, analytics)
+              }
             />
           )
         }
@@ -139,7 +142,13 @@ function MultiSelectFilter({ config, value, onChange }) {
     const {
       target: { value: newValue },
     } = event
-    onChange(typeof newValue === "string" ? newValue.split(",") : newValue)
+    const nextValue =
+      typeof newValue === "string" ? newValue.split(",") : newValue
+    const changedValue =
+      nextValue.find((option) => !value.includes(option)) ||
+      value.find((option) => !nextValue.includes(option))
+
+    onChange(nextValue, { changedValue })
   }
 
   const getOptionValue = (option) =>

@@ -28,7 +28,11 @@ function getFilterValueCount(value) {
   return value ? 1 : 0
 }
 
-function getFilterValueSummary(value) {
+function getFilterValueSummary(value, changedValue) {
+  if (changedValue !== undefined) {
+    return changedValue ? String(changedValue) : "(none)"
+  }
+
   if (Array.isArray(value)) {
     if (value.length === 0) {
       return "(none)"
@@ -47,6 +51,7 @@ function getFilterValueSummary(value) {
 export function trackFilterChanged({
   filterKey,
   value,
+  changedValue,
   panelLocation,
   uiSurface,
   referringSearchTerm,
@@ -56,7 +61,7 @@ export function trackFilterChanged({
   sendCustomEvent("hss_filter_changed", {
     action: filterValueCount > 0 ? "apply" : "clear",
     filter_key: filterKey,
-    filter_value: getFilterValueSummary(value),
+    filter_value: getFilterValueSummary(value, changedValue),
     filter_value_count: filterValueCount,
     panel_location: `${panelLocation} panel`,
     ui_surface: uiSurface,
