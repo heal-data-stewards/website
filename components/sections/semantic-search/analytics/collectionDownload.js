@@ -1,5 +1,5 @@
 import { sendCustomEvent } from "utils/analytics"
-import { buildCollectionAnalyticsParams } from "./collectionParams"
+import { buildDownloadedCollectionAnalyticsParams } from "./collectionParams"
 
 export function trackCollectionDownloadClick({
   studies,
@@ -9,6 +9,11 @@ export function trackCollectionDownloadClick({
 }) {
   sendCustomEvent(
     "hss_collection_downloaded",
-    buildCollectionAnalyticsParams({ studies, cdes, concepts, variables })
+    buildDownloadedCollectionAnalyticsParams({
+      studies,
+      cdes,
+      concepts,
+      variables,
+    })
   )
 }
