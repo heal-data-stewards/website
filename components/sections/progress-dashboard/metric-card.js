@@ -1,5 +1,8 @@
 // Headline number card with optional sub-line and sparkline
 
+import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined"
+import Tooltip from "@mui/material/Tooltip"
+
 function Sparkline({ series, color }) {
   if (!series?.length) return null
   const mn = Math.min(...series)
@@ -28,14 +31,38 @@ export default function MetricCard({
   spark,
   sparkColor,
   small,
+  dimmed,
+  dimmedNote,
+  note,
 }) {
   return (
-    <div className="rounded-lg border border-gray-light bg-white p-3 shadow-sm">
-      <div className="text-[11px] font-semibold uppercase tracking-wide text-gray">
-        {label}
+    <div
+      className={`rounded-lg border p-3 shadow-sm ${
+        dimmed
+          ? "border-gray-light bg-gray-50 opacity-60"
+          : "border-gray-light bg-white"
+      }`}
+    >
+      <div className="flex items-center gap-1 text-[11px] font-semibold uppercase tracking-wide text-gray">
+        <span>{label}</span>
+        {note && (
+          <Tooltip title={note} arrow>
+            <InfoOutlinedIcon
+              sx={{ fontSize: 13 }}
+              className="cursor-help text-gray-400"
+            />
+          </Tooltip>
+        )}
+        {dimmed && dimmedNote && (
+          <span className="rounded bg-gray-100 px-1 py-0.5 text-[9px] font-normal normal-case text-gray">
+            {dimmedNote}
+          </span>
+        )}
       </div>
       <div
-        className={`${small ? "text-xl" : "text-3xl"} font-bold text-purple`}
+        className={`${small ? "text-xl" : "text-3xl"} font-bold ${
+          dimmed ? "text-gray" : "text-purple"
+        }`}
       >
         {value ?? "—"}
       </div>
