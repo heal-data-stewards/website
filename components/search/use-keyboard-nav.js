@@ -22,6 +22,8 @@ export function useKeyboardNav({
   isOpen,
   onNavigate,
   onClose,
+  onSelectHit,
+  onSubmitQuery,
   idPrefix = "search-hit",
 }) {
   const [activeIndex, setActiveIndex] = useState(-1)
@@ -61,9 +63,14 @@ export function useKeyboardNav({
       case "Enter":
         e.preventDefault()
         if (isOpen && activeIndex >= 0 && hits[activeIndex]) {
+          onSelectHit?.(hits[activeIndex], activeIndex)
           onNavigate(hits[activeIndex].path)
         } else if (query.trim()) {
-          onNavigate(`/search?q=${encodeURIComponent(query.trim())}`)
+          if (onSubmitQuery) {
+            onSubmitQuery(query.trim())
+          } else {
+            onNavigate(`/search?q=${encodeURIComponent(query.trim())}`)
+          }
         }
         break
       case "Escape":

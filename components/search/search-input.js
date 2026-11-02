@@ -21,7 +21,9 @@ export const SearchInput = forwardRef(function SearchInput(
 ) {
   const handleIconClick = () => {
     if (!isExpanded) return onExpand()
-    if (value.trim() && onNavigateToResults) return onNavigateToResults()
+    if (value.trim() && onNavigateToResults) {
+      return onNavigateToResults("icon_click")
+    }
     ref.current?.focus()
   }
 

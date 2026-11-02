@@ -1,6 +1,13 @@
 export function sendCustomEvent(eventName, params = {}) {
-  // Only run in browser + only if gtag is ready
-  if (typeof window === "undefined" || typeof window.gtag !== "function") {
+  if (typeof window === "undefined") {
+    return
+  }
+
+  console.log("[analytics]", eventName, params)
+
+  // Only send to GA if gtag is ready
+  if (typeof window.gtag !== "function") {
+    console.warn("[analytics] gtag unavailable, event not sent", eventName)
     return
   }
 

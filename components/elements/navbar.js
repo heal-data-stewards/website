@@ -232,6 +232,11 @@ const Navbar = ({ navbar, pageContext }) => {
             {/* Search icon on mobile */}
             <button
               onClick={() => {
+                sendCustomEvent("site_search_icon_toggled", {
+                  search_location: "mobile_nav",
+                  toggle_state: mobileSearchOpen ? "close" : "open",
+                  page_path: window.location.pathname,
+                })
                 setMobileSearchOpen((p) => !p)
                 setMobileMenuIsShown(false)
               }}

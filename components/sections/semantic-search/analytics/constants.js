@@ -14,4 +14,7 @@ export const UI_SURFACES = {
   VARIABLES_LIST: "variables_list",
   BOOKMARKS_SIDEBAR: "bookmarks_sidebar",
   STUDY_MAPPINGS_ROW: "study_mappings_row",
+  FILTERS_PANEL: "filters_panel",
+  FILTER_TOGGLE_BUTTON: "filter_toggle_button",
+  SORT_CONTROL: "sort_control",
 }
