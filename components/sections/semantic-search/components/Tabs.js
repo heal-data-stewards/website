@@ -18,7 +18,7 @@ export function SemanticSearchTabs({ currentTabIndex, setCurrentTabIndex }) {
           {...a11yProps(0)}
           onClick={() => {
             sendCustomEvent("hss_panel_selected", {
-              panel_index: "Studies",
+              panel_location: "studies panel",
             })
           }}
         />
@@ -27,7 +27,7 @@ export function SemanticSearchTabs({ currentTabIndex, setCurrentTabIndex }) {
           {...a11yProps(1)}
           onClick={() => {
             sendCustomEvent("hss_panel_selected", {
-              panel_index: "CDEs",
+              panel_location: "cdes panel",
             })
           }}
         />
@@ -36,7 +36,7 @@ export function SemanticSearchTabs({ currentTabIndex, setCurrentTabIndex }) {
           {...a11yProps(2)}
           onClick={() => {
             sendCustomEvent("hss_panel_selected", {
-              panel_index: "Related Concepts",
+              panel_location: "concepts panel",
             })
           }}
         />
@@ -45,7 +45,7 @@ export function SemanticSearchTabs({ currentTabIndex, setCurrentTabIndex }) {
           {...a11yProps(3)}
           onClick={() => {
             sendCustomEvent("hss_panel_selected", {
-              panel_index: "Variables",
+              panel_location: "variables panel",
             })
           }}
         />

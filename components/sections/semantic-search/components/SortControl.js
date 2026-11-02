@@ -8,8 +8,15 @@ import {
   Select,
   Tooltip,
 } from "@mui/material"
+import { trackSortChanged, UI_SURFACES } from "../analytics"
 
-export function SortControl({ options, value, onChange }) {
+export function SortControl({
+  options,
+  value,
+  onChange,
+  panelLocation,
+  searchTerm,
+}) {
   if (!options || options.length === 0) {
     return null
   }
@@ -27,7 +34,18 @@ export function SortControl({ options, value, onChange }) {
           labelId="sort-by-label"
           id="sort-by"
           value={value.key}
-          onChange={(event) => onChange({ ...value, key: event.target.value })}
+          onChange={(event) => {
+            trackSortChanged({
+              action: "select_sort",
+              sortKey: event.target.value,
+              sortOrder: value.order,
+              panelLocation,
+              uiSurface: UI_SURFACES.SORT_CONTROL,
+              referringSearchTerm: searchTerm,
+            })
+
+            onChange({ ...value, key: event.target.value })
+          }}
           input={<OutlinedInput label="Sort By" />}
           MenuProps={{ PaperProps: { sx: { maxWidth: 360, width: "100%" } } }}
           sx={{
@@ -62,9 +80,20 @@ export function SortControl({ options, value, onChange }) {
             size="small"
             disabled={!orderable}
             aria-label={ascending ? "Sort descending" : "Sort ascending"}
-            onClick={() =>
-              onChange({ ...value, order: ascending ? "desc" : "asc" })
-            }
+            onClick={() => {
+              const nextOrder = ascending ? "desc" : "asc"
+
+              trackSortChanged({
+                action: "toggle_sort_order",
+                sortKey: value.key,
+                sortOrder: nextOrder,
+                panelLocation,
+                uiSurface: UI_SURFACES.SORT_CONTROL,
+                referringSearchTerm: searchTerm,
+              })
+
+              onChange({ ...value, order: nextOrder })
+            }}
             sx={{ color: "#4d2862" }}
           >
             {ascending ? (
