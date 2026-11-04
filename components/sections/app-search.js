@@ -596,9 +596,13 @@ export default function AppSearch({ data }) {
                 }) ?? ""}
               </div>
             </div>
-            <div className="w-96">
+            <div className="w-96 pr-[20px]">
               <h2 className="font-bold text-xl">Award Year</h2>
               <p className="text-l"> {selectedStudy.year_awarded} </p>
+            </div>
+            <div className="w-96">
+              <h2 className="font-bold text-xl">Project Number</h2>
+              <p className="text-l"> {selectedStudy.project_num} </p>
             </div>
           </div>
           <MaterialReactTable
