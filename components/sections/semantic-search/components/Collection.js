@@ -115,38 +115,59 @@ export function Collection() {
 
       <div className="flex flex-col gap-3 overflow-auto flex-1 min-h-0">
         {[
-          { title: "Studies", entityType: "studies", c: collection.studies },
-          { title: "CDEs", entityType: "cdes", c: collection.cdes },
-          { title: "Concepts", entityType: "concepts", c: collection.concepts },
+          {
+            title: "Studies",
+            singular: "study",
+            entityType: "studies",
+            c: collection.studies,
+          },
+          {
+            title: "CDEs",
+            singular: "CDE",
+            entityType: "cdes",
+            c: collection.cdes,
+          },
+          {
+            title: "Concepts",
+            singular: "concept",
+            entityType: "concepts",
+            c: collection.concepts,
+          },
           {
             title: "Variables",
+            singular: "variable",
             entityType: "variables",
             c: collection.variables,
           },
-        ].map(({ title, entityType, c }) => (
+        ].map(({ title, singular, entityType, c }) => (
           <div key={title}>
             <div className="flex justify-between mb-1 items-center">
               <h4 className="uppercase text-sm font-medium text-gray-500">
                 {title} ({c.list.length})
               </h4>
               {c.list.length > 0 && (
-                <button
-                  className="text-sm text-[#4d2862] hover:text-[#982568] transition-colors duration-75 flex items-center gap-1"
-                  onClick={() => {
-                    const categoryData = getEntityAnalytics(c.list)
-
-                    trackCsvCollectionDownloadClick({
-                      category: title.toLowerCase(),
-                      ids: categoryData.ids,
-                      labels: categoryData.labels,
-                      count: categoryData.count,
-                    })
-                    c.downloadCsv(title)
-                  }}
+                <Tooltip
+                  title={`Download ${singular} bookmarks as CSV`}
+                  describeChild
                 >
-                  CSV
-                  <Download fontSize="small" />
-                </button>
+                  <button
+                    className="text-sm text-[#4d2862] hover:text-[#982568] transition-colors duration-75 flex items-center gap-1"
+                    onClick={() => {
+                      const categoryData = getEntityAnalytics(c.list)
+
+                      trackCsvCollectionDownloadClick({
+                        category: title.toLowerCase(),
+                        ids: categoryData.ids,
+                        labels: categoryData.labels,
+                        count: categoryData.count,
+                      })
+                      c.downloadCsv(title)
+                    }}
+                  >
+                    CSV
+                    <Download fontSize="small" />
+                  </button>
+                </Tooltip>
               )}
             </div>
             <CollectionList collection={c} entityType={entityType} />
@@ -178,37 +199,38 @@ export function Collection() {
         </Button>
       )}
       <div className="flex items-center gap-1">
-        <Button
-          variant="contained"
-          fullWidth
-          endIcon={<Download />}
-          onMouseDown={() => {
-            trackCollectionDownloadClick({
-              studies,
-              cdes,
-              concepts,
-              variables,
-            })
-          }}
-          onKeyDown={(e) => {
-            if (e.key === "Enter" || e.key === " ") {
+        <Tooltip title="Download all bookmarks as JSON" describeChild>
+          <Button
+            variant="contained"
+            fullWidth
+            endIcon={<Download />}
+            onMouseDown={() => {
               trackCollectionDownloadClick({
                 studies,
                 cdes,
                 concepts,
                 variables,
               })
-            }
-          }}
-          onClick={() => {
-            collection.downloadAll()
-          }}
-        >
-          Download JSON
-        </Button>
-        <Tooltip title="Upload bookmarks file">
+            }}
+            onKeyDown={(e) => {
+              if (e.key === "Enter" || e.key === " ") {
+                trackCollectionDownloadClick({
+                  studies,
+                  cdes,
+                  concepts,
+                  variables,
+                })
+              }
+            }}
+            onClick={() => {
+              collection.downloadAll()
+            }}
+          >
+            Download JSON
+          </Button>
+        </Tooltip>
+        <Tooltip title="Upload a JSON bookmark list">
           <IconButton
-            aria-label="Upload bookmarks file"
             sx={{ color: "#4d2862" }}
             onClick={() => fileInputRef.current?.click()}
           >

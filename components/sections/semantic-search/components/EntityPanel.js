@@ -5,6 +5,7 @@ import {
   CircularProgress,
   Collapse,
   Pagination,
+  Tooltip,
 } from "@mui/material"
 import { useEffect, useState } from "react"
 import { trackFilterPanelToggled, UI_SURFACES } from "../analytics"
@@ -85,6 +86,18 @@ export function EntityPanel({
 
   const sortable = Boolean(sortOptions?.length)
   const hasActiveSort = sortable && sortValue.key !== DEFAULT_SORT.key
+  const appliedNote =
+    hasActiveFilters && hasActiveSort
+      ? " (sort and filters applied)"
+      : hasActiveFilters
+      ? " (filters applied)"
+      : hasActiveSort
+      ? " (sort applied)"
+      : ""
+  const filtersTooltip =
+    (sortable
+      ? "Sort and refine your search results"
+      : "Refine your search results") + appliedNote
 
   const handleFiltersToggle = () => {
     setFiltersOpen((prev) => {
@@ -127,26 +140,28 @@ export function EntityPanel({
                   </span>
                 )}
               </div>
-              <Button
-                variant="text"
-                size="small"
-                onClick={handleFiltersToggle}
-                endIcon={
-                  <Badge
-                    color="primary"
-                    variant="dot"
-                    invisible={!hasActiveFilters && !hasActiveSort}
-                    sx={{
-                      "& .MuiBadge-badge": { backgroundColor: "#4d2862" },
-                    }}
-                  >
-                    <Tune fontSize="small" />
-                  </Badge>
-                }
-                sx={{ color: "#4d2862" }}
-              >
-                {sortable ? "Sort & Filter" : "Filters"}
-              </Button>
+              <Tooltip title={filtersTooltip} describeChild>
+                <Button
+                  variant="text"
+                  size="small"
+                  onClick={handleFiltersToggle}
+                  endIcon={
+                    <Badge
+                      color="primary"
+                      variant="dot"
+                      invisible={!hasActiveFilters && !hasActiveSort}
+                      sx={{
+                        "& .MuiBadge-badge": { backgroundColor: "#4d2862" },
+                      }}
+                    >
+                      <Tune fontSize="small" />
+                    </Badge>
+                  }
+                  sx={{ color: "#4d2862" }}
+                >
+                  {sortable ? "Sort & Filter" : "Filters"}
+                </Button>
+              </Tooltip>
             </div>
             <Collapse in={filtersOpen}>
               <div className="px-4 pb-3">

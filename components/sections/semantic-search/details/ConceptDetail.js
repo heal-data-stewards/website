@@ -26,47 +26,10 @@ export function ConceptDetail({
 
   return (
     <div className="flex-1 p-4 min-h-0 overflow-auto">
-      <div className="flex w-full gap-2">
-        <div className="flex gap-1 items-center" style={{ flexGrow: 1 }}>
-          <h2 className="text-2xl font-semibold leading-relaxed text-[#592963]">
-            {lowercaseFirstLetters(concept.name)}{" "}
-          </h2>
-          <Tooltip title="Search for this concept" placement="top">
-            <IconButton
-              size="large"
-              component="a"
-              href={(() => {
-                const url = new URL(window.location.href)
-                url.searchParams.set("q", concept.name)
-                return url.toString()
-              })()}
-              onMouseDown={(e) => {
-                e.stopPropagation()
-
-                trackNewConceptSearched({
-                  concept,
-                  panelLocation,
-                  uiSurface: UI_SURFACES.RIGHT_DETAIL,
-                  referringSearchTerm: searchTerm,
-                })
-              }}
-              onKeyDown={(e) => {
-                if (e.key === "Enter" || e.key === " ") {
-                  e.preventDefault()
-                  trackNewConceptSearched({
-                    concept,
-                    panelLocation,
-                    uiSurface: UI_SURFACES.RIGHT_DETAIL,
-                    referringSearchTerm: searchTerm,
-                  })
-                }
-              }}
-            >
-              <Search fontSize="large" sx={{ color: "#4d2862" }} />
-            </IconButton>
-          </Tooltip>
-        </div>
-
+      <div className="flex w-full gap-2 items-start">
+        <h2 className="flex-1 text-2xl font-semibold leading-relaxed text-[#592963]">
+          {lowercaseFirstLetters(concept.name)}{" "}
+        </h2>
         <BookmarkButton
           entity={concept}
           collectionKey="concepts"
@@ -85,7 +48,26 @@ export function ConceptDetail({
               url.searchParams.set("q", concept.name)
               return url.toString()
             })()}
-            onClick={(e) => e.stopPropagation()}
+            onMouseDown={(e) => {
+              e.stopPropagation()
+
+              trackNewConceptSearched({
+                concept,
+                panelLocation,
+                uiSurface: UI_SURFACES.RIGHT_DETAIL,
+                referringSearchTerm: searchTerm,
+              })
+            }}
+            onKeyDown={(e) => {
+              if (e.key === "Enter" || e.key === " ") {
+                trackNewConceptSearched({
+                  concept,
+                  panelLocation,
+                  uiSurface: UI_SURFACES.RIGHT_DETAIL,
+                  referringSearchTerm: searchTerm,
+                })
+              }
+            }}
           >
             <Search fontSize="large" sx={{ color: "#4d2862" }} />
           </IconButton>

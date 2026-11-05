@@ -22,7 +22,7 @@ export function StudyDetail({
       className="flex-1 p-4 min-h-0 overflow-auto"
       id={scrollContainerId} // for variable tab infinite scroll
     >
-      <div className="flex gap-2 justify-between">
+      <div className="flex gap-2 justify-between items-start">
         <h2 className="text-2xl font-semibold leading-relaxed mb-2 text-[#592963]">
           {study.name}
           {study.metadata?.["Data Availability"] === "available" && (
@@ -87,9 +87,27 @@ export function StudyDetail({
           onChange={(e, value) => setCurrentTabIndex(value)}
           aria-label="Study tabs"
         >
-          <Tab label="Details" {...a11yProps(0)} />
-          <Tab label="Variables" {...a11yProps(1)} />
-          <Tab label="CDEs" {...a11yProps(2)} />
+          <Tooltip
+            title="View study information and data access links"
+            placement="top"
+            describeChild
+          >
+            <Tab label="Details" {...a11yProps(0)} />
+          </Tooltip>
+          <Tooltip
+            title="Explore variables collected in this study"
+            placement="top"
+            describeChild
+          >
+            <Tab label="Variables" {...a11yProps(1)} />
+          </Tooltip>
+          <Tooltip
+            title="Explore Common Data Elements linked to this study"
+            placement="top"
+            describeChild
+          >
+            <Tab label="CDEs" {...a11yProps(2)} />
+          </Tooltip>
         </PillTabs>
       </div>
       <div className="p-2">

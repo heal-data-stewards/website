@@ -20,7 +20,7 @@ export function CdeDetail({
 
   return (
     <div className="flex-1 p-4 min-h-0 overflow-auto">
-      <div className="flex gap-2">
+      <div className="flex gap-2 items-start">
         <div className="flex-1">
           <h2 className="text-2xl font-semibold leading-relaxed text-[#592963]">
             {cde.name}{" "}
