@@ -5,19 +5,23 @@ import { Fragment, useState } from "react"
 import { ChevronRight } from "@mui/icons-material"
 import classNames from "classnames"
 
-export function VariableQuestionDisplay({ variableList }) {
+export function measuresQueryOptions(variableList) {
   const payload = {
     query: "",
     elementIds: variableList,
     limit: 1000,
   }
 
-  const variablesQuery = useQuery({
+  return {
     queryFn: () => {
       return fetchVariables(payload)
     },
     queryKey: `variables-${JSON.stringify(payload)}`,
-  })
+  }
+}
+
+export function VariableQuestionDisplay({ variableList }) {
+  const variablesQuery = useQuery(measuresQueryOptions(variableList))
 
   if (variablesQuery.isLoading) {
     return (
