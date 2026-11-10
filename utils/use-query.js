@@ -1,31 +1,16 @@
-import React, {
-  createContext,
-  useCallback,
-  useContext,
-  useEffect,
-  useState,
-} from "react"
+import React, { createContext, useContext, useEffect, useState } from "react"
 
-const QueryCacheContext = createContext({})
+const QueryCacheContext = createContext(null)
 
+/**
+ * Caches query promises by key, so components that mount at the same time with
+ * the same key share one in-flight request instead of each sending their own.
+ */
 export const QueryCacheProvider = ({ children }) => {
-  const [cache, setCache] = useState(new Map())
-
-  const get = useCallback((key) => cache.get(key), [cache])
-
-  const set = useCallback(
-    (key, value) => {
-      setCache((prev) => {
-        const next = new Map(prev)
-        next.set(key, value)
-        return next
-      })
-    },
-    [setCache]
-  )
+  const [cache] = useState(() => new Map())
 
   return (
-    <QueryCacheContext.Provider value={{ get, set }}>
+    <QueryCacheContext.Provider value={cache}>
       {children}
     </QueryCacheContext.Provider>
   )
@@ -43,31 +28,32 @@ export const useQuery = ({ queryFn, queryKey }) => {
   useEffect(() => {
     let ignore = false
 
-    ;(async () => {
-      setData(null)
-      setIsLoading(true)
-      setError(null)
+    setData(null)
+    setIsLoading(true)
+    setError(null)
 
-      const cachedData = cache.get(queryKey)
-      if (cachedData) {
-        setData(cachedData)
-        setIsLoading(false)
-        return
-      }
+    let promise = cache.get(queryKey)
+    if (!promise) {
+      promise = Promise.resolve().then(queryFn)
+      cache.set(queryKey, promise)
+      // Evict failures so the next mount retries instead of reusing the error
+      promise.catch(() => {
+        if (cache.get(queryKey) === promise) cache.delete(queryKey)
+      })
+    }
 
-      try {
-        const data = await queryFn()
-
+    promise.then(
+      (data) => {
         if (ignore) return
-
-        cache.set(queryKey, data)
         setData(data)
         setIsLoading(false)
-      } catch (error) {
+      },
+      (error) => {
+        if (ignore) return
         setError(error.message)
         setIsLoading(false)
       }
-    })()
+    )
 
     return () => {
       ignore = true

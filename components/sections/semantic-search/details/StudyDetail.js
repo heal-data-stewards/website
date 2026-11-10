@@ -5,9 +5,17 @@ import { useState } from "react"
 import Link from "../../../elements/link"
 import { trackHdpLinkClick, PANEL_LOCATIONS, UI_SURFACES } from "../analytics"
 import { BookmarkButton } from "../components/BookmarkButton"
-import { CDEDisplay } from "../components/CDEDisplay"
-import { a11yProps, PillTabs, TabPanel } from "../components/Tabs"
-import { VariablesList } from "../components/VariablesList"
+import { CDEDisplay, cdesQueryOptions } from "../components/CDEDisplay"
+import {
+  a11yProps,
+  PillTabs,
+  QueryCountLabel,
+  TabPanel,
+} from "../components/Tabs"
+import {
+  studyVariableCountQueryOptions,
+  VariablesList,
+} from "../components/VariablesList"
 
 export function StudyDetail({
   study,
@@ -88,8 +96,24 @@ export function StudyDetail({
           aria-label="Study tabs"
         >
           <Tab label="Details" {...a11yProps(0)} />
-          <Tab label="Variables" {...a11yProps(1)} />
-          <Tab label="CDEs" {...a11yProps(2)} />
+          <Tab
+            label={
+              <QueryCountLabel
+                label="Variables"
+                query={studyVariableCountQueryOptions(study.id)}
+              />
+            }
+            {...a11yProps(1)}
+          />
+          <Tab
+            label={
+              <QueryCountLabel
+                label="CDEs"
+                query={cdesQueryOptions({ studyId: study.id })}
+              />
+            }
+            {...a11yProps(2)}
+          />
         </PillTabs>
       </div>
       <div className="p-2">

@@ -1,7 +1,6 @@
 import { PercentBar } from "./bars"
 import { COLORS, fmt, fmtCapped } from "./lib"
 import MetricCard from "./metric-card"
-import { MiniTrendChart } from "./trend-chart"
 import { Card, CardHeader, Note, SectionLabel, TrendDelta } from "./ui"
 
 // HEAL Semantic Search (Dug) index stats and study coverage
@@ -17,7 +16,7 @@ export default function HssSection({ summary }) {
         desc="Counts from the HEAL Semantic Search (Dug) index. Variables are capped at 10,000 by Elasticsearch default."
       />
       <Card className="mb-3">
-        <div className="grid grid-cols-2 gap-3">
+        <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
           <MetricCard
             small
             label="Studies in HSS"
@@ -41,14 +40,6 @@ export default function HssSection({ summary }) {
             label="Concepts"
             value={fmt(hss.concepts)}
             sub={<TrendDelta series={timeSeries} dataKey="concepts" />}
-          />
-        </div>
-        <div className="mt-3">
-          <MiniTrendChart
-            timeSeries={timeSeries}
-            dataKey="variables_indexed"
-            label="Variables in HSS"
-            color={COLORS.purple}
           />
         </div>
       </Card>
