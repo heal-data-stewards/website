@@ -7,8 +7,16 @@ import { CDEDisplay } from "../components/CDEDisplay"
 import { Empty } from "../components/Empty"
 import { MappedCDEMeasure } from "../components/MappedCDEMeasure"
 import { ParentStudiesDisplay } from "../components/ParentStudiesDisplay"
-import { StudyVariableMappings } from "../components/StudyVariableMappings"
-import { a11yProps, PillTabs, TabPanel } from "../components/Tabs"
+import {
+  StudyVariableMappings,
+  studyVariableMappingsQueryOptions,
+} from "../components/StudyVariableMappings"
+import {
+  a11yProps,
+  PillTabs,
+  QueryCountLabel,
+  TabPanel,
+} from "../components/Tabs"
 
 export function VariableDetail({
   variable,
@@ -37,7 +45,12 @@ export function VariableDetail({
     ...(studyMappings
       ? [
           {
-            label: "Studies Using This Measure",
+            label: (
+              <QueryCountLabel
+                label="Studies Using This Measure"
+                query={studyVariableMappingsQueryOptions(studyMappings)}
+              />
+            ),
             key: "study_variable_mappings",
           },
         ]

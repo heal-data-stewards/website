@@ -9,9 +9,17 @@ import {
   UI_SURFACES,
 } from "../analytics"
 import { BookmarkButton } from "../components/BookmarkButton"
-import { CDEDisplay } from "../components/CDEDisplay"
-import { ParentStudiesDisplay } from "../components/ParentStudiesDisplay"
-import { a11yProps, PillTabs, TabPanel } from "../components/Tabs"
+import { CDEDisplay, cdesQueryOptions } from "../components/CDEDisplay"
+import {
+  ParentStudiesDisplay,
+  parentStudiesQueryOptions,
+} from "../components/ParentStudiesDisplay"
+import {
+  a11yProps,
+  PillTabs,
+  QueryCountLabel,
+  TabPanel,
+} from "../components/Tabs"
 
 export function lowercaseFirstLetters(str) {
   return str.replace(/\b\w/g, (char) => char.toLowerCase())
@@ -138,8 +146,27 @@ export function ConceptDetail({
           onChange={(e, value) => setCurrentTabIndex(value)}
           aria-label="Concept tabs"
         >
-          <Tab label="Related Studies" {...a11yProps(0)} />
-          <Tab label="Related CDEs" {...a11yProps(1)} />
+          <Tab
+            label={
+              <QueryCountLabel
+                label="Related Studies"
+                query={parentStudiesQueryOptions({
+                  conceptId: concept.id,
+                  searchTerm,
+                })}
+              />
+            }
+            {...a11yProps(0)}
+          />
+          <Tab
+            label={
+              <QueryCountLabel
+                label="Related CDEs"
+                query={cdesQueryOptions({ conceptId: concept.id, searchTerm })}
+              />
+            }
+            {...a11yProps(1)}
+          />
         </PillTabs>
       </div>
       <div className="p-2">
