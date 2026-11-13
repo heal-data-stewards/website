@@ -1,7 +1,7 @@
 import { sendCustomEvent } from "utils/analytics"
 import { useQuery } from "utils/use-query"
 import { Help, OpenInNew } from "@mui/icons-material"
-import { Button, styled, alpha, Tab, Tabs } from "@mui/material"
+import { Button, styled, alpha, Tab, Tabs, Tooltip } from "@mui/material"
 import { forwardRef } from "react"
 import Link from "next/link"
 
@@ -14,55 +14,85 @@ export function SemanticSearchTabs({ currentTabIndex, setCurrentTabIndex }) {
         aria-label="Results tabs"
         sx={{ flex: 1 }}
       >
-        <StyledTab
-          label="Studies"
-          {...a11yProps(0)}
-          onClick={() => {
-            sendCustomEvent("hss_panel_selected", {
-              panel_location: "studies panel",
-            })
-          }}
-        />
-        <StyledTab
-          label="CDEs"
-          {...a11yProps(1)}
-          onClick={() => {
-            sendCustomEvent("hss_panel_selected", {
-              panel_location: "cdes panel",
-            })
-          }}
-        />
-        <StyledTab
-          label="Related Concepts"
-          {...a11yProps(2)}
-          onClick={() => {
-            sendCustomEvent("hss_panel_selected", {
-              panel_location: "concepts panel",
-            })
-          }}
-        />
-        <StyledTab
-          label="Variables"
-          {...a11yProps(3)}
-          onClick={() => {
-            sendCustomEvent("hss_panel_selected", {
-              panel_location: "variables panel",
-            })
-          }}
-        />
+        <Tooltip
+          title="HEAL studies related to your search"
+          placement="top"
+          describeChild
+        >
+          <StyledTab
+            label="Studies"
+            {...a11yProps(0)}
+            onClick={() => {
+              sendCustomEvent("hss_panel_selected", {
+                panel_location: "studies panel",
+              })
+            }}
+          />
+        </Tooltip>
+        <Tooltip
+          title="HEAL-approved Common Data Elements (CDEs) related to your search"
+          placement="top"
+          describeChild
+        >
+          <StyledTab
+            label="CDEs"
+            {...a11yProps(1)}
+            onClick={() => {
+              sendCustomEvent("hss_panel_selected", {
+                panel_location: "cdes panel",
+              })
+            }}
+          />
+        </Tooltip>
+        <Tooltip
+          title="Standardized ontology terms related to your search, linked to studies and CDEs"
+          placement="top"
+          describeChild
+        >
+          <StyledTab
+            label="Related Concepts"
+            {...a11yProps(2)}
+            onClick={() => {
+              sendCustomEvent("hss_panel_selected", {
+                panel_location: "concepts panel",
+              })
+            }}
+          />
+        </Tooltip>
+        <Tooltip
+          title="Study-collected variables and CDE measures related to your search"
+          placement="top"
+          describeChild
+        >
+          <StyledTab
+            label="Variables"
+            {...a11yProps(3)}
+            onClick={() => {
+              sendCustomEvent("hss_panel_selected", {
+                panel_location: "variables panel",
+              })
+            }}
+          />
+        </Tooltip>
       </StyledTabs>
-      <Button
-        variant="text"
-        href={"/resources/semantic-search/help"}
-        target="_blank"
-        rel="noopener noreferrer"
-        LinkComponent={Link}
-        startIcon={<Help />}
-        endIcon={<OpenInNew />}
-        style={{ textTransform: "none", flexShrink: 0, color: "#4d2862" }}
+      <Tooltip
+        title="Explore HEAL Semantic Search help and resources"
+        placement="top"
+        describeChild
       >
-        Need help?
-      </Button>
+        <Button
+          variant="text"
+          href={"/resources/semantic-search/help"}
+          target="_blank"
+          rel="noopener noreferrer"
+          LinkComponent={Link}
+          startIcon={<Help />}
+          endIcon={<OpenInNew />}
+          style={{ textTransform: "none", flexShrink: 0, color: "#4d2862" }}
+        >
+          Need help?
+        </Button>
+      </Tooltip>
     </div>
   )
 }

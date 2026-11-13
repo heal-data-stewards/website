@@ -1,5 +1,5 @@
 import { Bookmark, BookmarkBorder } from "@mui/icons-material"
-import { IconButton } from "@mui/material"
+import { IconButton, Tooltip } from "@mui/material"
 import { useCollectionContext } from "../context/collection"
 import { trackBookmarkClick } from "../analytics"
 
@@ -14,29 +14,34 @@ export function BookmarkButton({
 }) {
   const collection = useCollectionContext()
   const entityCollection = collection[collectionKey]
+  const isBookmarked = entityCollection.has(entity)
 
   return (
-    <IconButton
-      size={size}
-      {...iconButtonProps}
-      onClick={(e) => {
-        e.stopPropagation()
-        const isBookmarked = entityCollection.has(entity)
-        entityCollection.toggle(entity)
-        trackBookmarkClick({
-          action: isBookmarked ? "remove" : "add",
-          entity,
-          panelLocation,
-          uiSurface,
-          referringSearchTerm: searchTerm,
-        })
-      }}
+    <Tooltip
+      title={isBookmarked ? "Remove from bookmarks" : "Add to bookmarks"}
+      placement="top"
     >
-      {entityCollection.has(entity) ? (
-        <Bookmark fontSize={size} sx={{ color: "#4d2862" }} />
-      ) : (
-        <BookmarkBorder fontSize={size} sx={{ color: "#4d2862" }} />
-      )}
-    </IconButton>
+      <IconButton
+        size={size}
+        {...iconButtonProps}
+        onClick={(e) => {
+          e.stopPropagation()
+          entityCollection.toggle(entity)
+          trackBookmarkClick({
+            action: isBookmarked ? "remove" : "add",
+            entity,
+            panelLocation,
+            uiSurface,
+            referringSearchTerm: searchTerm,
+          })
+        }}
+      >
+        {isBookmarked ? (
+          <Bookmark fontSize={size} sx={{ color: "#4d2862" }} />
+        ) : (
+          <BookmarkBorder fontSize={size} sx={{ color: "#4d2862" }} />
+        )}
+      </IconButton>
+    </Tooltip>
   )
 }
