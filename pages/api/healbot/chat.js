@@ -27,7 +27,12 @@ const chat = async (req, res) => {
     return res.status(405).json({ message: "Method not allowed" })
   }
 
-  const { message, history } = req.body || {}
+  const {
+    message,
+    history,
+    client_id: clientId,
+    conversation_id: conversationId,
+  } = req.body || {}
 
   if (typeof message !== "string" || !message.trim()) {
     return res.status(400).json({ message: "A message is required." })
@@ -50,7 +55,12 @@ const chat = async (req, res) => {
         "Content-Type": "application/json",
         Authorization: authorization(),
       },
-      body: JSON.stringify({ message, history: sanitizedHistory }),
+      body: JSON.stringify({
+        message,
+        history: sanitizedHistory,
+        client_id: clientId,
+        conversation_id: conversationId,
+      }),
       signal: AbortSignal.timeout(REQUEST_TIMEOUT_MS),
     })
 
