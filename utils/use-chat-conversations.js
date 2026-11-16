@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react"
 
 const STORAGE_KEY = "healbot-conversations"
+const CLIENT_KEY = "healbot-client-id"
 const TITLE_MAX = 48
 
 const isMessage = (value) =>
@@ -22,6 +23,7 @@ const createId = () =>
 export const useChatConversations = () => {
   const [conversations, setConversations] = useState([])
   const [activeId, setActiveId] = useState(null)
+  const [clientId, setClientId] = useState(null)
   const [hydrated, setHydrated] = useState(false)
 
   // Mirrored in a ref so an in-flight send can target its own conversation
@@ -50,6 +52,20 @@ export const useChatConversations = () => {
     } catch (error) {
       console.error(error.message)
     }
+
+    // Outlives any one conversation, so usage records can be grouped per
+    // browser.
+    try {
+      let id = window.localStorage.getItem(CLIENT_KEY)
+      if (!id) {
+        id = createId()
+        window.localStorage.setItem(CLIENT_KEY, id)
+      }
+      setClientId(id)
+    } catch (error) {
+      console.error(error.message)
+    }
+
     setHydrated(true)
   }, [])
 
@@ -130,6 +146,7 @@ export const useChatConversations = () => {
   return {
     conversations: sorted,
     activeId,
+    clientId,
     messages,
     startConversation,
     appendMessage,

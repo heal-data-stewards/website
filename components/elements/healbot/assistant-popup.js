@@ -105,6 +105,7 @@ const AssistantPopup = () => {
   const {
     conversations,
     activeId,
+    clientId,
     messages,
     startConversation,
     appendMessage,
@@ -154,7 +155,12 @@ const AssistantPopup = () => {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           // `messages` excludes the question above, which the API takes separately.
-          body: JSON.stringify({ message: question, history: messages }),
+          body: JSON.stringify({
+            message: question,
+            history: messages,
+            client_id: clientId,
+            conversation_id: conversationId,
+          }),
         })
         const data = await response.json().catch(() => null)
 
@@ -173,7 +179,7 @@ const AssistantPopup = () => {
         setPending(false)
       }
     },
-    [appendMessage, messages, pending, startConversation]
+    [appendMessage, clientId, messages, pending, startConversation]
   )
 
   const handleKeyDown = (event) => {
